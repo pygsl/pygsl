@@ -783,6 +783,7 @@ PyObject *pygsl_module_for_error_treatment = NULL;
 
 
 #include <pygsl/error_helpers.h>
+#include "function_helpers.c"
 
 
   gsl_function * gsl_function_init(gsl_function * STORE)
