@@ -13,6 +13,7 @@
 /*
  * sets the right exception, but does not return to python!
  */
+static
 void module_error_handler(const char *reason, /* name of function*/
 			 const char *file, /*from CPP*/
 			 int line,   /*from CPP*/
@@ -43,6 +44,19 @@ void module_error_handler(const char *reason, /* name of function*/
       snprintf(error_text,sizeof(error_text),
 	       "%s: %s",
 	       error_explanation,reason);
+
+  /*
+   * some functions call error handler more than once before returning 
+   *  report only the first (most specific) error 
+   */
+
+  /* test, if exception is already set */
+  /* ToDo: Send message only if debug mode enabled */
+  if (PyErr_Occurred()) {
+    fprintf(stderr,"Another error occured: %s\n",error_text);
+    return;
+  }
+
 
   /* error handler for gsl routines, sets exception */
 
