@@ -7,7 +7,10 @@
  */
 gsl_rng *
 PyGSL_gsl_rng_from_pyobject(PyObject * object);
-
+#ifndef _PyGSL_API_MODULE
+#define PyGSL_gsl_rng_from_pyobject \
+(*(gsl_rng *  (*) (PyObject *)) PyGSL_API[PyGSL_gsl_rng_from_pyobject_NUM])
+#endif 
 
 /*
  * Evaluators for various random distributions. They all parse the parameters to the number of available parameters.

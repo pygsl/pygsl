@@ -25,6 +25,7 @@
 #include <gsl/gsl_multifit_nlin.h>
 #include <gsl/gsl_monte.h>
 #include <pygsl/utils.h>
+#include <pygsl/intern.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
@@ -84,17 +85,17 @@ typedef struct {
 
 
 /* 1. A_n O -> A_p  */
-int
+PyGSL_API_EXTERN int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback, 
 			  PyObject * arguments, int n, int p, char *c_func_name);
 /* 2. A_n O -> A_n_p */
-int
+PyGSL_API_EXTERN int
 PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
 			   PyObject *arguments, int n, int p, char * c_func_name);
 
 /* 3   dO -> d      gsl_function     */
 /* 3.1 dO -> d d    gsl_function_fdf */
-int 
+PyGSL_API_EXTERN int 
 PyGSL_function_wrap_helper(double x, double * result, double *result2,
 			   PyObject *callback, PyObject *arguments,
 			   char *c_func_name);
@@ -103,13 +104,13 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
  * Pass a NULL pointer for result 2, if not needed.
  */
 /* 4. A_n O   ->  d (A_n) */
-int
+ int
 PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 			PyObject *arguments, double *result1,
 			 gsl_vector *result2, int n, char * c_func_name);
 
 /* 5. A_n O -> A_n A_n_p */
-int
+ int
 PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, 
 			      gsl_matrix *f2, PyObject *callback, 
 			      PyObject *arguments, int n, int p, 
@@ -218,6 +219,10 @@ extern char * pygsl_multiroot_fdf_function;
 
 /* monte */
 extern char * pygsl_monte_function;
+#ifndef _PyGSL_API_MODULE
+#define PyGSL_function_wrap_helper \
+(*(int (*) (double, double *, double *, PyObject *, PyObject *, char *)) PyGSL_API[PyGSL_function_wrap_helper_NUM])
+#endif  /* _PyGSL_API_MODULE */
 #endif  /* PyGSL_FUNCTION_HELPERS_H */
 
 

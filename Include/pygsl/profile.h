@@ -1,3 +1,6 @@
+#ifndef PyGSL_TYPEMAPS_PROFILE_H
+#define PyGSL_TYPEMAPS_PROFILE_H
+
 /* -*- C -*- */
 /**
  * author: Pierre Schnizer
@@ -6,10 +9,9 @@
  * Variables indicating expensive operations performed by 
  * the wrappers.   
  */
-#include <pygsl/utils.h>
 
-#ifndef PyGSL_TYPEMAPS_PROFILE_H
-#define PyGSL_TYPEMAPS_PROFILE_H
+#include <pygsl/utils.h>
+#include <pygsl/intern.h>
 
 #define PYGSL_PROFILE_INPUT 1
 #ifdef PYGSL_PROFILE_INPUT

@@ -1,8 +1,9 @@
 #ifndef PyGSL_ERROR_HELPER_H
 #define PyGSL_ERROR_HELPER_H 1
-#include <gsl/gsl_errno.h>
+#include <pygsl/intern.h>
 #include <pygsl/utils.h>
 #include <Python.h>
+#include <gsl/gsl_errno.h>
 
 /*
  * PyGSL needs also to flag errors which do not match to one of the errors of
@@ -14,6 +15,7 @@ enum{
 			  *  object to a GSL Vector/Matrix stride 
 			  */
 };
+
 
 /*
  * handle gsl error flags.
@@ -35,11 +37,8 @@ enum{
  * PyGSL_error_flag_to_pyint instead!
  * 
  */
-#define PyGSL_ERROR_FLAG(flag)                                              \
-(((long) flag == 0) && (!PyErr_Occurred())) ? GSL_SUCCESS :                 \
-                     PyGSL_error_flag((long) (flag))
 
-int  
+PyGSL_API_EXTERN int  
 PyGSL_error_flag(long flag);
 
 /*
@@ -50,10 +49,7 @@ PyGSL_error_flag(long flag);
  * converted to an python integer. Positive values flag a problem. These are 
  * converted to python exceptions.
  */
-#define PyGSL_ERROR_FLAG_TO_PYINT(flag)                                     \
-(((long) flag <= 0) && (!PyErr_Occurred())) ? PyInt_FromLong((long) flag) : \
-                     PyGSL_error_flag_to_pyint((long) (flag))
-PyObject * 
+PyGSL_API_EXTERN PyObject * 
 PyGSL_error_flag_to_pyint(long flag);
 
 
@@ -67,16 +63,23 @@ PyGSL_error_flag_to_pyint(long flag);
  *                  not known.
  *     lineno   ... The Linenumber where the error occurred.
  */
-void 
+PyGSL_API_EXTERN void 
 PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname, int lineno);
 
-void PyGSL_module_error_handler(const char *reason, /* name of function*/
-				const char *file,   /*from CPP*/
-				int line,          /*from CPP*/
-				int gsl_error);    /* real "reason" */
 
-#define init_pygsl()\
-{ \
-  gsl_set_error_handler (&PyGSL_module_error_handler); \
-} 
+#ifndef _PyGSL_API_MODULE
+/* Section for modules importing the functions */
+#define PyGSL_error_flag           (*(int (*)(long))                                          PyGSL_API[PyGSL_error_flag_NUM])
+#define PyGSL_error_flag_to_pyint  (*(PyObject * (*)(long))                                  PyGSL_API[PyGSL_error_flag_to_pyint_NUM])
+#define PyGSL_add_traceback        (*(void (*)(PyObject *, const char *, const char *, int))  PyGSL_API[PyGSL_add_traceback_NUM])      
+#endif /* _PyGSL_API_MODULE */
+
+#define PyGSL_ERROR_FLAG(flag)                                              \
+(((long) flag == GSL_SUCCESS) && (!PyErr_Occurred())) ? GSL_SUCCESS :       \
+                     PyGSL_error_flag((long) (flag))
+
+#define PyGSL_ERROR_FLAG_TO_PYINT(flag)                                     \
+(((long) flag <= 0) && (!PyErr_Occurred())) ? PyInt_FromLong((long) flag) : \
+                     PyGSL_error_flag_to_pyint((long) (flag))
+
 #endif /* PyGSL_ERROR_HELPER_H  */

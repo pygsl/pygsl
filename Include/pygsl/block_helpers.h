@@ -17,12 +17,16 @@
  *!									    !*
  *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!* 
  *****************************************************************************/
+/*
 #ifndef PyGSL_IMPORT_ARRAY
 #define NO_IMPORT_ARRAY
 #endif
+*/
+/*
 #define PY_ARRAY_UNIQUE_SYMBOL PyGSL_PY_ARRAY_API
+*/
 
-
+#include <pygsl/intern.h>
 #include <pygsl/utils.h>
 #include <Python.h>
 #include <pygsl/arrayobject.h>
@@ -42,13 +46,7 @@
  *         -1: Conversion Failed
  *         pos : recalculated stride
  */
-#define PyGSL_STRIDE_RECALC(strides, basis_type_size, stride_recalc) \
-           (((strides) % (basis_type_size)) == 0) \
-         ? \
-           ((*stride_recalc) = (strides) / (basis_type_size)), GSL_SUCCESS \
-         : \
-           PyGSL_stride_recalc(strides, basis_type_size, stride_recalc)
-int 
+PyGSL_API_EXTERN int 
 PyGSL_stride_recalc(int strides, int basis_type_size, int * stride_recalc);
 
 
@@ -83,22 +81,13 @@ PyGSL_stride_recalc(int strides, int basis_type_size, int * stride_recalc);
  *                              of error. This object must be dereferenced.
  */
 
-
-#define PyGSL_PyArray_PREPARE_gsl_vector_view(object, array_type, contiguous, num, argnum, info) \
-  (                                                                                              \
-       ( PyArray_Check((object)) )                                                               \
-    && ( ((PyArrayObject *) (object))->nd == 1 )                                                 \
-    && ( ((PyArrayObject *) (object))->descr->type_num == (array_type) )                         \
-    && ( ( -1 == (num)        )  || ( ((PyArrayObject *) (object))->dimensions[0] == (num) ) )   \
-    && ( (  0 == (contiguous) )  || ( ((PyArrayObject *) (object))->flags & CONTIGUOUS     ) )   \
-  )                                                                                              \
-   ?                                                                                             \
-    Py_INCREF( (object) ), ( (PyArrayObject *) (object))                                         \
- :                                                                                               \
-    PyGSL_PyArray_prepare_gsl_vector_view(object, array_type, contiguous, num, argnum, info)
+/*
+ * Added the check for the object->data != NULL as numarray had a bug there ..... :-(
+ */
 
 
-PyArrayObject * 
+
+PyGSL_API_EXTERN PyArrayObject * 
 PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
 				      enum PyArray_TYPES array_type,
 				      int contiguous, 
@@ -140,21 +129,8 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
  *            then  you must enforce an contiguous array.
  */
 
-#define PyGSL_PyArray_PREPARE_gsl_matrix_view(object, array_type, contiguous, size1, size2, argnum, info) \
-  (                                                                                                       \
-       ( PyArray_Check((object)) )                                                                        \
-    && ( ( (PyArrayObject *) (object))->nd == 2 )                                                         \
-    && ( ( (PyArrayObject *) (object))->descr->type_num == (array_type) )                                 \
-    && ( ( -1 == (size1) )       ||  ( ((PyArrayObject *) (object))->dimensions[0] == (size1) ) )         \
-    && ( ( -1 == (size2) )       ||  ( ((PyArrayObject *) (object))->dimensions[1] == (size2) ) )         \
-    && ( (  0 == (contiguous) )  ||  ( ((PyArrayObject *) (object))->flags & CONTIGUOUS       ) )         \
-  )                                                                                                       \
-   ?                                                                                                      \
-    Py_INCREF( (object) ), ( (PyArrayObject *) (object))                                                  \
- :                                                                                                        \
-    PyGSL_PyArray_prepare_gsl_matrix_view(object, array_type, contiguous, size1, size2, argnum, info)
 
-PyArrayObject *
+PyGSL_API_EXTERN PyArrayObject *
 PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
 				      enum PyArray_TYPES array_type,
 				      int contiguous, 
@@ -178,7 +154,7 @@ PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
  *                             : a pointer to a PyArrayObject or NULL in case 
  *                              of error. This object must be dereferenced.
  */
-PyArrayObject * 
+PyGSL_API_EXTERN PyArrayObject * 
 PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
 				       enum PyArray_TYPES array_type,
 				       int argnum);
@@ -199,7 +175,7 @@ PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
  *                             : a pointer to a PyArrayObject or NULL in case 
  *                              of error. This object must be dereferenced.
  */
-PyArrayObject * 
+PyGSL_API_EXTERN PyArrayObject * 
 PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 				       enum PyArray_TYPES array_type,
 				       int argnum);
@@ -244,7 +220,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n,
  *                             : GSL_SUCCESS | GSL_FAILURE
  *
  */
-int
+PyGSL_API_EXTERN int
 PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,
 				PyGSL_error_info * info);
 
@@ -260,7 +236,7 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,
  *                             : a pointer to a PyArrayObject or NULL in case 
  *                              of error. This object must be dereferenced.
  */
-PyArrayObject *
+PyGSL_API_EXTERN PyArrayObject *
 PyGSL_copy_gslvector_to_pyarray(const gsl_vector *x);
 
 /*
@@ -275,7 +251,69 @@ PyGSL_copy_gslvector_to_pyarray(const gsl_vector *x);
  *                             : a pointer to a PyArrayObject or NULL in case 
  *                              of error. This object must be dereferenced.
  */
-PyArrayObject *
+PyGSL_API_EXTERN PyArrayObject *
 PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
+#ifndef _PyGSL_API_MODULE
+#define PyGSL_stride_recalc \
+(*(int (*)(int, int, int * ))                                        PyGSL_API[PyGSL_stride_recalc_NUM])
+#define  PyGSL_PyArray_prepare_gsl_vector_view  \
+(*(PyArrayObject * (*)(PyObject *, enum PyArray_TYPES, int,  int, int, PyGSL_error_info *)) \
+                                                                     PyGSL_API[PyGSL_PyArray_prepare_gsl_vector_view_NUM])
+#define  PyGSL_PyArray_prepare_gsl_matrix_view  \
+(*(PyArrayObject * (*)(PyObject *, enum PyArray_TYPES, int,  int, int, int, PyGSL_error_info *)) \
+                                                                     PyGSL_API[PyGSL_PyArray_prepare_gsl_matrix_view_NUM])
+#define PyGSL_PyArray_generate_gsl_vector_view \
+(*(PyArrayObject *(*)(PyObject *, enum PyArray_TYPES, int))          PyGSL_API[PyGSL_PyArray_generate_gsl_vector_view_NUM]) 
+
+#define PyGSL_PyArray_generate_gsl_matrix_view \
+(*(PyArrayObject *(*)(PyObject *, enum PyArray_TYPES, int))          PyGSL_API[PyGSL_PyArray_generate_gsl_matrix_view_NUM]) 
+
+#define PyGSL_copy_pyarray_to_gslvector \
+(*(int (*) (gsl_vector *, PyObject *, int, PyGSL_error_info *))      PyGSL_API[PyGSL_copy_pyarray_to_gslvector_NUM])
+#define PyGSL_copy_pyarray_to_gslmatrix \
+(*(int (*) (gsl_matrix *, PyObject *, int, int, PyGSL_error_info *)) PyGSL_API[PyGSL_copy_pyarray_to_gslmatrix_NUM])
+
+#define PyGSL_copy_gslvector_to_pyarray \
+ (*(PyArrayObject * (*)(const gsl_vector *))                         PyGSL_API[ PyGSL_copy_gslvector_to_pyarray_NUM])
+
+#define PyGSL_copy_gslmatrix_to_pyarray \
+ (*(PyArrayObject * (*)(const gsl_matrix *))                         PyGSL_API[ PyGSL_copy_gslmatrix_to_pyarray_NUM])         
+#endif /* _PyGSL_API_MODULE */
+
+#define PyGSL_STRIDE_RECALC(strides, basis_type_size, stride_recalc) \
+           (((strides) % (basis_type_size)) == 0) \
+         ? \
+           ((*stride_recalc) = (strides) / (basis_type_size)), GSL_SUCCESS \
+         : \
+           PyGSL_stride_recalc(strides, basis_type_size, stride_recalc)
+
+#define PyGSL_PyArray_PREPARE_gsl_vector_view(object, array_type, contiguous, num, argnum, info) \
+  (                                                                                              \
+       ( PyArray_Check((object)) )                                                               \
+    && ( ((PyArrayObject *) (object))->nd == 1 )                                                 \
+    && ( ((PyArrayObject *) (object))->descr->type_num == (array_type) )                         \
+    && ( ((PyArrayObject *) (object))->data != (NULL) )                                          \
+    && ( ( -1 == (num)        )  || ( ((PyArrayObject *) (object))->dimensions[0] == (num) ) )   \
+    && ( (  0 == (contiguous) )  || ( ((PyArrayObject *) (object))->flags & CONTIGUOUS     ) )   \
+  )                                                                                              \
+   ?                                                                                             \
+    Py_INCREF( (object) ), ( (PyArrayObject *) (object))                                         \
+ :                                                                                               \
+    PyGSL_PyArray_prepare_gsl_vector_view(object, array_type, contiguous, num, argnum, info)
+
+#define PyGSL_PyArray_PREPARE_gsl_matrix_view(object, array_type, contiguous, size1, size2, argnum, info) \
+  (                                                                                                       \
+       ( PyArray_Check((object)) )                                                                        \
+    && ( ( (PyArrayObject *) (object))->nd == 2 )                                                         \
+    && ( ( (PyArrayObject *) (object))->descr->type_num == (array_type) )                                 \
+    && ( ( (PyArrayObject *) (object))->data != (NULL) )                                                  \
+    && ( ( -1 == (size1) )       ||  ( ((PyArrayObject *) (object))->dimensions[0] == (size1) ) )         \
+    && ( ( -1 == (size2) )       ||  ( ((PyArrayObject *) (object))->dimensions[1] == (size2) ) )         \
+    && ( (  0 == (contiguous) )  ||  ( ((PyArrayObject *) (object))->flags & CONTIGUOUS       ) )         \
+  )                                                                                                       \
+   ?                                                                                                      \
+    Py_INCREF( (object) ), ( (PyArrayObject *) (object))                                                  \
+ :                                                                                                        \
+    PyGSL_PyArray_prepare_gsl_matrix_view(object, array_type, contiguous, size1, size2, argnum, info)
 
 #endif /* PyGSL_BLOCK_HELPERS_H */

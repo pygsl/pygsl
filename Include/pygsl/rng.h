@@ -1,6 +1,7 @@
 #ifndef PyGSL_RNG_H
 #define PyGSL_RNG_H 1
 
+#include <pygsl/intern.h>
 #include <Python.h>
 #include <gsl/gsl_rng.h>
 typedef struct {
@@ -8,6 +9,7 @@ typedef struct {
   gsl_rng * rng;
 } PyGSL_rng;
 
+#if 0
 #define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 
 /*
@@ -27,11 +29,10 @@ void **PyGSL_API = NULL;
 static void **PyGSL_API = NULL;
 #endif
 #endif
+#endif
 
 
 
-/* First entry is the RNG Object Type */
-#define PyGSL_RNG_ObjectType_NUM 0
 #define PyGSL_RNG_Check(op) \
    ((op)->ob_type == (PyTypeObject *)PyGSL_API[PyGSL_RNG_ObjectType_NUM])
 

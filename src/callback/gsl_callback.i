@@ -13,6 +13,7 @@
 %include gsl_block_typemaps.i
 %{
 #include <pygsl/error_helpers.h>
+#include "function_helpers.c"
 %}
 
 typedef unsigned int size_t;
