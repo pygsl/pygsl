@@ -171,17 +171,27 @@ PyGSL_check_python_return(PyObject *object, int nargs, PyGSL_error_info  *info)
      FUNC_MESS_BEGIN();  
      
      assert(info);
-     /* Expected No argumets */
+
+
+
+
      if(object == NULL && PyErr_Occurred()){
-	  /* Set User Error */
+	  /* 
+	   * Error was apparently raised by the function, so lets just add a
+	   * traceback frame .... 
+	   */
 	  info->error_description = "User function raised exception!";
-	  return PyGSL_set_error_string_for_callback(info);
+	  PyGSL_add_traceback(NULL, "Unknown file", info->message, __LINE__);
+	  return GSL_EBADFUNC;
      }
      if(PyErr_Occurred()){
 	  info->error_description = "Function raised an exception.";
-	  return PyGSL_set_error_string_for_callback(info);
+	  PyGSL_add_traceback(NULL, "Unknown file", info->message, __LINE__);
+	  return GSL_EBADFUNC;
+	  /* return PyGSL_set_error_string_for_callback(info); */
      }
-	
+
+     /* Expected No argumets */	
      if(nargs == 0){
 	  if(object != Py_None){
 	       info->error_description = "I expected 0 arguments, but I got an object different from None.";
