@@ -6,7 +6,7 @@ from pygsl import  odeiv
 sys.stdout = sys.stderr
 
 mu = 10.0
-def func(t, y):
+def func(t, y, mu):
     #print "--> func", t, y
     f = Numeric.zeros((2,), Numeric.Float) * 1.0
     f[0] = y[1]
@@ -14,7 +14,7 @@ def func(t, y):
     #print f
     return f
 
-def jac(t, y):
+def jac(t, y, mu):
     #print "--> jac", t, y
     dfdy = Numeric.ones((2,2), Numeric.Float) 
     dfdy[0, 0] = 0.0
@@ -30,11 +30,11 @@ def jac(t, y):
 
 def test_evolve_bsimp():
     dimension = 2
-    step = odeiv.step_bsimp(dimension, func,jac)
+    step = odeiv.step_bsimp(dimension, func,jac, mu)
     control = odeiv.control_y_new(step, 1e-6, 1e-6)
     evolve  = odeiv.evolve(step, control, dimension)
 
-    step1 = odeiv.step_rkf45(dimension, func,jac)
+    step1 = odeiv.step_rkf45(dimension, func,jac,mu)
     control1 = odeiv.control_y_new(step1, 1e-6, 1e-6)
     evolve1  = odeiv.evolve(step1, control1, dimension)
     
@@ -61,7 +61,7 @@ def test_evolve_bsimp():
     
 def test_evolve():
     dimension = 2
-    step = odeiv.step_bsimp(dimension, func, jac)
+    step = odeiv.step_bsimp(dimension, func, jac, mu)
     control = odeiv.control_y_new(step, 1e-6, 1e-6)
     evolve  = odeiv.evolve(step, control, dimension)
     h = 1
@@ -85,7 +85,7 @@ def test_evolve():
              odeiv.step_gear1,
              odeiv.step_gear2)
     for s in steps:
-        step = s(dimension, func)
+        step = s(dimension, func, None, mu)
         print  step.name(), step.order()
         control = odeiv.control_y_new(step, 1e-6, 1e-6)
         print control.name()
@@ -98,9 +98,9 @@ def test_evolve():
             t, h, y = evolve.apply(t, t1, h, y)
         y, yerr, dydt = step.apply(t, h, y, None)
         h, msg = control.hadjust(y, yerr, dydt, h)
-        assert(msg == odeiv.GSL_ODEIV_HADJ_DEC or
-               msg == odeiv.GSL_ODEIV_HADJ_INC or
-               msg == odeiv.GSL_ODEIV_HADJ_NIL
+        assert(msg == odeiv.HADJ_DEC or
+               msg == odeiv.HADJ_INC or
+               msg == odeiv.HADJ_NIL
                )
         step.reset()
         evolve.reset()
@@ -112,14 +112,14 @@ def test_evolve():
 def test_memory_usage():
     dimension = 2
     for i in range(1000):
-        step1 = odeiv.step_bsimp(dimension, func,jac)
+        step1 = odeiv.step_bsimp(dimension, func,jac, mu)
         control1 = odeiv.control_y_new(step1, 1e-6, 1e-6)
         evolve1  = odeiv.evolve(step1, control1, dimension)
         h = 1
         t = 0.0
         t1 = 100.0
         y = (1.0, 0.0)
-        y, yerr, dydt =  step1.apply(t, h, y, None)
+        y, yerr, dydt =  step1.apply(t, h, y)
         while t<t1:
             control1.hadjust(y, yerr, dydt, h)
             #t, h, y = evolve1.apply(t, t1, h, y)

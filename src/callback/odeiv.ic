@@ -32,6 +32,7 @@ typedef struct
      size_t dimension;
      PyObject *py_func;
      PyObject *py_jac;
+     PyObject *arguments;
      jmp_buf buffer;
 }
 PyGSL_odeiv_parameter_pass;
@@ -44,7 +45,7 @@ int PyGSL_odeiv_func(double t, const double y[], double f[], void *params)
 {
     int dimension, flag = GSL_FAILURE;
 
-    PyObject *arglist = NULL, *result = NULL ;
+    PyObject *arglist = NULL, *result = NULL;
     PyArrayObject *yo = NULL;
     PyGSL_odeiv_parameter_pass * p;
     gsl_vector_view yv, fv;
@@ -61,9 +62,9 @@ int PyGSL_odeiv_func(double t, const double y[], double f[], void *params)
     yo = PyGSL_copy_gslvector_to_pyarray(&yv.vector);
     if (yo == NULL) goto fail;
 
-
-    arglist = Py_BuildValue("(dO)", t, yo);
-
+    FUNC_MESS("\t\tBuild args");
+    arglist = Py_BuildValue("(dOO)", t, yo, p->arguments);
+    FUNC_MESS("\t\tEnd Build args");
 
     info.callback = p->py_func;
     info.message  = "odeiv_func";
@@ -123,7 +124,7 @@ int PyGSL_odeiv_jac(double t, const double y[], double *dfdy, double dfdt[], voi
     if (yo == NULL) goto fail;
 
 
-    arglist = Py_BuildValue("(dO)", t, yo);
+    arglist = Py_BuildValue("(dOO)", t, yo, p->arguments);
 
 
     result  = PyEval_CallObject(p->py_jac, arglist);
@@ -174,11 +175,13 @@ static PyObject *
 pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
 {
     PyObject *result = NULL, *step=NULL;
-    PyObject *y0_o = NULL, *dydt_in_o = NULL, *func_o = NULL, *jac_o = NULL;
-    PyArrayObject *y0 = NULL, *yerr = NULL, *dydt_in = NULL, *dydt_out = NULL,
-      *yout = NULL;
+    PyObject *y0_o = NULL, *dydt_in_o = NULL, *func_o = NULL, *jac_o = NULL,
+	 *myargs;
+    PyArrayObject *volatile y0 = NULL, * volatile yerr = NULL, 
+	 *volatile dydt_in = NULL, *volatile dydt_out = NULL,
+	 *volatile yout = NULL;
 
-    double t=0, h=0, *dydt_in_d;
+    double t=0, h=0, *volatile dydt_in_d;
     int dimension, r, flag;
 
     gsl_odeiv_step *s=NULL;
@@ -191,8 +194,8 @@ pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
 
     FUNC_MESS_BEGIN();
     sys.params = &params;
-    if(! PyArg_ParseTuple(args, "OddOOOO", &step, &t, &h, &y0_o, 
-			  &dydt_in_o, &func_o, &jac_o)){
+    if(! PyArg_ParseTuple(args, "OddOOOOO", &step, &t, &h, &y0_o, 
+			  &dydt_in_o, &func_o, &jac_o, &myargs)){
       return NULL;
     }
     Py_INCREF(func_o);
@@ -248,6 +251,7 @@ pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
 
     params.py_func = func_o;
     params.py_jac  = jac_o;
+    params.arguments = myargs;
     FUNC_MESS("   Callback Objects END");
 
     sys.dimension = dimension;
@@ -322,8 +326,8 @@ static PyObject *
 pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 {
     PyObject *result = NULL;
-    PyObject *y0_o = NULL, *func_o = NULL, *jac_o = NULL;
-    PyArrayObject *y0 = NULL, *yout = NULL;
+    PyObject *y0_o = NULL, *func_o = NULL, *jac_o = NULL, *myargs = NULL;
+    PyArrayObject *volatile y0 = NULL, *volatile yout = NULL;
 
     double t=0, h=0, t1 = 0, flag;
 
@@ -339,8 +343,8 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 
     FUNC_MESS_BEGIN();
     sys.params = &params;
-    if(! PyArg_ParseTuple(args, "OOOOOdddO", &step, &control, &evolve,
-			  &func_o, &jac_o, &t, &t1, &h, &y0_o)){
+    if(! PyArg_ParseTuple(args, "OOOOOdddOO", &step, &control, &evolve,
+			  &func_o, &jac_o, &t, &t1, &h, &y0_o, &myargs)){
       return NULL;
     }
     Py_INCREF(func_o);
@@ -393,6 +397,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 
     params.py_func = func_o;
     params.py_jac  = jac_o;
+    params.arguments = myargs;
     FUNC_MESS("   Callback Objects END");
 
 
