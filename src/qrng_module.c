@@ -220,7 +220,7 @@ qrng_get(PyGSL_qrng *self, PyObject *args)
      dims[0] = dimension;
      dims[1] = self->qrng->dimension;
      DEBUG_MESS(5, "Building return array with dimensions (%d,%d)", dims[0], dims[1]);
-     a_array = (PyArrayObject *) PyGSL_NewArray(2, dims, PyArray_DOUBLE);
+     a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
      if(a_array == NULL){lineno = __LINE__ - 1; goto fail;}
      DEBUG_MESS(5, "Its strides are (%d,%d)", a_array->strides[0], a_array->strides[1]);
      assert((a_array->strides[1] / sizeof(double)) == 1);
