@@ -17,7 +17,7 @@ class constant_collector:
 
     def get_constants_from_file(self,include_file):
         #prepare file names
-        const_include_file_name=os.path.join(self.prefix,"include","gsl",include_file)
+        const_include_file_name=os.path.join(self.prefix,"gsl",include_file)
         if not os.path.isfile(const_include_file_name):
             raise Exception,"could not find const header file %s"%const_include_file_name
 

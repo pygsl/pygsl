@@ -1,3 +1,8 @@
+2002-03-23  Jochen Küpper  <jochen@unc.edu>
+
+	* constants_tool.py, sf_tool.py: Read path to gsl cvs from environment
+	variable PYGSL_GSLCVS.
+
 2002-03-19  Jochen Küpper  <jochen@unc.edu>
 
 	* extract_tool.py (prototype_collector.determine_headers): Fix path to
