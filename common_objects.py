@@ -2,6 +2,9 @@ from distutils import sysconfig
 from gsl_Extension import gsl_Location
 import os.path
 # Shares objects needed by setup.py and setup_testing.py
+gsl_inc_path =  os.path.join(gsl_Location.get_gsl_prefix(), "include")
+
+
 libpygsl = ('pygsl', {'sources' : ['Lib/general_helpers.c',
                                    'Lib/complex_helpers.c',
                                    'Lib/block_helpers.c',
@@ -13,9 +16,7 @@ libpygsl = ('pygsl', {'sources' : ['Lib/general_helpers.c',
                                    ],
                       'include_dirs' : ['Include',
                                         sysconfig.get_python_inc(),
-                                        os.path.join(gsl_Location.get_gsl_prefix(),
-                                                     "include")
-                                        ],
+                                        gsl_inc_path],	
                       'shared' : 1,
                       }
             )

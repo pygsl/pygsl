@@ -1,7 +1,7 @@
 #ifndef PYGSL_UTIL_H
 #define PYGSL_UTIL_H
 
-/* Uncomment the following block to get DEBUG information
+/* Uncomment the following block to get DEBUG information */
 /*
 #ifndef DEBUG
 #define DEBUG 10
