@@ -5,6 +5,8 @@ import copy
 import Numeric
 import MLab
 import pygsl.testing.rng as rngmodule
+import sys
+sys.stdout = sys.stderr
 rng_types = rngmodule.types_setup()
 
 
@@ -63,6 +65,9 @@ class _rng_distributions(unittest.TestCase):
     test different distributions
     """
     def setUp(self):
+	#print "Testing Class ", self.__class__.__name__
+	sys.stdout.flush()
+	sys.stderr.flush()
         self.rng=rngmodule.rng(self._type)
 
     def tearDown(self):
@@ -294,6 +299,7 @@ class _rng_distributions(unittest.TestCase):
         self.rng.gaussian_tail(1.0, 0.5, 1000)
 
 
+#print "Last rng = ", rng_types[-1]
 for i in rng_types[:3]:
     tmp = "class %s_rng_basics(%s, _rng_basics): pass" % ((i,) *2)
     exec(tmp)
