@@ -3,7 +3,7 @@ import unittest
 import Numeric
 from pygsl import spline, interpolation
 
-class _interp_test(unittest.TestCase):
+class _test_common(unittest.TestCase):
     def setUp(self):
         x = Numeric.arange(100)
         y  = 2*x + 1
@@ -18,9 +18,6 @@ class _interp_test(unittest.TestCase):
     def test_name(self):
         self.interp.name()
 
-    def test_min_size(self):
-        tmp = self.interp.min_size()
-        assert(tmp>0)
        
     def test_eval_e(self):
         t, v = self.interp.eval_e(10)
@@ -80,7 +77,15 @@ class _interp_test(unittest.TestCase):
     def test_eval_integ(self):
         v = self.interp.eval_integ(0,10)
         assert(v==110)
-        
+    
+class _interp_test(_test_common):
+    def test_min_size(self):
+        tmp = self.interp.min_size()
+        assert(tmp>0)
+
+class _spline_test(_test_common):
+    pass
+
 class interpolation_linear            (_interp_test): _testtype = interpolation.linear
 class interpolation_polynomial        (_interp_test): _testtype = interpolation.polynomial      
 class interpolation_cspline           (_interp_test): _testtype = interpolation.cspline         
@@ -88,14 +93,16 @@ class interpolation_cspline_periodic  (_interp_test): _testtype = interpolation.
 class interpolation_akima             (_interp_test): _testtype = interpolation.akima           
 class interpolation_akima_periodic    (_interp_test): _testtype = interpolation.akima_periodic  
 
-class spline_linear            (_interp_test): _testtype = spline.linear          
-class spline_polynomial        (_interp_test): _testtype = spline.polynomial      
-class spline_cspline           (_interp_test): _testtype = spline.cspline         
-class spline_cspline_periodic  (_interp_test): _testtype = spline.cspline_periodic
-class spline_akima             (_interp_test): _testtype = spline.akima           
-class spline_akima_periodic    (_interp_test): _testtype = spline.akima_periodic  
+class spline_linear            (_spline_test): _testtype = spline.linear          
+class spline_polynomial        (_spline_test): _testtype = spline.polynomial      
+class spline_cspline           (_spline_test): _testtype = spline.cspline         
+class spline_cspline_periodic  (_spline_test): _testtype = spline.cspline_periodic
+class spline_akima             (_spline_test): _testtype = spline.akima           
+class spline_akima_periodic    (_spline_test): _testtype = spline.akima_periodic  
 
+del _test_common
 del _interp_test
+del _spline_test
 
 if __name__ == '__main__':
     unittest.main()
