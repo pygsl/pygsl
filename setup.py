@@ -34,6 +34,11 @@ pygsl_init=gsl_Extension("init",
                          gsl_min_version=(1,),
                          python_min_version=(2,1)
                          )
+pygsl_statistics_uchar=gsl_Extension("statistics.uchar",
+                                     ['src/statistics/ucharmodule.c'],
+                                     gsl_min_version=(1,),
+                                     python_min_version=(2,1)
+                                     )
 pygsl_statistics_char=gsl_Extension("statistics.char",
                                     ['src/statistics/charmodule.c'],
                                     gsl_min_version=(1,),
@@ -84,6 +89,7 @@ setup (name = "pygsl",
                       pygsl__rng,
                       pygsl_histogram,
                       pygsl_statistics_char,
+                      pygsl_statistics_uchar,
                       pygsl_statistics_double,
                       pygsl_statistics_float,
                       pygsl_statistics_int,

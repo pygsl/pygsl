@@ -9,19 +9,25 @@
 
 
 #include <Python.h>
-#ifdef HAVE_NUMERIC
-# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_DOUBLE
-# include <Numeric/arrayobject.h>
-#endif
 #include <gsl/gsl_statistics.h>
+
+#ifdef HAVE_NUMERIC
+# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_FLOAT
+# include <Numeric/arrayobject.h>
+#endif /* HAVE_NUMERIC */
 
 
 /* include real functions for default data-types (double in C) */
 
 #define STATMOD_WEIGHTED
-#define STATMOD_APPEND_PY_TYPE(X) X ## Float32
+#ifdef HAVE_NUMERIC
+#  define STATMOD_APPEND_PY_TYPE(X) X ## Float32
+#else
+#  define STATMOD_APPEND_PY_TYPE(X) X ## Float
+#endif /* HAVE_NUMERIC */
 #define STATMOD_APPEND_PYC_TYPE(X) X ## FLOAT
 #define STATMOD_FUNC_EXT(X, Y) X ## _float ## Y
+#define STATMOD_PY_AS_C PyFloat_AsDouble
 #define STATMOD_C_TYPE float
 #include "functions.c"
 
@@ -38,12 +44,6 @@ DL_EXPORT(void) initfloat(void)
     return;
 }
 
-
-#undef STATMOD_C_TYPE
-#undef STATMOD_FUNC_EXT
-#undef STATMOD_APPEND_PYC_TYPE
-#undef STATMOD_APPEND_PY_TYPE
-#undef STATMOD_WEIGHTED
 
 
 /*

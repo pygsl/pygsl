@@ -21,6 +21,7 @@
 #define STATMOD_APPEND_PY_TYPE(X) X ## Int
 #define STATMOD_APPEND_PYC_TYPE(X) X ## INT
 #define STATMOD_FUNC_EXT(X, Y) X ## _int ## Y
+#define STATMOD_PY_AS_C PyInt_AsLong
 #define STATMOD_C_TYPE int
 #include "functions.c"
 
@@ -35,12 +36,6 @@ DL_EXPORT(void) initint(void)
 #endif
     return;
 }
-
-
-#undef STATMOD_C_TYPE
-#undef STATMOD_FUNC_EXT
-#undef STATMOD_APPEND_PYC_TYPE
-#undef STATMOD_APPEND_PY_TYPE
 
 
 

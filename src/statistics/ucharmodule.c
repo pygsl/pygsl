@@ -10,7 +10,7 @@
 
 #include <Python.h>
 #ifdef HAVE_NUMERIC
-# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_LONG
+# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_UCHAR
 # include <Numeric/arrayobject.h>
 #endif
 #include <gsl/gsl_statistics.h>
@@ -19,10 +19,10 @@
 /* include real functions for different data-types */
 
 #define STATMOD_APPEND_PY_TYPE(X) X ## Int
-#define STATMOD_APPEND_PYC_TYPE(X) X ## SHORT
-#define STATMOD_FUNC_EXT(X, Y) X ## _short ## Y
+#define STATMOD_APPEND_PYC_TYPE(X) X ## UBYTE
+#define STATMOD_FUNC_EXT(X, Y) X ## _uchar ## Y
 #define STATMOD_PY_AS_C PyInt_AsLong
-#define STATMOD_C_TYPE short int
+#define STATMOD_C_TYPE unsigned char
 #include "functions.c"
 
 
@@ -30,14 +30,21 @@
 
 /* initialization */
 
-DL_EXPORT(void) initshort(void)
+DL_EXPORT(void) inituchar(void)
 {
-    Py_InitModule("short", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
+    Py_InitModule("uchar", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
 #ifdef HAVE_NUMERIC
     import_array();
 #endif
     return;
 }
+
+
+#undef STATMOD_C_TYPE
+#undef STATMOD_PY_AS_C
+#undef STATMOD_FUNC_EXT
+#undef STATMOD_APPEND_PYC_TYPE
+#undef STATMOD_APPEND_PY_TYPE
 
 
 

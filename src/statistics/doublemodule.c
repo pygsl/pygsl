@@ -22,6 +22,7 @@
 #define STATMOD_APPEND_PY_TYPE(X) X ## Float
 #define STATMOD_APPEND_PYC_TYPE(X) X ## DOUBLE
 #define STATMOD_FUNC_EXT(X, Y) X ## Y
+#define STATMOD_PY_AS_C PyFloat_AsDouble
 #define STATMOD_C_TYPE double
 #include "functions.c"
 
@@ -39,13 +40,6 @@ DL_EXPORT(void) initdouble(void)
     return;
 }
 
-
-
-#undef STATMOD_C_TYPE
-#undef STATMOD_FUNC_EXT
-#undef STATMOD_APPEND_PYC_TYPE
-#undef STATMOD_APPEND_PY_TYPE
-#undef STATMOD_WEIGHTED
 
 
 /*

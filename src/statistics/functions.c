@@ -15,10 +15,17 @@
  * provide missing array conversion ala Numeric module
  */
 
+typedef struct {
+    int type_num;
+} PyArray_Descr;
+
 typedef  struct {
     STATMOD_C_TYPE *data;
+    size_t nd;
     size_t *dimensions;
+    size_t *strides;
     size_t length;
+    PyArray_Descr *descr;
 } PyArrayObject;
 
 enum PyArray_TYPES { PyArray_CHAR, PyArray_UBYTE, PyArray_SBYTE,
@@ -60,6 +67,14 @@ PyArray_ContiguousFromObject(PyObject* O, int arg1 ,int arg2 ,int arg3) {
 	Py_DECREF(O);
 	return NULL;
     }
+    my_struct->descr = (PyArray_Descr *)malloc(sizeof(PyArray_Descr));
+    if (my_struct->descr == NULL) {
+	PyErr_SetString(PyExc_MemoryError,
+			"could not allocate C array");
+	Py_DECREF(O);
+	return NULL;
+    }
+    my_struct->descr->type_num = -1;
     c_array=(STATMOD_C_TYPE*)((void*)my_struct+sizeof(PyArrayObject));
     my_struct->length=size;
     my_struct->dimensions=&(my_struct->length);
@@ -86,7 +101,14 @@ PyArray_ContiguousFromObject(PyObject* O, int arg1 ,int arg2 ,int arg3) {
 }
 
 
-#  define STATMOD_FREE(data) free(data);
+PyTypeObject PyArray_Type = { 
+    PyObject_HEAD_INIT(0)
+    0,                      /*ob_size*/
+    "array",                /*tp_name*/
+    sizeof(PyArrayObject),  /*tp_basicsize*/
+    0,                      /*tp_itemsize*/
+};
+#  define STATMOD_FREE(data) free(data->descr); free(data);
 #else
 #  define STATMOD_FREE(data) Py_DECREF(data);
 #endif /* HAVE_NUMERIC */
@@ -133,7 +155,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     PyObject *input1 = NULL, *input2 = NULL; \
     PyArrayObject *data1, *data2; \
     double result; \
-    int stride1=1, stride2=1; \
+    size_t stride1=1, stride2=1; \
     size_t n1, n2; \
  \
     if(PyArg_ParseTuple(args, "O!O!", &PyArray_Type, &data1, &PyArray_Type, &data2) \
@@ -181,7 +203,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     PyObject *input1 = NULL, *input2 = NULL; \
     PyArrayObject *data1, *data2; \
     double mean, result; \
-    int stride1=1, stride2=1; \
+    size_t stride1=1, stride2=1; \
     size_t n1, n2; \
  \
     if(PyArg_ParseTuple(args, "O!O!d", &PyArray_Type, &data1, &PyArray_Type, &data2, &mean) \
@@ -276,12 +298,11 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
 #define STATMOD_FUNCTION_d_Ad(name) static PyObject * \
 STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
 { \
-    PyObject *input; \
+    PyObject *input = NULL; \
     PyArrayObject *data; \
     double mean; \
     double result; \
-    int stride=1; \
-    size_t n; \
+    size_t stride=1, n; \
  \
     if(PyArg_ParseTuple(args, "O!d", &PyArray_Type, &data, &mean) \
        && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
@@ -301,9 +322,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     } \
     n = data->dimensions[0]; \
     result = STATMOD_FUNC_EXT(gsl_stats, _ ## name)((STATMOD_C_TYPE *)data->data, stride, n, mean); \
-    if(NULL != input) { \
-        STATMOD_FREE(data) \
-    } \
+    if(NULL != input) { STATMOD_FREE(data) } \
     return PyFloat_FromDouble(result); \
 }
 
