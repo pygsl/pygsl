@@ -18,7 +18,7 @@ class _TestException(unittest.TestCase):
 
     def test1(self):
         self.assertRaises(errors.gsl_Error, pygsl.errortest.trigger, self.errno)
-        
+
 class Testgsl_Error                  (_TestException): errno = en.GSL_FAILURE  ; exception = errors.gsl_Error                  
 class Testgsl_DomainError            (_TestException): errno = en.GSL_EDOM     ; exception = errors.gsl_DomainError            
 class Testgsl_RangeError             (_TestException): errno = en.GSL_ERANGE   ; exception = errors.gsl_RangeError             
@@ -51,7 +51,7 @@ class Testgsl_ToleranceFError        (_TestException): errno = en.GSL_ETOLF    ;
 class Testgsl_ToleranceXError        (_TestException): errno = en.GSL_ETOLX    ; exception = errors.gsl_ToleranceXError        
 class Testgsl_ToleranceGradientError (_TestException): errno = en.GSL_ETOLG    ; exception = errors.gsl_ToleranceGradientError 
 class Testgsl_EOFError               (_TestException): errno = en.GSL_EOF      ; exception = errors.gsl_EOFError               
-
+class Testpygsl_StrideError          (_TestException): errno = en.PyGSL_ESTRIDE; exception = errors.pygsl_StrideError               
 
 
 
