@@ -18,8 +18,7 @@ import _callback
 def linear(x, y):
     """
      This function computes the best-fit linear regression coefficients
-     (C0,C1) of the model Y = c_0 + c_1 X for the datasets (X, Y), two
-     vectors of length N with strides XSTRIDE and YSTRIDE.  The
+     (C0,C1) of the model Y = c_0 + c_1 X for the datasets (X, Y).  The
      variance-covariance matrix for the parameters (C0, C1) is
      estimated from the scatter of the points around the best-fit line
      and returned via the parameters (COV00, COV01, COV11).  The sum of
@@ -32,8 +31,8 @@ def wlinear(x, y, w):
     """
     This function computes the best-fit linear regression coefficients
      (C0,C1) of the model Y = c_0 + c_1 X for the weighted datasets (X,
-     Y), two vectors of length N with strides XSTRIDE and YSTRIDE.  The
-     vector W, of length N and stride WSTRIDE, specifies the weight of
+     Y).  The
+     vector W specifies the weight of
      each datapoint. The weight is the reciprocal of the variance for
      each datapoint in Y.
 
@@ -56,8 +55,8 @@ def est(x, c0, c1, c00, c01, c10):
 def mul(x,y):
     """
     This function computes the best-fit linear regression coefficient
-     C1 of the model Y = c_1 X for the datasets (X, Y), two vectors of
-     length N with strides XSTRIDE and YSTRIDE.  The variance of the
+     C1 of the model Y = c_1 X for the datasets (X, Y).
+     The variance of the
      parameter C1 is estimated from the scatter of the points around
      the best-fit line and returned via the parameter COV11.  The sum
      of squares of the residuals from the best-fit line is returned in
@@ -68,8 +67,8 @@ def mul(x,y):
 def wmul(x, y, w):
     """
     This function computes the best-fit linear regression coefficient
-     C1 of the model Y = c_1 X for the weighted datasets (X, Y), two
-     vectors of length N with strides XSTRIDE and YSTRIDE.  The vector
+     C1 of the model Y = c_1 X for the weighted datasets (X, Y).
+     The vector
      W, of length N and stride WSTRIDE, specifies the weight of each
      datapoint. The weight is the reciprocal of the variance for each
      datapoint in Y.
