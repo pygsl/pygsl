@@ -1,8 +1,11 @@
+2003-12-27  Pierre Schnizer <schnizer@users.sourceforge.net>
+        *  Reimplementation of the siman module
+	
 2003-10-5   Pierre Schnizer <schnizer@users.sourceforge.net>
 	* Added translation of the GSL error number code in the approbriate
 	  python exception.
 
-2003-06-03  Pierre Schnizer <pierre@itp.tu-graz.ac.at>
+2003-06-03 Pierre Schnizer <schnizer@users.sourceforge.net>
         * combined all helper functions in a library.
 	* added support for Monte Carlo Integration and Combination. 
 	* added methods to the permutation. Moved the tolist method to a C 
@@ -17,7 +20,7 @@
 	* now checked in several changes to create a new release.
 	  activated all available modules, updated README.html
 
-2003-02-09  Pierre Schnizer <pierre@itp.tu-graz.ac.at>
+2003-02-09 Pierre Schnizer <schnizer@users.sourceforge.net>
 	
         * src/poly, src/callback, src/gslwrap : added these directories, which
  	  provide low level wrapper interface files for swig. These provide low
