@@ -775,8 +775,6 @@ typedef int gsl_error_flag_drop;
 PyObject *pygsl_module_for_error_treatment = NULL;
 
 
-     typedef unsigned char uchar;
-     typedef long double long_double;
 #include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
 #include <typemaps/block_conversion_functions.h>

@@ -708,8 +708,6 @@ static swig_type_info *swig_types[26];
 #endif   
 
 
-     typedef unsigned char uchar;
-     typedef long double long_double;
 #include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
 #include <typemaps/block_conversion_functions.h>
