@@ -4,11 +4,15 @@ import pygsl.histogram
 import warnings
 import exceptions
 import pygsl.errors
+import tempfile
+import os
+import os.path
 
-class histogram(unittest.TestCase):
+class histogram_tests(unittest.TestCase):
     """
     gsl_histogram tests
     """
+    
     def test_alloc(self):
         """
         allocate a histogram
@@ -130,8 +134,50 @@ class histogram(unittest.TestCase):
         self.failIf(hist2[1]!=-1)
         self.failIf(hist1[1]!=3)
 
+    def test_readwrite(self):
+        self.my_filename=tempfile.mktemp()
+        hist=pygsl.histogram.histogram(100)
+        hist.set_ranges_uniform(1,2)
+        hist[10]=1
+        # write it
+        hist_file=file(self.my_filename,'w')
+        hist.write(hist_file)
+        hist_file.close()
+        # clear and change histogram
+        hist.set_ranges_uniform(0,1)
+        # reread it from file
+        hist_file=file(self.my_filename,'r')
+        hist.read(hist_file)
+        hist_file.close()
+        self.failIf(hist.max()!=2 or hist.min()!=1 or hist[10]!=1 or hist[99]!=0,
+                    "rereading histogram failed")
 
-class histogram2d(unittest.TestCase):
+    def test_scanfprintf(self):
+        self.my_filename=tempfile.mktemp()
+        hist=pygsl.histogram.histogram(100)
+        hist.set_ranges_uniform(1,2)
+        hist[10]=1
+        # write it
+        hist_file=file(self.my_filename,'w')
+        hist.printf(hist_file,"%g","%f")
+        hist_file.close()
+        # clear and change histogram
+        hist.set_ranges_uniform(0,1)
+        # reread it from file
+        hist_file=file(self.my_filename,'r')
+        hist.scanf(hist_file)
+        hist_file.close()
+        self.failIf(hist.max()!=2 or hist.min()!=1 or hist[10]!=1 or hist[99]!=0,
+                    "rescaning histogram failed")
+
+    def tearDown(self):
+        # clean up files
+        if 'my_filename' in vars(self) and os.path.isfile(self.my_filename):
+            os.remove(self.my_filename)
+            del self.my_filename
+
+
+class histogram2d_tests(unittest.TestCase):
     """
     gsl_histogram2d tests
     """
@@ -279,7 +325,51 @@ class histogram2d(unittest.TestCase):
             exception_seen=1
         self.failIf(exception_seen==0,"no error produced by hist.copy")
 
-test=unittest.TestSuite([histogram, histogram2d])
+    def test_readwrite(self):
+        self.my_filename=tempfile.mktemp()
+        hist=pygsl.histogram.histogram2d(100,100)
+        hist.set_ranges_uniform(1,2,3,4)
+        hist[10,50]=1
+        # write it
+        hist_file=file(self.my_filename,'w')
+        hist.write(hist_file)
+        hist_file.close()
+        # clear and change histogram
+        hist.set_ranges_uniform(0,1,0,1)
+        # reread it from file
+        hist_file=file(self.my_filename,'r')
+        hist.read(hist_file)
+        hist_file.close()
+        self.failIf(hist.xmax()!=2 or hist.ymin()!=3 or hist[10,50]!=1 or hist[99,99]!=0,
+                    "rereading histogram failed")
+
+    def test_scanfprintf(self):
+        self.my_filename=tempfile.mktemp()
+        hist=pygsl.histogram.histogram2d(100,100)
+        hist.set_ranges_uniform(1,2,3,4)
+        hist[10,50]=1
+        # write it
+        hist_file=file(self.my_filename,'w')
+        hist.printf(hist_file,"%g","%f")
+        hist_file.close()
+        # clear and change histogram
+        hist.set_ranges_uniform(0,1,0,1)
+        # reread it from file
+        hist_file=file(self.my_filename,'r')
+        hist.scanf(hist_file)
+        hist_file.close()
+        self.failIf(hist.xmax()!=2 or hist.ymin()!=3 or hist[10,50]!=1 or hist[99,99]!=0,
+                    "rereading histogram failed")
+
+    def tearDown(self):
+        # clean up files
+        if 'my_filename' in vars(self) and os.path.isfile(self.my_filename):
+            os.remove(self.my_filename)
+            del self.my_filename
+
+
+
+test=unittest.TestSuite([histogram_tests, histogram2d_tests])
 
 if __name__ == "__main__":
     unittest.main()

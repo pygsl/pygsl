@@ -815,6 +815,145 @@ static PyObject* histogram_histogram_copy(PyObject *self,
 }
 
 /*
+  int gsl_histogram_fread (FILE * stream, gsl_histogram * h)
+*/
+
+static PyObject* histogram_histogram_read(PyObject *self,
+					  PyObject *arg) {
+  gsl_histogram* histogram;
+  FILE*  stream;
+  int result;
+
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.read got a NULL pointer");
+    return NULL;
+  }
+  Py_INCREF(arg);
+  /* get file from argument */
+  if (arg==NULL || !PyFile_Check(arg)) {
+    PyErr_SetString(PyExc_TypeError, "histogram.read requires file type");
+    Py_DECREF(arg);
+    return NULL;
+  }
+
+  stream=PyFile_AsFile(arg);
+  result=gsl_histogram_fread(stream,histogram);
+  Py_DECREF(arg);
+  if (result!=GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+/*
+  int gsl_histogram_fwrite (FILE * stream, const gsl_histogram * h)
+*/
+
+static PyObject* histogram_histogram_write(PyObject *self,
+					   PyObject *arg) {
+  gsl_histogram* histogram;
+  FILE*  stream;
+  int result;
+
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.write got a NULL pointer");
+    return NULL;
+  }
+  Py_INCREF(arg);
+  /* get file from argument */
+  if (arg==NULL || !PyFile_Check(arg)) {
+    PyErr_SetString(PyExc_TypeError, "histogram.write requires file type");
+    Py_DECREF(arg);
+    return NULL;
+  }
+
+  stream=PyFile_AsFile(arg);
+  result=gsl_histogram_fwrite(stream,histogram);
+  Py_DECREF(arg);
+  if (result!=GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+/*
+  int gsl_histogram_fscanf (FILE * stream, gsl_histogram * h)
+*/
+
+static PyObject* histogram_histogram_scanf(PyObject *self,
+					   PyObject *arg) {
+  gsl_histogram* histogram;
+  FILE*  stream;
+  int result;
+
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.scanf got a NULL pointer");
+    return NULL;
+  }
+  Py_INCREF(arg);
+  /* get file from argument */
+  if (arg==NULL || !PyFile_Check(arg)) {
+    PyErr_SetString(PyExc_TypeError, "histogram.scanf requires file type");
+    Py_DECREF(arg);
+    return NULL;
+  }
+
+  stream=PyFile_AsFile(arg);
+  result=gsl_histogram_fscanf(stream,histogram);
+  Py_DECREF(arg);
+  if (result!=GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+/*
+  int gsl_histogram_fprintf (FILE * stream, const gsl_histogram * h, const char * range_format, const char * bin_format)
+*/
+
+static PyObject* histogram_histogram_printf(PyObject *self,
+					    PyObject *arg) {
+  gsl_histogram* histogram;
+  PyObject* the_file;
+  FILE*  stream=NULL;
+  char* range_format=NULL;
+  char* bin_format=NULL;
+  int result;
+
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.printf got a NULL pointer");
+    return NULL;
+  }
+
+  if (0==PyArg_ParseTuple(arg,"O!|ss",&PyFile_Type,&the_file,&range_format,&bin_format)) {
+    return NULL;
+  }
+
+  if (range_format==NULL)
+    range_format="%g";
+  if (bin_format==NULL)
+    bin_format="%g";
+
+  Py_INCREF(the_file);
+  stream=PyFile_AsFile(the_file);
+  result=gsl_histogram_fprintf(stream,histogram,range_format,bin_format);
+  Py_DECREF(the_file);
+
+  if (result!=GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+/*
   method table
 */
 
@@ -847,6 +986,10 @@ static PyMethodDef histogram_histogram_methods[] = {
   {"div",(PyCFunction)histogram_histogram_div,METH_O,"divides the contents of the bins"},
   {"clone",(PyCFunction)histogram_histogram_clone,METH_NOARGS,"returns a new copy of this histogram"},
   {"copy",(PyCFunction)histogram_histogram_copy,METH_O,"copies the given histogram to myself"},
+  {"read",(PyCFunction)histogram_histogram_read,METH_O,"reads histogram binary data from file"},
+  {"write",(PyCFunction)histogram_histogram_write,METH_O,"writes histogram binary data to file"},
+  {"scanf",(PyCFunction)histogram_histogram_scanf,METH_O,"reads histogram data from file using scanf"},
+  {"printf",(PyCFunction)histogram_histogram_printf,METH_VARARGS,"writes histogram data to file using printf"},
   {NULL, NULL, 0, NULL}           /* sentinel */
 };
 
@@ -2088,6 +2231,148 @@ static PyObject* histogram_histogram2d_copy(PyObject *self,
   return Py_None;
 }
 
+
+/*
+  int gsl_histogram2d_fread (FILE * stream, gsl_histogram2d * h)
+*/
+
+static PyObject* histogram_histogram2d_read(PyObject *self,
+					    PyObject *arg) {
+  gsl_histogram2d* histogram;
+  FILE*  stream;
+  int result;
+
+  histogram=(gsl_histogram2d*)((histogram_histogram2dObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram2d.read got a NULL pointer");
+    return NULL;
+  }
+  Py_INCREF(arg);
+  /* get file from argument */
+  if (arg==NULL || !PyFile_Check(arg)) {
+    PyErr_SetString(PyExc_TypeError, "histogram2d.read requires file type");
+    Py_DECREF(arg);
+    return NULL;
+  }
+
+  stream=PyFile_AsFile(arg);
+  result=gsl_histogram2d_fread(stream,histogram);
+  Py_DECREF(arg);
+  if (result!=GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+/*
+  int gsl_histogram2d_fwrite (FILE * stream, const gsl_histogram2d * h)
+*/
+
+static PyObject* histogram_histogram2d_write(PyObject *self,
+					     PyObject *arg) {
+  gsl_histogram2d* histogram;
+  FILE*  stream;
+  int result;
+
+  histogram=(gsl_histogram2d*)((histogram_histogram2dObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram2d.write got a NULL pointer");
+    return NULL;
+  }
+  Py_INCREF(arg);
+  /* get file from argument */
+  if (arg==NULL || !PyFile_Check(arg)) {
+    PyErr_SetString(PyExc_TypeError, "histogram2d.write requires file type");
+    Py_DECREF(arg);
+    return NULL;
+  }
+
+  stream=PyFile_AsFile(arg);
+  result=gsl_histogram2d_fwrite(stream,histogram);
+  Py_DECREF(arg);
+  if (result!=GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+
+/*
+  int gsl_histogram2d_fscanf (FILE * stream, gsl_histogram2d * h)
+*/
+
+static PyObject* histogram_histogram2d_scanf(PyObject *self,
+					     PyObject *arg) {
+  gsl_histogram2d* histogram;
+  FILE*  stream;
+  int result;
+
+  histogram=(gsl_histogram2d*)((histogram_histogram2dObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram2d.scanf got a NULL pointer");
+    return NULL;
+  }
+  Py_INCREF(arg);
+  /* get file from argument */
+  if (arg==NULL || !PyFile_Check(arg)) {
+    PyErr_SetString(PyExc_TypeError, "histogram2d.scanf requires file type");
+    Py_DECREF(arg);
+    return NULL;
+  }
+
+  stream=PyFile_AsFile(arg);
+  result=gsl_histogram2d_fscanf(stream,histogram);
+  Py_DECREF(arg);
+  if (result!=GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+/*
+  int gsl_histogram2d_fprintf (FILE * stream, const gsl_histogram2d * h, const char * range_format, const char * bin_format)
+*/
+
+static PyObject* histogram_histogram2d_printf(PyObject *self,
+					      PyObject *arg) {
+  gsl_histogram2d* histogram;
+  PyObject* the_file;
+  FILE*  stream=NULL;
+  char* range_format=NULL;
+  char* bin_format=NULL;
+  int result;
+
+  histogram=(gsl_histogram2d*)((histogram_histogram2dObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram2d.printf got a NULL pointer");
+    return NULL;
+  }
+
+  if (0==PyArg_ParseTuple(arg,"O!|ss",&PyFile_Type,&the_file,&range_format,&bin_format)) {
+    return NULL;
+  }
+
+  if (range_format==NULL)
+    range_format="%g";
+  if (bin_format==NULL)
+    bin_format="%g";
+
+  Py_INCREF(the_file);
+  stream=PyFile_AsFile(the_file);
+  result=gsl_histogram2d_fprintf(stream,histogram,range_format,bin_format);
+  Py_DECREF(the_file);
+
+  if (result!=GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+
 /* method index */
 
 static PyMethodDef histogram_histogram2d_methods[] = {
@@ -2126,6 +2411,10 @@ static PyMethodDef histogram_histogram2d_methods[] = {
   {"div",(PyCFunction)histogram_histogram2d_div,METH_O,"divides the contents of the bins"},
   {"clone",(PyCFunction)histogram_histogram2d_clone,METH_NOARGS,"returns a new copy of this histogram"},
   {"copy",(PyCFunction)histogram_histogram2d_copy,METH_O,"copies the given histogram to myself"},
+  {"read",(PyCFunction)histogram_histogram2d_read,METH_O,"reads histogram binary data from file"},
+  {"write",(PyCFunction)histogram_histogram2d_write,METH_O,"writes histogram binary data to file"},
+  {"scanf",(PyCFunction)histogram_histogram2d_scanf,METH_O,"reads histogram data from file using scanf"},
+  {"printf",(PyCFunction)histogram_histogram2d_printf,METH_VARARGS,"writes histogram data to file using printf"},
   {NULL, NULL, 0, NULL} /* sentinel */
 };
 
@@ -2385,7 +2674,7 @@ PyTypeObject histogram_histogram2dType = {
 
 
 static PyMethodDef histogramMethods[] = {
-    {NULL, NULL, 0, NULL}        /* Sentinel */
+  {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
 void
