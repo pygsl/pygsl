@@ -79,7 +79,9 @@ PyGSL_rng_init(PyObject *self, PyObject *args, const gsl_rng_type * rng_type)
 
      FUNC_MESS_BEGIN();
      rng =  (PyGSL_rng *) PyObject_NEW(PyGSL_rng, &PyGSL_rng_pytype);
-
+     if(rng == NULL){
+	  return NULL;
+     }
      if(rng_type == NULL){
 	  rng->rng = gsl_rng_alloc(gsl_rng_default);
 	  gsl_rng_set(rng->rng, gsl_rng_default_seed);
