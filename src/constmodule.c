@@ -14,6 +14,8 @@
 #include <gsl/gsl_const_num.h>
 
 #if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION < 4)
+/* WARNING deprecated!! */
+/* #warning "DEPRECATED! Consider upgrading to gsl 1.4 or higher!" */
 #define _PYGSL_GSL_HAS_CGS 1
 #define _PYGSL_GSL_HAS_MKS 1
 #include <gsl/gsl_const_cgs.h>
