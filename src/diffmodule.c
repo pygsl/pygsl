@@ -111,7 +111,7 @@ static PyObject *diff_forward(PyObject *self, PyObject *args)
 
 	
 
-/* moduloe initialization */
+/* module initialization */
 
 static PyMethodDef diffMethods[] = {
 	{"backward", diff_backward, METH_VARARGS,

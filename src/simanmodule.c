@@ -5,7 +5,8 @@
  * $Id$
  *
  * Only works in fixed-size mode (yet).
- * uses default random number generator for now
+ * uses default random number generator (for now).
+ * A configuration has to be a Numeric array.
  */
 
 #include <Python.h>
@@ -28,7 +29,7 @@ static double siman_efunc(void *xp)
 	PyObject *arglist = Py_BuildValue("(d)", xp);
 	PyObject *result;
 	double value;
-	result = PyEval_CallObject(diff_py_callback, arglist);
+	result = PyEval_CallObject(siman_py_efunc, arglist);
 	Py_DECREF(arglist);
 	if(! result)
 		PyErr_SetString(PyExc_ValueError, "exception in python function.");
@@ -45,10 +46,10 @@ static gsl_siman_Efunc_t siman_gsl_efunc;
 static PyObject *siman_py_step = NULL;
 static double siman_step(const gsl_rng *r, void *xp, double step_size)
 {
-	PyObject *arglist = Py_BuildValue("(d)", x);
+	PyObject *arglist = Py_BuildValue("(d)", step_size);
 	PyObject *result;
 	double value;
-	result = PyEval_CallObject(diff_py_callback, arglist);
+	result = PyEval_CallObject(siman_py_step, arglist);
 	Py_DECREF(arglist);
 	if(! result)
 		PyErr_SetString(PyExc_ValueError, "exception in python function.");
@@ -65,10 +66,10 @@ static gsl_siman_step_t siman_gsl_step;
 static PyObject *siman_py_metric = NULL;
 static double siman_metric(void *xp, void *yp)
 {
-	PyObject *arglist = Py_BuildValue("(d)", x);
+	PyObject *arglist = Py_BuildValue("(d)", xp);
 	PyObject *result;
 	double value;
-	result = PyEval_CallObject(diff_py_callback, arglist);
+	result = PyEval_CallObject(siman_py_metric, arglist);
 	Py_DECREF(arglist);
 	if(! result)
 		PyErr_SetString(PyExc_ValueError, "exception in python function.");
@@ -84,10 +85,10 @@ static gsl_siman_metric_t siman_gsl_metric;
 static PyObject *siman_py_print = NULL;
 static double siman_print(void *xp)
 {
-	PyObject *arglist = Py_BuildValue("(d)", x);
+	PyObject *arglist = Py_BuildValue("(d)", xp);
 	PyObject *result;
 	double value;
-	result = PyEval_CallObject(diff_py_callback, arglist);
+	result = PyEval_CallObject(siman_py_print, arglist);
 	Py_DECREF(arglist);
 	if(! result)
 		PyErr_SetString(PyExc_ValueError, "exception in python function.");
@@ -112,17 +113,16 @@ static PyObject *siman_solve(PyObject *self, PyObject *args)
 	/* python arguments are (efunc, step, metric, print, (params)) */
 	if(! PyArg_ParseTuple(args, "OOOOO", &efunc, &step, &metric, &print, &params))
 		return NULL;
-	if(!(PyCallable_Check(efunc) && PyCallable_Check(step)
-	     && PyCallable_Check(metric) && PyCallable_Check(print))) {
-		PyErr_SetString(PyExc_TypeError, "first four parameters must be callable");
+	if(!(PyCallable_Check(efunc) && PyCallable_Check(step) && PyCallable_Check(metric))) {
+		PyErr_SetString(PyExc_TypeError, "first three function parameters must be callable");
 		return NULL;
 	}
 
-	/* use default random number generator for now */
-	gsl_rng_env_setup();
-	T = gsl_rng_default;
-	r = gsl_rng_alloc(T);
-
+	if(! (PyCallable_Check(print) || (PyNone != print))) {
+		PyErr_SetString(PyExc_TypeError, "print-function must be callable if given.");
+		return NULL;
+	}
+	
 	/* initialize/assign functions */
 	siman_gsl_efunc.function = &siman_efunc;
 	siman_gsl_efunc.params = NULL;
@@ -132,17 +132,53 @@ static PyObject *siman_solve(PyObject *self, PyObject *args)
 
 	siman_gsl_step.function = &siman_step;
 	siman_gsl_step.params = NULL;
+	Py_XINCREF(step);
+	Py_XDECREF(siman_py_step);
+	siman_py_step = step;
+
 	siman_gsl_metric.function = &siman_metric;
 	siman_gsl_metric.params = NULL;
+	Py_XINCREF(metric);
+	Py_XDECREF(siman_py_metric);
+	siman_py_metric = metric;
+
 	siman_gsl_print.function = &siman_print;
 	siman_gsl_print.params = NULL;
+	Py_XINCREF(print);
+	Py_XDECREF(siman_py_print);
+	siman_py_print = print;
+	
+	/* use default random number generator for now */
+	gsl_rng_env_setup();
+	T = gsl_rng_default;
+	r = gsl_rng_alloc(T);
 
-
-	gsl_siman_solve(r, &x0, &diff_gsl_efunc, &diff_gsl_step, &diff_gsl_metric,
-			&diff_gsl_print, NULL, NULL, NULL, size, params);
+	if(PyNone != print)
+		gsl_siman_solve(r, &x0, &siman_gsl_efunc, &siman_gsl_step, &siman_gsl_metric,
+				&siman_gsl_print, NULL, NULL, NULL, size, params);
+	else
+		gsl_siman_solve(r, &x0, &siman_gsl_efunc, &siman_gsl_step, &siman_gsl_metric,
+				NULL, NULL, NULL, NULL, size, params);
 
 	// result = Py_BuildValue("(dd)", value, abserr);
 	return result;
+}
+
+
+/* moduloe initialization */
+
+static PyMethodDef simanMethods[] = {
+	{"solve", siman_solve, METH_VARARGS,
+	 "Simulated anealing driver."},
+	{NULL, NULL} /* Sentinel */
+};
+
+
+
+DL_EXPORT(void) simandiff(void)
+{
+	(void)Py_InitModule("siman", simanMethods);
+	return;
 }
 
 

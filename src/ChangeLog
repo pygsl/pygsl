@@ -1,3 +1,10 @@
+2002-05-05  Jochen Küpper  <jochen@jochen-kuepper.de>
+
+	* simanmodule.c (initsiman): Added.
+	Added simanMethods.
+	(siman_solve): Assign functions, take care of potential NULL-pointer
+	for print.
+
 2002-05-03  Jochen Küpper  <jochen@unc.edu>
 
 	* simanmodule.c: Started implementation of SimAn wrapper.
