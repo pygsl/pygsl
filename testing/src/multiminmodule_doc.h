@@ -116,8 +116,8 @@ Usage: set(f, par, x, steps):\n\
      f     ... a function of\n\
                  def f(x, par):\n\
                     return y\n\
-     par   ... paramters to pass to the function f\n\
      x     ... start vector\n\
+     par   ... paramters to pass to the function f\n\
      steps ... initial steps vector\n\
 ";
 static const char multimin_size_doc[]          = "Get the size of the minimizer";
@@ -139,8 +139,8 @@ Usage: set(f, df, fdf, par, x, step_size, tol):\n\
                  def f(x, par):\n\
                     return dy/dx[0] ... dy/dx[n]\n\
      fdf  ... allows to calculate f and df in one go\n\
-     par  ... paramters to pass to the function f\n\
      x    ... start vector\n\
+     par  ... paramters to pass to the function f\n\
      step ... size of the first step\n\
      tol  ... accuracy of the line minimization\n\
 ";

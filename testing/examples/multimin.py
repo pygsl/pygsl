@@ -27,20 +27,26 @@ def fdf(x, params):
     mydf = df(x, params)
     return myf, mydf
 
-#m = multimin.nmsimplex(2)
-m = multimin.conjugate_fr(2)
+m = multimin.nmsimplex(2)
+#m = multimin.conjugate_fr(2)
 #m = multimin.conjugate_pr(2)
 #m = multimin.steepest_descent(2)
 #m = multimin.vector_bfgs(2)
 
-par = [1.0, 2.0]
-x = [5, 7]
+par   = [1.0, 2.0]
+x     = [5., 7.]
 steps = [1e-4, 1e-4]
 
 if m.type() == 'F-Minimizer':
-    m.set(f, par, x, steps)
-else:
-    m.set(f, df, fdf, par, x, 0.01, 1e-4)
+    #m.set(f, x, par, steps)
+    # You can also specify them as keyword arguments.
+    m.set(f=f, x0=x, args=par, steps=steps)
+else:    
+    #m.set(f, df, fdf, x,  par, 0.01, 1e-4)
+    # Step defaults to 0.01 and tolerance to 1e-4
+    m.set(f, df, fdf, x, par)
+    # You can also specify them as keyword arguments.
+    m.set(f=f, df=df, fdf=fdf, x0=x, args=par)
 
 fmt = "%5d %.5f %.5f %10.5f"
 
