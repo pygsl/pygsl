@@ -1,8 +1,10 @@
 # This file was created automatically by SWIG.
 # Don't modify this file, modify the SWIG interface instead.
 # This file is compatible with both classic and new-style classes.
+
 import _gslwrap
-def _swig_setattr(self,class_type,name,value):
+
+def _swig_setattr_nondynamic(self,class_type,name,value,static=1):
     if (name == "this"):
         if isinstance(value, class_type):
             self.__dict__[name] = value.this
@@ -11,7 +13,13 @@ def _swig_setattr(self,class_type,name,value):
             return
     method = class_type.__swig_setmethods__.get(name,None)
     if method: return method(self,value)
-    self.__dict__[name] = value
+    if (not static) or hasattr(self,name) or (name == "thisown"):
+        self.__dict__[name] = value
+    else:
+        raise AttributeError("You cannot add attributes to %s" % self)
+
+def _swig_setattr(self,class_type,name,value):
+    return _swig_setattr_nondynamic(self,class_type,name,value,0)
 
 def _swig_getattr(self,class_type,name):
     method = class_type.__swig_getmethods__.get(name,None)
@@ -25,11 +33,13 @@ try:
 except AttributeError:
     class _object : pass
     _newclass = 0
+del types
 
 
 GSL_LINALG_MOD_NONE = _gslwrap.GSL_LINALG_MOD_NONE
 GSL_LINALG_MOD_TRANSPOSE = _gslwrap.GSL_LINALG_MOD_TRANSPOSE
 GSL_LINALG_MOD_CONJUGATE = _gslwrap.GSL_LINALG_MOD_CONJUGATE
+
 gsl_linalg_matmult = _gslwrap.gsl_linalg_matmult
 
 gsl_linalg_matmult_mod = _gslwrap.gsl_linalg_matmult_mod
@@ -171,49 +181,50 @@ gsl_linalg_bidiag_unpack2 = _gslwrap.gsl_linalg_bidiag_unpack2
 gsl_linalg_bidiag_unpack_B = _gslwrap.gsl_linalg_bidiag_unpack_B
 
 gsl_linalg_balance_columns = _gslwrap.gsl_linalg_balance_columns
-
 class Permutation(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Permutation, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Permutation, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C gsl_permutation_struct instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     __swig_getmethods__["size"] = _gslwrap.Permutation_size_get
     if _newclass:size = property(_gslwrap.Permutation_size_get)
     __swig_getmethods__["data"] = _gslwrap.Permutation_data_get
     if _newclass:data = property(_gslwrap.Permutation_data_get)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, Permutation, 'this', apply(_gslwrap.new_Permutation,args, kwargs))
+    def __init__(self, *args, **kwargs):
+        _swig_setattr(self, Permutation, 'this', _gslwrap.new_Permutation(*args, **kwargs))
         _swig_setattr(self, Permutation, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_Permutation):
+    def __del__(self, destroy=_gslwrap.delete_Permutation):
         try:
             if self.thisown: destroy(self)
         except: pass
-    def _linear_to_canonical(*args, **kwargs): return apply(_gslwrap.Permutation__linear_to_canonical,args, kwargs)
-    def _canonical_to_linear(*args, **kwargs): return apply(_gslwrap.Permutation__canonical_to_linear,args, kwargs)
-    def _mul(*args, **kwargs): return apply(_gslwrap.Permutation__mul,args, kwargs)
-    def inversions(*args, **kwargs): return apply(_gslwrap.Permutation_inversions,args, kwargs)
-    def linear_cycles(*args, **kwargs): return apply(_gslwrap.Permutation_linear_cycles,args, kwargs)
-    def canonical_cycles(*args, **kwargs): return apply(_gslwrap.Permutation_canonical_cycles,args, kwargs)
-    def _inverse(*args, **kwargs): return apply(_gslwrap.Permutation__inverse,args, kwargs)
-    def __getitem__(*args, **kwargs): return apply(_gslwrap.Permutation___getitem__,args, kwargs)
-    def swap(*args, **kwargs): return apply(_gslwrap.Permutation_swap,args, kwargs)
-    def __len__(*args, **kwargs): return apply(_gslwrap.Permutation___len__,args, kwargs)
-    def valid(*args, **kwargs): return apply(_gslwrap.Permutation_valid,args, kwargs)
-    def reverse(*args, **kwargs): return apply(_gslwrap.Permutation_reverse,args, kwargs)
-    def next(*args, **kwargs): return apply(_gslwrap.Permutation_next,args, kwargs)
-    def prev(*args, **kwargs): return apply(_gslwrap.Permutation_prev,args, kwargs)
-    def __str__(*args, **kwargs): return apply(_gslwrap.Permutation___str__,args, kwargs)
-    def tolist(*args, **kwargs): return apply(_gslwrap.Permutation_tolist,args, kwargs)
-    def toarray(*args, **kwargs): return apply(_gslwrap.Permutation_toarray,args, kwargs)
-    def __repr__(self):
-        return "<C Permutation instance at %s>" % (self.this,)
+
+    def _linear_to_canonical(*args, **kwargs): return _gslwrap.Permutation__linear_to_canonical(*args, **kwargs)
+    def _canonical_to_linear(*args, **kwargs): return _gslwrap.Permutation__canonical_to_linear(*args, **kwargs)
+    def _mul(*args, **kwargs): return _gslwrap.Permutation__mul(*args, **kwargs)
+    def inversions(*args, **kwargs): return _gslwrap.Permutation_inversions(*args, **kwargs)
+    def linear_cycles(*args, **kwargs): return _gslwrap.Permutation_linear_cycles(*args, **kwargs)
+    def canonical_cycles(*args, **kwargs): return _gslwrap.Permutation_canonical_cycles(*args, **kwargs)
+    def _inverse(*args, **kwargs): return _gslwrap.Permutation__inverse(*args, **kwargs)
+    def __getitem__(*args, **kwargs): return _gslwrap.Permutation___getitem__(*args, **kwargs)
+    def swap(*args, **kwargs): return _gslwrap.Permutation_swap(*args, **kwargs)
+    def __len__(*args, **kwargs): return _gslwrap.Permutation___len__(*args, **kwargs)
+    def valid(*args, **kwargs): return _gslwrap.Permutation_valid(*args, **kwargs)
+    def reverse(*args, **kwargs): return _gslwrap.Permutation_reverse(*args, **kwargs)
+    def next(*args, **kwargs): return _gslwrap.Permutation_next(*args, **kwargs)
+    def prev(*args, **kwargs): return _gslwrap.Permutation_prev(*args, **kwargs)
+    def __str__(*args, **kwargs): return _gslwrap.Permutation___str__(*args, **kwargs)
+    def tolist(*args, **kwargs): return _gslwrap.Permutation_tolist(*args, **kwargs)
+    def toarray(*args, **kwargs): return _gslwrap.Permutation_toarray(*args, **kwargs)
 
 class PermutationPtr(Permutation):
-    def __init__(self,this):
+    def __init__(self, this):
         _swig_setattr(self, Permutation, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, Permutation, 'thisown', 0)
         _swig_setattr(self, Permutation,self.__class__,Permutation)
 _gslwrap.Permutation_swigregister(PermutationPtr)
+
 
 gsl_permutation_alloc = _gslwrap.gsl_permutation_alloc
 
@@ -262,34 +273,67 @@ gsl_permutation_inversions = _gslwrap.gsl_permutation_inversions
 gsl_permutation_linear_cycles = _gslwrap.gsl_permutation_linear_cycles
 
 gsl_permutation_canonical_cycles = _gslwrap.gsl_permutation_canonical_cycles
-
 class Combination(_object):
+    """Proxy of C Combination struct"""
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Combination, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Combination, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, Combination, 'this', apply(_gslwrap.new_Combination,args, kwargs))
+    def __repr__(self):
+        return "<%s.%s; proxy of C gsl_combination_struct instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def __init__(self, *args, **kwargs):
+        """bla blamore blah blah"""
+        _swig_setattr(self, Combination, 'this', _gslwrap.new_Combination(*args, **kwargs))
         _swig_setattr(self, Combination, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_Combination):
+    def __del__(self, destroy=_gslwrap.delete_Combination):
+        """__del__(self)"""
         try:
             if self.thisown: destroy(self)
         except: pass
-    def __getitem__(*args, **kwargs): return apply(_gslwrap.Combination___getitem__,args, kwargs)
-    def k(*args, **kwargs): return apply(_gslwrap.Combination_k,args, kwargs)
-    def n(*args, **kwargs): return apply(_gslwrap.Combination_n,args, kwargs)
-    def init_first(*args, **kwargs): return apply(_gslwrap.Combination_init_first,args, kwargs)
-    def init_last(*args, **kwargs): return apply(_gslwrap.Combination_init_last,args, kwargs)
-    def valid(*args, **kwargs): return apply(_gslwrap.Combination_valid,args, kwargs)
-    def next(*args, **kwargs): return apply(_gslwrap.Combination_next,args, kwargs)
-    def prev(*args, **kwargs): return apply(_gslwrap.Combination_prev,args, kwargs)
-    def tolist(*args, **kwargs): return apply(_gslwrap.Combination_tolist,args, kwargs)
-    def toarray(*args, **kwargs): return apply(_gslwrap.Combination_toarray,args, kwargs)
-    def __repr__(self):
-        return "<C Combination instance at %s>" % (self.this,)
+
+    def __getitem__(*args, **kwargs): 
+        """__getitem__(self, size_t i) -> size_t"""
+        return _gslwrap.Combination___getitem__(*args, **kwargs)
+
+    def k(*args, **kwargs): 
+        """k(self) -> size_t"""
+        return _gslwrap.Combination_k(*args, **kwargs)
+
+    def n(*args, **kwargs): 
+        """n(self) -> size_t"""
+        return _gslwrap.Combination_n(*args, **kwargs)
+
+    def init_first(*args, **kwargs): 
+        """init_first(self)"""
+        return _gslwrap.Combination_init_first(*args, **kwargs)
+
+    def init_last(*args, **kwargs): 
+        """init_last(self)"""
+        return _gslwrap.Combination_init_last(*args, **kwargs)
+
+    def valid(*args, **kwargs): 
+        """valid(self) -> int"""
+        return _gslwrap.Combination_valid(*args, **kwargs)
+
+    def next(*args, **kwargs): 
+        """next(self) -> int"""
+        return _gslwrap.Combination_next(*args, **kwargs)
+
+    def prev(*args, **kwargs): 
+        """prev(self) -> int"""
+        return _gslwrap.Combination_prev(*args, **kwargs)
+
+    def tolist(*args, **kwargs): 
+        """tolist(self) -> PyObject"""
+        return _gslwrap.Combination_tolist(*args, **kwargs)
+
+    def toarray(*args, **kwargs): 
+        """toarray(self) -> PyObject"""
+        return _gslwrap.Combination_toarray(*args, **kwargs)
+
 
 class CombinationPtr(Combination):
-    def __init__(self,this):
+    def __init__(self, this):
         _swig_setattr(self, Combination, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, Combination, 'thisown', 0)
         _swig_setattr(self, Combination,self.__class__,Combination)
@@ -312,216 +356,92 @@ M_LN10 = _gslwrap.M_LN10
 M_LN2 = _gslwrap.M_LN2
 M_LNPI = _gslwrap.M_LNPI
 M_EULER = _gslwrap.M_EULER
-gsl_max = _gslwrap.gsl_max
 
-gsl_min = _gslwrap.gsl_min
+def gsl_max(*args, **kwargs):
+    """gsl_max(double a, double b) -> double"""
+    return _gslwrap.gsl_max(*args, **kwargs)
 
+def gsl_min(*args, **kwargs):
+    """gsl_min(double a, double b) -> double"""
+    return _gslwrap.gsl_min(*args, **kwargs)
 GSL_POSZERO = _gslwrap.GSL_POSZERO
 GSL_NEGZERO = _gslwrap.GSL_NEGZERO
-gsl_log1p = _gslwrap.gsl_log1p
 
-gsl_expm1 = _gslwrap.gsl_expm1
+def gsl_log1p(*args, **kwargs):
+    """gsl_log1p(double x) -> double"""
+    return _gslwrap.gsl_log1p(*args, **kwargs)
 
-gsl_hypot = _gslwrap.gsl_hypot
+def gsl_expm1(*args, **kwargs):
+    """gsl_expm1(double x) -> double"""
+    return _gslwrap.gsl_expm1(*args, **kwargs)
 
-gsl_acosh = _gslwrap.gsl_acosh
+def gsl_hypot(*args, **kwargs):
+    """gsl_hypot(double x, double y) -> double"""
+    return _gslwrap.gsl_hypot(*args, **kwargs)
 
-gsl_asinh = _gslwrap.gsl_asinh
+def gsl_acosh(*args, **kwargs):
+    """gsl_acosh(double x) -> double"""
+    return _gslwrap.gsl_acosh(*args, **kwargs)
 
-gsl_atanh = _gslwrap.gsl_atanh
+def gsl_asinh(*args, **kwargs):
+    """gsl_asinh(double x) -> double"""
+    return _gslwrap.gsl_asinh(*args, **kwargs)
 
-gsl_isnan = _gslwrap.gsl_isnan
+def gsl_atanh(*args, **kwargs):
+    """gsl_atanh(double x) -> double"""
+    return _gslwrap.gsl_atanh(*args, **kwargs)
 
-gsl_isinf = _gslwrap.gsl_isinf
+def gsl_isnan(*args, **kwargs):
+    """gsl_isnan(double x) -> int"""
+    return _gslwrap.gsl_isnan(*args, **kwargs)
 
-gsl_finite = _gslwrap.gsl_finite
+def gsl_isinf(*args, **kwargs):
+    """gsl_isinf(double x) -> int"""
+    return _gslwrap.gsl_isinf(*args, **kwargs)
 
-gsl_nan = _gslwrap.gsl_nan
+def gsl_finite(*args, **kwargs):
+    """gsl_finite(double x) -> int"""
+    return _gslwrap.gsl_finite(*args, **kwargs)
 
-gsl_posinf = _gslwrap.gsl_posinf
+def gsl_nan(*args, **kwargs):
+    """gsl_nan() -> double"""
+    return _gslwrap.gsl_nan(*args, **kwargs)
 
-gsl_neginf = _gslwrap.gsl_neginf
+def gsl_posinf(*args, **kwargs):
+    """gsl_posinf() -> double"""
+    return _gslwrap.gsl_posinf(*args, **kwargs)
 
-gsl_fdiv = _gslwrap.gsl_fdiv
+def gsl_neginf(*args, **kwargs):
+    """gsl_neginf() -> double"""
+    return _gslwrap.gsl_neginf(*args, **kwargs)
 
-gsl_coerce_double = _gslwrap.gsl_coerce_double
+def gsl_fdiv(*args, **kwargs):
+    """gsl_fdiv(double x, double y) -> double"""
+    return _gslwrap.gsl_fdiv(*args, **kwargs)
 
-gsl_coerce_float = _gslwrap.gsl_coerce_float
+def gsl_coerce_double(*args, **kwargs):
+    """gsl_coerce_double(double x) -> double"""
+    return _gslwrap.gsl_coerce_double(*args, **kwargs)
 
-gsl_coerce_long_double = _gslwrap.gsl_coerce_long_double
+def gsl_coerce_float(*args, **kwargs):
+    """gsl_coerce_float(float x) -> float"""
+    return _gslwrap.gsl_coerce_float(*args, **kwargs)
 
-gsl_ldexp = _gslwrap.gsl_ldexp
+def gsl_coerce_long_double(*args, **kwargs):
+    """gsl_coerce_long_double(long double x) -> long double"""
+    return _gslwrap.gsl_coerce_long_double(*args, **kwargs)
 
-gsl_frexp = _gslwrap.gsl_frexp
+def gsl_ldexp(*args, **kwargs):
+    """gsl_ldexp(double x, int e) -> double"""
+    return _gslwrap.gsl_ldexp(*args, **kwargs)
 
-gsl_fcmp = _gslwrap.gsl_fcmp
+def gsl_frexp(*args, **kwargs):
+    """gsl_frexp(double x, int e) -> double"""
+    return _gslwrap.gsl_frexp(*args, **kwargs)
 
-forward = _gslwrap.forward
-backward = _gslwrap.backward
-gsl_fft_complex_radix2_forward = _gslwrap.gsl_fft_complex_radix2_forward
-
-gsl_fft_complex_radix2_backward = _gslwrap.gsl_fft_complex_radix2_backward
-
-gsl_fft_complex_radix2_inverse = _gslwrap.gsl_fft_complex_radix2_inverse
-
-gsl_fft_complex_radix2_transform = _gslwrap.gsl_fft_complex_radix2_transform
-
-gsl_fft_complex_radix2_dif_forward = _gslwrap.gsl_fft_complex_radix2_dif_forward
-
-gsl_fft_complex_radix2_dif_backward = _gslwrap.gsl_fft_complex_radix2_dif_backward
-
-gsl_fft_complex_radix2_dif_inverse = _gslwrap.gsl_fft_complex_radix2_dif_inverse
-
-gsl_fft_complex_radix2_dif_transform = _gslwrap.gsl_fft_complex_radix2_dif_transform
-
-class gsl_fft_complex_wavetable(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_complex_wavetable, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_complex_wavetable, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_fft_complex_wavetable, 'this', apply(_gslwrap.new_gsl_fft_complex_wavetable,args, kwargs))
-        _swig_setattr(self, gsl_fft_complex_wavetable, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_fft_complex_wavetable):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["n"] = _gslwrap.gsl_fft_complex_wavetable_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_complex_wavetable_n_get)
-    __swig_getmethods__["nf"] = _gslwrap.gsl_fft_complex_wavetable_nf_get
-    if _newclass:nf = property(_gslwrap.gsl_fft_complex_wavetable_nf_get)
-    __swig_getmethods__["factor"] = _gslwrap.gsl_fft_complex_wavetable_factor_get
-    if _newclass:factor = property(_gslwrap.gsl_fft_complex_wavetable_factor_get)
-    __swig_getmethods__["twiddle"] = _gslwrap.gsl_fft_complex_wavetable_twiddle_get
-    if _newclass:twiddle = property(_gslwrap.gsl_fft_complex_wavetable_twiddle_get)
-    __swig_getmethods__["trig"] = _gslwrap.gsl_fft_complex_wavetable_trig_get
-    if _newclass:trig = property(_gslwrap.gsl_fft_complex_wavetable_trig_get)
-    def __repr__(self):
-        return "<C gsl_fft_complex_wavetable instance at %s>" % (self.this,)
-
-class gsl_fft_complex_wavetablePtr(gsl_fft_complex_wavetable):
-    def __init__(self,this):
-        _swig_setattr(self, gsl_fft_complex_wavetable, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_complex_wavetable, 'thisown', 0)
-        _swig_setattr(self, gsl_fft_complex_wavetable,self.__class__,gsl_fft_complex_wavetable)
-_gslwrap.gsl_fft_complex_wavetable_swigregister(gsl_fft_complex_wavetablePtr)
-
-class gsl_fft_complex_workspace(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_complex_workspace, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_complex_workspace, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_fft_complex_workspace, 'this', apply(_gslwrap.new_gsl_fft_complex_workspace,args, kwargs))
-        _swig_setattr(self, gsl_fft_complex_workspace, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_fft_complex_workspace):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["n"] = _gslwrap.gsl_fft_complex_workspace_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_complex_workspace_n_get)
-    __swig_getmethods__["scratch"] = _gslwrap.gsl_fft_complex_workspace_scratch_get
-    if _newclass:scratch = property(_gslwrap.gsl_fft_complex_workspace_scratch_get)
-    def __repr__(self):
-        return "<C gsl_fft_complex_workspace instance at %s>" % (self.this,)
-
-class gsl_fft_complex_workspacePtr(gsl_fft_complex_workspace):
-    def __init__(self,this):
-        _swig_setattr(self, gsl_fft_complex_workspace, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_complex_workspace, 'thisown', 0)
-        _swig_setattr(self, gsl_fft_complex_workspace,self.__class__,gsl_fft_complex_workspace)
-_gslwrap.gsl_fft_complex_workspace_swigregister(gsl_fft_complex_workspacePtr)
-
-gsl_fft_complex_wavetable_alloc = _gslwrap.gsl_fft_complex_wavetable_alloc
-
-gsl_fft_complex_wavetable_free = _gslwrap.gsl_fft_complex_wavetable_free
-
-gsl_fft_complex_workspace_alloc = _gslwrap.gsl_fft_complex_workspace_alloc
-
-gsl_fft_complex_workspace_free = _gslwrap.gsl_fft_complex_workspace_free
-
-gsl_fft_complex_memcpy = _gslwrap.gsl_fft_complex_memcpy
-
-gsl_fft_complex_forward = _gslwrap.gsl_fft_complex_forward
-
-gsl_fft_complex_backward = _gslwrap.gsl_fft_complex_backward
-
-gsl_fft_complex_inverse = _gslwrap.gsl_fft_complex_inverse
-
-gsl_fft_complex_transform = _gslwrap.gsl_fft_complex_transform
-
-gsl_fft_real_radix2_transform = _gslwrap.gsl_fft_real_radix2_transform
-
-class gsl_fft_real_wavetable(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_real_wavetable, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_real_wavetable, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_fft_real_wavetable, 'this', apply(_gslwrap.new_gsl_fft_real_wavetable,args, kwargs))
-        _swig_setattr(self, gsl_fft_real_wavetable, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_fft_real_wavetable):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["n"] = _gslwrap.gsl_fft_real_wavetable_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_real_wavetable_n_get)
-    __swig_getmethods__["nf"] = _gslwrap.gsl_fft_real_wavetable_nf_get
-    if _newclass:nf = property(_gslwrap.gsl_fft_real_wavetable_nf_get)
-    __swig_getmethods__["factor"] = _gslwrap.gsl_fft_real_wavetable_factor_get
-    if _newclass:factor = property(_gslwrap.gsl_fft_real_wavetable_factor_get)
-    __swig_getmethods__["twiddle"] = _gslwrap.gsl_fft_real_wavetable_twiddle_get
-    if _newclass:twiddle = property(_gslwrap.gsl_fft_real_wavetable_twiddle_get)
-    __swig_getmethods__["trig"] = _gslwrap.gsl_fft_real_wavetable_trig_get
-    if _newclass:trig = property(_gslwrap.gsl_fft_real_wavetable_trig_get)
-    def __repr__(self):
-        return "<C gsl_fft_real_wavetable instance at %s>" % (self.this,)
-
-class gsl_fft_real_wavetablePtr(gsl_fft_real_wavetable):
-    def __init__(self,this):
-        _swig_setattr(self, gsl_fft_real_wavetable, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_real_wavetable, 'thisown', 0)
-        _swig_setattr(self, gsl_fft_real_wavetable,self.__class__,gsl_fft_real_wavetable)
-_gslwrap.gsl_fft_real_wavetable_swigregister(gsl_fft_real_wavetablePtr)
-
-class gsl_fft_real_workspace(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_real_workspace, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_real_workspace, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_fft_real_workspace, 'this', apply(_gslwrap.new_gsl_fft_real_workspace,args, kwargs))
-        _swig_setattr(self, gsl_fft_real_workspace, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_fft_real_workspace):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["n"] = _gslwrap.gsl_fft_real_workspace_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_real_workspace_n_get)
-    __swig_getmethods__["scratch"] = _gslwrap.gsl_fft_real_workspace_scratch_get
-    if _newclass:scratch = property(_gslwrap.gsl_fft_real_workspace_scratch_get)
-    def __repr__(self):
-        return "<C gsl_fft_real_workspace instance at %s>" % (self.this,)
-
-class gsl_fft_real_workspacePtr(gsl_fft_real_workspace):
-    def __init__(self,this):
-        _swig_setattr(self, gsl_fft_real_workspace, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_real_workspace, 'thisown', 0)
-        _swig_setattr(self, gsl_fft_real_workspace,self.__class__,gsl_fft_real_workspace)
-_gslwrap.gsl_fft_real_workspace_swigregister(gsl_fft_real_workspacePtr)
-
-gsl_fft_real_wavetable_alloc = _gslwrap.gsl_fft_real_wavetable_alloc
-
-gsl_fft_real_wavetable_free = _gslwrap.gsl_fft_real_wavetable_free
-
-gsl_fft_real_workspace_alloc = _gslwrap.gsl_fft_real_workspace_alloc
-
-gsl_fft_real_workspace_free = _gslwrap.gsl_fft_real_workspace_free
-
-gsl_fft_real_transform = _gslwrap.gsl_fft_real_transform
-
-gsl_fft_real_unpack = _gslwrap.gsl_fft_real_unpack
-
+def gsl_fcmp(*args, **kwargs):
+    """gsl_fcmp(double x1, double x2, double epsilon) -> int"""
+    return _gslwrap.gsl_fcmp(*args, **kwargs)
 CblasRowMajor = _gslwrap.CblasRowMajor
 CblasColMajor = _gslwrap.CblasColMajor
 CblasNoTrans = _gslwrap.CblasNoTrans
@@ -533,264 +453,713 @@ CblasNonUnit = _gslwrap.CblasNonUnit
 CblasUnit = _gslwrap.CblasUnit
 CblasLeft = _gslwrap.CblasLeft
 CblasRight = _gslwrap.CblasRight
-gsl_blas_sdsdot = _gslwrap.gsl_blas_sdsdot
 
-gsl_blas_dsdot = _gslwrap.gsl_blas_dsdot
-
-gsl_blas_sdot = _gslwrap.gsl_blas_sdot
-
-gsl_blas_ddot = _gslwrap.gsl_blas_ddot
-
-gsl_blas_cdotu = _gslwrap.gsl_blas_cdotu
-
-gsl_blas_cdotc = _gslwrap.gsl_blas_cdotc
-
-gsl_blas_zdotu = _gslwrap.gsl_blas_zdotu
-
-gsl_blas_zdotc = _gslwrap.gsl_blas_zdotc
-
-gsl_blas_snrm2 = _gslwrap.gsl_blas_snrm2
-
-gsl_blas_sasum = _gslwrap.gsl_blas_sasum
-
-gsl_blas_dnrm2 = _gslwrap.gsl_blas_dnrm2
-
-gsl_blas_dasum = _gslwrap.gsl_blas_dasum
-
-gsl_blas_scnrm2 = _gslwrap.gsl_blas_scnrm2
-
-gsl_blas_scasum = _gslwrap.gsl_blas_scasum
-
-gsl_blas_dznrm2 = _gslwrap.gsl_blas_dznrm2
-
-gsl_blas_dzasum = _gslwrap.gsl_blas_dzasum
-
-gsl_blas_isamax = _gslwrap.gsl_blas_isamax
-
-gsl_blas_idamax = _gslwrap.gsl_blas_idamax
-
-gsl_blas_icamax = _gslwrap.gsl_blas_icamax
-
-gsl_blas_izamax = _gslwrap.gsl_blas_izamax
-
-gsl_blas_sswap = _gslwrap.gsl_blas_sswap
-
-gsl_blas_scopy = _gslwrap.gsl_blas_scopy
-
-gsl_blas_saxpy = _gslwrap.gsl_blas_saxpy
-
-gsl_blas_dswap = _gslwrap.gsl_blas_dswap
-
-gsl_blas_dcopy = _gslwrap.gsl_blas_dcopy
-
-gsl_blas_daxpy = _gslwrap.gsl_blas_daxpy
-
-gsl_blas_cswap = _gslwrap.gsl_blas_cswap
-
-gsl_blas_ccopy = _gslwrap.gsl_blas_ccopy
-
-gsl_blas_caxpy = _gslwrap.gsl_blas_caxpy
-
-gsl_blas_zswap = _gslwrap.gsl_blas_zswap
-
-gsl_blas_zcopy = _gslwrap.gsl_blas_zcopy
-
-gsl_blas_zaxpy = _gslwrap.gsl_blas_zaxpy
-
-gsl_blas_srotg = _gslwrap.gsl_blas_srotg
-
-gsl_blas_srotmg = _gslwrap.gsl_blas_srotmg
-
-gsl_blas_srot = _gslwrap.gsl_blas_srot
-
-gsl_blas_srotm = _gslwrap.gsl_blas_srotm
-
-gsl_blas_drotg = _gslwrap.gsl_blas_drotg
-
-gsl_blas_drotmg = _gslwrap.gsl_blas_drotmg
-
-gsl_blas_drot = _gslwrap.gsl_blas_drot
-
-gsl_blas_drotm = _gslwrap.gsl_blas_drotm
-
-gsl_blas_sscal = _gslwrap.gsl_blas_sscal
-
-gsl_blas_dscal = _gslwrap.gsl_blas_dscal
-
-gsl_blas_cscal = _gslwrap.gsl_blas_cscal
-
-gsl_blas_zscal = _gslwrap.gsl_blas_zscal
-
-gsl_blas_csscal = _gslwrap.gsl_blas_csscal
-
-gsl_blas_zdscal = _gslwrap.gsl_blas_zdscal
-
-gsl_blas_sgemv = _gslwrap.gsl_blas_sgemv
-
-gsl_blas_strmv = _gslwrap.gsl_blas_strmv
-
-gsl_blas_strsv = _gslwrap.gsl_blas_strsv
-
-gsl_blas_dgemv = _gslwrap.gsl_blas_dgemv
-
-gsl_blas_dtrmv = _gslwrap.gsl_blas_dtrmv
-
-gsl_blas_dtrsv = _gslwrap.gsl_blas_dtrsv
-
-gsl_blas_cgemv = _gslwrap.gsl_blas_cgemv
-
-gsl_blas_ctrmv = _gslwrap.gsl_blas_ctrmv
-
-gsl_blas_ctrsv = _gslwrap.gsl_blas_ctrsv
-
-gsl_blas_zgemv = _gslwrap.gsl_blas_zgemv
-
-gsl_blas_ztrmv = _gslwrap.gsl_blas_ztrmv
-
-gsl_blas_ztrsv = _gslwrap.gsl_blas_ztrsv
-
-gsl_blas_ssymv = _gslwrap.gsl_blas_ssymv
-
-gsl_blas_sger = _gslwrap.gsl_blas_sger
-
-gsl_blas_ssyr = _gslwrap.gsl_blas_ssyr
-
-gsl_blas_ssyr2 = _gslwrap.gsl_blas_ssyr2
-
-gsl_blas_dsymv = _gslwrap.gsl_blas_dsymv
-
-gsl_blas_dger = _gslwrap.gsl_blas_dger
-
-gsl_blas_dsyr = _gslwrap.gsl_blas_dsyr
-
-gsl_blas_dsyr2 = _gslwrap.gsl_blas_dsyr2
-
-gsl_blas_chemv = _gslwrap.gsl_blas_chemv
-
-gsl_blas_cgeru = _gslwrap.gsl_blas_cgeru
-
-gsl_blas_cgerc = _gslwrap.gsl_blas_cgerc
-
-gsl_blas_cher = _gslwrap.gsl_blas_cher
-
-gsl_blas_cher2 = _gslwrap.gsl_blas_cher2
-
-gsl_blas_zhemv = _gslwrap.gsl_blas_zhemv
-
-gsl_blas_zgeru = _gslwrap.gsl_blas_zgeru
-
-gsl_blas_zgerc = _gslwrap.gsl_blas_zgerc
-
-gsl_blas_zher = _gslwrap.gsl_blas_zher
-
-gsl_blas_zher2 = _gslwrap.gsl_blas_zher2
-
-gsl_blas_sgemm = _gslwrap.gsl_blas_sgemm
-
-gsl_blas_ssymm = _gslwrap.gsl_blas_ssymm
-
-gsl_blas_ssyrk = _gslwrap.gsl_blas_ssyrk
-
-gsl_blas_ssyr2k = _gslwrap.gsl_blas_ssyr2k
-
-gsl_blas_strmm = _gslwrap.gsl_blas_strmm
-
-gsl_blas_strsm = _gslwrap.gsl_blas_strsm
-
-gsl_blas_dgemm = _gslwrap.gsl_blas_dgemm
-
-gsl_blas_dsymm = _gslwrap.gsl_blas_dsymm
-
-gsl_blas_dsyrk = _gslwrap.gsl_blas_dsyrk
-
-gsl_blas_dsyr2k = _gslwrap.gsl_blas_dsyr2k
-
-gsl_blas_dtrmm = _gslwrap.gsl_blas_dtrmm
-
-gsl_blas_dtrsm = _gslwrap.gsl_blas_dtrsm
-
-gsl_blas_cgemm = _gslwrap.gsl_blas_cgemm
-
-gsl_blas_csymm = _gslwrap.gsl_blas_csymm
-
-gsl_blas_csyrk = _gslwrap.gsl_blas_csyrk
-
-gsl_blas_csyr2k = _gslwrap.gsl_blas_csyr2k
-
-gsl_blas_ctrmm = _gslwrap.gsl_blas_ctrmm
-
-gsl_blas_ctrsm = _gslwrap.gsl_blas_ctrsm
-
-gsl_blas_zgemm = _gslwrap.gsl_blas_zgemm
-
-gsl_blas_zsymm = _gslwrap.gsl_blas_zsymm
-
-gsl_blas_zsyrk = _gslwrap.gsl_blas_zsyrk
-
-gsl_blas_zsyr2k = _gslwrap.gsl_blas_zsyr2k
-
-gsl_blas_ztrmm = _gslwrap.gsl_blas_ztrmm
-
-gsl_blas_ztrsm = _gslwrap.gsl_blas_ztrsm
-
-gsl_blas_chemm = _gslwrap.gsl_blas_chemm
-
-gsl_blas_cherk = _gslwrap.gsl_blas_cherk
-
-gsl_blas_cher2k = _gslwrap.gsl_blas_cher2k
-
-gsl_blas_zhemm = _gslwrap.gsl_blas_zhemm
-
-gsl_blas_zherk = _gslwrap.gsl_blas_zherk
-
-gsl_blas_zher2k = _gslwrap.gsl_blas_zher2k
-
+def gsl_blas_sdsdot(*args, **kwargs):
+    """
+    gsl_blas_sdsdot(float alpha, gsl_vector_float X, gsl_vector_float Y, 
+        float result) -> int
+    """
+    return _gslwrap.gsl_blas_sdsdot(*args, **kwargs)
+
+def gsl_blas_dsdot(*args, **kwargs):
+    """gsl_blas_dsdot(gsl_vector_float X, gsl_vector_float Y, double result) -> int"""
+    return _gslwrap.gsl_blas_dsdot(*args, **kwargs)
+
+def gsl_blas_sdot(*args, **kwargs):
+    """gsl_blas_sdot(gsl_vector_float X, gsl_vector_float Y, float result) -> int"""
+    return _gslwrap.gsl_blas_sdot(*args, **kwargs)
+
+def gsl_blas_ddot(*args, **kwargs):
+    """gsl_blas_ddot(gsl_vector X, gsl_vector Y, double result) -> int"""
+    return _gslwrap.gsl_blas_ddot(*args, **kwargs)
+
+def gsl_blas_cdotu(*args, **kwargs):
+    """
+    gsl_blas_cdotu(gsl_vector_complex_float X, gsl_vector_complex_float Y, 
+        gsl_complex_float dotu) -> int
+    """
+    return _gslwrap.gsl_blas_cdotu(*args, **kwargs)
+
+def gsl_blas_cdotc(*args, **kwargs):
+    """
+    gsl_blas_cdotc(gsl_vector_complex_float X, gsl_vector_complex_float Y, 
+        gsl_complex_float dotc) -> int
+    """
+    return _gslwrap.gsl_blas_cdotc(*args, **kwargs)
+
+def gsl_blas_zdotu(*args, **kwargs):
+    """gsl_blas_zdotu(gsl_vector_complex X, gsl_vector_complex Y, gsl_complex dotu) -> int"""
+    return _gslwrap.gsl_blas_zdotu(*args, **kwargs)
+
+def gsl_blas_zdotc(*args, **kwargs):
+    """gsl_blas_zdotc(gsl_vector_complex X, gsl_vector_complex Y, gsl_complex dotc) -> int"""
+    return _gslwrap.gsl_blas_zdotc(*args, **kwargs)
+
+def gsl_blas_snrm2(*args, **kwargs):
+    """gsl_blas_snrm2(gsl_vector_float X) -> float"""
+    return _gslwrap.gsl_blas_snrm2(*args, **kwargs)
+
+def gsl_blas_sasum(*args, **kwargs):
+    """gsl_blas_sasum(gsl_vector_float X) -> float"""
+    return _gslwrap.gsl_blas_sasum(*args, **kwargs)
+
+def gsl_blas_dnrm2(*args, **kwargs):
+    """gsl_blas_dnrm2(gsl_vector X) -> double"""
+    return _gslwrap.gsl_blas_dnrm2(*args, **kwargs)
+
+def gsl_blas_dasum(*args, **kwargs):
+    """gsl_blas_dasum(gsl_vector X) -> double"""
+    return _gslwrap.gsl_blas_dasum(*args, **kwargs)
+
+def gsl_blas_scnrm2(*args, **kwargs):
+    """gsl_blas_scnrm2(gsl_vector_complex_float X) -> float"""
+    return _gslwrap.gsl_blas_scnrm2(*args, **kwargs)
+
+def gsl_blas_scasum(*args, **kwargs):
+    """gsl_blas_scasum(gsl_vector_complex_float X) -> float"""
+    return _gslwrap.gsl_blas_scasum(*args, **kwargs)
+
+def gsl_blas_dznrm2(*args, **kwargs):
+    """gsl_blas_dznrm2(gsl_vector_complex X) -> double"""
+    return _gslwrap.gsl_blas_dznrm2(*args, **kwargs)
+
+def gsl_blas_dzasum(*args, **kwargs):
+    """gsl_blas_dzasum(gsl_vector_complex X) -> double"""
+    return _gslwrap.gsl_blas_dzasum(*args, **kwargs)
+
+def gsl_blas_isamax(*args, **kwargs):
+    """gsl_blas_isamax(gsl_vector_float X) -> CBLAS_INDEX_t"""
+    return _gslwrap.gsl_blas_isamax(*args, **kwargs)
+
+def gsl_blas_idamax(*args, **kwargs):
+    """gsl_blas_idamax(gsl_vector X) -> CBLAS_INDEX_t"""
+    return _gslwrap.gsl_blas_idamax(*args, **kwargs)
+
+def gsl_blas_icamax(*args, **kwargs):
+    """gsl_blas_icamax(gsl_vector_complex_float X) -> CBLAS_INDEX_t"""
+    return _gslwrap.gsl_blas_icamax(*args, **kwargs)
+
+def gsl_blas_izamax(*args, **kwargs):
+    """gsl_blas_izamax(gsl_vector_complex X) -> CBLAS_INDEX_t"""
+    return _gslwrap.gsl_blas_izamax(*args, **kwargs)
+
+def gsl_blas_sswap(*args, **kwargs):
+    """gsl_blas_sswap(gsl_vector_float X, gsl_vector_float Y) -> int"""
+    return _gslwrap.gsl_blas_sswap(*args, **kwargs)
+
+def gsl_blas_scopy(*args, **kwargs):
+    """gsl_blas_scopy(gsl_vector_float X, gsl_vector_float Y) -> int"""
+    return _gslwrap.gsl_blas_scopy(*args, **kwargs)
+
+def gsl_blas_saxpy(*args, **kwargs):
+    """gsl_blas_saxpy(float alpha, gsl_vector_float X, gsl_vector_float Y) -> int"""
+    return _gslwrap.gsl_blas_saxpy(*args, **kwargs)
+
+def gsl_blas_dswap(*args, **kwargs):
+    """gsl_blas_dswap(gsl_vector X, gsl_vector Y) -> int"""
+    return _gslwrap.gsl_blas_dswap(*args, **kwargs)
+
+def gsl_blas_dcopy(*args, **kwargs):
+    """gsl_blas_dcopy(gsl_vector X, gsl_vector Y) -> int"""
+    return _gslwrap.gsl_blas_dcopy(*args, **kwargs)
+
+def gsl_blas_daxpy(*args, **kwargs):
+    """gsl_blas_daxpy(double alpha, gsl_vector X, gsl_vector Y) -> int"""
+    return _gslwrap.gsl_blas_daxpy(*args, **kwargs)
+
+def gsl_blas_cswap(*args, **kwargs):
+    """gsl_blas_cswap(gsl_vector_complex_float X, gsl_vector_complex_float Y) -> int"""
+    return _gslwrap.gsl_blas_cswap(*args, **kwargs)
+
+def gsl_blas_ccopy(*args, **kwargs):
+    """gsl_blas_ccopy(gsl_vector_complex_float X, gsl_vector_complex_float Y) -> int"""
+    return _gslwrap.gsl_blas_ccopy(*args, **kwargs)
+
+def gsl_blas_caxpy(*args, **kwargs):
+    """
+    gsl_blas_caxpy(gsl_complex_float alpha, gsl_vector_complex_float X, 
+        gsl_vector_complex_float Y) -> int
+    """
+    return _gslwrap.gsl_blas_caxpy(*args, **kwargs)
+
+def gsl_blas_zswap(*args, **kwargs):
+    """gsl_blas_zswap(gsl_vector_complex X, gsl_vector_complex Y) -> int"""
+    return _gslwrap.gsl_blas_zswap(*args, **kwargs)
+
+def gsl_blas_zcopy(*args, **kwargs):
+    """gsl_blas_zcopy(gsl_vector_complex X, gsl_vector_complex Y) -> int"""
+    return _gslwrap.gsl_blas_zcopy(*args, **kwargs)
+
+def gsl_blas_zaxpy(*args, **kwargs):
+    """gsl_blas_zaxpy(gsl_complex alpha, gsl_vector_complex X, gsl_vector_complex Y) -> int"""
+    return _gslwrap.gsl_blas_zaxpy(*args, **kwargs)
+
+def gsl_blas_srotg(*args, **kwargs):
+    """gsl_blas_srotg(float a, float b, float c, float s) -> int"""
+    return _gslwrap.gsl_blas_srotg(*args, **kwargs)
+
+def gsl_blas_srotmg(*args, **kwargs):
+    """gsl_blas_srotmg(float d1, float d2, float b1, float b2, float P) -> int"""
+    return _gslwrap.gsl_blas_srotmg(*args, **kwargs)
+
+def gsl_blas_srot(*args, **kwargs):
+    """gsl_blas_srot(gsl_vector_float X, gsl_vector_float Y, float c, float s) -> int"""
+    return _gslwrap.gsl_blas_srot(*args, **kwargs)
+
+def gsl_blas_srotm(*args, **kwargs):
+    """gsl_blas_srotm(gsl_vector_float X, gsl_vector_float Y, float P) -> int"""
+    return _gslwrap.gsl_blas_srotm(*args, **kwargs)
+
+def gsl_blas_drotg(*args, **kwargs):
+    """gsl_blas_drotg(double a, double b, double c, double s) -> int"""
+    return _gslwrap.gsl_blas_drotg(*args, **kwargs)
+
+def gsl_blas_drotmg(*args, **kwargs):
+    """gsl_blas_drotmg(double d1, double d2, double b1, double b2, double P) -> int"""
+    return _gslwrap.gsl_blas_drotmg(*args, **kwargs)
+
+def gsl_blas_drot(*args, **kwargs):
+    """gsl_blas_drot(gsl_vector X, gsl_vector Y, double c, double s) -> int"""
+    return _gslwrap.gsl_blas_drot(*args, **kwargs)
+
+def gsl_blas_drotm(*args, **kwargs):
+    """gsl_blas_drotm(gsl_vector X, gsl_vector Y, double P) -> int"""
+    return _gslwrap.gsl_blas_drotm(*args, **kwargs)
+
+def gsl_blas_sscal(*args, **kwargs):
+    """gsl_blas_sscal(float alpha, gsl_vector_float X)"""
+    return _gslwrap.gsl_blas_sscal(*args, **kwargs)
+
+def gsl_blas_dscal(*args, **kwargs):
+    """gsl_blas_dscal(double alpha, gsl_vector X)"""
+    return _gslwrap.gsl_blas_dscal(*args, **kwargs)
+
+def gsl_blas_cscal(*args, **kwargs):
+    """gsl_blas_cscal(gsl_complex_float alpha, gsl_vector_complex_float X)"""
+    return _gslwrap.gsl_blas_cscal(*args, **kwargs)
+
+def gsl_blas_zscal(*args, **kwargs):
+    """gsl_blas_zscal(gsl_complex alpha, gsl_vector_complex X)"""
+    return _gslwrap.gsl_blas_zscal(*args, **kwargs)
+
+def gsl_blas_csscal(*args, **kwargs):
+    """gsl_blas_csscal(float alpha, gsl_vector_complex_float X)"""
+    return _gslwrap.gsl_blas_csscal(*args, **kwargs)
+
+def gsl_blas_zdscal(*args, **kwargs):
+    """gsl_blas_zdscal(double alpha, gsl_vector_complex X)"""
+    return _gslwrap.gsl_blas_zdscal(*args, **kwargs)
+
+def gsl_blas_sgemv(*args, **kwargs):
+    """
+    gsl_blas_sgemv(CBLAS_TRANSPOSE_t TransA, float alpha, gsl_matrix_float A, 
+        gsl_vector_float X, float beta, gsl_vector_float Y) -> int
+    """
+    return _gslwrap.gsl_blas_sgemv(*args, **kwargs)
+
+def gsl_blas_strmv(*args, **kwargs):
+    """
+    gsl_blas_strmv(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, CBLAS_DIAG_t Diag, 
+        gsl_matrix_float A, gsl_vector_float X) -> int
+    """
+    return _gslwrap.gsl_blas_strmv(*args, **kwargs)
+
+def gsl_blas_strsv(*args, **kwargs):
+    """
+    gsl_blas_strsv(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, CBLAS_DIAG_t Diag, 
+        gsl_matrix_float A, gsl_vector_float X) -> int
+    """
+    return _gslwrap.gsl_blas_strsv(*args, **kwargs)
+
+def gsl_blas_dgemv(*args, **kwargs):
+    """
+    gsl_blas_dgemv(CBLAS_TRANSPOSE_t TransA, double alpha, gsl_matrix A, 
+        gsl_vector X, double beta, gsl_vector Y) -> int
+    """
+    return _gslwrap.gsl_blas_dgemv(*args, **kwargs)
+
+def gsl_blas_dtrmv(*args, **kwargs):
+    """
+    gsl_blas_dtrmv(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, CBLAS_DIAG_t Diag, 
+        gsl_matrix A, gsl_vector X) -> int
+    """
+    return _gslwrap.gsl_blas_dtrmv(*args, **kwargs)
+
+def gsl_blas_dtrsv(*args, **kwargs):
+    """
+    gsl_blas_dtrsv(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, CBLAS_DIAG_t Diag, 
+        gsl_matrix A, gsl_vector X) -> int
+    """
+    return _gslwrap.gsl_blas_dtrsv(*args, **kwargs)
+
+def gsl_blas_cgemv(*args, **kwargs):
+    """
+    gsl_blas_cgemv(CBLAS_TRANSPOSE_t TransA, gsl_complex_float alpha, 
+        gsl_matrix_complex_float A, gsl_vector_complex_float X, 
+        gsl_complex_float beta, gsl_vector_complex_float Y) -> int
+    """
+    return _gslwrap.gsl_blas_cgemv(*args, **kwargs)
+
+def gsl_blas_ctrmv(*args, **kwargs):
+    """
+    gsl_blas_ctrmv(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, CBLAS_DIAG_t Diag, 
+        gsl_matrix_complex_float A, gsl_vector_complex_float X) -> int
+    """
+    return _gslwrap.gsl_blas_ctrmv(*args, **kwargs)
+
+def gsl_blas_ctrsv(*args, **kwargs):
+    """
+    gsl_blas_ctrsv(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, CBLAS_DIAG_t Diag, 
+        gsl_matrix_complex_float A, gsl_vector_complex_float X) -> int
+    """
+    return _gslwrap.gsl_blas_ctrsv(*args, **kwargs)
+
+def gsl_blas_zgemv(*args, **kwargs):
+    """
+    gsl_blas_zgemv(CBLAS_TRANSPOSE_t TransA, gsl_complex alpha, gsl_matrix_complex A, 
+        gsl_vector_complex X, gsl_complex beta, 
+        gsl_vector_complex Y) -> int
+    """
+    return _gslwrap.gsl_blas_zgemv(*args, **kwargs)
+
+def gsl_blas_ztrmv(*args, **kwargs):
+    """
+    gsl_blas_ztrmv(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, CBLAS_DIAG_t Diag, 
+        gsl_matrix_complex A, gsl_vector_complex X) -> int
+    """
+    return _gslwrap.gsl_blas_ztrmv(*args, **kwargs)
+
+def gsl_blas_ztrsv(*args, **kwargs):
+    """
+    gsl_blas_ztrsv(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, CBLAS_DIAG_t Diag, 
+        gsl_matrix_complex A, gsl_vector_complex X) -> int
+    """
+    return _gslwrap.gsl_blas_ztrsv(*args, **kwargs)
+
+def gsl_blas_ssymv(*args, **kwargs):
+    """
+    gsl_blas_ssymv(CBLAS_UPLO_t Uplo, float alpha, gsl_matrix_float A, 
+        gsl_vector_float X, float beta, gsl_vector_float Y) -> int
+    """
+    return _gslwrap.gsl_blas_ssymv(*args, **kwargs)
+
+def gsl_blas_sger(*args, **kwargs):
+    """
+    gsl_blas_sger(float alpha, gsl_vector_float X, gsl_vector_float Y, 
+        gsl_matrix_float A) -> int
+    """
+    return _gslwrap.gsl_blas_sger(*args, **kwargs)
+
+def gsl_blas_ssyr(*args, **kwargs):
+    """
+    gsl_blas_ssyr(CBLAS_UPLO_t Uplo, float alpha, gsl_vector_float X, 
+        gsl_matrix_float A) -> int
+    """
+    return _gslwrap.gsl_blas_ssyr(*args, **kwargs)
+
+def gsl_blas_ssyr2(*args, **kwargs):
+    """
+    gsl_blas_ssyr2(CBLAS_UPLO_t Uplo, float alpha, gsl_vector_float X, 
+        gsl_vector_float Y, gsl_matrix_float A) -> int
+    """
+    return _gslwrap.gsl_blas_ssyr2(*args, **kwargs)
+
+def gsl_blas_dsymv(*args, **kwargs):
+    """
+    gsl_blas_dsymv(CBLAS_UPLO_t Uplo, double alpha, gsl_matrix A, gsl_vector X, 
+        double beta, gsl_vector Y) -> int
+    """
+    return _gslwrap.gsl_blas_dsymv(*args, **kwargs)
+
+def gsl_blas_dger(*args, **kwargs):
+    """gsl_blas_dger(double alpha, gsl_vector X, gsl_vector Y, gsl_matrix A) -> int"""
+    return _gslwrap.gsl_blas_dger(*args, **kwargs)
+
+def gsl_blas_dsyr(*args, **kwargs):
+    """gsl_blas_dsyr(CBLAS_UPLO_t Uplo, double alpha, gsl_vector X, gsl_matrix A) -> int"""
+    return _gslwrap.gsl_blas_dsyr(*args, **kwargs)
+
+def gsl_blas_dsyr2(*args, **kwargs):
+    """
+    gsl_blas_dsyr2(CBLAS_UPLO_t Uplo, double alpha, gsl_vector X, gsl_vector Y, 
+        gsl_matrix A) -> int
+    """
+    return _gslwrap.gsl_blas_dsyr2(*args, **kwargs)
+
+def gsl_blas_chemv(*args, **kwargs):
+    """
+    gsl_blas_chemv(CBLAS_UPLO_t Uplo, gsl_complex_float alpha, gsl_matrix_complex_float A, 
+        gsl_vector_complex_float X, 
+        gsl_complex_float beta, gsl_vector_complex_float Y) -> int
+    """
+    return _gslwrap.gsl_blas_chemv(*args, **kwargs)
+
+def gsl_blas_cgeru(*args, **kwargs):
+    """
+    gsl_blas_cgeru(gsl_complex_float alpha, gsl_vector_complex_float X, 
+        gsl_vector_complex_float Y, gsl_matrix_complex_float A) -> int
+    """
+    return _gslwrap.gsl_blas_cgeru(*args, **kwargs)
+
+def gsl_blas_cgerc(*args, **kwargs):
+    """
+    gsl_blas_cgerc(gsl_complex_float alpha, gsl_vector_complex_float X, 
+        gsl_vector_complex_float Y, gsl_matrix_complex_float A) -> int
+    """
+    return _gslwrap.gsl_blas_cgerc(*args, **kwargs)
+
+def gsl_blas_cher(*args, **kwargs):
+    """
+    gsl_blas_cher(CBLAS_UPLO_t Uplo, float alpha, gsl_vector_complex_float X, 
+        gsl_matrix_complex_float A) -> int
+    """
+    return _gslwrap.gsl_blas_cher(*args, **kwargs)
+
+def gsl_blas_cher2(*args, **kwargs):
+    """
+    gsl_blas_cher2(CBLAS_UPLO_t Uplo, gsl_complex_float alpha, gsl_vector_complex_float X, 
+        gsl_vector_complex_float Y, 
+        gsl_matrix_complex_float A) -> int
+    """
+    return _gslwrap.gsl_blas_cher2(*args, **kwargs)
+
+def gsl_blas_zhemv(*args, **kwargs):
+    """
+    gsl_blas_zhemv(CBLAS_UPLO_t Uplo, gsl_complex alpha, gsl_matrix_complex A, 
+        gsl_vector_complex X, gsl_complex beta, 
+        gsl_vector_complex Y) -> int
+    """
+    return _gslwrap.gsl_blas_zhemv(*args, **kwargs)
+
+def gsl_blas_zgeru(*args, **kwargs):
+    """
+    gsl_blas_zgeru(gsl_complex alpha, gsl_vector_complex X, gsl_vector_complex Y, 
+        gsl_matrix_complex A) -> int
+    """
+    return _gslwrap.gsl_blas_zgeru(*args, **kwargs)
+
+def gsl_blas_zgerc(*args, **kwargs):
+    """
+    gsl_blas_zgerc(gsl_complex alpha, gsl_vector_complex X, gsl_vector_complex Y, 
+        gsl_matrix_complex A) -> int
+    """
+    return _gslwrap.gsl_blas_zgerc(*args, **kwargs)
+
+def gsl_blas_zher(*args, **kwargs):
+    """
+    gsl_blas_zher(CBLAS_UPLO_t Uplo, double alpha, gsl_vector_complex X, 
+        gsl_matrix_complex A) -> int
+    """
+    return _gslwrap.gsl_blas_zher(*args, **kwargs)
+
+def gsl_blas_zher2(*args, **kwargs):
+    """
+    gsl_blas_zher2(CBLAS_UPLO_t Uplo, gsl_complex alpha, gsl_vector_complex X, 
+        gsl_vector_complex Y, gsl_matrix_complex A) -> int
+    """
+    return _gslwrap.gsl_blas_zher2(*args, **kwargs)
+
+def gsl_blas_sgemm(*args, **kwargs):
+    """
+    gsl_blas_sgemm(CBLAS_TRANSPOSE_t TransA, CBLAS_TRANSPOSE_t TransB, 
+        float alpha, gsl_matrix_float A, gsl_matrix_float B, 
+        float beta, gsl_matrix_float C) -> int
+    """
+    return _gslwrap.gsl_blas_sgemm(*args, **kwargs)
+
+def gsl_blas_ssymm(*args, **kwargs):
+    """
+    gsl_blas_ssymm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, float alpha, 
+        gsl_matrix_float A, gsl_matrix_float B, float beta, 
+        gsl_matrix_float C) -> int
+    """
+    return _gslwrap.gsl_blas_ssymm(*args, **kwargs)
+
+def gsl_blas_ssyrk(*args, **kwargs):
+    """
+    gsl_blas_ssyrk(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, float alpha, 
+        gsl_matrix_float A, float beta, gsl_matrix_float C) -> int
+    """
+    return _gslwrap.gsl_blas_ssyrk(*args, **kwargs)
+
+def gsl_blas_ssyr2k(*args, **kwargs):
+    """
+    gsl_blas_ssyr2k(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, float alpha, 
+        gsl_matrix_float A, gsl_matrix_float B, 
+        float beta, gsl_matrix_float C) -> int
+    """
+    return _gslwrap.gsl_blas_ssyr2k(*args, **kwargs)
+
+def gsl_blas_strmm(*args, **kwargs):
+    """
+    gsl_blas_strmm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, 
+        CBLAS_DIAG_t Diag, float alpha, 
+        gsl_matrix_float A, gsl_matrix_float B) -> int
+    """
+    return _gslwrap.gsl_blas_strmm(*args, **kwargs)
+
+def gsl_blas_strsm(*args, **kwargs):
+    """
+    gsl_blas_strsm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, 
+        CBLAS_DIAG_t Diag, float alpha, 
+        gsl_matrix_float A, gsl_matrix_float B) -> int
+    """
+    return _gslwrap.gsl_blas_strsm(*args, **kwargs)
+
+def gsl_blas_dgemm(*args, **kwargs):
+    """
+    gsl_blas_dgemm(CBLAS_TRANSPOSE_t TransA, CBLAS_TRANSPOSE_t TransB, 
+        double alpha, gsl_matrix A, gsl_matrix B, double beta, 
+        gsl_matrix C) -> int
+    """
+    return _gslwrap.gsl_blas_dgemm(*args, **kwargs)
+
+def gsl_blas_dsymm(*args, **kwargs):
+    """
+    gsl_blas_dsymm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, double alpha, 
+        gsl_matrix A, gsl_matrix B, double beta, gsl_matrix C) -> int
+    """
+    return _gslwrap.gsl_blas_dsymm(*args, **kwargs)
+
+def gsl_blas_dsyrk(*args, **kwargs):
+    """
+    gsl_blas_dsyrk(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, double alpha, 
+        gsl_matrix A, double beta, gsl_matrix C) -> int
+    """
+    return _gslwrap.gsl_blas_dsyrk(*args, **kwargs)
+
+def gsl_blas_dsyr2k(*args, **kwargs):
+    """
+    gsl_blas_dsyr2k(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, double alpha, 
+        gsl_matrix A, gsl_matrix B, double beta, 
+        gsl_matrix C) -> int
+    """
+    return _gslwrap.gsl_blas_dsyr2k(*args, **kwargs)
+
+def gsl_blas_dtrmm(*args, **kwargs):
+    """
+    gsl_blas_dtrmm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, 
+        CBLAS_DIAG_t Diag, double alpha, 
+        gsl_matrix A, gsl_matrix B) -> int
+    """
+    return _gslwrap.gsl_blas_dtrmm(*args, **kwargs)
+
+def gsl_blas_dtrsm(*args, **kwargs):
+    """
+    gsl_blas_dtrsm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, 
+        CBLAS_DIAG_t Diag, double alpha, 
+        gsl_matrix A, gsl_matrix B) -> int
+    """
+    return _gslwrap.gsl_blas_dtrsm(*args, **kwargs)
+
+def gsl_blas_cgemm(*args, **kwargs):
+    """
+    gsl_blas_cgemm(CBLAS_TRANSPOSE_t TransA, CBLAS_TRANSPOSE_t TransB, 
+        gsl_complex_float alpha, gsl_matrix_complex_float A, 
+        gsl_matrix_complex_float B, gsl_complex_float beta, 
+        gsl_matrix_complex_float C) -> int
+    """
+    return _gslwrap.gsl_blas_cgemm(*args, **kwargs)
+
+def gsl_blas_csymm(*args, **kwargs):
+    """
+    gsl_blas_csymm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, gsl_complex_float alpha, 
+        gsl_matrix_complex_float A, gsl_matrix_complex_float B, 
+        gsl_complex_float beta, 
+        gsl_matrix_complex_float C) -> int
+    """
+    return _gslwrap.gsl_blas_csymm(*args, **kwargs)
+
+def gsl_blas_csyrk(*args, **kwargs):
+    """
+    gsl_blas_csyrk(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, gsl_complex_float alpha, 
+        gsl_matrix_complex_float A, 
+        gsl_complex_float beta, gsl_matrix_complex_float C) -> int
+    """
+    return _gslwrap.gsl_blas_csyrk(*args, **kwargs)
+
+def gsl_blas_csyr2k(*args, **kwargs):
+    """
+    gsl_blas_csyr2k(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, gsl_complex_float alpha, 
+        gsl_matrix_complex_float A, 
+        gsl_matrix_complex_float B, gsl_complex_float beta, 
+        gsl_matrix_complex_float C) -> int
+    """
+    return _gslwrap.gsl_blas_csyr2k(*args, **kwargs)
+
+def gsl_blas_ctrmm(*args, **kwargs):
+    """
+    gsl_blas_ctrmm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, 
+        CBLAS_DIAG_t Diag, gsl_complex_float alpha, 
+        gsl_matrix_complex_float A, gsl_matrix_complex_float B) -> int
+    """
+    return _gslwrap.gsl_blas_ctrmm(*args, **kwargs)
+
+def gsl_blas_ctrsm(*args, **kwargs):
+    """
+    gsl_blas_ctrsm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, 
+        CBLAS_DIAG_t Diag, gsl_complex_float alpha, 
+        gsl_matrix_complex_float A, gsl_matrix_complex_float B) -> int
+    """
+    return _gslwrap.gsl_blas_ctrsm(*args, **kwargs)
+
+def gsl_blas_zgemm(*args, **kwargs):
+    """
+    gsl_blas_zgemm(CBLAS_TRANSPOSE_t TransA, CBLAS_TRANSPOSE_t TransB, 
+        gsl_complex alpha, gsl_matrix_complex A, gsl_matrix_complex B, 
+        gsl_complex beta, gsl_matrix_complex C) -> int
+    """
+    return _gslwrap.gsl_blas_zgemm(*args, **kwargs)
+
+def gsl_blas_zsymm(*args, **kwargs):
+    """
+    gsl_blas_zsymm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, gsl_complex alpha, 
+        gsl_matrix_complex A, gsl_matrix_complex B, 
+        gsl_complex beta, gsl_matrix_complex C) -> int
+    """
+    return _gslwrap.gsl_blas_zsymm(*args, **kwargs)
+
+def gsl_blas_zsyrk(*args, **kwargs):
+    """
+    gsl_blas_zsyrk(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, gsl_complex alpha, 
+        gsl_matrix_complex A, gsl_complex beta, 
+        gsl_matrix_complex C) -> int
+    """
+    return _gslwrap.gsl_blas_zsyrk(*args, **kwargs)
+
+def gsl_blas_zsyr2k(*args, **kwargs):
+    """
+    gsl_blas_zsyr2k(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, gsl_complex alpha, 
+        gsl_matrix_complex A, gsl_matrix_complex B, 
+        gsl_complex beta, gsl_matrix_complex C) -> int
+    """
+    return _gslwrap.gsl_blas_zsyr2k(*args, **kwargs)
+
+def gsl_blas_ztrmm(*args, **kwargs):
+    """
+    gsl_blas_ztrmm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, 
+        CBLAS_DIAG_t Diag, gsl_complex alpha, 
+        gsl_matrix_complex A, gsl_matrix_complex B) -> int
+    """
+    return _gslwrap.gsl_blas_ztrmm(*args, **kwargs)
+
+def gsl_blas_ztrsm(*args, **kwargs):
+    """
+    gsl_blas_ztrsm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t TransA, 
+        CBLAS_DIAG_t Diag, gsl_complex alpha, 
+        gsl_matrix_complex A, gsl_matrix_complex B) -> int
+    """
+    return _gslwrap.gsl_blas_ztrsm(*args, **kwargs)
+
+def gsl_blas_chemm(*args, **kwargs):
+    """
+    gsl_blas_chemm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, gsl_complex_float alpha, 
+        gsl_matrix_complex_float A, gsl_matrix_complex_float B, 
+        gsl_complex_float beta, 
+        gsl_matrix_complex_float C) -> int
+    """
+    return _gslwrap.gsl_blas_chemm(*args, **kwargs)
+
+def gsl_blas_cherk(*args, **kwargs):
+    """
+    gsl_blas_cherk(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, float alpha, 
+        gsl_matrix_complex_float A, float beta, 
+        gsl_matrix_complex_float C) -> int
+    """
+    return _gslwrap.gsl_blas_cherk(*args, **kwargs)
+
+def gsl_blas_cher2k(*args, **kwargs):
+    """
+    gsl_blas_cher2k(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, gsl_complex_float alpha, 
+        gsl_matrix_complex_float A, 
+        gsl_matrix_complex_float B, float beta, gsl_matrix_complex_float C) -> int
+    """
+    return _gslwrap.gsl_blas_cher2k(*args, **kwargs)
+
+def gsl_blas_zhemm(*args, **kwargs):
+    """
+    gsl_blas_zhemm(CBLAS_SIDE_t Side, CBLAS_UPLO_t Uplo, gsl_complex alpha, 
+        gsl_matrix_complex A, gsl_matrix_complex B, 
+        gsl_complex beta, gsl_matrix_complex C) -> int
+    """
+    return _gslwrap.gsl_blas_zhemm(*args, **kwargs)
+
+def gsl_blas_zherk(*args, **kwargs):
+    """
+    gsl_blas_zherk(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, double alpha, 
+        gsl_matrix_complex A, double beta, gsl_matrix_complex C) -> int
+    """
+    return _gslwrap.gsl_blas_zherk(*args, **kwargs)
+
+def gsl_blas_zher2k(*args, **kwargs):
+    """
+    gsl_blas_zher2k(CBLAS_UPLO_t Uplo, CBLAS_TRANSPOSE_t Trans, gsl_complex alpha, 
+        gsl_matrix_complex A, gsl_matrix_complex B, 
+        double beta, gsl_matrix_complex C) -> int
+    """
+    return _gslwrap.gsl_blas_zher2k(*args, **kwargs)
 class gsl_eigen_symm_workspace(_object):
+    """Proxy of C gsl_eigen_symm_workspace struct"""
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_eigen_symm_workspace, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_eigen_symm_workspace, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_eigen_symm_workspace, 'this', apply(_gslwrap.new_gsl_eigen_symm_workspace,args, kwargs))
+    def __repr__(self):
+        return "<%s.%s; proxy of C gsl_eigen_symm_workspace instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def __init__(self, *args, **kwargs):
+        """__init__(self, size_t n) -> gsl_eigen_symm_workspace"""
+        _swig_setattr(self, gsl_eigen_symm_workspace, 'this', _gslwrap.new_gsl_eigen_symm_workspace(*args, **kwargs))
         _swig_setattr(self, gsl_eigen_symm_workspace, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_eigen_symm_workspace):
+    def __del__(self, destroy=_gslwrap.delete_gsl_eigen_symm_workspace):
+        """__del__(self)"""
         try:
             if self.thisown: destroy(self)
         except: pass
+
     __swig_getmethods__["size"] = _gslwrap.gsl_eigen_symm_workspace_size_get
     if _newclass:size = property(_gslwrap.gsl_eigen_symm_workspace_size_get)
     __swig_getmethods__["d"] = _gslwrap.gsl_eigen_symm_workspace_d_get
     if _newclass:d = property(_gslwrap.gsl_eigen_symm_workspace_d_get)
     __swig_getmethods__["sd"] = _gslwrap.gsl_eigen_symm_workspace_sd_get
     if _newclass:sd = property(_gslwrap.gsl_eigen_symm_workspace_sd_get)
-    def __repr__(self):
-        return "<C gsl_eigen_symm_workspace instance at %s>" % (self.this,)
 
 class gsl_eigen_symm_workspacePtr(gsl_eigen_symm_workspace):
-    def __init__(self,this):
+    def __init__(self, this):
         _swig_setattr(self, gsl_eigen_symm_workspace, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_symm_workspace, 'thisown', 0)
         _swig_setattr(self, gsl_eigen_symm_workspace,self.__class__,gsl_eigen_symm_workspace)
 _gslwrap.gsl_eigen_symm_workspace_swigregister(gsl_eigen_symm_workspacePtr)
 
-gsl_eigen_symm_alloc = _gslwrap.gsl_eigen_symm_alloc
 
-gsl_eigen_symm_free = _gslwrap.gsl_eigen_symm_free
+def gsl_eigen_symm_alloc(*args, **kwargs):
+    """gsl_eigen_symm_alloc(size_t n) -> gsl_eigen_symm_workspace"""
+    return _gslwrap.gsl_eigen_symm_alloc(*args, **kwargs)
 
-gsl_eigen_symm = _gslwrap.gsl_eigen_symm
+def gsl_eigen_symm_free(*args, **kwargs):
+    """gsl_eigen_symm_free(gsl_eigen_symm_workspace w)"""
+    return _gslwrap.gsl_eigen_symm_free(*args, **kwargs)
 
+def gsl_eigen_symm(*args, **kwargs):
+    """gsl_eigen_symm(gsl_matrix A, gsl_vector eval, gsl_eigen_symm_workspace w) -> int"""
+    return _gslwrap.gsl_eigen_symm(*args, **kwargs)
 class gsl_eigen_symmv_workspace(_object):
+    """Proxy of C gsl_eigen_symmv_workspace struct"""
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_eigen_symmv_workspace, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_eigen_symmv_workspace, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_eigen_symmv_workspace, 'this', apply(_gslwrap.new_gsl_eigen_symmv_workspace,args, kwargs))
+    def __repr__(self):
+        return "<%s.%s; proxy of C gsl_eigen_symmv_workspace instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def __init__(self, *args, **kwargs):
+        """__init__(self, size_t n) -> gsl_eigen_symmv_workspace"""
+        _swig_setattr(self, gsl_eigen_symmv_workspace, 'this', _gslwrap.new_gsl_eigen_symmv_workspace(*args, **kwargs))
         _swig_setattr(self, gsl_eigen_symmv_workspace, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_eigen_symmv_workspace):
+    def __del__(self, destroy=_gslwrap.delete_gsl_eigen_symmv_workspace):
+        """__del__(self)"""
         try:
             if self.thisown: destroy(self)
         except: pass
+
     __swig_getmethods__["size"] = _gslwrap.gsl_eigen_symmv_workspace_size_get
     if _newclass:size = property(_gslwrap.gsl_eigen_symmv_workspace_size_get)
     __swig_getmethods__["d"] = _gslwrap.gsl_eigen_symmv_workspace_d_get
@@ -801,34 +1170,44 @@ class gsl_eigen_symmv_workspace(_object):
     if _newclass:gc = property(_gslwrap.gsl_eigen_symmv_workspace_gc_get)
     __swig_getmethods__["gs"] = _gslwrap.gsl_eigen_symmv_workspace_gs_get
     if _newclass:gs = property(_gslwrap.gsl_eigen_symmv_workspace_gs_get)
-    def __repr__(self):
-        return "<C gsl_eigen_symmv_workspace instance at %s>" % (self.this,)
 
 class gsl_eigen_symmv_workspacePtr(gsl_eigen_symmv_workspace):
-    def __init__(self,this):
+    def __init__(self, this):
         _swig_setattr(self, gsl_eigen_symmv_workspace, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_symmv_workspace, 'thisown', 0)
         _swig_setattr(self, gsl_eigen_symmv_workspace,self.__class__,gsl_eigen_symmv_workspace)
 _gslwrap.gsl_eigen_symmv_workspace_swigregister(gsl_eigen_symmv_workspacePtr)
 
-gsl_eigen_symmv_alloc = _gslwrap.gsl_eigen_symmv_alloc
 
-gsl_eigen_symmv_free = _gslwrap.gsl_eigen_symmv_free
+def gsl_eigen_symmv_alloc(*args, **kwargs):
+    """gsl_eigen_symmv_alloc(size_t n) -> gsl_eigen_symmv_workspace"""
+    return _gslwrap.gsl_eigen_symmv_alloc(*args, **kwargs)
 
-gsl_eigen_symmv = _gslwrap.gsl_eigen_symmv
+def gsl_eigen_symmv_free(*args, **kwargs):
+    """gsl_eigen_symmv_free(gsl_eigen_symmv_workspace w)"""
+    return _gslwrap.gsl_eigen_symmv_free(*args, **kwargs)
 
+def gsl_eigen_symmv(*args, **kwargs):
+    """gsl_eigen_symmv(gsl_matrix A, gsl_vector eval, gsl_matrix evec, gsl_eigen_symmv_workspace w) -> int"""
+    return _gslwrap.gsl_eigen_symmv(*args, **kwargs)
 class gsl_eigen_herm_workspace(_object):
+    """Proxy of C gsl_eigen_herm_workspace struct"""
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_eigen_herm_workspace, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_eigen_herm_workspace, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_eigen_herm_workspace, 'this', apply(_gslwrap.new_gsl_eigen_herm_workspace,args, kwargs))
+    def __repr__(self):
+        return "<%s.%s; proxy of C gsl_eigen_herm_workspace instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def __init__(self, *args, **kwargs):
+        """__init__(self, size_t n) -> gsl_eigen_herm_workspace"""
+        _swig_setattr(self, gsl_eigen_herm_workspace, 'this', _gslwrap.new_gsl_eigen_herm_workspace(*args, **kwargs))
         _swig_setattr(self, gsl_eigen_herm_workspace, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_eigen_herm_workspace):
+    def __del__(self, destroy=_gslwrap.delete_gsl_eigen_herm_workspace):
+        """__del__(self)"""
         try:
             if self.thisown: destroy(self)
         except: pass
+
     __swig_getmethods__["size"] = _gslwrap.gsl_eigen_herm_workspace_size_get
     if _newclass:size = property(_gslwrap.gsl_eigen_herm_workspace_size_get)
     __swig_getmethods__["d"] = _gslwrap.gsl_eigen_herm_workspace_d_get
@@ -837,34 +1216,44 @@ class gsl_eigen_herm_workspace(_object):
     if _newclass:sd = property(_gslwrap.gsl_eigen_herm_workspace_sd_get)
     __swig_getmethods__["tau"] = _gslwrap.gsl_eigen_herm_workspace_tau_get
     if _newclass:tau = property(_gslwrap.gsl_eigen_herm_workspace_tau_get)
-    def __repr__(self):
-        return "<C gsl_eigen_herm_workspace instance at %s>" % (self.this,)
 
 class gsl_eigen_herm_workspacePtr(gsl_eigen_herm_workspace):
-    def __init__(self,this):
+    def __init__(self, this):
         _swig_setattr(self, gsl_eigen_herm_workspace, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_herm_workspace, 'thisown', 0)
         _swig_setattr(self, gsl_eigen_herm_workspace,self.__class__,gsl_eigen_herm_workspace)
 _gslwrap.gsl_eigen_herm_workspace_swigregister(gsl_eigen_herm_workspacePtr)
 
-gsl_eigen_herm_alloc = _gslwrap.gsl_eigen_herm_alloc
 
-gsl_eigen_herm_free = _gslwrap.gsl_eigen_herm_free
+def gsl_eigen_herm_alloc(*args, **kwargs):
+    """gsl_eigen_herm_alloc(size_t n) -> gsl_eigen_herm_workspace"""
+    return _gslwrap.gsl_eigen_herm_alloc(*args, **kwargs)
 
-gsl_eigen_herm = _gslwrap.gsl_eigen_herm
+def gsl_eigen_herm_free(*args, **kwargs):
+    """gsl_eigen_herm_free(gsl_eigen_herm_workspace w)"""
+    return _gslwrap.gsl_eigen_herm_free(*args, **kwargs)
 
+def gsl_eigen_herm(*args, **kwargs):
+    """gsl_eigen_herm(gsl_matrix_complex A, gsl_vector eval, gsl_eigen_herm_workspace w) -> int"""
+    return _gslwrap.gsl_eigen_herm(*args, **kwargs)
 class gsl_eigen_hermv_workspace(_object):
+    """Proxy of C gsl_eigen_hermv_workspace struct"""
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_eigen_hermv_workspace, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_eigen_hermv_workspace, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_eigen_hermv_workspace, 'this', apply(_gslwrap.new_gsl_eigen_hermv_workspace,args, kwargs))
+    def __repr__(self):
+        return "<%s.%s; proxy of C gsl_eigen_hermv_workspace instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def __init__(self, *args, **kwargs):
+        """__init__(self, size_t n) -> gsl_eigen_hermv_workspace"""
+        _swig_setattr(self, gsl_eigen_hermv_workspace, 'this', _gslwrap.new_gsl_eigen_hermv_workspace(*args, **kwargs))
         _swig_setattr(self, gsl_eigen_hermv_workspace, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_eigen_hermv_workspace):
+    def __del__(self, destroy=_gslwrap.delete_gsl_eigen_hermv_workspace):
+        """__del__(self)"""
         try:
             if self.thisown: destroy(self)
         except: pass
+
     __swig_getmethods__["size"] = _gslwrap.gsl_eigen_hermv_workspace_size_get
     if _newclass:size = property(_gslwrap.gsl_eigen_hermv_workspace_size_get)
     __swig_getmethods__["d"] = _gslwrap.gsl_eigen_hermv_workspace_d_get
@@ -877,91 +1266,191 @@ class gsl_eigen_hermv_workspace(_object):
     if _newclass:gc = property(_gslwrap.gsl_eigen_hermv_workspace_gc_get)
     __swig_getmethods__["gs"] = _gslwrap.gsl_eigen_hermv_workspace_gs_get
     if _newclass:gs = property(_gslwrap.gsl_eigen_hermv_workspace_gs_get)
-    def __repr__(self):
-        return "<C gsl_eigen_hermv_workspace instance at %s>" % (self.this,)
 
 class gsl_eigen_hermv_workspacePtr(gsl_eigen_hermv_workspace):
-    def __init__(self,this):
+    def __init__(self, this):
         _swig_setattr(self, gsl_eigen_hermv_workspace, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_hermv_workspace, 'thisown', 0)
         _swig_setattr(self, gsl_eigen_hermv_workspace,self.__class__,gsl_eigen_hermv_workspace)
 _gslwrap.gsl_eigen_hermv_workspace_swigregister(gsl_eigen_hermv_workspacePtr)
 
-gsl_eigen_hermv_alloc = _gslwrap.gsl_eigen_hermv_alloc
 
-gsl_eigen_hermv_free = _gslwrap.gsl_eigen_hermv_free
+def gsl_eigen_hermv_alloc(*args, **kwargs):
+    """gsl_eigen_hermv_alloc(size_t n) -> gsl_eigen_hermv_workspace"""
+    return _gslwrap.gsl_eigen_hermv_alloc(*args, **kwargs)
 
-gsl_eigen_hermv = _gslwrap.gsl_eigen_hermv
+def gsl_eigen_hermv_free(*args, **kwargs):
+    """gsl_eigen_hermv_free(gsl_eigen_hermv_workspace w)"""
+    return _gslwrap.gsl_eigen_hermv_free(*args, **kwargs)
 
+def gsl_eigen_hermv(*args, **kwargs):
+    """
+    gsl_eigen_hermv(gsl_matrix_complex A, gsl_vector eval, gsl_matrix_complex evec, 
+        gsl_eigen_hermv_workspace w) -> int
+    """
+    return _gslwrap.gsl_eigen_hermv(*args, **kwargs)
 GSL_EIGEN_SORT_VAL_ASC = _gslwrap.GSL_EIGEN_SORT_VAL_ASC
 GSL_EIGEN_SORT_VAL_DESC = _gslwrap.GSL_EIGEN_SORT_VAL_DESC
 GSL_EIGEN_SORT_ABS_ASC = _gslwrap.GSL_EIGEN_SORT_ABS_ASC
 GSL_EIGEN_SORT_ABS_DESC = _gslwrap.GSL_EIGEN_SORT_ABS_DESC
-gsl_eigen_symmv_sort = _gslwrap.gsl_eigen_symmv_sort
 
-gsl_eigen_hermv_sort = _gslwrap.gsl_eigen_hermv_sort
+def gsl_eigen_symmv_sort(*args, **kwargs):
+    """gsl_eigen_symmv_sort(gsl_vector eval, gsl_matrix evec, gsl_eigen_sort_t sort_type) -> int"""
+    return _gslwrap.gsl_eigen_symmv_sort(*args, **kwargs)
 
-gsl_eigen_jacobi = _gslwrap.gsl_eigen_jacobi
+def gsl_eigen_hermv_sort(*args, **kwargs):
+    """gsl_eigen_hermv_sort(gsl_vector eval, gsl_matrix_complex evec, gsl_eigen_sort_t sort_type) -> int"""
+    return _gslwrap.gsl_eigen_hermv_sort(*args, **kwargs)
 
-gsl_eigen_invert_jacobi = _gslwrap.gsl_eigen_invert_jacobi
+def gsl_eigen_jacobi(*args, **kwargs):
+    """
+    gsl_eigen_jacobi(gsl_matrix matrix, gsl_vector eval, gsl_matrix evec, 
+        unsigned int max_rot, unsigned int nrot) -> int
+    """
+    return _gslwrap.gsl_eigen_jacobi(*args, **kwargs)
 
-gsl_spline_alloc = _gslwrap.gsl_spline_alloc
+def gsl_eigen_invert_jacobi(*args, **kwargs):
+    """gsl_eigen_invert_jacobi(gsl_matrix matrix, gsl_matrix ainv, unsigned int max_rot) -> int"""
+    return _gslwrap.gsl_eigen_invert_jacobi(*args, **kwargs)
 
-gsl_spline_init = _gslwrap.gsl_spline_init
+def gsl_spline_alloc(*args, **kwargs):
+    """gsl_spline_alloc(gsl_interp_type T, size_t n) -> gsl_spline"""
+    return _gslwrap.gsl_spline_alloc(*args, **kwargs)
 
-gsl_spline_eval_e = _gslwrap.gsl_spline_eval_e
+def gsl_spline_init(*args, **kwargs):
+    """gsl_spline_init(gsl_spline spline, double xa) -> gsl_error_flag_drop"""
+    return _gslwrap.gsl_spline_init(*args, **kwargs)
 
-gsl_spline_eval = _gslwrap.gsl_spline_eval
+def gsl_spline_eval_e(*args, **kwargs):
+    """gsl_spline_eval_e(gsl_spline spline, double x, gsl_interp_accel a, double OUTPUT) -> gsl_error_flag_drop"""
+    return _gslwrap.gsl_spline_eval_e(*args, **kwargs)
 
-gsl_spline_eval_deriv_e = _gslwrap.gsl_spline_eval_deriv_e
+def gsl_spline_eval(*args, **kwargs):
+    """gsl_spline_eval(gsl_spline spline, double x, gsl_interp_accel a) -> double"""
+    return _gslwrap.gsl_spline_eval(*args, **kwargs)
 
-gsl_spline_eval_deriv = _gslwrap.gsl_spline_eval_deriv
+def gsl_spline_eval_deriv_e(*args, **kwargs):
+    """gsl_spline_eval_deriv_e(gsl_spline spline, double x, gsl_interp_accel a, double OUTPUT) -> gsl_error_flag_drop"""
+    return _gslwrap.gsl_spline_eval_deriv_e(*args, **kwargs)
 
-gsl_spline_eval_deriv2_e = _gslwrap.gsl_spline_eval_deriv2_e
+def gsl_spline_eval_deriv(*args, **kwargs):
+    """gsl_spline_eval_deriv(gsl_spline spline, double x, gsl_interp_accel a) -> double"""
+    return _gslwrap.gsl_spline_eval_deriv(*args, **kwargs)
 
-gsl_spline_eval_deriv2 = _gslwrap.gsl_spline_eval_deriv2
+def gsl_spline_eval_deriv2_e(*args, **kwargs):
+    """gsl_spline_eval_deriv2_e(gsl_spline spline, double x, gsl_interp_accel a, double OUTPUT) -> gsl_error_flag_drop"""
+    return _gslwrap.gsl_spline_eval_deriv2_e(*args, **kwargs)
 
-gsl_spline_eval_integ_e = _gslwrap.gsl_spline_eval_integ_e
+def gsl_spline_eval_deriv2(*args, **kwargs):
+    """gsl_spline_eval_deriv2(gsl_spline spline, double x, gsl_interp_accel a) -> double"""
+    return _gslwrap.gsl_spline_eval_deriv2(*args, **kwargs)
 
-gsl_spline_eval_integ = _gslwrap.gsl_spline_eval_integ
+def gsl_spline_eval_integ_e(*args, **kwargs):
+    """
+    gsl_spline_eval_integ_e(gsl_spline spline, double a, double b, gsl_interp_accel acc, 
+        double OUTPUT) -> gsl_error_flag_drop
+    """
+    return _gslwrap.gsl_spline_eval_integ_e(*args, **kwargs)
 
-gsl_spline_free = _gslwrap.gsl_spline_free
+def gsl_spline_eval_integ(*args, **kwargs):
+    """gsl_spline_eval_integ(gsl_spline spline, double a, double b, gsl_interp_accel acc) -> double"""
+    return _gslwrap.gsl_spline_eval_integ(*args, **kwargs)
 
-gsl_interp_accel_alloc = _gslwrap.gsl_interp_accel_alloc
+def gsl_spline_free(*args, **kwargs):
+    """gsl_spline_free(gsl_spline spline)"""
+    return _gslwrap.gsl_spline_free(*args, **kwargs)
 
-gsl_interp_accel_find = _gslwrap.gsl_interp_accel_find
+def gsl_interp_accel_alloc(*args, **kwargs):
+    """gsl_interp_accel_alloc() -> gsl_interp_accel"""
+    return _gslwrap.gsl_interp_accel_alloc(*args, **kwargs)
 
-gsl_interp_accel_reset = _gslwrap.gsl_interp_accel_reset
+def gsl_interp_accel_find(*args, **kwargs):
+    """gsl_interp_accel_find(gsl_interp_accel a, double x_array, double x) -> size_t"""
+    return _gslwrap.gsl_interp_accel_find(*args, **kwargs)
 
-gsl_interp_accel_free = _gslwrap.gsl_interp_accel_free
+def gsl_interp_accel_reset(*args, **kwargs):
+    """gsl_interp_accel_reset(gsl_interp_accel a) -> gsl_error_flag_drop"""
+    return _gslwrap.gsl_interp_accel_reset(*args, **kwargs)
 
-gsl_interp_alloc = _gslwrap.gsl_interp_alloc
+def gsl_interp_accel_free(*args, **kwargs):
+    """gsl_interp_accel_free(gsl_interp_accel a)"""
+    return _gslwrap.gsl_interp_accel_free(*args, **kwargs)
 
-gsl_interp_init = _gslwrap.gsl_interp_init
+def gsl_interp_alloc(*args, **kwargs):
+    """gsl_interp_alloc(gsl_interp_type T, size_t n) -> gsl_interp"""
+    return _gslwrap.gsl_interp_alloc(*args, **kwargs)
 
-gsl_interp_name = _gslwrap.gsl_interp_name
+def gsl_interp_init(*args, **kwargs):
+    """gsl_interp_init(gsl_interp obj, double xa) -> gsl_error_flag_drop"""
+    return _gslwrap.gsl_interp_init(*args, **kwargs)
 
-gsl_interp_min_size = _gslwrap.gsl_interp_min_size
+def gsl_interp_name(*args, **kwargs):
+    """gsl_interp_name(gsl_interp interp) -> char"""
+    return _gslwrap.gsl_interp_name(*args, **kwargs)
 
-gsl_interp_eval_e = _gslwrap.gsl_interp_eval_e
+def gsl_interp_min_size(*args, **kwargs):
+    """gsl_interp_min_size(gsl_interp interp) -> unsigned int"""
+    return _gslwrap.gsl_interp_min_size(*args, **kwargs)
 
-gsl_interp_eval = _gslwrap.gsl_interp_eval
+def gsl_interp_eval_e(*args, **kwargs):
+    """
+    gsl_interp_eval_e(gsl_interp IN, double xa, double ya, double x, gsl_interp_accel a, 
+        double OUTPUT) -> gsl_error_flag_drop
+    """
+    return _gslwrap.gsl_interp_eval_e(*args, **kwargs)
 
-gsl_interp_eval_deriv_e = _gslwrap.gsl_interp_eval_deriv_e
+def gsl_interp_eval(*args, **kwargs):
+    """gsl_interp_eval(gsl_interp IN, double xa, double ya, double x, gsl_interp_accel a) -> double"""
+    return _gslwrap.gsl_interp_eval(*args, **kwargs)
 
-gsl_interp_eval_deriv = _gslwrap.gsl_interp_eval_deriv
+def gsl_interp_eval_deriv_e(*args, **kwargs):
+    """
+    gsl_interp_eval_deriv_e(gsl_interp IN, double xa, double ya, double x, gsl_interp_accel a, 
+        double OUTPUT) -> gsl_error_flag_drop
+    """
+    return _gslwrap.gsl_interp_eval_deriv_e(*args, **kwargs)
 
-gsl_interp_eval_deriv2_e = _gslwrap.gsl_interp_eval_deriv2_e
+def gsl_interp_eval_deriv(*args, **kwargs):
+    """gsl_interp_eval_deriv(gsl_interp IN, double xa, double ya, double x, gsl_interp_accel a) -> double"""
+    return _gslwrap.gsl_interp_eval_deriv(*args, **kwargs)
 
-gsl_interp_eval_deriv2 = _gslwrap.gsl_interp_eval_deriv2
+def gsl_interp_eval_deriv2_e(*args, **kwargs):
+    """
+    gsl_interp_eval_deriv2_e(gsl_interp IN, double xa, double ya, double x, gsl_interp_accel a, 
+        double OUTPUT) -> gsl_error_flag_drop
+    """
+    return _gslwrap.gsl_interp_eval_deriv2_e(*args, **kwargs)
 
-gsl_interp_eval_integ_e = _gslwrap.gsl_interp_eval_integ_e
+def gsl_interp_eval_deriv2(*args, **kwargs):
+    """gsl_interp_eval_deriv2(gsl_interp IN, double xa, double ya, double x, gsl_interp_accel a) -> double"""
+    return _gslwrap.gsl_interp_eval_deriv2(*args, **kwargs)
 
-gsl_interp_eval_integ = _gslwrap.gsl_interp_eval_integ
+def gsl_interp_eval_integ_e(*args, **kwargs):
+    """
+    gsl_interp_eval_integ_e(gsl_interp IN, double xa, double ya, double a, double b, 
+        gsl_interp_accel acc, double OUTPUT) -> gsl_error_flag_drop
+    """
+    return _gslwrap.gsl_interp_eval_integ_e(*args, **kwargs)
 
-gsl_interp_free = _gslwrap.gsl_interp_free
+def gsl_interp_eval_integ(*args, **kwargs):
+    """
+    gsl_interp_eval_integ(gsl_interp IN, double xa, double ya, double a, double b, 
+        gsl_interp_accel acc) -> double
+    """
+    return _gslwrap.gsl_interp_eval_integ(*args, **kwargs)
 
-gsl_interp_bsearch = _gslwrap.gsl_interp_bsearch
+def gsl_interp_free(*args, **kwargs):
+    """gsl_interp_free(gsl_interp interp)"""
+    return _gslwrap.gsl_interp_free(*args, **kwargs)
 
+def gsl_interp_bsearch(*args, **kwargs):
+    """gsl_interp_bsearch(double x_array, double x, size_t index_lo, size_t index_hi) -> size_t"""
+    return _gslwrap.gsl_interp_bsearch(*args, **kwargs)
 cvar = _gslwrap.cvar
+gsl_interp_linear = cvar.gsl_interp_linear
+gsl_interp_polynomial = cvar.gsl_interp_polynomial
+gsl_interp_cspline = cvar.gsl_interp_cspline
+gsl_interp_cspline_periodic = cvar.gsl_interp_cspline_periodic
+gsl_interp_akima = cvar.gsl_interp_akima
+gsl_interp_akima_periodic = cvar.gsl_interp_akima_periodic
 
