@@ -25,11 +25,31 @@
 
 #include <pygsl/utils.h>
 #include <Python.h>
-#include <Numeric/arrayobject.h>
+#include <pygsl/arrayobject.h>
+/* #include <Numeric/arrayobject.h>   */
 /* #include <numarray/arrayobject.h> */
 #include <pygsl/general_helpers.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
+
+/*
+ * PyGSL_STRIDE_RECALC:
+ *                                Recalc a stride and check if it is okay
+ *
+ * Numpy calculates strides in bytes, gsl as multiple of the basis type size
+ *
+ * Return value:
+ *         -1: Conversion Failed
+ *         pos : recalculated stride
+ */
+#define PyGSL_STRIDE_RECALC(strides, basis_type_size, stride_recalc) \
+           (((strides) % (basis_type_size)) == 0) \
+         ? \
+           ((*stride_recalc) = (strides) / (basis_type_size)), GSL_SUCCESS \
+         : \
+           PyGSL_stride_recalc(strides, basis_type_size, stride_recalc)
+int 
+PyGSL_stride_recalc(int strides, int basis_type_size, int * stride_recalc);
 
 
 /*

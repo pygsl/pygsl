@@ -17,6 +17,21 @@
 #include <pygsl/profile.h>
 #include <pygsl/general_helpers.h>
 #include <pygsl/utils.h>
+
+static const char filename[] = __FILE__;
+
+int 
+PyGSL_stride_recalc(int strides, int basic_type_size, int * stride_recalc)
+{
+     if((strides % basic_type_size) == 0) {
+	  stride_recalc = strides / basic_type_size; 
+	  return GSL_SUCCESS;
+     }
+     gsl_error("Can not convert the stride to a GSL stride", 
+	       filename, __LINE__, PyGSL_ESTRIDE);
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);     
+     return PyGSL_ESTRIDE;
+}
 /* ========================================================================= */
 /*
  * Implementation of the above routines.
@@ -91,7 +106,7 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
      PyGSL_INCREASE_vector_transform_counter();
      return a_array;
  fail:
-     PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
      Py_XDECREF(a_array);
      return NULL;
 }
@@ -370,7 +385,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n, PyGSL_er
     Py_DECREF(a_array);
     return GSL_SUCCESS;
  fail:
-    PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
+    PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
     FUNC_MESS("Failure");
     Py_XDECREF(a_array);
     return GSL_FAILURE;
@@ -419,7 +434,7 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,  
     Py_DECREF(a_array);
     return GSL_SUCCESS;
  fail:
-    PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
+    PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
     FUNC_MESS("  Failure");
     Py_XDECREF(a_array);
     return GSL_FAILURE;

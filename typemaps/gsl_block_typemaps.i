@@ -72,9 +72,8 @@
 	  if(_PyVector$argnum == NULL) goto fail;
 	  a_array = _PyVector$argnum;
 
-	  /* Numpy calculates strides in bytes, gsl in basis type */
-	  stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_$1_basetype);
-	  assert(a_array->strides[0] % sizeof(BASIS_TYPE_$basetype) == 0);
+	  if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_$1_basetype), &stride_recalc) != GSL_SUCCESS)
+	       goto fail;
 	  
 	  _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype(
                                     (BASIS_TYPE_C_$1_basetype *) a_array->data,
@@ -102,13 +101,10 @@
 								    $argnum);
 	  if(_PyVector$argnum == NULL) goto fail;
 	  a_array = _PyVector$argnum;
-
-	  /* Numpy calculates strides in bytes, gsl in basis type */
-	  stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_$1_basetype);
-	  assert(a_array->strides[0] % sizeof(BASIS_TYPE_$1_basetype) == 0);
-
 	  assert(a_array != NULL);
-
+	  if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_$1_basetype), &stride_recalc) != GSL_SUCCESS)
+	       goto fail;
+	  if(stride_recalc == -1) goto fail;
 
 	  _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype(
 	                           (BASIS_TYPE_C_$1_basetype *) a_array->data, 
