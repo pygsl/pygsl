@@ -686,6 +686,28 @@ static swig_type_info *swig_types[26];
 #include <pygsl/error_helpers.h>
 
 
+  /*
+   * Normally Microsofts (R) Visual C (TM) Compiler is used to compile python 
+   * on windows.
+   * When I used MinGW to compile I could not convert Python File Objects to 
+   * C File Structs (The function PyFile_AsFile generated a core). Therefore 
+   * I raise a python exception if someone tries to use this Code when it was 
+   * compiled with MinGW. Do you know a better solution? Perhaps how to get it 
+   * work?
+   */
+#ifdef __MINGW32__
+#define HANDLE_MINGW() \
+  do { \
+  PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__); \
+  PyErr_SetString(PyExc_TypeError, "This Module was compiled using MinGW32. " \
+		  "Conversion of python files to C files is not supported.");\
+  goto fail; \
+  } while(0)
+#else
+#define HANDLE_MINGW()
+#endif   
+
+
 #include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
 #include <typemaps/convert_block_description.h>
@@ -968,12 +990,13 @@ static PyObject *_wrap_gsl_vector_fread(PyObject *self, PyObject *args, PyObject
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -1058,12 +1081,13 @@ static PyObject *_wrap_gsl_vector_fwrite(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -1137,12 +1161,13 @@ static PyObject *_wrap_gsl_vector_fscanf(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -1228,12 +1253,13 @@ static PyObject *_wrap_gsl_vector_fprintf(PyObject *self, PyObject *args, PyObje
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -2173,12 +2199,13 @@ static PyObject *_wrap_gsl_matrix_fread(PyObject *self, PyObject *args, PyObject
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -2248,12 +2275,13 @@ static PyObject *_wrap_gsl_matrix_fwrite(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -2321,12 +2349,13 @@ static PyObject *_wrap_gsl_matrix_fscanf(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -2397,12 +2426,13 @@ static PyObject *_wrap_gsl_matrix_fprintf(PyObject *self, PyObject *args, PyObje
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -3769,12 +3799,13 @@ static PyObject *_wrap_gsl_vector_float_fread(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_float_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -3842,12 +3873,13 @@ static PyObject *_wrap_gsl_vector_float_fwrite(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_float_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -3904,12 +3936,13 @@ static PyObject *_wrap_gsl_vector_float_fscanf(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_float_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -3978,12 +4011,13 @@ static PyObject *_wrap_gsl_vector_float_fprintf(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_float_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -4775,12 +4809,13 @@ static PyObject *_wrap_gsl_matrix_float_fread(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_float_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -4843,12 +4878,13 @@ static PyObject *_wrap_gsl_matrix_float_fwrite(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_float_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -4909,12 +4945,13 @@ static PyObject *_wrap_gsl_matrix_float_fscanf(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_float_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -4978,12 +5015,13 @@ static PyObject *_wrap_gsl_matrix_float_fprintf(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_float_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -6308,12 +6346,13 @@ static PyObject *_wrap_gsl_vector_long_fread(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_long_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -6381,12 +6420,13 @@ static PyObject *_wrap_gsl_vector_long_fwrite(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_long_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -6443,12 +6483,13 @@ static PyObject *_wrap_gsl_vector_long_fscanf(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_long_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -6517,12 +6558,13 @@ static PyObject *_wrap_gsl_vector_long_fprintf(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_long_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -7314,12 +7356,13 @@ static PyObject *_wrap_gsl_matrix_long_fread(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_long_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -7382,12 +7425,13 @@ static PyObject *_wrap_gsl_matrix_long_fwrite(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_long_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -7448,12 +7492,13 @@ static PyObject *_wrap_gsl_matrix_long_fscanf(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_long_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -7517,12 +7562,13 @@ static PyObject *_wrap_gsl_matrix_long_fprintf(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_long_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -8847,12 +8893,13 @@ static PyObject *_wrap_gsl_vector_int_fread(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_int_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -8920,12 +8967,13 @@ static PyObject *_wrap_gsl_vector_int_fwrite(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_int_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -8982,12 +9030,13 @@ static PyObject *_wrap_gsl_vector_int_fscanf(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_int_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -9056,12 +9105,13 @@ static PyObject *_wrap_gsl_vector_int_fprintf(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_int_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -9853,12 +9903,13 @@ static PyObject *_wrap_gsl_matrix_int_fread(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_int_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -9921,12 +9972,13 @@ static PyObject *_wrap_gsl_matrix_int_fwrite(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_int_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -9987,12 +10039,13 @@ static PyObject *_wrap_gsl_matrix_int_fscanf(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_int_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -10056,12 +10109,13 @@ static PyObject *_wrap_gsl_matrix_int_fprintf(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_int_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -11386,12 +11440,13 @@ static PyObject *_wrap_gsl_vector_short_fread(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_short_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -11459,12 +11514,13 @@ static PyObject *_wrap_gsl_vector_short_fwrite(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_short_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -11521,12 +11577,13 @@ static PyObject *_wrap_gsl_vector_short_fscanf(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_short_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -11595,12 +11652,13 @@ static PyObject *_wrap_gsl_vector_short_fprintf(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_short_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -12392,12 +12450,13 @@ static PyObject *_wrap_gsl_matrix_short_fread(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_short_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -12460,12 +12519,13 @@ static PyObject *_wrap_gsl_matrix_short_fwrite(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_short_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -12526,12 +12586,13 @@ static PyObject *_wrap_gsl_matrix_short_fscanf(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_short_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -12595,12 +12656,13 @@ static PyObject *_wrap_gsl_matrix_short_fprintf(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_short_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -13925,12 +13987,13 @@ static PyObject *_wrap_gsl_vector_char_fread(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_char_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -13998,12 +14061,13 @@ static PyObject *_wrap_gsl_vector_char_fwrite(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_char_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -14060,12 +14124,13 @@ static PyObject *_wrap_gsl_vector_char_fscanf(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_char_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -14134,12 +14199,13 @@ static PyObject *_wrap_gsl_vector_char_fprintf(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_char_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -14919,12 +14985,13 @@ static PyObject *_wrap_gsl_matrix_char_fread(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_char_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -14987,12 +15054,13 @@ static PyObject *_wrap_gsl_matrix_char_fwrite(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_char_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -15053,12 +15121,13 @@ static PyObject *_wrap_gsl_matrix_char_fscanf(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_char_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -15122,12 +15191,13 @@ static PyObject *_wrap_gsl_matrix_char_fprintf(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_char_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -16450,12 +16520,13 @@ static PyObject *_wrap_gsl_vector_complex_fread(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -16523,12 +16594,13 @@ static PyObject *_wrap_gsl_vector_complex_fwrite(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -16585,12 +16657,13 @@ static PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -16659,12 +16732,13 @@ static PyObject *_wrap_gsl_vector_complex_fprintf(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_complex_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -17142,12 +17216,13 @@ static PyObject *_wrap_gsl_matrix_complex_fread(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -17210,12 +17285,13 @@ static PyObject *_wrap_gsl_matrix_complex_fwrite(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -17276,12 +17352,13 @@ static PyObject *_wrap_gsl_matrix_complex_fscanf(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -17345,12 +17422,13 @@ static PyObject *_wrap_gsl_matrix_complex_fprintf(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_complex_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -18246,12 +18324,13 @@ static PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *self, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_float_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -18319,12 +18398,13 @@ static PyObject *_wrap_gsl_vector_complex_float_fwrite(PyObject *self, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_float_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -18381,12 +18461,13 @@ static PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *self, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_float_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -18455,12 +18536,13 @@ static PyObject *_wrap_gsl_vector_complex_float_fprintf(PyObject *self, PyObject
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_complex_float_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -18935,12 +19017,13 @@ static PyObject *_wrap_gsl_matrix_complex_float_fread(PyObject *self, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_float_fread",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -19003,12 +19086,13 @@ static PyObject *_wrap_gsl_matrix_complex_float_fwrite(PyObject *self, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_float_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -19069,12 +19153,13 @@ static PyObject *_wrap_gsl_matrix_complex_float_fscanf(PyObject *self, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_float_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);
@@ -19138,12 +19223,13 @@ static PyObject *_wrap_gsl_matrix_complex_float_fprintf(PyObject *self, PyObject
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_complex_float_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
         FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
-        FUNC_MESS("GET FILE");
+        FUNC_MESS("Convert Python File to C File");
         arg1 = PyFile_AsFile(obj0);
         DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
         assert(arg1 != NULL);

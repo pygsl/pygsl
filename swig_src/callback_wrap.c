@@ -823,6 +823,28 @@ PyObject *pygsl_module_for_error_treatment = NULL;
 #include <pygsl/rng_helpers.h>
 
 
+  /*
+   * Normally Microsofts (R) Visual C (TM) Compiler is used to compile python 
+   * on windows.
+   * When I used MinGW to compile I could not convert Python File Objects to 
+   * C File Structs (The function PyFile_AsFile generated a core). Therefore 
+   * I raise a python exception if someone tries to use this Code when it was 
+   * compiled with MinGW. Do you know a better solution? Perhaps how to get it 
+   * work?
+   */
+#ifdef __MINGW32__
+#define HANDLE_MINGW() \
+  do { \
+  PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__); \
+  PyErr_SetString(PyExc_TypeError, "This Module was compiled using MinGW32. " \
+		  "Conversion of python files to C files is not supported.");\
+  goto fail; \
+  } while(0)
+#else
+#define HANDLE_MINGW()
+#endif   
+
+
 #define PyGSL_gsl_monte_function_GET_PARAMS(sys)   \
         (sys)->params;
 
@@ -2440,11 +2462,18 @@ static PyObject *_wrap_pygsl_monte_vegas_set_ostream(PyObject *self, PyObject *a
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:pygsl_monte_vegas_set_ostream",kwnames,&obj0,&obj1)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     {
+        FUNC_MESS_BEGIN();
+        HANDLE_MINGW();
         if (!PyFile_Check(obj1)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
+        FUNC_MESS("Convert Python File to C File");
         arg2 = PyFile_AsFile(obj1);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg2, fileno(arg2));
+        assert(arg2 != NULL);
+        
     }
     pygsl_monte_vegas_set_ostream(arg1,arg2);
     
@@ -2860,7 +2889,7 @@ static PyObject *_wrap_gsl_root_fsolver_set(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -2941,7 +2970,7 @@ static PyObject *_wrap_gsl_root_fdfsolver_set(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3058,7 +3087,7 @@ static PyObject *_wrap_gsl_root_fsolver_iterate(PyObject *self, PyObject *args, 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3135,7 +3164,7 @@ static PyObject *_wrap_gsl_root_fdfsolver_iterate(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3267,7 +3296,7 @@ static PyObject *_wrap_gsl_root_test_interval(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3295,7 +3324,7 @@ static PyObject *_wrap_gsl_root_test_delta(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3321,7 +3350,7 @@ static PyObject *_wrap_gsl_root_test_residual(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3428,7 +3457,7 @@ static PyObject *_wrap_gsl_min_fminimizer_set(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3514,7 +3543,7 @@ static PyObject *_wrap_gsl_min_fminimizer_set_with_values(PyObject *self, PyObje
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3630,7 +3659,7 @@ static PyObject *_wrap_gsl_min_fminimizer_iterate(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -3742,7 +3771,7 @@ static PyObject *_wrap_gsl_min_test_interval(PyObject *self, PyObject *args, PyO
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -4047,6 +4076,7 @@ static PyObject *_wrap_gsl_multiroot_fsolver_set(PyObject *self, PyObject *args,
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 3, NULL);
@@ -4070,7 +4100,7 @@ static PyObject *_wrap_gsl_multiroot_fsolver_set(PyObject *self, PyObject *args,
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -4078,12 +4108,14 @@ static PyObject *_wrap_gsl_multiroot_fsolver_set(PyObject *self, PyObject *args,
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4105,7 +4137,7 @@ static PyObject *_wrap_gsl_multiroot_fsolver_iterate(PyObject *self, PyObject *a
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -4205,6 +4237,7 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_set(PyObject *self, PyObject *arg
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 3, NULL);
@@ -4228,7 +4261,7 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_set(PyObject *self, PyObject *arg
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -4236,12 +4269,14 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_set(PyObject *self, PyObject *arg
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4263,7 +4298,7 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_iterate(PyObject *self, PyObject 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -4360,6 +4395,7 @@ static PyObject *_wrap_gsl_multiroot_test_delta(PyObject *self, PyObject *args, 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -4383,6 +4419,7 @@ static PyObject *_wrap_gsl_multiroot_test_delta(PyObject *self, PyObject *args, 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 2, NULL);
@@ -4406,7 +4443,7 @@ static PyObject *_wrap_gsl_multiroot_test_delta(PyObject *self, PyObject *args, 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -4414,20 +4451,24 @@ static PyObject *_wrap_gsl_multiroot_test_delta(PyObject *self, PyObject *args, 
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4453,6 +4494,7 @@ static PyObject *_wrap_gsl_multiroot_test_residual(PyObject *self, PyObject *arg
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -4476,7 +4518,7 @@ static PyObject *_wrap_gsl_multiroot_test_residual(PyObject *self, PyObject *arg
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -4484,12 +4526,14 @@ static PyObject *_wrap_gsl_multiroot_test_residual(PyObject *self, PyObject *arg
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4815,6 +4859,7 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 3, NULL);
@@ -4838,6 +4883,7 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector4 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj3, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 4, NULL);
@@ -4884,7 +4930,7 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -4904,10 +4950,12 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector4);
         _PyVector4 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -4926,10 +4974,12 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector4);
         _PyVector4 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4990,7 +5040,7 @@ static PyObject *_wrap_gsl_multimin_fminimizer_iterate(PyObject *self, PyObject 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -5119,6 +5169,7 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 3, NULL);
@@ -5165,7 +5216,7 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -5185,6 +5236,7 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -5203,6 +5255,7 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5289,7 +5342,7 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_iterate(PyObject *self, PyObjec
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -5366,7 +5419,7 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_restart(PyObject *self, PyObjec
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -5421,6 +5474,7 @@ static PyObject *_wrap_gsl_multimin_test_gradient(PyObject *self, PyObject *args
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -5444,7 +5498,7 @@ static PyObject *_wrap_gsl_multimin_test_gradient(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -5452,12 +5506,14 @@ static PyObject *_wrap_gsl_multimin_test_gradient(PyObject *self, PyObject *args
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5478,7 +5534,7 @@ static PyObject *_wrap_gsl_multimin_test_size(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6041,6 +6097,7 @@ static PyObject *_wrap_gsl_multifit_fsolver_set(PyObject *self, PyObject *args, 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 3, NULL);
@@ -6064,7 +6121,7 @@ static PyObject *_wrap_gsl_multifit_fsolver_set(PyObject *self, PyObject *args, 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6072,12 +6129,14 @@ static PyObject *_wrap_gsl_multifit_fsolver_set(PyObject *self, PyObject *args, 
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6099,7 +6158,7 @@ static PyObject *_wrap_gsl_multifit_fsolver_iterate(PyObject *self, PyObject *ar
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6203,6 +6262,7 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_set(PyObject *self, PyObject *args
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 3, NULL);
@@ -6226,7 +6286,7 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_set(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6234,12 +6294,14 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_set(PyObject *self, PyObject *args
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6261,7 +6323,7 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_iterate(PyObject *self, PyObject *
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6358,6 +6420,7 @@ static PyObject *_wrap_gsl_multifit_test_delta(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -6381,6 +6444,7 @@ static PyObject *_wrap_gsl_multifit_test_delta(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 2, NULL);
@@ -6404,7 +6468,7 @@ static PyObject *_wrap_gsl_multifit_test_delta(PyObject *self, PyObject *args, P
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6412,20 +6476,24 @@ static PyObject *_wrap_gsl_multifit_test_delta(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6451,6 +6519,7 @@ static PyObject *_wrap_gsl_multifit_test_gradient(PyObject *self, PyObject *args
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -6474,7 +6543,7 @@ static PyObject *_wrap_gsl_multifit_test_gradient(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6482,12 +6551,14 @@ static PyObject *_wrap_gsl_multifit_test_gradient(PyObject *self, PyObject *args
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6622,7 +6693,7 @@ static PyObject *_wrap_gsl_integration_qaws_table_set(PyObject *self, PyObject *
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6695,7 +6766,7 @@ static PyObject *_wrap_gsl_integration_qawo_table_set(PyObject *self, PyObject *
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6723,7 +6794,7 @@ static PyObject *_wrap_gsl_integration_qawo_table_set_length(PyObject *self, PyO
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6808,7 +6879,7 @@ static PyObject *_wrap_gsl_integration_qng(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -6915,7 +6986,7 @@ static PyObject *_wrap_gsl_integration_qag(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7015,7 +7086,7 @@ static PyObject *_wrap_gsl_integration_qagi(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7116,7 +7187,7 @@ static PyObject *_wrap_gsl_integration_qagiu(PyObject *self, PyObject *args, PyO
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7217,7 +7288,7 @@ static PyObject *_wrap_gsl_integration_qagil(PyObject *self, PyObject *args, PyO
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7319,7 +7390,7 @@ static PyObject *_wrap_gsl_integration_qags(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7432,7 +7503,7 @@ static PyObject *_wrap_gsl_integration_qagp(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7538,7 +7609,7 @@ static PyObject *_wrap_gsl_integration_qawc(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7643,7 +7714,7 @@ static PyObject *_wrap_gsl_integration_qaws(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7747,7 +7818,7 @@ static PyObject *_wrap_gsl_integration_qawo(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7853,7 +7924,7 @@ static PyObject *_wrap_gsl_integration_qawf(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -7983,7 +8054,7 @@ static PyObject *_wrap_gsl_cheb_init(PyObject *self, PyObject *args, PyObject *k
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -8062,7 +8133,7 @@ static PyObject *_wrap_gsl_cheb_eval_err(PyObject *self, PyObject *args, PyObjec
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -8133,7 +8204,7 @@ static PyObject *_wrap_gsl_cheb_eval_n_err(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -8171,7 +8242,7 @@ static PyObject *_wrap_gsl_cheb_calc_deriv(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -8201,7 +8272,7 @@ static PyObject *_wrap_gsl_cheb_calc_integ(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -8254,6 +8325,7 @@ static PyObject *_wrap_pygsl_cheb_set_coefficients(PyObject *self, PyObject *arg
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 2, NULL);
@@ -8277,7 +8349,7 @@ static PyObject *_wrap_pygsl_cheb_set_coefficients(PyObject *self, PyObject *arg
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -8285,12 +8357,14 @@ static PyObject *_wrap_pygsl_cheb_set_coefficients(PyObject *self, PyObject *arg
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -8639,7 +8713,7 @@ static PyObject *_wrap_gsl_odeiv_step_reset(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -8749,7 +8823,7 @@ static PyObject *_wrap_gsl_odeiv_control_init(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -8895,7 +8969,7 @@ static PyObject *_wrap_gsl_odeiv_evolve_reset(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -9018,7 +9092,7 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9029,6 +9103,7 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
@@ -9036,6 +9111,7 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 2, NULL);
@@ -9112,7 +9188,7 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -9132,36 +9208,44 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix4);
         _PyMatrix4 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix4);
         _PyMatrix4 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9222,7 +9306,7 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9233,6 +9317,7 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
@@ -9240,6 +9325,7 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 2, NULL);
@@ -9263,6 +9349,7 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 3, NULL);
@@ -9339,7 +9426,7 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -9359,44 +9446,54 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector4);
         _PyVector4 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix5);
         _PyMatrix5 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector3);
         _PyVector3 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector4);
         _PyVector4 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix5);
         _PyMatrix5 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9480,7 +9577,7 @@ static PyObject *_wrap_gsl_fit_linear(PyObject *self, PyObject *args, PyObject *
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -9619,7 +9716,7 @@ static PyObject *_wrap_gsl_fit_wlinear(PyObject *self, PyObject *args, PyObject 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -9688,7 +9785,7 @@ static PyObject *_wrap_gsl_fit_linear_est(PyObject *self, PyObject *args, PyObje
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -9776,7 +9873,7 @@ static PyObject *_wrap_gsl_fit_mul(PyObject *self, PyObject *args, PyObject *kwa
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -9894,7 +9991,7 @@ static PyObject *_wrap_gsl_fit_wmul(PyObject *self, PyObject *args, PyObject *kw
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
@@ -9948,7 +10045,7 @@ static PyObject *_wrap_gsl_fit_mul_est(PyObject *self, PyObject *args, PyObject 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
             __FUNCTION__, 45);
             goto fail;
         }
