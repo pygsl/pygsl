@@ -1,0 +1,98 @@
+GSL interface for python
+
+Status of GSL-Library:
+
+The gsl-library is since version 1.0 stable and for general use. More
+information about it at http://sources.redhat.com/gsl/.
+
+Status of this interface:
+
+We are collecting implementations of parts of gsl. So the interface is not
+complete.
+
+Requirements:
+
+To build the interface, you will need
+
+   * gsl-1.0 or better,
+   * python2.0 or better and
+   * a c compiler (like gcc).
+
+Retriving the Interface:
+
+You can download it here: http://pygsl.sourceforge.net
+
+Installing GSL interface:
+
+gsl-config must be on your path:
+
+gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
+cd pygsl-x.y.z
+#do this with your prefered python version
+python setup.py build
+# change to a id, that is allowed to do installation
+python setup.py install
+
+Ready....
+
+Uninstall GSL interface:
+
+rm -r "python install path"/lib/python"version"/site-packages/pygsl
+
+Supported Platforms:
+
+   * Linux (Redhat 7.*/SuSE) with python2.* and gsl-1.*
+   * SUN
+
+Testing:
+
+not yet (coming soon...)
+
+What is implemented:
+
+   * module pygsl.sf: with 200 special functions
+   * module pygsl.const: with 23 often used mathematical constants
+   * module pygsl.ieee: access to the ieee-arithmetics layer of gsl
+   * module pygsl.rng: provides several random number generators and
+     different probability densities
+
+Documentation:
+
+There will be a little tutorial, but the function reference can be found at
+the gsl-reference.
+
+Support:
+
+Please send mails to the pygsl mailinglist.
+
+Developement:
+
+You can browse our cvs tree.
+
+Type this to check out the actual version:
+cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login
+Hit return for no password.
+cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co
+pygsl
+
+The script tools/extract_tool.py generates most of the special function
+code.
+
+ToDo:
+
+Implement other parts: (I don't want to do that alone)
+
+   * Chebyshev-Series
+   * Complex Numbers
+   * Matrix
+   * Lin Algebra
+   * Permutation
+   * Sorting
+   * Statistics
+   * Fitting/Minimization
+   * FFT
+   * Numerical Integration
+
+Maintainer:
+
+AchimGaedke@users.sourceforge.net

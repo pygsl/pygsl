@@ -21,8 +21,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -49,8 +48,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -77,8 +75,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -105,8 +102,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -133,8 +129,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -161,8 +156,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -189,8 +183,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -217,8 +210,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -248,8 +240,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -279,8 +270,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -310,8 +300,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -341,8 +330,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -366,8 +354,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -391,8 +378,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -417,8 +403,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -442,8 +427,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -467,8 +451,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -493,8 +476,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -518,8 +500,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -543,8 +524,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -569,8 +549,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -594,8 +573,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -619,8 +597,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -645,8 +622,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -670,8 +646,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -695,8 +670,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -721,8 +695,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -746,8 +719,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -771,8 +743,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -797,8 +768,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -822,8 +792,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -847,8 +816,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -872,8 +840,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -898,8 +865,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -923,8 +889,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -948,8 +913,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -973,8 +937,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -999,8 +962,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1024,8 +986,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1049,8 +1010,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1074,8 +1034,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1100,8 +1059,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1125,8 +1083,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1150,8 +1107,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1175,8 +1131,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1201,8 +1156,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1227,8 +1181,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1253,8 +1206,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1279,8 +1231,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1305,8 +1256,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1331,8 +1281,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1357,8 +1306,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1383,8 +1331,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1414,8 +1361,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1445,8 +1391,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1477,8 +1422,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1502,8 +1446,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1532,8 +1475,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1562,8 +1504,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1595,8 +1536,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1621,8 +1561,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1649,8 +1588,39 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
+return returned_object;
+}
 
-returned_object=Py_BuildValue("dd",result.val,result.err);
+/* wrapper for int gsl_sf_coulomb_wave_FG_e(const double eta, const double x, const double lam_F, const int  k_lam_G, gsl_sf_result * F, gsl_sf_result * Fp, gsl_sf_result * G, gsl_sf_result * Gp, double * exp_F, double * exp_G); */
+static PyObject* gsl_sf_coulomb_wave_FG_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double eta=0.0;
+double x=0.0;
+double lam_F=0.0;
+int k_lam_G=0;
+gsl_sf_result F;
+gsl_sf_result Fp;
+gsl_sf_result G;
+gsl_sf_result Gp;
+double exp_F;
+double exp_G;
+
+if (!PyArg_ParseTuple(args, "dddi", &eta, &x, &lam_F, &k_lam_G)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_coulomb_wave_FG_e(eta, x, lam_F, k_lam_G, &F, &Fp, &G, &Gp, &exp_F, &exp_G);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)(dd)(dd)(dd)dd",F.val, F.err, Fp.val, Fp.err, G.val, G.err, Gp.val, Gp.err, exp_F, exp_G);
 return returned_object;
 }
 
@@ -1675,8 +1645,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1700,8 +1669,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1725,8 +1693,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1750,8 +1717,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1775,8 +1741,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1800,8 +1765,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1825,8 +1789,33 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
+return returned_object;
+}
 
-returned_object=Py_BuildValue("dd",result.val,result.err);
+/* wrapper for int gsl_sf_complex_dilog_e(const double r, double theta, gsl_sf_result * result_re, gsl_sf_result * result_im); */
+static PyObject* gsl_sf_complex_dilog_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double r=0.0;
+double theta=0.0;
+gsl_sf_result result_re;
+gsl_sf_result result_im;
+
+if (!PyArg_ParseTuple(args, "dd", &r, &theta)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_complex_dilog_e(r, theta, &result_re, &result_im);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)(dd)",result_re.val, result_re.err, result_im.val, result_im.err);
 return returned_object;
 }
 
@@ -1851,8 +1840,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1879,8 +1867,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1907,8 +1894,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1935,8 +1921,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1964,8 +1949,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -1993,8 +1977,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2023,8 +2006,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2053,8 +2035,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2082,8 +2063,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2112,8 +2092,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2142,8 +2121,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2173,8 +2151,34 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
+return returned_object;
+}
 
-returned_object=Py_BuildValue("dd",result.val,result.err);
+/* wrapper for int gsl_sf_elljac_e(double u, double m, double * sn, double * cn, double * dn); */
+static PyObject* gsl_sf_elljac_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double u=0.0;
+double m=0.0;
+double sn;
+double cn;
+double dn;
+
+if (!PyArg_ParseTuple(args, "dd", &u, &m)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_elljac_e(u, m, &sn, &cn, &dn);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("ddd",sn, cn, dn);
 return returned_object;
 }
 
@@ -2198,8 +2202,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2223,8 +2226,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2248,8 +2250,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2273,8 +2274,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2298,8 +2298,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2323,8 +2322,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2348,8 +2346,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2373,8 +2370,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2398,8 +2394,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2423,8 +2418,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2448,8 +2442,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2473,8 +2466,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2498,8 +2490,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2523,8 +2514,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2548,8 +2538,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2573,8 +2562,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2598,8 +2586,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2623,8 +2610,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2649,8 +2635,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2674,8 +2659,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2699,8 +2683,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2724,8 +2707,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2750,8 +2732,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2775,8 +2756,32 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
+return returned_object;
+}
 
-returned_object=Py_BuildValue("dd",result.val,result.err);
+/* wrapper for int gsl_sf_lngamma_sgn_e(double x, gsl_sf_result * result_lg, double *sgn); */
+static PyObject* gsl_sf_lngamma_sgn_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double x=0.0;
+gsl_sf_result result_lg;
+double sgn;
+
+if (!PyArg_ParseTuple(args, "d", &x)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_lngamma_sgn_e(x, &result_lg, &sgn);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)d",result_lg.val, result_lg.err, sgn);
 return returned_object;
 }
 
@@ -2800,8 +2805,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2825,8 +2829,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2850,8 +2853,33 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
+return returned_object;
+}
 
-returned_object=Py_BuildValue("dd",result.val,result.err);
+/* wrapper for int gsl_sf_lngamma_complex_e(double zr, double zi, gsl_sf_result * lnr, gsl_sf_result * arg); */
+static PyObject* gsl_sf_lngamma_complex_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double zr=0.0;
+double zi=0.0;
+gsl_sf_result lnr;
+gsl_sf_result arg;
+
+if (!PyArg_ParseTuple(args, "dd", &zr, &zi)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_lngamma_complex_e(zr, zi, &lnr, &arg);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)(dd)",lnr.val, lnr.err, arg.val, arg.err);
 return returned_object;
 }
 
@@ -2876,8 +2904,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2907,8 +2934,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2938,8 +2964,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -2969,8 +2994,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3000,8 +3024,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3038,8 +3061,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3076,8 +3098,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3102,8 +3123,33 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
+return returned_object;
+}
 
-returned_object=Py_BuildValue("dd",result.val,result.err);
+/* wrapper for int gsl_sf_lnpoch_sgn_e(const double a, const double x, gsl_sf_result * result, double * sgn); */
+static PyObject* gsl_sf_lnpoch_sgn_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double a=0.0;
+double x=0.0;
+gsl_sf_result result;
+double sgn;
+
+if (!PyArg_ParseTuple(args, "dd", &a, &x)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_lnpoch_sgn_e(a, x, &result, &sgn);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)d",result.val, result.err, sgn);
 return returned_object;
 }
 
@@ -3128,8 +3174,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3154,8 +3199,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3180,8 +3224,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3206,8 +3249,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3232,8 +3274,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3258,8 +3299,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3285,8 +3325,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3311,8 +3350,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3337,8 +3375,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3363,8 +3400,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3390,8 +3426,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3416,8 +3451,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3443,8 +3477,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3470,8 +3503,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3497,8 +3529,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3524,8 +3555,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("ddi",result.val,result.err,result.e10);
+returned_object=Py_BuildValue("(ddi)",result.val, result.err, result.e10);
 return returned_object;
 }
 
@@ -3551,8 +3581,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3578,8 +3607,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("ddi",result.val,result.err,result.e10);
+returned_object=Py_BuildValue("(ddi)",result.val, result.err, result.e10);
 return returned_object;
 }
 
@@ -3606,8 +3634,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3634,8 +3661,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3662,8 +3688,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3690,8 +3715,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3717,8 +3741,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3743,8 +3766,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3769,8 +3791,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3795,8 +3816,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3822,8 +3842,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3847,8 +3866,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3872,8 +3890,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3898,8 +3915,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3923,8 +3939,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3948,8 +3963,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3973,8 +3987,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -3998,8 +4011,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4023,8 +4035,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4049,8 +4060,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4076,8 +4086,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4103,8 +4112,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4129,8 +4137,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4155,8 +4162,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4181,8 +4187,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4207,8 +4212,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4234,8 +4238,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4261,8 +4264,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4287,8 +4289,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4313,8 +4314,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4340,8 +4340,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4365,8 +4364,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4390,8 +4388,33 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
+return returned_object;
+}
 
-returned_object=Py_BuildValue("dd",result.val,result.err);
+/* wrapper for int gsl_sf_complex_log_e(const double zr, const double zi, gsl_sf_result * lnr, gsl_sf_result * theta); */
+static PyObject* gsl_sf_complex_log_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double zr=0.0;
+double zi=0.0;
+gsl_sf_result lnr;
+gsl_sf_result theta;
+
+if (!PyArg_ParseTuple(args, "dd", &zr, &zi)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_complex_log_e(zr, zi, &lnr, &theta);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)(dd)",lnr.val, lnr.err, theta.val, theta.err);
 return returned_object;
 }
 
@@ -4415,8 +4438,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4440,8 +4462,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4466,8 +4487,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4491,8 +4511,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4516,8 +4535,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4541,8 +4559,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4566,8 +4583,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4592,8 +4608,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4617,8 +4632,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4642,8 +4656,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4667,8 +4680,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4692,8 +4704,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4717,8 +4728,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4742,8 +4752,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4767,8 +4776,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4792,8 +4800,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4818,8 +4825,85 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
+return returned_object;
+}
 
-returned_object=Py_BuildValue("dd",result.val,result.err);
+/* wrapper for int gsl_sf_complex_sin_e(const double zr, const double zi, gsl_sf_result * szr, gsl_sf_result * szi); */
+static PyObject* gsl_sf_complex_sin_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double zr=0.0;
+double zi=0.0;
+gsl_sf_result szr;
+gsl_sf_result szi;
+
+if (!PyArg_ParseTuple(args, "dd", &zr, &zi)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_complex_sin_e(zr, zi, &szr, &szi);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)(dd)",szr.val, szr.err, szi.val, szi.err);
+return returned_object;
+}
+
+/* wrapper for int gsl_sf_complex_cos_e(const double zr, const double zi, gsl_sf_result * czr, gsl_sf_result * czi); */
+static PyObject* gsl_sf_complex_cos_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double zr=0.0;
+double zi=0.0;
+gsl_sf_result czr;
+gsl_sf_result czi;
+
+if (!PyArg_ParseTuple(args, "dd", &zr, &zi)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_complex_cos_e(zr, zi, &czr, &czi);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)(dd)",czr.val, czr.err, czi.val, czi.err);
+return returned_object;
+}
+
+/* wrapper for int gsl_sf_complex_logsin_e(const double zr, const double zi, gsl_sf_result * lszr, gsl_sf_result * lszi); */
+static PyObject* gsl_sf_complex_logsin_e_wrap(PyObject *self, PyObject *args) {
+PyObject* returned_object;
+int int_result;
+double zr=0.0;
+double zi=0.0;
+gsl_sf_result lszr;
+gsl_sf_result lszi;
+
+if (!PyArg_ParseTuple(args, "dd", &zr, &zi)) {
+  /* say a little bit more */
+  return NULL;
+}
+int_result=gsl_sf_complex_logsin_e(zr, zi, &lszr, &lszi);
+
+if (int_result!=GSL_SUCCESS) {
+  const char* message;
+  message=gsl_strerror(int_result);
+  /* raise exception */
+  PyErr_SetString(gsl_module_error,message);
+  return NULL;
+}
+returned_object=Py_BuildValue("(dd)(dd)",lszr.val, lszr.err, lszi.val, lszi.err);
 return returned_object;
 }
 
@@ -4843,8 +4927,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4868,8 +4951,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4893,8 +4975,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4919,8 +5000,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4945,8 +5025,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4970,8 +5049,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -4995,8 +5073,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -5020,8 +5097,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -5045,8 +5121,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -5071,8 +5146,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -5096,8 +5170,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
@@ -5121,8 +5194,7 @@ if (int_result!=GSL_SUCCESS) {
   PyErr_SetString(gsl_module_error,message);
   return NULL;
 }
-
-returned_object=Py_BuildValue("dd",result.val,result.err);
+returned_object=Py_BuildValue("(dd)",result.val, result.err);
 return returned_object;
 }
 
