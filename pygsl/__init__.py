@@ -54,17 +54,16 @@ run_gsl_version = pygsl.init.run_gsl_version
 # The compile date
 compile_date = pygsl.init.compile_date
 
-version="0.1.x"
+version="0.2.0"
 __all__=['blas', 'chebyshev', 'combination', 'const', 'diff', 'eigen', 'fit',
          'ieee', 'integrate', 'interpolation','linalg', 'math', 'minimize',
-         'multifit', 'multifit_nlin', 'multimin', 'multiroots', 'odeiv',
-         'permutation', 'poly', 'qrng', 'rng', 'roots', 'siman', 'sf',
+         'monte', 'multifit', 'multifit_nlin', 'multimin', 'multiroots',
+         'odeiv', 'permutation', 'poly', 'qrng', 'rng', 'roots', 'siman', 'sf',
          'spline', 'statistics']
 
 if compiled_gsl_version != run_gsl_version:
     txt = """WARNING: This pygsl module was compiled for GSL version %s but it
 is used with version %s!"""
-
     raise Warning,  txt % (compiled_gsl_version, run_gsl_version)
 
 
