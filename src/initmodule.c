@@ -3,77 +3,21 @@
  * created: May 2001
  * file: pygsl/src/initmodule.c
  * $Id$
+ *
+ * Changes: 
+ *     7. October 2003:
+ *     Removed the error handler from this file. It is now in 
+ *     Lib/error_helpers.c Each module must call init_pygsl()
+ *     in its init routine. This is necessary to support platforms
+ *     where the gsl library is statically linked to the various 
+ *     modules.    
  */
 
-#include <gsl/gsl_errno.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_ieee_utils.h>
+#include <gsl/gsl_version.h>
 #include <Python.h>
-
-#if 0
-/*
- * sets the right exception, but does not return to python!
- */
-static
-void module_error_handler(const char *reason, /* name of function*/
-			 const char *file, /*from CPP*/
-			 int line,   /*from CPP*/
-			 int gsl_error) /* real "reason" */
-{
-  const char* error_explanation;
-  char error_text[255];
-  PyObject* gsl_error_object;
-  PyObject* gsl_error_module;
-  PyObject* gsl_error_dict;
-
-  error_explanation = gsl_strerror(gsl_error);
-  if (error_explanation==NULL)
-    if (reason==NULL)
-      snprintf(error_text,sizeof(error_text),
-	       "unknown error %d, no reason given",
-	       gsl_error);
-    else
-      snprintf(error_text,sizeof(error_text),
-	       "unknown error %d: %s",
-	       gsl_error,reason);
-  else
-    if (reason==NULL)
-      snprintf(error_text,sizeof(error_text),
-	       "%s",
-	       error_explanation);
-    else
-      snprintf(error_text,sizeof(error_text),
-	       "%s: %s",
-	       error_explanation,reason);
-
-  /*
-   * some functions call error handler more than once before returning 
-   *  report only the first (most specific) error 
-   */
-
-  /* test, if exception is already set */
-  /* ToDo: Send message only if debug mode enabled */
-  if (PyErr_Occurred()) {
-    fprintf(stderr,"Another error occured: %s\n",error_text);
-    return;
-  }
-
-
-  /* error handler for gsl routines, sets exception */
-
-  gsl_error_module=PyImport_ImportModule("pygsl.errors");
-  gsl_error_dict=PyModule_GetDict(gsl_error_module);
-  Py_INCREF(gsl_error_dict);
-  gsl_error_object=PyDict_GetItemString(gsl_error_dict,"gsl_Error");
-  Py_INCREF(gsl_error_object);
-  PyErr_SetObject(gsl_error_object,
-		  PyString_FromString(error_text));
-  Py_DECREF(gsl_error_object);
-  Py_DECREF(gsl_error_dict);
-  Py_DECREF(gsl_error_module);
-  return;
-}
-#endif
+#include <pygsl/error_helpers.h>
 
 static PyMethodDef initMethods[] = {
   {NULL,     NULL}        /* Sentinel */
@@ -82,13 +26,46 @@ static PyMethodDef initMethods[] = {
 
 DL_EXPORT(void) initinit(void)
 {
-  (void)Py_InitModule("pygsl.init", initMethods);
-  /* error handler for python exceptions*/
-  /* gsl_set_error_handler (&module_error_handler); */
+  PyObject *m = NULL, *d = NULL, *version=NULL;
+
+  m = Py_InitModule("pygsl.init", initMethods);
+  init_pygsl();
+
+  if(m == NULL){
+       fprintf(stderr, "I could not init pygsl.init!");
+       return;
+  }
+
+  d = PyModule_GetDict(m);
+  if(d == NULL){
+       fprintf(stderr, "I could not get the module dict for  pygsl.init!");
+       return;
+  }
+
+  version = PyString_FromString(GSL_VERSION);
+  if(version == NULL){
+       fprintf(stderr, "I could not create the version string for pygsl.init!");
+       return;
+  }
+  if(PyDict_SetItemString(d, "compiled_gsl_version", version) != 0){
+       fprintf(stderr, "I could not add the compile version string to the module dict of pygsl.init!");
+       return;
+  }
+
+  version = PyString_FromString(gsl_version);
+  if(version == NULL){
+       fprintf(stderr, "I could not create the version string for pygsl.init!");
+       return;
+  }
+  if(PyDict_SetItemString(d, "run_gsl_version", version) != 0){
+       fprintf(stderr, "I could not add the run version string to the module dict of pygsl.init!");
+       return;
+  }
+
   /* setup gsl mode and ieee modes from environment variable GSL_IEEE_MODE */
   gsl_ieee_env_setup();
   /* setup default random generator from environment variables */
   gsl_rng_env_setup();
-
+  
   return;
 }
