@@ -1,28 +1,30 @@
 # Author : Fabian Jakobs
-import fpformat
 import types
 import unittest
 import MLab
+import pygsl.math 
 from Numeric import *
+
+fcmp = pygsl.math.fcmp
 
 def fpcompare(a, b, digits):
     result = 1
     ac = type(a) is types.ComplexType
     bc = type(b) is types.ComplexType
     if ac and bc:
-        res1 = (fpformat.fix(a.real, digits) == fpformat.fix(b.real,digits))
-        res2 = (fpformat.fix(a.imag, digits) == fpformat.fix(b.imag,digits))
+        res1 = (fcmp(a.real, b.real, 10**-digits) == 0)
+        res2 = (fcmp(a.imag, b.imag, 10**-digits) == 0)
         result = res1 and res2
     elif ac and not bc:
-        res1 = (fpformat.fix(a.real, digits) == fpformat.fix(b,digits))
-        res2 = (fpformat.fix(a.imag, digits) == fpformat.fix(0,digits))
+        res1 = (fcmp(a.real, b, 10**-digits) == 0)
+        res2 = (fcmp(a.imag, 0, 10**-digits) == 0)
         result = res1 and res2
     elif not ac and bc:
-        res1 = (fpformat.fix(a, digits) == fpformat.fix(b.real,digits))
-        res2 = (fpformat.fix(0, digits) == fpformat.fix(b.imag,digits))
+        res1 = (fcmp(a, b.real, 10**-digits) == 0)
+        res2 = (fcmp(0, b.imag, 10**-digits) == 0)
         result = res1 and res2
     else:
-        result = (fpformat.fix(a, digits) == fpformat.fix(b,digits))
+        result = (fcmp(a, b, 10**-digits) == 0)
     return result
 
 def arrayCompare(a, l, digits):
