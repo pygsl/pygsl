@@ -47,13 +47,13 @@ typedef long double                         gsl_vector_long_double_basis_type;
 typedef double                              gsl_vector_double_basis_type; 
 typedef float                               gsl_vector_float_basis_type; 
 typedef double                              gsl_vector_basis_type; 
-typedef ulong                               gsl_vector_ulong_basis_type; 
+typedef unsigned long                       gsl_vector_ulong_basis_type; 
 typedef long                                gsl_vector_long_basis_type; 
-typedef uint                                gsl_vector_uint_basis_type; 
+typedef unsigned int                        gsl_vector_uint_basis_type; 
 typedef int                                 gsl_vector_int_basis_type; 
-typedef ushort                              gsl_vector_ushort_basis_type; 
+typedef unsigned short                      gsl_vector_ushort_basis_type; 
 typedef short                               gsl_vector_short_basis_type; 
-typedef uchar                               gsl_vector_uchar_basis_type; 
+typedef unsigned char                       gsl_vector_uchar_basis_type; 
 typedef char                                gsl_vector_char_basis_type; 
 
 typedef gsl_complex_long_double             gsl_vector_complex_long_double_view_basis_type; 
@@ -64,17 +64,17 @@ typedef long double                         gsl_vector_long_double_view_basis_ty
 typedef double                              gsl_vector_double_view_basis_type; 
 typedef float                               gsl_vector_float_view_basis_type; 
 typedef double                              gsl_vector_view_basis_type; 
-typedef ulong                               gsl_vector_ulong_view_basis_type; 
+typedef unsigned long                       gsl_vector_ulong_view_basis_type; 
 typedef long                                gsl_vector_long_view_basis_type; 
-typedef uint                                gsl_vector_uint_view_basis_type; 
+typedef unsigned int                        gsl_vector_uint_view_basis_type; 
 typedef int                                 gsl_vector_int_view_basis_type; 
-typedef ushort                              gsl_vector_ushort_view_basis_type; 
+typedef unsigned short                      gsl_vector_ushort_view_basis_type; 
 typedef short                               gsl_vector_short_view_basis_type; 
-typedef uchar                               gsl_vector_uchar_view_basis_type; 
+typedef unsigned char                       gsl_vector_uchar_view_basis_type; 
 typedef char                                gsl_vector_char_view_basis_type; 
 
 
-typedef long_double                         gsl_vector_complex_long_double_basis_c_type; 
+typedef long double                         gsl_vector_complex_long_double_basis_c_type; 
 typedef double                              gsl_vector_complex_double_basis_c_type; 
 typedef float                               gsl_vector_complex_float_basis_c_type; 
 typedef double                              gsl_vector_complex_basis_c_type; 
@@ -82,16 +82,16 @@ typedef long double                         gsl_vector_long_double_basis_c_type;
 typedef double                              gsl_vector_double_basis_c_type; 
 typedef float                               gsl_vector_float_basis_c_type; 
 typedef double                              gsl_vector_basis_c_type; 
-typedef ulong                               gsl_vector_ulong_basis_c_type; 
+typedef unsigned long                       gsl_vector_ulong_basis_c_type; 
 typedef long                                gsl_vector_long_basis_c_type; 
-typedef uint                                gsl_vector_uint_basis_c_type; 
+typedef unsigned int                        gsl_vector_uint_basis_c_type; 
 typedef int                                 gsl_vector_int_basis_c_type; 
-typedef ushort                              gsl_vector_ushort_basis_c_type; 
+typedef unsigned short                      gsl_vector_ushort_basis_c_type; 
 typedef short                               gsl_vector_short_basis_c_type; 
-typedef uchar                               gsl_vector_uchar_basis_c_type; 
+typedef unsigned char                       gsl_vector_uchar_basis_c_type; 
 typedef char                                gsl_vector_char_basis_c_type; 
 
-typedef long_double                         gsl_vector_complex_long_double_view_basis_c_type; 
+typedef long double                         gsl_vector_complex_long_double_view_basis_c_type; 
 typedef double                              gsl_vector_complex_double_view_basis_c_type; 
 typedef float                               gsl_vector_complex_float_view_basis_c_type; 
 typedef double                              gsl_vector_complex_view_basis_c_type; 
@@ -99,13 +99,13 @@ typedef long double                         gsl_vector_long_double_view_basis_c_
 typedef double                              gsl_vector_double_view_basis_c_type; 
 typedef float                               gsl_vector_float_view_basis_c_type; 
 typedef double                              gsl_vector_view_basis_c_type; 
-typedef ulong                               gsl_vector_ulong_view_basis_c_type; 
+typedef unsigned long                       gsl_vector_ulong_view_basis_c_type; 
 typedef long                                gsl_vector_long_view_basis_c_type; 
-typedef uint                                gsl_vector_uint_view_basis_c_type; 
+typedef unsigned int                        gsl_vector_uint_view_basis_c_type; 
 typedef int                                 gsl_vector_int_view_basis_c_type; 
-typedef ushort                              gsl_vector_ushort_view_basis_c_type; 
+typedef unsigned short                      gsl_vector_ushort_view_basis_c_type; 
 typedef short                               gsl_vector_short_view_basis_c_type; 
-typedef uchar                               gsl_vector_uchar_view_basis_c_type; 
+typedef unsigned char                       gsl_vector_uchar_view_basis_c_type; 
 typedef char                                gsl_vector_char_view_basis_c_type; 
 
 
@@ -330,13 +330,13 @@ typedef long double                         gsl_matrix_long_double_basis_type;
 typedef double                              gsl_matrix_double_basis_type; 
 typedef float                               gsl_matrix_float_basis_type; 
 typedef double                              gsl_matrix_basis_type; 
-typedef ulong                               gsl_matrix_ulong_basis_type; 
+typedef unsigned long                       gsl_matrix_ulong_basis_type; 
 typedef long                                gsl_matrix_long_basis_type; 
-typedef uint                                gsl_matrix_uint_basis_type; 
+typedef unsigned int                        gsl_matrix_uint_basis_type; 
 typedef int                                 gsl_matrix_int_basis_type; 
-typedef ushort                              gsl_matrix_ushort_basis_type; 
+typedef unsigned short                      gsl_matrix_ushort_basis_type; 
 typedef short                               gsl_matrix_short_basis_type; 
-typedef uchar                               gsl_matrix_uchar_basis_type; 
+typedef unsigned char                       gsl_matrix_uchar_basis_type; 
 typedef char                                gsl_matrix_char_basis_type; 
 
 typedef gsl_complex_long_double             gsl_matrix_complex_long_double_view_basis_type; 
@@ -347,17 +347,17 @@ typedef long double                         gsl_matrix_long_double_view_basis_ty
 typedef double                              gsl_matrix_double_view_basis_type; 
 typedef float                               gsl_matrix_float_view_basis_type; 
 typedef double                              gsl_matrix_view_basis_type; 
-typedef ulong                               gsl_matrix_ulong_view_basis_type; 
+typedef unsigned long                       gsl_matrix_ulong_view_basis_type; 
 typedef long                                gsl_matrix_long_view_basis_type; 
-typedef uint                                gsl_matrix_uint_view_basis_type; 
+typedef unsigned int                        gsl_matrix_uint_view_basis_type; 
 typedef int                                 gsl_matrix_int_view_basis_type; 
-typedef ushort                              gsl_matrix_ushort_view_basis_type; 
+typedef unsigned short                      gsl_matrix_ushort_view_basis_type; 
 typedef short                               gsl_matrix_short_view_basis_type; 
-typedef uchar                               gsl_matrix_uchar_view_basis_type; 
+typedef unsigned char                       gsl_matrix_uchar_view_basis_type; 
 typedef char                                gsl_matrix_char_view_basis_type; 
 
 
-typedef long_double                         gsl_matrix_complex_long_double_basis_c_type; 
+typedef long double                         gsl_matrix_complex_long_double_basis_c_type; 
 typedef double                              gsl_matrix_complex_double_basis_c_type; 
 typedef float                               gsl_matrix_complex_float_basis_c_type; 
 typedef double                              gsl_matrix_complex_basis_c_type; 
@@ -365,16 +365,16 @@ typedef long double                         gsl_matrix_long_double_basis_c_type;
 typedef double                              gsl_matrix_double_basis_c_type; 
 typedef float                               gsl_matrix_float_basis_c_type; 
 typedef double                              gsl_matrix_basis_c_type; 
-typedef ulong                               gsl_matrix_ulong_basis_c_type; 
+typedef unsigned long                       gsl_matrix_ulong_basis_c_type; 
 typedef long                                gsl_matrix_long_basis_c_type; 
-typedef uint                                gsl_matrix_uint_basis_c_type; 
+typedef unsigned int                        gsl_matrix_uint_basis_c_type; 
 typedef int                                 gsl_matrix_int_basis_c_type; 
-typedef ushort                              gsl_matrix_ushort_basis_c_type; 
+typedef unsigned short                      gsl_matrix_ushort_basis_c_type; 
 typedef short                               gsl_matrix_short_basis_c_type; 
-typedef uchar                               gsl_matrix_uchar_basis_c_type; 
+typedef unsigned char                       gsl_matrix_uchar_basis_c_type; 
 typedef char                                gsl_matrix_char_basis_c_type; 
 
-typedef long_double                         gsl_matrix_complex_long_double_view_basis_c_type; 
+typedef long double                         gsl_matrix_complex_long_double_view_basis_c_type; 
 typedef double                              gsl_matrix_complex_double_view_basis_c_type; 
 typedef float                               gsl_matrix_complex_float_view_basis_c_type; 
 typedef double                              gsl_matrix_complex_view_basis_c_type; 
@@ -382,13 +382,13 @@ typedef long double                         gsl_matrix_long_double_view_basis_c_
 typedef double                              gsl_matrix_double_view_basis_c_type; 
 typedef float                               gsl_matrix_float_view_basis_c_type; 
 typedef double                              gsl_matrix_view_basis_c_type; 
-typedef ulong                               gsl_matrix_ulong_view_basis_c_type; 
+typedef unsigned long                       gsl_matrix_ulong_view_basis_c_type; 
 typedef long                                gsl_matrix_long_view_basis_c_type; 
-typedef uint                                gsl_matrix_uint_view_basis_c_type; 
+typedef unsigned int                        gsl_matrix_uint_view_basis_c_type; 
 typedef int                                 gsl_matrix_int_view_basis_c_type; 
-typedef ushort                              gsl_matrix_ushort_view_basis_c_type; 
+typedef unsigned short                      gsl_matrix_ushort_view_basis_c_type; 
 typedef short                               gsl_matrix_short_view_basis_c_type; 
-typedef uchar                               gsl_matrix_uchar_view_basis_c_type; 
+typedef unsigned char                       gsl_matrix_uchar_view_basis_c_type; 
 typedef char                                gsl_matrix_char_view_basis_c_type; 
 
 

@@ -1,6 +1,16 @@
 #ifndef _PyGSL_BLOCK_CONVERSION_FUNCTIONS_H_
 #define _PyGSL_BLOCK_CONVERSION_FUNCTIONS_H_ 1
 
+/* 
+ * Types necessary as changed from defines to typedefs
+ */
+/*
+typedef unsigned char  uchar;
+typedef long double    long_double; 
+typedef unsigned long  ulong;
+typedef unsigned int   uint;
+typedef unsigned short ushort;
+*/
 #include <typemaps/convert_block_description.h>
 #define gsl_vector_complex_view_memcpy(dst, src)       gsl_vector_complex_memcpy(dst, src)
 #define gsl_vector_complex_float_view_memcpy(dst, src) gsl_vector_complex_float_memcpy(dst, src)

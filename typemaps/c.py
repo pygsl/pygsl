@@ -6,7 +6,7 @@
 import sys
 
 vector_dic = {
-"complex_long_double"  :   ("PyArray_NOTYPE  ","gsl_complex_long_double" ,"long_double" ),
+"complex_long_double"  :   ("PyArray_NOTYPE  ","gsl_complex_long_double" ,"long double" ),
 "complex_double"       :   ("PyArray_CDOUBLE ","gsl_complex"             ,"double"      ),
 "complex_float"        :   ("PyArray_CFLOAT  ","gsl_complex_float"       ,"float"       ),
 "complex"              :   ("PyArray_CDOUBLE ","gsl_complex"             ,"double"      ),
@@ -16,16 +16,16 @@ vector_dic = {
 "float"                :   ("PyArray_FLOAT   ","float"                   ,"float"       ),
 ""                      :  ("PyArray_DOUBLE  ","double"                  ,"double"      ),
                                                                                         
-"ulong"                :   ("PyArray_NOTYPE  ","ulong"                   ,"ulong"       ),
+"ulong"                :   ("PyArray_NOTYPE  ","unsigned long"                   ,"unsigned long"),
 "long"                 :   ("PyArray_LONG    ","long"                    ,"long"        ),
                                                                                         
-"uint"                 :   ("PyArray_NOTYPE  ","uint"                    ,"uint"        ),
+"uint"                 :   ("PyArray_NOTYPE  ","unsigned int"                    ,"unsigned int"),
 "int"                  :   ("PyArray_INT     ","int"                     ,"int"         ),
                                                                                         
-"ushort"               :   ("PyArray_NOTYPE  ","ushort"                  ,"ushort"      ),
+"ushort"               :   ("PyArray_NOTYPE  ","unsigned short"                  ,"unsigned short"),
 "short"                :   ("PyArray_SHORT   ","short"                   ,"short"       ),
                                                                                         
-"uchar"                :   ("PyArray_NOTYPE  ","uchar"                   ,"uchar"       ),
+"uchar"                :   ("PyArray_NOTYPE  ","unsigned char"                   ,"unsigned char"),
 "char"                 :   ("PyArray_CHAR    ","char"                    ,"char"        ),
 }
 vector_tuple =(
