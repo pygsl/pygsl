@@ -11,7 +11,7 @@ pygsl_sf=gsl_Extension("sf",
                        )
 pygsl_histogram=gsl_Extension("histogram",
                               ['src/histogrammodule.c'],
-                              gsl_min_version=(1,),
+                              gsl_min_version=(1,'0+'),
                               python_min_version=(2,2)
                               )
 pygsl_ieee=gsl_Extension("ieee",
@@ -26,7 +26,7 @@ pygsl__rng=gsl_Extension("_rng",
                          )
 pygsl_const=gsl_Extension("const",
 			  ['src/constmodule.c'],
-                          gsl_min_version=(1,),
+                          gsl_min_version=(1,'0+'),
                           python_min_version=(2,1)
                           )
 pygsl_init=gsl_Extension("init",
@@ -34,11 +34,22 @@ pygsl_init=gsl_Extension("init",
                          gsl_min_version=(1,),
                          python_min_version=(2,1)
                          )
-pygsl_statistics=gsl_Extension("statistics",
-                               ['src/statisticsmodule.c'],
-                               gsl_min_version=(1,),
-                               python_min_version=(2,1)
-                               )
+pygsl_siman=gsl_Extension("siman",
+                          ['src/simanmodule.c'],
+                          gsl_min_version=(1,),
+                          python_min_version=(2,1)
+                          )
+pygsl_statistics_double=gsl_Extension("statistics.double",
+                                      ['src/statistics/doublemodule.c'],
+                                      gsl_min_version=(1,),
+                                      python_min_version=(2,1)
+                                      )
+pygsl_statistics_long=gsl_Extension("statistics.long",
+                                    ['src/statistics/longmodule.c'],
+                                    gsl_min_version=(1,),
+                                    python_min_version=(2,1)
+                                    )
+
 
 setup (name = "pygsl",
        version = "0.0.5",
@@ -46,8 +57,22 @@ setup (name = "pygsl",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",
        url = "http://pygsl.sourceforge.net",
-       py_modules = ['pygsl.errors','pygsl.rng'],
+       py_modules = ['pygsl.errors',
+                     'pygsl.rng',
+                     'pygsl.statistics.__init__'
+                     ],
        ext_package = 'pygsl',
-       ext_modules = [pygsl_sf, pygsl_const, pygsl_ieee, pygsl__rng,
-                      pygsl_histogram, pygsl_statistics, pygsl_init],
+       ext_modules = [pygsl_init,
+                      pygsl_sf,
+                      pygsl_const,
+                      pygsl_ieee,
+                      pygsl__rng,
+                      pygsl_histogram,
+                      pygsl_statistics_double,
+                      pygsl_statistics_long,
+                      pygsl_siman,
+                      ]
        )
+
+
+
