@@ -26,7 +26,7 @@ class gsl_rng:
         """
         frees the random number generator
         """
-        if self._rng!=None:
+        if self._rng is not None:
             pygsl._rng.free(self._rng)
             pygsl._rng=None
 

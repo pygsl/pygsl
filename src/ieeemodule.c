@@ -76,6 +76,7 @@ static PyObject* set_mode(PyObject *self,
   if (GSL_SUCCESS!=gsl_ieee_set_mode(precision, rounding, exception_mask))
     return NULL;
 
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
@@ -84,6 +85,7 @@ static PyObject* env_setup(PyObject *self,
 			   )
 {
   gsl_ieee_env_setup();
+  Py_INCREF(Py_None);
   return Py_None;
 }
 

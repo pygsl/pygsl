@@ -59,6 +59,7 @@ static void define_rng_names(PyObject* module)
       PyObject* new_object;
       new_object=PyCObject_FromVoidPtr ((void*)rng_names[i].type, NULL);
       PyDict_SetItemString(module_dict,rng_names[i].name,new_object);
+      Py_DECREF(new_object);
       i++;
     }
   return;
@@ -66,10 +67,11 @@ static void define_rng_names(PyObject* module)
 
 
 static PyObject* rng_env_setup(PyObject *self,
-			   PyObject *args
-			   )
+			       PyObject *args
+			       )
 {
   gsl_rng_env_setup();
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
@@ -107,12 +109,17 @@ static PyObject* rng_free(PyObject *self,
   PyObject* py_rng;
   gsl_rng* rng;
 
-  if (0==PyArg_ParseTuple(args,"O",&py_rng))
+  if (0==PyArg_ParseTuple(args,"O",&py_rng)) {
     return NULL;
+  }
   rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
-
+  if (rng==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "_rng.free got a void pointer" );
+    return NULL;
+  }
   gsl_rng_free(rng);
 
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
@@ -155,6 +162,7 @@ static PyObject* rng_set(PyObject *self,
 
   gsl_rng_set(rng,seed);
 
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
