@@ -5,14 +5,12 @@
  * $Id$
  *
  * optional usage of Numeric module, available at http://numpy.sourceforge.net
+ * "
  */
 
 #include <pygsl/error_helpers.h>
+#include <pygsl/block_helpers.h>
 #include <Python.h>
-#if NUMERIC!=0
-# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_DOUBLE
-# include <Numeric/arrayobject.h>
-#endif
 #include <gsl/gsl_statistics.h>
 
 
@@ -24,6 +22,7 @@
 #define STATMOD_FUNC_EXT(X, Y) X ## Y
 #define STATMOD_PY_AS_C PyFloat_AsDouble
 #define STATMOD_C_TYPE double
+#define PyGSL_STATISTICS_IMPORT_API
 #include "functions.c"
 
 
@@ -33,10 +32,9 @@
 
 DL_EXPORT(void) initdouble(void)
 {
-#if NUMERIC!=0
     import_array();
-#endif
     init_pygsl();
+    import_pygsl_stats();
     (void)Py_InitModule("double", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
     return;
 }

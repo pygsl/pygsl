@@ -5,15 +5,13 @@
  * $Id$
  *
  * optional usage of Numeric module, available at http://numpy.sourceforge.net
+ *"
  */
 
 
 #include <Python.h>
 #include <pygsl/error_helpers.h>
-#if NUMERIC!=0
-# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_LONG
-# include <Numeric/arrayobject.h>
-#endif
+#include <pygsl/block_helpers.h>
 #include <gsl/gsl_statistics.h>
 
 
@@ -24,6 +22,7 @@
 #define STATMOD_FUNC_EXT(X, Y) X ## _int ## Y
 #define STATMOD_PY_AS_C PyInt_AsLong
 #define STATMOD_C_TYPE int
+#define PyGSL_STATISTICS_IMPORT_API
 #include "functions.c"
 
 
@@ -32,10 +31,9 @@
 DL_EXPORT(void) initint(void)
 {
     Py_InitModule("int", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
-#if NUMERIC!=0
     import_array();
-#endif
     init_pygsl();
+    import_pygsl_stats();
     return;
 }
 

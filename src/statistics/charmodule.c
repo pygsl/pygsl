@@ -5,15 +5,13 @@
  * $Id$
  *
  * optional usage of Numeric module, available at http://numpy.sourceforge.net
+ *"
  */
 
 
 #include <Python.h>
 #include <pygsl/error_helpers.h>
-#if NUMERIC!=0
-# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_LONG
-# include <Numeric/arrayobject.h>
-#endif
+#include <pygsl/block_helpers.h>
 #include <gsl/gsl_statistics.h>
 
 
@@ -34,10 +32,9 @@
 DL_EXPORT(void) initchar(void)
 {
     Py_InitModule("char", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
-#if NUMERIC!=0
     import_array();
-#endif
     init_pygsl();
+    import_pygsl_stats();
     return;
 }
 

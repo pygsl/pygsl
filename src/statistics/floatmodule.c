@@ -4,17 +4,14 @@
  * file: pygsl/src/statisticsmodule.c
  * $Id$
  *
- * optional usage of Numeric module, available at http://numpy.sourceforge.net
+ * "
  */
 
 
 #include <Python.h>
 #include <gsl/gsl_statistics.h>
 #include <pygsl/error_helpers.h>
-#if NUMERIC!=0
-# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_FLOAT
-# include <Numeric/arrayobject.h>
-#endif /* NUMERIC */
+#include <pygsl/block_helpers.h>
 
 
 /* include real functions for default data-types (double in C) */
@@ -37,9 +34,9 @@
 
 DL_EXPORT(void) initfloat(void)
 {
-#if NUMERIC!=0
+
     import_array();
-#endif
+    import_pygsl_stats();
     init_pygsl();
     (void)Py_InitModule("float", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
     return;
