@@ -92,3 +92,7 @@
 {"solar_mass",GSL_CONST_MKS_SOLAR_MASS,"kg"},
 {"bohr_radius",GSL_CONST_MKS_BOHR_RADIUS,"m"},
 {"vacuum_permittivity",GSL_CONST_MKS_VACUUM_PERMITTIVITY,"A^2 s^4 / kg m^3"},
+{"newton",GSL_CONST_MKS_NEWTON,"kg m / s^2"},
+{"dyne",GSL_CONST_MKS_DYNE,"kg m / s^2"},
+{"joule",GSL_CONST_MKS_JOULE,"kg m^2 / s^2"},
+{"erg",GSL_CONST_MKS_ERG,"kg m^2 / s^2"},
