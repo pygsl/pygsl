@@ -26,22 +26,36 @@ void module_error_handler(const char *reason, /* name of function*/
 
   error_explanation = gsl_strerror(gsl_error);
   if (error_explanation==NULL)
-    snprintf(error_text,sizeof(error_text),
-	     "unknown error %d in %s",
-	     gsl_error,reason);
+    if (reason==NULL)
+      snprintf(error_text,sizeof(error_text),
+	       "unknown error %d, no reason given",
+	       gsl_error);
+    else
+      snprintf(error_text,sizeof(error_text),
+	       "unknown error %d: %s",
+	       gsl_error,reason);
   else
-    snprintf(error_text,sizeof(error_text),
-	     "%s in %s",
-	     error_explanation,reason);
+    if (reason==NULL)
+      snprintf(error_text,sizeof(error_text),
+	       "%s",
+	       error_explanation);
+    else
+      snprintf(error_text,sizeof(error_text),
+	       "%s: %s",
+	       error_explanation,reason);
 
   /* error handler for gsl routines, sets exception */
 
   gsl_error_module=PyImport_ImportModule("pygsl.errors");
   gsl_error_dict=PyModule_GetDict(gsl_error_module);
+  Py_INCREF(gsl_error_dict);
   gsl_error_object=PyDict_GetItemString(gsl_error_dict,"gsl_Error");
-
+  Py_INCREF(gsl_error_object);
   PyErr_SetObject(gsl_error_object,
 		  PyString_FromString(error_text));
+  Py_DECREF(gsl_error_object);
+  Py_DECREF(gsl_error_dict);
+  Py_DECREF(gsl_error_module);
   return;
 }
 

@@ -6,4 +6,4 @@
 import pygsl.init
 
 version="0.0.4"
-__all__=['sf','const','ieee','rng','errors']
+__all__=['sf','const','ieee','rng','errors','histogram']

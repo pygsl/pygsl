@@ -5,7 +5,7 @@ import os.path
 import re
 import string
 import types
-from sys import argv
+from sys import argv,version_info
 
 # steel --gsl-prefix from option list
 
@@ -39,7 +39,8 @@ class gsl_Extension(Extension):
 		     extra_link_args=None,
 		     export_symbols=None,
                      gsl_prefix=None,
-		     gsl_needed_version=None,
+		     gsl_min_version=None,
+		     python_min_version=None
 		     ):
 
             if gsl_prefix is not None:
@@ -52,12 +53,17 @@ class gsl_Extension(Extension):
             # get real prefix
             self.gsl_prefix=self.get_gsl_prefix()
 
+            # check gsl version
+            if gsl_min_version is not None and \
+               not self.check_gsl_version(gsl_min_version):
+		    raise DistutilsExecError, \
+			  "min gsl version %s required"%repr(gsl_min_version)
 
-            # check version
-            if gsl_needed_version is not None and \
-               not self.check_version(gsl_needed_version):
-                raise DistutilsExecError, \
-                      "min version "+repr(gsl_needed_version)+" required"
+            # check python version
+            if python_min_version is not None and \
+               not self.check_python_version(python_min_version):
+		    raise DistutilsExecError, \
+			  "min python version %s required"%repr(python_min_version)
 
             # prepend include directory
             if include_dirs is None: include_dirs=[]
@@ -93,21 +99,26 @@ class gsl_Extension(Extension):
                                export_symbols
                                )
 
-	def check_version(self, version_array):
-
-		my_version=self.get_gsl_version()
-		min_length=min(len(version_array),len(my_version))
+	def check_version(self, required_version, this_version):
+		min_length=min(len(required_version),len(this_version))
 		for pos in range(min_length):
-			this_type=type(version_array[pos])
+			this_type=type(required_version[pos])
 			if  this_type== types.StringType:
-				if version_array[pos]>my_version[pos]: return 0
+				if required_version[pos]>this_version[pos]: return 0
 			elif this_type == types.IntType:
-				if version_array[pos]>int(my_version[pos]): return 0
+				if required_version[pos]>int(this_version[pos]): return 0
 			else:
 				raise DistutilsExecError,"incorrect version specification"
                 # problematic: 0.9 < 0.9.0, but assures that 0.9.1 > 0.9
-                if len(version_array)>len(my_version): return 0
+                if len(required_version)>len(this_version): return 0
 		return 1
+
+
+	def check_gsl_version(self, version_array):
+		return self.check_version(version_array,self.get_gsl_version())
+
+	def check_python_version(self, version_array):
+		return self.check_version(version_array,version_info)
 			
 	# get gsl-prefix option
 	def get_gsl_info(self, arguments):
