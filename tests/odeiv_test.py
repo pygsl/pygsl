@@ -42,9 +42,10 @@ def test_evolve_bsimp():
     t = 0.0
     t1 = 100.0
     y = Numeric.array((1.0, 0.0))
+
     while t<t1:
         t, h, y = evolve.apply(t, t1, h, y)
-
+	y = y[-1]
 
 
 
@@ -55,7 +56,7 @@ def test_evolve_bsimp():
     y = (1.0, 0.0)
     while t<t1:
         t, h, y = evolve1.apply(t, t1, h, y)
-
+	y = y[-1]
     
 def test_evolve():
     dimension = 2
@@ -69,8 +70,9 @@ def test_evolve():
     print  step.name(), step.order()
     while t<t1:
         t, h, y = evolve.apply(t, t1, h, y)
+	y = y[-1]
 
-
+	
     dimension = 2
     steps = (
              odeiv.step_rk2,
@@ -94,6 +96,7 @@ def test_evolve():
         y = (1.0, 0.0)
         while t<t1/2.0:
             t, h, y = evolve.apply(t, t1, h, y)
+	    y = y[-1]
         y, yerr, dydt = step.apply(t, h, y, None)
         h, msg = control.hadjust(y, yerr, dydt, h)
         assert(msg == odeiv.HADJ_DEC or
@@ -104,7 +107,7 @@ def test_evolve():
         evolve.reset()
         while t<t1:
             t, h, y = evolve.apply(t, t1, h, y)
-
+	    y = y[-1]
 
         
 def test_memory_usage():
