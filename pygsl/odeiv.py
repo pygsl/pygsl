@@ -4,8 +4,8 @@
 Wrapper for the ode solver of gsl. This solver wraps all features as descirbed
 in Chapter 25 of the gsl documentation.
 
-The _odeiv file provides the low level wrapper. Direct usage at your special own
-risk.
+The _odeiv file provides the low level wrapper. Direct usage at your special
+own risk.
 
 Here is the pythonic version of the example from the gsl documentation.
 
@@ -65,11 +65,8 @@ while t<t1:
 
 import _callback
 
-
-
 class __step:
-    """
-    
+    """    
     The lowest  level components  are the stepping  functions which  advance a
     solution  from time t  to t+h  for a  fixed step-size  h and  estimate the
     resulting local error.
@@ -88,12 +85,12 @@ class __step:
         step_gear1
         step_gear2
     """
-    def __init__(self, dims, func, jac=None):
-        """
-        
+    def __init__(self, dims, func, jac=None, args=None):
+        """        
         dimension ... the dimension of the system
         func      ... the system descirbing the function
         jac       ... the jacobian matrix. optional
+        args      ... additional arguments to pass to the function. optional
         """
         self.ptr = None
         if not hasattr(self, 'type'):
@@ -103,11 +100,13 @@ class __step:
         self.func = func
         if jac == None:
             if self.need_jacobian >= 1:
-                raise ValueError, "This step object must use an jacobian matrix!"
+                raise ValueError, """This step object must use an jacobian
+                matrix!"""
             self.jac = None
         else:
             self.jac = jac
-            
+        self.args = args
+        
     def __del__(self):
         if hasattr(self, 'ptr'):
             if self.ptr != None:
@@ -118,7 +117,6 @@ class __step:
         
     def apply(self, t, h, y_in, dydt):
         """
-
         Input t, h, y_in, dydt, func, jac:
              t    ... start time t
              h    ... step size
@@ -140,12 +138,11 @@ class __step:
         time t on input. This is  optional as the derivatives will be computed
         internally if they are not  provided, but allows the reuse of existing
         derivative information. On output the new derivatives of the system at
-        time t+h will be stored in given in.
-        
+        time t+h will be stored in given in.        
         """
         
         return _callback.gsl_odeiv_step_apply(self.ptr, t, h, y_in, dydt,
-                                           self.func, self.jac)
+                                           self.func, self.jac, self.args)
 
     def order(self):
         """
@@ -168,6 +165,9 @@ class __step:
 
     def _get_jac(self):
         return self.jac
+
+    def _get_args(self):
+        return self.args
     
 class step_rk2(__step):
     """
@@ -243,20 +243,18 @@ class step_gear2(__step):
     type = _callback.cvar.gsl_odeiv_step_gear2 
     need_jacobian = 0
 
-GSL_ODEIV_HADJ_DEC = _callback.gsl_odeiv_hadj_dec
-GSL_ODEIV_HADJ_INC = _callback.gsl_odeiv_hadj_inc
-GSL_ODEIV_HADJ_NIL = _callback.gsl_odeiv_hadj_nil
+HADJ_DEC = _callback.gsl_odeiv_hadj_dec
+HADJ_INC = _callback.gsl_odeiv_hadj_inc
+HADJ_NIL = _callback.gsl_odeiv_hadj_nil
             
 class __control:
     """
-
     The control function examines the  proposed change to the solution and its
     error estimate produced  by a stepping function and  attempts to determine
     the optimal step-size for a user-specified level of error.
     
     Pure virtual class for the control.
-    Use either control_standard_new or control_y_new or control_yp_new
-    
+    Use either control_standard_new or control_y_new or control_yp_new    
     """
 
     def __del__(self):
@@ -273,17 +271,16 @@ class __control:
             h     ... last step size
         output: h, msg
             h     ... new step size
-            msg   ... GSL_ODEIV_HADJ_DEC or GSL_ODEIV_HADJ_INC  or
-                      GSL_ODEIV_HADJ_NIL see text.
+            msg   ... HADJ_DEC or HADJ_INC  or HADJ_NIL. See text.
                        
-        This method adjusts the step-size h using the current values of y, yerr
-        and dydt. If the error in the y-values yerr is found to be too large
-        then the step-size h is reduced and the function returns
-        GSL_ODEIV_HADJ_DEC. If the error is sufficiently small then h may be
-        increased and GSL_ODEIV_HADJ_INC is returned. The function returns
-        GSL_ODEIV_HADJ_NIL if the step-size is unchanged. The goal of the
-        function is to estimate the largest step-size which satisfies the
-        user-specified accuracy requirements for the current point. 
+        This method  adjusts the  step-size h using  the current values  of y,
+        yerr and dydt.  If the error in  the y-values yerr is found  to be too
+        large  then  the step-size  h  is  reduced  and the  function  returns
+        HADJ_DEC. If the  error is sufficiently small then  h may be increased
+        and  HADJ_INC  is  returned.  The  function returns  HADJ_NIL  if  the
+        step-size is  unchanged. The goal of  the function is  to estimate the
+        largest   step-size  which   satisfies  the   user-specified  accuracy
+        requirements for the current point.        
         """
         step = self.step._get_ptr()
         h, msg = _callback.gsl_odeiv_control_hadjust(self.ptr, step, y, yerr,
@@ -346,8 +343,7 @@ class  control_y_new(__control):
     respect to the solution y_i(t). This is equivalent to the standard control
     object with a_y=1 and a_dydt=0.
 
-    See also the documentation of the control_standard_new class
-    
+    See also the documentation of the control_standard_new class    
     """
     def __init__(self, step, eps_abs, eps_rel):
         """
@@ -378,7 +374,6 @@ class control_yp_new(__control):
 
 class evolve:
     """
-
     The highest level  of the system is the  evolution function which combines
     the  results of  a  stepping  function and  control  function to  reliably
     advance the solution  forward over an interval (t_0,  t_1). If the control
@@ -386,8 +381,6 @@ class evolve:
     function  backs out of  the current  step and  tries the  proposed smaller
     step-size. This is  process is continued until an  acceptable step-size is
     found.
-
-    
     """
     def __init__(self, step, control, dimension):
         """
@@ -403,6 +396,9 @@ class evolve:
         
         self.ptr = None
         self.ptr = _callback.gsl_odeiv_evolve_alloc(dimension)
+        self.func = self.step._get_func()
+        self.jac  = self.step._get_jac()
+        self.args = self.step._get_args()
 
     def __del__(self):
         if hasattr(self, 'ptr'):
@@ -445,10 +441,8 @@ class evolve:
         """
         step = self.step._get_ptr()
         control =  self.control._get_ptr()
-        func = self.step._get_func()
-        jac  = self.step._get_jac()
-
-        tmp =  _callback.gsl_odeiv_evolve_apply(step, control, self.ptr, func,
-                                             jac, t, t1, h, y)
+        tmp =  _callback.gsl_odeiv_evolve_apply(step, control, self.ptr,
+                                                self.func, self.jac, t, t1, h,
+                                                y, self.args)
 
         return tmp
