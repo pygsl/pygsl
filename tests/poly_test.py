@@ -6,7 +6,6 @@ from pygsl import poly
 import unittest
 #import pygsl
 
-
 _eps = 1e-8
 class TestPoly(unittest.TestCase):
     def test_poly_eval(self):
@@ -34,13 +33,25 @@ class TestPolyDD(unittest.TestCase):
 
 class TestQuadratic(unittest.TestCase):
     def test_double(self):
-        tmp, r1, r2 = poly.solve_quadratic(1,3,2)
+        test = 0
+        try:
+            tmp, r1, r2 = poly.solve_quadratic(1,3,2)
+            test = 1
+        finally:
+            if test == 0:
+                print  poly.solve_quadratic(1,3,2)
         assert(tmp == 2)
         assert(r1 == -2 or r2 == -2)
         assert(r1 == -1 or r2 == -1)
         
-    def test_complex(self):    
-        tmp, r1, r2 = poly.complex_solve_quadratic(1,3,2)
+    def test_complex(self):
+        test = 0
+        try:
+            tmp, r1, r2 = poly.complex_solve_quadratic(1,3,2)
+            test = 1
+        finally:
+            if test == 0:
+                print poly.complex_solve_quadratic(1,3,2)
         assert(tmp == 2)
         assert(type(r1) == types.ComplexType)
         assert(type(r2) == types.ComplexType)    
@@ -48,8 +59,14 @@ class TestQuadratic(unittest.TestCase):
         assert(r1 == -1 or r2 == -1)
 
 class TestCubic(unittest.TestCase):
-    def test_cubic_double(self):    
-        tmp, r1, r2, r3 = poly.solve_cubic(6,11,6)
+    def test_cubic_double(self):
+        test = 0
+        try:
+            tmp, r1, r2, r3 = poly.solve_cubic(6,11,6)
+            test = 1
+        finally:
+            if test == 0:
+                print poly.solve_cubic(6,11,6)                
         assert(tmp == 3)
         assert(r1 == -2 or r2 == -2 or r3 == -2)
         assert(r1 == -1 or r2 == -1 or r3 == -1)

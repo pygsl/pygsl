@@ -33,7 +33,7 @@ def poly_eval(*args):
         
     output: y    
     """
-    return apply(_poly.gsl_poly_eval, args)
+    return _poly.gsl_poly_eval(*args)
 
 class poly_dd:
     """
