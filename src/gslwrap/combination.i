@@ -6,7 +6,10 @@
 #include <gsl/gsl_combination.h>
 %}
 
+
 %rename(Combination) gsl_combination_struct;
+
+%feature("autodoc");
 
 struct gsl_combination_struct
 {
@@ -15,7 +18,7 @@ struct gsl_combination_struct
   size_t k;
   size_t *data; */
 };
-
+%feature("autodoc") gsl_combination_struct "bla bla" "more blah blah";
 %extend gsl_combination_struct{
   %rename(__getitem__) get_item;
   %rename(__len__) get_k;
@@ -42,6 +45,7 @@ struct gsl_combination_struct
   void init_last() {
        gsl_combination_init_last(self);
   }
+
   int valid(){
        return gsl_combination_valid(self);
   }
@@ -55,6 +59,7 @@ struct gsl_combination_struct
   }
   
   PyObject *tolist(){
+       
        PyObject *a_list = NULL, *a_int;
        long size = 0, i;
 
@@ -79,7 +84,7 @@ struct gsl_combination_struct
        int size, i;
 
        size = (int) gsl_combination_k(self);
-       a_array = (PyArrayObject *) PyArray_FromDims(1, &size, PyArray_LONG);
+       a_array = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_LONG);
        if(a_array == NULL)
 	    return NULL;
        data = (long *) a_array->data;
