@@ -18,6 +18,7 @@ def run():
     mysys = chebyshev.gsl_function(func, None)
     # The series
     series = chebyshev.cheb_series(6)
+
     series.init(mysys, 0, 2)
     # and its coefficients
 
@@ -29,15 +30,15 @@ def run():
     series1.set_coefficients(series.get_coefficients()*2)
 
     # Two items of the gsl_cheb_struct the documentation does not mention.
-    series.set_order_sp(series1.get_order_sp())
+    series1.set_order_sp(series.get_order_sp())
     series1.set_f(series.get_f())
-    
+
 
     x = Numeric.arange(100) / 50.
     y = map(lambda x, s=series: s.eval_n(6, x), x)
     y1 = map(lambda x, s=series1: s.eval_n(6, x), x)
-    print "#     x      \t      y      \t      z"
-    for i in Numeric.arange(x.shape[0]):
-        print "% 10.7f\t % 10.7f\t % 10.7f" % (x[i],  y[i], y1[i])
+    #print "#     x      \t      y      \t      z"
+    #for i in Numeric.arange(x.shape[0]):
+    #    print "% 10.7f\t % 10.7f\t % 10.7f" % (x[i],  y[i], y1[i])
 if __name__ == '__main__':
     run()
