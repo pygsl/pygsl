@@ -141,6 +141,10 @@ gsl_multimin_function_free = __callback.gsl_multimin_function_free
 
 gsl_multimin_function_free_fdf = __callback.gsl_multimin_function_free_fdf
 
+gsl_multimin_fminimizer_f = __callback.gsl_multimin_fminimizer_f
+
+gsl_multimin_fminimizer_alloc = __callback.gsl_multimin_fminimizer_alloc
+
 gsl_multimin_fminimizer_set = __callback.gsl_multimin_fminimizer_set
 
 gsl_multimin_fminimizer_free = __callback.gsl_multimin_fminimizer_free
@@ -168,6 +172,8 @@ gsl_multimin_fdfminimizer_iterate = __callback.gsl_multimin_fdfminimizer_iterate
 gsl_multimin_fdfminimizer_restart = __callback.gsl_multimin_fdfminimizer_restart
 
 gsl_multimin_test_gradient = __callback.gsl_multimin_test_gradient
+
+gsl_multimin_test_size = __callback.gsl_multimin_test_size
 
 gsl_multimin_fdfminimizer_f = __callback.gsl_multimin_fdfminimizer_f
 
@@ -296,6 +302,26 @@ gsl_cheb_eval_n_err = __callback.gsl_cheb_eval_n_err
 gsl_cheb_calc_deriv = __callback.gsl_cheb_calc_deriv
 
 gsl_cheb_calc_integ = __callback.gsl_cheb_calc_integ
+
+pygsl_cheb_get_coefficients = __callback.pygsl_cheb_get_coefficients
+
+pygsl_cheb_set_coefficients = __callback.pygsl_cheb_set_coefficients
+
+pygsl_cheb_get_a = __callback.pygsl_cheb_get_a
+
+pygsl_cheb_get_b = __callback.pygsl_cheb_get_b
+
+pygsl_cheb_set_a = __callback.pygsl_cheb_set_a
+
+pygsl_cheb_set_b = __callback.pygsl_cheb_set_b
+
+pygsl_cheb_get_order_sp = __callback.pygsl_cheb_get_order_sp
+
+pygsl_cheb_set_order_sp = __callback.pygsl_cheb_set_order_sp
+
+pygsl_cheb_get_f = __callback.pygsl_cheb_get_f
+
+pygsl_cheb_set_f = __callback.pygsl_cheb_set_f
 
 gsl_odeiv_step_alloc = __callback.gsl_odeiv_step_alloc
 

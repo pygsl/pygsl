@@ -673,8 +673,8 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 #define  SWIGTYPE_p_gsl_multiroot_function swig_types[29] 
 #define  SWIGTYPE_p_gsl_multifit_fdfsolver_type swig_types[30] 
 #define  SWIGTYPE_p_gsl_multifit_fsolver_type swig_types[31] 
-#define  SWIGTYPE_p_gsl_multimin_fminimizer_type swig_types[32] 
-#define  SWIGTYPE_p_gsl_multimin_fdfminimizer_type swig_types[33] 
+#define  SWIGTYPE_p_gsl_multimin_fdfminimizer_type swig_types[32] 
+#define  SWIGTYPE_p_gsl_multimin_fminimizer_type swig_types[33] 
 #define  SWIGTYPE_p_gsl_multiroot_fdfsolver_type swig_types[34] 
 #define  SWIGTYPE_p_gsl_root_fsolver_type swig_types[35] 
 #define  SWIGTYPE_p_gsl_root_fdfsolver_type swig_types[36] 
@@ -860,6 +860,9 @@ extern gsl_multiroot_fdfsolver_type const *gsl_multiroot_fdfsolver_hybridsj;
          (sys)->params
 
 
+  typedef gsl_vector gsl_multimin_solver_data;
+
+
   gsl_multimin_function * gsl_multimin_function_init(gsl_multimin_function * STORE)
   {
     return STORE;
@@ -881,7 +884,12 @@ extern gsl_multiroot_fdfsolver_type const *gsl_multiroot_fdfsolver_hybridsj;
   }
 
 
-  typedef gsl_vector gsl_multimin_solver_data;
+  double  gsl_multimin_fminimizer_f(gsl_multimin_fminimizer * s)
+  {	
+    	return s->fval;
+  }
+
+
   double  gsl_multimin_fdfminimizer_f(gsl_multimin_fdfminimizer * s)
   {	
     	return s->f;
@@ -892,7 +900,11 @@ extern gsl_multimin_fdfminimizer_type const *gsl_multimin_fdfminimizer_conjugate
 extern gsl_multimin_fdfminimizer_type const *gsl_multimin_fdfminimizer_conjugate_fr;
 extern gsl_multimin_fdfminimizer_type const *gsl_multimin_fdfminimizer_vector_bfgs;
 
-	  /* */
+	  /* 
+	   * Try to find what level of GSL I am running. If less than zero, 
+	   * give a NULL. The overlying wrapper must check for NULL and raise 
+           * an approbriate error message.
+	   */
 #if PYGSL_GSL_MAJOR_VERSION < 1
 #error "This wrapper needs at least GSL 1.0"
 #endif 
@@ -1004,6 +1016,67 @@ static PyObject* t_output_helper(PyObject* target, PyObject* o) {
 
 
 #include <gsl/gsl_chebyshev.h>
+
+ 
+     PyObject *
+     pygsl_cheb_get_coefficients(gsl_cheb_series * s){
+	  gsl_vector_view v;
+	  v = gsl_vector_view_array(s->c, s->order);
+	  return (PyObject *) PyGSL_copy_gslvector_to_pyarray(&v.vector);
+    }
+
+
+     int
+     pygsl_cheb_set_coefficients(gsl_cheb_series * s, gsl_vector *coef){
+	  size_t i, v_size;
+	  v_size = coef->size;
+	  if(v_size != s->order){
+	       GSL_ERROR("The number of coefficients does not match the specified order.", GSL_EBADLEN);
+	       return GSL_EBADLEN;
+	  }
+	  for (i=0; i<v_size; i++){
+	       s->c[i] = gsl_vector_get(coef, i);
+          }
+	  return GSL_SUCCESS;
+     }
+
+
+ 
+     double
+	  pygsl_cheb_get_a(gsl_cheb_series *s){
+	  return s->a;
+     }
+     double
+	  pygsl_cheb_get_b(gsl_cheb_series *s){
+	  return s->b;
+     }
+     void
+	  pygsl_cheb_set_a(gsl_cheb_series *s, double a){
+	  s->a = a;
+     }
+     void
+	  pygsl_cheb_set_b(gsl_cheb_series *s, double b){
+	  s->b = b;
+     }
+     size_t
+	  pygsl_cheb_get_order_sp(gsl_cheb_series *s){
+	  return s->order_sp;
+     }
+     void
+	  pygsl_cheb_set_order_sp(gsl_cheb_series *s, size_t sp){
+	  s->order_sp = sp;
+     }
+     double
+	  pygsl_cheb_get_f(gsl_cheb_series *s){
+	  return *(s->f);
+     }
+     
+     void
+	  pygsl_cheb_set_f(gsl_cheb_series *s, double f){
+	  *(s->f) = f;
+     }
+     
+
 
 
 #include <gsl/gsl_odeiv.h>
@@ -3612,6 +3685,50 @@ static PyObject *_wrap_gsl_multimin_function_free_fdf(PyObject *self, PyObject *
 }
 
 
+static PyObject *_wrap_gsl_multimin_fminimizer_f(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_multimin_fminimizer *arg1 = (gsl_multimin_fminimizer *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_multimin_fminimizer_f",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_multimin_fminimizer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)gsl_multimin_fminimizer_f(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_multimin_fminimizer_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_multimin_fminimizer_type *arg1 = (gsl_multimin_fminimizer_type *) 0 ;
+    size_t arg2 ;
+    gsl_multimin_fminimizer *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "T","n", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_multimin_fminimizer_alloc",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_multimin_fminimizer_type,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (gsl_multimin_fminimizer *)gsl_multimin_fminimizer_alloc((gsl_multimin_fminimizer_type const *)arg1,arg2);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_multimin_fminimizer, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_multimin_fminimizer *arg1 = (gsl_multimin_fminimizer *) 0 ;
@@ -3899,7 +4016,7 @@ static PyObject *_wrap_gsl_multimin_fminimizer_iterate(PyObject *self, PyObject 
 static PyObject *_wrap_gsl_multimin_fminimizer_x(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_multimin_fminimizer *arg1 = (gsl_multimin_fminimizer *) 0 ;
-    gsl_vector *result;
+    gsl_multimin_solver_data *result;
     PyObject * obj0 = 0 ;
     char *kwnames[] = {
         "s", NULL 
@@ -3907,9 +4024,13 @@ static PyObject *_wrap_gsl_multimin_fminimizer_x(PyObject *self, PyObject *args,
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_multimin_fminimizer_x",kwnames,&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_multimin_fminimizer,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (gsl_vector *)gsl_multimin_fminimizer_x((gsl_multimin_fminimizer const *)arg1);
+    result = (gsl_multimin_solver_data *)gsl_multimin_fminimizer_x((gsl_multimin_fminimizer const *)arg1);
     
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_vector, 0);
+    {
+        PyArrayObject *a_array;  
+        a_array = PyGSL_copy_gslvector_to_pyarray(result);
+        resultobj = (PyObject *) a_array;
+    }
     return resultobj;
     fail:
     return NULL;
@@ -4437,6 +4558,40 @@ static PyObject *_wrap_gsl_multimin_test_gradient(PyObject *self, PyObject *args
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
     }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_multimin_test_size(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double arg2 ;
+    int result;
+    char *kwnames[] = {
+        "size","epsabs", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_multimin_test_size",kwnames,&arg1,&arg2)) goto fail;
+    result = (int)gsl_multimin_test_size(arg1,arg2);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    return resultobj;
+    fail:
     return NULL;
 }
 
@@ -7542,6 +7697,284 @@ static PyObject *_wrap_gsl_cheb_calc_integ(PyObject *self, PyObject *args, PyObj
 }
 
 
+static PyObject *_wrap_pygsl_cheb_get_coefficients(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_cheb_get_coefficients",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)pygsl_cheb_get_coefficients(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_set_coefficients(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "s","IN", NULL 
+    };
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:pygsl_cheb_set_coefficients",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    
+    {
+        PyArrayObject * a_array;
+        int stride_recalc=0;
+        
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
+        TO_PyArray_TYPE_gsl_vector, 
+        0, -1, 2, NULL);
+        if(_PyVector2 == NULL) goto fail;
+        a_array = _PyVector2;
+        
+        /* Numpy calculates strides in bytes, gsl in basis type */
+        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
+        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        
+        _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
+        (BASIS_TYPE_C_gsl_vector *) a_array->data,
+        stride_recalc,
+        a_array->dimensions[0]);
+        
+        arg2 = (gsl_vector *) &(_vector2.vector);
+        
+        /* 
+         *  This define worked with swig 1.1 I do not no, why it is failing for 
+         *  swig1.3 so I disable it 
+         */
+        #ifdef undef
+        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
+        if(DEBUG>10){
+            int i, size;
+            size = (_vector2.vector.size < 6) ? 
+            _vector2.vector.size : 5;
+            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
+            "data in memory %p vector in memory %p\n", 
+            2, _PyVector2, _PyVector2, 
+            &_vector2.vector);
+            for(i=0; i<size; i++){
+                fprintf(stderr, "\t\tv_%d = %f\n", i, 
+                (double) GET_gsl_vector(&(_vector2.vector), 
+                i));
+            }
+        }
+        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
+        #endif
+    }
+    
+    result = (int)pygsl_cheb_set_coefficients(arg1,arg2);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_get_a(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_cheb_get_a",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_cheb_get_a(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_get_b(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_cheb_get_b",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_cheb_get_b(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_set_a(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","a", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_cheb_set_a",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_cheb_set_a(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_set_b(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","b", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_cheb_set_b",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_cheb_set_b(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_get_order_sp(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_cheb_get_order_sp",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)pygsl_cheb_get_order_sp(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_set_order_sp(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    size_t arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "s","sp", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:pygsl_cheb_set_order_sp",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    pygsl_cheb_set_order_sp(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_get_f(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_cheb_get_f",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_cheb_get_f(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_cheb_set_f(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_cheb_series *arg1 = (gsl_cheb_series *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","f", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_cheb_set_f",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_cheb_set_f(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static int _wrap_gsl_odeiv_step_rk2_set(PyObject *_val) {
     {
         void *temp;
@@ -9335,6 +9768,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_multimin_function_init_fdf", (PyCFunction) _wrap_gsl_multimin_function_init_fdf, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_function_free", (PyCFunction) _wrap_gsl_multimin_function_free, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_function_free_fdf", (PyCFunction) _wrap_gsl_multimin_function_free_fdf, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_multimin_fminimizer_f", (PyCFunction) _wrap_gsl_multimin_fminimizer_f, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_multimin_fminimizer_alloc", (PyCFunction) _wrap_gsl_multimin_fminimizer_alloc, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_fminimizer_set", (PyCFunction) _wrap_gsl_multimin_fminimizer_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_fminimizer_free", (PyCFunction) _wrap_gsl_multimin_fminimizer_free, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_fminimizer_name", (PyCFunction) _wrap_gsl_multimin_fminimizer_name, METH_VARARGS | METH_KEYWORDS },
@@ -9349,6 +9784,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_multimin_fdfminimizer_iterate", (PyCFunction) _wrap_gsl_multimin_fdfminimizer_iterate, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_fdfminimizer_restart", (PyCFunction) _wrap_gsl_multimin_fdfminimizer_restart, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_test_gradient", (PyCFunction) _wrap_gsl_multimin_test_gradient, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_multimin_test_size", (PyCFunction) _wrap_gsl_multimin_test_size, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_fdfminimizer_f", (PyCFunction) _wrap_gsl_multimin_fdfminimizer_f, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_fdfminimizer_x", (PyCFunction) _wrap_gsl_multimin_fdfminimizer_x, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_multimin_fdfminimizer_dx", (PyCFunction) _wrap_gsl_multimin_fdfminimizer_dx, METH_VARARGS | METH_KEYWORDS },
@@ -9411,6 +9847,16 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_cheb_eval_n_err", (PyCFunction) _wrap_gsl_cheb_eval_n_err, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_cheb_calc_deriv", (PyCFunction) _wrap_gsl_cheb_calc_deriv, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_cheb_calc_integ", (PyCFunction) _wrap_gsl_cheb_calc_integ, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_get_coefficients", (PyCFunction) _wrap_pygsl_cheb_get_coefficients, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_set_coefficients", (PyCFunction) _wrap_pygsl_cheb_set_coefficients, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_get_a", (PyCFunction) _wrap_pygsl_cheb_get_a, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_get_b", (PyCFunction) _wrap_pygsl_cheb_get_b, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_set_a", (PyCFunction) _wrap_pygsl_cheb_set_a, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_set_b", (PyCFunction) _wrap_pygsl_cheb_set_b, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_get_order_sp", (PyCFunction) _wrap_pygsl_cheb_get_order_sp, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_set_order_sp", (PyCFunction) _wrap_pygsl_cheb_set_order_sp, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_get_f", (PyCFunction) _wrap_pygsl_cheb_get_f, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_cheb_set_f", (PyCFunction) _wrap_pygsl_cheb_set_f, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_odeiv_step_alloc", (PyCFunction) _wrap_gsl_odeiv_step_alloc, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_odeiv_step_reset", (PyCFunction) _wrap_gsl_odeiv_step_reset, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_odeiv_step_free", (PyCFunction) _wrap_gsl_odeiv_step_free, METH_VARARGS | METH_KEYWORDS },
@@ -9477,8 +9923,8 @@ static swig_type_info _swigt__p_gsl_function[] = {{"_p_gsl_function", 0, "gsl_fu
 static swig_type_info _swigt__p_gsl_multiroot_function[] = {{"_p_gsl_multiroot_function", 0, "gsl_multiroot_function *", 0},{"_p_gsl_multiroot_function"},{0}};
 static swig_type_info _swigt__p_gsl_multifit_fdfsolver_type[] = {{"_p_gsl_multifit_fdfsolver_type", 0, "gsl_multifit_fdfsolver_type *", 0},{"_p_gsl_multifit_fdfsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_multifit_fsolver_type[] = {{"_p_gsl_multifit_fsolver_type", 0, "gsl_multifit_fsolver_type *", 0},{"_p_gsl_multifit_fsolver_type"},{0}};
-static swig_type_info _swigt__p_gsl_multimin_fminimizer_type[] = {{"_p_gsl_multimin_fminimizer_type", 0, "gsl_multimin_fminimizer_type *", 0},{"_p_gsl_multimin_fminimizer_type"},{0}};
 static swig_type_info _swigt__p_gsl_multimin_fdfminimizer_type[] = {{"_p_gsl_multimin_fdfminimizer_type", 0, "gsl_multimin_fdfminimizer_type *", 0},{"_p_gsl_multimin_fdfminimizer_type"},{0}};
+static swig_type_info _swigt__p_gsl_multimin_fminimizer_type[] = {{"_p_gsl_multimin_fminimizer_type", 0, "gsl_multimin_fminimizer_type *", 0},{"_p_gsl_multimin_fminimizer_type"},{0}};
 static swig_type_info _swigt__p_gsl_multiroot_fdfsolver_type[] = {{"_p_gsl_multiroot_fdfsolver_type", 0, "gsl_multiroot_fdfsolver_type *", 0},{"_p_gsl_multiroot_fdfsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_root_fsolver_type[] = {{"_p_gsl_root_fsolver_type", 0, "gsl_root_fsolver_type *", 0},{"_p_gsl_root_fsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_root_fdfsolver_type[] = {{"_p_gsl_root_fdfsolver_type", 0, "gsl_root_fdfsolver_type *", 0},{"_p_gsl_root_fdfsolver_type"},{0}};
@@ -9519,8 +9965,8 @@ _swigt__p_gsl_function,
 _swigt__p_gsl_multiroot_function, 
 _swigt__p_gsl_multifit_fdfsolver_type, 
 _swigt__p_gsl_multifit_fsolver_type, 
-_swigt__p_gsl_multimin_fminimizer_type, 
 _swigt__p_gsl_multimin_fdfminimizer_type, 
+_swigt__p_gsl_multimin_fminimizer_type, 
 _swigt__p_gsl_multiroot_fdfsolver_type, 
 _swigt__p_gsl_root_fsolver_type, 
 _swigt__p_gsl_root_fdfsolver_type, 
