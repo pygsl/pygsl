@@ -39,7 +39,7 @@
 
 DL_EXPORT(void) initlong(void)
 {
-    Py_InitModule("long", StatisticsMethods_Int);
+    Py_InitModule("long", StatisticsMethods_LONG);
 #ifdef HAVE_NUMERIC
     import_array();
 #endif

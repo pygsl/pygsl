@@ -19,12 +19,12 @@
 /* include real functions for default data-types (double in C) */
 
 #define STATMOD_WEIGHTED
-#define STATMOD_APPEND_PY_TYPE(X) X ## Float
-#define STATMOD_APPEND_PYC_TYPE(X) X ## DOUBLE
-#define STATMOD_FUNC_EXT(X, Y) X ## Y
-#define STATMOD_C_TYPE double
-#define STATMOD_PY_AS_C PyFloat_AsDouble
-#define STATMOD_PY_FROM_C PyFloat_FromDouble
+#define STATMOD_APPEND_PY_TYPE(X) X ## Float32
+#define STATMOD_APPEND_PYC_TYPE(X) X ## FLOAT
+#define STATMOD_FUNC_EXT(X, Y) X ## _float ## Y
+#define STATMOD_C_TYPE float
+#define STATMOD_PY_AS_C PyFloat_AsFloat
+#define STATMOD_PY_FROM_C PyFloat_FromFloat
 #include "functions.c"
 #undef STATMOD_PY_FROM_C
 #undef STATMOD_PY_AS_C
@@ -39,12 +39,12 @@
 
 /* initialization */
 
-DL_EXPORT(void) initdouble(void)
+DL_EXPORT(void) initfloat(void)
 {
 #ifdef HAVE_NUMERIC
     import_array();
 #endif
-    (void)Py_InitModule("double", StatisticsMethods_DOUBLE);
+    (void)Py_InitModule("float", StatisticsMethods_FLOAT);
     return;
 }
 

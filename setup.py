@@ -39,11 +39,21 @@ pygsl_statistics_double=gsl_Extension("statistics.double",
                                       gsl_min_version=(1,),
                                       python_min_version=(2,1)
                                       )
+pygsl_statistics_float=gsl_Extension("statistics.float",
+                                     ['src/statistics/floatmodule.c'],
+                                     gsl_min_version=(1,),
+                                     python_min_version=(2,1)
+                                      )
 pygsl_statistics_long=gsl_Extension("statistics.long",
                                     ['src/statistics/longmodule.c'],
                                     gsl_min_version=(1,),
                                     python_min_version=(2,1)
                                     )
+pygsl_statistics_short=gsl_Extension("statistics.short",
+                                     ['src/statistics/shortmodule.c'],
+                                     gsl_min_version=(1,),
+                                     python_min_version=(2,1)
+                                     )
 
 
 setup (name = "pygsl",
@@ -64,7 +74,9 @@ setup (name = "pygsl",
                       pygsl__rng,
                       pygsl_histogram,
                       pygsl_statistics_double,
-                      pygsl_statistics_long
+                      pygsl_statistics_float,
+                      pygsl_statistics_long,
+                      pygsl_statistics_short
                       ]
        )
 

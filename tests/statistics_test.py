@@ -4,7 +4,7 @@
 
 import unittest
 try:
-    from Numeric import array, zeros
+    from Numeric import *
 except ImportError:
     print "Numpy not available, some tests are pretty meaningless..."
     array = lambda seq: seq
@@ -12,7 +12,9 @@ except ImportError:
 import random
 
 from pygsl.statistics import *
+from pygsl.statistics import float as float
 from pygsl.statistics import long as long
+from pygsl.statistics import short as short
 
 
 class statistics_test(unittest.TestCase):
@@ -31,9 +33,18 @@ class statistics_test(unittest.TestCase):
         self.failIf(mean(data[::2]) != 5.0)
         self.failIf(mean(data[::-2]) != 6.0)
 
+    def test_mean_float(self):
+        #self.failIf(float.mean(array([-1.,-3.,1.]), Float32) != -1)
+        #self.failIf(float.mean([1.,2.,3.]) != 2)
+        return
+    
     def test_mean_long(self):
         self.failIf(long.mean(array([-1,-3,1])) != -1)
         self.failIf(long.mean([1, 2, 3]) != 2)
+
+    def test_mean_short(self):
+        self.failIf(short.mean(array([-1,-3,1], Int16)) != -1)
+        self.failIf(short.mean([1,2,3]) != 2)
 
     def test_sd(self):
         self.failIf(sd(array([-1.,-3.,1.])) != 2.0)
