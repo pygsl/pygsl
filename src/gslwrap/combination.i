@@ -37,10 +37,10 @@ struct gsl_combination_struct
        return gsl_combination_n(self);
   }
   void init_first() {
-       return gsl_combination_init_first(self);	       
+       gsl_combination_init_first(self);	       
   }    
   void init_last() {
-       return gsl_combination_init_last(self);
+       gsl_combination_init_last(self);
   }
   int valid(){
        return gsl_combination_valid(self);
