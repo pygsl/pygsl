@@ -28,7 +28,7 @@ class gsl_rng:
         """
         if self._rng is not None:
             pygsl._rng.free(self._rng)
-            pygsl._rng=None
+            self._rng=None
 
     def __copy__(self):
         """
