@@ -44,15 +44,15 @@
 };
 
 
-%apply (gsl_error_flag) {gsl_monte_plain_integrate,
-                         gsl_monte_plain_init,
-			 gsl_monte_miser_integrate,
-                         gsl_monte_miser_init,
-			 gsl_monte_vegas_integrate,
-                         gsl_monte_vegas_init
+%apply (gsl_error_flag_drop) {gsl_monte_plain_integrate,
+		              gsl_monte_plain_init,
+			      gsl_monte_miser_integrate,
+                              gsl_monte_miser_init,
+			      gsl_monte_vegas_integrate,
+                              gsl_monte_vegas_init
 			 };
 
-int
+gsl_error_flag_drop
 gsl_monte_plain_integrate (const gsl_monte_function * BUFFER,
 			   const double xl[], const double xu[],
 			   const size_t dim,
@@ -62,7 +62,7 @@ gsl_monte_plain_integrate (const gsl_monte_function * BUFFER,
                            double *OUTPUT, double *OUTPUT);
 
 gsl_monte_plain_state* gsl_monte_plain_alloc(size_t dim);
-int gsl_monte_plain_init(gsl_monte_plain_state* state);
+gsl_error_flag_drop gsl_monte_plain_init(gsl_monte_plain_state* state);
 void gsl_monte_plain_free (gsl_monte_plain_state* state);
 
 %inline %{
@@ -108,7 +108,7 @@ void gsl_monte_plain_free (gsl_monte_plain_state* state);
 	   s->alpha = alpha;
      }
 %}
-int
+gsl_error_flag_drop
 gsl_monte_miser_integrate (gsl_monte_function * BUFFER,
 			   double xl[], double xu[],
 			   size_t dim,
@@ -119,7 +119,7 @@ gsl_monte_miser_integrate (gsl_monte_function * BUFFER,
 
 gsl_monte_miser_state* gsl_monte_miser_alloc(size_t dim);
 
-int gsl_monte_miser_init(gsl_monte_miser_state* state);
+gsl_error_flag_drop gsl_monte_miser_init(gsl_monte_miser_state* state);
 
 void gsl_monte_miser_free(gsl_monte_miser_state* state);
 
@@ -154,7 +154,7 @@ enum {GSL_VEGAS_MODE_IMPORTANCE = 1,
 
 %}
 /* xl and xu are of dimension dim */
-int 
+gsl_error_flag_drop 
 gsl_monte_vegas_integrate(gsl_monte_function * BUFFER, 
 			  double xl[], double xu[], 
 			  size_t dim, size_t calls,
@@ -165,7 +165,7 @@ gsl_monte_vegas_integrate(gsl_monte_function * BUFFER,
 
 gsl_monte_vegas_state* gsl_monte_vegas_alloc(size_t dim);
 
-int gsl_monte_vegas_init(gsl_monte_vegas_state* state);
+gsl_error_flag_drop gsl_monte_vegas_init(gsl_monte_vegas_state* state);
 
 void gsl_monte_vegas_free (gsl_monte_vegas_state* state);
 

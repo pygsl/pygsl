@@ -12,7 +12,7 @@ def g(k, params):
 class _Basis:
     def _init_func(self):
         self.sys =  monte.gsl_monte_function(g, None, 1)
-        self.r = pygsl.rng.rng_mt19937_1999()
+        self.r = pygsl.rng.mt19937_1999()
         self.xl = [ 0, ]
         self.xu = [ 1, ]
         self.exact = 0.5
@@ -31,8 +31,8 @@ class _Simple(_Basis, unittest.TestCase):
     def testRun(self):
         self._init_impl()
         calls = 100
-        status, res, err = self.s.integrate(self.sys, self.xl, self.xu, calls,
-                                       self.r)
+        res, err = self.s.integrate(self.sys, self.xl, self.xu, calls,
+				    self.r)
         assert(Numeric.absolute(res - self.exact) < self.accepted_error)
 
 class _Advanced(_Basis, unittest.TestCase):
@@ -60,13 +60,13 @@ class _Advanced(_Basis, unittest.TestCase):
                 print "Value of test variable was %s. I expected %s" %(var, defaultvalue)
                 
 class _Plain:
-    _implementation = monte.Plain
+    _implementation = monte.plain
 
 class _Miser:
-    _implementation = monte.Miser
+    _implementation = monte.miser
 
 class _Vegas:
-    _implementation = monte.Vegas
+    _implementation = monte.vegas
 
 class PlainSimple(_Plain, _Simple):
     pass
@@ -105,7 +105,7 @@ class MiserAdvanced(_Miser, _Advanced):
 class VegasAdvanced(_Vegas, _Advanced):
     def test_result(self):
         calls = 100
-        status, res, err = self.s.integrate(self.sys, self.xl, self.xu, calls,
+	res, err = self.s.integrate(self.sys, self.xl, self.xu, calls,
                                        self.r)
         assert(type(self.s.get_result()) == types.FloatType)
         assert(Numeric.absolute(self.s.get_result() - res) < 0.01)

@@ -25,7 +25,7 @@ import pygsl.monte as monte
 
 exact = 1.3932039296856768591842462603255
 calls = 50000
-r = pygsl.rng.rng_mt19937_1999()
+r = pygsl.rng.mt19937_1999()
 
 xl = [ 0, 0, 0 ]
 M_PI = Numeric.pi
@@ -50,27 +50,27 @@ def display_results (title, result, error):
 
 
 def run_plain():
-    s = monte.Plain(3)
+    s = monte.plain(3)
     s.init()
-    status, res, err = s.integrate(G, xl, xu, calls, r)
+    res, err = s.integrate(G, xl, xu, calls, r)
     display_results ("plain", res, err)    
 
 def run_miser():
-    s = monte.Miser(3)
+    s = monte.miser(3)
     s.init()
-    status, res, err = s.integrate(G, xl, xu, calls, r)
+    res, err = s.integrate(G, xl, xu, calls, r)
     display_results ("miser", res, err)    
 
 def run_vegas():
-    s = monte.Vegas(3)
+    s = monte.vegas(3)
     s.init()
 
-    status, res, err = s.integrate(G, xl, xu, 10000, r)
+    res, err = s.integrate(G, xl, xu, 10000, r)
     display_results ("vegas warm-up", res, err)
 
     print "converging..."
     while 1:
-        status, res, err = s.integrate(G, xl, xu, calls/5, r)
+        res, err = s.integrate(G, xl, xu, calls/5, r)
         chisq = s.get_chisq()
         print "result = % .6f sigma = % .6f chisq/dof = %.1f" % (res, err, chisq);
         if (Numeric.absolute(chisq - 1.0) <= 0.5):    
@@ -78,8 +78,8 @@ def run_vegas():
             break
 
 def run():
-    #run_plain()
-    #run_miser()
+    run_plain()
+    run_miser()
     run_vegas()
     
 if __name__ == '__main__':
