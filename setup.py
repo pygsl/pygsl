@@ -34,11 +34,6 @@ pygsl_init=gsl_Extension("init",
                          gsl_min_version=(1,),
                          python_min_version=(2,1)
                          )
-pygsl_siman=gsl_Extension("siman",
-                          ['src/simanmodule.c'],
-                          gsl_min_version=(1,),
-                          python_min_version=(2,1)
-                          )
 pygsl_statistics_double=gsl_Extension("statistics.double",
                                       ['src/statistics/doublemodule.c'],
                                       gsl_min_version=(1,),
@@ -69,8 +64,7 @@ setup (name = "pygsl",
                       pygsl__rng,
                       pygsl_histogram,
                       pygsl_statistics_double,
-                      pygsl_statistics_long,
-                      pygsl_siman,
+                      pygsl_statistics_long
                       ]
        )
 
