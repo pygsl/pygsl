@@ -9,7 +9,13 @@
  *     Changed the three function into one, adding the function pointer which 
  *     diff to use.
  *     The wrapper now uses PyGSL_function_wrap_helper the common wrapper for 
- *     gsl functions
+ *     gsl function
+ *
+ *     Made all static variables local to the function. So now it should be 
+ *     threadsave.
+ *
+ *     Unfortunatley gsl_function does not allow error reporting. Thus I use
+ *     a jmp_buf to get back to the calling function.
  * " <- To Fix Emacs colouring
  */
 
@@ -21,7 +27,8 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/function_helpers.h>
 #include <setjmp.h>
-/* callback functions
+/* 
+ * callback functions
  * - python function passed by user
  * - actual C callback
  * - GSL wrapper struct
@@ -30,11 +37,6 @@
 /* Used for traceback */
 static PyObject *module = NULL;
 
-/*
-  static PyObject *diff_py_callback = NULL;
-  static PyObject *diff_py_args = NULL;
-  jmp_buf buffer;
-*/
 typedef struct{
 	PyObject * callback;
 	PyObject * args;
@@ -62,7 +64,7 @@ diff_callback(double x, void *p)
 	}
 	return value;
 }
-static gsl_function diff_gsl_callback;
+
 
 
 
@@ -75,16 +77,14 @@ PyGSL_diff_generic(PyObject *self, PyObject *args, pygsl_diff_func func)
 	PyObject *result=NULL, *myargs=NULL;
 	PyObject *cb=NULL;
 
-	pygsl_diff_args pargs;
+	pygsl_diff_args pargs = {NULL, NULL};
+	gsl_function diff_gsl_callback = {&diff_callback, (void *) &pargs};
+
 
 	double x, value, abserr;
 	int flag;
 
-	pargs.callback = NULL;
-	pargs.args = NULL;
 
-	diff_gsl_callback.function = &diff_callback;
-	diff_gsl_callback.params = &pargs;
 
 
 	if(! PyArg_ParseTuple(args, "Od|O", &cb, &x, &myargs)){
@@ -183,7 +183,7 @@ All have the same usage:\n\
                                ... some calculation here ...\n\
                                return y\n\
               x        ... the position where to differentate the callback\n\
-              args     ... additional object to be passed to the function.\n\ 
+              args     ... additional object to be passed to the function.\n\
                            It is optional. In this case None is passed as\n\
                            args to foo\n\
 ";
