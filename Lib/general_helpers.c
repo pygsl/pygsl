@@ -77,7 +77,6 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
      PyObject *object1;
      char *msg="The object returned to the GSL Function could not be converted to float";
 
-
      object1 = PyNumber_Float(object);
      if(object1 == NULL){
 	 *result = gsl_nan();
@@ -97,6 +96,16 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
      PyGSL_INCREASE_float_transform_counter();
 
      return GSL_SUCCESS;
+}
+
+int 
+PyGSL_pylong_to_uint(PyObject *object, unsigned int *result, PyGSL_error_info *info)
+{
+     int flag;
+     unsigned long int tmp;
+     flag =PyGSL_pylong_to_ulong(object, &tmp, info);
+     *result = (unsigned int) tmp;
+     return flag;
 }
 
 int 
@@ -127,6 +136,7 @@ PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info 
 
      return GSL_SUCCESS;
 }
+
 
 /*
  * Checks following conditions:
