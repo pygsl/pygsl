@@ -1,0 +1,11 @@
+2002-04-17  Jochen Küpper  <jochen@jochen-kuepper.de>
+
+	* doc/differentiation.tex: Added.
+
+	* doc/pygsl.tex: Updated, cleaned abstract.
+
+
+	* Local Variables:
+	* mode: auto-fill
+	* fill-column: 79
+	* End:

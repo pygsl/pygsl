@@ -41,13 +41,13 @@ Jochen K\"upper}
         Email: \email{jochen@jochen-kuepper.de}
 }
 
-\date{February, 2002}           % update before release!
+\date{April, 2002}              % update before release!
                                 % Use an explicit date so that reformatting
                                 % doesn't cause a new date to be used.  Setting
                                 % the date to \today can be used during draft
                                 % stages to make it easier to handle versions.
 
-\release{0.0.5}                 % release version; this is used to define the
+\release{0.0.5pre}              % release version; this is used to define the
                                 % \version macro
 
 \makeindex                      % tell \index to actually write the .idx file
@@ -66,19 +66,23 @@ Jochen K\"upper}
 
 \begin{abstract}
    \noindent
-   pygsl grants python users access to the GNU scientific library.
-   The latest version can be found at the project homepage, \url{http://pygsl.sf.net}.
+   pygsl grants python users access to the GNU scientific library.  The latest
+   version can be found at the project homepage, \url{http://pygsl.sf.net}.
 
-   {\bf What is implemented:}
-   \begin{itemize}
-     \item module \module{pygsl.sf}: with 200 special functions
-     \item module \module{pygsl.const}: with 206 often used mathematical and scientific constants
-     \item module \module{pygsl.ieee}: access to the ieee-arithmetics layer of gsl
-     \item module \module{pygsl.rng}: provides several random number generators and
-                                      different probability densities
-     \item module \module{pygsl.histogram}: 1d and 2d histograms and operations on histograms
-     \item module \module{pygsl.statistics}: some statistics functions for arrays.
-\end{itemize}
+   \textbf{Implemented features:} \\
+   \begin{tabular}{ll}
+      \module{pygsl.sf}                 & $>200$ special functions. \\
+      \module{pygsl.const}              & $>200$ often used mathematical and
+                                          scientific constants. \\
+      \module{pygsl.diff}               & Numerical differentiation. \\
+      \module{pygsl.ieee}               & Access to the ieee-arithmetics layer
+                                          of gsl. \\ 
+      \module{pygsl.rng}                & Several random number generators and
+                                          different probability densities. \\
+      \module{pygsl.histogram}          & 1d and 2d histograms and operations
+                                          on histograms. \\
+      \module{pygsl.statistics}         & Statistical functions.
+\end{tabular}
 
 \end{abstract}
 
@@ -95,31 +99,38 @@ Jochen K\"upper}
 Parts of this this manual are based on the \GSL{} reference manual.
 
 
-\chapter[\protect\module{pygsl.histogram} --- Histogram Types]
-{\protect\module{pygsl.histogram} \\ Histogram Types}
-\label{cha:histogram-module}
-\input{histogram}
-
-\chapter[\protect\module{pygsl.sf} --- Special Functions]
-{\protect\module{pygsl.sf} \\ Special Functions}
-\label{cha:sf-module}
-\input{sf}
-
 \chapter[\protect\module{pygsl.const} --- Mathematical and scientific
 constants]{\protect\module{pygsl.const} \\ Mathematical and scientific
 constants} 
 \label{cha:const-module}
 \input{const}
 
-\chapter[\protect\module{pygsl.statistics} --- Statistics
-functions]{\protect\module{pygsl.statistics} \\ Statistics functions}
-\label{cha:statistics-module}
-\input{statistics}
+\chapter[\protect\module{pygsl.diff} --- Numerical 
+Differentiation]{\protect\module{pygsl.diff} \\ Numerical Differentiation}
+\label{cha:diff-module}
+\input{differentiation}
+
+\chapter[\protect\module{pygsl.histogram} --- Histogram Types]
+{\protect\module{pygsl.histogram} \\ Histogram Types}
+\label{cha:histogram-module}
+\input{histogram}
 
 \chapter[\protect\module{pygsl.rng} --- Random Number Generators]
 {\protect\module{pygsl.rng} \\ Random Number Generators}
 \label{cha:rng-module}
 \input{rng}
+
+\chapter[\protect\module{pygsl.sf} --- Special Functions]
+{\protect\module{pygsl.sf} \\ Special Functions}
+\label{cha:sf-module}
+\input{sf}
+
+\chapter[\protect\module{pygsl.statistics} --- Statistics
+functions]{\protect\module{pygsl.statistics} \\ Statistics functions}
+\label{cha:statistics-module}
+\input{statistics}
+
+\appendix
 
 \chapter[\protect\module{pygsl.ieee} --- Floating Point Unit Support]
 {\protect\module{pygsl.ieee} \\ Floating Point Unit Support}
@@ -136,11 +147,6 @@ functions]{\protect\module{pygsl.statistics} \\ Statistics functions}
 \label{cha:error-module}
 \input{errors}
 
-% \appendix
-% \chapter{...}
-% My appendix.
-% The \code{\e appendix} markup need not be repeated for additional
-% appendices.
 
 \input{pygsl.ind}                    % Index
 
