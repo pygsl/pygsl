@@ -95,5 +95,19 @@ class statistics_test(unittest.TestCase):
         return
 
 
+    def test_min_long(self): 
+        self.failIf(long.min(array([1,2,3])) != 1)
+
+    def test_max_long(self):
+        self.failIf(long.max(array([1,2,3])) != 3)
+
+
+    def test_min_index(self): 
+        self.failIf(long.min_index(array([1,2,3])) != 0)
+
+    def test_max_index(self):
+        self.failIf(long.max_index(array([1,2,3])) != 2)
+
+
 if __name__ == "__main__":
     unittest.main()

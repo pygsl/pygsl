@@ -12,6 +12,7 @@ SWIGMODULES = callback \
               block\
 	      gslwrap
 
+
 SWIG_INCLUDES = -Itypemaps $(GSL_INLUDES)
 SWIGOPTS = -python -keyword -shadow
 
@@ -28,7 +29,7 @@ SWIG_INCLUDES += $(SWIGMODULES:%=-I$(SRC_DIR)/%)
 DIRS = $(BUILD_DIR)
 
 all: Makefile $(DIRS) $(WRAPPER)
-	$(PYTHON) setup.py build_ext -i
+	$(PYTHON) setup.py build
 
 $(DIRS):
 	mkdir -p $@

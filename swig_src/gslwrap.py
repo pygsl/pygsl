@@ -194,8 +194,8 @@ class gsl_fft_complex_wavetable(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_complex_wavetable, name)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_gsl_fft_complex_wavetable,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, gsl_fft_complex_wavetable, 'this', apply(_gslwrap.new_gsl_fft_complex_wavetable,args, kwargs))
+        _swig_setattr(self, gsl_fft_complex_wavetable, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_gsl_fft_complex_wavetable):
         try:
             if self.thisown: destroy(self)
@@ -220,9 +220,9 @@ class gsl_fft_complex_wavetable(_object):
 
 class gsl_fft_complex_wavetablePtr(gsl_fft_complex_wavetable):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = gsl_fft_complex_wavetable
+        _swig_setattr(self, gsl_fft_complex_wavetable, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_complex_wavetable, 'thisown', 0)
+        _swig_setattr(self, gsl_fft_complex_wavetable,self.__class__,gsl_fft_complex_wavetable)
 _gslwrap.gsl_fft_complex_wavetable_swigregister(gsl_fft_complex_wavetablePtr)
 
 class gsl_fft_complex_workspace(_object):
@@ -231,8 +231,8 @@ class gsl_fft_complex_workspace(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_complex_workspace, name)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_gsl_fft_complex_workspace,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, gsl_fft_complex_workspace, 'this', apply(_gslwrap.new_gsl_fft_complex_workspace,args, kwargs))
+        _swig_setattr(self, gsl_fft_complex_workspace, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_gsl_fft_complex_workspace):
         try:
             if self.thisown: destroy(self)
@@ -248,9 +248,9 @@ class gsl_fft_complex_workspace(_object):
 
 class gsl_fft_complex_workspacePtr(gsl_fft_complex_workspace):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = gsl_fft_complex_workspace
+        _swig_setattr(self, gsl_fft_complex_workspace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_complex_workspace, 'thisown', 0)
+        _swig_setattr(self, gsl_fft_complex_workspace,self.__class__,gsl_fft_complex_workspace)
 _gslwrap.gsl_fft_complex_workspace_swigregister(gsl_fft_complex_workspacePtr)
 
 gsl_fft_complex_wavetable_alloc = _gslwrap.gsl_fft_complex_wavetable_alloc
@@ -279,8 +279,8 @@ class gsl_fft_real_wavetable(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_real_wavetable, name)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_gsl_fft_real_wavetable,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, gsl_fft_real_wavetable, 'this', apply(_gslwrap.new_gsl_fft_real_wavetable,args, kwargs))
+        _swig_setattr(self, gsl_fft_real_wavetable, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_gsl_fft_real_wavetable):
         try:
             if self.thisown: destroy(self)
@@ -305,9 +305,9 @@ class gsl_fft_real_wavetable(_object):
 
 class gsl_fft_real_wavetablePtr(gsl_fft_real_wavetable):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = gsl_fft_real_wavetable
+        _swig_setattr(self, gsl_fft_real_wavetable, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_real_wavetable, 'thisown', 0)
+        _swig_setattr(self, gsl_fft_real_wavetable,self.__class__,gsl_fft_real_wavetable)
 _gslwrap.gsl_fft_real_wavetable_swigregister(gsl_fft_real_wavetablePtr)
 
 class gsl_fft_real_workspace(_object):
@@ -316,8 +316,8 @@ class gsl_fft_real_workspace(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_real_workspace, name)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_gsl_fft_real_workspace,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, gsl_fft_real_workspace, 'this', apply(_gslwrap.new_gsl_fft_real_workspace,args, kwargs))
+        _swig_setattr(self, gsl_fft_real_workspace, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_gsl_fft_real_workspace):
         try:
             if self.thisown: destroy(self)
@@ -333,9 +333,9 @@ class gsl_fft_real_workspace(_object):
 
 class gsl_fft_real_workspacePtr(gsl_fft_real_workspace):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = gsl_fft_real_workspace
+        _swig_setattr(self, gsl_fft_real_workspace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_real_workspace, 'thisown', 0)
+        _swig_setattr(self, gsl_fft_real_workspace,self.__class__,gsl_fft_real_workspace)
 _gslwrap.gsl_fft_real_workspace_swigregister(gsl_fft_real_workspacePtr)
 
 gsl_fft_real_wavetable_alloc = _gslwrap.gsl_fft_real_wavetable_alloc
@@ -362,8 +362,8 @@ class Permutation(_object):
     __swig_getmethods__["data"] = _gslwrap.Permutation_data_get
     if _newclass:data = property(_gslwrap.Permutation_data_get,_gslwrap.Permutation_data_set)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_Permutation,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, Permutation, 'this', apply(_gslwrap.new_Permutation,args, kwargs))
+        _swig_setattr(self, Permutation, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_Permutation):
         try:
             if self.thisown: destroy(self)
@@ -381,9 +381,9 @@ class Permutation(_object):
 
 class PermutationPtr(Permutation):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = Permutation
+        _swig_setattr(self, Permutation, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, Permutation, 'thisown', 0)
+        _swig_setattr(self, Permutation,self.__class__,Permutation)
 _gslwrap.Permutation_swigregister(PermutationPtr)
 
 gsl_permutation_alloc = _gslwrap.gsl_permutation_alloc
@@ -455,6 +455,7 @@ gsl_max = _gslwrap.gsl_max
 
 gsl_min = _gslwrap.gsl_min
 
+GSL_POSZERO = _gslwrap.GSL_POSZERO
 GSL_NEGZERO = _gslwrap.GSL_NEGZERO
 gsl_log1p = _gslwrap.gsl_log1p
 
@@ -723,8 +724,8 @@ class gsl_eigen_symm_workspace(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_eigen_symm_workspace, name)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_gsl_eigen_symm_workspace,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, gsl_eigen_symm_workspace, 'this', apply(_gslwrap.new_gsl_eigen_symm_workspace,args, kwargs))
+        _swig_setattr(self, gsl_eigen_symm_workspace, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_gsl_eigen_symm_workspace):
         try:
             if self.thisown: destroy(self)
@@ -743,9 +744,9 @@ class gsl_eigen_symm_workspace(_object):
 
 class gsl_eigen_symm_workspacePtr(gsl_eigen_symm_workspace):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = gsl_eigen_symm_workspace
+        _swig_setattr(self, gsl_eigen_symm_workspace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_symm_workspace, 'thisown', 0)
+        _swig_setattr(self, gsl_eigen_symm_workspace,self.__class__,gsl_eigen_symm_workspace)
 _gslwrap.gsl_eigen_symm_workspace_swigregister(gsl_eigen_symm_workspacePtr)
 cvar = _gslwrap.cvar
 
@@ -761,8 +762,8 @@ class gsl_eigen_symmv_workspace(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_eigen_symmv_workspace, name)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_gsl_eigen_symmv_workspace,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, gsl_eigen_symmv_workspace, 'this', apply(_gslwrap.new_gsl_eigen_symmv_workspace,args, kwargs))
+        _swig_setattr(self, gsl_eigen_symmv_workspace, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_gsl_eigen_symmv_workspace):
         try:
             if self.thisown: destroy(self)
@@ -787,9 +788,9 @@ class gsl_eigen_symmv_workspace(_object):
 
 class gsl_eigen_symmv_workspacePtr(gsl_eigen_symmv_workspace):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = gsl_eigen_symmv_workspace
+        _swig_setattr(self, gsl_eigen_symmv_workspace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_symmv_workspace, 'thisown', 0)
+        _swig_setattr(self, gsl_eigen_symmv_workspace,self.__class__,gsl_eigen_symmv_workspace)
 _gslwrap.gsl_eigen_symmv_workspace_swigregister(gsl_eigen_symmv_workspacePtr)
 
 gsl_eigen_symmv_alloc = _gslwrap.gsl_eigen_symmv_alloc
@@ -804,8 +805,8 @@ class gsl_eigen_herm_workspace(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_eigen_herm_workspace, name)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_gsl_eigen_herm_workspace,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, gsl_eigen_herm_workspace, 'this', apply(_gslwrap.new_gsl_eigen_herm_workspace,args, kwargs))
+        _swig_setattr(self, gsl_eigen_herm_workspace, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_gsl_eigen_herm_workspace):
         try:
             if self.thisown: destroy(self)
@@ -827,9 +828,9 @@ class gsl_eigen_herm_workspace(_object):
 
 class gsl_eigen_herm_workspacePtr(gsl_eigen_herm_workspace):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = gsl_eigen_herm_workspace
+        _swig_setattr(self, gsl_eigen_herm_workspace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_herm_workspace, 'thisown', 0)
+        _swig_setattr(self, gsl_eigen_herm_workspace,self.__class__,gsl_eigen_herm_workspace)
 _gslwrap.gsl_eigen_herm_workspace_swigregister(gsl_eigen_herm_workspacePtr)
 
 gsl_eigen_herm_alloc = _gslwrap.gsl_eigen_herm_alloc
@@ -844,8 +845,8 @@ class gsl_eigen_hermv_workspace(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, gsl_eigen_hermv_workspace, name)
     def __init__(self,*args,**kwargs):
-        self.this = apply(_gslwrap.new_gsl_eigen_hermv_workspace,args,kwargs)
-        self.thisown = 1
+        _swig_setattr(self, gsl_eigen_hermv_workspace, 'this', apply(_gslwrap.new_gsl_eigen_hermv_workspace,args, kwargs))
+        _swig_setattr(self, gsl_eigen_hermv_workspace, 'thisown', 1)
     def __del__(self, destroy= _gslwrap.delete_gsl_eigen_hermv_workspace):
         try:
             if self.thisown: destroy(self)
@@ -873,9 +874,9 @@ class gsl_eigen_hermv_workspace(_object):
 
 class gsl_eigen_hermv_workspacePtr(gsl_eigen_hermv_workspace):
     def __init__(self,this):
-        self.this = this
-        if not hasattr(self,"thisown"): self.thisown = 0
-        self.__class__ = gsl_eigen_hermv_workspace
+        _swig_setattr(self, gsl_eigen_hermv_workspace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_hermv_workspace, 'thisown', 0)
+        _swig_setattr(self, gsl_eigen_hermv_workspace,self.__class__,gsl_eigen_hermv_workspace)
 _gslwrap.gsl_eigen_hermv_workspace_swigregister(gsl_eigen_hermv_workspacePtr)
 
 gsl_eigen_hermv_alloc = _gslwrap.gsl_eigen_hermv_alloc
@@ -895,5 +896,63 @@ gsl_eigen_hermv_sort = _gslwrap.gsl_eigen_hermv_sort
 gsl_eigen_jacobi = _gslwrap.gsl_eigen_jacobi
 
 gsl_eigen_invert_jacobi = _gslwrap.gsl_eigen_invert_jacobi
+
+gsl_spline_alloc = _gslwrap.gsl_spline_alloc
+
+gsl_spline_init = _gslwrap.gsl_spline_init
+
+gsl_spline_eval_e = _gslwrap.gsl_spline_eval_e
+
+gsl_spline_eval = _gslwrap.gsl_spline_eval
+
+gsl_spline_eval_deriv_e = _gslwrap.gsl_spline_eval_deriv_e
+
+gsl_spline_eval_deriv = _gslwrap.gsl_spline_eval_deriv
+
+gsl_spline_eval_deriv2_e = _gslwrap.gsl_spline_eval_deriv2_e
+
+gsl_spline_eval_deriv2 = _gslwrap.gsl_spline_eval_deriv2
+
+gsl_spline_eval_integ_e = _gslwrap.gsl_spline_eval_integ_e
+
+gsl_spline_eval_integ = _gslwrap.gsl_spline_eval_integ
+
+gsl_spline_free = _gslwrap.gsl_spline_free
+
+gsl_interp_accel_alloc = _gslwrap.gsl_interp_accel_alloc
+
+gsl_interp_accel_find = _gslwrap.gsl_interp_accel_find
+
+gsl_interp_accel_reset = _gslwrap.gsl_interp_accel_reset
+
+gsl_interp_accel_free = _gslwrap.gsl_interp_accel_free
+
+gsl_interp_alloc = _gslwrap.gsl_interp_alloc
+
+gsl_interp_init = _gslwrap.gsl_interp_init
+
+gsl_interp_name = _gslwrap.gsl_interp_name
+
+gsl_interp_min_size = _gslwrap.gsl_interp_min_size
+
+gsl_interp_eval_e = _gslwrap.gsl_interp_eval_e
+
+gsl_interp_eval = _gslwrap.gsl_interp_eval
+
+gsl_interp_eval_deriv_e = _gslwrap.gsl_interp_eval_deriv_e
+
+gsl_interp_eval_deriv = _gslwrap.gsl_interp_eval_deriv
+
+gsl_interp_eval_deriv2_e = _gslwrap.gsl_interp_eval_deriv2_e
+
+gsl_interp_eval_deriv2 = _gslwrap.gsl_interp_eval_deriv2
+
+gsl_interp_eval_integ_e = _gslwrap.gsl_interp_eval_integ_e
+
+gsl_interp_eval_integ = _gslwrap.gsl_interp_eval_integ
+
+gsl_interp_free = _gslwrap.gsl_interp_free
+
+gsl_interp_bsearch = _gslwrap.gsl_interp_bsearch
 
 

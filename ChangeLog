@@ -1,8 +1,29 @@
+2003-05-18  Achim Gädke  <achim.gaedke@physik.tu-darmstadt.de>
+
+	* now checked in several changes to create a new release.
+	  activated all available modules, updated README.html
+
+2003-02-09  Pierre Schnizer <pierre@itp.tu-graz.ac.at>
+	
+        * src/poly, src/callback, src/gslwrap : added these directories, which
+ 	  provide low level wrapper interface files for swig. These provide low
+	  level interfaces for polynomial, blas, eigen, linalg, integration, 
+	  root finding, minimization, multi roots finding, chebychev series
+	  multi dimensional non linear fit
+	
+	* pygsl/blas.py, pygsl/eigen.py pygsl/linalg.py 
+	  These wrappers were written by Fabian Jakobs.
+
+	* pygsl/
+	
+	* Makefile : added. It is only used for developing the swig wrappers.
+
 2003-03-07  Jochen Küpper  <jochen@jochen-kuepper.de>
 
 	* gsl_Extension.py (gsl_Extension.get_gsl_version): Remove final '+'
 	from version string. This is used by GSL for cvs versions, these are
 	now treated analogous to the previous release.
+
 
 2002-01-27  Jochen Küpper  <jochen@jochen-kuepper.de>
 

@@ -906,7 +906,7 @@ PyGSL_convert_to_gsl_multimin_function(PyObject * object)
      if(params == NULL){
 	  return NULL;
      }
-     if ((f = (gsl_multiroot_function *) malloc(sizeof(gsl_multimin_function))) == NULL){
+     if ((f = (gsl_multimin_function *) malloc(sizeof(gsl_multimin_function))) == NULL){
 	  PyGSL_params_free(params);
 	  PyErr_NoMemory();
 	  return NULL;

@@ -3,6 +3,7 @@ Catalog of Callbacks as found in GSL
 
 Here is the table of the functions found for the different solver.
 d ... double
+A ... Array
 O ... arbitrary object
 Numbers : The cooresponding function.
 

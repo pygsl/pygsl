@@ -23,14 +23,14 @@ typedef int size_t;
 %include gsl_block_typemaps.i
 %include gsl_complex_typemap.i
 
-%include linalg.i
+%include linalg.i 
 %typemap (out) int = gsl_error_flag;
 %include fft.i
 %include permutation.i
 %include math.i
 %include blas.i
 %include eigen.i
-
+%include interpolation.i
 
 /* %include error.i */
 /* %include complex.i */

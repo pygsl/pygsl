@@ -15,3 +15,6 @@ include gsl_Extension.py
 include test.py
 include README
 include Makefile
+include setup.py
+include MANIFEST.in
+include MANIFEST

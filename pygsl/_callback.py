@@ -133,9 +133,27 @@ gsl_multiroot_test_delta = __callback.gsl_multiroot_test_delta
 
 gsl_multiroot_test_residual = __callback.gsl_multiroot_test_residual
 
+gsl_multimin_function_init = __callback.gsl_multimin_function_init
+
 gsl_multimin_function_init_fdf = __callback.gsl_multimin_function_init_fdf
 
+gsl_multimin_function_free = __callback.gsl_multimin_function_free
+
 gsl_multimin_function_free_fdf = __callback.gsl_multimin_function_free_fdf
+
+gsl_multimin_fminimizer_set = __callback.gsl_multimin_fminimizer_set
+
+gsl_multimin_fminimizer_free = __callback.gsl_multimin_fminimizer_free
+
+gsl_multimin_fminimizer_name = __callback.gsl_multimin_fminimizer_name
+
+gsl_multimin_fminimizer_iterate = __callback.gsl_multimin_fminimizer_iterate
+
+gsl_multimin_fminimizer_x = __callback.gsl_multimin_fminimizer_x
+
+gsl_multimin_fminimizer_minimum = __callback.gsl_multimin_fminimizer_minimum
+
+gsl_multimin_fminimizer_size = __callback.gsl_multimin_fminimizer_size
 
 gsl_multimin_fdfminimizer_alloc = __callback.gsl_multimin_fdfminimizer_alloc
 

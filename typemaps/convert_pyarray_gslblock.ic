@@ -1,0 +1,60 @@
+/* -*- C -*- */
+/**
+ * Author: Pierre Schnizer		
+ */
+#ifndef CONVERT_PYARRAY_GSBLOCK_IC
+#define CONVERT_PYARRAY_GSBLOCK_IC 1
+#include <utils/util.h>
+#include <typemaps/gsl_block_helpers.ic>
+static PyArrayObject * 
+convert_numpy_array_to_gsl_vector(PyObject *src,
+				  enum PyArray_TYPES array_type,
+				  int num)
+{
+     PyArrayObject * a_array = NULL;
+
+    if(NULL == a_array) return NULL;
+    
+    if(DEBUG > 1)
+      fprintf(stderr, "Mapping python array to gsl_vector!\n"\
+	      "array at %p, data at %p\n", (void *) a_array,
+              (void *) a_array->data);
+    
+    if(a_array->nd != 1){
+      PyErr_SetString(PyExc_ValueError, 
+		      "The Array must be one dimensional!\n");
+      return NULL;
+    }
+    if(DEBUG > 1)
+      fprintf(stderr, "Found a vector with length %d!\n",
+	      a_array->dimensions[0]);
+    return a_array;
+}
+
+static PyArrayObject * 
+convert_numpy_array_to_gsl_matrix(PyObject *src, 
+				  enum PyArray_TYPES array_type,
+				  int num)
+{
+    PyArrayObject * a_array = NULL;
+    if(DEBUG > 1)
+      fprintf(stderr, "trying to map numpy array to gsl_matrix\n");
+    a_array = (PyArrayObject *) 
+      PyArray_ContiguousFromObject(src, array_type, 2, 2);
+    if(NULL == a_array){
+      fprintf(stderr, "Generation failed for object %p, a_array %p argnum %d\n", 
+	      (void *)src, (void *) a_array, num);
+      return NULL;
+    }
+    if(DEBUG > 1)
+      fprintf(stderr, "Mapping python array to gsl_matrix!\n"\
+	      "a_array at %p, data at %p\n", (void *) a_array,(void *)a_array->data);
+    
+    if(a_array->nd != 2){
+      PyErr_SetString(PyExc_ValueError, 
+		      "The Array must be two dimensional!\n");
+      return NULL;
+    }
+    return a_array;
+}
+#endif /*  CONVERT_PYARRAY_GSBLOCK_IC */

@@ -70,7 +70,8 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  assert(a_array->strides[0] % sizeof(BASIS_TYPE_$1_basetype) == 0);
 
 	  assert(a_array != NULL);
-	  assert(stride_recalc == 1);
+	  assert(((a_array->flags) & CONTIGUOUS));
+
 	  /* (BASIS_TYPE_$1_basetype *) */
 	  _matrix$argnum  = TYPE_VIEW_ARRAY_$1_basetype((BASIS_TYPE_C_$1_basetype *) a_array->data, 
 							a_array->dimensions[0], a_array->dimensions[1]);
