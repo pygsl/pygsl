@@ -632,37 +632,41 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define  SWIGTYPE_p_gsl_vector swig_types[0] 
-#define  SWIGTYPE_p_size_t swig_types[1] 
+#define  SWIGTYPE_p_gsl_spline swig_types[0] 
+#define  SWIGTYPE_p_gsl_fft_real_wavetable swig_types[1] 
 #define  SWIGTYPE_p_gsl_fft_complex_wavetable swig_types[2] 
-#define  SWIGTYPE_p_gsl_permutation swig_types[3] 
-#define  SWIGTYPE_p_double swig_types[4] 
-#define  SWIGTYPE_p_gsl_fft_real_wavetable swig_types[5] 
-#define  SWIGTYPE_p_long_double swig_types[6] 
-#define  SWIGTYPE_p_p_gsl_complex swig_types[7] 
-#define  SWIGTYPE_p_gsl_matrix_complex swig_types[8] 
-#define  SWIGTYPE_p_gsl_complex swig_types[9] 
-#define  SWIGTYPE_p_gsl_vector_complex swig_types[10] 
-#define  SWIGTYPE_p_gsl_mode_t swig_types[11] 
-#define  SWIGTYPE_p_float swig_types[12] 
-#define  SWIGTYPE_p_gsl_vector_float swig_types[13] 
-#define  SWIGTYPE_p_gsl_vector_complex_float swig_types[14] 
-#define  SWIGTYPE_p_gsl_complex_float swig_types[15] 
-#define  SWIGTYPE_p_gsl_matrix_float swig_types[16] 
-#define  SWIGTYPE_p_gsl_matrix_complex_float swig_types[17] 
-#define  SWIGTYPE_p_unsigned_int swig_types[18] 
-#define  SWIGTYPE_p_gsl_permutation_struct swig_types[19] 
-#define  SWIGTYPE_p_FILE swig_types[20] 
-#define  SWIGTYPE_p_gsl_fft_complex_workspace swig_types[21] 
-#define  SWIGTYPE_p_gsl_fft_real_workspace swig_types[22] 
-#define  SWIGTYPE_p_gsl_eigen_symm_workspace swig_types[23] 
-#define  SWIGTYPE_p_gsl_eigen_symmv_workspace swig_types[24] 
-#define  SWIGTYPE_p_gsl_eigen_herm_workspace swig_types[25] 
-#define  SWIGTYPE_p_gsl_eigen_hermv_workspace swig_types[26] 
-#define  SWIGTYPE_p_gsl_matrix swig_types[27] 
-#define  SWIGTYPE_p_gsl_complex_packed_array swig_types[28] 
-#define  SWIGTYPE_p_int swig_types[29] 
-static swig_type_info *swig_types[31];
+#define  SWIGTYPE_p_gsl_interp_type swig_types[3] 
+#define  SWIGTYPE_p_long_double swig_types[4] 
+#define  SWIGTYPE_p_double swig_types[5] 
+#define  SWIGTYPE_p_size_t swig_types[6] 
+#define  SWIGTYPE_p_gsl_complex_packed_array swig_types[7] 
+#define  SWIGTYPE_p_gsl_eigen_hermv_workspace swig_types[8] 
+#define  SWIGTYPE_p_gsl_eigen_herm_workspace swig_types[9] 
+#define  SWIGTYPE_p_gsl_eigen_symmv_workspace swig_types[10] 
+#define  SWIGTYPE_p_gsl_eigen_symm_workspace swig_types[11] 
+#define  SWIGTYPE_p_gsl_fft_real_workspace swig_types[12] 
+#define  SWIGTYPE_p_gsl_fft_complex_workspace swig_types[13] 
+#define  SWIGTYPE_p_gsl_permutation swig_types[14] 
+#define  SWIGTYPE_p_gsl_permutation_struct swig_types[15] 
+#define  SWIGTYPE_p_unsigned_int swig_types[16] 
+#define  SWIGTYPE_p_gsl_vector_complex swig_types[17] 
+#define  SWIGTYPE_p_gsl_complex swig_types[18] 
+#define  SWIGTYPE_p_gsl_matrix_complex swig_types[19] 
+#define  SWIGTYPE_p_p_gsl_complex swig_types[20] 
+#define  SWIGTYPE_p_gsl_matrix swig_types[21] 
+#define  SWIGTYPE_p_gsl_mode_t swig_types[22] 
+#define  SWIGTYPE_p_FILE swig_types[23] 
+#define  SWIGTYPE_p_gsl_matrix_complex_float swig_types[24] 
+#define  SWIGTYPE_p_gsl_matrix_float swig_types[25] 
+#define  SWIGTYPE_p_gsl_complex_float swig_types[26] 
+#define  SWIGTYPE_p_gsl_vector_complex_float swig_types[27] 
+#define  SWIGTYPE_p_gsl_vector_float swig_types[28] 
+#define  SWIGTYPE_p_float swig_types[29] 
+#define  SWIGTYPE_p_int swig_types[30] 
+#define  SWIGTYPE_p_gsl_interp swig_types[31] 
+#define  SWIGTYPE_p_gsl_interp_accel swig_types[32] 
+#define  SWIGTYPE_p_gsl_vector swig_types[33] 
+static swig_type_info *swig_types[35];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -828,6 +832,18 @@ gsl_eigen_hermv_workspace *new_gsl_eigen_hermv_workspace(size_t const n){
 void delete_gsl_eigen_hermv_workspace(gsl_eigen_hermv_workspace *self){
     gsl_eigen_hermv_free(self);
   }
+
+#include <gsl/gsl_interp.h>
+#include <gsl/gsl_spline.h>
+#include <Numeric/arrayobject.h>
+#include <stdio.h>
+
+extern gsl_interp_type const *gsl_interp_linear;
+extern gsl_interp_type const *gsl_interp_polynomial;
+extern gsl_interp_type const *gsl_interp_cspline;
+extern gsl_interp_type const *gsl_interp_cspline_periodic;
+extern gsl_interp_type const *gsl_interp_akima;
+extern gsl_interp_type const *gsl_interp_akima_periodic;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -1192,7 +1208,7 @@ static PyObject *_wrap_gsl_linalg_householder_transform(PyObject *self, PyObject
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_linalg_householder_transform",kwnames,&obj0)) goto fail;
@@ -1269,7 +1285,7 @@ static PyObject *_wrap_gsl_linalg_complex_householder_transform(PyObject *self, 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_linalg_complex_householder_transform",kwnames,&obj0)) goto fail;
@@ -1351,7 +1367,7 @@ static PyObject *_wrap_gsl_linalg_householder_hm(PyObject *self, PyObject *args,
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
@@ -1475,7 +1491,7 @@ static PyObject *_wrap_gsl_linalg_householder_mh(PyObject *self, PyObject *args,
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
@@ -1599,11 +1615,11 @@ static PyObject *_wrap_gsl_linalg_householder_hv(PyObject *self, PyObject *args,
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dOO:gsl_linalg_householder_hv",kwnames,&arg1,&obj1,&obj2)) goto fail;
@@ -1817,7 +1833,7 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hm(PyObject *self, PyObjec
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
@@ -1951,11 +1967,11 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
     TYPE_VIEW_gsl_matrix _matrix2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_SV_decomp",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -2171,11 +2187,11 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_SV_decomp_mod",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -2408,7 +2424,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_jacobi(PyObject *self, PyObject *arg
     TYPE_VIEW_gsl_matrix _matrix2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_SV_decomp_jacobi",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -2566,15 +2582,15 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
     TYPE_VIEW_gsl_matrix _matrix2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_SV_solve",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -2907,11 +2923,11 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LU_solve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -3091,7 +3107,7 @@ static PyObject *_wrap_gsl_linalg_LU_svx(PyObject *self, PyObject *args, PyObjec
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LU_svx",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -3227,15 +3243,15 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
     TYPE_VIEW_gsl_matrix _matrix2;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOO:gsl_linalg_LU_refine",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
@@ -3812,11 +3828,11 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_complex_LU_solve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -3980,7 +3996,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_svx(PyObject *self, PyObject *args,
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_complex_LU_svx",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -4108,15 +4124,15 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
     TYPE_VIEW_gsl_matrix_complex _matrix2;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector5;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOO:gsl_linalg_complex_LU_refine",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
@@ -4612,7 +4628,7 @@ static PyObject *_wrap_gsl_linalg_QR_decomp(PyObject *self, PyObject *args, PyOb
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_QR_decomp",kwnames,&obj0,&obj1)) goto fail;
@@ -4739,15 +4755,15 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QR_solve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -4980,11 +4996,11 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QR_svx",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -5167,19 +5183,19 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_QR_lssolve",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -5472,11 +5488,11 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
     TYPE_VIEW_gsl_matrix _matrix2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QR_QRsolve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -5680,11 +5696,11 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QR_Rsolve",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -5861,7 +5877,7 @@ static PyObject *_wrap_gsl_linalg_QR_Rsvx(PyObject *self, PyObject *args, PyObje
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_QR_Rsvx",kwnames,&obj0,&obj1)) goto fail;
@@ -5992,11 +6008,11 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
     TYPE_VIEW_gsl_matrix _matrix2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QR_update",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -6200,11 +6216,11 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QR_QTvec",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -6383,11 +6399,11 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QR_Qvec",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -6568,7 +6584,7 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
@@ -6751,11 +6767,11 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_R_solve",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -6938,11 +6954,11 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     arg4 = &temp4;
@@ -7143,11 +7159,11 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
     TYPE_VIEW_gsl_matrix _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector7 = NULL;
+    PyArrayObject * volatile _PyVector7 = NULL;
     TYPE_VIEW_gsl_vector _vector7;
     
     arg6 = &temp6;
@@ -7386,15 +7402,15 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_QRPT_solve",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -7630,11 +7646,11 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QRPT_svx",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -7822,11 +7838,11 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
     TYPE_VIEW_gsl_matrix _matrix2;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_QRPT_QRsolve",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -8033,11 +8049,11 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QRPT_Rsolve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -8217,7 +8233,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsvx(PyObject *self, PyObject *args, PyOb
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QRPT_Rsvx",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -8351,11 +8367,11 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
     TYPE_VIEW_gsl_matrix _matrix2;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_QRPT_update",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -8623,11 +8639,11 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_cholesky_solve",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -8804,7 +8820,7 @@ static PyObject *_wrap_gsl_linalg_cholesky_svx(PyObject *self, PyObject *args, P
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_cholesky_svx",kwnames,&obj0,&obj1)) goto fail;
@@ -8927,7 +8943,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_decomp(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_symmtd_decomp",kwnames,&obj0,&obj1)) goto fail;
@@ -9056,7 +9072,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
@@ -9064,11 +9080,11 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_symmtd_unpack",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -9326,11 +9342,11 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_symmtd_unpack_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -9507,7 +9523,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_decomp(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_hermtd_decomp",kwnames,&obj0,&obj1)) goto fail;
@@ -9628,7 +9644,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
@@ -9636,11 +9652,11 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix_complex _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_hermtd_unpack",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -9890,11 +9906,11 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_hermtd_unpack_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -10073,11 +10089,11 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_HH_solve",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -10254,7 +10270,7 @@ static PyObject *_wrap_gsl_linalg_HH_svx(PyObject *self, PyObject *args, PyObjec
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_HH_svx",kwnames,&obj0,&obj1)) goto fail;
@@ -10377,19 +10393,19 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_solve_symm_tridiag",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -10651,23 +10667,23 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_solve_tridiag",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -10981,19 +10997,19 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_solve_symm_cyc_tridiag",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
@@ -11255,23 +11271,23 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_solve_cyc_tridiag",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
@@ -11587,11 +11603,11 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_bidiag_decomp",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -11778,7 +11794,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
@@ -11786,7 +11802,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
@@ -11794,11 +11810,11 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix _matrix5;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector _vector6;
     
     
-    PyArrayObject * _PyVector7 = NULL;
+    PyArrayObject * volatile _PyVector7 = NULL;
     TYPE_VIEW_gsl_vector _vector7;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOOO:gsl_linalg_bidiag_unpack",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
@@ -12137,11 +12153,11 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
@@ -12349,11 +12365,11 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_bidiag_unpack_B",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -12530,7 +12546,7 @@ static PyObject *_wrap_gsl_linalg_balance_columns(PyObject *self, PyObject *args
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_balance_columns",kwnames,&obj0,&obj1)) goto fail;
@@ -16036,11 +16052,11 @@ static PyObject *_wrap_gsl_blas_sdsdot(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_float _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"fOOO:gsl_blas_sdsdot",kwnames,&arg1,&obj1,&obj2,&obj3)) goto fail;
@@ -16175,11 +16191,11 @@ static PyObject *_wrap_gsl_blas_dsdot(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     arg3 = &temp3;
@@ -16318,11 +16334,11 @@ static PyObject *_wrap_gsl_blas_sdot(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_sdot",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -16457,11 +16473,11 @@ static PyObject *_wrap_gsl_blas_ddot(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     arg3 = &temp3;
@@ -16616,11 +16632,11 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     
@@ -16766,11 +16782,11 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     
@@ -16916,11 +16932,11 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
@@ -17077,11 +17093,11 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
@@ -17234,7 +17250,7 @@ static PyObject *_wrap_gsl_blas_snrm2(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_snrm2",kwnames,&obj0)) goto fail;
@@ -17303,7 +17319,7 @@ static PyObject *_wrap_gsl_blas_sasum(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_sasum",kwnames,&obj0)) goto fail;
@@ -17372,7 +17388,7 @@ static PyObject *_wrap_gsl_blas_dnrm2(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_dnrm2",kwnames,&obj0)) goto fail;
@@ -17449,7 +17465,7 @@ static PyObject *_wrap_gsl_blas_dasum(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_dasum",kwnames,&obj0)) goto fail;
@@ -17526,7 +17542,7 @@ static PyObject *_wrap_gsl_blas_scnrm2(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_scnrm2",kwnames,&obj0)) goto fail;
@@ -17595,7 +17611,7 @@ static PyObject *_wrap_gsl_blas_scasum(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_scasum",kwnames,&obj0)) goto fail;
@@ -17664,7 +17680,7 @@ static PyObject *_wrap_gsl_blas_dznrm2(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_dznrm2",kwnames,&obj0)) goto fail;
@@ -17733,7 +17749,7 @@ static PyObject *_wrap_gsl_blas_dzasum(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_dzasum",kwnames,&obj0)) goto fail;
@@ -17802,7 +17818,7 @@ static PyObject *_wrap_gsl_blas_isamax(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_isamax",kwnames,&obj0)) goto fail;
@@ -17871,7 +17887,7 @@ static PyObject *_wrap_gsl_blas_idamax(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_idamax",kwnames,&obj0)) goto fail;
@@ -17948,7 +17964,7 @@ static PyObject *_wrap_gsl_blas_icamax(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_icamax",kwnames,&obj0)) goto fail;
@@ -18017,7 +18033,7 @@ static PyObject *_wrap_gsl_blas_izamax(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_izamax",kwnames,&obj0)) goto fail;
@@ -18088,11 +18104,11 @@ static PyObject *_wrap_gsl_blas_sswap(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_sswap",kwnames,&obj0,&obj1)) goto fail;
@@ -18224,11 +18240,11 @@ static PyObject *_wrap_gsl_blas_scopy(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_scopy",kwnames,&obj0,&obj1)) goto fail;
@@ -18361,11 +18377,11 @@ static PyObject *_wrap_gsl_blas_saxpy(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_float _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"fOO:gsl_blas_saxpy",kwnames,&arg1,&obj1,&obj2)) goto fail;
@@ -18497,11 +18513,11 @@ static PyObject *_wrap_gsl_blas_dswap(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_dswap",kwnames,&obj0,&obj1)) goto fail;
@@ -18649,11 +18665,11 @@ static PyObject *_wrap_gsl_blas_dcopy(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_dcopy",kwnames,&obj0,&obj1)) goto fail;
@@ -18802,11 +18818,11 @@ static PyObject *_wrap_gsl_blas_daxpy(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dOO:gsl_blas_daxpy",kwnames,&arg1,&obj1,&obj2)) goto fail;
@@ -18954,11 +18970,11 @@ static PyObject *_wrap_gsl_blas_cswap(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_cswap",kwnames,&obj0,&obj1)) goto fail;
@@ -19090,11 +19106,11 @@ static PyObject *_wrap_gsl_blas_ccopy(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_ccopy",kwnames,&obj0,&obj1)) goto fail;
@@ -19228,11 +19244,11 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_caxpy",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -19371,11 +19387,11 @@ static PyObject *_wrap_gsl_blas_zswap(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_zswap",kwnames,&obj0,&obj1)) goto fail;
@@ -19507,11 +19523,11 @@ static PyObject *_wrap_gsl_blas_zcopy(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_zcopy",kwnames,&obj0,&obj1)) goto fail;
@@ -19645,11 +19661,11 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_zaxpy",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -19879,11 +19895,11 @@ static PyObject *_wrap_gsl_blas_srot(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOff:gsl_blas_srot",kwnames,&obj0,&obj1,&arg3,&arg4)) goto fail;
@@ -20017,11 +20033,11 @@ static PyObject *_wrap_gsl_blas_srotm(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_float _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_srotm",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -20245,11 +20261,11 @@ static PyObject *_wrap_gsl_blas_drot(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOdd:gsl_blas_drot",kwnames,&obj0,&obj1,&arg3,&arg4)) goto fail;
@@ -20399,11 +20415,11 @@ static PyObject *_wrap_gsl_blas_drotm(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_drotm",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -20550,7 +20566,7 @@ static PyObject *_wrap_gsl_blas_sscal(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"fO:gsl_blas_sscal",kwnames,&arg1,&obj1)) goto fail;
@@ -20619,7 +20635,7 @@ static PyObject *_wrap_gsl_blas_dscal(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dO:gsl_blas_dscal",kwnames,&arg1,&obj1)) goto fail;
@@ -20697,7 +20713,7 @@ static PyObject *_wrap_gsl_blas_cscal(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_cscal",kwnames,&obj0,&obj1)) goto fail;
@@ -20774,7 +20790,7 @@ static PyObject *_wrap_gsl_blas_zscal(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_zscal",kwnames,&obj0,&obj1)) goto fail;
@@ -20850,7 +20866,7 @@ static PyObject *_wrap_gsl_blas_csscal(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"fO:gsl_blas_csscal",kwnames,&arg1,&obj1)) goto fail;
@@ -20919,7 +20935,7 @@ static PyObject *_wrap_gsl_blas_zdscal(PyObject *self, PyObject *args, PyObject 
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dO:gsl_blas_zdscal",kwnames,&arg1,&obj1)) goto fail;
@@ -20999,11 +21015,11 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_float _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_float _vector4;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector_float _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"ifOOfO:gsl_blas_sgemv",kwnames,&arg1,&arg2,&obj2,&obj3,&arg5,&obj5)) goto fail;
@@ -21167,7 +21183,7 @@ static PyObject *_wrap_gsl_blas_strmv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_float _matrix4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector_float _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiOO:gsl_blas_strmv",kwnames,&arg1,&arg2,&arg3,&obj3,&obj4)) goto fail;
@@ -21285,7 +21301,7 @@ static PyObject *_wrap_gsl_blas_strsv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_float _matrix4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector_float _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiOO:gsl_blas_strsv",kwnames,&arg1,&arg2,&arg3,&obj3,&obj4)) goto fail;
@@ -21405,11 +21421,11 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"idOOdO:gsl_blas_dgemv",kwnames,&arg1,&arg2,&obj2,&obj3,&arg5,&obj5)) goto fail;
@@ -21589,7 +21605,7 @@ static PyObject *_wrap_gsl_blas_dtrmv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix _matrix4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiOO:gsl_blas_dtrmv",kwnames,&arg1,&arg2,&arg3,&obj3,&obj4)) goto fail;
@@ -21715,7 +21731,7 @@ static PyObject *_wrap_gsl_blas_dtrsv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix _matrix4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiOO:gsl_blas_dtrsv",kwnames,&arg1,&arg2,&arg3,&obj3,&obj4)) goto fail;
@@ -21845,11 +21861,11 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex_float _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector4;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOOO:gsl_blas_cgemv",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
@@ -22027,7 +22043,7 @@ static PyObject *_wrap_gsl_blas_ctrmv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex_float _matrix4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiOO:gsl_blas_ctrmv",kwnames,&arg1,&arg2,&arg3,&obj3,&obj4)) goto fail;
@@ -22145,7 +22161,7 @@ static PyObject *_wrap_gsl_blas_ctrsv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex_float _matrix4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiOO:gsl_blas_ctrsv",kwnames,&arg1,&arg2,&arg3,&obj3,&obj4)) goto fail;
@@ -22267,11 +22283,11 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector4;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOOO:gsl_blas_zgemv",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
@@ -22449,7 +22465,7 @@ static PyObject *_wrap_gsl_blas_ztrmv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex _matrix4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiOO:gsl_blas_ztrmv",kwnames,&arg1,&arg2,&arg3,&obj3,&obj4)) goto fail;
@@ -22567,7 +22583,7 @@ static PyObject *_wrap_gsl_blas_ztrsv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex _matrix4;
     
     
-    PyArrayObject * _PyVector5 = NULL;
+    PyArrayObject * volatile _PyVector5 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector5;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiOO:gsl_blas_ztrsv",kwnames,&arg1,&arg2,&arg3,&obj3,&obj4)) goto fail;
@@ -22687,11 +22703,11 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_float _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_float _vector4;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector_float _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"ifOOfO:gsl_blas_ssymv",kwnames,&arg1,&arg2,&obj2,&obj3,&arg5,&obj5)) goto fail;
@@ -22851,11 +22867,11 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_float _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_float _vector3;
     
     
@@ -23018,7 +23034,7 @@ static PyObject *_wrap_gsl_blas_ssyr(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_float _vector3;
     
     
@@ -23137,11 +23153,11 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_float _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_float _vector4;
     
     
@@ -23311,11 +23327,11 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"idOOdO:gsl_blas_dsymv",kwnames,&arg1,&arg2,&obj2,&obj3,&arg5,&obj5)) goto fail;
@@ -23491,11 +23507,11 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
@@ -23674,7 +23690,7 @@ static PyObject *_wrap_gsl_blas_dsyr(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
@@ -23801,11 +23817,11 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector _vector4;
     
     
@@ -23993,11 +24009,11 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex_float _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector4;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOOO:gsl_blas_chemv",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
@@ -24172,11 +24188,11 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector3;
     
     
@@ -24348,11 +24364,11 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector3;
     
     
@@ -24522,7 +24538,7 @@ static PyObject *_wrap_gsl_blas_cher(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector3;
     
     
@@ -24642,11 +24658,11 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_complex_float _vector4;
     
     
@@ -24825,11 +24841,11 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex _matrix3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector4;
     
     
-    PyArrayObject * _PyVector6 = NULL;
+    PyArrayObject * volatile _PyVector6 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector6;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOOO:gsl_blas_zhemv",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
@@ -25004,11 +25020,11 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector3;
     
     
@@ -25180,11 +25196,11 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector3;
     
     
@@ -25354,7 +25370,7 @@ static PyObject *_wrap_gsl_blas_zher(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector3;
     
     
@@ -25474,11 +25490,11 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
     };
     
     
-    PyArrayObject * _PyVector3 = NULL;
+    PyArrayObject * volatile _PyVector3 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector3;
     
     
-    PyArrayObject * _PyVector4 = NULL;
+    PyArrayObject * volatile _PyVector4 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector4;
     
     
@@ -29518,7 +29534,7 @@ static PyObject *_wrap_gsl_eigen_symm(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_eigen_symm",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -29944,7 +29960,7 @@ static PyObject *_wrap_gsl_eigen_symmv(PyObject *self, PyObject *args, PyObject 
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
@@ -30355,7 +30371,7 @@ static PyObject *_wrap_gsl_eigen_herm(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_eigen_herm",kwnames,&obj0,&obj1,&obj2)) goto fail;
@@ -30823,7 +30839,7 @@ static PyObject *_wrap_gsl_eigen_hermv(PyObject *self, PyObject *args, PyObject 
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
@@ -30973,7 +30989,7 @@ static PyObject *_wrap_gsl_eigen_symmv_sort(PyObject *self, PyObject *args, PyOb
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
@@ -31097,7 +31113,7 @@ static PyObject *_wrap_gsl_eigen_hermv_sort(PyObject *self, PyObject *args, PyOb
     };
     
     
-    PyArrayObject * _PyVector1 = NULL;
+    PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector _vector1;
     
     
@@ -31230,7 +31246,7 @@ static PyObject *_wrap_gsl_eigen_jacobi(PyObject *self, PyObject *args, PyObject
     TYPE_VIEW_gsl_matrix _matrix1;
     
     
-    PyArrayObject * _PyVector2 = NULL;
+    PyArrayObject * volatile _PyVector2 = NULL;
     TYPE_VIEW_gsl_vector _vector2;
     
     
@@ -31463,6 +31479,1452 @@ static PyObject *_wrap_gsl_eigen_invert_jacobi(PyObject *self, PyObject *args, P
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
     }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_type *arg1 = (gsl_interp_type *) 0 ;
+    size_t arg2 ;
+    gsl_spline *result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    char *kwnames[] = {
+        "T","n", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_spline_alloc",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp_type,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (gsl_spline *)gsl_spline_alloc((gsl_interp_type const *)arg1,arg2);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_spline, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_init(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    size_t arg4 ;
+    int result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    char *kwnames[] = {
+        "spline","xa", NULL 
+    };
+    
+    
+    PyArrayObject *_PyVector_12 = NULL;
+    PyArrayObject *_PyVector_22 = NULL;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_spline_init",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int mysize = 0;
+        if(!PySequence_Check(obj1)){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+            goto fail;
+        }
+        if(PySequence_Fast_GET_SIZE(obj1) != 2){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+            goto fail;
+        }
+        _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, 1, -1, 2, NULL);
+        if (_PyVector_12 == NULL)
+        goto fail;
+        
+        mysize = _PyVector_12->dimensions[0];
+        
+        _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE, 1, mysize, 2+1, NULL);
+        if (_PyVector_22 == NULL)
+        goto fail;
+        
+        arg2 = (double *)(_PyVector_12->data);
+        arg3 = (double *)(_PyVector_22->data);
+        arg4 = (size_t) mysize;
+        
+    }
+    {
+        ;
+    }
+    result = (int)gsl_spline_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_eval_e(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double arg2 ;
+    gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
+    double *arg4 = (double *) 0 ;
+    int result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj3  = 0 ;
+    char *kwnames[] = {
+        "spline","x","a","y", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdOO:gsl_spline_eval_e",kwnames,&obj0,&arg2,&obj2,&obj3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_spline_eval_e((gsl_spline const *)arg1,arg2,arg3,arg4);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_eval(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double arg2 ;
+    gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
+    double result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj2  = 0 ;
+    char *kwnames[] = {
+        "spline","x","a", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval",kwnames,&obj0,&arg2,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)gsl_spline_eval((gsl_spline const *)arg1,arg2,arg3);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_eval_deriv_e(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double arg2 ;
+    gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
+    double *arg4 = (double *) 0 ;
+    int result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj3  = 0 ;
+    char *kwnames[] = {
+        "spline","x","a","OUT", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdOO:gsl_spline_eval_deriv_e",kwnames,&obj0,&arg2,&obj2,&obj3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_spline_eval_deriv_e((gsl_spline const *)arg1,arg2,arg3,arg4);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_eval_deriv(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double arg2 ;
+    gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
+    double result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj2  = 0 ;
+    char *kwnames[] = {
+        "spline","x","a", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval_deriv",kwnames,&obj0,&arg2,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)gsl_spline_eval_deriv((gsl_spline const *)arg1,arg2,arg3);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_eval_deriv2_e(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double arg2 ;
+    gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
+    double *arg4 = (double *) 0 ;
+    int result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj3  = 0 ;
+    char *kwnames[] = {
+        "spline","x","a","OUT", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdOO:gsl_spline_eval_deriv2_e",kwnames,&obj0,&arg2,&obj2,&obj3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_spline_eval_deriv2_e((gsl_spline const *)arg1,arg2,arg3,arg4);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_eval_deriv2(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double arg2 ;
+    gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
+    double result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj2  = 0 ;
+    char *kwnames[] = {
+        "spline","x","a", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval_deriv2",kwnames,&obj0,&arg2,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)gsl_spline_eval_deriv2((gsl_spline const *)arg1,arg2,arg3);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_eval_integ_e(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double arg2 ;
+    double arg3 ;
+    gsl_interp_accel *arg4 = (gsl_interp_accel *) 0 ;
+    double *arg5 = (double *) 0 ;
+    int result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj3  = 0 ;
+    PyObject * obj4  = 0 ;
+    char *kwnames[] = {
+        "spline","a","b","acc","OUT", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OddOO:gsl_spline_eval_integ_e",kwnames,&obj0,&arg2,&arg3,&obj3,&obj4)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_spline_eval_integ_e((gsl_spline const *)arg1,arg2,arg3,arg4,arg5);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_eval_integ(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    double arg2 ;
+    double arg3 ;
+    gsl_interp_accel *arg4 = (gsl_interp_accel *) 0 ;
+    double result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj3  = 0 ;
+    char *kwnames[] = {
+        "spline","a","b","acc", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OddO:gsl_spline_eval_integ",kwnames,&obj0,&arg2,&arg3,&obj3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)gsl_spline_eval_integ((gsl_spline const *)arg1,arg2,arg3,arg4);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_spline_free(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    PyObject * obj0  = 0 ;
+    char *kwnames[] = {
+        "spline", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_spline_free",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_spline_free(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static int _wrap_gsl_interp_linear_set(PyObject *_val) {
+    {
+        void *temp;
+        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
+            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_linear (gsl_interp_type *)'");
+            return 1;
+        }
+        gsl_interp_linear = (gsl_interp_type *) temp;
+    }
+    return 0;
+}
+
+
+static PyObject *_wrap_gsl_interp_linear_get() {
+    PyObject *pyobj;
+    
+    pyobj = SWIG_NewPointerObj((void *) gsl_interp_linear, SWIGTYPE_p_gsl_interp_type, 0);
+    return pyobj;
+}
+
+
+static int _wrap_gsl_interp_polynomial_set(PyObject *_val) {
+    {
+        void *temp;
+        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
+            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_polynomial (gsl_interp_type *)'");
+            return 1;
+        }
+        gsl_interp_polynomial = (gsl_interp_type *) temp;
+    }
+    return 0;
+}
+
+
+static PyObject *_wrap_gsl_interp_polynomial_get() {
+    PyObject *pyobj;
+    
+    pyobj = SWIG_NewPointerObj((void *) gsl_interp_polynomial, SWIGTYPE_p_gsl_interp_type, 0);
+    return pyobj;
+}
+
+
+static int _wrap_gsl_interp_cspline_set(PyObject *_val) {
+    {
+        void *temp;
+        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
+            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_cspline (gsl_interp_type *)'");
+            return 1;
+        }
+        gsl_interp_cspline = (gsl_interp_type *) temp;
+    }
+    return 0;
+}
+
+
+static PyObject *_wrap_gsl_interp_cspline_get() {
+    PyObject *pyobj;
+    
+    pyobj = SWIG_NewPointerObj((void *) gsl_interp_cspline, SWIGTYPE_p_gsl_interp_type, 0);
+    return pyobj;
+}
+
+
+static int _wrap_gsl_interp_cspline_periodic_set(PyObject *_val) {
+    {
+        void *temp;
+        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
+            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_cspline_periodic (gsl_interp_type *)'");
+            return 1;
+        }
+        gsl_interp_cspline_periodic = (gsl_interp_type *) temp;
+    }
+    return 0;
+}
+
+
+static PyObject *_wrap_gsl_interp_cspline_periodic_get() {
+    PyObject *pyobj;
+    
+    pyobj = SWIG_NewPointerObj((void *) gsl_interp_cspline_periodic, SWIGTYPE_p_gsl_interp_type, 0);
+    return pyobj;
+}
+
+
+static int _wrap_gsl_interp_akima_set(PyObject *_val) {
+    {
+        void *temp;
+        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
+            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_akima (gsl_interp_type *)'");
+            return 1;
+        }
+        gsl_interp_akima = (gsl_interp_type *) temp;
+    }
+    return 0;
+}
+
+
+static PyObject *_wrap_gsl_interp_akima_get() {
+    PyObject *pyobj;
+    
+    pyobj = SWIG_NewPointerObj((void *) gsl_interp_akima, SWIGTYPE_p_gsl_interp_type, 0);
+    return pyobj;
+}
+
+
+static int _wrap_gsl_interp_akima_periodic_set(PyObject *_val) {
+    {
+        void *temp;
+        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
+            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_akima_periodic (gsl_interp_type *)'");
+            return 1;
+        }
+        gsl_interp_akima_periodic = (gsl_interp_type *) temp;
+    }
+    return 0;
+}
+
+
+static PyObject *_wrap_gsl_interp_akima_periodic_get() {
+    PyObject *pyobj;
+    
+    pyobj = SWIG_NewPointerObj((void *) gsl_interp_akima_periodic, SWIGTYPE_p_gsl_interp_type, 0);
+    return pyobj;
+}
+
+
+static PyObject *_wrap_gsl_interp_accel_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_accel *result;
+    char *kwnames[] = {
+        NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":gsl_interp_accel_alloc",kwnames)) goto fail;
+    result = (gsl_interp_accel *)gsl_interp_accel_alloc();
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_interp_accel, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_accel_find(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_accel *arg1 = (gsl_interp_accel *) 0 ;
+    double *arg2 ;
+    size_t arg3 ;
+    double arg4 ;
+    size_t result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    char *kwnames[] = {
+        "a","x_array","x", NULL 
+    };
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOd:gsl_interp_accel_find",kwnames,&obj0,&obj1,&arg4)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int mysize = 0;
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        obj1, PyArray_DOUBLE, 1, -1, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        
+        mysize = _PyVector2->dimensions[0];
+        arg2 = (double *)(_PyVector2->data);
+        arg3 = (size_t) mysize;
+    }
+    result = (size_t)gsl_interp_accel_find(arg1,(double const (*))arg2,arg3,arg4);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_accel_reset(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_accel *arg1 = (gsl_interp_accel *) 0 ;
+    int result;
+    PyObject * obj0  = 0 ;
+    char *kwnames[] = {
+        "a", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_interp_accel_reset",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_interp_accel_reset(arg1);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_accel_free(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_accel *arg1 = (gsl_interp_accel *) 0 ;
+    PyObject * obj0  = 0 ;
+    char *kwnames[] = {
+        "a", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_interp_accel_free",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_interp_accel_free(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_type *arg1 = (gsl_interp_type *) 0 ;
+    size_t arg2 ;
+    gsl_interp *result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    char *kwnames[] = {
+        "T","n", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_interp_alloc",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp_type,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (gsl_interp *)gsl_interp_alloc((gsl_interp_type const *)arg1,arg2);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_interp, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_init(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    size_t arg4 ;
+    int result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    char *kwnames[] = {
+        "obj","xa", NULL 
+    };
+    
+    
+    PyArrayObject *_PyVector_12 = NULL;
+    PyArrayObject *_PyVector_22 = NULL;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_interp_init",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int mysize = 0;
+        if(!PySequence_Check(obj1)){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+            goto fail;
+        }
+        if(PySequence_Fast_GET_SIZE(obj1) != 2){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+            goto fail;
+        }
+        _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, 1, -1, 2, NULL);
+        if (_PyVector_12 == NULL)
+        goto fail;
+        
+        mysize = _PyVector_12->dimensions[0];
+        
+        _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE, 1, mysize, 2+1, NULL);
+        if (_PyVector_22 == NULL)
+        goto fail;
+        
+        arg2 = (double *)(_PyVector_12->data);
+        arg3 = (double *)(_PyVector_22->data);
+        arg4 = (size_t) mysize;
+        
+    }
+    {
+        ;
+    }
+    result = (int)gsl_interp_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_name(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    char *result;
+    PyObject * obj0  = 0 ;
+    char *kwnames[] = {
+        "interp", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_interp_name",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (char *)gsl_interp_name((gsl_interp const *)arg1);
+    
+    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_min_size(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    unsigned int result;
+    PyObject * obj0  = 0 ;
+    char *kwnames[] = {
+        "interp", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_interp_min_size",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (unsigned int)gsl_interp_min_size((gsl_interp const *)arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_eval_e(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    double arg4 ;
+    gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
+    double *arg6 = (double *) 0 ;
+    int result;
+    double temp6 ;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj4  = 0 ;
+    char *kwnames[] = {
+        "IN","xa","ya","x","a", NULL 
+    };
+    
+    
+    int _gslinterp_size = 0;
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    PyObject * _input2;
+    
+    
+    PyArrayObject *_PyVector3 = NULL;
+    PyObject * _input3;
+    
+    arg6 = &temp6;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOdO:gsl_interp_eval_e",kwnames,&obj0,&obj1,&obj2,&arg4,&obj4)) goto fail;
+    {
+        if(SWIG_ConvertPtr(obj0, (void **) &arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0 )){
+            PyErr_SetString(PyExc_TypeError, "Could not convert gsl_interp to pointer");
+            goto fail;
+        }
+        _gslinterp_size = (int) arg1->size;
+    }
+    {
+        _input2 = obj1;
+    }
+    {
+        _input3 = obj2;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input2, PyArray_DOUBLE, 1, _gslinterp_size, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        arg2 = (double *)(_PyVector2->data);
+    }
+    {
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input3, PyArray_DOUBLE, 1, _gslinterp_size, 3, NULL);
+        if (_PyVector3 == NULL)
+        goto fail;
+        arg3 = (double *)(_PyVector3->data);
+    }
+    result = (int)gsl_interp_eval_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg6));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_eval(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    double arg4 ;
+    gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
+    double result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj4  = 0 ;
+    char *kwnames[] = {
+        "IN","xa","ya","x","a", NULL 
+    };
+    
+    
+    int _gslinterp_size = 0;
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    PyObject * _input2;
+    
+    
+    PyArrayObject *_PyVector3 = NULL;
+    PyObject * _input3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOdO:gsl_interp_eval",kwnames,&obj0,&obj1,&obj2,&arg4,&obj4)) goto fail;
+    {
+        if(SWIG_ConvertPtr(obj0, (void **) &arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0 )){
+            PyErr_SetString(PyExc_TypeError, "Could not convert gsl_interp to pointer");
+            goto fail;
+        }
+        _gslinterp_size = (int) arg1->size;
+    }
+    {
+        _input2 = obj1;
+    }
+    {
+        _input3 = obj2;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input2, PyArray_DOUBLE, 1, _gslinterp_size, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        arg2 = (double *)(_PyVector2->data);
+    }
+    {
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input3, PyArray_DOUBLE, 1, _gslinterp_size, 3, NULL);
+        if (_PyVector3 == NULL)
+        goto fail;
+        arg3 = (double *)(_PyVector3->data);
+    }
+    result = (double)gsl_interp_eval((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_eval_deriv_e(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    double arg4 ;
+    gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
+    double *arg6 = (double *) 0 ;
+    int result;
+    double temp6 ;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj4  = 0 ;
+    char *kwnames[] = {
+        "IN","xa","ya","x","a", NULL 
+    };
+    
+    
+    int _gslinterp_size = 0;
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    PyObject * _input2;
+    
+    
+    PyArrayObject *_PyVector3 = NULL;
+    PyObject * _input3;
+    
+    arg6 = &temp6;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOdO:gsl_interp_eval_deriv_e",kwnames,&obj0,&obj1,&obj2,&arg4,&obj4)) goto fail;
+    {
+        if(SWIG_ConvertPtr(obj0, (void **) &arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0 )){
+            PyErr_SetString(PyExc_TypeError, "Could not convert gsl_interp to pointer");
+            goto fail;
+        }
+        _gslinterp_size = (int) arg1->size;
+    }
+    {
+        _input2 = obj1;
+    }
+    {
+        _input3 = obj2;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input2, PyArray_DOUBLE, 1, _gslinterp_size, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        arg2 = (double *)(_PyVector2->data);
+    }
+    {
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input3, PyArray_DOUBLE, 1, _gslinterp_size, 3, NULL);
+        if (_PyVector3 == NULL)
+        goto fail;
+        arg3 = (double *)(_PyVector3->data);
+    }
+    result = (int)gsl_interp_eval_deriv_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg6));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_eval_deriv(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    double arg4 ;
+    gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
+    double result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj4  = 0 ;
+    char *kwnames[] = {
+        "IN","xa","ya","x","a", NULL 
+    };
+    
+    
+    int _gslinterp_size = 0;
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    PyObject * _input2;
+    
+    
+    PyArrayObject *_PyVector3 = NULL;
+    PyObject * _input3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOdO:gsl_interp_eval_deriv",kwnames,&obj0,&obj1,&obj2,&arg4,&obj4)) goto fail;
+    {
+        if(SWIG_ConvertPtr(obj0, (void **) &arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0 )){
+            PyErr_SetString(PyExc_TypeError, "Could not convert gsl_interp to pointer");
+            goto fail;
+        }
+        _gslinterp_size = (int) arg1->size;
+    }
+    {
+        _input2 = obj1;
+    }
+    {
+        _input3 = obj2;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input2, PyArray_DOUBLE, 1, _gslinterp_size, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        arg2 = (double *)(_PyVector2->data);
+    }
+    {
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input3, PyArray_DOUBLE, 1, _gslinterp_size, 3, NULL);
+        if (_PyVector3 == NULL)
+        goto fail;
+        arg3 = (double *)(_PyVector3->data);
+    }
+    result = (double)gsl_interp_eval_deriv((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_eval_deriv2_e(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    double arg4 ;
+    gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
+    double *arg6 = (double *) 0 ;
+    int result;
+    double temp6 ;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj4  = 0 ;
+    char *kwnames[] = {
+        "IN","xa","ya","x","a", NULL 
+    };
+    
+    
+    int _gslinterp_size = 0;
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    PyObject * _input2;
+    
+    
+    PyArrayObject *_PyVector3 = NULL;
+    PyObject * _input3;
+    
+    arg6 = &temp6;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOdO:gsl_interp_eval_deriv2_e",kwnames,&obj0,&obj1,&obj2,&arg4,&obj4)) goto fail;
+    {
+        if(SWIG_ConvertPtr(obj0, (void **) &arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0 )){
+            PyErr_SetString(PyExc_TypeError, "Could not convert gsl_interp to pointer");
+            goto fail;
+        }
+        _gslinterp_size = (int) arg1->size;
+    }
+    {
+        _input2 = obj1;
+    }
+    {
+        _input3 = obj2;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input2, PyArray_DOUBLE, 1, _gslinterp_size, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        arg2 = (double *)(_PyVector2->data);
+    }
+    {
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input3, PyArray_DOUBLE, 1, _gslinterp_size, 3, NULL);
+        if (_PyVector3 == NULL)
+        goto fail;
+        arg3 = (double *)(_PyVector3->data);
+    }
+    result = (int)gsl_interp_eval_deriv2_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg6));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_eval_deriv2(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    double arg4 ;
+    gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
+    double result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj4  = 0 ;
+    char *kwnames[] = {
+        "IN","xa","ya","x","a", NULL 
+    };
+    
+    
+    int _gslinterp_size = 0;
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    PyObject * _input2;
+    
+    
+    PyArrayObject *_PyVector3 = NULL;
+    PyObject * _input3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOdO:gsl_interp_eval_deriv2",kwnames,&obj0,&obj1,&obj2,&arg4,&obj4)) goto fail;
+    {
+        if(SWIG_ConvertPtr(obj0, (void **) &arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0 )){
+            PyErr_SetString(PyExc_TypeError, "Could not convert gsl_interp to pointer");
+            goto fail;
+        }
+        _gslinterp_size = (int) arg1->size;
+    }
+    {
+        _input2 = obj1;
+    }
+    {
+        _input3 = obj2;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input2, PyArray_DOUBLE, 1, _gslinterp_size, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        arg2 = (double *)(_PyVector2->data);
+    }
+    {
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input3, PyArray_DOUBLE, 1, _gslinterp_size, 3, NULL);
+        if (_PyVector3 == NULL)
+        goto fail;
+        arg3 = (double *)(_PyVector3->data);
+    }
+    result = (double)gsl_interp_eval_deriv2((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_eval_integ_e(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    double arg4 ;
+    double arg5 ;
+    gsl_interp_accel *arg6 = (gsl_interp_accel *) 0 ;
+    double *arg7 = (double *) 0 ;
+    int result;
+    double temp7 ;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj5  = 0 ;
+    char *kwnames[] = {
+        "IN","xa","ya","a","b","acc", NULL 
+    };
+    
+    
+    int _gslinterp_size = 0;
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    PyObject * _input2;
+    
+    
+    PyArrayObject *_PyVector3 = NULL;
+    PyObject * _input3;
+    
+    arg7 = &temp7;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOddO:gsl_interp_eval_integ_e",kwnames,&obj0,&obj1,&obj2,&arg4,&arg5,&obj5)) goto fail;
+    {
+        if(SWIG_ConvertPtr(obj0, (void **) &arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0 )){
+            PyErr_SetString(PyExc_TypeError, "Could not convert gsl_interp to pointer");
+            goto fail;
+        }
+        _gslinterp_size = (int) arg1->size;
+    }
+    {
+        _input2 = obj1;
+    }
+    {
+        _input3 = obj2;
+    }
+    if ((SWIG_ConvertPtr(obj5,(void **) &arg6, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input2, PyArray_DOUBLE, 1, _gslinterp_size, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        arg2 = (double *)(_PyVector2->data);
+    }
+    {
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input3, PyArray_DOUBLE, 1, _gslinterp_size, 3, NULL);
+        if (_PyVector3 == NULL)
+        goto fail;
+        arg3 = (double *)(_PyVector3->data);
+    }
+    result = (int)gsl_interp_eval_integ_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6,arg7);
+    
+    {
+        /* Warning: Swig will treat it as an pointer !! */
+        int flag;
+        flag = result;
+        if(DEBUG > 2){
+            fprintf(stderr,"I got an Error of %d\n", flag);
+        }
+        if(PyErr_Occurred())
+        goto fail;
+        resultobj = PyInt_FromLong((long) flag);
+        if(flag>0){
+            /* How can I end here without an Python error? */
+            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
+            goto fail;
+        }
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg7));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_eval_integ(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    double arg4 ;
+    double arg5 ;
+    gsl_interp_accel *arg6 = (gsl_interp_accel *) 0 ;
+    double result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj1  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj5  = 0 ;
+    char *kwnames[] = {
+        "IN","xa","ya","a","b","acc", NULL 
+    };
+    
+    
+    int _gslinterp_size = 0;
+    
+    
+    PyArrayObject *_PyVector2 = NULL;
+    PyObject * _input2;
+    
+    
+    PyArrayObject *_PyVector3 = NULL;
+    PyObject * _input3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOddO:gsl_interp_eval_integ",kwnames,&obj0,&obj1,&obj2,&arg4,&arg5,&obj5)) goto fail;
+    {
+        if(SWIG_ConvertPtr(obj0, (void **) &arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0 )){
+            PyErr_SetString(PyExc_TypeError, "Could not convert gsl_interp to pointer");
+            goto fail;
+        }
+        _gslinterp_size = (int) arg1->size;
+    }
+    {
+        _input2 = obj1;
+    }
+    {
+        _input3 = obj2;
+    }
+    if ((SWIG_ConvertPtr(obj5,(void **) &arg6, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input2, PyArray_DOUBLE, 1, _gslinterp_size, 2, NULL);
+        if (_PyVector2 == NULL)
+        goto fail;
+        arg2 = (double *)(_PyVector2->data);
+    }
+    {
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        _input3, PyArray_DOUBLE, 1, _gslinterp_size, 3, NULL);
+        if (_PyVector3 == NULL)
+        goto fail;
+        arg3 = (double *)(_PyVector3->data);
+    }
+    result = (double)gsl_interp_eval_integ((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_free(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp *arg1 = (gsl_interp *) 0 ;
+    PyObject * obj0  = 0 ;
+    char *kwnames[] = {
+        "interp", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_interp_free",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_interp_free(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_interp_bsearch(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double *arg1 ;
+    double arg2 ;
+    size_t arg3 ;
+    size_t arg4 ;
+    size_t result;
+    PyObject * obj0  = 0 ;
+    PyObject * obj2  = 0 ;
+    PyObject * obj3  = 0 ;
+    char *kwnames[] = {
+        "x_array","x","index_lo","index_hi", NULL 
+    };
+    
+    
+    PyArrayObject *_PyVector1 = NULL;
+    int _PyVectorLength = 0;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdOO:gsl_interp_bsearch",kwnames,&obj0,&arg2,&obj2,&obj3)) goto fail;
+    {
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        obj0, PyArray_DOUBLE, 1, -1, 1, NULL);
+        if (_PyVector1 == NULL)
+        goto fail;
+        arg1 = (double *)(_PyVector1->data);
+        _PyVectorLength = _PyVector1->dimensions[0];
+    }
+    arg3 = (size_t) PyInt_AsLong(obj2);
+    if (PyErr_Occurred()) SWIG_fail;
+    arg4 = (size_t) PyInt_AsLong(obj3);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        ;
+    }
+    {
+        if(arg3 < 0){
+            PyErr_SetString(PyExc_ValueError, "The array index must be greater or equal to 0!");
+            goto fail;
+        }
+        if(arg3 >= _PyVectorLength){
+            PyErr_SetString(PyExc_ValueError, "The array index must not exceed the array length!");
+            goto fail;
+        }
+    }
+    {
+        if(arg4 < 0){
+            PyErr_SetString(PyExc_ValueError, "The array index must be greater or equal to 0!");
+            goto fail;
+        }
+        if(arg4 >= _PyVectorLength){
+            PyErr_SetString(PyExc_ValueError, "The array index must not exceed the array length!");
+            goto fail;
+        }
+    }
+    result = (size_t)gsl_interp_bsearch((double const (*))arg1,arg2,arg3,arg4);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
     return NULL;
 }
 
@@ -31832,74 +33294,111 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_eigen_hermv_sort", (PyCFunction) _wrap_gsl_eigen_hermv_sort, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_jacobi", (PyCFunction) _wrap_gsl_eigen_jacobi, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_invert_jacobi", (PyCFunction) _wrap_gsl_eigen_invert_jacobi, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_alloc", (PyCFunction) _wrap_gsl_spline_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_init", (PyCFunction) _wrap_gsl_spline_init, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_eval_e", (PyCFunction) _wrap_gsl_spline_eval_e, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_eval", (PyCFunction) _wrap_gsl_spline_eval, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_eval_deriv_e", (PyCFunction) _wrap_gsl_spline_eval_deriv_e, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_eval_deriv", (PyCFunction) _wrap_gsl_spline_eval_deriv, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_eval_deriv2_e", (PyCFunction) _wrap_gsl_spline_eval_deriv2_e, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_eval_deriv2", (PyCFunction) _wrap_gsl_spline_eval_deriv2, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_eval_integ_e", (PyCFunction) _wrap_gsl_spline_eval_integ_e, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_eval_integ", (PyCFunction) _wrap_gsl_spline_eval_integ, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_spline_free", (PyCFunction) _wrap_gsl_spline_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_accel_alloc", (PyCFunction) _wrap_gsl_interp_accel_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_accel_find", (PyCFunction) _wrap_gsl_interp_accel_find, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_accel_reset", (PyCFunction) _wrap_gsl_interp_accel_reset, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_accel_free", (PyCFunction) _wrap_gsl_interp_accel_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_alloc", (PyCFunction) _wrap_gsl_interp_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_init", (PyCFunction) _wrap_gsl_interp_init, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_name", (PyCFunction) _wrap_gsl_interp_name, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_min_size", (PyCFunction) _wrap_gsl_interp_min_size, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_eval_e", (PyCFunction) _wrap_gsl_interp_eval_e, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_eval", (PyCFunction) _wrap_gsl_interp_eval, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_eval_deriv_e", (PyCFunction) _wrap_gsl_interp_eval_deriv_e, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_eval_deriv", (PyCFunction) _wrap_gsl_interp_eval_deriv, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_eval_deriv2_e", (PyCFunction) _wrap_gsl_interp_eval_deriv2_e, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_eval_deriv2", (PyCFunction) _wrap_gsl_interp_eval_deriv2, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_eval_integ_e", (PyCFunction) _wrap_gsl_interp_eval_integ_e, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_eval_integ", (PyCFunction) _wrap_gsl_interp_eval_integ, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_free", (PyCFunction) _wrap_gsl_interp_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_interp_bsearch", (PyCFunction) _wrap_gsl_interp_bsearch, METH_VARARGS | METH_KEYWORDS },
 	 { NULL, NULL }
 };
 
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
-static swig_type_info _swigt__p_gsl_vector[] = {{"_p_gsl_vector", 0, "gsl_vector *", 0},{"_p_gsl_vector"},{0}};
-static swig_type_info _swigt__p_size_t[] = {{"_p_size_t", 0, "size_t *", 0},{"_p_size_t"},{"_p_int"},{0}};
-static swig_type_info _swigt__p_gsl_fft_complex_wavetable[] = {{"_p_gsl_fft_complex_wavetable", 0, "gsl_fft_complex_wavetable *", 0},{"_p_gsl_fft_complex_wavetable"},{0}};
-static swig_type_info _swigt__p_gsl_permutation[] = {{"_p_gsl_permutation", 0, "gsl_permutation const *", 0},{"_p_gsl_permutation_struct"},{"_p_gsl_permutation"},{0}};
-static swig_type_info _swigt__p_double[] = {{"_p_double", 0, "double *", 0},{"_p_double"},{0}};
+static swig_type_info _swigt__p_gsl_spline[] = {{"_p_gsl_spline", 0, "gsl_spline *", 0},{"_p_gsl_spline"},{0}};
 static swig_type_info _swigt__p_gsl_fft_real_wavetable[] = {{"_p_gsl_fft_real_wavetable", 0, "gsl_fft_real_wavetable *", 0},{"_p_gsl_fft_real_wavetable"},{0}};
+static swig_type_info _swigt__p_gsl_fft_complex_wavetable[] = {{"_p_gsl_fft_complex_wavetable", 0, "gsl_fft_complex_wavetable *", 0},{"_p_gsl_fft_complex_wavetable"},{0}};
+static swig_type_info _swigt__p_gsl_interp_type[] = {{"_p_gsl_interp_type", 0, "gsl_interp_type *", 0},{"_p_gsl_interp_type"},{0}};
 static swig_type_info _swigt__p_long_double[] = {{"_p_long_double", 0, "long double *", 0},{"_p_long_double"},{0}};
-static swig_type_info _swigt__p_p_gsl_complex[] = {{"_p_p_gsl_complex", 0, "gsl_complex **", 0},{"_p_p_gsl_complex"},{0}};
-static swig_type_info _swigt__p_gsl_matrix_complex[] = {{"_p_gsl_matrix_complex", 0, "gsl_matrix_complex *", 0},{"_p_gsl_matrix_complex"},{0}};
-static swig_type_info _swigt__p_gsl_complex[] = {{"_p_gsl_complex", 0, "gsl_complex *", 0},{"_p_gsl_complex"},{0}};
-static swig_type_info _swigt__p_gsl_vector_complex[] = {{"_p_gsl_vector_complex", 0, "gsl_vector_complex *", 0},{"_p_gsl_vector_complex"},{0}};
-static swig_type_info _swigt__p_gsl_mode_t[] = {{"_p_gsl_mode_t", 0, "gsl_mode_t *", 0},{"_p_gsl_mode_t"},{0}};
-static swig_type_info _swigt__p_float[] = {{"_p_float", 0, "float *", 0},{"_p_float"},{0}};
-static swig_type_info _swigt__p_gsl_vector_float[] = {{"_p_gsl_vector_float", 0, "gsl_vector_float *", 0},{"_p_gsl_vector_float"},{0}};
-static swig_type_info _swigt__p_gsl_vector_complex_float[] = {{"_p_gsl_vector_complex_float", 0, "gsl_vector_complex_float *", 0},{"_p_gsl_vector_complex_float"},{0}};
-static swig_type_info _swigt__p_gsl_complex_float[] = {{"_p_gsl_complex_float", 0, "gsl_complex_float *", 0},{"_p_gsl_complex_float"},{0}};
-static swig_type_info _swigt__p_gsl_matrix_float[] = {{"_p_gsl_matrix_float", 0, "gsl_matrix_float *", 0},{"_p_gsl_matrix_float"},{0}};
-static swig_type_info _swigt__p_gsl_matrix_complex_float[] = {{"_p_gsl_matrix_complex_float", 0, "gsl_matrix_complex_float *", 0},{"_p_gsl_matrix_complex_float"},{0}};
-static swig_type_info _swigt__p_unsigned_int[] = {{"_p_unsigned_int", 0, "unsigned int *", 0},{"_p_unsigned_int"},{0}};
-static swig_type_info _swigt__p_gsl_permutation_struct[] = {{"_p_gsl_permutation_struct", 0, "gsl_permutation_struct *", 0},{"_p_gsl_permutation_struct"},{"_p_gsl_permutation"},{0}};
-static swig_type_info _swigt__p_FILE[] = {{"_p_FILE", 0, "FILE *", 0},{"_p_FILE"},{0}};
-static swig_type_info _swigt__p_gsl_fft_complex_workspace[] = {{"_p_gsl_fft_complex_workspace", 0, "gsl_fft_complex_workspace *", 0},{"_p_gsl_fft_complex_workspace"},{0}};
-static swig_type_info _swigt__p_gsl_fft_real_workspace[] = {{"_p_gsl_fft_real_workspace", 0, "gsl_fft_real_workspace *", 0},{"_p_gsl_fft_real_workspace"},{0}};
-static swig_type_info _swigt__p_gsl_eigen_symm_workspace[] = {{"_p_gsl_eigen_symm_workspace", 0, "gsl_eigen_symm_workspace *", 0},{"_p_gsl_eigen_symm_workspace"},{0}};
-static swig_type_info _swigt__p_gsl_eigen_symmv_workspace[] = {{"_p_gsl_eigen_symmv_workspace", 0, "gsl_eigen_symmv_workspace *", 0},{"_p_gsl_eigen_symmv_workspace"},{0}};
-static swig_type_info _swigt__p_gsl_eigen_herm_workspace[] = {{"_p_gsl_eigen_herm_workspace", 0, "gsl_eigen_herm_workspace *", 0},{"_p_gsl_eigen_herm_workspace"},{0}};
-static swig_type_info _swigt__p_gsl_eigen_hermv_workspace[] = {{"_p_gsl_eigen_hermv_workspace", 0, "gsl_eigen_hermv_workspace *", 0},{"_p_gsl_eigen_hermv_workspace"},{0}};
-static swig_type_info _swigt__p_gsl_matrix[] = {{"_p_gsl_matrix", 0, "gsl_matrix *", 0},{"_p_gsl_matrix"},{0}};
+static swig_type_info _swigt__p_double[] = {{"_p_double", 0, "double *", 0},{"_p_double"},{0}};
+static swig_type_info _swigt__p_size_t[] = {{"_p_size_t", 0, "size_t *", 0},{"_p_size_t"},{"_p_int"},{0}};
 static swig_type_info _swigt__p_gsl_complex_packed_array[] = {{"_p_gsl_complex_packed_array", 0, "gsl_complex_packed_array *", 0},{"_p_gsl_complex_packed_array"},{0}};
+static swig_type_info _swigt__p_gsl_eigen_hermv_workspace[] = {{"_p_gsl_eigen_hermv_workspace", 0, "gsl_eigen_hermv_workspace *", 0},{"_p_gsl_eigen_hermv_workspace"},{0}};
+static swig_type_info _swigt__p_gsl_eigen_herm_workspace[] = {{"_p_gsl_eigen_herm_workspace", 0, "gsl_eigen_herm_workspace *", 0},{"_p_gsl_eigen_herm_workspace"},{0}};
+static swig_type_info _swigt__p_gsl_eigen_symmv_workspace[] = {{"_p_gsl_eigen_symmv_workspace", 0, "gsl_eigen_symmv_workspace *", 0},{"_p_gsl_eigen_symmv_workspace"},{0}};
+static swig_type_info _swigt__p_gsl_eigen_symm_workspace[] = {{"_p_gsl_eigen_symm_workspace", 0, "gsl_eigen_symm_workspace *", 0},{"_p_gsl_eigen_symm_workspace"},{0}};
+static swig_type_info _swigt__p_gsl_fft_real_workspace[] = {{"_p_gsl_fft_real_workspace", 0, "gsl_fft_real_workspace *", 0},{"_p_gsl_fft_real_workspace"},{0}};
+static swig_type_info _swigt__p_gsl_fft_complex_workspace[] = {{"_p_gsl_fft_complex_workspace", 0, "gsl_fft_complex_workspace *", 0},{"_p_gsl_fft_complex_workspace"},{0}};
+static swig_type_info _swigt__p_gsl_permutation[] = {{"_p_gsl_permutation", 0, "gsl_permutation const *", 0},{"_p_gsl_permutation_struct"},{"_p_gsl_permutation"},{0}};
+static swig_type_info _swigt__p_gsl_permutation_struct[] = {{"_p_gsl_permutation_struct", 0, "gsl_permutation_struct *", 0},{"_p_gsl_permutation_struct"},{"_p_gsl_permutation"},{0}};
+static swig_type_info _swigt__p_unsigned_int[] = {{"_p_unsigned_int", 0, "unsigned int *", 0},{"_p_unsigned_int"},{0}};
+static swig_type_info _swigt__p_gsl_vector_complex[] = {{"_p_gsl_vector_complex", 0, "gsl_vector_complex *", 0},{"_p_gsl_vector_complex"},{0}};
+static swig_type_info _swigt__p_gsl_complex[] = {{"_p_gsl_complex", 0, "gsl_complex *", 0},{"_p_gsl_complex"},{0}};
+static swig_type_info _swigt__p_gsl_matrix_complex[] = {{"_p_gsl_matrix_complex", 0, "gsl_matrix_complex *", 0},{"_p_gsl_matrix_complex"},{0}};
+static swig_type_info _swigt__p_p_gsl_complex[] = {{"_p_p_gsl_complex", 0, "gsl_complex **", 0},{"_p_p_gsl_complex"},{0}};
+static swig_type_info _swigt__p_gsl_matrix[] = {{"_p_gsl_matrix", 0, "gsl_matrix *", 0},{"_p_gsl_matrix"},{0}};
+static swig_type_info _swigt__p_gsl_mode_t[] = {{"_p_gsl_mode_t", 0, "gsl_mode_t *", 0},{"_p_gsl_mode_t"},{0}};
+static swig_type_info _swigt__p_FILE[] = {{"_p_FILE", 0, "FILE *", 0},{"_p_FILE"},{0}};
+static swig_type_info _swigt__p_gsl_matrix_complex_float[] = {{"_p_gsl_matrix_complex_float", 0, "gsl_matrix_complex_float *", 0},{"_p_gsl_matrix_complex_float"},{0}};
+static swig_type_info _swigt__p_gsl_matrix_float[] = {{"_p_gsl_matrix_float", 0, "gsl_matrix_float *", 0},{"_p_gsl_matrix_float"},{0}};
+static swig_type_info _swigt__p_gsl_complex_float[] = {{"_p_gsl_complex_float", 0, "gsl_complex_float *", 0},{"_p_gsl_complex_float"},{0}};
+static swig_type_info _swigt__p_gsl_vector_complex_float[] = {{"_p_gsl_vector_complex_float", 0, "gsl_vector_complex_float *", 0},{"_p_gsl_vector_complex_float"},{0}};
+static swig_type_info _swigt__p_gsl_vector_float[] = {{"_p_gsl_vector_float", 0, "gsl_vector_float *", 0},{"_p_gsl_vector_float"},{0}};
+static swig_type_info _swigt__p_float[] = {{"_p_float", 0, "float *", 0},{"_p_float"},{0}};
 static swig_type_info _swigt__p_int[] = {{"_p_int", 0, "int *", 0},{"_p_size_t"},{"_p_int"},{0}};
+static swig_type_info _swigt__p_gsl_interp[] = {{"_p_gsl_interp", 0, "gsl_interp *", 0},{"_p_gsl_interp"},{0}};
+static swig_type_info _swigt__p_gsl_interp_accel[] = {{"_p_gsl_interp_accel", 0, "gsl_interp_accel *", 0},{"_p_gsl_interp_accel"},{0}};
+static swig_type_info _swigt__p_gsl_vector[] = {{"_p_gsl_vector", 0, "gsl_vector *", 0},{"_p_gsl_vector"},{0}};
 
 static swig_type_info *swig_types_initial[] = {
-_swigt__p_gsl_vector, 
-_swigt__p_size_t, 
-_swigt__p_gsl_fft_complex_wavetable, 
-_swigt__p_gsl_permutation, 
-_swigt__p_double, 
+_swigt__p_gsl_spline, 
 _swigt__p_gsl_fft_real_wavetable, 
+_swigt__p_gsl_fft_complex_wavetable, 
+_swigt__p_gsl_interp_type, 
 _swigt__p_long_double, 
-_swigt__p_p_gsl_complex, 
-_swigt__p_gsl_matrix_complex, 
-_swigt__p_gsl_complex, 
-_swigt__p_gsl_vector_complex, 
-_swigt__p_gsl_mode_t, 
-_swigt__p_float, 
-_swigt__p_gsl_vector_float, 
-_swigt__p_gsl_vector_complex_float, 
-_swigt__p_gsl_complex_float, 
-_swigt__p_gsl_matrix_float, 
-_swigt__p_gsl_matrix_complex_float, 
-_swigt__p_unsigned_int, 
-_swigt__p_gsl_permutation_struct, 
-_swigt__p_FILE, 
-_swigt__p_gsl_fft_complex_workspace, 
-_swigt__p_gsl_fft_real_workspace, 
-_swigt__p_gsl_eigen_symm_workspace, 
-_swigt__p_gsl_eigen_symmv_workspace, 
-_swigt__p_gsl_eigen_herm_workspace, 
-_swigt__p_gsl_eigen_hermv_workspace, 
-_swigt__p_gsl_matrix, 
+_swigt__p_double, 
+_swigt__p_size_t, 
 _swigt__p_gsl_complex_packed_array, 
+_swigt__p_gsl_eigen_hermv_workspace, 
+_swigt__p_gsl_eigen_herm_workspace, 
+_swigt__p_gsl_eigen_symmv_workspace, 
+_swigt__p_gsl_eigen_symm_workspace, 
+_swigt__p_gsl_fft_real_workspace, 
+_swigt__p_gsl_fft_complex_workspace, 
+_swigt__p_gsl_permutation, 
+_swigt__p_gsl_permutation_struct, 
+_swigt__p_unsigned_int, 
+_swigt__p_gsl_vector_complex, 
+_swigt__p_gsl_complex, 
+_swigt__p_gsl_matrix_complex, 
+_swigt__p_p_gsl_complex, 
+_swigt__p_gsl_matrix, 
+_swigt__p_gsl_mode_t, 
+_swigt__p_FILE, 
+_swigt__p_gsl_matrix_complex_float, 
+_swigt__p_gsl_matrix_float, 
+_swigt__p_gsl_complex_float, 
+_swigt__p_gsl_vector_complex_float, 
+_swigt__p_gsl_vector_float, 
+_swigt__p_float, 
 _swigt__p_int, 
+_swigt__p_gsl_interp, 
+_swigt__p_gsl_interp_accel, 
+_swigt__p_gsl_vector, 
 0
 };
 
@@ -31976,5 +33475,11 @@ SWIGEXPORT(void) SWIG_init(void) {
     
     PyDict_SetItemString(d,(char*)"cvar", SWIG_globals);
     SWIG_addvarlink(SWIG_globals,(char*)"gsl_check_range",_wrap_gsl_check_range_get, _wrap_gsl_check_range_set);
+    SWIG_addvarlink(SWIG_globals,(char*)"gsl_interp_linear",_wrap_gsl_interp_linear_get, _wrap_gsl_interp_linear_set);
+    SWIG_addvarlink(SWIG_globals,(char*)"gsl_interp_polynomial",_wrap_gsl_interp_polynomial_get, _wrap_gsl_interp_polynomial_set);
+    SWIG_addvarlink(SWIG_globals,(char*)"gsl_interp_cspline",_wrap_gsl_interp_cspline_get, _wrap_gsl_interp_cspline_set);
+    SWIG_addvarlink(SWIG_globals,(char*)"gsl_interp_cspline_periodic",_wrap_gsl_interp_cspline_periodic_get, _wrap_gsl_interp_cspline_periodic_set);
+    SWIG_addvarlink(SWIG_globals,(char*)"gsl_interp_akima",_wrap_gsl_interp_akima_get, _wrap_gsl_interp_akima_set);
+    SWIG_addvarlink(SWIG_globals,(char*)"gsl_interp_akima_periodic",_wrap_gsl_interp_akima_periodic_get, _wrap_gsl_interp_akima_periodic_set);
 }
 
