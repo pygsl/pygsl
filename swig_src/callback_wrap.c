@@ -641,47 +641,53 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define  SWIGTYPE_p_double swig_types[0] 
-#define  SWIGTYPE_p_gsl_odeiv_control swig_types[1] 
-#define  SWIGTYPE_p_size_t swig_types[2] 
-#define  SWIGTYPE_p_gsl_integration_workspace swig_types[3] 
-#define  SWIGTYPE_p_gsl_multifit_linear_workspace swig_types[4] 
-#define  SWIGTYPE_p_gsl_multifit_function_fdf swig_types[5] 
-#define  SWIGTYPE_p_gsl_multimin_function_fdf swig_types[6] 
-#define  SWIGTYPE_p_gsl_function_fdf swig_types[7] 
-#define  SWIGTYPE_p_gsl_multiroot_function_fdf swig_types[8] 
-#define  SWIGTYPE_p_gsl_multimin_fdfminimizer swig_types[9] 
-#define  SWIGTYPE_p_gsl_multimin_fminimizer swig_types[10] 
-#define  SWIGTYPE_p_gsl_min_fminimizer swig_types[11] 
-#define  SWIGTYPE_p_gsl_integration_qawo_table swig_types[12] 
-#define  SWIGTYPE_p_gsl_integration_qaws_table swig_types[13] 
-#define  SWIGTYPE_p_gsl_cheb_series swig_types[14] 
-#define  SWIGTYPE_p_gsl_odeiv_control_type swig_types[15] 
-#define  SWIGTYPE_p_gsl_odeiv_evolve swig_types[16] 
-#define  SWIGTYPE_p_gsl_matrix swig_types[17] 
-#define  SWIGTYPE_p_gsl_odeiv_step_type swig_types[18] 
-#define  SWIGTYPE_p_gsl_multifit_fdfsolver swig_types[19] 
-#define  SWIGTYPE_p_gsl_multifit_fsolver swig_types[20] 
-#define  SWIGTYPE_p_gsl_root_fsolver swig_types[21] 
-#define  SWIGTYPE_p_gsl_root_fdfsolver swig_types[22] 
-#define  SWIGTYPE_p_gsl_multiroot_fsolver swig_types[23] 
-#define  SWIGTYPE_p_gsl_multiroot_fdfsolver swig_types[24] 
-#define  SWIGTYPE_p_gsl_odeiv_step swig_types[25] 
-#define  SWIGTYPE_p_gsl_multifit_function swig_types[26] 
-#define  SWIGTYPE_p_gsl_multimin_function swig_types[27] 
-#define  SWIGTYPE_p_gsl_function swig_types[28] 
-#define  SWIGTYPE_p_gsl_multiroot_function swig_types[29] 
-#define  SWIGTYPE_p_gsl_multifit_fdfsolver_type swig_types[30] 
-#define  SWIGTYPE_p_gsl_multifit_fsolver_type swig_types[31] 
-#define  SWIGTYPE_p_gsl_multimin_fdfminimizer_type swig_types[32] 
-#define  SWIGTYPE_p_gsl_multimin_fminimizer_type swig_types[33] 
-#define  SWIGTYPE_p_gsl_multiroot_fdfsolver_type swig_types[34] 
-#define  SWIGTYPE_p_gsl_root_fsolver_type swig_types[35] 
-#define  SWIGTYPE_p_gsl_root_fdfsolver_type swig_types[36] 
-#define  SWIGTYPE_p_gsl_min_fminimizer_type swig_types[37] 
-#define  SWIGTYPE_p_gsl_multiroot_fsolver_type swig_types[38] 
-#define  SWIGTYPE_p_gsl_vector swig_types[39] 
-static swig_type_info *swig_types[41];
+#define  SWIGTYPE_p_gsl_monte_plain_state swig_types[0] 
+#define  SWIGTYPE_p_gsl_monte_miser_state swig_types[1] 
+#define  SWIGTYPE_p_double swig_types[2] 
+#define  SWIGTYPE_p_gsl_odeiv_control swig_types[3] 
+#define  SWIGTYPE_p_size_t swig_types[4] 
+#define  SWIGTYPE_p_gsl_integration_workspace swig_types[5] 
+#define  SWIGTYPE_p_gsl_multifit_linear_workspace swig_types[6] 
+#define  SWIGTYPE_p_gsl_multifit_function_fdf swig_types[7] 
+#define  SWIGTYPE_p_gsl_multimin_function_fdf swig_types[8] 
+#define  SWIGTYPE_p_gsl_multiroot_function_fdf swig_types[9] 
+#define  SWIGTYPE_p_gsl_function_fdf swig_types[10] 
+#define  SWIGTYPE_p_gsl_multimin_fdfminimizer swig_types[11] 
+#define  SWIGTYPE_p_gsl_multimin_fminimizer swig_types[12] 
+#define  SWIGTYPE_p_gsl_min_fminimizer swig_types[13] 
+#define  SWIGTYPE_p_gsl_integration_qaws_table swig_types[14] 
+#define  SWIGTYPE_p_gsl_integration_qawo_table swig_types[15] 
+#define  SWIGTYPE_p_gsl_rng swig_types[16] 
+#define  SWIGTYPE_p_gsl_cheb_series swig_types[17] 
+#define  SWIGTYPE_p_gsl_odeiv_control_type swig_types[18] 
+#define  SWIGTYPE_p_gsl_odeiv_evolve swig_types[19] 
+#define  SWIGTYPE_p_gsl_monte_vegas_state swig_types[20] 
+#define  SWIGTYPE_p_gsl_matrix swig_types[21] 
+#define  SWIGTYPE_p_FILE swig_types[22] 
+#define  SWIGTYPE_p_gsl_odeiv_step_type swig_types[23] 
+#define  SWIGTYPE_p_gsl_multifit_fdfsolver swig_types[24] 
+#define  SWIGTYPE_p_gsl_multifit_fsolver swig_types[25] 
+#define  SWIGTYPE_p_gsl_multiroot_fdfsolver swig_types[26] 
+#define  SWIGTYPE_p_gsl_multiroot_fsolver swig_types[27] 
+#define  SWIGTYPE_p_gsl_root_fsolver swig_types[28] 
+#define  SWIGTYPE_p_gsl_root_fdfsolver swig_types[29] 
+#define  SWIGTYPE_p_gsl_odeiv_step swig_types[30] 
+#define  SWIGTYPE_p_gsl_multifit_function swig_types[31] 
+#define  SWIGTYPE_p_gsl_multimin_function swig_types[32] 
+#define  SWIGTYPE_p_gsl_multiroot_function swig_types[33] 
+#define  SWIGTYPE_p_gsl_function swig_types[34] 
+#define  SWIGTYPE_p_gsl_monte_function swig_types[35] 
+#define  SWIGTYPE_p_gsl_multifit_fdfsolver_type swig_types[36] 
+#define  SWIGTYPE_p_gsl_multifit_fsolver_type swig_types[37] 
+#define  SWIGTYPE_p_gsl_multimin_fdfminimizer_type swig_types[38] 
+#define  SWIGTYPE_p_gsl_multimin_fminimizer_type swig_types[39] 
+#define  SWIGTYPE_p_gsl_multiroot_fdfsolver_type swig_types[40] 
+#define  SWIGTYPE_p_gsl_multiroot_fsolver_type swig_types[41] 
+#define  SWIGTYPE_p_gsl_root_fsolver_type swig_types[42] 
+#define  SWIGTYPE_p_gsl_root_fdfsolver_type swig_types[43] 
+#define  SWIGTYPE_p_gsl_min_fminimizer_type swig_types[44] 
+#define  SWIGTYPE_p_gsl_vector swig_types[45] 
+static swig_type_info *swig_types[47];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -693,13 +699,67 @@ static swig_type_info *swig_types[41];
 
 #define SWIG_name    "__callback"
 
+#define  SWIG_MemoryError    1
+#define  SWIG_IOError        2
+#define  SWIG_RuntimeError   3
+#define  SWIG_IndexError     4
+#define  SWIG_TypeError      5
+#define  SWIG_DivisionByZero 6
+#define  SWIG_OverflowError  7
+#define  SWIG_SyntaxError    8
+#define  SWIG_ValueError     9
+#define  SWIG_SystemError   10
+#define  SWIG_UnknownError  99
+
+
+static void _SWIG_exception(int code, const char *msg) {
+  switch(code) {
+  case SWIG_MemoryError:
+    PyErr_SetString(PyExc_MemoryError,msg);
+    break;
+  case SWIG_IOError:
+    PyErr_SetString(PyExc_IOError,msg);
+    break;
+  case SWIG_RuntimeError:
+    PyErr_SetString(PyExc_RuntimeError,msg);
+    break;
+  case SWIG_IndexError:
+    PyErr_SetString(PyExc_IndexError,msg);
+    break;
+  case SWIG_TypeError:
+    PyErr_SetString(PyExc_TypeError,msg);
+    break;
+  case SWIG_DivisionByZero:
+    PyErr_SetString(PyExc_ZeroDivisionError,msg);
+    break;
+  case SWIG_OverflowError:
+    PyErr_SetString(PyExc_OverflowError,msg);
+    break;
+  case SWIG_SyntaxError:
+    PyErr_SetString(PyExc_SyntaxError,msg);
+    break;
+  case SWIG_ValueError:
+    PyErr_SetString(PyExc_ValueError,msg);
+    break;
+  case SWIG_SystemError:
+    PyErr_SetString(PyExc_SystemError,msg);
+    break;
+  default:
+    PyErr_SetString(PyExc_RuntimeError,msg);
+    break;
+  }
+}
+
+#define SWIG_exception(a,b) { _SWIG_exception(a,b); SWIG_fail; }
+
+
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_errno.h>
 #include <assert.h>
 #include <float.h>
-#include <utils/util.h>
 #include <setjmp.h>
-#include <typemaps/gsl_function_helpers.ic>
+#include <pygsl/utils.h>
+#include <pygsl/function_helpers.h>
 
 
 #define  PyGSL_gsl_function_GET_PARAMS(sys) \
@@ -708,16 +768,14 @@ static swig_type_info *swig_types[41];
          (sys)->params
 
    
-#include <utils/util.h>  
+#include <pygsl/utils.h>
+#include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
 
 
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_matrix.h>
-#include <Numeric/arrayobject.h>
-#include <typemaps/gsl_block_helpers.ic>
+#include <pygsl/utils.h>
+#include <pygsl/block_helpers.h>
 #include <typemaps/convert_block_description.h>
-#include <utils/util.h>
 #include <string.h>
 #include <assert.h>
 
@@ -741,6 +799,132 @@ typedef int gsl_error_flag;
   {
     /* Do Not need to do anything here. All done in the typemaps */
   }
+
+
+
+#include <gsl/gsl_monte.h>
+#include <gsl/gsl_monte_plain.h>
+#include <gsl/gsl_monte_miser.h>
+#include <gsl/gsl_monte_vegas.h>
+
+
+#include <pygsl/block_helpers.h>
+#include <gsl/gsl_interp.h>
+#include <gsl/gsl_spline.h>
+#include <stdio.h>
+
+
+#include <gsl/gsl_errno.h>
+#include <gsl/gsl_rng.h>
+#include <pygsl/rng_helpers.h>
+
+
+#define PyGSL_gsl_monte_function_GET_PARAMS(sys)   \
+        (sys)->params;
+
+
+  gsl_monte_function * gsl_monte_function_init(gsl_monte_function * STORE)
+  {
+       FUNC_MESS("BEGIN");
+       assert(STORE);
+       FUNC_MESS("END");
+       return STORE;
+  }
+  void gsl_monte_function_free(gsl_monte_function * FREE)
+  {
+       ;
+  }
+
+
+static PyObject* t_output_helper(PyObject* target, PyObject* o) {
+    PyObject*   o2;
+    PyObject*   o3;
+
+    if (!target) {                   
+        target = o;
+    } else if (target == Py_None) {  
+        Py_DECREF(Py_None);
+        target = o;
+    } else {                         
+        if (!PyTuple_Check(target)) {
+            o2 = target;
+            target = PyTuple_New(1);
+            PyTuple_SetItem(target, 0, o2);
+        }
+        o3 = PyTuple_New(1);            
+        PyTuple_SetItem(o3, 0, o);      
+
+        o2 = target;
+        target = PySequence_Concat(o2, o3); 
+        Py_DECREF(o2);                      
+        Py_DECREF(o3);
+    }
+    return target;
+}
+
+
+     size_t
+	  pygsl_monte_miser_get_min_calls(gsl_monte_miser_state * s){
+	  return s->min_calls;
+     }
+     size_t
+	  pygsl_monte_miser_get_min_calls_per_bisection(gsl_monte_miser_state * s){
+	  return s->min_calls_per_bisection;
+     }
+     double
+	  pygsl_monte_miser_get_dither(gsl_monte_miser_state * s){
+	  return s->dither;
+     }
+     double
+	  pygsl_monte_miser_get_estimate_frac(gsl_monte_miser_state * s){
+	  return s->estimate_frac;
+     }
+     double
+	  pygsl_monte_miser_get_alpha(gsl_monte_miser_state * s){
+	  return s->alpha;
+     }
+
+     void
+	  pygsl_monte_miser_set_min_calls(gsl_monte_miser_state * s, int NONNEGATIVE){
+	   s->min_calls = (size_t) NONNEGATIVE;
+     }
+     void
+	  pygsl_monte_miser_set_min_calls_per_bisection(gsl_monte_miser_state * s, int NONNEGATIVE){
+	   s->min_calls_per_bisection = (size_t) NONNEGATIVE;
+     }
+     void
+	  pygsl_monte_miser_set_dither(gsl_monte_miser_state * s, double d){
+	   s->dither = d;
+     }
+     void
+	  pygsl_monte_miser_set_estimate_frac(gsl_monte_miser_state * s, double e){
+	   s->estimate_frac = e;
+     }
+     void
+	  pygsl_monte_miser_set_alpha(gsl_monte_miser_state * s, double alpha){
+	   s->alpha = alpha;
+     }
+
+
+     double pygsl_monte_vegas_get_result(gsl_monte_vegas_state *s){return     s->result    ;}
+     double pygsl_monte_vegas_get_sigma(gsl_monte_vegas_state *s){return      s->sigma     ;}
+     double pygsl_monte_vegas_get_chisq(gsl_monte_vegas_state *s){return      s->chisq     ;}     
+     double pygsl_monte_vegas_get_alpha(gsl_monte_vegas_state *s){return      s->alpha     ;}
+     size_t pygsl_monte_vegas_get_iterations(gsl_monte_vegas_state *s){return s->iterations;}
+     int    pygsl_monte_vegas_get_stage(gsl_monte_vegas_state *s){return      s->stage     ;}
+     int    pygsl_monte_vegas_get_mode(gsl_monte_vegas_state *s){return       s->mode      ;}
+     int    pygsl_monte_vegas_get_verbose(gsl_monte_vegas_state *s){return    s->verbose   ;}
+     FILE * pygsl_monte_vegas_get_ostream(gsl_monte_vegas_state *s){return    s->ostream   ;}
+
+     void pygsl_monte_vegas_set_result(gsl_monte_vegas_state *s    , double v){      s->result     = v;}
+     void pygsl_monte_vegas_set_sigma(gsl_monte_vegas_state *s     , double v){      s->sigma      = v;}
+     void pygsl_monte_vegas_set_chisq(gsl_monte_vegas_state *s     , double v){      s->chisq      = v;}     
+     void pygsl_monte_vegas_set_alpha(gsl_monte_vegas_state *s     , double v){      s->alpha      = v;}
+     void pygsl_monte_vegas_set_iterations(gsl_monte_vegas_state *s, int  NONNEGATIVE){      s->iterations = (size_t) NONNEGATIVE;}
+     void pygsl_monte_vegas_set_stage(gsl_monte_vegas_state *s     , int    NONNEGATIVE){      s->stage      = NONNEGATIVE;}
+     void pygsl_monte_vegas_set_mode(gsl_monte_vegas_state *s      , int    v){      s->mode       = v;}
+     void pygsl_monte_vegas_set_verbose(gsl_monte_vegas_state *s   , int    v){      s->verbose    = v;}
+     void pygsl_monte_vegas_set_ostream(gsl_monte_vegas_state *s   , FILE * v){      s->ostream    = v;}
 
 
 
@@ -988,33 +1172,6 @@ gsl_integration_workspace_get_size(gsl_integration_workspace * w)
 }
 
 
-static PyObject* t_output_helper(PyObject* target, PyObject* o) {
-    PyObject*   o2;
-    PyObject*   o3;
-
-    if (!target) {                   
-        target = o;
-    } else if (target == Py_None) {  
-        Py_DECREF(Py_None);
-        target = o;
-    } else {                         
-        if (!PyTuple_Check(target)) {
-            o2 = target;
-            target = PyTuple_New(1);
-            PyTuple_SetItem(target, 0, o2);
-        }
-        o3 = PyTuple_New(1);            
-        PyTuple_SetItem(o3, 0, o);      
-
-        o2 = target;
-        target = PySequence_Concat(o2, o3); 
-        Py_DECREF(o2);                      
-        Py_DECREF(o3);
-    }
-    return target;
-}
-
-
 #include <gsl/gsl_chebyshev.h>
 
  
@@ -1080,7 +1237,6 @@ static PyObject* t_output_helper(PyObject* target, PyObject* o) {
 
 
 #include <gsl/gsl_odeiv.h>
-#include <Numeric/arrayobject.h>
 #include <stdlib.h>
 #include <assert.h>
   /* Some functions needed hand coded wrapper. These are in here. */
@@ -1133,6 +1289,7 @@ static PyObject *_wrap_gsl_function_init(PyObject *self, PyObject *args, PyObjec
     {
         FUNC_MESS("gsl_function STORE BEGIN");
         arg1 = PyGSL_convert_to_gsl_function (obj0);
+        FUNC_MESS("gsl_function STORE END");
         if(arg1==NULL) goto fail;
     }
     result = (gsl_function *)gsl_function_init(arg1);
@@ -1157,6 +1314,7 @@ static PyObject *_wrap_gsl_function_init_fdf(PyObject *self, PyObject *args, PyO
     {
         FUNC_MESS("gsl_function STORE BEGIN");
         arg1 = PyGSL_convert_to_gsl_function_fdf (obj0);
+        FUNC_MESS("gsl_function STORE END");
         if(arg1==NULL) goto fail;
     }
     result = (gsl_function_fdf *)gsl_function_init_fdf(arg1);
@@ -1185,20 +1343,24 @@ static PyObject *_wrap_gsl_function_free(PyObject *self, PyObject *args, PyObjec
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return resultobj;
     fail:
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return NULL;
 }
@@ -1221,35 +1383,1273 @@ static PyObject *_wrap_gsl_function_free_fdf(PyObject *self, PyObject *args, PyO
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return resultobj;
     fail:
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
+        }
+        FUNC_MESS("gsl_function FREE END");
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_function_init(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_function *arg1 = (gsl_monte_function *) 0 ;
+    gsl_monte_function *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "STORE", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_function_init",kwnames,&obj0)) goto fail;
+    {
+        FUNC_MESS("gsl_function STORE BEGIN");
+        arg1 = PyGSL_convert_to_gsl_monte_function (obj0);
+        FUNC_MESS("gsl_function STORE END");
+        if(arg1==NULL) goto fail;
+    }
+    result = (gsl_monte_function *)gsl_monte_function_init(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_monte_function, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_function_free(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_function *arg1 = (gsl_monte_function *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "FREE", NULL 
+    };
+    
+    
+    gsl_monte_function *_function1 = NULL;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_function_free",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_function,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_monte_function_free(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    {
+        FUNC_MESS("gsl_function FREE BEGIN");
+        if(_function1){
+            assert(arg1 == _function1);
+            PyGSL_params_free((callback_function_params *) arg1->params);
+            free(arg1);    
+        }
+        FUNC_MESS("gsl_function FREE END");
+    }
+    return resultobj;
+    fail:
+    {
+        FUNC_MESS("gsl_function FREE BEGIN");
+        if(_function1){
+            assert(arg1 == _function1);
+            PyGSL_params_free((callback_function_params *) arg1->params);
+            free(arg1);    
+        }
+        FUNC_MESS("gsl_function FREE END");
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_plain_integrate(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_function *arg1 = (gsl_monte_function *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    size_t arg4 ;
+    size_t arg5 ;
+    gsl_rng *arg6 = (gsl_rng *) 0 ;
+    gsl_monte_plain_state *arg7 = (gsl_monte_plain_state *) 0 ;
+    double *arg8 = (double *) 0 ;
+    double *arg9 = (double *) 0 ;
+    int result;
+    double temp6 ;
+    double temp7 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    char *kwnames[] = {
+        "BUFFER","xl","calls","r","state", NULL 
+    };
+    
+    
+    gsl_monte_function * volatile _solver1 = NULL;
+    
+    
+    PyArrayObject *_PyVector_12 = NULL;
+    PyArrayObject *_PyVector_22 = NULL;
+    
+    arg8 = &temp6;
+    arg9 = &temp7;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_monte_plain_integrate",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_function,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int mysize = 0;
+        if(!PySequence_Check(obj1)){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+            goto fail;
+        }
+        if(PySequence_Fast_GET_SIZE(obj1) != 2){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+            goto fail;
+        }
+        _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, 1, -1, 2, NULL);
+        if (_PyVector_12 == NULL)
+        goto fail;
+        
+        mysize = _PyVector_12->dimensions[0];
+        
+        _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE, 1, mysize, 2+1, NULL);
+        if (_PyVector_22 == NULL)
+        goto fail;
+        
+        arg2 = (double *)(_PyVector_12->data);
+        arg3 = (double *)(_PyVector_22->data);
+        arg4 = (size_t) mysize;
+        
+    }
+    arg5 = (size_t) PyInt_AsLong(obj2);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);
+        if(arg6 == NULL)
+        goto fail;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg7, SWIGTYPE_p_gsl_monte_plain_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int flag;
+        callback_function_params * p;
+        
+        FUNC_MESS("\t\t Setting jump buffer");
+        assert(arg1);
+        
+        
+        _solver1 = arg1;
+        p = (callback_function_params *) 
+        PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+        
+        if((flag=setjmp(p->buffer)) == 0){
+            FUNC_MESS("\t\t Setting Jmp Buffer");
+            p->buffer_is_set = 1;
+        }else {
+            FUNC_MESS("\t\t Returning from Jmp Buffer");
+            p->buffer_is_set = 0;
+            goto fail;
+        }
+        
+        FUNC_MESS("\t\t END Setting jump buffer");
+    }
+    {
+        ;
+    }
+    result = (int)gsl_monte_plain_integrate((gsl_monte_function const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    
+    resultobj = PyInt_FromLong((long)result);
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg8));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg9));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    {
+        callback_function_params * p;
+        if(_solver1){
+            FUNC_MESS("\t\t Looking for pointer params");
+            p = (callback_function_params *)  
+            PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+            if(p){
+                FUNC_MESS("\t\t Setting buffer_is_set = 0");
+                p->buffer_is_set = 0;
+            }
+        }
+    }
+    return resultobj;
+    fail:
+    {
+        callback_function_params * p;
+        if(_solver1){
+            FUNC_MESS("\t\t Looking for pointer params");
+            p = (callback_function_params *)  
+            PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+            if(p){
+                FUNC_MESS("\t\t Setting buffer_is_set = 0");
+                p->buffer_is_set = 0;
+            }
         }
     }
     return NULL;
 }
 
 
-static int _wrap_gsl_root_fsolver_bisection_set(PyObject *_val) {
+static PyObject *_wrap_gsl_monte_plain_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    gsl_monte_plain_state *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "dim", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_plain_alloc",kwnames,&obj0)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (gsl_monte_plain_state *)gsl_monte_plain_alloc(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_monte_plain_state, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_plain_init(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_plain_state *arg1 = (gsl_monte_plain_state *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "state", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_plain_init",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_plain_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_monte_plain_init(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_plain_free(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_plain_state *arg1 = (gsl_monte_plain_state *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "state", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_plain_free",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_plain_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_monte_plain_free(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_get_min_calls(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_miser_get_min_calls",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)pygsl_monte_miser_get_min_calls(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_get_min_calls_per_bisection(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_miser_get_min_calls_per_bisection",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)pygsl_monte_miser_get_min_calls_per_bisection(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_get_dither(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_miser_get_dither",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_monte_miser_get_dither(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_get_estimate_frac(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_miser_get_estimate_frac",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_monte_miser_get_estimate_frac(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_get_alpha(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_miser_get_alpha",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_monte_miser_get_alpha(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_set_min_calls(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    int arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","NONNEGATIVE", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:pygsl_monte_miser_set_min_calls",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_root_fsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_root_fsolver_bisection (gsl_root_fsolver_type *)'");
-            return 1;
+        if (arg2 < 0) {
+            SWIG_exception(SWIG_ValueError,"Expected a non-negative value.");
         }
-        gsl_root_fsolver_bisection = (gsl_root_fsolver_type *) temp;
     }
-    return 0;
+    pygsl_monte_miser_set_min_calls(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_set_min_calls_per_bisection(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    int arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","NONNEGATIVE", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:pygsl_monte_miser_set_min_calls_per_bisection",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        if (arg2 < 0) {
+            SWIG_exception(SWIG_ValueError,"Expected a non-negative value.");
+        }
+    }
+    pygsl_monte_miser_set_min_calls_per_bisection(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_set_dither(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","d", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_monte_miser_set_dither",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_miser_set_dither(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_set_estimate_frac(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","e", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_monte_miser_set_estimate_frac",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_miser_set_estimate_frac(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_miser_set_alpha(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","alpha", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_monte_miser_set_alpha",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_miser_set_alpha(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_miser_integrate(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_function *arg1 = (gsl_monte_function *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    size_t arg4 ;
+    size_t arg5 ;
+    gsl_rng *arg6 = (gsl_rng *) 0 ;
+    gsl_monte_miser_state *arg7 = (gsl_monte_miser_state *) 0 ;
+    double *arg8 = (double *) 0 ;
+    double *arg9 = (double *) 0 ;
+    int result;
+    double temp6 ;
+    double temp7 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    char *kwnames[] = {
+        "BUFFER","xl","calls","r","state", NULL 
+    };
+    
+    
+    gsl_monte_function * volatile _solver1 = NULL;
+    
+    
+    PyArrayObject *_PyVector_12 = NULL;
+    PyArrayObject *_PyVector_22 = NULL;
+    
+    arg8 = &temp6;
+    arg9 = &temp7;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_monte_miser_integrate",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_function,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int mysize = 0;
+        if(!PySequence_Check(obj1)){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+            goto fail;
+        }
+        if(PySequence_Fast_GET_SIZE(obj1) != 2){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+            goto fail;
+        }
+        _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, 1, -1, 2, NULL);
+        if (_PyVector_12 == NULL)
+        goto fail;
+        
+        mysize = _PyVector_12->dimensions[0];
+        
+        _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE, 1, mysize, 2+1, NULL);
+        if (_PyVector_22 == NULL)
+        goto fail;
+        
+        arg2 = (double *)(_PyVector_12->data);
+        arg3 = (double *)(_PyVector_22->data);
+        arg4 = (size_t) mysize;
+        
+    }
+    arg5 = (size_t) PyInt_AsLong(obj2);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);
+        if(arg6 == NULL)
+        goto fail;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg7, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int flag;
+        callback_function_params * p;
+        
+        FUNC_MESS("\t\t Setting jump buffer");
+        assert(arg1);
+        
+        
+        _solver1 = arg1;
+        p = (callback_function_params *) 
+        PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+        
+        if((flag=setjmp(p->buffer)) == 0){
+            FUNC_MESS("\t\t Setting Jmp Buffer");
+            p->buffer_is_set = 1;
+        }else {
+            FUNC_MESS("\t\t Returning from Jmp Buffer");
+            p->buffer_is_set = 0;
+            goto fail;
+        }
+        
+        FUNC_MESS("\t\t END Setting jump buffer");
+    }
+    {
+        ;
+    }
+    result = (int)gsl_monte_miser_integrate(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    
+    resultobj = PyInt_FromLong((long)result);
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg8));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg9));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    {
+        callback_function_params * p;
+        if(_solver1){
+            FUNC_MESS("\t\t Looking for pointer params");
+            p = (callback_function_params *)  
+            PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+            if(p){
+                FUNC_MESS("\t\t Setting buffer_is_set = 0");
+                p->buffer_is_set = 0;
+            }
+        }
+    }
+    return resultobj;
+    fail:
+    {
+        callback_function_params * p;
+        if(_solver1){
+            FUNC_MESS("\t\t Looking for pointer params");
+            p = (callback_function_params *)  
+            PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+            if(p){
+                FUNC_MESS("\t\t Setting buffer_is_set = 0");
+                p->buffer_is_set = 0;
+            }
+        }
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_miser_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    gsl_monte_miser_state *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "dim", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_miser_alloc",kwnames,&obj0)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (gsl_monte_miser_state *)gsl_monte_miser_alloc(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_monte_miser_state, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_miser_init(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "state", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_miser_init",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_monte_miser_init(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_miser_free(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "state", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_miser_free",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_monte_miser_free(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_result(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_result",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_monte_vegas_get_result(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_sigma(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_sigma",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_monte_vegas_get_sigma(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_chisq(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_chisq",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_monte_vegas_get_chisq(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_alpha(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    double result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_alpha",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)pygsl_monte_vegas_get_alpha(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_iterations(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_iterations",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)pygsl_monte_vegas_get_iterations(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_stage(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_stage",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)pygsl_monte_vegas_get_stage(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_mode(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_mode",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)pygsl_monte_vegas_get_mode(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_verbose(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_verbose",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)pygsl_monte_vegas_get_verbose(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_get_ostream(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    FILE *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:pygsl_monte_vegas_get_ostream",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (FILE *)pygsl_monte_vegas_get_ostream(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_FILE, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_result(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","v", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_monte_vegas_set_result",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_vegas_set_result(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_sigma(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","v", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_monte_vegas_set_sigma",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_vegas_set_sigma(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_chisq(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","v", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_monte_vegas_set_chisq",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_vegas_set_chisq(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_alpha(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    double arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","v", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:pygsl_monte_vegas_set_alpha",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_vegas_set_alpha(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_iterations(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    int arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","NONNEGATIVE", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:pygsl_monte_vegas_set_iterations",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        if (arg2 < 0) {
+            SWIG_exception(SWIG_ValueError,"Expected a non-negative value.");
+        }
+    }
+    pygsl_monte_vegas_set_iterations(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_stage(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    int arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","NONNEGATIVE", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:pygsl_monte_vegas_set_stage",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        if (arg2 < 0) {
+            SWIG_exception(SWIG_ValueError,"Expected a non-negative value.");
+        }
+    }
+    pygsl_monte_vegas_set_stage(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_mode(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    int arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","v", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:pygsl_monte_vegas_set_mode",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_vegas_set_mode(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_verbose(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    int arg2 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "s","v", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:pygsl_monte_vegas_set_verbose",kwnames,&obj0,&arg2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    pygsl_monte_vegas_set_verbose(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_pygsl_monte_vegas_set_ostream(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    FILE *arg2 = (FILE *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "s","v", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:pygsl_monte_vegas_set_ostream",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        if (!PyFile_Check(obj1)) {
+            PyErr_SetString(PyExc_TypeError, "Need a file!");
+            goto fail;
+        }
+        arg2 = PyFile_AsFile(obj1);
+    }
+    pygsl_monte_vegas_set_ostream(arg1,arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_vegas_integrate(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_function *arg1 = (gsl_monte_function *) 0 ;
+    double *arg2 ;
+    double *arg3 ;
+    size_t arg4 ;
+    size_t arg5 ;
+    gsl_rng *arg6 = (gsl_rng *) 0 ;
+    gsl_monte_vegas_state *arg7 = (gsl_monte_vegas_state *) 0 ;
+    double *arg8 = (double *) 0 ;
+    double *arg9 = (double *) 0 ;
+    int result;
+    double temp6 ;
+    double temp7 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    char *kwnames[] = {
+        "BUFFER","xl","calls","r","state", NULL 
+    };
+    
+    
+    gsl_monte_function * volatile _solver1 = NULL;
+    
+    
+    PyArrayObject *_PyVector_12 = NULL;
+    PyArrayObject *_PyVector_22 = NULL;
+    
+    arg8 = &temp6;
+    arg9 = &temp7;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_monte_vegas_integrate",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_function,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int mysize = 0;
+        if(!PySequence_Check(obj1)){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+            goto fail;
+        }
+        if(PySequence_Fast_GET_SIZE(obj1) != 2){
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+            goto fail;
+        }
+        _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, 1, -1, 2, NULL);
+        if (_PyVector_12 == NULL)
+        goto fail;
+        
+        mysize = _PyVector_12->dimensions[0];
+        
+        _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
+        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE, 1, mysize, 2+1, NULL);
+        if (_PyVector_22 == NULL)
+        goto fail;
+        
+        arg2 = (double *)(_PyVector_12->data);
+        arg3 = (double *)(_PyVector_22->data);
+        arg4 = (size_t) mysize;
+        
+    }
+    arg5 = (size_t) PyInt_AsLong(obj2);
+    if (PyErr_Occurred()) SWIG_fail;
+    {
+        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);
+        if(arg6 == NULL)
+        goto fail;
+    }
+    if ((SWIG_ConvertPtr(obj4,(void **) &arg7, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        int flag;
+        callback_function_params * p;
+        
+        FUNC_MESS("\t\t Setting jump buffer");
+        assert(arg1);
+        
+        
+        _solver1 = arg1;
+        p = (callback_function_params *) 
+        PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+        
+        if((flag=setjmp(p->buffer)) == 0){
+            FUNC_MESS("\t\t Setting Jmp Buffer");
+            p->buffer_is_set = 1;
+        }else {
+            FUNC_MESS("\t\t Returning from Jmp Buffer");
+            p->buffer_is_set = 0;
+            goto fail;
+        }
+        
+        FUNC_MESS("\t\t END Setting jump buffer");
+    }
+    {
+        ;
+    }
+    result = (int)gsl_monte_vegas_integrate(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    
+    resultobj = PyInt_FromLong((long)result);
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg8));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg9));
+        resultobj = t_output_helper(resultobj,o);
+    }
+    {
+        callback_function_params * p;
+        if(_solver1){
+            FUNC_MESS("\t\t Looking for pointer params");
+            p = (callback_function_params *)  
+            PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+            if(p){
+                FUNC_MESS("\t\t Setting buffer_is_set = 0");
+                p->buffer_is_set = 0;
+            }
+        }
+    }
+    return resultobj;
+    fail:
+    {
+        callback_function_params * p;
+        if(_solver1){
+            FUNC_MESS("\t\t Looking for pointer params");
+            p = (callback_function_params *)  
+            PyGSL_gsl_monte_function_GET_PARAMS(_solver1);
+            if(p){
+                FUNC_MESS("\t\t Setting buffer_is_set = 0");
+                p->buffer_is_set = 0;
+            }
+        }
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_vegas_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    gsl_monte_vegas_state *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "dim", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_vegas_alloc",kwnames,&obj0)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (gsl_monte_vegas_state *)gsl_monte_vegas_alloc(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_monte_vegas_state, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_vegas_init(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "state", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_vegas_init",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_monte_vegas_init(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_monte_vegas_free(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "state", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_vegas_free",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_monte_vegas_free(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static int _wrap_gsl_root_fsolver_bisection_set(PyObject *_val) {
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_root_fsolver_bisection is read-only.");
+    return 1;
 }
 
 
@@ -1262,15 +2662,8 @@ static PyObject *_wrap_gsl_root_fsolver_bisection_get() {
 
 
 static int _wrap_gsl_root_fsolver_brent_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_root_fsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_root_fsolver_brent (gsl_root_fsolver_type *)'");
-            return 1;
-        }
-        gsl_root_fsolver_brent = (gsl_root_fsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_root_fsolver_brent is read-only.");
+    return 1;
 }
 
 
@@ -1283,15 +2676,8 @@ static PyObject *_wrap_gsl_root_fsolver_brent_get() {
 
 
 static int _wrap_gsl_root_fsolver_falsepos_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_root_fsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_root_fsolver_falsepos (gsl_root_fsolver_type *)'");
-            return 1;
-        }
-        gsl_root_fsolver_falsepos = (gsl_root_fsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_root_fsolver_falsepos is read-only.");
+    return 1;
 }
 
 
@@ -1304,15 +2690,8 @@ static PyObject *_wrap_gsl_root_fsolver_falsepos_get() {
 
 
 static int _wrap_gsl_root_fdfsolver_newton_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_root_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_root_fdfsolver_newton (gsl_root_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_root_fdfsolver_newton = (gsl_root_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_root_fdfsolver_newton is read-only.");
+    return 1;
 }
 
 
@@ -1325,15 +2704,8 @@ static PyObject *_wrap_gsl_root_fdfsolver_newton_get() {
 
 
 static int _wrap_gsl_root_fdfsolver_secant_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_root_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_root_fdfsolver_secant (gsl_root_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_root_fdfsolver_secant = (gsl_root_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_root_fdfsolver_secant is read-only.");
+    return 1;
 }
 
 
@@ -1346,15 +2718,8 @@ static PyObject *_wrap_gsl_root_fdfsolver_secant_get() {
 
 
 static int _wrap_gsl_root_fdfsolver_steffenson_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_root_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_root_fdfsolver_steffenson (gsl_root_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_root_fdfsolver_steffenson = (gsl_root_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_root_fdfsolver_steffenson is read-only.");
+    return 1;
 }
 
 
@@ -1458,7 +2823,6 @@ static PyObject *_wrap_gsl_root_fsolver_set(PyObject *self, PyObject *args, PyOb
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver2 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOdd:gsl_root_fsolver_set",kwnames,&obj0,&obj1,&arg3,&arg4)) goto fail;
@@ -1478,7 +2842,6 @@ static PyObject *_wrap_gsl_root_fsolver_set(PyObject *self, PyObject *args, PyOb
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -1491,20 +2854,8 @@ static PyObject *_wrap_gsl_root_fsolver_set(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_root_fsolver_set(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params * p;
@@ -1549,7 +2900,6 @@ static PyObject *_wrap_gsl_root_fdfsolver_set(PyObject *self, PyObject *args, Py
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function_fdf * volatile _solver2 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOd:gsl_root_fdfsolver_set",kwnames,&obj0,&obj1,&arg3)) goto fail;
@@ -1561,8 +2911,6 @@ static PyObject *_wrap_gsl_root_fdfsolver_set(PyObject *self, PyObject *args, Py
         
         FUNC_MESS("\t\t Setting jump buffer");
         assert(arg2);
-        
-        
         
         _solver2 = arg2;
         p = (callback_function_params_fdf *) 
@@ -1583,20 +2931,8 @@ static PyObject *_wrap_gsl_root_fdfsolver_set(PyObject *self, PyObject *args, Py
     result = (int)gsl_root_fdfsolver_set(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params_fdf * p;
@@ -1678,7 +3014,6 @@ static PyObject *_wrap_gsl_root_fsolver_iterate(PyObject *self, PyObject *args, 
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_root_fsolver * volatile _solver1 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_root_fsolver_iterate",kwnames,&obj0)) goto fail;
@@ -1697,7 +3032,6 @@ static PyObject *_wrap_gsl_root_fsolver_iterate(PyObject *self, PyObject *args, 
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -1710,20 +3044,8 @@ static PyObject *_wrap_gsl_root_fsolver_iterate(PyObject *self, PyObject *args, 
     result = (int)gsl_root_fsolver_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params * p;
@@ -1765,7 +3087,6 @@ static PyObject *_wrap_gsl_root_fdfsolver_iterate(PyObject *self, PyObject *args
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_root_fdfsolver * volatile _solver1 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_root_fdfsolver_iterate",kwnames,&obj0)) goto fail;
@@ -1776,8 +3097,6 @@ static PyObject *_wrap_gsl_root_fdfsolver_iterate(PyObject *self, PyObject *args
         
         FUNC_MESS("\t\t Setting jump buffer");
         assert(arg1);
-        
-        
         
         _solver1 = arg1;
         p = (callback_function_params_fdf *) 
@@ -1798,20 +3117,8 @@ static PyObject *_wrap_gsl_root_fdfsolver_iterate(PyObject *self, PyObject *args
     result = (int)gsl_root_fdfsolver_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params_fdf * p;
@@ -1938,20 +3245,8 @@ static PyObject *_wrap_gsl_root_test_interval(PyObject *self, PyObject *args, Py
     result = (int)gsl_root_test_interval(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -1974,20 +3269,8 @@ static PyObject *_wrap_gsl_root_test_delta(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_root_test_delta(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -2008,20 +3291,8 @@ static PyObject *_wrap_gsl_root_test_residual(PyObject *self, PyObject *args, Py
     result = (int)gsl_root_test_residual(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -2030,15 +3301,8 @@ static PyObject *_wrap_gsl_root_test_residual(PyObject *self, PyObject *args, Py
 
 
 static int _wrap_gsl_min_fminimizer_goldensection_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_min_fminimizer_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_min_fminimizer_goldensection (gsl_min_fminimizer_type *)'");
-            return 1;
-        }
-        gsl_min_fminimizer_goldensection = (gsl_min_fminimizer_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_min_fminimizer_goldensection is read-only.");
+    return 1;
 }
 
 
@@ -2051,15 +3315,8 @@ static PyObject *_wrap_gsl_min_fminimizer_goldensection_get() {
 
 
 static int _wrap_gsl_min_fminimizer_brent_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_min_fminimizer_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_min_fminimizer_brent (gsl_min_fminimizer_type *)'");
-            return 1;
-        }
-        gsl_min_fminimizer_brent = (gsl_min_fminimizer_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_min_fminimizer_brent is read-only.");
+    return 1;
 }
 
 
@@ -2106,7 +3363,6 @@ static PyObject *_wrap_gsl_min_fminimizer_set(PyObject *self, PyObject *args, Py
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver2 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOddd:gsl_min_fminimizer_set",kwnames,&obj0,&obj1,&arg3,&arg4,&arg5)) goto fail;
@@ -2126,7 +3382,6 @@ static PyObject *_wrap_gsl_min_fminimizer_set(PyObject *self, PyObject *args, Py
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -2139,20 +3394,8 @@ static PyObject *_wrap_gsl_min_fminimizer_set(PyObject *self, PyObject *args, Py
     result = (int)gsl_min_fminimizer_set(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params * p;
@@ -2202,7 +3445,6 @@ static PyObject *_wrap_gsl_min_fminimizer_set_with_values(PyObject *self, PyObje
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver2 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOdddddd:gsl_min_fminimizer_set_with_values",kwnames,&obj0,&obj1,&arg3,&arg4,&arg5,&arg6,&arg7,&arg8)) goto fail;
@@ -2222,7 +3464,6 @@ static PyObject *_wrap_gsl_min_fminimizer_set_with_values(PyObject *self, PyObje
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -2235,20 +3476,8 @@ static PyObject *_wrap_gsl_min_fminimizer_set_with_values(PyObject *self, PyObje
     result = (int)gsl_min_fminimizer_set_with_values(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params * p;
@@ -2329,7 +3558,6 @@ static PyObject *_wrap_gsl_min_fminimizer_iterate(PyObject *self, PyObject *args
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_min_fminimizer * volatile _solver1 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_min_fminimizer_iterate",kwnames,&obj0)) goto fail;
@@ -2348,7 +3576,6 @@ static PyObject *_wrap_gsl_min_fminimizer_iterate(PyObject *self, PyObject *args
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -2361,20 +3588,8 @@ static PyObject *_wrap_gsl_min_fminimizer_iterate(PyObject *self, PyObject *args
     result = (int)gsl_min_fminimizer_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params * p;
@@ -2481,20 +3696,8 @@ static PyObject *_wrap_gsl_min_test_interval(PyObject *self, PyObject *args, PyO
     result = (int)gsl_min_test_interval(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -2515,6 +3718,7 @@ static PyObject *_wrap_gsl_multiroot_function_init(PyObject *self, PyObject *arg
     {
         FUNC_MESS("gsl_function STORE BEGIN");
         arg1 = PyGSL_convert_to_gsl_multiroot_function (obj0);
+        FUNC_MESS("gsl_function STORE END");
         if(arg1==NULL) goto fail;
     }
     result = (gsl_multiroot_function *)gsl_multiroot_function_init(arg1);
@@ -2539,6 +3743,7 @@ static PyObject *_wrap_gsl_multiroot_function_init_fdf(PyObject *self, PyObject 
     {
         FUNC_MESS("gsl_function STORE BEGIN");
         arg1 = PyGSL_convert_to_gsl_multiroot_function_fdf (obj0);
+        FUNC_MESS("gsl_function STORE END");
         if(arg1==NULL) goto fail;
     }
     result = (gsl_multiroot_function_fdf *)gsl_multiroot_function_init_fdf(arg1);
@@ -2663,20 +3868,24 @@ static PyObject *_wrap_gsl_multiroot_function_free(PyObject *self, PyObject *arg
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return resultobj;
     fail:
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return NULL;
 }
@@ -2699,20 +3908,24 @@ static PyObject *_wrap_gsl_multiroot_function_free_fdf(PyObject *self, PyObject 
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return resultobj;
     fail:
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return NULL;
 }
@@ -2802,48 +4015,13 @@ static PyObject *_wrap_gsl_multiroot_fsolver_set(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multiroot_fsolver_set(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector3);
@@ -2873,20 +4051,8 @@ static PyObject *_wrap_gsl_multiroot_fsolver_iterate(PyObject *self, PyObject *a
     result = (int)gsl_multiroot_fsolver_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -2999,48 +4165,13 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_set(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multiroot_fdfsolver_set(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector3);
@@ -3070,20 +4201,8 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_iterate(PyObject *self, PyObject 
     result = (int)gsl_multiroot_fdfsolver_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -3193,29 +4312,6 @@ static PyObject *_wrap_gsl_multiroot_test_delta(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -3239,48 +4335,13 @@ static PyObject *_wrap_gsl_multiroot_test_delta(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multiroot_test_delta((gsl_vector const *)arg1,(gsl_vector const *)arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -3340,48 +4401,13 @@ static PyObject *_wrap_gsl_multiroot_test_residual(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multiroot_test_residual((gsl_vector const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -3398,15 +4424,8 @@ static PyObject *_wrap_gsl_multiroot_test_residual(PyObject *self, PyObject *arg
 
 
 static int _wrap_gsl_multiroot_fsolver_dnewton_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multiroot_fsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multiroot_fsolver_dnewton (gsl_multiroot_fsolver_type *)'");
-            return 1;
-        }
-        gsl_multiroot_fsolver_dnewton = (gsl_multiroot_fsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multiroot_fsolver_dnewton is read-only.");
+    return 1;
 }
 
 
@@ -3419,15 +4438,8 @@ static PyObject *_wrap_gsl_multiroot_fsolver_dnewton_get() {
 
 
 static int _wrap_gsl_multiroot_fsolver_broyden_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multiroot_fsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multiroot_fsolver_broyden (gsl_multiroot_fsolver_type *)'");
-            return 1;
-        }
-        gsl_multiroot_fsolver_broyden = (gsl_multiroot_fsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multiroot_fsolver_broyden is read-only.");
+    return 1;
 }
 
 
@@ -3440,15 +4452,8 @@ static PyObject *_wrap_gsl_multiroot_fsolver_broyden_get() {
 
 
 static int _wrap_gsl_multiroot_fsolver_hybrid_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multiroot_fsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multiroot_fsolver_hybrid (gsl_multiroot_fsolver_type *)'");
-            return 1;
-        }
-        gsl_multiroot_fsolver_hybrid = (gsl_multiroot_fsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multiroot_fsolver_hybrid is read-only.");
+    return 1;
 }
 
 
@@ -3461,15 +4466,8 @@ static PyObject *_wrap_gsl_multiroot_fsolver_hybrid_get() {
 
 
 static int _wrap_gsl_multiroot_fsolver_hybrids_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multiroot_fsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multiroot_fsolver_hybrids (gsl_multiroot_fsolver_type *)'");
-            return 1;
-        }
-        gsl_multiroot_fsolver_hybrids = (gsl_multiroot_fsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multiroot_fsolver_hybrids is read-only.");
+    return 1;
 }
 
 
@@ -3482,15 +4480,8 @@ static PyObject *_wrap_gsl_multiroot_fsolver_hybrids_get() {
 
 
 static int _wrap_gsl_multiroot_fdfsolver_newton_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multiroot_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multiroot_fdfsolver_newton (gsl_multiroot_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_multiroot_fdfsolver_newton = (gsl_multiroot_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multiroot_fdfsolver_newton is read-only.");
+    return 1;
 }
 
 
@@ -3503,15 +4494,8 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_newton_get() {
 
 
 static int _wrap_gsl_multiroot_fdfsolver_gnewton_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multiroot_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multiroot_fdfsolver_gnewton (gsl_multiroot_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_multiroot_fdfsolver_gnewton = (gsl_multiroot_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multiroot_fdfsolver_gnewton is read-only.");
+    return 1;
 }
 
 
@@ -3524,15 +4508,8 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_gnewton_get() {
 
 
 static int _wrap_gsl_multiroot_fdfsolver_hybridj_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multiroot_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multiroot_fdfsolver_hybridj (gsl_multiroot_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_multiroot_fdfsolver_hybridj = (gsl_multiroot_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multiroot_fdfsolver_hybridj is read-only.");
+    return 1;
 }
 
 
@@ -3545,15 +4522,8 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_hybridj_get() {
 
 
 static int _wrap_gsl_multiroot_fdfsolver_hybridsj_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multiroot_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multiroot_fdfsolver_hybridsj (gsl_multiroot_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_multiroot_fdfsolver_hybridsj = (gsl_multiroot_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multiroot_fdfsolver_hybridsj is read-only.");
+    return 1;
 }
 
 
@@ -3578,6 +4548,7 @@ static PyObject *_wrap_gsl_multimin_function_init(PyObject *self, PyObject *args
     {
         FUNC_MESS("gsl_function STORE BEGIN");
         arg1 = PyGSL_convert_to_gsl_multimin_function (obj0);
+        FUNC_MESS("gsl_function STORE END");
         if(arg1==NULL) goto fail;
     }
     result = (gsl_multimin_function *)gsl_multimin_function_init(arg1);
@@ -3602,6 +4573,7 @@ static PyObject *_wrap_gsl_multimin_function_init_fdf(PyObject *self, PyObject *
     {
         FUNC_MESS("gsl_function STORE BEGIN");
         arg1 = PyGSL_convert_to_gsl_multimin_function_fdf (obj0);
+        FUNC_MESS("gsl_function STORE END");
         if(arg1==NULL) goto fail;
     }
     result = (gsl_multimin_function_fdf *)gsl_multimin_function_init_fdf(arg1);
@@ -3630,20 +4602,24 @@ static PyObject *_wrap_gsl_multimin_function_free(PyObject *self, PyObject *args
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return resultobj;
     fail:
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return NULL;
 }
@@ -3666,20 +4642,24 @@ static PyObject *_wrap_gsl_multimin_function_free_fdf(PyObject *self, PyObject *
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return resultobj;
     fail:
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return NULL;
 }
@@ -3745,7 +4725,6 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_multimin_function * volatile _solver2 = NULL;
     
     
@@ -3780,29 +4759,6 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -3826,29 +4782,6 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     {
@@ -3865,7 +4798,6 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -3878,20 +4810,8 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
     result = (int)gsl_multimin_fminimizer_set(arg1,arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params * p;
@@ -3992,20 +4912,8 @@ static PyObject *_wrap_gsl_multimin_fminimizer_iterate(PyObject *self, PyObject 
     result = (int)gsl_multimin_fminimizer_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -4117,7 +5025,6 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_multimin_function_fdf * volatile _solver2 = NULL;
     
     
@@ -4148,29 +5055,6 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     {
@@ -4179,8 +5063,6 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
         
         FUNC_MESS("\t\t Setting jump buffer");
         assert(arg2);
-        
-        
         
         _solver2 = arg2;
         p = (callback_function_params_fdf *) 
@@ -4201,20 +5083,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
     result = (int)gsl_multimin_fdfminimizer_set(arg1,arg2,(gsl_vector const *)arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params_fdf * p;
@@ -4303,7 +5173,6 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_iterate(PyObject *self, PyObjec
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_multimin_fdfminimizer * volatile _solver1 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_multimin_fdfminimizer_iterate",kwnames,&obj0)) goto fail;
@@ -4314,8 +5183,6 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_iterate(PyObject *self, PyObjec
         
         FUNC_MESS("\t\t Setting jump buffer");
         assert(arg1);
-        
-        
         
         _solver1 = arg1;
         p = (callback_function_params_fdf *) 
@@ -4336,20 +5203,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_iterate(PyObject *self, PyObjec
     result = (int)gsl_multimin_fdfminimizer_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params_fdf * p;
@@ -4391,7 +5246,6 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_restart(PyObject *self, PyObjec
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_multimin_fdfminimizer * volatile _solver1 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_multimin_fdfminimizer_restart",kwnames,&obj0)) goto fail;
@@ -4402,8 +5256,6 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_restart(PyObject *self, PyObjec
         
         FUNC_MESS("\t\t Setting jump buffer");
         assert(arg1);
-        
-        
         
         _solver1 = arg1;
         p = (callback_function_params_fdf *) 
@@ -4424,20 +5276,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_restart(PyObject *self, PyObjec
     result = (int)gsl_multimin_fdfminimizer_restart(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params_fdf * p;
@@ -4505,48 +5345,13 @@ static PyObject *_wrap_gsl_multimin_test_gradient(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multimin_test_gradient((gsl_vector const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -4575,20 +5380,8 @@ static PyObject *_wrap_gsl_multimin_test_size(PyObject *self, PyObject *args, Py
     result = (int)gsl_multimin_test_size(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -4709,15 +5502,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_minimum(PyObject *self, PyObjec
 
 
 static int _wrap_gsl_multimin_fdfminimizer_steepest_descent_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multimin_fdfminimizer_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multimin_fdfminimizer_steepest_descent (gsl_multimin_fdfminimizer_type *)'");
-            return 1;
-        }
-        gsl_multimin_fdfminimizer_steepest_descent = (gsl_multimin_fdfminimizer_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multimin_fdfminimizer_steepest_descent is read-only.");
+    return 1;
 }
 
 
@@ -4730,15 +5516,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_steepest_descent_get() {
 
 
 static int _wrap_gsl_multimin_fdfminimizer_conjugate_pr_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multimin_fdfminimizer_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multimin_fdfminimizer_conjugate_pr (gsl_multimin_fdfminimizer_type *)'");
-            return 1;
-        }
-        gsl_multimin_fdfminimizer_conjugate_pr = (gsl_multimin_fdfminimizer_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multimin_fdfminimizer_conjugate_pr is read-only.");
+    return 1;
 }
 
 
@@ -4751,15 +5530,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_conjugate_pr_get() {
 
 
 static int _wrap_gsl_multimin_fdfminimizer_conjugate_fr_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multimin_fdfminimizer_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multimin_fdfminimizer_conjugate_fr (gsl_multimin_fdfminimizer_type *)'");
-            return 1;
-        }
-        gsl_multimin_fdfminimizer_conjugate_fr = (gsl_multimin_fdfminimizer_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multimin_fdfminimizer_conjugate_fr is read-only.");
+    return 1;
 }
 
 
@@ -4772,15 +5544,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_conjugate_fr_get() {
 
 
 static int _wrap_gsl_multimin_fdfminimizer_vector_bfgs_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multimin_fdfminimizer_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multimin_fdfminimizer_vector_bfgs (gsl_multimin_fdfminimizer_type *)'");
-            return 1;
-        }
-        gsl_multimin_fdfminimizer_vector_bfgs = (gsl_multimin_fdfminimizer_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multimin_fdfminimizer_vector_bfgs is read-only.");
+    return 1;
 }
 
 
@@ -4793,15 +5558,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_vector_bfgs_get() {
 
 
 static int _wrap_gsl_multimin_fminimizer_nmsimplex_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multimin_fminimizer_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multimin_fminimizer_nmsimplex (gsl_multimin_fminimizer_type *)'");
-            return 1;
-        }
-        gsl_multimin_fminimizer_nmsimplex = (gsl_multimin_fminimizer_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multimin_fminimizer_nmsimplex is read-only.");
+    return 1;
 }
 
 
@@ -4826,6 +5584,7 @@ static PyObject *_wrap_gsl_multifit_function_init(PyObject *self, PyObject *args
     {
         FUNC_MESS("gsl_function STORE BEGIN");
         arg1 = PyGSL_convert_to_gsl_multifit_function (obj0);
+        FUNC_MESS("gsl_function STORE END");
         if(arg1==NULL) goto fail;
     }
     result = (gsl_multifit_function *)gsl_multifit_function_init(arg1);
@@ -4850,6 +5609,7 @@ static PyObject *_wrap_gsl_multifit_function_init_fdf(PyObject *self, PyObject *
     {
         FUNC_MESS("gsl_function STORE BEGIN");
         arg1 = PyGSL_convert_to_gsl_multifit_function_fdf (obj0);
+        FUNC_MESS("gsl_function STORE END");
         if(arg1==NULL) goto fail;
     }
     result = (gsl_multifit_function_fdf *)gsl_multifit_function_init_fdf(arg1);
@@ -5046,20 +5806,24 @@ static PyObject *_wrap_gsl_multifit_function_free(PyObject *self, PyObject *args
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return resultobj;
     fail:
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return NULL;
 }
@@ -5082,20 +5846,24 @@ static PyObject *_wrap_gsl_multifit_function_free_fdf(PyObject *self, PyObject *
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return resultobj;
     fail:
     {
+        FUNC_MESS("gsl_function FREE BEGIN");
         if(_function1){
             assert(arg1 == _function1);
             PyGSL_params_free((callback_function_params *) arg1->params);
             free(arg1);    
         }
+        FUNC_MESS("gsl_function FREE END");
     }
     return NULL;
 }
@@ -5189,48 +5957,13 @@ static PyObject *_wrap_gsl_multifit_fsolver_set(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multifit_fsolver_set(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector3);
@@ -5260,20 +5993,8 @@ static PyObject *_wrap_gsl_multifit_fsolver_iterate(PyObject *self, PyObject *ar
     result = (int)gsl_multifit_fsolver_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -5390,48 +6111,13 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_set(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multifit_fdfsolver_set(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector3);
@@ -5461,20 +6147,8 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_iterate(PyObject *self, PyObject *
     result = (int)gsl_multifit_fdfsolver_iterate(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -5584,29 +6258,6 @@ static PyObject *_wrap_gsl_multifit_test_delta(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -5630,48 +6281,13 @@ static PyObject *_wrap_gsl_multifit_test_delta(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multifit_test_delta((gsl_vector const *)arg1,(gsl_vector const *)arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -5731,48 +6347,13 @@ static PyObject *_wrap_gsl_multifit_test_gradient(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_multifit_test_gradient((gsl_vector const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -5789,15 +6370,8 @@ static PyObject *_wrap_gsl_multifit_test_gradient(PyObject *self, PyObject *args
 
 
 static int _wrap_gsl_multifit_fdfsolver_lmder_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multifit_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multifit_fdfsolver_lmder (gsl_multifit_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_multifit_fdfsolver_lmder = (gsl_multifit_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multifit_fdfsolver_lmder is read-only.");
+    return 1;
 }
 
 
@@ -5810,15 +6384,8 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_lmder_get() {
 
 
 static int _wrap_gsl_multifit_fdfsolver_lmsder_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_multifit_fdfsolver_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_multifit_fdfsolver_lmsder (gsl_multifit_fdfsolver_type *)'");
-            return 1;
-        }
-        gsl_multifit_fdfsolver_lmsder = (gsl_multifit_fdfsolver_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_multifit_fdfsolver_lmsder is read-only.");
+    return 1;
 }
 
 
@@ -5929,20 +6496,8 @@ static PyObject *_wrap_gsl_integration_qaws_table_set(PyObject *self, PyObject *
     result = (int)gsl_integration_qaws_table_set(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -6010,20 +6565,8 @@ static PyObject *_wrap_gsl_integration_qawo_table_set(PyObject *self, PyObject *
     result = (int)gsl_integration_qawo_table_set(arg1,arg2,arg3,(enum gsl_integration_qawo_enum)arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -6046,20 +6589,8 @@ static PyObject *_wrap_gsl_integration_qawo_table_set_length(PyObject *self, PyO
     result = (int)gsl_integration_qawo_table_set_length(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -6106,7 +6637,6 @@ static PyObject *_wrap_gsl_integration_qng(PyObject *self, PyObject *args, PyObj
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg6 = &temp6;
@@ -6128,7 +6658,6 @@ static PyObject *_wrap_gsl_integration_qng(PyObject *self, PyObject *args, PyObj
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -6141,20 +6670,8 @@ static PyObject *_wrap_gsl_integration_qng(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_integration_qng((gsl_function const *)arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg6));
@@ -6221,7 +6738,6 @@ static PyObject *_wrap_gsl_integration_qag(PyObject *self, PyObject *args, PyObj
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg9 = &temp9;
@@ -6245,7 +6761,6 @@ static PyObject *_wrap_gsl_integration_qag(PyObject *self, PyObject *args, PyObj
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -6258,20 +6773,8 @@ static PyObject *_wrap_gsl_integration_qag(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_integration_qag((gsl_function const *)arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg9));
@@ -6331,7 +6834,6 @@ static PyObject *_wrap_gsl_integration_qagi(PyObject *self, PyObject *args, PyOb
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg6 = &temp6;
@@ -6355,7 +6857,6 @@ static PyObject *_wrap_gsl_integration_qagi(PyObject *self, PyObject *args, PyOb
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -6368,20 +6869,8 @@ static PyObject *_wrap_gsl_integration_qagi(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_integration_qagi(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg6));
@@ -6442,7 +6931,6 @@ static PyObject *_wrap_gsl_integration_qagiu(PyObject *self, PyObject *args, PyO
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg7 = &temp7;
@@ -6466,7 +6954,6 @@ static PyObject *_wrap_gsl_integration_qagiu(PyObject *self, PyObject *args, PyO
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -6479,20 +6966,8 @@ static PyObject *_wrap_gsl_integration_qagiu(PyObject *self, PyObject *args, PyO
     result = (int)gsl_integration_qagiu(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg7));
@@ -6553,7 +7028,6 @@ static PyObject *_wrap_gsl_integration_qagil(PyObject *self, PyObject *args, PyO
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg7 = &temp7;
@@ -6577,7 +7051,6 @@ static PyObject *_wrap_gsl_integration_qagil(PyObject *self, PyObject *args, PyO
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -6590,20 +7063,8 @@ static PyObject *_wrap_gsl_integration_qagil(PyObject *self, PyObject *args, PyO
     result = (int)gsl_integration_qagil(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg7));
@@ -6665,7 +7126,6 @@ static PyObject *_wrap_gsl_integration_qags(PyObject *self, PyObject *args, PyOb
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg8 = &temp8;
@@ -6689,7 +7149,6 @@ static PyObject *_wrap_gsl_integration_qags(PyObject *self, PyObject *args, PyOb
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -6702,20 +7161,8 @@ static PyObject *_wrap_gsl_integration_qags(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_integration_qags((gsl_function const *)arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg8));
@@ -6778,7 +7225,6 @@ static PyObject *_wrap_gsl_integration_qagp(PyObject *self, PyObject *args, PyOb
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     
@@ -6812,7 +7258,6 @@ static PyObject *_wrap_gsl_integration_qagp(PyObject *self, PyObject *args, PyOb
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -6825,20 +7270,8 @@ static PyObject *_wrap_gsl_integration_qagp(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_integration_qagp((gsl_function const *)arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -6904,7 +7337,6 @@ static PyObject *_wrap_gsl_integration_qawc(PyObject *self, PyObject *args, PyOb
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg9 = &temp9;
@@ -6928,7 +7360,6 @@ static PyObject *_wrap_gsl_integration_qawc(PyObject *self, PyObject *args, PyOb
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -6941,20 +7372,8 @@ static PyObject *_wrap_gsl_integration_qawc(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_integration_qawc(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg9));
@@ -7018,7 +7437,6 @@ static PyObject *_wrap_gsl_integration_qaws(PyObject *self, PyObject *args, PyOb
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg9 = &temp9;
@@ -7043,7 +7461,6 @@ static PyObject *_wrap_gsl_integration_qaws(PyObject *self, PyObject *args, PyOb
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -7056,20 +7473,8 @@ static PyObject *_wrap_gsl_integration_qaws(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_integration_qaws(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg9));
@@ -7132,7 +7537,6 @@ static PyObject *_wrap_gsl_integration_qawo(PyObject *self, PyObject *args, PyOb
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg8 = &temp8;
@@ -7157,7 +7561,6 @@ static PyObject *_wrap_gsl_integration_qawo(PyObject *self, PyObject *args, PyOb
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -7170,20 +7573,8 @@ static PyObject *_wrap_gsl_integration_qawo(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_integration_qawo(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg8));
@@ -7247,7 +7638,6 @@ static PyObject *_wrap_gsl_integration_qawf(PyObject *self, PyObject *args, PyOb
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver1 = NULL;
     
     arg8 = &temp8;
@@ -7273,7 +7663,6 @@ static PyObject *_wrap_gsl_integration_qawf(PyObject *self, PyObject *args, PyOb
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -7286,20 +7675,8 @@ static PyObject *_wrap_gsl_integration_qawf(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_integration_qawf(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg8));
@@ -7393,7 +7770,6 @@ static PyObject *_wrap_gsl_cheb_init(PyObject *self, PyObject *args, PyObject *k
     };
     
     
-    /* Arginit gsl_fsolver */
     gsl_function * volatile _solver2 = NULL;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOdd:gsl_cheb_init",kwnames,&obj0,&obj1,&arg3,&arg4)) goto fail;
@@ -7413,7 +7789,6 @@ static PyObject *_wrap_gsl_cheb_init(PyObject *self, PyObject *args, PyObject *k
         
         if((flag=setjmp(p->buffer)) == 0){
             FUNC_MESS("\t\t Setting Jmp Buffer");
-            /* Set jump buffer */
             p->buffer_is_set = 1;
         }else {
             FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -7426,20 +7801,8 @@ static PyObject *_wrap_gsl_cheb_init(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_cheb_init(arg1,(gsl_function const *)arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         callback_function_params * p;
@@ -7513,20 +7876,8 @@ static PyObject *_wrap_gsl_cheb_eval_err(PyObject *self, PyObject *args, PyObjec
     result = (int)gsl_cheb_eval_err((gsl_cheb_series const *)arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg3));
@@ -7592,20 +7943,8 @@ static PyObject *_wrap_gsl_cheb_eval_n_err(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_cheb_eval_n_err((gsl_cheb_series const *)arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg4));
@@ -7638,20 +7977,8 @@ static PyObject *_wrap_gsl_cheb_calc_deriv(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_cheb_calc_deriv(arg1,(gsl_cheb_series const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -7676,20 +8003,8 @@ static PyObject *_wrap_gsl_cheb_calc_integ(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_cheb_calc_integ(arg1,(gsl_cheb_series const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -7755,48 +8070,13 @@ static PyObject *_wrap_pygsl_cheb_set_coefficients(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)pygsl_cheb_set_coefficients(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -7976,15 +8256,8 @@ static PyObject *_wrap_pygsl_cheb_set_f(PyObject *self, PyObject *args, PyObject
 
 
 static int _wrap_gsl_odeiv_step_rk2_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_rk2 (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_rk2 = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_rk2 is read-only.");
+    return 1;
 }
 
 
@@ -7997,15 +8270,8 @@ static PyObject *_wrap_gsl_odeiv_step_rk2_get() {
 
 
 static int _wrap_gsl_odeiv_step_rk4_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_rk4 (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_rk4 = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_rk4 is read-only.");
+    return 1;
 }
 
 
@@ -8018,15 +8284,8 @@ static PyObject *_wrap_gsl_odeiv_step_rk4_get() {
 
 
 static int _wrap_gsl_odeiv_step_rkf45_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_rkf45 (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_rkf45 = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_rkf45 is read-only.");
+    return 1;
 }
 
 
@@ -8039,15 +8298,8 @@ static PyObject *_wrap_gsl_odeiv_step_rkf45_get() {
 
 
 static int _wrap_gsl_odeiv_step_rkck_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_rkck (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_rkck = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_rkck is read-only.");
+    return 1;
 }
 
 
@@ -8060,15 +8312,8 @@ static PyObject *_wrap_gsl_odeiv_step_rkck_get() {
 
 
 static int _wrap_gsl_odeiv_step_rk8pd_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_rk8pd (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_rk8pd = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_rk8pd is read-only.");
+    return 1;
 }
 
 
@@ -8081,15 +8326,8 @@ static PyObject *_wrap_gsl_odeiv_step_rk8pd_get() {
 
 
 static int _wrap_gsl_odeiv_step_rk2imp_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_rk2imp (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_rk2imp = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_rk2imp is read-only.");
+    return 1;
 }
 
 
@@ -8102,15 +8340,8 @@ static PyObject *_wrap_gsl_odeiv_step_rk2imp_get() {
 
 
 static int _wrap_gsl_odeiv_step_rk4imp_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_rk4imp (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_rk4imp = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_rk4imp is read-only.");
+    return 1;
 }
 
 
@@ -8123,15 +8354,8 @@ static PyObject *_wrap_gsl_odeiv_step_rk4imp_get() {
 
 
 static int _wrap_gsl_odeiv_step_bsimp_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_bsimp (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_bsimp = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_bsimp is read-only.");
+    return 1;
 }
 
 
@@ -8144,15 +8368,8 @@ static PyObject *_wrap_gsl_odeiv_step_bsimp_get() {
 
 
 static int _wrap_gsl_odeiv_step_gear1_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_gear1 (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_gear1 = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_gear1 is read-only.");
+    return 1;
 }
 
 
@@ -8165,15 +8382,8 @@ static PyObject *_wrap_gsl_odeiv_step_gear1_get() {
 
 
 static int _wrap_gsl_odeiv_step_gear2_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_odeiv_step_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_odeiv_step_gear2 (gsl_odeiv_step_type *)'");
-            return 1;
-        }
-        gsl_odeiv_step_gear2 = (gsl_odeiv_step_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_odeiv_step_gear2 is read-only.");
+    return 1;
 }
 
 
@@ -8223,20 +8433,8 @@ static PyObject *_wrap_gsl_odeiv_step_reset(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_odeiv_step_reset(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -8341,20 +8539,8 @@ static PyObject *_wrap_gsl_odeiv_control_init(PyObject *self, PyObject *args, Py
     result = (int)gsl_odeiv_control_init(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -8495,20 +8681,8 @@ static PyObject *_wrap_gsl_odeiv_evolve_reset(PyObject *self, PyObject *args, Py
     result = (int)gsl_odeiv_evolve_reset(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -8662,29 +8836,6 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     {
@@ -8743,20 +8894,8 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_multifit_linear((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector3);
@@ -8897,29 +9036,6 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -8943,29 +9059,6 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     {
@@ -9024,20 +9117,8 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_multifit_wlinear((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4,arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector4);
@@ -9173,20 +9254,8 @@ static PyObject *_wrap_gsl_fit_linear(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_fit_linear((double const *)arg1,arg2,(double const *)arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -9320,20 +9389,8 @@ static PyObject *_wrap_gsl_fit_wlinear(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_fit_wlinear((double const *)arg1,arg2,(double const *)arg3,arg4,(double const *)arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -9397,20 +9454,8 @@ static PyObject *_wrap_gsl_fit_linear_est(PyObject *self, PyObject *args, PyObje
     result = (int)gsl_fit_linear_est(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg7));
@@ -9493,20 +9538,8 @@ static PyObject *_wrap_gsl_fit_mul(PyObject *self, PyObject *args, PyObject *kwa
     result = (int)gsl_fit_mul((double const *)arg1,arg2,(double const *)arg3,arg4,arg5,arg6,arg7,arg8);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -9619,20 +9652,8 @@ static PyObject *_wrap_gsl_fit_wmul(PyObject *self, PyObject *args, PyObject *kw
     result = (int)gsl_fit_wmul((double const *)arg1,arg2,(double const *)arg3,arg4,(double const *)arg5,arg6,arg7,arg8,arg9,arg10);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -9681,20 +9702,8 @@ static PyObject *_wrap_gsl_fit_mul_est(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_fit_mul_est(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg4));
@@ -9715,6 +9724,48 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_function_init_fdf", (PyCFunction) _wrap_gsl_function_init_fdf, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_function_free", (PyCFunction) _wrap_gsl_function_free, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_function_free_fdf", (PyCFunction) _wrap_gsl_function_free_fdf, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_function_init", (PyCFunction) _wrap_gsl_monte_function_init, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_function_free", (PyCFunction) _wrap_gsl_monte_function_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_plain_integrate", (PyCFunction) _wrap_gsl_monte_plain_integrate, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_plain_alloc", (PyCFunction) _wrap_gsl_monte_plain_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_plain_init", (PyCFunction) _wrap_gsl_monte_plain_init, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_plain_free", (PyCFunction) _wrap_gsl_monte_plain_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_get_min_calls", (PyCFunction) _wrap_pygsl_monte_miser_get_min_calls, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_get_min_calls_per_bisection", (PyCFunction) _wrap_pygsl_monte_miser_get_min_calls_per_bisection, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_get_dither", (PyCFunction) _wrap_pygsl_monte_miser_get_dither, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_get_estimate_frac", (PyCFunction) _wrap_pygsl_monte_miser_get_estimate_frac, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_get_alpha", (PyCFunction) _wrap_pygsl_monte_miser_get_alpha, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_set_min_calls", (PyCFunction) _wrap_pygsl_monte_miser_set_min_calls, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_set_min_calls_per_bisection", (PyCFunction) _wrap_pygsl_monte_miser_set_min_calls_per_bisection, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_set_dither", (PyCFunction) _wrap_pygsl_monte_miser_set_dither, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_set_estimate_frac", (PyCFunction) _wrap_pygsl_monte_miser_set_estimate_frac, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_miser_set_alpha", (PyCFunction) _wrap_pygsl_monte_miser_set_alpha, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_miser_integrate", (PyCFunction) _wrap_gsl_monte_miser_integrate, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_miser_alloc", (PyCFunction) _wrap_gsl_monte_miser_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_miser_init", (PyCFunction) _wrap_gsl_monte_miser_init, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_miser_free", (PyCFunction) _wrap_gsl_monte_miser_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_result", (PyCFunction) _wrap_pygsl_monte_vegas_get_result, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_sigma", (PyCFunction) _wrap_pygsl_monte_vegas_get_sigma, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_chisq", (PyCFunction) _wrap_pygsl_monte_vegas_get_chisq, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_alpha", (PyCFunction) _wrap_pygsl_monte_vegas_get_alpha, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_iterations", (PyCFunction) _wrap_pygsl_monte_vegas_get_iterations, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_stage", (PyCFunction) _wrap_pygsl_monte_vegas_get_stage, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_mode", (PyCFunction) _wrap_pygsl_monte_vegas_get_mode, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_verbose", (PyCFunction) _wrap_pygsl_monte_vegas_get_verbose, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_get_ostream", (PyCFunction) _wrap_pygsl_monte_vegas_get_ostream, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_result", (PyCFunction) _wrap_pygsl_monte_vegas_set_result, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_sigma", (PyCFunction) _wrap_pygsl_monte_vegas_set_sigma, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_chisq", (PyCFunction) _wrap_pygsl_monte_vegas_set_chisq, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_alpha", (PyCFunction) _wrap_pygsl_monte_vegas_set_alpha, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_iterations", (PyCFunction) _wrap_pygsl_monte_vegas_set_iterations, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_stage", (PyCFunction) _wrap_pygsl_monte_vegas_set_stage, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_mode", (PyCFunction) _wrap_pygsl_monte_vegas_set_mode, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_verbose", (PyCFunction) _wrap_pygsl_monte_vegas_set_verbose, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"pygsl_monte_vegas_set_ostream", (PyCFunction) _wrap_pygsl_monte_vegas_set_ostream, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_vegas_integrate", (PyCFunction) _wrap_gsl_monte_vegas_integrate, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_vegas_alloc", (PyCFunction) _wrap_gsl_monte_vegas_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_vegas_init", (PyCFunction) _wrap_gsl_monte_vegas_init, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_monte_vegas_free", (PyCFunction) _wrap_gsl_monte_vegas_free, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_root_fsolver_alloc", (PyCFunction) _wrap_gsl_root_fsolver_alloc, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_root_fsolver_free", (PyCFunction) _wrap_gsl_root_fsolver_free, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_root_fdfsolver_alloc", (PyCFunction) _wrap_gsl_root_fdfsolver_alloc, METH_VARARGS | METH_KEYWORDS },
@@ -9891,6 +9942,8 @@ static PyMethodDef SwigMethods[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static swig_type_info _swigt__p_gsl_monte_plain_state[] = {{"_p_gsl_monte_plain_state", 0, "gsl_monte_plain_state *", 0},{"_p_gsl_monte_plain_state"},{0}};
+static swig_type_info _swigt__p_gsl_monte_miser_state[] = {{"_p_gsl_monte_miser_state", 0, "gsl_monte_miser_state *", 0},{"_p_gsl_monte_miser_state"},{0}};
 static swig_type_info _swigt__p_double[] = {{"_p_double", 0, "double *", 0},{"_p_double"},{0}};
 static swig_type_info _swigt__p_gsl_odeiv_control[] = {{"_p_gsl_odeiv_control", 0, "gsl_odeiv_control *", 0},{"_p_gsl_odeiv_control"},{0}};
 static swig_type_info _swigt__p_size_t[] = {{"_p_size_t", 0, "size_t *", 0},{"_p_size_t"},{0}};
@@ -9898,41 +9951,47 @@ static swig_type_info _swigt__p_gsl_integration_workspace[] = {{"_p_gsl_integrat
 static swig_type_info _swigt__p_gsl_multifit_linear_workspace[] = {{"_p_gsl_multifit_linear_workspace", 0, "gsl_multifit_linear_workspace *", 0},{"_p_gsl_multifit_linear_workspace"},{0}};
 static swig_type_info _swigt__p_gsl_multifit_function_fdf[] = {{"_p_gsl_multifit_function_fdf", 0, "gsl_multifit_function_fdf *", 0},{"_p_gsl_multifit_function_fdf"},{0}};
 static swig_type_info _swigt__p_gsl_multimin_function_fdf[] = {{"_p_gsl_multimin_function_fdf", 0, "gsl_multimin_function_fdf *", 0},{"_p_gsl_multimin_function_fdf"},{0}};
-static swig_type_info _swigt__p_gsl_function_fdf[] = {{"_p_gsl_function_fdf", 0, "gsl_function_fdf *", 0},{"_p_gsl_function_fdf"},{0}};
 static swig_type_info _swigt__p_gsl_multiroot_function_fdf[] = {{"_p_gsl_multiroot_function_fdf", 0, "gsl_multiroot_function_fdf *", 0},{"_p_gsl_multiroot_function_fdf"},{0}};
+static swig_type_info _swigt__p_gsl_function_fdf[] = {{"_p_gsl_function_fdf", 0, "gsl_function_fdf *", 0},{"_p_gsl_function_fdf"},{0}};
 static swig_type_info _swigt__p_gsl_multimin_fdfminimizer[] = {{"_p_gsl_multimin_fdfminimizer", 0, "gsl_multimin_fdfminimizer *", 0},{"_p_gsl_multimin_fdfminimizer"},{0}};
 static swig_type_info _swigt__p_gsl_multimin_fminimizer[] = {{"_p_gsl_multimin_fminimizer", 0, "gsl_multimin_fminimizer *", 0},{"_p_gsl_multimin_fminimizer"},{0}};
 static swig_type_info _swigt__p_gsl_min_fminimizer[] = {{"_p_gsl_min_fminimizer", 0, "gsl_min_fminimizer *", 0},{"_p_gsl_min_fminimizer"},{0}};
-static swig_type_info _swigt__p_gsl_integration_qawo_table[] = {{"_p_gsl_integration_qawo_table", 0, "gsl_integration_qawo_table *", 0},{"_p_gsl_integration_qawo_table"},{0}};
 static swig_type_info _swigt__p_gsl_integration_qaws_table[] = {{"_p_gsl_integration_qaws_table", 0, "gsl_integration_qaws_table *", 0},{"_p_gsl_integration_qaws_table"},{0}};
+static swig_type_info _swigt__p_gsl_integration_qawo_table[] = {{"_p_gsl_integration_qawo_table", 0, "gsl_integration_qawo_table *", 0},{"_p_gsl_integration_qawo_table"},{0}};
+static swig_type_info _swigt__p_gsl_rng[] = {{"_p_gsl_rng", 0, "gsl_rng *", 0},{"_p_gsl_rng"},{0}};
 static swig_type_info _swigt__p_gsl_cheb_series[] = {{"_p_gsl_cheb_series", 0, "gsl_cheb_series *", 0},{"_p_gsl_cheb_series"},{0}};
 static swig_type_info _swigt__p_gsl_odeiv_control_type[] = {{"_p_gsl_odeiv_control_type", 0, "gsl_odeiv_control_type *", 0},{"_p_gsl_odeiv_control_type"},{0}};
 static swig_type_info _swigt__p_gsl_odeiv_evolve[] = {{"_p_gsl_odeiv_evolve", 0, "gsl_odeiv_evolve *", 0},{"_p_gsl_odeiv_evolve"},{0}};
+static swig_type_info _swigt__p_gsl_monte_vegas_state[] = {{"_p_gsl_monte_vegas_state", 0, "gsl_monte_vegas_state *", 0},{"_p_gsl_monte_vegas_state"},{0}};
 static swig_type_info _swigt__p_gsl_matrix[] = {{"_p_gsl_matrix", 0, "gsl_matrix *", 0},{"_p_gsl_matrix"},{0}};
+static swig_type_info _swigt__p_FILE[] = {{"_p_FILE", 0, "FILE *", 0},{"_p_FILE"},{0}};
 static swig_type_info _swigt__p_gsl_odeiv_step_type[] = {{"_p_gsl_odeiv_step_type", 0, "gsl_odeiv_step_type *", 0},{"_p_gsl_odeiv_step_type"},{0}};
 static swig_type_info _swigt__p_gsl_multifit_fdfsolver[] = {{"_p_gsl_multifit_fdfsolver", 0, "gsl_multifit_fdfsolver *", 0},{"_p_gsl_multifit_fdfsolver"},{0}};
 static swig_type_info _swigt__p_gsl_multifit_fsolver[] = {{"_p_gsl_multifit_fsolver", 0, "gsl_multifit_fsolver *", 0},{"_p_gsl_multifit_fsolver"},{0}};
+static swig_type_info _swigt__p_gsl_multiroot_fdfsolver[] = {{"_p_gsl_multiroot_fdfsolver", 0, "gsl_multiroot_fdfsolver *", 0},{"_p_gsl_multiroot_fdfsolver"},{0}};
+static swig_type_info _swigt__p_gsl_multiroot_fsolver[] = {{"_p_gsl_multiroot_fsolver", 0, "gsl_multiroot_fsolver *", 0},{"_p_gsl_multiroot_fsolver"},{0}};
 static swig_type_info _swigt__p_gsl_root_fsolver[] = {{"_p_gsl_root_fsolver", 0, "gsl_root_fsolver *", 0},{"_p_gsl_root_fsolver"},{0}};
 static swig_type_info _swigt__p_gsl_root_fdfsolver[] = {{"_p_gsl_root_fdfsolver", 0, "gsl_root_fdfsolver *", 0},{"_p_gsl_root_fdfsolver"},{0}};
-static swig_type_info _swigt__p_gsl_multiroot_fsolver[] = {{"_p_gsl_multiroot_fsolver", 0, "gsl_multiroot_fsolver *", 0},{"_p_gsl_multiroot_fsolver"},{0}};
-static swig_type_info _swigt__p_gsl_multiroot_fdfsolver[] = {{"_p_gsl_multiroot_fdfsolver", 0, "gsl_multiroot_fdfsolver *", 0},{"_p_gsl_multiroot_fdfsolver"},{0}};
 static swig_type_info _swigt__p_gsl_odeiv_step[] = {{"_p_gsl_odeiv_step", 0, "gsl_odeiv_step *", 0},{"_p_gsl_odeiv_step"},{0}};
 static swig_type_info _swigt__p_gsl_multifit_function[] = {{"_p_gsl_multifit_function", 0, "gsl_multifit_function *", 0},{"_p_gsl_multifit_function"},{0}};
 static swig_type_info _swigt__p_gsl_multimin_function[] = {{"_p_gsl_multimin_function", 0, "gsl_multimin_function *", 0},{"_p_gsl_multimin_function"},{0}};
-static swig_type_info _swigt__p_gsl_function[] = {{"_p_gsl_function", 0, "gsl_function *", 0},{"_p_gsl_function"},{0}};
 static swig_type_info _swigt__p_gsl_multiroot_function[] = {{"_p_gsl_multiroot_function", 0, "gsl_multiroot_function *", 0},{"_p_gsl_multiroot_function"},{0}};
+static swig_type_info _swigt__p_gsl_function[] = {{"_p_gsl_function", 0, "gsl_function *", 0},{"_p_gsl_function"},{0}};
+static swig_type_info _swigt__p_gsl_monte_function[] = {{"_p_gsl_monte_function", 0, "gsl_monte_function *", 0},{"_p_gsl_monte_function"},{0}};
 static swig_type_info _swigt__p_gsl_multifit_fdfsolver_type[] = {{"_p_gsl_multifit_fdfsolver_type", 0, "gsl_multifit_fdfsolver_type *", 0},{"_p_gsl_multifit_fdfsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_multifit_fsolver_type[] = {{"_p_gsl_multifit_fsolver_type", 0, "gsl_multifit_fsolver_type *", 0},{"_p_gsl_multifit_fsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_multimin_fdfminimizer_type[] = {{"_p_gsl_multimin_fdfminimizer_type", 0, "gsl_multimin_fdfminimizer_type *", 0},{"_p_gsl_multimin_fdfminimizer_type"},{0}};
 static swig_type_info _swigt__p_gsl_multimin_fminimizer_type[] = {{"_p_gsl_multimin_fminimizer_type", 0, "gsl_multimin_fminimizer_type *", 0},{"_p_gsl_multimin_fminimizer_type"},{0}};
 static swig_type_info _swigt__p_gsl_multiroot_fdfsolver_type[] = {{"_p_gsl_multiroot_fdfsolver_type", 0, "gsl_multiroot_fdfsolver_type *", 0},{"_p_gsl_multiroot_fdfsolver_type"},{0}};
+static swig_type_info _swigt__p_gsl_multiroot_fsolver_type[] = {{"_p_gsl_multiroot_fsolver_type", 0, "gsl_multiroot_fsolver_type *", 0},{"_p_gsl_multiroot_fsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_root_fsolver_type[] = {{"_p_gsl_root_fsolver_type", 0, "gsl_root_fsolver_type *", 0},{"_p_gsl_root_fsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_root_fdfsolver_type[] = {{"_p_gsl_root_fdfsolver_type", 0, "gsl_root_fdfsolver_type *", 0},{"_p_gsl_root_fdfsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_min_fminimizer_type[] = {{"_p_gsl_min_fminimizer_type", 0, "gsl_min_fminimizer_type *", 0},{"_p_gsl_min_fminimizer_type"},{0}};
-static swig_type_info _swigt__p_gsl_multiroot_fsolver_type[] = {{"_p_gsl_multiroot_fsolver_type", 0, "gsl_multiroot_fsolver_type *", 0},{"_p_gsl_multiroot_fsolver_type"},{0}};
 static swig_type_info _swigt__p_gsl_vector[] = {{"_p_gsl_vector", 0, "gsl_vector *", 0},{"_p_gsl_vector"},{0}};
 
 static swig_type_info *swig_types_initial[] = {
+_swigt__p_gsl_monte_plain_state, 
+_swigt__p_gsl_monte_miser_state, 
 _swigt__p_double, 
 _swigt__p_gsl_odeiv_control, 
 _swigt__p_size_t, 
@@ -9940,38 +9999,42 @@ _swigt__p_gsl_integration_workspace,
 _swigt__p_gsl_multifit_linear_workspace, 
 _swigt__p_gsl_multifit_function_fdf, 
 _swigt__p_gsl_multimin_function_fdf, 
-_swigt__p_gsl_function_fdf, 
 _swigt__p_gsl_multiroot_function_fdf, 
+_swigt__p_gsl_function_fdf, 
 _swigt__p_gsl_multimin_fdfminimizer, 
 _swigt__p_gsl_multimin_fminimizer, 
 _swigt__p_gsl_min_fminimizer, 
-_swigt__p_gsl_integration_qawo_table, 
 _swigt__p_gsl_integration_qaws_table, 
+_swigt__p_gsl_integration_qawo_table, 
+_swigt__p_gsl_rng, 
 _swigt__p_gsl_cheb_series, 
 _swigt__p_gsl_odeiv_control_type, 
 _swigt__p_gsl_odeiv_evolve, 
+_swigt__p_gsl_monte_vegas_state, 
 _swigt__p_gsl_matrix, 
+_swigt__p_FILE, 
 _swigt__p_gsl_odeiv_step_type, 
 _swigt__p_gsl_multifit_fdfsolver, 
 _swigt__p_gsl_multifit_fsolver, 
+_swigt__p_gsl_multiroot_fdfsolver, 
+_swigt__p_gsl_multiroot_fsolver, 
 _swigt__p_gsl_root_fsolver, 
 _swigt__p_gsl_root_fdfsolver, 
-_swigt__p_gsl_multiroot_fsolver, 
-_swigt__p_gsl_multiroot_fdfsolver, 
 _swigt__p_gsl_odeiv_step, 
 _swigt__p_gsl_multifit_function, 
 _swigt__p_gsl_multimin_function, 
-_swigt__p_gsl_function, 
 _swigt__p_gsl_multiroot_function, 
+_swigt__p_gsl_function, 
+_swigt__p_gsl_monte_function, 
 _swigt__p_gsl_multifit_fdfsolver_type, 
 _swigt__p_gsl_multifit_fsolver_type, 
 _swigt__p_gsl_multimin_fdfminimizer_type, 
 _swigt__p_gsl_multimin_fminimizer_type, 
 _swigt__p_gsl_multiroot_fdfsolver_type, 
+_swigt__p_gsl_multiroot_fsolver_type, 
 _swigt__p_gsl_root_fsolver_type, 
 _swigt__p_gsl_root_fdfsolver_type, 
 _swigt__p_gsl_min_fminimizer_type, 
-_swigt__p_gsl_multiroot_fsolver_type, 
 _swigt__p_gsl_vector, 
 0
 };
@@ -9980,6 +10043,9 @@ _swigt__p_gsl_vector,
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (END) -------- */
 
 static swig_const_info swig_const_table[] = {
+{ SWIG_PY_INT,     (char *)"GSL_VEGAS_MODE_IMPORTANCE", (long) GSL_VEGAS_MODE_IMPORTANCE, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"GSL_VEGAS_MODE_IMPORTANCE_ONLY", (long) GSL_VEGAS_MODE_IMPORTANCE_ONLY, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"GSL_VEGAS_MODE_STRATIFIED", (long) GSL_VEGAS_MODE_STRATIFIED, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"GSL_INTEG_COSINE", (long) GSL_INTEG_COSINE, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"GSL_INTEG_SINE", (long) GSL_INTEG_SINE, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"GSL_INTEG_GAUSS15", (long) GSL_INTEG_GAUSS15, 0, 0, 0},
