@@ -53,6 +53,16 @@ class cheb_series(_workspace):
     #_eval_mode_e   = _callback.gsl_cheb_eval_mode_e
     _calc_deriv   = _callback.gsl_cheb_calc_deriv
     _calc_integ   = _callback.gsl_cheb_calc_integ
+    _get_coeff = _callback.pygsl_cheb_get_coefficients
+    _set_coeff = _callback.pygsl_cheb_set_coefficients
+    _get_a = _callback.pygsl_cheb_get_a
+    _set_a = _callback.pygsl_cheb_set_a
+    _get_b = _callback.pygsl_cheb_get_b
+    _set_b = _callback.pygsl_cheb_set_b
+    _get_f = _callback.pygsl_cheb_get_f
+    _set_f = _callback.pygsl_cheb_set_f
+    _get_order_sp = _callback.pygsl_cheb_get_order_sp
+    _set_order_sp = _callback.pygsl_cheb_set_order_sp
 
     def __init__(self, size):
         """
@@ -150,6 +160,71 @@ class cheb_series(_workspace):
         tmp = cheb_series(self._size)
         self._calc_integ(tmp._ptr, self._ptr)
         return tmp
+
+    def get_coefficients(self):
+        """
+        Get the chebyshev coefficients. 
+        """
+        return self._get_coeff(self._ptr)
+
+
+    def set_coefficients(self, coefs):
+        """
+        Sets the chebyshev coefficients. 
+        """
+        return self._set_coeff(self._ptr, coefs)
+
+    def get_a(self):
+        """
+        Get the lower boundary of the current representation
+        """
+        return self._get_a(self._ptr)
+
+    def set_a(self, a):
+        """
+        Set the lower boundary of the current representation
+        """
+        return self._set_a(self._ptr, a)
+
+    def get_b(self):
+        """
+        Get the upper boundary of the current representation
+        """
+        return self._get_b(self._ptr)
+
+    def set_b(self, a):
+        """
+        Set the upper boundary of the current representation
+        """
+        return self._set_b(self._ptr, a)
+
+    def get_f(self):
+        """
+        Get the value f (what is it ?) The documentation does not tell anything
+        about it.
+        """
+        return self._get_f(self._ptr)
+
+    def set_f(self, a):
+        """
+        Set the value f (what is it ?)
+        """
+        return self._set_f(self._ptr, a)
+
+    def get_order_sp(self):
+        """
+        Get the value f (what is it ?) The documentation does not tell anything
+        about it.
+        """
+        return self._get_order_sp(self._ptr)
+
+    def set_order_sp(self, a):
+        """
+        Set the value f (what is it ?)
+        """
+        return self._set_order_sp(self._ptr, a)
+
+
 
 if __name__ == '__main__':
     def f(x, p):
