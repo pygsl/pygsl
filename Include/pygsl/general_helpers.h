@@ -27,12 +27,21 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info);
 int 
 PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info);
 
+#define PyGSL_PYLONG_TO_ULONG(object, result, info)        \
+  ( PyLong_Check((object)) )                               \
+  ?                                                        \
+   (*(result))   = PyLong_AsUnsignedLong((object)), GSL_SUCCESS \
+  :  PyGSL_pylong_to_ulong((object), (result), (info))  
+
+int 
+PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info *info);
+
 /*
  * Checks following conditions:
  *  For No Arguments: Got Py_None and No Error
  *  For 1  Argument:  Got an Object, No None  and No Error 
  *         (Is None a legal return for one object? I think so.) On the other hand its a
- *         callback and Conversions are waiting, so its good not to accept None. 
+ *         callback and Conversions are waiting, so its good not to accept None.
  * For 2  Arguments: Got a tuple of approbriate size
  */
 #define PyGSL_CHECK_PYTHON_RETURN(object, nargs, info)                              \
@@ -49,4 +58,12 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
 
 int
 PyGSL_check_python_return(PyObject *object, int nargs, PyGSL_error_info  *info);
+
+/*
+ * PyGSL automatically names objects using their name method. Some names use
+ * chars which must not appear in names of python objects. This function 
+ * replaces these strings with an other value. E.g. '-' -> '_'
+ */
+void
+PyGSL_clear_name(char *name, int size);
 #endif /* PyGSL_GENERAL_HELPERS_H */

@@ -21,12 +21,12 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
      char *formatstring = "For the callback %s evaluted  for function %s, an error occured : %s";
 
      FUNC_MESS_BEGIN();    
-     callback          = info->	 callback;
+     callback = info->callback;
      if(info->message){
-	  message	       = info->	 message;          
+	  message = info->message;          
      }
      if(info->error_description){
-	  error_description = info->	 error_description;
+	  error_description = info->error_description;
      }
      
 
@@ -69,11 +69,6 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
      /* Py_XDECREF(name_o);  ??? */
 }
 
-#define PyGSL_PYFLOAT_TO_DOUBLE(object, result, info)      \
-  ( PyFloat_Check((object)) )                              \
-  ?                                                        \
-   (*(result))   = PyFloat_AsDouble((object)), GSL_SUCCESS \
-  :  PyGSL_pyfloat_to_double((object), (result), (info))  
 
 int 
 PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info)
@@ -96,6 +91,35 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
      *result   = PyFloat_AsDouble(object1);
      if(DEBUG>2){
 	  fprintf(stderr, "\t\t%s found a double of %f\n", __FUNCTION__, *result);
+     }
+     Py_DECREF(object1);
+
+     PyGSL_INCREASE_float_transform_counter();
+
+     return GSL_SUCCESS;
+}
+
+int 
+PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info *info)
+{
+     
+     PyObject *object1;
+     char *msg="The object returned to the GSL Function could not be converted to unsigned long";
+
+
+     object1 = PyNumber_Long(object);
+     if(object1 == NULL){
+	 *result = 0;
+	 if(info){
+	      info->error_description = msg;
+	      return PyGSL_set_error_string_for_callback(info);
+	 }
+	 GSL_ERROR(msg, GSL_EBADFUNC);
+     }
+
+     *result   = PyLong_AsUnsignedLong(object1);
+     if(DEBUG>2){
+	  fprintf(stderr, "\t\t%s found a double of %ld\n", __FUNCTION__, *result);
      }
      Py_DECREF(object1);
 
@@ -196,5 +220,12 @@ PyGSL_check_python_return(PyObject *object, int nargs, PyGSL_error_info  *info)
      return flag;
 }
 
-
-
+void
+PyGSL_clear_name(char *name, int size)
+{
+     int j;
+     for(j = 0; j<size; j++){
+	  if(name[j] == '-')
+	       name[j] = '_';
+     }
+}
