@@ -68,12 +68,13 @@
 
   <h2>Using pygsl</h2>
 
-  <!--
-  <b>Do test the interface in the distribution root without changing
-  the module path -- use <tt>test.py</tt> instead !</b> Due to the
-  existence of the file <tt>pygsl/__init__.py</tt> python will use
-  this source directory as module, instead of the installed code.
-  -->
+  
+  <b>Do NOT test the interface in the distribution root directory! -- please
+  install it first and then change to the tests directory and 
+  execute  <tt>python run_test.py</tt></b> If you want to execute it in the
+  distribution root directory, please run python setup.py build_ext -i first!
+  It will put the requried binary files into the pygsl directory.
+  
   <p>Just write in python
   <br><tt>import pygsl.sf</tt>
   <br><tt>print "%g+/-%g"%pygsl.sf.erf(1)</tt>
