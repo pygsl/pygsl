@@ -787,178 +787,780 @@ static void * eta_e_data [] = { (void *) gsl_sf_eta_e, (void *) gsl_sf_eta_e };
 static void * eta_data [] = { (void *) gsl_sf_eta, (void *) gsl_sf_eta };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_d__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_d__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  1\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_d__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, 
                                                  PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dd__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_dd__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_dd__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                   PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_ddd__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_ddd__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_ddd__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                    PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dddd__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_dddd__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  4\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_dddd__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_ddddm__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_ddddm__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  5\n"
+"    Number of Output Arguments:  1"
+"\n\n"
+" Argument 5 is a gsl_mode_t, valid parameters are:\n	sf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_pd_ddddm__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dddm__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_dddm__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  4\n"
+"    Number of Output Arguments:  1"
+"\n\n"
+" Argument 4 is a gsl_mode_t, valid parameters are:\n	sf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_pd_dddm__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_ddm__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_ddm__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  1"
+"\n\n"
+" Argument 3 is a gsl_mode_t, valid parameters are:\n	sf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_pd_ddm__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
                                                    PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_di__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_di__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_di__one_types [] = { PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
                                                   PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dm__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_dm__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  1"
+"\n\n"
+" Argument 2 is a gsl_mode_t, valid parameters are:\n	sf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_pd_dm__one_types [] = { PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
                                                   PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dui__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_dui__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_dui__one_types [] = { PyArray_FLOAT, PyArray_UINT, PyArray_FLOAT, 
                                                    PyArray_DOUBLE, PyArray_UINT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_i__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_i__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  1\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_i__one_types [] = { PyArray_INT, PyArray_FLOAT, 
                                                  PyArray_INT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_id__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_id__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_id__one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                   PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_idd__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_idd__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_idd__one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                    PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_iid__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_iid__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_iid__one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                    PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_iidd__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_iidd__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  4\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_iidd__one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                     PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_iiiiii__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_iiiiii__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  6\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_iiiiii__one_types [] = { PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_FLOAT, 
                                                       PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_iiiiiiiii__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_iiiiiiiii__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  9\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_iiiiiiiii__one_types [] = { PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_FLOAT, 
                                                          PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_ui__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_ui__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  1\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_ui__one_types [] = { PyArray_UINT, PyArray_FLOAT, 
                                                   PyArray_UINT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_uiui__one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_pd_uiui__one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  1\n";
+
+
 static char PyGSL_sf_ufunc_pd_uiui__one_types [] = { PyArray_UINT, PyArray_UINT, PyArray_FLOAT, 
                                                     PyArray_UINT, PyArray_UINT, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_d_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_d_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  1\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 1 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_d_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                    PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_d_rdd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_d_rdd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  1\n"
+"    Number of Output Arguments:  3"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 1 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_d_rdd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_ddd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_dd_ddd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  3"
+"\n\n"
+"The error flag is discarded.\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_dd_ddd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_dd_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 2 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_dd_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_rdd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_dd_rdd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  3"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 2 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_dd_rdd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ddd_erd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_ddd_erd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  3"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 - 3 resemble a gsl_result_e10 argument,\n\twhich is argument 3 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_ddd_erd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, 
                                                       PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ddd_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_ddd_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 3 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_ddd_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dddd_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_dddd_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  4\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 4 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_dddd_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                       PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ddddm_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_ddddm_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  5\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+" Argument 5 is a gsl_mode_t, valid parameters are:\n	sf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 5 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_ddddm_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                        PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  4\n"
+"    Number of Output Arguments: 10"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 4 of the C argument list\n"
+"Return Arguments 3 and 4 resemble a gsl_result argument,\n\twhich is  argument 5 of the C argument list\n"
+"Return Arguments 5 and 6 resemble a gsl_result argument,\n\twhich is  argument 6 of the C argument list\n"
+"Return Arguments 7 and 8 resemble a gsl_result argument,\n\twhich is  argument 7 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                               PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dddm_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_dddm_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  4\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+" Argument 4 is a gsl_mode_t, valid parameters are:\n	sf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 4 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_dddm_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                       PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ddm_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_ddm_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+" Argument 3 is a gsl_mode_t, valid parameters are:\n	sf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 3 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_ddm_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_di_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_di_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 2 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_di_rd_one_types [] = { PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                     PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dm_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_dm_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+" Argument 2 is a gsl_mode_t, valid parameters are:\n	sf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 2 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_dm_rd_one_types [] = { PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                     PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dui_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_dui_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 2 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_dui_rd_one_types [] = { PyArray_FLOAT, PyArray_UINT, PyArray_FLOAT, PyArray_FLOAT, 
                                                      PyArray_DOUBLE, PyArray_UINT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_i_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_i_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  1\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 1 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_i_rd_one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                    PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_id_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_id_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 2 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_id_rd_one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                     PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_idd_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_idd_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 3 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_idd_rd_one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                      PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iid_erd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_iid_erd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  3"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 - 3 resemble a gsl_result_e10 argument,\n\twhich is argument 3 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_iid_erd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, 
                                                       PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iid_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_iid_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  3\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 3 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_iid_rd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                      PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iidd_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_iidd_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  4\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 4 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_iidd_rd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
                                                       PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iiiiii_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_iiiiii_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  6\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 6 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_iiiiii_rd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                         PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  9\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 9 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
                                                            PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ui_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_ui_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  1\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 1 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_ui_rd_one_types [] = { PyArray_UINT, PyArray_FLOAT, PyArray_FLOAT, 
                                                     PyArray_UINT, PyArray_DOUBLE, PyArray_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_uiui_rd_one_data[] = {NULL, NULL};
+
+
+static  char * PyGSL_sf_ufunc_qi_uiui_rd_one_doc =
+"Special function Wrapper.  See the  GSL reference document for the description\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\n"
+"input argument can be either a single value or an array.\n"
+"\n"
+"    Number of Input  Arguments:  2\n"
+"    Number of Output Arguments:  2"
+"\n\n"
+"The error flag is discarded.\n"
+"Return Arguments 1 and 2 resemble a gsl_result argument,\n\twhich is  argument 2 of the C argument list\n"
+"\n";
+
+
 static char PyGSL_sf_ufunc_qi_uiui_rd_one_types [] = { PyArray_UINT, PyArray_UINT, PyArray_FLOAT, PyArray_FLOAT, 
                                                       PyArray_UINT, PyArray_UINT, PyArray_DOUBLE, PyArray_DOUBLE };
 

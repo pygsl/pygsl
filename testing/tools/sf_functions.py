@@ -8,6 +8,7 @@ prefix = os.path.join(string.strip(prefix), 'include')
 p = prototype_collector(prefix)
 # Functions to exclude from the whole list.
 exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and output. not properly recognized.
+                # use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
                 'gsl_sf_result_smash_e', # the only one to use a const pointer as input. Not recognized by the tool.
                 # Complex Functions are wrapped manually.
                 'gsl_sf_complex_dilog_e',

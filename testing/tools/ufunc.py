@@ -37,6 +37,9 @@ class Argument:
     def IsResult(self):
         return self._type == "gsl_sf_result"
 
+    def IsGSLMode(self):
+        return self._type == "gsl_mode_t"
+    
     def IsResulte10(self):
         return self._type == "gsl_sf_result_e10"
 
@@ -221,26 +224,32 @@ class PyUFunc:
         # use return as normal value to return to the user    
         returntype = 'p'
         if self.return_is_error_flag:
-            # 
             returntype = 'q'
         returntype +=   return_letter  
         return letters, minorletters, returntype
     
     def GetPyUFuncEvaluatorOne(self):
+        """
+        """
         letters, minorletters, returntype = self._GetFuncNameFromLetters()
         return "PyGSL_sf_ufunc_%s_%s_one" % (returntype, letters)
         
     def GetPyUFuncEvaluatorNames(self):
+        """
+        """
         letters, minorletters, returntype = self._GetFuncNameFromLetters()
         return (("PyGSL_sf_ufunc_%s_%s_as_%s" % (returntype, minorletters, letters,)) ,
                 ("PyGSL_sf_ufunc_%s_%s" % (returntype, letters)))
         
     def WriteUFuncObjectHelpersArrayData(self):
+        """
+        
+        """
         c = StringIO()
         save = sys.stdout
         sys.stdout = c
-        try:        
-            name = self.GetPyUFuncEvaluatorOne() + '_data'        
+        try:
+            name = self.GetPyUFuncEvaluatorOne() + '_data'
             tmp = self.GetPyUFuncEvaluatorNames()
             print "%s[0] = %s;" % (name, tmp[0])
             print "%s[1] = %s;" % (name, tmp[1])
@@ -249,6 +258,53 @@ class PyUFunc:
         finally:
             sys.stdout = save
 
+    def __WriteExtraInfo(self, argument, argnumber, c_argnumber, additional = ""):
+        extrainfo = ""
+        i = argument
+        if i.IsGSLMode():
+            tmp = '"%s Argument %d is a gsl_mode_t, valid parameters are:\\n\tsf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\\n"\n'
+            extrainfo += tmp % (additional, argnumber)
+        if i.IsResult():
+            tmp = '"%s Arguments %d and %d resemble a gsl_result argument,\\n\\twhich is  argument %d of the C argument list\\n"\n'
+            extrainfo += tmp % (additional, argnumber - 1, argnumber, c_argnumber + 1)
+        if i.IsResulte10():
+            tmp = '"%s Arguments %d - %d resemble a gsl_result_e10 argument,\\n\\twhich is argument %d of the C argument list\\n"\n'
+            extrainfo += tmp % (additional, argnumber - 2, argnumber, c_argnumber + 1)
+        return extrainfo
+    
+    def WriteUFuncObjectDoc(self):
+        inargs = 0
+        outargs = 0
+        extrainfo = ""    
+        for n in range(len(self.in_args)):
+            i = self.in_args[n]
+            inargs += i.GetNumberInArgs()
+            extrainfo += self.__WriteExtraInfo(i, inargs, n)
+        if not self.return_is_error_flag:
+            outargs += 1
+        else:
+            extrainfo += '"The error flag is discarded.\\n"\n'
+        for n in range(len(self.out_args)):
+            i = self.out_args[n]
+            outargs += i.GetNumberOutArgs()
+            extrainfo += self.__WriteExtraInfo(i, outargs, len(self.in_args) + n, "Return")
+
+        if extrainfo:
+            extrainfo = '"\n"\\n\\n"\n' + extrainfo + '"'
+
+        name = self.GetPyUFuncEvaluatorOne() + "_doc"
+
+        ret ="""
+static  char * %s =
+"Special function Wrapper.  See the  GSL reference document for the description\\n"
+"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\\n"
+"input argument can be either a single value or an array.\\n"
+"\\n"
+"    Number of Input  Arguments: %2d\\n"
+"    Number of Output Arguments: %2d%s\\n";
+"""  % (name, inargs, outargs, extrainfo)
+        return ret
+    
     def WriteUFuncObjectHelpers(self):
         c = StringIO()
         save = sys.stdout
@@ -256,8 +312,11 @@ class PyUFunc:
         try:
             name = self.GetPyUFuncEvaluatorOne()
             print "static PyUFuncGenericFunction %s_data[] = {NULL, NULL};" % name
+            print ""
 
-
+            print self.WriteUFuncObjectDoc()
+            print ""
+            
             tmp = "static char %s_types [] = {" % name
             indent = ' ' * (len(tmp))
             print tmp,
@@ -306,6 +365,7 @@ class PyUFunc:
             #                              );
             evaluator_name = self.GetPyUFuncEvaluatorOne()
             pythonname = self.GetPythonName()
+            docname = evaluator_name + "_doc"
             tmp = "f = PyUFunc_FromFuncAndData("
             indent = " " * len(tmp)
             print tmp,  "%s_data" %evaluator_name, ","
@@ -325,7 +385,7 @@ class PyUFunc:
             print indent, "%d, /* out args */" % n
             print indent, "PyUFunc_None,"
             print indent, '"%s",' % pythonname
-            print indent, "NULL, /* doc string */"
+            print indent, docname, ","
             print indent, "0 /*check return*/); "
             print 'PyDict_SetItemString(sf_dict, "%s", f);' % pythonname
             print 'Py_DECREF(f);'

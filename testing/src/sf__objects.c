@@ -6,7 +6,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_Ai_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Ai_e", f);
 Py_DECREF(f);
@@ -19,7 +19,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_Ai",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Ai", f);
 Py_DECREF(f);
@@ -32,7 +32,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_Bi_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Bi_e", f);
 Py_DECREF(f);
@@ -45,7 +45,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_Bi",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Bi", f);
 Py_DECREF(f);
@@ -58,7 +58,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_Ai_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Ai_scaled_e", f);
 Py_DECREF(f);
@@ -71,7 +71,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_Ai_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Ai_scaled", f);
 Py_DECREF(f);
@@ -84,7 +84,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_Bi_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Bi_scaled_e", f);
 Py_DECREF(f);
@@ -97,7 +97,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_Bi_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Bi_scaled", f);
 Py_DECREF(f);
@@ -110,7 +110,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_Ai_deriv_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Ai_deriv_e", f);
 Py_DECREF(f);
@@ -123,7 +123,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_Ai_deriv",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Ai_deriv", f);
 Py_DECREF(f);
@@ -136,7 +136,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_Bi_deriv_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Bi_deriv_e", f);
 Py_DECREF(f);
@@ -149,7 +149,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_Bi_deriv",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Bi_deriv", f);
 Py_DECREF(f);
@@ -162,7 +162,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_Ai_deriv_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Ai_deriv_scaled_e", f);
 Py_DECREF(f);
@@ -175,7 +175,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_Ai_deriv_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Ai_deriv_scaled", f);
 Py_DECREF(f);
@@ -188,7 +188,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_Bi_deriv_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Bi_deriv_scaled_e", f);
 Py_DECREF(f);
@@ -201,7 +201,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_Bi_deriv_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_Bi_deriv_scaled", f);
 Py_DECREF(f);
@@ -214,7 +214,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_zero_Ai_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_zero_Ai_e", f);
 Py_DECREF(f);
@@ -227,7 +227,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_zero_Ai",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_zero_Ai", f);
 Py_DECREF(f);
@@ -240,7 +240,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_zero_Bi_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_zero_Bi_e", f);
 Py_DECREF(f);
@@ -253,7 +253,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_zero_Bi",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_zero_Bi", f);
 Py_DECREF(f);
@@ -266,7 +266,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_zero_Ai_deriv_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_zero_Ai_deriv_e", f);
 Py_DECREF(f);
@@ -279,7 +279,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_zero_Ai_deriv",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_zero_Ai_deriv", f);
 Py_DECREF(f);
@@ -292,7 +292,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "airy_zero_Bi_deriv_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_zero_Bi_deriv_e", f);
 Py_DECREF(f);
@@ -305,7 +305,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "airy_zero_Bi_deriv",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "airy_zero_Bi_deriv", f);
 Py_DECREF(f);
@@ -318,7 +318,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_J0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_J0_e", f);
 Py_DECREF(f);
@@ -331,7 +331,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_J0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_J0", f);
 Py_DECREF(f);
@@ -344,7 +344,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_J1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_J1_e", f);
 Py_DECREF(f);
@@ -357,7 +357,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_J1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_J1", f);
 Py_DECREF(f);
@@ -370,7 +370,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Jn_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Jn_e", f);
 Py_DECREF(f);
@@ -383,7 +383,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Jn",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Jn", f);
 Py_DECREF(f);
@@ -396,7 +396,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Y0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Y0_e", f);
 Py_DECREF(f);
@@ -409,7 +409,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Y0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Y0", f);
 Py_DECREF(f);
@@ -422,7 +422,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Y1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Y1_e", f);
 Py_DECREF(f);
@@ -435,7 +435,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Y1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Y1", f);
 Py_DECREF(f);
@@ -448,7 +448,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Yn_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Yn_e", f);
 Py_DECREF(f);
@@ -461,7 +461,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Yn",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Yn", f);
 Py_DECREF(f);
@@ -474,7 +474,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_I0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_I0_e", f);
 Py_DECREF(f);
@@ -487,7 +487,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_I0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_I0", f);
 Py_DECREF(f);
@@ -500,7 +500,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_I1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_I1_e", f);
 Py_DECREF(f);
@@ -513,7 +513,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_I1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_I1", f);
 Py_DECREF(f);
@@ -526,7 +526,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_In_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_In_e", f);
 Py_DECREF(f);
@@ -539,7 +539,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_In",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_In", f);
 Py_DECREF(f);
@@ -552,7 +552,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_I0_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_I0_scaled_e", f);
 Py_DECREF(f);
@@ -565,7 +565,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_I0_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_I0_scaled", f);
 Py_DECREF(f);
@@ -578,7 +578,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_I1_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_I1_scaled_e", f);
 Py_DECREF(f);
@@ -591,7 +591,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_I1_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_I1_scaled", f);
 Py_DECREF(f);
@@ -604,7 +604,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_In_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_In_scaled_e", f);
 Py_DECREF(f);
@@ -617,7 +617,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_In_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_In_scaled", f);
 Py_DECREF(f);
@@ -630,7 +630,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_K0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_K0_e", f);
 Py_DECREF(f);
@@ -643,7 +643,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_K0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_K0", f);
 Py_DECREF(f);
@@ -656,7 +656,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_K1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_K1_e", f);
 Py_DECREF(f);
@@ -669,7 +669,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_K1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_K1", f);
 Py_DECREF(f);
@@ -682,7 +682,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Kn_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Kn_e", f);
 Py_DECREF(f);
@@ -695,7 +695,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Kn",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Kn", f);
 Py_DECREF(f);
@@ -708,7 +708,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_K0_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_K0_scaled_e", f);
 Py_DECREF(f);
@@ -721,7 +721,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_K0_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_K0_scaled", f);
 Py_DECREF(f);
@@ -734,7 +734,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_K1_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_K1_scaled_e", f);
 Py_DECREF(f);
@@ -747,7 +747,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_K1_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_K1_scaled", f);
 Py_DECREF(f);
@@ -760,7 +760,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Kn_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Kn_scaled_e", f);
 Py_DECREF(f);
@@ -773,7 +773,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Kn_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Kn_scaled", f);
 Py_DECREF(f);
@@ -786,7 +786,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_j0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_j0_e", f);
 Py_DECREF(f);
@@ -799,7 +799,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_j0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_j0", f);
 Py_DECREF(f);
@@ -812,7 +812,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_j1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_j1_e", f);
 Py_DECREF(f);
@@ -825,7 +825,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_j1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_j1", f);
 Py_DECREF(f);
@@ -838,7 +838,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_j2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_j2_e", f);
 Py_DECREF(f);
@@ -851,7 +851,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_j2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_j2", f);
 Py_DECREF(f);
@@ -864,7 +864,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_jl_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_jl_e", f);
 Py_DECREF(f);
@@ -877,7 +877,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_jl",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_jl", f);
 Py_DECREF(f);
@@ -890,7 +890,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_y0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_y0_e", f);
 Py_DECREF(f);
@@ -903,7 +903,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_y0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_y0", f);
 Py_DECREF(f);
@@ -916,7 +916,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_y1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_y1_e", f);
 Py_DECREF(f);
@@ -929,7 +929,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_y1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_y1", f);
 Py_DECREF(f);
@@ -942,7 +942,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_y2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_y2_e", f);
 Py_DECREF(f);
@@ -955,7 +955,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_y2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_y2", f);
 Py_DECREF(f);
@@ -968,7 +968,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_yl_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_yl_e", f);
 Py_DECREF(f);
@@ -981,7 +981,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_yl",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_yl", f);
 Py_DECREF(f);
@@ -994,7 +994,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_i0_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_i0_scaled_e", f);
 Py_DECREF(f);
@@ -1007,7 +1007,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_i0_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_i0_scaled", f);
 Py_DECREF(f);
@@ -1020,7 +1020,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_i1_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_i1_scaled_e", f);
 Py_DECREF(f);
@@ -1033,7 +1033,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_i1_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_i1_scaled", f);
 Py_DECREF(f);
@@ -1046,7 +1046,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_i2_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_i2_scaled_e", f);
 Py_DECREF(f);
@@ -1059,7 +1059,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_i2_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_i2_scaled", f);
 Py_DECREF(f);
@@ -1072,7 +1072,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_il_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_il_scaled_e", f);
 Py_DECREF(f);
@@ -1085,7 +1085,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_il_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_il_scaled", f);
 Py_DECREF(f);
@@ -1098,7 +1098,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_k0_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_k0_scaled_e", f);
 Py_DECREF(f);
@@ -1111,7 +1111,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_k0_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_k0_scaled", f);
 Py_DECREF(f);
@@ -1124,7 +1124,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_k1_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_k1_scaled_e", f);
 Py_DECREF(f);
@@ -1137,7 +1137,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_k1_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_k1_scaled", f);
 Py_DECREF(f);
@@ -1150,7 +1150,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_k2_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_k2_scaled_e", f);
 Py_DECREF(f);
@@ -1163,7 +1163,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_k2_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_k2_scaled", f);
 Py_DECREF(f);
@@ -1176,7 +1176,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_kl_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_kl_scaled_e", f);
 Py_DECREF(f);
@@ -1189,7 +1189,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_kl_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_kl_scaled", f);
 Py_DECREF(f);
@@ -1202,7 +1202,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Jnu_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Jnu_e", f);
 Py_DECREF(f);
@@ -1215,7 +1215,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Jnu",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Jnu", f);
 Py_DECREF(f);
@@ -1228,7 +1228,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Ynu_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Ynu_e", f);
 Py_DECREF(f);
@@ -1241,7 +1241,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Ynu",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Ynu", f);
 Py_DECREF(f);
@@ -1254,7 +1254,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Inu_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Inu_scaled_e", f);
 Py_DECREF(f);
@@ -1267,7 +1267,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Inu_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Inu_scaled", f);
 Py_DECREF(f);
@@ -1280,7 +1280,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Inu_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Inu_e", f);
 Py_DECREF(f);
@@ -1293,7 +1293,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Inu",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Inu", f);
 Py_DECREF(f);
@@ -1306,7 +1306,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Knu_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Knu_scaled_e", f);
 Py_DECREF(f);
@@ -1319,7 +1319,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Knu_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Knu_scaled", f);
 Py_DECREF(f);
@@ -1332,7 +1332,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_Knu_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Knu_e", f);
 Py_DECREF(f);
@@ -1345,7 +1345,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_Knu",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_Knu", f);
 Py_DECREF(f);
@@ -1358,7 +1358,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_lnKnu_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_lnKnu_e", f);
 Py_DECREF(f);
@@ -1371,7 +1371,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_lnKnu",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_lnKnu", f);
 Py_DECREF(f);
@@ -1384,7 +1384,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_zero_J0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_zero_J0_e", f);
 Py_DECREF(f);
@@ -1397,7 +1397,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_zero_J0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_zero_J0", f);
 Py_DECREF(f);
@@ -1410,7 +1410,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_zero_J1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_zero_J1_e", f);
 Py_DECREF(f);
@@ -1423,7 +1423,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_zero_J1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_zero_J1", f);
 Py_DECREF(f);
@@ -1436,7 +1436,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "bessel_zero_Jnu_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_zero_Jnu_e", f);
 Py_DECREF(f);
@@ -1449,7 +1449,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "bessel_zero_Jnu",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "bessel_zero_Jnu", f);
 Py_DECREF(f);
@@ -1462,7 +1462,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "clausen_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "clausen_e", f);
 Py_DECREF(f);
@@ -1475,7 +1475,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "clausen",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "clausen", f);
 Py_DECREF(f);
@@ -1488,7 +1488,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iiiiii_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "coupling_3j_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iiiiii_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coupling_3j_e", f);
 Py_DECREF(f);
@@ -1501,7 +1501,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iiiiii__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "coupling_3j",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iiiiii__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coupling_3j", f);
 Py_DECREF(f);
@@ -1514,7 +1514,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iiiiii_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "coupling_6j_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iiiiii_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coupling_6j_e", f);
 Py_DECREF(f);
@@ -1527,7 +1527,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iiiiii__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "coupling_6j",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iiiiii__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coupling_6j", f);
 Py_DECREF(f);
@@ -1540,7 +1540,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iiiiii_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "coupling_RacahW_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iiiiii_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coupling_RacahW_e", f);
 Py_DECREF(f);
@@ -1553,7 +1553,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iiiiii__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "coupling_RacahW",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iiiiii__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coupling_RacahW", f);
 Py_DECREF(f);
@@ -1566,7 +1566,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "coupling_9j_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coupling_9j_e", f);
 Py_DECREF(f);
@@ -1579,7 +1579,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iiiiiiiii__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "coupling_9j",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iiiiiiiii__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coupling_9j", f);
 Py_DECREF(f);
@@ -1592,7 +1592,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hydrogenicR_1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hydrogenicR_1_e", f);
 Py_DECREF(f);
@@ -1605,7 +1605,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hydrogenicR_1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hydrogenicR_1", f);
 Py_DECREF(f);
@@ -1618,7 +1618,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iidd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hydrogenicR_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iidd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hydrogenicR_e", f);
 Py_DECREF(f);
@@ -1631,7 +1631,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iidd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hydrogenicR",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iidd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hydrogenicR", f);
 Py_DECREF(f);
@@ -1644,7 +1644,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_data ,
                              10, /* out args */
                              PyUFunc_None,
                              "coulomb_wave_FG_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coulomb_wave_FG_e", f);
 Py_DECREF(f);
@@ -1657,7 +1657,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "coulomb_CL_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "coulomb_CL_e", f);
 Py_DECREF(f);
@@ -1670,7 +1670,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "dawson_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "dawson_e", f);
 Py_DECREF(f);
@@ -1683,7 +1683,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "dawson",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "dawson", f);
 Py_DECREF(f);
@@ -1696,7 +1696,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "debye_1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "debye_1_e", f);
 Py_DECREF(f);
@@ -1709,7 +1709,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "debye_1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "debye_1", f);
 Py_DECREF(f);
@@ -1722,7 +1722,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "debye_2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "debye_2_e", f);
 Py_DECREF(f);
@@ -1735,7 +1735,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "debye_2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "debye_2", f);
 Py_DECREF(f);
@@ -1748,7 +1748,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "debye_3_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "debye_3_e", f);
 Py_DECREF(f);
@@ -1761,7 +1761,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "debye_3",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "debye_3", f);
 Py_DECREF(f);
@@ -1774,7 +1774,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "debye_4_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "debye_4_e", f);
 Py_DECREF(f);
@@ -1787,7 +1787,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "debye_4",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "debye_4", f);
 Py_DECREF(f);
@@ -1800,7 +1800,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "dilog_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "dilog_e", f);
 Py_DECREF(f);
@@ -1813,7 +1813,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "dilog",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "dilog", f);
 Py_DECREF(f);
@@ -1826,7 +1826,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "multiply_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "multiply_e", f);
 Py_DECREF(f);
@@ -1839,7 +1839,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "multiply",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "multiply", f);
 Py_DECREF(f);
@@ -1852,7 +1852,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "multiply_err_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "multiply_err_e", f);
 Py_DECREF(f);
@@ -1865,7 +1865,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_Kcomp_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_Kcomp_e", f);
 Py_DECREF(f);
@@ -1878,7 +1878,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_Kcomp",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_Kcomp", f);
 Py_DECREF(f);
@@ -1891,7 +1891,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_Ecomp_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_Ecomp_e", f);
 Py_DECREF(f);
@@ -1904,7 +1904,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_Ecomp",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_Ecomp", f);
 Py_DECREF(f);
@@ -1917,7 +1917,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_F_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_F_e", f);
 Py_DECREF(f);
@@ -1930,7 +1930,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ddm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_F",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ddm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_F", f);
 Py_DECREF(f);
@@ -1943,7 +1943,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_E_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_E_e", f);
 Py_DECREF(f);
@@ -1956,7 +1956,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ddm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_E",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ddm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_E", f);
 Py_DECREF(f);
@@ -1969,7 +1969,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_P_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_P_e", f);
 Py_DECREF(f);
@@ -1982,7 +1982,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dddm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_P",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dddm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_P", f);
 Py_DECREF(f);
@@ -1995,7 +1995,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_D_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_D_e", f);
 Py_DECREF(f);
@@ -2008,7 +2008,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dddm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_D",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dddm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_D", f);
 Py_DECREF(f);
@@ -2021,7 +2021,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_RC_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_RC_e", f);
 Py_DECREF(f);
@@ -2034,7 +2034,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ddm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_RC",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ddm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_RC", f);
 Py_DECREF(f);
@@ -2047,7 +2047,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_RD_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_RD_e", f);
 Py_DECREF(f);
@@ -2060,7 +2060,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dddm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_RD",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dddm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_RD", f);
 Py_DECREF(f);
@@ -2073,7 +2073,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_RF_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_RF_e", f);
 Py_DECREF(f);
@@ -2086,7 +2086,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dddm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_RF",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dddm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_RF", f);
 Py_DECREF(f);
@@ -2099,7 +2099,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddddm_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "ellint_RJ_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddddm_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_RJ_e", f);
 Py_DECREF(f);
@@ -2112,7 +2112,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ddddm__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "ellint_RJ",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ddddm__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "ellint_RJ", f);
 Py_DECREF(f);
@@ -2125,7 +2125,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_ddd_one_data ,
                              3, /* out args */
                              PyUFunc_None,
                              "elljac_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_ddd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "elljac_e", f);
 Py_DECREF(f);
@@ -2138,7 +2138,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "erfc_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "erfc_e", f);
 Py_DECREF(f);
@@ -2151,7 +2151,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "erfc",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "erfc", f);
 Py_DECREF(f);
@@ -2164,7 +2164,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "log_erfc_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_erfc_e", f);
 Py_DECREF(f);
@@ -2177,7 +2177,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "log_erfc",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_erfc", f);
 Py_DECREF(f);
@@ -2190,7 +2190,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "erf_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "erf_e", f);
 Py_DECREF(f);
@@ -2203,7 +2203,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "erf",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "erf", f);
 Py_DECREF(f);
@@ -2216,7 +2216,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "erf_Z_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "erf_Z_e", f);
 Py_DECREF(f);
@@ -2229,7 +2229,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "erf_Q_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "erf_Q_e", f);
 Py_DECREF(f);
@@ -2242,7 +2242,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "erf_Z",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "erf_Z", f);
 Py_DECREF(f);
@@ -2255,7 +2255,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "erf_Q",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "erf_Q", f);
 Py_DECREF(f);
@@ -2268,7 +2268,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "expint_E1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_E1_e", f);
 Py_DECREF(f);
@@ -2281,7 +2281,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "expint_E1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_E1", f);
 Py_DECREF(f);
@@ -2294,7 +2294,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "expint_E2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_E2_e", f);
 Py_DECREF(f);
@@ -2307,7 +2307,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "expint_E2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_E2", f);
 Py_DECREF(f);
@@ -2320,7 +2320,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "expint_E1_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_E1_scaled_e", f);
 Py_DECREF(f);
@@ -2333,7 +2333,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "expint_E1_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_E1_scaled", f);
 Py_DECREF(f);
@@ -2346,7 +2346,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "expint_E2_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_E2_scaled_e", f);
 Py_DECREF(f);
@@ -2359,7 +2359,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "expint_E2_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_E2_scaled", f);
 Py_DECREF(f);
@@ -2372,7 +2372,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "expint_Ei_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_Ei_e", f);
 Py_DECREF(f);
@@ -2385,7 +2385,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "expint_Ei",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_Ei", f);
 Py_DECREF(f);
@@ -2398,7 +2398,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "expint_Ei_scaled_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_Ei_scaled_e", f);
 Py_DECREF(f);
@@ -2411,7 +2411,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "expint_Ei_scaled",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_Ei_scaled", f);
 Py_DECREF(f);
@@ -2424,7 +2424,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "Shi_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "Shi_e", f);
 Py_DECREF(f);
@@ -2437,7 +2437,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "Shi",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "Shi", f);
 Py_DECREF(f);
@@ -2450,7 +2450,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "Chi_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "Chi_e", f);
 Py_DECREF(f);
@@ -2463,7 +2463,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "Chi",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "Chi", f);
 Py_DECREF(f);
@@ -2476,7 +2476,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "expint_3_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_3_e", f);
 Py_DECREF(f);
@@ -2489,7 +2489,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "expint_3",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "expint_3", f);
 Py_DECREF(f);
@@ -2502,7 +2502,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "Si_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "Si_e", f);
 Py_DECREF(f);
@@ -2515,7 +2515,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "Si",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "Si", f);
 Py_DECREF(f);
@@ -2528,7 +2528,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "Ci_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "Ci_e", f);
 Py_DECREF(f);
@@ -2541,7 +2541,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "Ci",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "Ci", f);
 Py_DECREF(f);
@@ -2554,7 +2554,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "atanint_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "atanint_e", f);
 Py_DECREF(f);
@@ -2567,7 +2567,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "atanint",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "atanint", f);
 Py_DECREF(f);
@@ -2580,7 +2580,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_m1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_m1_e", f);
 Py_DECREF(f);
@@ -2593,7 +2593,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_m1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_m1", f);
 Py_DECREF(f);
@@ -2606,7 +2606,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_0_e", f);
 Py_DECREF(f);
@@ -2619,7 +2619,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_0", f);
 Py_DECREF(f);
@@ -2632,7 +2632,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_1_e", f);
 Py_DECREF(f);
@@ -2645,7 +2645,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_1", f);
 Py_DECREF(f);
@@ -2658,7 +2658,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_2_e", f);
 Py_DECREF(f);
@@ -2671,7 +2671,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_2", f);
 Py_DECREF(f);
@@ -2684,7 +2684,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_int_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_int_e", f);
 Py_DECREF(f);
@@ -2697,7 +2697,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_int",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_int", f);
 Py_DECREF(f);
@@ -2710,7 +2710,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_mhalf_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_mhalf_e", f);
 Py_DECREF(f);
@@ -2723,7 +2723,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_mhalf",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_mhalf", f);
 Py_DECREF(f);
@@ -2736,7 +2736,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_half_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_half_e", f);
 Py_DECREF(f);
@@ -2749,7 +2749,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_half",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_half", f);
 Py_DECREF(f);
@@ -2762,7 +2762,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_3half_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_3half_e", f);
 Py_DECREF(f);
@@ -2775,7 +2775,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_3half",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_3half", f);
 Py_DECREF(f);
@@ -2788,7 +2788,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_inc_0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_inc_0_e", f);
 Py_DECREF(f);
@@ -2801,7 +2801,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fermi_dirac_inc_0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fermi_dirac_inc_0", f);
 Py_DECREF(f);
@@ -2814,7 +2814,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lngamma_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lngamma_e", f);
 Py_DECREF(f);
@@ -2827,7 +2827,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lngamma",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lngamma", f);
 Py_DECREF(f);
@@ -2840,7 +2840,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rdd_one_data ,
                              3, /* out args */
                              PyUFunc_None,
                              "lngamma_sgn_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rdd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lngamma_sgn_e", f);
 Py_DECREF(f);
@@ -2853,7 +2853,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gamma_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gamma_e", f);
 Py_DECREF(f);
@@ -2866,7 +2866,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gamma",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gamma", f);
 Py_DECREF(f);
@@ -2879,7 +2879,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gammastar_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gammastar_e", f);
 Py_DECREF(f);
@@ -2892,7 +2892,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gammastar",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gammastar", f);
 Py_DECREF(f);
@@ -2905,7 +2905,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gammainv_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gammainv_e", f);
 Py_DECREF(f);
@@ -2918,7 +2918,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gammainv",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gammainv", f);
 Py_DECREF(f);
@@ -2931,7 +2931,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "taylorcoeff_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "taylorcoeff_e", f);
 Py_DECREF(f);
@@ -2944,7 +2944,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "taylorcoeff",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "taylorcoeff", f);
 Py_DECREF(f);
@@ -2957,7 +2957,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "fact_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fact_e", f);
 Py_DECREF(f);
@@ -2970,7 +2970,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "fact",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "fact", f);
 Py_DECREF(f);
@@ -2983,7 +2983,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "doublefact_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "doublefact_e", f);
 Py_DECREF(f);
@@ -2996,7 +2996,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "doublefact",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "doublefact", f);
 Py_DECREF(f);
@@ -3009,7 +3009,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lnfact_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnfact_e", f);
 Py_DECREF(f);
@@ -3022,7 +3022,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lnfact",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnfact", f);
 Py_DECREF(f);
@@ -3035,7 +3035,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lndoublefact_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lndoublefact_e", f);
 Py_DECREF(f);
@@ -3048,7 +3048,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lndoublefact",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lndoublefact", f);
 Py_DECREF(f);
@@ -3061,7 +3061,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_uiui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lnchoose_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_uiui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnchoose_e", f);
 Py_DECREF(f);
@@ -3074,7 +3074,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_uiui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lnchoose",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_uiui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnchoose", f);
 Py_DECREF(f);
@@ -3087,7 +3087,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_uiui_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "choose_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_uiui_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "choose_e", f);
 Py_DECREF(f);
@@ -3100,7 +3100,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_uiui__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "choose",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_uiui__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "choose", f);
 Py_DECREF(f);
@@ -3113,7 +3113,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lnpoch_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnpoch_e", f);
 Py_DECREF(f);
@@ -3126,7 +3126,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lnpoch",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnpoch", f);
 Py_DECREF(f);
@@ -3139,7 +3139,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rdd_one_data ,
                              3, /* out args */
                              PyUFunc_None,
                              "lnpoch_sgn_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rdd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnpoch_sgn_e", f);
 Py_DECREF(f);
@@ -3152,7 +3152,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "poch_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "poch_e", f);
 Py_DECREF(f);
@@ -3165,7 +3165,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "poch",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "poch", f);
 Py_DECREF(f);
@@ -3178,7 +3178,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "pochrel_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "pochrel_e", f);
 Py_DECREF(f);
@@ -3191,7 +3191,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "pochrel",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "pochrel", f);
 Py_DECREF(f);
@@ -3204,7 +3204,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gamma_inc_Q_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gamma_inc_Q_e", f);
 Py_DECREF(f);
@@ -3217,7 +3217,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gamma_inc_Q",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gamma_inc_Q", f);
 Py_DECREF(f);
@@ -3230,7 +3230,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gamma_inc_P_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gamma_inc_P_e", f);
 Py_DECREF(f);
@@ -3243,7 +3243,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gamma_inc_P",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gamma_inc_P", f);
 Py_DECREF(f);
@@ -3256,7 +3256,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lnbeta_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnbeta_e", f);
 Py_DECREF(f);
@@ -3269,7 +3269,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lnbeta",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnbeta", f);
 Py_DECREF(f);
@@ -3282,7 +3282,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "beta_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "beta_e", f);
 Py_DECREF(f);
@@ -3295,7 +3295,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "beta",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "beta", f);
 Py_DECREF(f);
@@ -3308,7 +3308,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "beta_inc_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "beta_inc_e", f);
 Py_DECREF(f);
@@ -3321,7 +3321,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ddd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "beta_inc",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ddd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "beta_inc", f);
 Py_DECREF(f);
@@ -3334,7 +3334,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gegenpoly_1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gegenpoly_1_e", f);
 Py_DECREF(f);
@@ -3347,7 +3347,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gegenpoly_2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gegenpoly_2_e", f);
 Py_DECREF(f);
@@ -3360,7 +3360,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gegenpoly_3_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gegenpoly_3_e", f);
 Py_DECREF(f);
@@ -3373,7 +3373,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gegenpoly_1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gegenpoly_1", f);
 Py_DECREF(f);
@@ -3386,7 +3386,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gegenpoly_2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gegenpoly_2", f);
 Py_DECREF(f);
@@ -3399,7 +3399,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gegenpoly_3",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gegenpoly_3", f);
 Py_DECREF(f);
@@ -3412,7 +3412,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_idd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "gegenpoly_n_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_idd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gegenpoly_n_e", f);
 Py_DECREF(f);
@@ -3425,7 +3425,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_idd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "gegenpoly_n",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_idd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "gegenpoly_n", f);
 Py_DECREF(f);
@@ -3438,7 +3438,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_0F1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_0F1_e", f);
 Py_DECREF(f);
@@ -3451,7 +3451,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_0F1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_0F1", f);
 Py_DECREF(f);
@@ -3464,7 +3464,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iid_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_1F1_int_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iid_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_1F1_int_e", f);
 Py_DECREF(f);
@@ -3477,7 +3477,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iid__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_1F1_int",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iid__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_1F1_int", f);
 Py_DECREF(f);
@@ -3490,7 +3490,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_1F1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_1F1_e", f);
 Py_DECREF(f);
@@ -3503,7 +3503,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ddd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_1F1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ddd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_1F1", f);
 Py_DECREF(f);
@@ -3516,7 +3516,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iid_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_U_int_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iid_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_U_int_e", f);
 Py_DECREF(f);
@@ -3529,7 +3529,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iid__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_U_int",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iid__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_U_int", f);
 Py_DECREF(f);
@@ -3542,7 +3542,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iid_erd_one_data ,
                              3, /* out args */
                              PyUFunc_None,
                              "hyperg_U_int_e10_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iid_erd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_U_int_e10_e", f);
 Py_DECREF(f);
@@ -3555,7 +3555,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_U_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_U_e", f);
 Py_DECREF(f);
@@ -3568,7 +3568,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ddd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_U",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ddd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_U", f);
 Py_DECREF(f);
@@ -3581,7 +3581,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddd_erd_one_data ,
                              3, /* out args */
                              PyUFunc_None,
                              "hyperg_U_e10_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddd_erd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_U_e10_e", f);
 Py_DECREF(f);
@@ -3594,7 +3594,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_2F1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F1_e", f);
 Py_DECREF(f);
@@ -3607,7 +3607,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dddd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_2F1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dddd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F1", f);
 Py_DECREF(f);
@@ -3620,7 +3620,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_2F1_conj_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F1_conj_e", f);
 Py_DECREF(f);
@@ -3633,7 +3633,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dddd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_2F1_conj",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dddd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F1_conj", f);
 Py_DECREF(f);
@@ -3646,7 +3646,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_2F1_renorm_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F1_renorm_e", f);
 Py_DECREF(f);
@@ -3659,7 +3659,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dddd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_2F1_renorm",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dddd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F1_renorm", f);
 Py_DECREF(f);
@@ -3672,7 +3672,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_2F1_conj_renorm_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F1_conj_renorm_e", f);
 Py_DECREF(f);
@@ -3685,7 +3685,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dddd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_2F1_conj_renorm",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dddd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F1_conj_renorm", f);
 Py_DECREF(f);
@@ -3698,7 +3698,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_ddd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hyperg_2F0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_ddd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F0_e", f);
 Py_DECREF(f);
@@ -3711,7 +3711,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_ddd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hyperg_2F0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_ddd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hyperg_2F0", f);
 Py_DECREF(f);
@@ -3724,7 +3724,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "laguerre_1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "laguerre_1_e", f);
 Py_DECREF(f);
@@ -3737,7 +3737,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "laguerre_2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "laguerre_2_e", f);
 Py_DECREF(f);
@@ -3750,7 +3750,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "laguerre_3_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "laguerre_3_e", f);
 Py_DECREF(f);
@@ -3763,7 +3763,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "laguerre_1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "laguerre_1", f);
 Py_DECREF(f);
@@ -3776,7 +3776,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "laguerre_2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "laguerre_2", f);
 Py_DECREF(f);
@@ -3789,7 +3789,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "laguerre_3",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "laguerre_3", f);
 Py_DECREF(f);
@@ -3802,7 +3802,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_idd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "laguerre_n_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_idd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "laguerre_n_e", f);
 Py_DECREF(f);
@@ -3815,7 +3815,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_idd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "laguerre_n",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_idd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "laguerre_n", f);
 Py_DECREF(f);
@@ -3828,7 +3828,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lambert_W0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lambert_W0_e", f);
 Py_DECREF(f);
@@ -3841,7 +3841,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lambert_W0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lambert_W0", f);
 Py_DECREF(f);
@@ -3854,7 +3854,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lambert_Wm1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lambert_Wm1_e", f);
 Py_DECREF(f);
@@ -3867,7 +3867,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lambert_Wm1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lambert_Wm1", f);
 Py_DECREF(f);
@@ -3880,7 +3880,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_Pl_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Pl_e", f);
 Py_DECREF(f);
@@ -3893,7 +3893,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_Pl",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Pl", f);
 Py_DECREF(f);
@@ -3906,7 +3906,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_P1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_P1_e", f);
 Py_DECREF(f);
@@ -3919,7 +3919,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_P2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_P2_e", f);
 Py_DECREF(f);
@@ -3932,7 +3932,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_P3_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_P3_e", f);
 Py_DECREF(f);
@@ -3945,7 +3945,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_P1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_P1", f);
 Py_DECREF(f);
@@ -3958,7 +3958,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_P2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_P2", f);
 Py_DECREF(f);
@@ -3971,7 +3971,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_P3",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_P3", f);
 Py_DECREF(f);
@@ -3984,7 +3984,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_Q0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Q0_e", f);
 Py_DECREF(f);
@@ -3997,7 +3997,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_Q0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Q0", f);
 Py_DECREF(f);
@@ -4010,7 +4010,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_Q1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Q1_e", f);
 Py_DECREF(f);
@@ -4023,7 +4023,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_Q1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Q1", f);
 Py_DECREF(f);
@@ -4036,7 +4036,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_Ql_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Ql_e", f);
 Py_DECREF(f);
@@ -4049,7 +4049,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_Ql",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Ql", f);
 Py_DECREF(f);
@@ -4062,7 +4062,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iid_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_Plm_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iid_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Plm_e", f);
 Py_DECREF(f);
@@ -4075,7 +4075,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iid__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_Plm",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iid__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_Plm", f);
 Py_DECREF(f);
@@ -4088,7 +4088,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_iid_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_sphPlm_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_iid_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_sphPlm_e", f);
 Py_DECREF(f);
@@ -4101,7 +4101,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_iid__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_sphPlm",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_iid__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_sphPlm", f);
 Py_DECREF(f);
@@ -4114,7 +4114,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "conicalP_half_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_half_e", f);
 Py_DECREF(f);
@@ -4127,7 +4127,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "conicalP_half",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_half", f);
 Py_DECREF(f);
@@ -4140,7 +4140,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "conicalP_mhalf_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_mhalf_e", f);
 Py_DECREF(f);
@@ -4153,7 +4153,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "conicalP_mhalf",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_mhalf", f);
 Py_DECREF(f);
@@ -4166,7 +4166,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "conicalP_0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_0_e", f);
 Py_DECREF(f);
@@ -4179,7 +4179,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "conicalP_0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_0", f);
 Py_DECREF(f);
@@ -4192,7 +4192,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "conicalP_1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_1_e", f);
 Py_DECREF(f);
@@ -4205,7 +4205,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "conicalP_1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_1", f);
 Py_DECREF(f);
@@ -4218,7 +4218,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_idd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "conicalP_sph_reg_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_idd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_sph_reg_e", f);
 Py_DECREF(f);
@@ -4231,7 +4231,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_idd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "conicalP_sph_reg",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_idd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_sph_reg", f);
 Py_DECREF(f);
@@ -4244,7 +4244,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_idd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "conicalP_cyl_reg_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_idd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_cyl_reg_e", f);
 Py_DECREF(f);
@@ -4257,7 +4257,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_idd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "conicalP_cyl_reg",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_idd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "conicalP_cyl_reg", f);
 Py_DECREF(f);
@@ -4270,7 +4270,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_H3d_0_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_H3d_0_e", f);
 Py_DECREF(f);
@@ -4283,7 +4283,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_H3d_0",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_H3d_0", f);
 Py_DECREF(f);
@@ -4296,7 +4296,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_H3d_1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_H3d_1_e", f);
 Py_DECREF(f);
@@ -4309,7 +4309,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_H3d_1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_H3d_1", f);
 Py_DECREF(f);
@@ -4322,7 +4322,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_idd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "legendre_H3d_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_idd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_H3d_e", f);
 Py_DECREF(f);
@@ -4335,7 +4335,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_idd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "legendre_H3d",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_idd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "legendre_H3d", f);
 Py_DECREF(f);
@@ -4348,7 +4348,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "log_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_e", f);
 Py_DECREF(f);
@@ -4361,7 +4361,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "log",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log", f);
 Py_DECREF(f);
@@ -4374,7 +4374,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "log_abs_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_abs_e", f);
 Py_DECREF(f);
@@ -4387,7 +4387,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "log_abs",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_abs", f);
 Py_DECREF(f);
@@ -4400,7 +4400,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "log_1plusx_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_1plusx_e", f);
 Py_DECREF(f);
@@ -4413,7 +4413,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "log_1plusx",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_1plusx", f);
 Py_DECREF(f);
@@ -4426,7 +4426,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "log_1plusx_mx_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_1plusx_mx_e", f);
 Py_DECREF(f);
@@ -4439,7 +4439,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "log_1plusx_mx",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "log_1plusx_mx", f);
 Py_DECREF(f);
@@ -4452,7 +4452,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_di_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "pow_int_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_di_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "pow_int_e", f);
 Py_DECREF(f);
@@ -4465,7 +4465,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_di__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "pow_int",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_di__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "pow_int", f);
 Py_DECREF(f);
@@ -4478,7 +4478,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_i_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "psi_int_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_i_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_int_e", f);
 Py_DECREF(f);
@@ -4491,7 +4491,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_i__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "psi_int",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_i__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_int", f);
 Py_DECREF(f);
@@ -4504,7 +4504,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "psi_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_e", f);
 Py_DECREF(f);
@@ -4517,7 +4517,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "psi",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi", f);
 Py_DECREF(f);
@@ -4530,7 +4530,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "psi_1piy_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_1piy_e", f);
 Py_DECREF(f);
@@ -4543,7 +4543,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "psi_1piy",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_1piy", f);
 Py_DECREF(f);
@@ -4556,7 +4556,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_i_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "psi_1_int_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_i_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_1_int_e", f);
 Py_DECREF(f);
@@ -4569,7 +4569,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_i__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "psi_1_int",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_i__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_1_int", f);
 Py_DECREF(f);
@@ -4582,7 +4582,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_id_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "psi_n_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_id_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_n_e", f);
 Py_DECREF(f);
@@ -4595,7 +4595,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_id__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "psi_n",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_id__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "psi_n", f);
 Py_DECREF(f);
@@ -4608,7 +4608,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "synchrotron_1_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "synchrotron_1_e", f);
 Py_DECREF(f);
@@ -4621,7 +4621,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "synchrotron_1",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "synchrotron_1", f);
 Py_DECREF(f);
@@ -4634,7 +4634,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "synchrotron_2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "synchrotron_2_e", f);
 Py_DECREF(f);
@@ -4647,7 +4647,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "synchrotron_2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "synchrotron_2", f);
 Py_DECREF(f);
@@ -4660,7 +4660,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "transport_2_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "transport_2_e", f);
 Py_DECREF(f);
@@ -4673,7 +4673,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "transport_2",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "transport_2", f);
 Py_DECREF(f);
@@ -4686,7 +4686,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "transport_3_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "transport_3_e", f);
 Py_DECREF(f);
@@ -4699,7 +4699,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "transport_3",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "transport_3", f);
 Py_DECREF(f);
@@ -4712,7 +4712,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "transport_4_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "transport_4_e", f);
 Py_DECREF(f);
@@ -4725,7 +4725,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "transport_4",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "transport_4", f);
 Py_DECREF(f);
@@ -4738,7 +4738,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "transport_5_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "transport_5_e", f);
 Py_DECREF(f);
@@ -4751,7 +4751,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "transport_5",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "transport_5", f);
 Py_DECREF(f);
@@ -4764,7 +4764,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "sin_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "sin_e", f);
 Py_DECREF(f);
@@ -4777,7 +4777,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "sin",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "sin", f);
 Py_DECREF(f);
@@ -4790,7 +4790,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "cos_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "cos_e", f);
 Py_DECREF(f);
@@ -4803,7 +4803,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "cos",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "cos", f);
 Py_DECREF(f);
@@ -4816,7 +4816,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hypot_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hypot_e", f);
 Py_DECREF(f);
@@ -4829,7 +4829,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hypot",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hypot", f);
 Py_DECREF(f);
@@ -4842,7 +4842,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "sinc_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "sinc_e", f);
 Py_DECREF(f);
@@ -4855,7 +4855,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "sinc",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "sinc", f);
 Py_DECREF(f);
@@ -4868,7 +4868,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lnsinh_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnsinh_e", f);
 Py_DECREF(f);
@@ -4881,7 +4881,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lnsinh",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lnsinh", f);
 Py_DECREF(f);
@@ -4894,7 +4894,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "lncosh_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lncosh_e", f);
 Py_DECREF(f);
@@ -4907,7 +4907,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "lncosh",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "lncosh", f);
 Py_DECREF(f);
@@ -4920,7 +4920,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "sin_err_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "sin_err_e", f);
 Py_DECREF(f);
@@ -4933,7 +4933,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "cos_err_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "cos_err_e", f);
 Py_DECREF(f);
@@ -4946,7 +4946,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "angle_restrict_symm",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "angle_restrict_symm", f);
 Py_DECREF(f);
@@ -4959,7 +4959,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "angle_restrict_pos",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "angle_restrict_pos", f);
 Py_DECREF(f);
@@ -4972,7 +4972,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "angle_restrict_symm_err_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "angle_restrict_symm_err_e", f);
 Py_DECREF(f);
@@ -4985,7 +4985,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "angle_restrict_pos_err_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "angle_restrict_pos_err_e", f);
 Py_DECREF(f);
@@ -4998,7 +4998,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_i_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "zeta_int_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_i_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "zeta_int_e", f);
 Py_DECREF(f);
@@ -5011,7 +5011,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_i__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "zeta_int",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_i__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "zeta_int", f);
 Py_DECREF(f);
@@ -5024,7 +5024,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "zeta_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "zeta_e", f);
 Py_DECREF(f);
@@ -5037,7 +5037,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "zeta",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "zeta", f);
 Py_DECREF(f);
@@ -5050,7 +5050,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_dd_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "hzeta_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_dd_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hzeta_e", f);
 Py_DECREF(f);
@@ -5063,7 +5063,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_dd__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "hzeta",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_dd__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "hzeta", f);
 Py_DECREF(f);
@@ -5076,7 +5076,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_i_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "eta_int_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_i_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "eta_int_e", f);
 Py_DECREF(f);
@@ -5089,7 +5089,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_i__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "eta_int",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_i__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "eta_int", f);
 Py_DECREF(f);
@@ -5102,7 +5102,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_qi_d_rd_one_data ,
                              2, /* out args */
                              PyUFunc_None,
                              "eta_e",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_qi_d_rd_one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "eta_e", f);
 Py_DECREF(f);
@@ -5115,7 +5115,7 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_pd_d__one_data ,
                              1, /* out args */
                              PyUFunc_None,
                              "eta",
-                             NULL, /* doc string */
+                             PyGSL_sf_ufunc_pd_d__one_doc ,
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict, "eta", f);
 Py_DECREF(f);
