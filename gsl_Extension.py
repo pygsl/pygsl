@@ -43,6 +43,7 @@ class _gsl_Location:
 		self.cflags = None
 		self.libs   = None
 		self.version = None
+		self.swig = None
 		
 	def get_gsl_prefix(self):
 		assert(self.prefix != None)
@@ -65,6 +66,10 @@ class _gsl_Location:
                 if version[-1] == '+':
                         version = version[:-1]
 		return re.split('\.',version)
+
+	def get_swig(self):
+		assert(self.swig)
+		return self.swig
 	
 class _gsl_Location_gsl_config(_gsl_Location):
 	"""
@@ -84,7 +89,9 @@ class _gsl_Location_gsl_config(_gsl_Location):
 		self.cflags = self.get_gsl_info('--cflags').strip()
 		self.libs   = self.get_gsl_info('--libs').strip()
                 self.version = self._split_version(self.get_gsl_info('--version').strip())
-
+		
+		# I am running on swig. I suppose that swig is in the path
+		self.swig = "swig"
 		
 	def get_gsl_info(self, arguments):
 		"""
@@ -97,6 +104,7 @@ class _gsl_Location_gsl_config(_gsl_Location):
 			raise DistutilsExecError,"could not start %s"%self.gsl_config_tool
 		return  gsl_output
 
+	
 class _gsl_Location_file(_gsl_Location):
 	def __init__(self):
 		_gsl_Location.__init__(self)
@@ -113,6 +121,7 @@ class _gsl_Location_file(_gsl_Location):
 		self.prefix  = gsl_site.prefix 
 		self.cflags  = gsl_site.cflags 
 		self.libs    = gsl_site.libs   
+		self.swig    = gsl_site.swig
                 self.version = self._split_version(gsl_site.version)
 
 if os.name == 'posix':
