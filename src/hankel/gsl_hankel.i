@@ -25,7 +25,7 @@ typedef unsigned int size_t;
 
 %include typemaps.i
 %include gsl_error_typemap.i
-%typemap (out) int = gsl_error_flag;
+%typemap (out) int = gsl_error_flag_drop;
 
 
 

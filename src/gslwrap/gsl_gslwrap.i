@@ -31,7 +31,7 @@ typedef int size_t;
 
 %immutable;
 %include linalg.i 
-%typemap (out) int = gsl_error_flag;
+%typemap (out) int = gsl_error_flag_drop;
 %include fft.i
 %include permutation.i
 %include combination.i

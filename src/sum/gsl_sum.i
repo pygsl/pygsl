@@ -16,7 +16,7 @@ typedef unsigned int size_t;
 %include gsl_error_typemap.i
 %include gsl_block_special_typemaps.i
 
-%typemap(out) int = gsl_error_flag;
+%typemap(out) int = gsl_error_flag_drop;
 
 %rename(levin) gsl_sum_levin_u_workspace;
 %rename(levin_utrunc) gsl_sum_levin_utrunc_workspace;
