@@ -22,6 +22,28 @@
   ~gls_permutation_struct() {
     gsl_permutation_free(self);
   }
+  int _linear_to_canonical(struct gsl_permutation_struct *q){
+       return gsl_permutation_linear_to_canonical(q, self);
+  }
+  int _canonical_to_linear(struct gsl_permutation_struct *q){
+       return gsl_permutation_canonical_to_linear(q, self);
+  }  
+  int _mul(struct gsl_permutation_struct *res, struct gsl_permutation_struct *m2){
+       return gsl_permutation_mul(res, self, m2);
+  }
+  size_t inversions(){
+       return gsl_permutation_inversions(self);
+  }
+  size_t linear_cycles(){
+       return gsl_permutation_linear_cycles(self);
+  }
+  size_t canonical_cycles(){
+       return gsl_permutation_canonical_cycles(self);
+  }
+  
+  int _inverse(struct gsl_permutation_struct *inv){
+       return gsl_permutation_inverse(inv, self);
+  }
   size_t get_item(const size_t i) {
     return gsl_permutation_get(self, i);
   }
@@ -48,6 +70,40 @@
 
     gsl_permutation_fprintf (stdout, self, " %u"); 
     return NULL;
+  }
+  PyObject *tolist(){
+       PyObject *a_list = NULL, *a_int;
+       long size = 0, i;
+
+       size = (long) gsl_permutation_size(self);
+       a_list = PyList_New(size);
+       if (a_list == NULL)
+	    return NULL;
+       for(i=0; i<size; i++){
+	    a_int = PyInt_FromLong((long) gsl_permutation_get(self, i));
+	    if (a_int == NULL){
+		 Py_DECREF(a_list);
+		 return NULL;
+	    }
+	    PyList_SET_ITEM(a_list, i, a_int);
+       }
+       return a_list;
+  }
+
+  PyObject *toarray(){
+       PyArrayObject * a_array = NULL;
+       long *data;
+       int size, i;
+
+       size = (int) gsl_permutation_size(self);
+       a_array = (PyArrayObject *) PyArray_FromDims(1, &size, PyArray_LONG);
+       if(a_array == NULL)
+	    return NULL;
+       data = (long *) a_array->data;
+       for(i=0; i<size; i++){
+	    data[i] = (long) gsl_permutation_get(self, i);
+       }
+       return (PyObject *) a_array;
   }
 }
 
