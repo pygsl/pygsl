@@ -1,15 +1,25 @@
 # Author : Fabian Jakobs
 r"""
-This module provides functions for computing eigenvalues and eigenvectors of matrices using the gsl.
 
-There are routines for real symmetric and complex hermitian matrices, and eigenvalues can be computed with or without eigenvectors. The algorithms used are symmetric bidiagonalization followed by QR reduction.
+This module  provides functions for computing eigenvalues  and eigenvectors of
+matrices using the gsl.
 
-These routines are intended for "small" systems where simple algorithms are acceptable. Anyone interested finding eigenvalues and eigenvectors of large matrices will want to use the sophisticated routines found in LAPACK. The Fortran version of LAPACK is recommended as the standard package for linear algebra.
+There  are routines  for real  symmetric and  complex hermitian  matrices, and
+eigenvalues can be computed with  or without eigenvectors. The algorithms used
+are symmetric bidiagonalization followed by QR reduction.
+
+These routines  are intended for  "small" systems where simple  algorithms are
+acceptable. Anyone  interested finding  eigenvalues and eigenvectors  of large
+matrices  will want to  use the  sophisticated routines  found in  LAPACK. The
+Fortran version  of LAPACK is recommended  as the standard  package for linear
+algebra.
+
 """
 
 import _gslwrap
 import gslwrap
-import Numeric
+#import Numeric
+import pygsl._numobj as Numeric
 
 eigen_symm_workspace = gslwrap.gsl_eigen_symm_workspace
 eigen_symmv_workspace = gslwrap.gsl_eigen_symmv_workspace

@@ -13,8 +13,7 @@ Functions that are naturally done using NumPy functions are left out here.
 """
 
 import _gslwrap
-import Numeric
-
+import pygsl._numobj as Numeric
 #
 # constants
 #

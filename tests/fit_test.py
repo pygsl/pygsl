@@ -5,7 +5,7 @@ import random
 import pygsl
 from pygsl import fit
 from pygsl import multifit
-import Numeric
+import pygsl._numobj as Numeric
 
 
 class FitTest(unittest.TestCase):

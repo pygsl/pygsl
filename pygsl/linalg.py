@@ -14,9 +14,9 @@ specialized data representations and other optimizations.
 import pygsl
 import _gslwrap
 from permutation import Permutation
-from Numeric import array, zeros
-import Numeric
-
+import pygsl._numobj as Numeric
+zeros = Numeric.zeros
+array = Numeric.array
 #
 # LU Decomposition
 #

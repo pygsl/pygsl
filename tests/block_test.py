@@ -2,7 +2,7 @@
 # Author : Pierre Schnizer 
 import types
 import tempfile
-import Numeric
+import pygsl._numobj as Numeric
 from pygsl import vector
 from pygsl import matrix_pierre
 matrix = matrix_pierre
@@ -80,8 +80,13 @@ class _DefaultTestCase(unittest.TestCase):
             raise ValueError, "Unknown switch for _retrieve: " + tmp
         
     def test_0_matrixtype(self):
-        assert type(self.array) == Numeric.arraytype, "Not an array type"
-
+        test = 0
+        try:
+            assert type(self.array) == Numeric.ArrayType, "Not an array type"
+            test = 1
+        finally:
+            if test == 0:
+                print "Expected a type of %s but got a type of %s" %(Numeric.ArrayType, type(self.array))
     def tearDown(self):
         self._mytearDown()
 

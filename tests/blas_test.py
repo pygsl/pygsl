@@ -1,7 +1,7 @@
 # Author : Fabian Jakobs
 import unittest
 from gsl_test import *
-from Numeric import *
+from pygsl._numobj import *
 from pygsl.errors import gsl_Error
 from pygsl.blas import *
 from pygsl import  _gslwrap
@@ -342,5 +342,6 @@ class BlasTestCase(GSLTestCase):
             ddot(a,a[:3])
         except gsl_Error:
             pass
+
 if __name__ == '__main__':
     unittest.main()

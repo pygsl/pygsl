@@ -1,10 +1,10 @@
 # Author : Fabian Jakobs
 import types
 import unittest
-import MLab
-import pygsl.math 
-from Numeric import *
 
+import pygsl.math 
+from pygsl._numobj import *
+import pygsl._mlab as MLab
 fcmp = pygsl.math.fcmp
 
 def fpcompare(a, b, digits):

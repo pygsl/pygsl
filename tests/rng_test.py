@@ -2,8 +2,8 @@ import types
 import unittest
 import math
 import copy
-import Numeric
-import MLab
+import pygsl._numobj as Numeric
+import pygsl._mlab as MLab
 import pygsl.rng as rngmodule
 import sys
 sys.stdout = sys.stderr
