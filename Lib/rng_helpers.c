@@ -2,7 +2,6 @@
 #include <pygsl/block_helpers.h>
 #include <pygsl/rng_helpers.h>
 #include <pygsl/rng.h>
-#define DEBUG 10
 #include <pygsl/utils.h>
 
 /* 
