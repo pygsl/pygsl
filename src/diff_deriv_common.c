@@ -4,7 +4,7 @@
 #define _PYGSL_HAS_DERIV 1
 #endif 
 
-#ifdef  _PYGSL_HAS_DERIV 
+#if (_PYGSL_HAS_DERIV == 1) 
 #include <gsl/gsl_deriv.h>
 #endif
 
