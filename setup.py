@@ -16,7 +16,7 @@ USE_SWIG = 1
 # Some modules have been reimplemented. These modules will be installed in
 # pygsl.testing...
 # Set to one if you want them built
-BUILD_TESTING = 1
+BUILD_TESTING = 0
 
 #------------------------------------------------------------------------------
 # As long as you are not taking part in the development process, I hope that 
@@ -275,9 +275,11 @@ if BUILD_TESTING:
     pass
 
 setup (name = "pygsl",
-       #version = "0.2",
-       version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
+       version = "0.2.0",
+       #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
+       long_description = "This project provides a python interface for the GNU scientific library (gsl)",
+       license = "GPL",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",
        url = "http://pygsl.sourceforge.net",

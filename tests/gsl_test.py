@@ -11,27 +11,29 @@ def fpcompare(a, b, digits):
     result = 1
     ac = type(a) is types.ComplexType
     bc = type(b) is types.ComplexType
+    eps = 10**-digits
     if ac and bc:
-        res1 = (fcmp(a.real, b.real, 10**-digits) == 0)
-        res2 = (fcmp(a.imag, b.imag, 10**-digits) == 0)
+        res1 = (fcmp(a.real, b.real, eps) == 0)
+        res2 = (fcmp(a.imag, b.imag, eps) == 0)
         result = res1 and res2
     elif ac and not bc:
-        res1 = (fcmp(a.real, b, 10**-digits) == 0)
-        res2 = (fcmp(a.imag, 0, 10**-digits) == 0)
+        res1 = (fcmp(a.real, b, eps) == 0)
+        res2 = (fcmp(a.imag, 0, eps) == 0)
         result = res1 and res2
     elif not ac and bc:
-        res1 = (fcmp(a, b.real, 10**-digits) == 0)
-        res2 = (fcmp(0, b.imag, 10**-digits) == 0)
+        res1 = (fcmp(a, b.real, eps) == 0)
+        res2 = (fcmp(0, b.imag, eps) == 0)
         result = res1 and res2
     else:
-        result = (fcmp(a, b, 10**-digits) == 0)
+        result = (fcmp(a, b, eps) == 0)
     return result
 
 def arrayCompare(a, l, digits):
     result = 1 # true
+
     for i in range(len(l)):
         result = result and fpcompare(a[i], l[i], digits)
-        if not result: print "Fehler: %s \t %s" % (a[i], l[i])
+        if not result: print "Error: a = %s\t b = %s\t digits = %s" % (a[i], l[i], digits)
     return result
 
 def arrayIsZero(a):
