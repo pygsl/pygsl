@@ -68,7 +68,6 @@ static void **PyGSL_API;
 
 #define PyGSL_gsl_rng_from_pyobject_NUM                23 
 #define PyGSL_function_wrap_helper_NUM                 24
-
 #define PyGSL_NENTRIES_NUM                             25
 
 #ifndef _PyGSL_API_MODULE
@@ -101,6 +100,9 @@ PyGSL_module_error_handler(const char *reason, /* name of function */
  (*(void (*)(const char *, const char *, int, int)) PyGSL_API[PyGSL_module_error_handler_NUM])
 #endif  /* _PyGSL_API_MODULE */
 
+#define PyGSL_SET_ERROR_HANDLER() \
+        gsl_set_error_handler(&(*(void (*)(const char *, const char *, int, int))PyGSL_API[PyGSL_module_error_handler_NUM]))
+        
 #define init_pygsl()\
 { \
    PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
@@ -111,9 +113,13 @@ PyGSL_module_error_handler(const char *reason, /* name of function */
       (PyCObject_Check(c_api))                                    \
      ) { \
 	 PyGSL_API = (void **)PyCObject_AsVoidPtr(c_api); \
-         gsl_set_error_handler (&PyGSL_module_error_handler); \
+         PyGSL_SET_ERROR_HANDLER(); \
+         if((void *) PyGSL_SET_ERROR_HANDLER() != PyGSL_API[PyGSL_module_error_handler_NUM]){\
+            fprintf(stderr, "Installation of error handler failed! In File %s\n", __FILE__); \
+         }\
    } else { \
         PyGSL_API = NULL; \
+        fprintf(stderr, "Import of pygsl.init Failed!!! File %s\n", __FILE__);\
    } \
 } 
 #endif  /*  PyGSL_API_H */
