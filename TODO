@@ -1,0 +1,84 @@
+
+GSL Capabilites not yet wrapped by PyGSL
+========================================
+
+Monte Carlo Integration
+------------------------
+For the callback wrapping the [A_p O   ->  d]  wrapper can be used. See
+typemaps/gsl_functions_reference.txt and typemaps/gsl_function_helpers.ic. The
+monte carlo integration makes heavy use of the random generator. Here the
+wrapper should use a Rng (to be) provided handshake to use the C Code directly
+if a GSL random generator is used. Otherwise it should try to evaluate the
+object to get the random number.
+
+Combination
+-----------
+
+
+Sorting
+-------
+
+
+Fourier Transforms.
+-------------------
+
+
+Series Acceleration
+-------------------
+
+
+Discrete Hankel Transforms
+--------------------------
+
+
+N-tuples
+-------
+If you do not know PAW or ROOT you probably will not need them. If you need
+them, assistance will be provided if required.
+
+GSL Capabilites partly implemented
+==================================
+
+SIMAN
+-----
+The current implementation does not implement the full feature set of gsl.
+
+
+PyGSL related Capabilites
+=========================
+
+Error handling
+--------------
+Currently all internal error handling is performed using the GSL_ERROR which
+is translated to a pygsl.error object. The GSL Library, however, forsees to
+pass the type of the error. This type shall be translated to an approbriate
+exception derived from the gsl_Error, e.g. GSL_EZERODIV to gsl_ZeroDivison.
+
+An additional error handler is forseen which will report errors  raised from
+PyGSL wrapper spotting errors typical for the conversion between Python and C
+objects. These errors will just be additional pygsl exceptions for the user of
+pygsl. A seperate handler will be written to avoid interference with the GSL
+error handling.
+
+Blas Memory handling
+--------------------
+NumPy and GSL vectors and matrices differ slightly. 1-dimensional arrays and
+GSL Vectors can be interchanged. The differnce between the two is mainly that
+Numpy counts the stride in bytes whereas GSL counts it in the basis type. 
+
+2-dimensional Numpy arrays use the stride concept for both dimensions whereas
+the GSL matrices use an offset tda. So they assume contiunes lines, with some
+elements on the line not used. Here one could think of a full featured matrix
+object, which can interoperate with a numeric array simulating an Matrix
+object. Such a object would be useful to allow prototyping of linear algebra
+systems in python. The next point needs to be implemented as well.
+
+optional reused return object: Numpy allows to add an optional argument to
+many functions, which is to be used as  return argument. This avoids the need
+to delete and reallocate objects. 
+
+
+Build structure
+===============
+wxPython is based on swig and only needs setup.py to build it. One could
+follow this example here and replace the makefile.
