@@ -666,3 +666,20 @@ static char rng_logarithmic_pdf_doc [] =
   logarithmic distribution with parameters P and N\n\
 Usage:\n\
 p = logarithmic_pdf(k, P, N)" RNG_ARRAY_INTEGER_ITERATE;
+
+static char multinomial_doc [] =
+"samples from the multinomial distribution parametrized\n\
+by 'phi' and 'k'\n\
+Usage:\n\
+multinomial(phi, k, N)" RNG_ARRAY;
+
+static char multinomial_pdf_doc [] =
+"Computes the probability P(n_1, n_2, ..., n_K) of sampling N[K]\n\
+ from a multinomial distribution with parameters \n\
+ P[K].\n\
+Usage:\n\
+p = multinomial_pdf(phi, n)\n\
+\n\
+phi ... probability distribution over possible events.\n\
+n   ... an two dimensional array, where each pdf is stored in one row\n\
+";
