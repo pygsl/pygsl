@@ -85,10 +85,13 @@ class prototype_collector:
 
     def make_wrapper_and_index_file(self,filename):
 
+        exclude_list=["gsl_sf_bessel_jl_steed_array","gsl_sf_bessel_sequence_Jnu_e","gsl_sf_coulomb_wave_F_array"]
         prototypes=self.get_prototypes()
         function_file=file(filename+"_functions.c","w")
         index_file=file(filename+"_index.c","w")
         for p in  prototypes:
+            if p.name in exclude_list:
+                continue
             index_entry=p.make_function_entry()
             if index_entry is not None:
                 try:
@@ -148,7 +151,7 @@ class sf_prototype:
         """
         returns the entry for the function index {name, function_name, argument method}
         """
-        matched_name_stem=re.match("gsl_sf_(.+)_e",self.name)
+        matched_name_stem=re.match("gsl_sf_(.+?)_e$",self.name)
         if  matched_name_stem is None:
             return None
         name_stem=matched_name_stem.group(1)
@@ -162,18 +165,19 @@ class sf_prototype:
 
         # is this function type supported?
         # guess by name
-        if re.match("gsl_sf_.+?_e",self.name) is None:
+        if re.match("gsl_sf_.+?_e$",self.name) is None:
             raise RuntimeError,"%s: not the expected function naming scheme"%(self.name)
 
         # check parameters and build stub
         argument_type_pattern=re.compile("((?P<qualifier>const)\s+)?(?P<type>(unsigned\s+)?\w+)\s*(?P<operator>\*|&)?\s*(?P<name>\w+)")
 
-        result_type=None
-        parameter_string=""
-        arg_parse_type=""
-        arg_parse_name=""
-        arg_decl=""
-        arg_control=""
+        parameter_string=""         # the parameter list for gsl function
+        arg_parse_type=""           # the argument pattern for PyArg_ParseTuple
+        arg_parse_name=""           # the argument list for PyArg_ParseTuple 
+        arg_decl=""                 # declaration section
+        arg_control=""              # code parts for parameter check
+        result_arg=""               # is the argument list of Py_BuildValue 
+        result_format=""            # is the formatstring of Py_BuildValue
         for p in self.parameters:
             arg_match=argument_type_pattern.match(p)
             if arg_match is None:
@@ -204,36 +208,48 @@ class sf_prototype:
                 arg_parse_type+="d"
                 arg_parse_name+="&%s, "%arg_name
                 parameter_string+="%s, "%arg_name
-            elif arg_type=="gsl_mode_t":
+            elif arg_type=="gsl_mode_t" and arg_operator is None:
                 arg_decl+="gsl_mode_t %s=GSL_PREC_SINGLE;\nchar %s_char='s';\n"%(arg_name,arg_name)
                 arg_parse_type+="c"
                 arg_parse_name+="&%s_char, "%arg_name
                 arg_control+="if (eval_gsl_mode_char(&%s,%s_char)) return NULL;\n"%(arg_name,arg_name)
                 parameter_string+="%s, "%arg_name
-            elif arg_operator is not None and \
-                 arg_operator=="*" and \
-                 (arg_type=="gsl_sf_result" or arg_type=="gsl_sf_result_e10"):
-                # gsl_sf_result at the end...
-                if result_type is not None:
-                    raise RuntimeError,"%s: found two result types"%self.name
-                result_type=arg_type
-                arg_decl+="%s result;\n"%result_type
-                parameter_string+="&result, "
+            elif arg_operator is not None and arg_operator=="*" and arg_type=="gsl_sf_result":
+                # a result parameter
+                arg_decl+="gsl_sf_result %s;\n"%arg_name
+                parameter_string+="&%s, "%arg_name
+                result_arg+="%s.val, %s.err, "%(arg_name,arg_name)
+                result_format+="(dd)"
+            elif arg_operator is not None and arg_operator=="*" and arg_type=="gsl_sf_result_e10":
+                # a result parameter
+                arg_decl+="gsl_sf_result_e10 %s;\n"%arg_name
+                parameter_string+="&%s, "%arg_name
+                result_arg+="%s.val, %s.err, %s.e10, "%(arg_name,arg_name,arg_name)
+                result_format+="(ddi)"
+            elif arg_operator is not None and arg_operator=="*" and arg_type=="double":
+                # a result parameter
+                arg_decl+="double %s;\n"%arg_name
+                parameter_string+="&%s, "%arg_name
+                result_arg+="%s, "%arg_name
+                result_format+="d"
             else:
                 raise RuntimeError, "%s: unsupported parameter type %s"%(self.name,p)
 
         #strip comma from arg_parse_* and parameter_string
         parameter_string=string.strip(parameter_string)[:-1]
+        result_arg=string.strip(result_arg)[:-1]
         arg_parse_name=string.strip(arg_parse_name)[:-1]
 
-        if result_type is None:
-            raise RuntimeError, "%s: expected result type in parameter list"%(self.name)
+        if arg_parse_type=="":
+            raise RuntimeError, "%s: expected parameters in argument list"%(self.name)
+        if result_format=="":
+            raise RuntimeError, "%s: expected result type in argument list"%(self.name)
 
         # more ...
 
         # check return value
         if not self.return_value=="int":
-            raise RuntimeError, "%s: expected int as return value"%(self.name)            
+            raise RuntimeError, "%s: expected int as return value"%(self.name)
 
         func="/* wrapper for "+self.original_declaration()+" */\n"
 
@@ -269,18 +285,8 @@ if (int_result!=GSL_SUCCESS) {
   return NULL;
 }
 """
-
         # build return value
-        if result_type=="gsl_sf_result":
-            func+="""
-returned_object=Py_BuildValue("dd",result.val,result.err);
-"""
-        elif result_type=="gsl_sf_result_e10":
-            func+="""
-returned_object=Py_BuildValue("ddi",result.val,result.err,result.e10);
-"""
-        else:
-            raise RuntimeError, "%s: unexpected result type %s"%(self.name,result_type)
+        func+="returned_object=Py_BuildValue(\"%s\",%s);\n"%(result_format,result_arg)
 
         # return it
         func+="return returned_object;\n"
@@ -289,7 +295,7 @@ returned_object=Py_BuildValue("ddi",result.val,result.err,result.e10);
         func+="}\n"
         return func
 
-# missing: gsl_mode_t_evaluate function or similar
+# missing: 
 #          documentation data
 #          other functions without error values
 #          size_t type
