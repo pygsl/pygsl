@@ -1084,6 +1084,7 @@ static PyObject* class_rng_uniform_int(PyObject *self,
 
   if (0==PyArg_ParseTuple(args,"O!l",&PyInstance_Type,&class_instance,&n))
     return NULL;
+  /* ToDo: Test if exception from gsl is returned .... see doc */
   if (n==0)
     {
       /* floating point exception is raised, if n==0 */
@@ -1091,9 +1092,16 @@ static PyObject* class_rng_uniform_int(PyObject *self,
       PyObject* err_module;
       PyObject* err_module_dict;
       PyObject* raise_error;
-      err_module=PyImport_ImportModule("gsl.errors");
+      err_module=PyImport_ImportModule("pygsl.errors");
+      if (err_module==NULL)
+	return NULL;
       err_module_dict=PyModule_GetDict(err_module);
+      Py_DECREF(err_module);
+      if (err_module_dict==NULL)
+	return NULL;
       raise_error=PyDict_GetItemString(err_module_dict,"gsl_ZeroDivisionError");
+      if (raise_error==NULL)
+	return NULL;
       PyErr_SetString(raise_error,"2nd argument must be !=0");
       return NULL;
     }
@@ -1159,7 +1167,7 @@ static PyObject* ran_ugaussian(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!", &PyInstance_Type, &py_rng))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_ugaussian(rng);
   Py_DECREF(py_rng);
@@ -1181,7 +1189,7 @@ static PyObject* ran_ugaussian_ratio_method(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!", &PyInstance_Type, &py_rng))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_ugaussian_ratio_method(rng);
   Py_DECREF(py_rng);
@@ -1204,7 +1212,7 @@ static PyObject* ran_gaussian_tail(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&sigma,&a))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_gaussian_tail(rng,sigma,a);
   Py_DECREF(py_rng);
@@ -1227,7 +1235,7 @@ static PyObject* ran_ugaussian_tail(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&a))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_ugaussian_tail(rng,a);
   Py_DECREF(py_rng);
@@ -1249,7 +1257,7 @@ static PyObject* ran_bivariate_gaussian(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!ddd", &PyInstance_Type, &py_rng,&sigma_x,&sigma_y,&rho))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   gsl_ran_bivariate_gaussian(rng,sigma_x, sigma_y, rho, &x, &y);
   Py_DECREF(py_rng);
@@ -1271,7 +1279,7 @@ static PyObject* ran_exponential(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&mu))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_exponential(rng,mu);
   Py_DECREF(py_rng);
@@ -1294,7 +1302,7 @@ static PyObject* ran_laplace(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&mu))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_laplace(rng,mu);
   Py_DECREF(py_rng);
@@ -1317,7 +1325,7 @@ static PyObject* ran_exppow(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&mu,&a))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_exppow(rng,mu,a);
   Py_DECREF(py_rng);
@@ -1340,7 +1348,7 @@ static PyObject* ran_cauchy(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&mu))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_cauchy(rng,mu);
   Py_DECREF(py_rng);
@@ -1363,7 +1371,7 @@ static PyObject* ran_rayleigh(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&sigma))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_rayleigh(rng,sigma);
   Py_DECREF(py_rng);
@@ -1386,7 +1394,7 @@ static PyObject* ran_rayleigh_tail(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&a,&sigma))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_rayleigh_tail(rng,a,sigma);
   Py_DECREF(py_rng);
@@ -1409,7 +1417,7 @@ static PyObject* ran_levy(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&mu,&a))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_levy(rng,mu,a);
   Py_DECREF(py_rng);
@@ -1432,7 +1440,7 @@ static PyObject* ran_gamma(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&a,&b))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_gamma(rng,a,b);
   Py_DECREF(py_rng);
@@ -1455,7 +1463,7 @@ static PyObject* ran_gamma_int(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!l", &PyInstance_Type, &py_rng,&a))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_gamma_int(rng,a);
   Py_DECREF(py_rng);
@@ -1479,7 +1487,7 @@ static PyObject* ran_flat(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&a,&b))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_flat(rng,a,b);
   Py_DECREF(py_rng);
@@ -1502,7 +1510,7 @@ static PyObject* ran_lognormal(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&zeta,&sigma))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_lognormal(rng,zeta,sigma);
   Py_DECREF(py_rng);
@@ -1525,7 +1533,7 @@ static PyObject* ran_chisq(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&nu))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_chisq(rng,nu);
   Py_DECREF(py_rng);
@@ -1548,7 +1556,7 @@ static PyObject* ran_fdist(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&nu1,&nu2))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_fdist(rng,nu1,nu2);
   Py_DECREF(py_rng);
@@ -1571,7 +1579,7 @@ static PyObject* ran_tdist(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&nu))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_tdist(rng,nu);
   Py_DECREF(py_rng);
@@ -1594,7 +1602,7 @@ static PyObject* ran_beta(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&a,&b))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_beta(rng,a,b);
   Py_DECREF(py_rng);
@@ -1617,7 +1625,7 @@ static PyObject* ran_logistic(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&mu))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_logistic(rng,mu);
   Py_DECREF(py_rng);
@@ -1640,7 +1648,7 @@ static PyObject* ran_pareto(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&a,&b))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_pareto(rng,a,b);
   Py_DECREF(py_rng);
@@ -1663,7 +1671,7 @@ static PyObject* ran_dir_2d(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!", &PyInstance_Type, &py_rng))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   gsl_ran_dir_2d(rng, &x, &y);
   Py_DECREF(py_rng);
@@ -1684,7 +1692,7 @@ static PyObject* ran_dir_2d_trig_method(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!", &PyInstance_Type, &py_rng))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   gsl_ran_dir_2d_trig_method(rng, &x, &y);
   Py_DECREF(py_rng);
@@ -1705,7 +1713,7 @@ static PyObject* ran_dir_3d(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!", &PyInstance_Type, &py_rng))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   gsl_ran_dir_3d(rng, &x, &y, &z);
   Py_DECREF(py_rng);
@@ -1728,7 +1736,7 @@ static PyObject* ran_dir_nd(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!i", &PyInstance_Type, &py_rng,&n))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   if (n<1)
     {
@@ -1760,8 +1768,7 @@ static PyObject* ran_dir_nd(PyObject *self,
       if (py_float==NULL)
 	{
 	  free(vector);
-	  /*other elements from tuple must be freed*/
-	  /* not done :-( */
+	  Py_DECREF(py_result);
 	  return NULL;
 	}
       PyTuple_SetItem(py_result,i,py_float);
@@ -1784,7 +1791,7 @@ static PyObject* ran_weibull(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&mu,&a))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_weibull(rng,mu,a);
   Py_DECREF(py_rng);
@@ -1807,7 +1814,7 @@ static PyObject* ran_gumbel1(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&a,&b))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_gumbel1(rng,a,b);
   Py_DECREF(py_rng);
@@ -1830,7 +1837,7 @@ static PyObject* ran_gumbel2(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&a,&b))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_gumbel2(rng,a,b);
   Py_DECREF(py_rng);
@@ -1853,7 +1860,7 @@ static PyObject* ran_poisson(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&mu))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_poisson(rng,mu);
   Py_DECREF(py_rng);
@@ -1875,7 +1882,7 @@ static PyObject* ran_bernoulli(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&p))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_bernoulli(rng,p);
   Py_DECREF(py_rng);
@@ -1898,7 +1905,7 @@ static PyObject* ran_binomial(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!di", &PyInstance_Type, &py_rng,&p,&n))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_binomial(rng,p,n);
   Py_DECREF(py_rng);
@@ -1921,7 +1928,7 @@ static PyObject* ran_negative_binomial(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!di", &PyInstance_Type, &py_rng,&p,&n))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_negative_binomial(rng,p,n);
   Py_DECREF(py_rng);
@@ -1944,7 +1951,7 @@ static PyObject* ran_pascal(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!di", &PyInstance_Type, &py_rng,&p,&k))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_pascal(rng,p,k);
   Py_DECREF(py_rng);
@@ -1966,7 +1973,7 @@ static PyObject* ran_geometric(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&p))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_geometric(rng,p);
   Py_DECREF(py_rng);
@@ -1988,7 +1995,7 @@ static PyObject* ran_hypergeometric(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!iii", &PyInstance_Type, &py_rng,&n1,&n2,&t))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_hypergeometric(rng,n1,n2,t);
   Py_DECREF(py_rng);
@@ -2011,7 +2018,7 @@ static PyObject* ran_logarithmic(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!d", &PyInstance_Type, &py_rng,&p))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_logarithmic(rng,p);
   Py_DECREF(py_rng);
@@ -2032,7 +2039,7 @@ static PyObject* ran_landau(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!", &PyInstance_Type, &py_rng))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
   result=gsl_ran_landau(rng);
   Py_DECREF(py_rng);
   py_result=PyFloat_FromDouble(result);
@@ -2052,7 +2059,7 @@ static PyObject* ran_erlang(PyObject *self,
   if (0==PyArg_ParseTuple(args,"O!dd", &PyInstance_Type, &py_rng,&a,&n))
     return NULL;
   py_rng=PyObject_GetAttrString(py_rng,"_rng");
-  rng=(gsl_rng*)PyCObject_AsVoidPtr(PyObject_GetAttrString(py_rng,"_rng"));
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
   result=gsl_ran_erlang(rng,a,n);
   Py_DECREF(py_rng);
   py_result=PyFloat_FromDouble(result);
