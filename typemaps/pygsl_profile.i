@@ -7,7 +7,7 @@
  * the wrappers.   
  */
 %{
-#include <typemaps/pygsl_profile.h>
+#include <pygsl/profile.h>
 %}
 #define PYGSL_PROFILE_INPUT
 #ifdef PYGSL_PROFILE_INPUT

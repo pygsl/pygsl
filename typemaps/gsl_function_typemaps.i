@@ -20,9 +20,9 @@
 #include <gsl/gsl_errno.h>
 #include <assert.h>
 #include <float.h>
-#include <utils/util.h>
 #include <setjmp.h>
-#include <typemaps/gsl_function_helpers.ic>
+#include <pygsl/utils.h>
+#include <pygsl/function_helpers.h>
 %}
 /* -------------------------------------------------------------------------
    Generic Helper Functions
@@ -38,15 +38,18 @@
 %typemap(in) gsl_function * STORE {
      FUNC_MESS("gsl_function STORE BEGIN");
      $1 = PyGSL_convert_to_$1_basetype ($input);
+     FUNC_MESS("gsl_function STORE END");
      if($1==NULL) goto fail;
 }
 
 %typemap(freearg) gsl_function * FREE {
+     FUNC_MESS("gsl_function FREE BEGIN");
      if(_function$argnum){
 	  assert($1 == _function$argnum);
 	  PyGSL_params_free((callback_function_params *) $1->params);
 	  free($1);    
      }
+     FUNC_MESS("gsl_function FREE END");
 }
 %typemap(freearg) gsl_function_fdf * FREE {
      if(_function$argnum){
@@ -71,13 +74,16 @@
  *	     (sys)->function->params
  * ------------------------------------------------------------------------- */
 %typemap(arginit) gsl_fsolver * BUFFER %{
-     /* Arginit gsl_fsolver */
      $1_basetype * volatile _solver$argnum = NULL;
 %}
 %typemap(arginit) gsl_fdfsolver * BUFFER = gsl_fsolver * BUFFER;
 
 /*
- * I am too lasy to convert the Object to the pointer myself so I use 
+#define PyGSL_HANDLE_JMP_BUF((p)) \
+(setjmp(p->buffer) == 0) ? p->buffer_is_set = 1 : p->buffer_is_set = 0
+*/
+/*
+ * I am too lazy to convert the Object to the pointer myself so I use 
  *  check. Is this hack acceptable? */
 %typemap(check) gsl_fsolver * BUFFER {
      int flag;
@@ -93,7 +99,6 @@
 
      if((flag=setjmp(p->buffer)) == 0){
 	  FUNC_MESS("\t\t Setting Jmp Buffer");
-	  /* Set jump buffer */
 	  p->buffer_is_set = 1;
      } else {
 	  FUNC_MESS("\t\t Returning from Jmp Buffer");
@@ -110,8 +115,6 @@
 
      FUNC_MESS("\t\t Setting jump buffer");
      assert($1);
-
-
 
      _solver$argnum = $1;
      p = (callback_function_params_fdf *) 
@@ -178,6 +181,7 @@
 /* ------------------------------------------------------------------------ */
 
 /* -------------------------------------------------------------------------
+   Allows to return a numeric array from a gsl_vector stored in some function.
    gsl multiroot function
    ------------------------------------------------------------------------- */
 %typemap(out) gsl_multiroot_solver_data * {
@@ -192,6 +196,7 @@
 }
 %typemap(out) gsl_multimin_solver_data *    = gsl_multiroot_solver_data *;
 %typemap(out) gsl_multifit_solver_vector *  = gsl_multiroot_solver_data *;
+
 /* -------------------------------------------------------------------------
                       Copies
    ------------------------------------------------------------------------- */
@@ -215,7 +220,7 @@
 		             gsl_multifit_function       * STORE, 
 		             gsl_multifit_function_fdf   * STORE, 
 		             gsl_multimin_function       * STORE, 
-		             gsl_multimin_function_fdf   * STORE}
+			     gsl_multimin_function_fdf   * STORE}
 
 %apply gsl_function * FREE  {gsl_function_fdf            * FREE,
 		             gsl_multiroot_function      * FREE, 

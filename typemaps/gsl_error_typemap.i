@@ -4,7 +4,8 @@
  * Date  : December 2002
  */
 %{   
-#include <utils/util.h>  
+#include <pygsl/utils.h>
+#include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
 %}
 
@@ -31,20 +32,10 @@ typedef int gsl_error_flag;
      $1 = gsl_error_flag$argnum;
 %}
 */
+
+/* Warning: Swig will treat it as an pointer !! */
 %typemap(python, out) gsl_error_flag {
-     /* Warning: Swig will treat it as an pointer !! */
-     int flag;
-     flag = $1;
-     if(DEBUG > 2){
-	  fprintf(stderr,"I got an Error of %d\n", flag);
-     }
-     if(PyErr_Occurred())
-	  goto fail;
-     $result = PyInt_FromLong((long) flag);
-     if(flag>0){
-	  /* How can I end here without an Python error? */
-	  gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__, __LINE__, flag);
-	  goto fail;
-     }
+     $result = PyGSL_ERROR_FLAG_TO_PYINT($1);
+     if ($result == NULL) goto fail;
 }
 

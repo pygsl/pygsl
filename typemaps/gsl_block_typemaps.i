@@ -3,6 +3,8 @@
  * Author: Pierre Schnizer 
  * Date  : December 2002
  * 
+ * Changelog: 22. May 2002
+ *            Update to use libpygsl
  */
 /*
  * Typemaps to translate python arrays to gsl vectors and matrices. For 
@@ -23,12 +25,9 @@
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 %{
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_matrix.h>
-#include <Numeric/arrayobject.h>
-#include <typemaps/gsl_block_helpers.ic>
+#include <pygsl/utils.h>
+#include <pygsl/block_helpers.h>
 #include <typemaps/convert_block_description.h>
-#include <utils/util.h>
 #include <string.h>
 #include <assert.h>
 %}
@@ -82,29 +81,6 @@
 				    a_array->dimensions[0]);
 
 	  $1 = ($basetype *) &(_vector$argnum.vector);
-
-/* 
- *  This define worked with swig 1.1 I do not no, why it is failing for 
- *  swig1.3 so I disable it 
- */
-#ifdef undef
-#ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-	  if(DEBUG>10){
-	       int i, size;
-	       size = (_vector$argnum.vector.size < 6) ? 
-		    _vector$argnum.vector.size : 5;
-	       fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-		       "data in memory %p vector in memory %p\n", 
-		       $argnum, _PyVector$argnum, _PyVector$argnum, 
-		       &_vector$argnum.vector);
-	       for(i=0; i<size; i++){
-		    fprintf(stderr, "\t\tv_%d = %f\n", i, 
-			    (double) GET_$1_basetype(&(_vector$argnum.vector), 
-						     i));
-	       }
-	  }
-#endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-#endif
      }
 %}
 
@@ -141,38 +117,17 @@
      }
 %}
 /* ------------------------------------------------------------------------- */
+
+/*
+ * Attention! To allow the intermix of these typemaps that's absolutely 
+ * necessary, as freearg is called afterwards and would free the memory 
+ * again. That way all can be intermixed without problem. Just think pure
+ * input. This here would not be called so freearg has to free the memory.
+ */
 %typemap( argout) gsl_vector * INOUT {
      assert(_PyVector$argnum != NULL);
 
-/* 
- * This define worked with swig 1.1 I do not no, why it is failing for 
- * swig1.3 so I disable it 
- */
-#ifdef undef
-#ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-	  if(DEBUG>10){
-	       int i, size;
-	       size = ($1->size < 6) ? $1->size : 5;
-	       fprintf(stderr, "\tOutput Vector %d array in memory %p, "\
-		       "data in memory %p vector in memory %p\n", 
-		       $argnum, _PyVector$argnum, _PyVector$argnum, $1);
-	       for(i=0; i<size; i++){
-		    fprintf(stderr, "\t\tv_%d = %f\n", i, 
-			    (double) GET_$1_basetype($1, i));
-	       }
-	  }
-#else 
-	  /* No print for Complex Typemaps ! */
-#endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-#endif
-
      $result = t_output_helper($result,  (PyObject *) _PyVector$argnum);
-     /*
-      * Attention! To allow the intermix of these typemaps that's absolutely 
-      * necessary, as freearg is called afterwards and would free the memory 
-      * again. That way all can be intermixed without problem. Just think pure
-      * input. This here would not be called so freearg has to free the memory.
-      */
      _PyVector$argnum = NULL;
 }
 /* ------------------------------------------------------------------------- */
@@ -184,12 +139,9 @@
 /* ------------------------------------------------------------------------- */
 %typemap(out) gsl_vector_view {
      PyArrayObject * out = NULL;
-
+     BASIS_TYPE_$1_basetype tmp; 
      int i, dimension = -1;
 
-     BASIS_TYPE_$1_basetype tmp; 
-
-     //dimension = $1->vector.size;
      dimension = $1.vector.size;
      out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
 					      TO_PyArray_TYPE_$basetype);
@@ -237,8 +189,7 @@
  * There are some functions which set the values of the matrix. So one would
  * like them to mimic Numeric.ones and the like ...
  */
-%typemap(in) gsl_matrix * IN_ONLY_SIZE  %{
-     {	  
+%typemap(in) gsl_matrix * IN_ONLY_SIZE  {
 	  PyArrayObject * a_array;
 	  _PyMatrix$argnum = PyGSL_PyArray_generate_gsl_matrix_view(
 	       $input, TO_PyArray_TYPE_$1_basetype, $argnum);
@@ -249,20 +200,18 @@
 	       (BASIS_TYPE_C_$basetype *) a_array->data, 
 	       a_array->dimensions[0],
 	       a_array->dimensions[1]);
-	  $1 = &(_matrix$argnum.matrix);
-	  
-     }
-%}
+	  $1 = &(_matrix$argnum.matrix);	  
+}
 /* ------------------------------------------------------------------------- */
+/*
+ * Attention! To allow the intermix of these typemaps that's absolutely 
+ * necessary, as freearg is called afterwards and would free the memory 
+ * again. That way all can be intermixed without problem. Just think pure
+ * input. This here would not be called so freearg has to free the memory.
+ */
 %typemap( argout) gsl_matrix * INOUT {
      assert((PyObject *) _PyMatrix$argnum != NULL);
      $result = t_output_helper($result,  (PyObject *) _PyMatrix$argnum);
-     /*
-      * Attention! To allow the intermix of these typemaps that's absolutely 
-      * necessary, as freearg is called afterwards and would free the memory 
-      * again. That way all can be intermixed without problem. Just think pure
-      * input. This here would not be called so freearg has to free the memory.
-      */
      _PyMatrix$argnum = NULL;
 }
 %typemap( freearg) gsl_matrix * {
@@ -413,4 +362,3 @@
                                   gsl_matrix_char          * IN};
 
 /* EOF */
-

@@ -8,6 +8,9 @@
  * author: Pierre Schnizer
  * Date : December 2002
  *
+ * Changelog: 22. May 2002
+ *            Update to use libpygsl
+
  */
 /*
  * Currently these typemaps just support the conversion of Python_complex.
@@ -21,13 +24,12 @@
    ------------------------------------------------------------------------- */
 %{
 #include <gsl/gsl_errno.h>
-#include <utils/util.h>
-#include <typemaps/gsl_complex_helpers.ic>
-
+#include <pygsl/utils.h>
+#include <pygsl/complex_helpers.h>
 %}
 
+/* In direct */
 %typemap(in) gsl_complex {
-     /* In direct */
      $1_basetype tmp;
      if(PyGSL_PyCOMPLEX_TO_$1_basetype($input, &tmp) != GSL_SUCCESS)
 	  goto fail;
@@ -40,16 +42,15 @@
 %typemap(arginit) gsl_complex * IN %{
     $1_basetype tmp$argnum;
 %}
-%typemap( in) gsl_complex * IN %{ 
-     {
-	  /* In Pointer */
-	  if(PyGSL_PyCOMPLEX_TO_$1_basetype ($input, &tmp$argnum) != 
-	     GSL_SUCCESS)
-	       goto fail;
+/* In Pointer */
+%typemap( in) gsl_complex * IN {
+     if(PyGSL_PyCOMPLEX_TO_$1_basetype ($input, &tmp$argnum) != GSL_SUCCESS)
+	  goto fail;
      $1 = &tmp$argnum;
-     }
-%}
+}
 
+%typemap(arginit) gsl_complex * OUT %{
+%}
 /* Make the input ignored for the output */
 %typemap( in, numinputs=0) gsl_complex * OUT($basetype temp){
   FUNC_MESS_BEGIN();
@@ -129,6 +130,4 @@
 %apply gsl_complex * IN {gsl_complex_double       *,
                          gsl_complex_float        *, 
 			 gsl_complex_long_double  *};
-
-
-
+/* EOF */
