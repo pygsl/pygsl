@@ -29,7 +29,6 @@ include README
 include CREDITS
 include TODO
 include ChangeLog
-include Makefile
 include setup.py
 include setup.cfg
 include MANIFEST.in
