@@ -545,7 +545,7 @@ set_api_pointer(void)
      DEBUG_MESS(2, "__PyGSL_RNG_API   @ %p,  ", (void *) __PyGSL_RNG_API);
      DEBUG_MESS(2, "PyGSL_rng_pytype  @ %p,  ", (void *) &PyGSL_rng_pytype);
      PyGSL_API = __PyGSL_RNG_API;
-     fprintf(stderr, "__PyGSL_RNG_API @ %p\n", (void *) __PyGSL_RNG_API);
+     /* fprintf(stderr, "__PyGSL_RNG_API @ %p\n", (void *) __PyGSL_RNG_API); */
      FUNC_MESS_END();
 }
 
