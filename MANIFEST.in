@@ -8,6 +8,8 @@ recursive-include typemaps *.h
 recursive-include typemaps *.i
 recursive-include swig_src *.c
 recursive-include pygsl *.py
+exclude pygsl/_numobj.py
+exclude pygsl/_mlab.py
 recursive-include tests *.py
 recursive-include doc *.tex
 recursive-include doc *.html

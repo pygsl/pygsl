@@ -34,7 +34,7 @@ from distutils.core import setup, Extension
 from gsl_Extension import gsl_Extension
 from swig_extension import SWIG_Extension as _SWIG_Extension
 from swig_extension import SWIG_Extension_Nop as _SWIG_Extension_Nop
-
+import gsl_numobj
 from distutils import sysconfig
 from common_objects import libpygsl
 
@@ -344,13 +344,18 @@ py_module_names = ['errors',
                    'vector',
                    'math'
                    ]
+
+extends = ""
+if "bdist" in sys.argv:
+    extends = "_" + str(gsl_numobj.nummodule)
+    
 setup (name = "pygsl",
-       version = "0.3.0",
+       version = "0.3.1" + extends,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
        long_description = "This project provides a python interface for the GNU scientific library (gsl)",
        license = "GPL",
-       author = "Achim Gaedke",
+       author = "Achim Gaedke, Pierre Schnizer",
        author_email = "AchimGaedke@users.sourceforge.net, schnizer@users.sourceforge.net",
        url = "http://pygsl.sourceforge.net",
        py_modules = map(lambda x : 'pygsl.' + x, py_module_names),
