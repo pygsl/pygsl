@@ -1,3 +1,11 @@
+2005-04-04  Pierre Schnizer <schnizer@sourceforge.net>
+	* removed a tangling goto in PyGSL_statistics_d_AA
+
+2004-03-24 Pierre Schnizer <schnizer@users.sourceforge.net>,
+	* Rewrite of the statistics module. Moved common functions to 
+	  one module. Made them generic and changed the macros to use these
+	  generic functions.
+
 2002-01-27  Jochen Küpper  <jochen@jochen-kuepper.de>
 
 	* functions.c (All function macro implementations): Add a test for

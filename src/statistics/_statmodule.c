@@ -104,7 +104,8 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     PyArrayObject *data1=NULL, *data2=NULL;
     double result;
     int stride1=1, stride2=1, n1;
- 
+
+    FUNC_MESS_BEGIN();
     if(!(PyArg_ParseTuple(args, "OO", &input1, &input2))) 
 	return NULL;
 
@@ -126,14 +127,14 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
 
     if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, &stride2) != GSL_SUCCESS){
 	 goto fail;
-    }
-
-	goto fail; 
+    }    
     result = pointer((void *)data1->data, (size_t) stride1, (void *)data2->data, (size_t) stride2,  (size_t) n1);
     Py_DECREF(data1); 
     Py_DECREF(data2); 
+    FUNC_MESS_END();
     return PyFloat_FromDouble(result); 
- fail:
+ fail:    
+    FUNC_MESS("Fail");
     Py_XDECREF(data1);
     Py_XDECREF(data2);
     return NULL;
