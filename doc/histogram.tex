@@ -1,7 +1,5 @@
 \declaremodule{extension}{pygsl.histogram}
 \moduleauthor{Achim G\"adke}{achimgaedke@users.sourceforge.net}
-% for indexing like \refihistogramindex{histogram}{get}
-\newcommand{\refhistogramindex}[2]{\parbox{5cm}{\texttt{#2}}\index{#2@\texttt{#2} (in #1)}}
 
 This chapter is about the \class{histogram} and \class{histogram2d} type that
 are contained in \module{pygsl.histogram}.
@@ -12,41 +10,104 @@ are contained in \module{pygsl.histogram}.
 This type implements all methods on \ctype{struct gsl_histogram}.
 \end{classdesc}
 
-\newcommand{\methodhistogramindex}[1]{\refhistogramindex{histogram}{#1}}
-\begin{longtableiii}{l|l|l}{methodhistogramindex}{Method}{Description}{Return value}
-\lineiii{alloc(long length)}{allocate necessary space}{\texttt{None}}
-\lineiii{set_ranges_uniform(float upper, float lower)}{set the ranges to uniform distance}{\texttt{None}}
-\lineiii{reset()}{sets all bin values to 0}{\texttt{None}}
-\lineiii{increment(float x)}{increments corresponding bin}{\texttt{None}}
-\lineiii{accumulate(float x, float weight)}{adds the weight to corresponding bin}{\texttt{None}}
-\lineiii{max()}{returns upper range}{\texttt{float}}
-\lineiii{min()}{returns lower range}{\texttt{float}}
-\lineiii{bins()}{returns number of bins}{\texttt{long}}
-\lineiii{get(long n)}{gets value of indexed bin}{\texttt{float}}
-\lineiii{get_range(long n)}{gets upper and lower range of indexed bin}{\texttt{(float,float)}}
-\lineiii{find(double x)}{finds index of corresponding bin}{\texttt{long}}
-\lineiii{max_val()}{returns maximal bin value}{\texttt{float}}
-\lineiii{max_bin()}{returns bin index with maximal value}{\texttt{long}}
-\lineiii{min_val()}{returns minimal bin value}{\texttt{float}}
-\lineiii{min_bin()}{returns bin index with minimal value}{\texttt{long}}
-\lineiii{mean()}{returns mean of histogram}{\texttt{float}}
-\lineiii{sigma()}{returns std deviation of histogram}{\texttt{float}}
-\lineiii{sum()}{returns sum of bin values}{\texttt{float}}
-\lineiii{set_ranges(sequence ranges)}{sets range according given sequence}{\texttt{None}}
-\lineiii{shift(float offset)}{shifts the contents of the bins by the given offset}{\texttt{None}}
-\lineiii{scale(float scale)}{multiplies the contents of the bins by the given scale}{\texttt{None}}
-\lineiii{equal_bins_p()}{true if the all of the individual bin ranges are identical}{\texttt{int}}
-\lineiii{add(histogram h)}{adds the contents of the bins}{\texttt{None}}
-\lineiii{sub(histogram h)}{substracts the contents of the bins}{\texttt{None}}
-\lineiii{mul(histogram h)}{multiplicates the contents of the bins}{\texttt{None}}
-\lineiii{div(histogram h)}{divides the contents of the bins}{\texttt{None}}
-\lineiii{clone(histogram h)}{returns a new copy of this histogram}{\texttt{histogram}}
-\lineiii{copy(histogram h)}{copies the given histogram to myself}{\texttt{None}}
-\lineiii{read(file input)}{reads histogram binary data from file}{\texttt{None}}
-\lineiii{write(file output)}{writes histogram binary data to file}{\texttt{None}}
-\lineiii{scanf(file input)}{reads histogram data from file using scanf}{\texttt{None}}
-\lineiii{printf(file output)}{writes histogram data to file using printf}{\texttt{None}}
-\end{longtableiii}
+\begin{methoddesc}{alloc}{\texttt{long} length}
+allocate necessary space, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{set_ranges_uniform}{\texttt{float} upper, \texttt{float} lower}
+set the ranges to uniform distance, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{reset}{}
+sets all bin values to 0, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{increment}{\texttt{float} x}
+increments corresponding bin, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{accumulate}{\texttt{float} x, \texttt{float} weight}
+adds the weight to corresponding bin, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{max}{}
+returns upper range, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{min}{}
+returns lower range, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{bins}{}
+returns number of bins, \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{get}{\texttt{long} n}
+gets value of indexed bin, \hfill returns \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{get_range}{\texttt{long} n}
+gets upper and lower range of indexed bin, \hfill returns \texttt{(float,float)}
+\end{methoddesc}
+\begin{methoddesc}{find}{\texttt{float} x}
+finds index of corresponding bin, \hfill returns \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{max_val}{}
+returns maximal bin value, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{max_bin}{}
+returns bin index with maximal value, \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{min_val}{}
+returns minimal bin value, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{min_bin}{}
+returns bin index with minimal value, \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{mean}{}
+returns mean of histogram, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{sigma}{}
+returns std deviation of histogram, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{sum}{}
+returns sum of bin values, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{set_ranges}{\texttt{sequence} ranges}
+sets range according given sequence, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{shift}{\texttt{float} offset}
+shifts the contents of the bins by the given offset, \hfill returns
+\texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{scale}{\texttt{float} scale}
+multiplies the contents of the bins by the given scale, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{equal_bins_p}{}
+true if the all of the individual bin ranges are identical, \hfill returns \texttt{int}
+\end{methoddesc}
+\begin{methoddesc}{add}{\texttt{histogram} h}
+adds the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{sub}{\texttt{histogram} h}
+substracts the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{mul}{\texttt{histogram} h}
+multiplicates the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{div}{\texttt{histogram} h}
+divides the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{clone}{\texttt{histogram} h}
+returns a new copy of this histogram, \hfill returns new \texttt{histogram}
+\end{methoddesc}
+\begin{methoddesc}{copy}{\texttt{histogram} h}
+copies the given histogram to myself, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{read}{\texttt{file} input}
+reads histogram binary data from file, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{write}{\texttt{file} output}
+writes histogram binary data to file, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{scanf}{\texttt{file} input}
+reads histogram data from file using scanf, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{printf}{\texttt{file} output}
+writes histogram data to file using printf, \hfill returns \texttt{None}
+\end{methoddesc}
+
 
 Some mapping operations are supported too:\nopagebreak
 \begin{tableii}{l|l}{texttt}{Mapping syntax}{Effect}
@@ -214,7 +275,7 @@ To be implemented\dots
 %% Local Variables:
 %% mode: LaTeX
 %% mode: auto-fill
-%% fill-column: 79
+%% fill-column: 90
 %% indent-tabs-mode: nil
 %% ispell-dictionary: "american"
 %% reftex-fref-is-default: nil
