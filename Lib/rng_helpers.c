@@ -40,8 +40,10 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
      }
 
      random =(gsl_rng*) PyCObject_AsVoidPtr(tmp);
-     if(random == NULL)
+     if(random == NULL){
+       FUNC_MESS("FAIL");
 	  return NULL;
+     }
      FUNC_MESS("End GSL_RNG");
      
      return random;
@@ -75,7 +77,7 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
      a_array = (PyArrayObject *) PyArray_FromDims(1, &dimension, ARRAY_TYPE);\
      									     \
      if(NULL == a_array){						     \
-	  return NULL;							     \
+	FUNC_MESS("FAIL"); return NULL;					     \
      }									     \
      data = (DATA_TYPE *) a_array->data;			             \
      for (i=0; i<dimension;i++){					     \
@@ -113,6 +115,7 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
 									     \
 									     \
      Py_DECREF(array_in);						     \
+     FUNC_MESS_END();                                                        \
      return (PyObject *) array_out;                                          \
 }
 #else /* Numeric */
@@ -131,8 +134,10 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
      }                                                                       \
                                                                              \
      list = PyList_New(dimension);					     \
-     if(!list)								     \
+     if(!list){								     \
+	  FUNC_MESS("FAIL");						     \
 	  return NULL;							     \
+     }                                                                       \
      for (i=0; i<dimension;i++){					     \
 	  PyObject *tmp;						     \
 	  tmp = TOPYOBJECT(evaluator(rng->rng RNG_ARGUMENTS));		     \
@@ -142,6 +147,7 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
 	  }								     \
 	  PyList_SET_ITEM(list, i, tmp);				     \
      }									     \
+     FUNC_MESS_END();                                                        \
      return list;     							     \
 }
 #define PDF_EVALUATOR                                                        \
@@ -176,7 +182,8 @@ PyGSL_rng_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const gs
 #define PyGSL_CONVERTER  PyGSL_PYFLOAT_TO_DOUBLE
 
      RNG_EVALUATOR
-  fail:  
+  fail:
+     FUNC_MESS("FAIL");
      return NULL;
 }
 
@@ -199,6 +206,7 @@ PyGSL_pdf_to_double(PyObject *self, PyObject *args, double (*evaluator)(double))
      PDF_EVALUATOR
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -221,6 +229,7 @@ PyGSL_rng_d_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const 
 
      RNG_EVALUATOR
   fail:  
+     FUNC_MESS("FAIL");
      return NULL;
 }
 
@@ -244,6 +253,7 @@ PyGSL_pdf_d_to_double(PyObject *self, PyObject *args, double (*evaluator)(double
      PDF_EVALUATOR
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -266,6 +276,7 @@ PyGSL_rng_dd_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const
 
      RNG_EVALUATOR
   fail:  
+     FUNC_MESS("FAIL");
      return NULL;
 }
 
@@ -289,6 +300,7 @@ PyGSL_pdf_dd_to_double(PyObject *self, PyObject *args, double (*evaluator)(doubl
      PDF_EVALUATOR
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -311,6 +323,7 @@ PyGSL_rng_ddd_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(cons
 
      RNG_EVALUATOR
   fail:  
+     FUNC_MESS("FAIL");
      return NULL;
 }
 
@@ -334,6 +347,7 @@ PyGSL_pdf_ddd_to_double(PyObject *self, PyObject *args, double (*evaluator)(doub
      PDF_EVALUATOR
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -369,6 +383,7 @@ PyGSL_rng_ui_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const
 
      RNG_EVALUATOR
   fail:  
+     FUNC_MESS("FAIL");
      Py_XDECREF(limit_o);
      return NULL;
 }
@@ -407,6 +422,7 @@ PyGSL_pdf_ui_to_double(PyObject *self, PyObject *args, double (*evaluator)(unsig
      PDF_EVALUATOR
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -438,6 +454,7 @@ PyGSL_rng_d_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(con
 
      RNG_EVALUATOR
   fail:  
+     FUNC_MESS("FAIL");
      return NULL;
 }
 
@@ -475,6 +492,7 @@ PyGSL_pdf_d_to_ui(PyObject *self, PyObject *args, double (*evaluator)(unsigned i
      PDF_EVALUATOR
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -512,6 +530,7 @@ PyGSL_rng_dui_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(c
 
      RNG_EVALUATOR
   fail:  
+     FUNC_MESS("FAIL");
      return NULL;
 }
 
@@ -553,6 +572,7 @@ PyGSL_pdf_dui_to_ui(PyObject *self, PyObject *args, double (*evaluator)(unsigned
      PDF_EVALUATOR
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -587,6 +607,7 @@ PyGSL_rng_dd_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(co
 
      RNG_EVALUATOR
   fail:  
+     FUNC_MESS("FAIL");
      return NULL;
 }
 
@@ -622,6 +643,7 @@ PyGSL_pdf_dd_to_ui(PyObject *self, PyObject *args, double (*evaluator)(const uns
      PDF_EVALUATOR
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -664,6 +686,7 @@ PyGSL_rng_uiuiui_to_ui(PyGSL_rng *rng, PyObject *args,
 
      RNG_EVALUATOR
   fail:  
+     FUNC_MESS("FAIL");
      return NULL;
 }
 
@@ -705,7 +728,8 @@ PyGSL_pdf_uiuiui_to_ui(PyObject *self, PyObject *args,
 #define ARRAY_TYPE_OUT   PyArray_DOUBLE
      PDF_EVALUATOR
 
- fail:
+ fail:     
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -744,9 +768,10 @@ PyGSL_rng_ddd_to_dd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_
 	  a_array = (PyArrayObject *) PyArray_FromDims(2, dims, PyArray_DOUBLE);
      }
 
-     if(a_array == NULL)
+     if(a_array == NULL){
+          FUNC_MESS("FAIL");
 	  return NULL;
-
+     }
 
      for(i=0; i<dimension; i++){
 	  data = (double *) (a_array->data + a_array->strides[0] * i);
@@ -780,14 +805,18 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 #endif
      {  /* No arrays, just calculate one float */
 	  if(!PyArray_Check(tmp1)){
-	       if(PyGSL_PYFLOAT_TO_DOUBLE(tmp1, &x, NULL) != GSL_SUCCESS)	               
-		    return NULL;
-	  }					       
-	  if(!PyArray_Check(tmp1)){
-	       if(PyGSL_PYFLOAT_TO_DOUBLE(tmp2, &y, NULL) != GSL_SUCCESS)	               
-		    return NULL;
+	      if(PyGSL_PYFLOAT_TO_DOUBLE(tmp1, &x, NULL) != GSL_SUCCESS){
+		  FUNC_MESS("FAIL");
+		  return NULL;
+	    }
 	  }
-	  return PyFloat_FromDouble(evaluator(x, y, d1, d2, d3));                      
+	  if(!PyArray_Check(tmp1)){
+	      if(PyGSL_PYFLOAT_TO_DOUBLE(tmp2, &y, NULL) != GSL_SUCCESS){
+		  FUNC_MESS("FAIL");
+		  return NULL;
+	      }
+	  }
+	  return PyFloat_FromDouble(evaluator(x, y, d1, d2, d3));
      }
 
 
@@ -804,8 +833,9 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 	       x_strides = array_x->strides[0] / sizeof(double);
 	       data_x = (double *) array_x->data;
 	  } else {
-	       if(PyGSL_PYFLOAT_TO_DOUBLE(tmp1, &x, NULL) != GSL_SUCCESS)	               
+	      if(PyGSL_PYFLOAT_TO_DOUBLE(tmp1, &x, NULL) != GSL_SUCCESS){
 		    goto fail;
+	      }
 	       data_x = &x;
 	  }
 	  if(PyArray_Check(tmp1)){	       
@@ -814,8 +844,9 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 		* Dimension -1 means no check necessary
 		*/
 	       array_y = PyGSL_PyArray_PREPARE_gsl_vector_view(tmp2, PyArray_DOUBLE, 0, dimension, 2, NULL);
-	       if(array_y == NULL)
+	       if(array_y == NULL){
 		    goto fail;
+	       }
 	       if (dimension == -1)
 		    dimension = array_y->dimensions[0];
 	       else
@@ -823,27 +854,30 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 	       y_strides = array_y->strides[0] / sizeof(double);
 	       data_y = (double *) array_y->data;
 	  } else {
-	       if(PyGSL_PYFLOAT_TO_DOUBLE(tmp2, &y, NULL) != GSL_SUCCESS)	               
+	      if(PyGSL_PYFLOAT_TO_DOUBLE(tmp2, &y, NULL) != GSL_SUCCESS){
 		    goto fail;
+	      }
 	       data_y = &y;
 	  }
 
 	  array_out = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
-	  data_out = (double *) array_out->data;				       
+	  data_out = (double *) array_out->data;
 									       
 	  for(i=0; i<dimension; i++){					       
 	       x = *(data_x + x_strides * i);
 	       y = *(data_y + y_strides * i);
-	       data_out[i] = evaluator(x, y, d1, d2, d3);  		               
-	  }									       
-	  									       
+	       data_out[i] = evaluator(x, y, d1, d2, d3);
+	  }
+
 	  Py_DECREF(array_x);						       
 	  Py_DECREF(array_y);
-	  return (PyObject *) array_out;                                            
+	  FUNC_MESS_END();
+	  return (PyObject *) array_out;
      }
 
 
 	  fail:
+	  FUNC_MESS("Fail");
 	  Py_XDECREF(array_x);
 	  Py_XDECREF(array_y);
 	  Py_XDECREF(array_out);
@@ -910,9 +944,10 @@ PyGSL_rng_to_generic_nd(PyGSL_rng *rng, PyObject *args, int type, void *evaluato
      } else {
 	  a_array = (PyArrayObject *) PyArray_FromDims(2, dims, PyArray_DOUBLE);
      }
-     if(a_array == NULL)
+     if(a_array == NULL){
+	  FUNC_MESS("FAIL");
 	  return NULL;
-
+     }
      for(i=0; i<dimension; i++){
 	  data = (double *) (a_array->data + a_array->strides[0] * i);
 	  switch(type){
@@ -1046,6 +1081,7 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
      return (PyObject *) a_array_out;
 
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(N_o);
      Py_XDECREF(a_array_in);
      Py_XDECREF(a_array_out);
@@ -1058,7 +1094,7 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
      PyObject *tmp, *tmp1;
      PyArrayObject *array_n = NULL, *array_p = NULL, *array_out = NULL;
      int dimension=1, k, i;
-     double *data_p, *data_out, *data_theta; 
+     double *data_p, *data_out, *data_theta, tmp_data; 
      unsigned int *data_n;
 
      double (*evaluator_double) (const size_t, const double [], const double []) = NULL;
@@ -1076,19 +1112,24 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	  goto fail;	  
      
      k = array_p->dimensions[0];
+     FUNC_MESS("Building Matrix!");
      array_n = PyGSL_PyArray_prepare_gsl_matrix_view(tmp1, type_3darg, 0, -1, k,  -1, NULL);
+     FUNC_MESS("BUILT!");
      if(array_n == NULL)
 	  goto fail;
 
-     dimension = array_n->dimensions[1];
+     dimension = array_n->dimensions[0];
 
+     FUNC_MESS("New Array ...");
      array_out = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     FUNC_MESS("BUILT New Array");
      if(array_out == NULL)
 	  goto fail;
 
      data_p = (double *) array_p->data;
      data_out = (double *) array_out->data;
 
+     FUNC_MESS("SWITCHING callback");
      assert(type_3darg == PyArray_DOUBLE || type_3darg == PyArray_LONG);
      switch(type_3darg){
      case PyArray_DOUBLE:      
@@ -1098,25 +1139,42 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	  evaluator_uint    = (double (*) (const size_t, const double [], const unsigned int [])) evaluator;
 	  break;
      default:
-	  assert(1);
+	  assert(0);
      }
+     DEBUG_MESS(2, "array_n has %d dimensions. dim = [%d, %d]" 
+		" strides = [%d,%d]", array_n->nd, 
+		array_n->dimensions[0], array_n->dimensions[1],
+		array_n->strides[0], array_n->strides[1]);
+     DEBUG_MESS(2, "array_out has %d dimensions. dim = [%d]" 
+		" strides = [%d,], dimension = %d, k = %d", array_out->nd, 
+		array_out->dimensions[0], array_out->strides[0], dimension, k);
+     FUNC_MESS("Evaluating callback");
+     assert(array_out->dimensions[0] >= dimension);
      for(i = 0; i < dimension; i++){
 	  if(type_3darg == PyArray_DOUBLE){
-	       data_theta = (double *) (array_n->data + array_n->strides[0] * i);
+	       DEBUG_MESS(2, "Referenceing double element %d", i);
+	       data_theta = (double *)(array_n->data + array_n->strides[0]*i);
 	       assert(evaluator_double != NULL);
-	       data_out[i] = evaluator_double((size_t) k, data_p, data_theta);
+	       DEBUG_MESS(2, "Calling Function for element %d", i);
+	       tmp_data = evaluator_double((size_t) k, data_p, data_theta);
+	       DEBUG_MESS(2, "Storing in array_out %f", tmp_data);
+	       data_out[i] = tmp_data;
 	  }else if (type_3darg == PyArray_LONG){
-	       data_n = (unsigned int *) (array_n->data + array_n->strides[0] * i);
+	       DEBUG_MESS(2, "Evaluating long element %d", i);
+	       data_n = (unsigned int *)((long *) (array_n->data + array_n->strides[0] * i));
 	       assert(evaluator_uint != NULL);
 	       data_out[i] = evaluator_uint((size_t) k, data_p, data_n);
 	  }else {
-	       /* Why did I end here?? I checked in the beginnig that it was either or ... */
+	      /*
+	       * Why did I end here?? I checked in the beginnig that it was 
+	       *  either or ... 
+	       */
 	       assert(1);
 	  }
-
      }
      return (PyObject *) array_out;
  fail:
+     FUNC_MESS("FAIL");
      Py_XDECREF(array_p);
      Py_XDECREF(array_n);
      Py_XDECREF(array_out);
@@ -1170,6 +1228,7 @@ PyGSL_rng_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evaluator
      RNG_EVALUATOR
 
  fail:  
+     FUNC_MESS("FAIL");
      return NULL;	  
 }
 #undef  RNG_ARGUMENTS
@@ -1201,7 +1260,6 @@ PyGSL_rng_ul_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evalua
      RNG_EVALUATOR
 
   fail:  
+     FUNC_MESS("FAIL");
      return NULL;
 }
-
-

@@ -4,6 +4,7 @@
  * Date   : 1. July. 2003
  *
  */
+#include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/rng.h>
@@ -154,9 +155,10 @@ rng_init(PyObject *self, PyObject *args)
      PyObject *type = NULL;
      PyGSL_rng *rng = NULL;
 
+     FUNC_MESS_BEGIN();
      assert(args);
-     if (0 == PyArg_ParseTuple(args, "|O!:rng.__init__", &PyGSL_rng_type_pytype, 
-			       &type)){
+     if (0 == PyArg_ParseTuple(args, "|O!:rng.__init__", 
+			       &PyGSL_rng_type_pytype, &type)){
 	  PyGSL_add_traceback(module, __FILE__, "rng.__init__", __LINE__ - 2);
 	  return NULL;
      }     
@@ -167,26 +169,32 @@ rng_init(PyObject *self, PyObject *args)
      }else{
 	  rng->rng = gsl_rng_alloc(((PyGSL_rng_type *)type)->rng_type);
      }
+     FUNC_MESS_END();
      return (PyObject *) rng;
 }
 
 static void
 rng_delete(PyGSL_rng *self)
 {
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      gsl_rng_free(self->rng);
      DEBUG_MESS(1, " self %p\n",(void *) self);
      PyMem_Free(self);
+     FUNC_MESS_END();
 }
 
 static PyObject *		/* on "instance.uniform()" and "instance()" */
 rng_call (PyGSL_rng *self, PyObject *args)
 {
      PyObject *tmp;
+
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      tmp = PyGSL_rng_to_double(self, args, gsl_rng_uniform);
      if(!tmp)
 	  PyGSL_add_traceback(module, __FILE__, "rng.__call__", __LINE__ - 2);
+     FUNC_MESS_END();
      return tmp;
 }
 
@@ -194,21 +202,27 @@ static PyObject *
 rng_uniform_pos (PyGSL_rng *self, PyObject *args)
 {
      PyObject *tmp;
+
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      tmp = PyGSL_rng_to_double(self, args, gsl_rng_uniform_pos);
      if(!tmp)
-	  PyGSL_add_traceback(module, __FILE__, "rng.uniform_pos", __LINE__ - 2);
+	  PyGSL_add_traceback(module, __FILE__, "rng.uniform_pos", __LINE__-2);
+     FUNC_MESS_END();
      return tmp;
 }
 
 static PyObject *
 rng_uniform_int (PyGSL_rng *self, PyObject *args)
 {
-     PyObject *tmp;
+     PyObject *tmp = NULL;
+
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      tmp = PyGSL_rng_ul_to_ulong(self, args, gsl_rng_uniform_int);
      if(!tmp)
-	  PyGSL_add_traceback(module, __FILE__, "rng.uniform_int", __LINE__ - 2);
+	  PyGSL_add_traceback(module, __FILE__, "rng.uniform_int", __LINE__-2);
+     FUNC_MESS_END();
      return tmp;
 }
 
@@ -217,34 +231,41 @@ rng_uniform_int (PyGSL_rng *self, PyObject *args)
 static PyObject *
 rng_get(PyGSL_rng *self, PyObject *args)
 {
-     PyObject  *tmp;
+     PyObject  *tmp = NULL;
+
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      tmp = PyGSL_rng_to_ulong(self, args, gsl_rng_get);
      if(!tmp)
 	  PyGSL_add_traceback(module, __FILE__, "rng.get", __LINE__ - 2);
+     FUNC_MESS_END();
      return tmp;
 }
 
 static PyObject *
 rng_set(PyGSL_rng *self, PyObject *args)
 {
-     PyObject *tmp, *seed;
+     PyObject *tmp = NULL, *seed = NULL;
      unsigned long int useed;
      int lineno;
 
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      if(0 == PyArg_ParseTuple(args, "O", &tmp)){
 	  lineno = __LINE__; goto fail;
      }
+     assert(tmp != NULL);
      seed = PyNumber_Long(tmp);
      if(!seed){lineno = __LINE__ - 1; goto fail;}
      useed =  PyLong_AsUnsignedLong(seed);
      gsl_rng_set(self->rng, useed);
      
      Py_INCREF(Py_None);
+     FUNC_MESS_END();
      return Py_None;
 
  fail:
+     FUNC_MESS("FAIL");
      PyGSL_add_traceback(module, __FILE__, "rng.set", lineno);
      return NULL;
 }
@@ -252,39 +273,54 @@ rng_set(PyGSL_rng *self, PyObject *args)
 static PyObject *
 rng_name(PyGSL_rng *self, PyObject *args)
 {
+     PyObject *tmp = NULL;
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      if(0 == PyArg_ParseTuple(args, ":name"))
 	  return NULL;
-     return PyString_FromString(gsl_rng_name(self->rng));
+     tmp = PyString_FromString(gsl_rng_name(self->rng));
+     FUNC_MESS_END();
+     return tmp;
 }
 
 static PyObject *
 rng_max(PyGSL_rng *self, PyObject *args)
 {
+     PyObject *tmp = NULL;
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      if(0 == PyArg_ParseTuple(args, ":max"))
 	  return NULL;
-     return PyLong_FromUnsignedLong(gsl_rng_max(self->rng));
+     tmp = PyLong_FromUnsignedLong(gsl_rng_max(self->rng));
+     FUNC_MESS_END();
+     return tmp;
 }
 
 static PyObject *
 rng_min(PyGSL_rng *self, PyObject *args)
 {
+     PyObject *tmp = NULL;
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      if(0 == PyArg_ParseTuple(args, ":min"))
 	  return NULL;
-     return PyLong_FromUnsignedLong(gsl_rng_min(self->rng));
+     tmp = PyLong_FromUnsignedLong(gsl_rng_min(self->rng));
+     FUNC_MESS_END();
+     return tmp;
 }
 
 static PyObject *
 rng_clone(PyGSL_rng *self, PyObject *args)
 {
-     PyGSL_rng * rng;
+     PyGSL_rng * rng = NULL;
+
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      if(0 == PyArg_ParseTuple(args, ":clone"))
 	  return NULL;
      rng =  (PyGSL_rng *) PyObject_NEW(PyGSL_rng, &PyGSL_rng_pytype);
      rng->rng = gsl_rng_clone(self->rng);
+     FUNC_MESS_END();
      return (PyObject *) rng;
 }
 
@@ -292,22 +328,19 @@ rng_clone(PyGSL_rng *self, PyObject *args)
 #define RNG_DISTRIBUTION(name, function)                                     \
 static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args)              \
 {                                                                            \
-     PyObject *tmp = PyGSL_rng_ ## function (self, args,  gsl_ran_ ## name); \
+     PyObject *tmp = NULL;                                                   \
+     FUNC_MESS_BEGIN();                                                      \
+     tmp = PyGSL_rng_ ## function (self, args,  gsl_ran_ ## name);           \
      if (tmp == NULL){                                                       \
-	  /* PyGSL_add_traceback(module, __FILE__, "rng." #name, __LINE__); */\
+       /* PyGSL_add_traceback(module, __FILE__, "rng." #name, __LINE__); */  \
 	  PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);     \
      }                                                                       \
+     FUNC_MESS_END();                                                        \
      return tmp;                                                             \
 }
 
 #include "rng_distributions.h"
 
-/*
-#define RNG_DISTRIBUTION(name, function)                            \
-{param ## name ## param , (PyCFunction) rng_ ## name , METH_VARARGS, NULL},
-*/
-#undef PARAM
-#define PARAM 1 
 /* Redefine to trigger emacs into correct coloring*/
 
 static struct PyMethodDef rng_methods[] = {
@@ -374,6 +407,8 @@ static PyObject *
 rng_getattr(PyGSL_rng *self, char *name)
 {
      PyObject *tmp = NULL;
+
+     FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
      tmp = Py_FindMethod(rng_methods, (PyObject *) self, name);
      if(NULL == tmp){	  
@@ -416,10 +451,12 @@ rng_types_setup(PyObject *self, PyObject *args)
 static PyObject* rng_ ## name ## _pdf (PyObject *self, PyObject *args)     \
 {                                                                          \
      PyObject * tmp;                                                       \
+     FUNC_MESS_BEGIN();                                                    \
      tmp =  PyGSL_pdf_ ## function (self, args, gsl_ran_ ## name ## _pdf); \
      if (tmp == NULL){                                                     \
 	  PyGSL_add_traceback(module, __FILE__, #name  "_pdf", __LINE__);  \
      }                                                                     \
+     FUNC_MESS_END();                                                      \
      return tmp;                                                           \
 }
 
