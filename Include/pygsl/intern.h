@@ -72,8 +72,12 @@ static void **PyGSL_API;
 #define PyGSL_RNG_ObjectType_NUM                       24
 #define PyGSL_gsl_rng_from_pyobject_NUM                25 
 #define PyGSL_function_wrap_helper_NUM                 26
-#define PyGSL_NENTRIES_NUM                             27
 
+/* Add Debug Number */
+#define PyGSL_register_debug_flag_NUM                  28
+
+
+#define PyGSL_NENTRIES_NUM                             29
 #ifndef _PyGSL_API_MODULE
 #endif /* _PyGSL_API_MODULE */
 
@@ -99,10 +103,30 @@ PyGSL_module_error_handler(const char *reason, /* name of function */
 			   int gsl_error);     /* real "reason" */
 
 
+/*
+ * Used to inform the module of the approbriate number
+ */
+PyGSL_API_EXTERN int 
+PyGSL_register_debug_flag(int *, const char * module_name);
+
 #ifndef _PyGSL_API_MODULE
 #define PyGSL_module_error_handler\
  (*(void (*)(const char *, const char *, int, int)) PyGSL_API[PyGSL_module_error_handler_NUM])
+#define PyGSL_register_debug_flag \
+ (*(int (*)(int *, const char *)) PyGSL_API[PyGSL_register_debug_flag_NUM])
 #endif  /* _PyGSL_API_MODULE */
+
+#if DEBUG == 1 
+static int pygsl_debug_level = 1;
+#define PyGSL_DEBUG_LEVEL() (pygsl_debug_level)
+#define PyGSL_init_debug()  (PyGSL_register_debug_flag(&pygsl_debug_level, __FILE__))
+#else /*  DEBUG == 1 */
+#define PyGSL_DEBUG_LEVEL() (DEBUG)
+#define PyGSL_init_debug()  (GSL_SUCCESS)
+#endif /*  DEBUG == 1 */
+
+
+
 
 #define PyGSL_SET_ERROR_HANDLER() \
         gsl_set_error_handler(&(*(void (*)(const char *, const char *, int, int))PyGSL_API[PyGSL_module_error_handler_NUM]))
@@ -121,6 +145,8 @@ PyGSL_module_error_handler(const char *reason, /* name of function */
          if((void *) PyGSL_SET_ERROR_HANDLER() != PyGSL_API[PyGSL_module_error_handler_NUM]){\
             fprintf(stderr, "Installation of error handler failed! In File %s\n", __FILE__); \
          }\
+       if((PyGSL_init_debug()) != GSL_SUCCESS){ \
+         fprintf(stderr, "Failed to register debug switch for file %s\n", __FILE__);} \
    } else { \
         PyGSL_API = NULL; \
         fprintf(stderr, "Import of pygsl.init Failed!!! File %s\n", __FILE__);\

@@ -19,6 +19,7 @@
 #include <Python.h>
 #define  _PyGSL_API_MODULE 1
 #include <pygsl/intern.h>
+#include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 
 /* Taken from Modules/getbuildinfo */
@@ -51,9 +52,83 @@ static char pygsl_error_str[512];
 #include "function_helpers.c"
 #include "rng_helpers.c"
 
+static PyObject * debuglist = NULL;
+
+
+static int 
+PyGSL_register_debug_flag(int * ptr, const char * module_name)
+{
+#if DEBUG == 1
+     PyObject * cobj;
+     FUNC_MESS_BEGIN();
+     if ((cobj = PyCObject_FromVoidPtr((void *) ptr, NULL)) == NULL){
+	  fprintf(stderr, "Could not create PyCObject for ptr %p to debug flag for module %s\n",
+		  (void * ) ptr, module_name);
+	  return GSL_EFAILED;
+     }
+     DEBUG_MESS(2, "Registering ptr %p for module %s", (void *) ptr,  module_name);
+     if(PyList_Append(debuglist, cobj) != 0){
+	  return GSL_EFAILED;
+     }
+     *ptr = pygsl_debug_level;
+     FUNC_MESS_END();
+     return GSL_SUCCESS;
+#endif
+     GSL_ERROR("Why does it try to add the pointer? Should use the compile time value DEBUG!", GSL_ESANITY);
+}
+
+static PyObject *
+PyGSL_set_debug_level(PyObject *self, PyObject *args)
+{
+
+     FUNC_MESS_BEGIN();
+#if DEBUG == 1
+     PyObject *o;
+     int tmp, i, max, *ptr;
+     if(!PyArg_ParseTuple(args, "i", &tmp))
+	  return NULL;
+     if(tmp >= 0 && tmp <PyGSL_DEBUG_MAX)
+	  ;
+     else
+	  GSL_ERROR_VAL("Only accept debug levels between 0 and PyGSL_DEBUG_MAX", GSL_EINVAL, NULL);
+
+     pygsl_debug_level = tmp;
+     max = PySequence_Size(debuglist);
+     for(i = 0; i < max; ++i){
+	  if((o = PySequence_GetItem(debuglist, i)) == NULL){
+	       fprintf(stderr, "In file %s at line %d; Could not get element %d\n", 
+		       __FILE__, __LINE__, i);
+	       continue;
+	  }
+	  ptr = (int *)PyCObject_AsVoidPtr(o);
+	  DEBUG_MESS(2, "Setting info ptr %p", (void *) ptr);
+	  *ptr = tmp;
+     }
+     Py_INCREF(Py_None);
+     FUNC_MESS_END();
+     return Py_None;
+#else 
+     GSL_ERROR_VAL("PyGSL was not compiled with DEBUG = 1; Can not set DEBUG level!", GSL_EUNIMPL, NULL);
+#endif 
+}
+
+static PyObject *
+PyGSL_get_debug_level(PyObject *self, PyObject *args)
+{
+     int tmp;
+#if DEBUG == 1
+     tmp = (int) pygsl_debug_level;
+#else 
+     tmp = DEBUG;
+#endif 
+     return PyInt_FromLong(tmp);
+}
+
 static void * _PyGSL_API[PyGSL_NENTRIES_NUM];
 static PyMethodDef initMethods[] = {
-  {NULL,     NULL}        /* Sentinel */
+     {"get_debug_level", PyGSL_get_debug_level, METH_NOARGS, NULL},
+     {"set_debug_level", PyGSL_set_debug_level, METH_VARARGS, NULL},
+     {NULL,     NULL}        /* Sentinel */
 };
 
 
@@ -97,6 +172,7 @@ PyGSL_init_api(void)
 
      _PyGSL_API[PyGSL_gsl_rng_from_pyobject_NUM                ] = (void *) & PyGSL_gsl_rng_from_pyobject                ;
      _PyGSL_API[PyGSL_function_wrap_helper_NUM                 ] = (void *) & PyGSL_function_wrap_helper                 ;
+     _PyGSL_API[PyGSL_register_debug_flag_NUM                  ] = (void *) & PyGSL_register_debug_flag                  ;
      
 }
 
@@ -161,6 +237,9 @@ DL_EXPORT(void) initinit(void)
        return;
   }
 
+  if((debuglist = PyList_New(0)) == NULL){
+       fprintf(stderr, "Failed to init Debug list!\n");
+  }
   /*
    * These functions will be moved to the approbriate modules and the user will
    * have to call them explicitly when needed.
