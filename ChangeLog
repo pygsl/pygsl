@@ -1,3 +1,8 @@
+2004-04    Pierre Schnizer <schnizer@users.sourceforge.net>
+	   * Added support for numarray. Now numarray
+	     can be defined at compile time and numarray
+	     conversion routines are used internally.
+
 2004-03-24 Pierre Schnizer <schnizer@users.sourceforge.net>,
            Eric Gurrola, Peter Stoltz
 	* Moved common functions to one python module to support the 
