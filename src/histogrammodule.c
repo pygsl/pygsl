@@ -1223,9 +1223,9 @@ PyTypeObject histogram_histogramType = {
 	0,					/* tp_descr_set */
 	0,					/* tp_dictoffset */
 	(initproc)histogram_histogram_init,	/* tp_init */
-	PyType_GenericAlloc,			/* tp_alloc */
-	PyType_GenericNew,			/* tp_new */
-	_PyObject_Del			        /* tp_free */
+	NULL,              			/* tp_alloc */
+	NULL,                			/* tp_new */
+	NULL         			        /* tp_free */
 };
 
 
@@ -2636,7 +2636,7 @@ PyTypeObject histogram_histogram2dType = {
 	0,                  			/* tp_repr */
 	0,					/* tp_as_number */
 	0,	                		/* tp_as_sequence */
-	&histogram_histogram2d_as_mapping,       /* tp_as_mapping */
+	&histogram_histogram2d_as_mapping,      /* tp_as_mapping */
 	0,				        /* tp_hash */
 	0,					/* tp_call */
 	0,					/* tp_str */
@@ -2660,9 +2660,9 @@ PyTypeObject histogram_histogram2dType = {
 	0,					/* tp_descr_set */
 	0,					/* tp_dictoffset */
 	(initproc)histogram_histogram2d_init,	/* tp_init */
-	PyType_GenericAlloc,			/* tp_alloc */
-	PyType_GenericNew,			/* tp_new */
-	_PyObject_Del			        /* tp_free */
+	NULL,            			/* tp_alloc */
+	NULL,			                /* tp_new */
+	NULL			                /* tp_free */
 };
 
 
@@ -2684,14 +2684,22 @@ inithistogram(void)
   m=Py_InitModule("histogram", histogramMethods);
 
   /* init histogram type */
-  histogram_histogramType.ob_type = &PyType_Type;
+  histogram_histogramType.ob_type  = &PyType_Type;
+  histogram_histogramType.tp_alloc = PyType_GenericAlloc;
+  histogram_histogramType.tp_new   = PyType_GenericNew;
+  histogram_histogramType.tp_free  = _PyObject_Del;
+
   /* install histogram type */
   /* important! must increment histogram type reference counter */
   Py_INCREF((PyObject*)&histogram_histogramType);
   PyModule_AddObject(m,"histogram", (PyObject*)&histogram_histogramType);
 
   /* init histogram type */
-  histogram_histogram2dType.ob_type = &PyType_Type;
+  histogram_histogram2dType.ob_type  = &PyType_Type;
+  histogram_histogram2dType.tp_alloc = PyType_GenericAlloc;
+  histogram_histogram2dType.tp_new   = PyType_GenericNew;
+  histogram_histogram2dType.tp_free  = _PyObject_Del;
+
   /* install histogram type */
   /* important! must increment histogram type reference counter */
   Py_INCREF((PyObject*)&histogram_histogram2dType);
