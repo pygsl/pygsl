@@ -61,10 +61,11 @@
 %}
 %typemap(in) gsl_vector * IN  %{
      {
-
+   
 	  PyArrayObject * a_array;
 	  int stride_recalc=0;
 
+	  FUNC_MESS_BEGIN();
 	  _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, 
 						TO_PyArray_TYPE_$1_basetype, 
 						0, -1, $argnum, NULL);
@@ -95,6 +96,7 @@
 
 	  int stride_recalc=0;
 
+	  FUNC_MESS_BEGIN();
 	  _PyVector$argnum = PyGSL_PyArray_generate_gsl_vector_view($input, 
 						TO_PyArray_TYPE_$1_basetype, 
 								    $argnum);
@@ -129,11 +131,13 @@
 
      $result = t_output_helper($result,  (PyObject *) _PyVector$argnum);
      _PyVector$argnum = NULL;
+     FUNC_MESS_END();
 }
 /* ------------------------------------------------------------------------- */
 %typemap( freearg) gsl_vector * {
   Py_XDECREF(_PyVector$argnum);
   _PyVector$argnum = NULL;
+  FUNC_MESS_END();
 }
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
@@ -142,18 +146,31 @@
      BASIS_TYPE_$1_basetype tmp; 
      int i, dimension = -1;
 
+     FUNC_MESS_BEGIN();
+     DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+		&($1.vector), $1.vector.size, $1.vector.data, *((char *)$1.vector.data));
      dimension = $1.vector.size;
+     DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+     assert(dimension > 0);
      out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
 					      TO_PyArray_TYPE_$basetype);
      if(out == NULL) goto fail;
-
+     DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+		out->strides[0]);
+     assert(dimension == out->dimensions[0]);
+     FUNC_MESS("Copying vector to PyArray");     
      /* Should I copy the array now? Increase the reference of a_array ? */
      for(i=0; i<out->dimensions[0]; i++){
-	  tmp = GET_$1_basetype(&( $1.vector), i); 
+	  DEBUG_MESS(2, "Writing element %d", i);
+	  tmp = GET_$1_basetype(&($1.vector), i);
+	  DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
 	  ((BASIS_TYPE_$1_basetype *) out->data)[i] = tmp;
+
+	  FUNC_MESS("Element written");
      }
 
      $result = (PyObject *) out;
+     FUNC_MESS_END();
 }
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
@@ -171,7 +188,7 @@
      {
 	  PyArrayObject * a_array;
 
-
+	  FUNC_MESS_BEGIN();
 	  _PyMatrix$argnum = PyGSL_PyArray_PREPARE_gsl_matrix_view(
 	       $input, TO_PyArray_TYPE_$1_basetype, 1, -1, -1, $argnum, NULL);
 	  a_array = _PyMatrix$argnum;
@@ -182,6 +199,7 @@
 	       a_array->dimensions[0],
 	       a_array->dimensions[1]);
 	  $1 = &(_matrix$argnum.matrix);
+	  DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix$argnum.matrix.data));
      }
 %}
 /* ------------------------------------------------------------------------- */
@@ -191,6 +209,7 @@
  */
 %typemap(in) gsl_matrix * IN_ONLY_SIZE  {
 	  PyArrayObject * a_array;
+	  FUNC_MESS_BEGIN();
 	  _PyMatrix$argnum = PyGSL_PyArray_generate_gsl_matrix_view(
 	       $input, TO_PyArray_TYPE_$1_basetype, $argnum);
 	  a_array = _PyMatrix$argnum;
@@ -213,10 +232,12 @@
      assert((PyObject *) _PyMatrix$argnum != NULL);
      $result = t_output_helper($result,  (PyObject *) _PyMatrix$argnum);
      _PyMatrix$argnum = NULL;
+     FUNC_MESS_END();
 }
 %typemap( freearg) gsl_matrix * {
      Py_XDECREF(_PyMatrix$argnum);
      _PyMatrix$argnum = NULL;
+     FUNC_MESS_END();
 }
 /* ------------------------------------------------------------------------- */
 %typemap(arginit) gsl_vector * INOUT        = gsl_vector * ;
