@@ -95,6 +95,11 @@ class _gsl_Location_gsl_config(_gsl_Location):
 		
 		# I am running on swig. I suppose that swig is in the path
 		self.swig = "swig"
+		try:
+			self.swig = os.environ["SWIG"]
+		except KeyError:
+			pass
+
 		
 	def get_gsl_info(self, arguments):
 		"""
@@ -205,7 +210,7 @@ class gsl_Extension(Extension):
 	    if undef_macros == None:
 		    undef_macros = []
 	    if 'NDEBUG' not in undef_macros:
-		    undef_macros.append('NDEBUG')
+                undef_macros.append('NDEBUG')
 	    tmp = map(lambda x: x[0], define_macros)
 	    if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
 		    define_macros = define_macros + [("PYGSL_GSL_MAJOR_VERSION", gsl_major_version),]
