@@ -19,10 +19,10 @@ class _acceleration:
 
     It expects the derived class to define the array _xa.
     """
-    _accel_alloc   = gslwrap.gsl_interp_accel_alloc
-    _accel_find    = gslwrap.gsl_interp_accel_find
-    _accel_free    = gslwrap.gsl_interp_accel_free
-    _accel_reset   = gslwrap.gsl_interp_accel_reset
+    def _accel_alloc (self, *args): return  gslwrap.gsl_interp_accel_alloc(*args)
+    def _accel_find  (self, *args): return  gslwrap.gsl_interp_accel_find(*args)
+    def _accel_free  (self, *args): return  gslwrap.gsl_interp_accel_free(*args)
+    def _accel_reset (self, *args): return  gslwrap.gsl_interp_accel_reset(*args)
 
     def __init__(self):
         self._accel = None
@@ -59,21 +59,21 @@ class _acceleration:
         return self._bsearch(self._xa, x, index_lo, index_high)
     
 class _common(_acceleration):
-    _alloc         = gslwrap.gsl_interp_alloc
-    _free          = gslwrap.gsl_interp_free
-    _name          = gslwrap.gsl_interp_name
-    _bsearch       = gslwrap.gsl_interp_bsearch
-    _eval          = gslwrap.gsl_interp_eval
-    _eval_deriv    = gslwrap.gsl_interp_eval_deriv
-    _eval_deriv2   = gslwrap.gsl_interp_eval_deriv2
-    _eval_deriv2_e = gslwrap.gsl_interp_eval_deriv2_e
-    _eval_deriv_e  = gslwrap.gsl_interp_eval_deriv_e
-    _eval_e        = gslwrap.gsl_interp_eval_e
-    _eval_integ    = gslwrap.gsl_interp_eval_integ
-    _eval_integ_e  = gslwrap.gsl_interp_eval_integ_e
-    _init          = gslwrap.gsl_interp_init
-    _min_size      = gslwrap.gsl_interp_min_size
-    _name          = gslwrap.gsl_interp_name
+    def _alloc        (self, *args): return  gslwrap.gsl_interp_alloc(*args)
+    def _free         (self, *args): return  gslwrap.gsl_interp_free(*args)
+    def _name         (self, *args): return  gslwrap.gsl_interp_name(*args)
+    def _bsearch      (self, *args): return  gslwrap.gsl_interp_bsearch(*args)
+    def _eval         (self, *args): return  gslwrap.gsl_interp_eval(*args)
+    def _eval_deriv   (self, *args): return  gslwrap.gsl_interp_eval_deriv(*args)
+    def _eval_deriv2  (self, *args): return  gslwrap.gsl_interp_eval_deriv2(*args)
+    def _eval_deriv2_e(self, *args): return  gslwrap.gsl_interp_eval_deriv2_e(*args)
+    def _eval_deriv_e (self, *args): return  gslwrap.gsl_interp_eval_deriv_e(*args)
+    def _eval_e       (self, *args): return  gslwrap.gsl_interp_eval_e(*args)
+    def _eval_integ   (self, *args): return  gslwrap.gsl_interp_eval_integ(*args)
+    def _eval_integ_e (self, *args): return  gslwrap.gsl_interp_eval_integ_e(*args)
+    def _init         (self, *args): return  gslwrap.gsl_interp_init(*args)
+    def _min_size     (self, *args): return  gslwrap.gsl_interp_min_size(*args)
+    def _name         (self, *args): return  gslwrap.gsl_interp_name(*args)
     _type          = None
     
     def __init__(self, size):

@@ -28,6 +28,8 @@ print "#m=1,S=0"
 # Acceleration is handled internally
 myspline = spline.cspline(n)
 myspline.init(x,y)
+myspline.eval_e(1)
+myspline.eval_deriv2_e(1)
 x1 = Numeric.arange(n * 20) / 20.
 for xi in x1:
     print xi, myspline.eval(xi)

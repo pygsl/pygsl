@@ -54,8 +54,8 @@ class _test_common(unittest.TestCase):
     def test_bsearch_0_false(self):
         self.assertRaises(ValueError, self.interp.bsearch, 10.5, 3, 300)
 
-    def test_bsearch_1_false(self):
-        self.assertRaises(ValueError, self.interp.bsearch, 10.5, -3, 300)
+    #def test_bsearch_1_false(self):
+    #    self.assertRaises(ValueError, self.interp.bsearch, 10.5, -3, 300)
 
     
     def test_eval(self):

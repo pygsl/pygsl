@@ -24,17 +24,17 @@ _common           = interpolation._common
 #akima_periodic    = interpolation.akima_periodic  
 
 class _spline(_common):
-    _alloc         = gslwrap.gsl_spline_alloc
-    _free          = gslwrap.gsl_spline_free
-    _eval          = gslwrap.gsl_spline_eval
-    _eval_deriv    = gslwrap.gsl_spline_eval_deriv
-    _eval_deriv2   = gslwrap.gsl_spline_eval_deriv2
-    _eval_deriv2_e = gslwrap.gsl_spline_eval_deriv2_e
-    _eval_deriv_e  = gslwrap.gsl_spline_eval_deriv_e
-    _eval_e        = gslwrap.gsl_spline_eval_e
-    _eval_integ    = gslwrap.gsl_spline_eval_integ
-    _eval_integ_e  = gslwrap.gsl_spline_eval_integ_e
-    _init          = gslwrap.gsl_spline_init
+    def _alloc       (self, *args): return  gslwrap.gsl_spline_alloc(*args)
+    def _free        (self, *args): return  gslwrap.gsl_spline_free(*args)
+    def _eval        (self, *args): return  gslwrap.gsl_spline_eval(*args)
+    def _eval_deriv  (self, *args): return  gslwrap.gsl_spline_eval_deriv(*args)
+    def _eval_deriv2 (self, *args): return  gslwrap.gsl_spline_eval_deriv2(*args)
+    def _eval_deriv2_e(self, *args): return  gslwrap.gsl_spline_eval_deriv2_e(*args)
+    def _eval_deriv_e(self, *args): return  gslwrap.gsl_spline_eval_deriv_e(*args)
+    def _eval_e      (self, *args): return  gslwrap.gsl_spline_eval_e(*args)
+    def _eval_integ  (self, *args): return  gslwrap.gsl_spline_eval_integ(*args)
+    def _eval_integ_e(self, *args): return  gslwrap.gsl_spline_eval_integ_e(*args)
+    def _init        (self, *args): return  gslwrap.gsl_spline_init(*args)
     _type          = None
 
 
