@@ -1,8 +1,31 @@
+2004-01-09 Leonardo Milano
+	* Added support for rpm generation
+	
 2003-12-27  Pierre Schnizer <schnizer@users.sourceforge.net>
         *  Reimplementation of the siman module
 	
+2003-12-22  Pierre Schnizer <schnizer@users.sourceforge.net>
+	*  Added Monte Carlo support    
+	
+2003-12-17 Pierre Schnizer <schnizer@users.sourceforge.net>
+	* error return codes are translated to python exceptions internally.
+	  This changed the API for many functions
+	  
+2003-12-16 Pierre Schnizer <schnizer@users.sourceforge.net>
+        * Reimplementation of the rng module supporting internal sampling.
+           moved to main tree
+
+2003-12-11 Pierre Schnizer <schnizer@users.sourceforge.net>
+	* Clean up of the diff module:
+	  -- Added checks of the return values of the python callback
+	  -- Simplified the code
+	  -- Thread safety
+	   
+2003-05-25 Pierre Schnizer <schnizer@users.sourceforge.net>
+	* Added build support for platforms without a shell
+	
 2003-10-5   Pierre Schnizer <schnizer@users.sourceforge.net>
-	* Added translation of the GSL error number code in the approbriate
+	* Added translation of the GSL error number code into the approbriate
 	  python exception.
 
 2003-06-03 Pierre Schnizer <schnizer@users.sourceforge.net>
