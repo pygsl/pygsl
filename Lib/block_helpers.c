@@ -8,6 +8,8 @@
  *  Adding a info struct. This struct contains additional information used for 
  *  error Reporting.
  */
+
+#define PyGSL_IMPORT_ARRAY 1
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
 #include <stdlib.h>

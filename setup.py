@@ -49,7 +49,7 @@ def SWIG_Extension(*args, **kws):
     return apply(_SWIG_Extension, args, kws)
 
 
-macros = [('SWIG_COBJECT_TYPES', 1), ('NO_IMPORT_ARRAY', 1)]
+macros = [('SWIG_COBJECT_TYPES', 1),] #, [('NO_IMPORT_ARRAY', 1)]
 exts.append(SWIG_Extension("hankel",                           
                            ["src/hankel/gsl_hankel.i"],
                            swig_include_dirs=["src/hankel"],

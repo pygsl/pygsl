@@ -17,11 +17,16 @@
  *!									    !*
  *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!* 
  *****************************************************************************/
+#ifndef PyGSL_IMPORT_ARRAY
+#define NO_IMPORT_ARRAY
+#endif
 #define PY_ARRAY_UNIQUE_SYMBOL PyGSL_PY_ARRAY_API
+
 
 #include <pygsl/utils.h>
 #include <Python.h>
-#include <Numeric/arrayobject.h>
+/*#include <Numeric/arrayobject.h>*/
+#include <numarray/arrayobject.h>
 #include <pygsl/general_helpers.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
