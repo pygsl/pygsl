@@ -291,7 +291,7 @@ PyGSL_statistics_ll_A(PyObject *self, PyObject *args,
     return Py_BuildValue("ll", (long) result1, (long) result2);
 }
 
-void 
+static void 
 set_api_pointer(void)
 {
 

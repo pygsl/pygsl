@@ -537,7 +537,7 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
 };
 
 
-void 
+static void 
 set_api_pointer(void)
 {
 
