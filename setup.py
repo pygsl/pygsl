@@ -8,6 +8,9 @@
 # setup script for building and installing pygsl
 
 import sys
+import time
+import string
+
 import distutils
 from distutils.core import setup, Extension
 from gsl_Extension import gsl_Extension
@@ -195,7 +198,8 @@ pygsl_statistics_short=gsl_Extension("statistics.short",
 exts.append(pygsl_statistics_short)    
 
 setup (name = "pygsl",
-       version = "0.1b",
+       #version = "0.1b",
+       version = "snapshot-" + string.join(map(str, time.gmtime()[:3]), '-'),
        description = "GNU Scientific Library Interface",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",

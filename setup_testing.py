@@ -1,4 +1,6 @@
 #! /usr/bin/env python2
+import string
+import time
 import sys
 import distutils
 from distutils.core import setup, Extension
@@ -19,9 +21,10 @@ sf=gsl_Extension("sf",
                  python_min_version=(2,0)
                  )
 exts.append(sf)    
-setup (name = "pygsl",
-       version = "0.1b-testing",
-       description = "GNU Scientific Library Interface",
+date = string.join(map(str, time.gmtime()[:3]), '-'),
+setup (name = "pygsl-testing",
+       version = "snapshot-%s" % date,
+       description = "GNU Scientific Library Interface. Modules for testing",
        author = "Pierre Schnizer",
        author_email = "schnizer@users.sourceforge.net",
        url = "http://pygsl.sourceforge.net",
