@@ -325,7 +325,6 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     PyObject *y0_o = NULL, *func_o = NULL, *jac_o = NULL, *myargs = NULL;
     PyObject *t_o = NULL;
     PyArrayObject *volatile y0 = NULL, *volatile yout = NULL, *volatile ts = NULL;
-
     double t=0,  t1=0, h=0, flag;
 
     gsl_odeiv_step *s=NULL;
@@ -337,7 +336,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     PyGSL_odeiv_parameter_pass params;
     gsl_odeiv_system sys = {PyGSL_odeiv_func, PyGSL_odeiv_jac, 0, NULL};
 
-    int dimension, r=GSL_EFAILED, dims[2], i, j, stride, nsteps=1;
+    int dimension, r=GSL_EFAILED, dims[2], i, j, stride, nsteps=1, line=-1;
     PyObject * step = NULL,  * control = NULL, * evolve = NULL;
 
     FUNC_MESS_BEGIN();
@@ -350,12 +349,14 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     Py_XINCREF(jac_o);
 
     if((SWIG_ConvertPtr(step, (void **) &s, SWIGTYPE_p_gsl_odeiv_step,1)) == -1){
+	line = __LINE__ - 1;
 	PyErr_SetString(PyExc_TypeError, "Could not convert step to pointer");
 	goto fail;
     }
     assert(s != NULL);
 
     if((SWIG_ConvertPtr(control, (void **) &con, SWIGTYPE_p_gsl_odeiv_control,1)) == -1){
+	line = __LINE__ - 1;
 	PyErr_SetString(PyExc_TypeError, 
 			"Could not convert control to pointer");
 	goto fail;
@@ -363,6 +364,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     assert(con != NULL);
 
     if((SWIG_ConvertPtr(evolve, (void **) &e, SWIGTYPE_p_gsl_odeiv_evolve,1)) == -1){
+	line = __LINE__ - 1;
 	PyErr_SetString(PyExc_TypeError, "Could not convert evolve to pointer");
 	goto fail;
     }
@@ -373,15 +375,25 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 
     y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 1, NULL);
     if(y0 == NULL){
-	 PyGSL_add_traceback(NULL, __FILE__,  __FUNCTION__, __LINE__);
+	line = __LINE__ - 2;
 	 goto fail;
     }
 
     /* time spots to integrate to ... */
     ts = PyGSL_PyArray_PREPARE_gsl_vector_view(t_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(ts == NULL){
-	 PyGSL_add_traceback(NULL, __FILE__,  __FUNCTION__, __LINE__);
-	 goto fail;
+        /* so try if it is a float ... */
+         double v;
+	 /* was not an array, but lets see if it is a float, so lets clear the error .... */
+	 PyErr_Clear();
+         if(PyGSL_PYFLOAT_TO_DOUBLE(t_o, &v, NULL) == GSL_SUCCESS){
+	 } else {
+	      line = __LINE__ - 1;
+	      goto fail;
+	 }
+         int dim = 1;
+         ts = (PyArrayObject *) PyGSL_New_Array(1, &dim, PyArray_DOUBLE);
+         (*(double *)(ts->data)) = v;
     }
 
     if(PyGSL_STRIDE_RECALC(ts->strides[0], sizeof(double), &stride) != GSL_SUCCESS)
@@ -436,6 +448,8 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     }
 
     for(i = 0; i < ts->dimensions[0]; i++){
+	 /* The integration direction does not need to be positive! */
+	 int direction=0;
 	 if(i == 0){
 	      /* Copy the start vector! */
 	      if(PyGSL_STRIDE_RECALC(y0->strides[0], sizeof(double), &stride) != GSL_SUCCESS)
@@ -454,11 +468,28 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 t1 = gsl_vector_get(&vts.vector, i);
 	 DEBUG_MESS(2, " Integrating from %f to %f\n Start vector", t, t1);
 	 DEBUG_MESS(3, "                              ");
-	 for (j = 0; j < nsteps && t < t1; j++){
+	 /* Integration forward or backward? */
+	 if (t1 >= t)
+	      direction = 0;
+	 else 
+	      direction = -1;
+	 for (j = 0; j < nsteps; j++){
+	      if(direction == 0){
+		   /* Integrating forward */
+		   if(t >= t1)
+			break;
+	      } else {
+		   /* Integrating backward */
+		   if(t <= t1)
+			break;
+
+	      }
 	      DEBUG_MESS(3, "\r %3d t =% 8.6f h = % 8.6f", j, t, h);
 	      r = gsl_odeiv_evolve_apply(e, con, s, &sys, &t, t1, &h,
 					 gsl_vector_ptr(&vy1.vector, 0)); 
-	      if (PyGSL_error_flag(r) != GSL_SUCCESS){
+	      if(r == GSL_EINVAL)
+		   fprintf(stderr, "\n %3d t =% 8.6f t1 =% 8.6f,  h = % 8.6f\n", j, t,t1, h);
+	      if (PyGSL_error_flag(r) != GSL_SUCCESS){		   
 		   PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
 		   goto fail;
 	      }
@@ -490,6 +521,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 
  fail:
     FUNC_MESS("IN Fail");
+    PyGSL_add_traceback(NULL, __FILE__,  __FUNCTION__, line);
     Py_XDECREF(ts);
     Py_XDECREF(y0);
     Py_XDECREF(func_o); 
