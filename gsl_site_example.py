@@ -10,9 +10,13 @@ cflags = "-g -I" + os.path.join(prefix, "include")
 
 libs   = "-L" + os.path.join(prefix, "lib")+ " -lgsl -lgslcblas -lm"
 
-# Enter the correct versions by hand..
+# Enter the correct GSL versions by hand..
 version = "1.3"
 
+
+=======
 # swig_extension.py needs swig to generate the approbriate wrapper files. This
 # variable only needs to be correct is you use USE_SWIG=1 in setup.py
-swig = os.path.join("C:\\", "Programs", "Swig", "SWIG-1.3.19", "swig")
+swig = os.path.join("F:\\", "Programs", "Swig", "swig")
+#swig = os.path.join("C:\\", "Programs", "Swig", "SWIG-1.3.19", "swig")
+
