@@ -7,6 +7,10 @@
 #
 # setup script for building and installing pygsl
 
+# Generate swig wrappers
+USE_SWIG = 0
+BUILD_TESTING = 0
+
 import sys
 import time
 import string
@@ -14,17 +18,32 @@ import string
 import distutils
 from distutils.core import setup, Extension
 from gsl_Extension import gsl_Extension
+from swig_extension import SWIG_Extension as _SWIG_Extension
+from swig_extension import SWIG_Extension_Nop as _SWIG_Extension_Nop
+
 from distutils import sysconfig
 from common_objects import libpygsl
 
+
+if USE_SWIG == 0:
+    _SWIG_Extension = _SWIG_Extension_Nop
+
 exts = []
-exts.append(gsl_Extension("_hankel",
-                          ["swig_src/hankel_wrap.c"],
-                          gsl_min_version=(1,0),
-                          define_macros = [('SWIG_COBJECT_TYPES', 1),
-                                           #('DEBUG' ,'2'),
-                                           ],
-                          python_min_version=(2,0),
+
+def SWIG_Extension(*args, **kws):
+    kws["py_dir"] = "pygsl"
+    kws["c_dir"] = "swig_src"
+    return apply(_SWIG_Extension, args, kws)
+
+
+exts.append(SWIG_Extension("hankel",                           
+                           ["src/hankel/gsl_hankel.i"],
+                           swig_include_dirs=["src/hankel"],
+                           gsl_min_version=(1,0),
+                           define_macros = [('SWIG_COBJECT_TYPES', 1),
+                                            #('DEBUG' ,'2'),
+                                            ],
+                           python_min_version=(2,0),
                           )
             
             )
@@ -39,36 +58,29 @@ exts.append(gsl_Extension("_hankel",
 #                          )
 #            )
 
-exts.append(gsl_Extension("__callback",
-                          ["swig_src/callback_wrap.c"],
-                          include_dirs=["src/callback"],
-                          gsl_min_version=(1,2),
-                          define_macros = [('SWIG_COBJECT_TYPES', 1),
-                                           #('DEBUG' ,'2'),
-                                           ],
-                          python_min_version=(2,1),
-                          )
-            
+exts.append(SWIG_Extension("_callback",
+                           ["src/callback/gsl_callback.i"],
+                           include_dirs=["src/callback"],
+                           swig_include_dirs=["src/callback"],
+                           gsl_min_version=(1,2),
+                           define_macros = [('SWIG_COBJECT_TYPES', 1),],
+                           python_min_version=(2,1),
+                          )            
             )
 
-exts.append(gsl_Extension("__poly",
-                          ["swig_src/poly_wrap.c"],
+exts.append(SWIG_Extension("_poly",
+                          ["src/poly/gsl_poly.i"],
                           include_dirs=["src/poly"],
-                          define_macros = [('SWIG_COBJECT_TYPES', 1),
-                                           #('DEBUG' ,'2'),
-                                           ],                          
+                          define_macros = [('SWIG_COBJECT_TYPES', 1),],                          
                           gsl_min_version=(1,2),
                           python_min_version=(2,1)
                           )
             )
 
-exts.append(gsl_Extension("__block",
-                          ["swig_src/block_wrap.c"],
-                          #include_dirs=["src/block"],
-                          #define_macros=[('DEBUG' ,'0')],
-                          define_macros = [('SWIG_COBJECT_TYPES', 1),
-                                           #('DEBUG' ,'2'),
-                                           ],
+exts.append(SWIG_Extension("_block",
+                          ["src/block/gsl_block.i"],
+                           swig_include_dirs=["src/block"],
+                          define_macros = [('SWIG_COBJECT_TYPES', 1),],
                           gsl_min_version=(1,2),
                           python_min_version=(2,1)
                           )
@@ -113,34 +125,35 @@ try:
                             python_min_version=(2,2)
                          )
     exts.append(pygsl_rng)
-    pygsl_qrng=gsl_Extension("_qrng",
-                            ['src/qrng_module.c'],
-                            #define_macros = [('DEBUG', 10)],
-                            gsl_min_version=(1,'0+'),
-                            python_min_version=(2,2)
-                         )
-    exts.append(pygsl_qrng)
     
-    pygsl_ieee=gsl_Extension("ieee",
-                             ['src/ieeemodule.c'],
-                             gsl_min_version=(1,),
-                             python_min_version=(2,2)
-                             )
-    exts.append(pygsl_ieee)
     
-    exts.append(gsl_Extension("_gslwrap",
-                              ["swig_src/gslwrap_wrap.c"],
-                              #include_dirs=["src/gslwrap", "."],
-                              define_macros = [('SWIG_COBJECT_TYPES', 1),
-                                               #('DEBUG' ,'2'),
-                                           ],
+    exts.append(SWIG_Extension("gslwrap",
+                              ["src/gslwrap/gsl_gslwrap.i"],
+                               swig_include_dirs=["src/gslwrap/"],
+                              define_macros = [('SWIG_COBJECT_TYPES', 1),],
                               gsl_min_version=(1,2),
                               python_min_version=(2,2)
                               )
                 )
 
+    pygsl_ieee=gsl_Extension("ieee",
+                             ['src/ieeemodule.c'],
+                             gsl_min_version=(1,),
+                             python_min_version=(2,1)
+                             )
+    exts.append(pygsl_ieee)
+
 except distutils.errors.DistutilsExecError:
     pass
+
+
+pygsl_qrng=gsl_Extension("_qrng",
+                         ['src/qrng_module.c'],
+                         #define_macros = [('DEBUG', 10)],
+                         gsl_min_version=(1,'0+'),
+                         python_min_version=(2,1)
+                         )
+exts.append(pygsl_qrng)
 
 pygsl_init=gsl_Extension("init",
 			 ['src/initmodule.c'],
@@ -196,9 +209,29 @@ pygsl_statistics_short=gsl_Extension("statistics.short",
                                      python_min_version=(2,1)
                                      )
 exts.append(pygsl_statistics_short)    
+errortest = gsl_Extension("errortest",
+                          ['src/errortestmodule.c'],
+                          gsl_min_version=(1,),
+                          python_min_version=(2,0)
+                          )
+exts.append(errortest)
 
+if BUILD_TESTING:
+    rng=gsl_Extension("testing.rng",
+                      ['testing/src/rngmodule_testing.c'],
+                      gsl_min_version=(1,),
+                      python_min_version=(2,0)
+                      )
+    exts.append(rng)    
+    sf=gsl_Extension("testing.sf",
+                     ['testing/src/sfmodule_testing.c'],
+                     gsl_min_version=(1,),
+                     python_min_version=(2,0)
+                     )
+    exts.append(sf)
+    
 setup (name = "pygsl",
-       #version = "0.1b",
+       #version = "0.2",
        version = "snapshot-" + string.join(map(str, time.gmtime()[:3]), '-'),
        description = "GNU Scientific Library Interface",
        author = "Achim Gaedke",
@@ -229,12 +262,13 @@ setup (name = "pygsl",
                      'pygsl.multiroots',
                      'pygsl.odeiv',
                      'pygsl.permutation',
-                     'pygsl.combination',
+                     #'pygsl.combination',
                      'pygsl.poly',
                      'pygsl.roots',
                      'pygsl.vector',
                      'pygsl.monte',
-                     'pygsl.qrng'
+                     'pygsl.qrng',
+                     'pygsl.testing.__init__'
                      ],
        ext_package = 'pygsl',
        ext_modules = exts,
