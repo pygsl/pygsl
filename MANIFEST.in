@@ -10,6 +10,8 @@ recursive-include pygsl *.py
 recursive-include tests *.py
 recursive-include doc *.tex
 recursive-include doc *.html
+recursive-include Include *.h
+recursive-include Lib *.c
 include utils/util.h
 include gsl_Extension.py
 include test.py
