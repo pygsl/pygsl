@@ -4,19 +4,30 @@
 #include <compile.h>
 #include <frameobject.h>
 
-PyObject * 
-PyGSL_error_flag_to_pyint(long flag)
+static const char * error_module = "pygsl.errors";
+
+int  
+PyGSL_error_flag(long flag)
 {
-     PyObject * result = NULL;
      if(DEBUG > 2){
 	  fprintf(stderr,"I got an Error of %ld\n", flag);
      }
      if(PyErr_Occurred())
-	  return NULL;
+	  return GSL_FAILURE;
      if(flag>0){
 	  /* How can I end here without an Python error? */
-	  gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__,
+	  gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__, 
 		    __LINE__, flag);
+	  return GSL_FAILURE;
+     }
+     return GSL_SUCCESS;
+}
+
+PyObject * 
+PyGSL_error_flag_to_pyint(long flag)
+{
+     PyObject * result = NULL;
+     if(GSL_FAILURE == PyGSL_error_flag(flag)){
 	  return NULL;
      }
      result = PyInt_FromLong((long) flag);
@@ -106,7 +117,7 @@ PyGSL_add_traceback(PyObject *module, char *filename, char *funcname, int lineno
 }
 
 
-static const char * error_module = "pygsl.errors";
+
 PyObject * PyGSL_get_error_object(int gsl_error)
 {
      PyObject *gsl_error_module=NULL, *gsl_error_dict=NULL, *gsl_error_object=NULL;
@@ -115,13 +126,14 @@ PyObject * PyGSL_get_error_object(int gsl_error)
      
      gsl_error_module=PyImport_ImportModule(error_module);
      if(!gsl_error_module){
-	  fprintf(stderr, "I could not get module pygsl.errors!");
+	  fprintf(stderr, "I could not get module %s!\n", error_module);
 	  goto fail;
      }
 
      gsl_error_dict=PyModule_GetDict(gsl_error_module);
      if(!gsl_error_dict){
-	  fprintf(stderr, "I could not get the dictionary of the module pygsl.errors!");
+	  fprintf(stderr, "I could not get the dictionary of the module %s!\n",
+		  error_module);
 	  goto fail;
      }
 
@@ -244,17 +256,15 @@ void PyGSL_module_error_handler(const char *reason, /* name of function*/
   }
   gsl_error_dict=PyModule_GetDict(gsl_error_module);
   Py_INCREF(gsl_error_dict);
-#if 0
-  gsl_error_object=PyDict_GetItemString(gsl_error_dict,"gsl_Error");
-#else
   gsl_error_object=PyGSL_get_error_object(gsl_error);
-#endif 
+
   if(gsl_error_object) {
        Py_INCREF(gsl_error_object);
        PyErr_SetObject(gsl_error_object,
 		       PyString_FromString(error_text));
   } else {
-       fprintf(stderr, "pygsl.error. In Function %s. I could not get object gsl_Error!\n", __FUNCTION__);
+       fprintf(stderr, "%s. In Function %s. I could not get object gsl_Error!\n", 
+	       error_module, __FUNCTION__);
   }
   Py_XDECREF(gsl_error_object);
   Py_DECREF(gsl_error_dict);

@@ -7,8 +7,10 @@
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
+typedef int gsl_error_flag_drop;
 PyObject *pygsl_module_for_error_treatment = NULL;
 %}
+
 %init {
      pygsl_module_for_error_treatment = m;
 }
@@ -45,5 +47,30 @@ PyObject *pygsl_module_for_error_treatment = NULL;
 			      __FUNCTION__, __LINE__);
 	  goto fail;
      }
+}
+
+/* 
+ *  The same as above, but the user will never need to see the flag, as it is 
+ *  turned in an exception if necessary.
+ *
+ *  As of this writing the GSL Errors are setup in the following way:
+ *
+ *  1.) GSL_CONTINUE and GSL_FAILURE are negative. I believe they should be 
+ *      returned to the user.
+ *  
+ *  2.) GSL_SUCCESS is zero.
+ *
+ *  3.) All positive results indicate some error. These are turned into an
+ *      exception. So it is not necessary to return the flag.
+ */
+%typemap(python, out) gsl_error_flag_drop {
+     assert($1 >= 0);
+     if(GSL_FAILURE == PyGSL_ERROR_FLAG($1)){
+	 PyGSL_add_traceback(pygsl_module_for_error_treatment, __FILE__, 
+			     __FUNCTION__, __LINE__); 
+	 goto fail;
+     }
+     Py_INCREF(Py_None);
+     $result = Py_None;
 }
 
