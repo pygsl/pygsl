@@ -9,11 +9,11 @@
                                 mess,                              \
                                 __FUNCTION__, __FILE__, __LINE__)
 
-#define DEBUG_MESS(level, mess, ...)                                \
-if(DEBUG > level) {                                                 \
-fprintf(stderr,                                                     \
-	"In Function %s from File %s at line %d"  mess      "\n" ,  \
-        __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__);             \
+#define DEBUG_MESS(level, mess, ...)                                 \
+if(DEBUG > level) {                                                  \
+fprintf(stderr,                                                      \
+	"In Function %s from File %s at line %d "  mess      "\n" ,  \
+        __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__);              \
 }                                                                   
 #else
 #define FUNC_MESS(mess)
