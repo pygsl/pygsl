@@ -1,4 +1,5 @@
 import os
+import sys
 from extract_tool import *
 
 gslpath = os.getenv('PYGSL_GSLCVS')
