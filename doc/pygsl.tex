@@ -69,14 +69,31 @@ Jochen K\"upper}
    pygsl grants python users access to the GNU scientific library.
    More information about pygsl can be found at the project
    homepage,\url{http://pygsl.sf.net}.
+
+   {\bf What is implemented:}
+   \begin{itemize}
+     \item module \module{pygsl.sf}: with 200 special functions
+     \item module \module{pygsl.const}: with 206 often used mathematical and scientific constants
+     \item module \module{pygsl.ieee}: access to the ieee-arithmetics layer of gsl
+     \item module \module{pygsl.rng}: provides several random number generators and
+                                      different probability densities
+     \item module \module{pygsl.histogram}: 1d and 2d histograms and operations on histograms
+     \item module \module{pygsl.statistics}: some statistics functions for arrays.
+\end{itemize}
+
 \end{abstract}
+
+
+\tableofcontents
+
+
+\chapter{System Requirements, Installation}
+\label{cha:system-req-installation}
+\input{install}
 
 \paragraph*{Acknowledgment}
 \label{sec:acknowledgment}
-
 Parts of this this manual are based on the \GSL{} reference manual.
-
-\tableofcontents
 
 
 \chapter[\protect\module{pygsl.histogram} --- Histogram Types]
