@@ -11,329 +11,124 @@
 /*
  * 27. December 2003. Removed support for non numeric part.
  * Pierre
+ *
+ *    March 2004: Made it compatible with nummarray
+ *       On this way: converted the macros to functions and generated functions
+ *       pushing the pointer to the function on the stack
+ *       Converted it to use the conversion functions as defined in <pygsl/block_helpers.h>
  */
 
-#  define STATMOD_FREE(data) Py_DECREF(data);
 
+#include <pygsl/block_helpers.h>
 
+#define PyGSL_STATISTICS_IMPORT_API
+#include "statmodule.h"
 
 /** macros of the actual function implementations
  *
  * One macro for each kind of parameter set.
  */
-#define STATMOD_FUNCTION_d_A(name) static PyObject * \
-STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
-{ \
-    PyObject *input = NULL; \
-    PyArrayObject *data; \
-    double result; \
-    size_t stride=1, n; \
- \
-    if(NUMERIC && PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
-       && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
-        /* already have NumPy array of right data-type */ \
-        if(data->nd != 1) { \
-            PyErr_SetString(PyExc_ValueError, "data array must be one-dimensional"); \
-            return NULL; \
-        } \
-        stride = data->strides[0] / sizeof(STATMOD_C_TYPE); \
-    } else { \
-        if(!PyArg_ParseTuple(args, "O", &input)) \
-            return NULL; \
-        if(NULL == (data = (PyArrayObject *)PyArray_ContiguousFromObject(input, \
-                                                                         STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                         1, 1))) \
-            return NULL; \
-    } \
-    n = data->dimensions[0]; \
-    result = STATMOD_FUNC_EXT(gsl_stats,_ ## name)((STATMOD_C_TYPE *)data->data, stride, n); \
-    if(NULL != input) { STATMOD_FREE(data) } \
-    return PyFloat_FromDouble(result); \
+static PyObject*
+statistics_t_A(PyObject *self, PyObject *args, STATMOD_C_TYPE (*pointer)(const STATMOD_C_TYPE *, size_t, size_t))
+{
+    PyObject *input = NULL, *r; 
+    PyArrayObject *data; 
+    STATMOD_C_TYPE  result;
+    int stride=1, n, flag; 
+    
+    if(!(PyArg_ParseTuple(args, "O", &input))) 
+	return NULL;
+
+    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, STATMOD_APPEND_PYC_TYPE(PyArray_), 0, -1, 1, NULL);
+    if(data == NULL) 
+	return NULL;
+
+    if(PyGSL_STRIDE_RECALC(data->strides[0], sizeof(STATMOD_C_TYPE), &stride)!= GSL_SUCCESS){
+	Py_DECREF(data);
+	return NULL;
+    }
+
+    n = data->dimensions[0];
+    result = pointer((STATMOD_C_TYPE *)data->data, (size_t) stride, (size_t) n);
+    Py_DECREF(data);
+    
+    flag = STATMOD_APPEND_PYC_TYPE(PyArray_);
+    if(flag == PyArray_DOUBLE || PyArray_FLOAT)
+	r = PyFloat_FromDouble((double) result);
+    else
+	r = PyInt_FromLong((long) result);
+    return r;
 }
 
+static PyObject*
+statistics_tt_A(PyObject *self, PyObject *args, void (*pointer)(STATMOD_C_TYPE *, STATMOD_C_TYPE *, const STATMOD_C_TYPE *, size_t, size_t))
+{
+    PyObject *input = NULL, *r; 
+    PyArrayObject *data; 
+    STATMOD_C_TYPE result1, result2;
+    size_t stride=1, n; 
+    int flag;
 
-#define STATMOD_FUNCTION_d_AA(name) static PyObject * \
-STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
-{ \
-    PyObject *input1 = NULL, *input2 = NULL; \
-    PyArrayObject *data1, *data2; \
-    double result; \
-    size_t stride1=1, stride2=1; \
-    size_t n1, n2; \
- \
-    if(NUMERIC && PyArg_ParseTuple(args, "O!O!", &PyArray_Type, &data1, &PyArray_Type, &data2) \
-       && (data1->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_)) \
-       && (data2->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
-        /* already have NumPy array of Floats  */ \
-        if((data1->nd != 1) ||(data2->nd != 1)) { \
-            PyErr_SetString(PyExc_ValueError, "data arrays must be one-dimensional"); \
-            return NULL; \
-        } \
-        stride1 = data1->strides[0] / sizeof(STATMOD_C_TYPE); \
-        stride2 = data2->strides[0] / sizeof(STATMOD_C_TYPE); \
-    } else { \
-        if(!PyArg_ParseTuple(args, "OO", &input1, &input2)) \
-            return NULL; \
-        if(NULL == (data1 = (PyArrayObject *)PyArray_ContiguousFromObject(input1, \
-                                                                          STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                          1, 1))) \
-            return NULL; \
-        if(NULL == (data2 = (PyArrayObject *)PyArray_ContiguousFromObject(input2, \
-                                                                          STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                          1, 1))) { \
-            STATMOD_FREE(data1) \
-            return NULL; \
-        } \
-    } \
-    n1 = data1->dimensions[0]; \
-    n2 = data2->dimensions[0]; \
-    if(n1 != n2) { \
-        PyErr_SetString(PyExc_ValueError, "data arrays must be of same length"); \
-        if(NULL != input1) { STATMOD_FREE(data1) }\
-        return NULL; \
-     } \
-    result = STATMOD_FUNC_EXT(gsl_stats,_ ## name)((STATMOD_C_TYPE *)data1->data, stride1, \
-                                                   (STATMOD_C_TYPE *)data2->data, stride2, n1); \
-    if(NULL != input1) { STATMOD_FREE(data1) } \
-    if(NULL != input2) { STATMOD_FREE(data2) } \
-    return PyFloat_FromDouble(result); \
+    if(!(PyArg_ParseTuple(args, "O", &input))) 
+	return NULL;
+
+    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, STATMOD_APPEND_PYC_TYPE(PyArray_), 0, -1, 1, NULL);
+    if(data == NULL) 
+	return NULL;
+
+    if(PyGSL_STRIDE_RECALC(data->strides[0], sizeof(STATMOD_C_TYPE), &stride) != GSL_SUCCESS){
+	Py_XDECREF(data); return NULL;
+    }
+
+    n = data->dimensions[0];
+    pointer(&result1, &result2, (STATMOD_C_TYPE *)data->data, (size_t) stride, (size_t) n);
+    Py_DECREF(data); 
+    
+    r = PyTuple_New(2);
+    flag = STATMOD_APPEND_PYC_TYPE(PyArray_);
+    if(flag == PyArray_DOUBLE || PyArray_FLOAT){
+	PyTuple_SET_ITEM(r, 0, PyFloat_FromDouble((double) result1));
+	PyTuple_SET_ITEM(r, 1, PyFloat_FromDouble((double) result2));
+    }else{
+	PyTuple_SET_ITEM(r, 0, PyInt_FromLong((long) result1));
+	PyTuple_SET_ITEM(r, 1, PyInt_FromLong((long) result2));
+    }
+    return r;
 }
 
-
-#define STATMOD_FUNCTION_d_AAd(name) static PyObject * \
-STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
-{ \
-    PyObject *input1 = NULL, *input2 = NULL; \
-    PyArrayObject *data1, *data2; \
-    double mean, result; \
-    size_t stride1=1, stride2=1; \
-    size_t n1, n2; \
- \
-    if(NUMERIC && PyArg_ParseTuple(args, "O!O!d", &PyArray_Type, &data1, &PyArray_Type, &data2, &mean) \
-       && (data1->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_)) \
-       && (data2->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
-        /* already have NumPy array of Floats  */ \
-        if((data1->nd != 1) ||(data2->nd != 1)) { \
-            PyErr_SetString(PyExc_ValueError, "data arrays must be one-dimensional"); \
-            return NULL; \
-        } \
-        stride1 = data1->strides[0] / sizeof(STATMOD_C_TYPE); \
-        stride2 = data2->strides[0] / sizeof(STATMOD_C_TYPE); \
-    } else { \
-        if(!PyArg_ParseTuple(args, "OOdd", &input1, &input2, &mean)) \
-            return NULL; \
-        if(NULL == (data1 = (PyArrayObject *)PyArray_ContiguousFromObject(input1, \
-                                                                          STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                          1, 1))) \
-            return NULL; \
-        if(NULL == (data2 = (PyArrayObject *)PyArray_ContiguousFromObject(input2, \
-                                                                          STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                          1, 1))) { \
-            STATMOD_FREE(data1) \
-            return NULL; \
-        } \
-    } \
-    n1 = data1->dimensions[0]; \
-    n2 = data2->dimensions[0]; \
-    if(n1 != n2) { \
-        PyErr_SetString(PyExc_ValueError, "data arrays must be of same length"); \
-        if(NULL != input1) { STATMOD_FREE(data1) }\
-        return NULL; \
-     } \
-    result = STATMOD_FUNC_EXT(gsl_stats,_ ## name)((STATMOD_C_TYPE *)data1->data, stride1, \
-                                                   (STATMOD_C_TYPE *)data2->data, stride2, n1, \
-                                                   mean); \
-    if(NULL != input1) { STATMOD_FREE(data1) } \
-    if(NULL != input2) { STATMOD_FREE(data2) } \
-    return PyFloat_FromDouble(result); \
+#define _STATMOD_FUNCTION_GENERIC(name, type)\
+static PyObject *\
+STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject * self, PyObject *args) \
+{\
+     return statistics_## type(self, args, STATMOD_FUNC_EXT(gsl_stats,_ ## name)); \
 }
 
+#define STATMOD_FUNCTION_t_A(name)   _STATMOD_FUNCTION_GENERIC(name, t_A)
+#define STATMOD_FUNCTION_tt_A(name)   _STATMOD_FUNCTION_GENERIC(name, tt_A)
 
-#define STATMOD_FUNCTION_d_AAdd(name) static PyObject * \
-STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
-{ \
-    PyObject *input1 = NULL, *input2 = NULL; \
-    PyArrayObject *data1, *data2; \
-    double mean1, mean2, result; \
-    int stride1=1, stride2=1; \
-    size_t n1, n2; \
- \
-    if(NUMERIC && PyArg_ParseTuple(args, "O!O!dd", &PyArray_Type, &data1, &PyArray_Type, &data2, &mean1, &mean2) \
-       && (data1->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_)) \
-       && (data2->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
-        /* already have NumPy array of Floats  */ \
-        if((data1->nd != 1) ||(data2->nd != 1)) { \
-            PyErr_SetString(PyExc_ValueError, "data arrays must be one-dimensional"); \
-            return NULL; \
-        } \
-        stride1 = data1->strides[0] / sizeof(STATMOD_C_TYPE); \
-        stride2 = data2->strides[0] / sizeof(STATMOD_C_TYPE); \
-    } else { \
-        if(!PyArg_ParseTuple(args, "OOdd", &input1, &input2, &mean1, &mean2)) \
-            return NULL; \
-        if(NULL == (data1 = (PyArrayObject *)PyArray_ContiguousFromObject(input1, \
-                                                                          STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                          1, 1))) \
-            return NULL; \
-        if(NULL == (data2 = (PyArrayObject *)PyArray_ContiguousFromObject(input2, \
-                                                                          STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                          1, 1))) { \
-            STATMOD_FREE(data1) \
-            return NULL; \
-        } \
-    } \
-    n1 = data1->dimensions[0]; \
-    n2 = data2->dimensions[0]; \
-    if(n1 != n2) { \
-        PyErr_SetString(PyExc_ValueError, "data arrays must be of same length"); \
-        if(NULL != input1) { STATMOD_FREE(data1) }\
-        return NULL; \
-     } \
-    result = STATMOD_FUNC_EXT(gsl_stats,_ ## name)((STATMOD_C_TYPE *)data1->data, stride1, \
-                                                   (STATMOD_C_TYPE *)data2->data, stride2, n1, \
-                                                   mean1, mean2); \
-    if(NULL != input1) { STATMOD_FREE(data1) } \
-    if(NULL != input2) { STATMOD_FREE(data2) } \
-    return PyFloat_FromDouble(result); \
+#undef STATMOD_FUNCTION_GENERIC
+#define STATMOD_FUNCTION_GENERIC(name, type)\
+static PyObject *\
+STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject * self, PyObject *args) \
+{\
+     return PyGSL_statistics_## type(self, args, (void *) STATMOD_FUNC_EXT(gsl_stats,_ ## name),\
+				     STATMOD_APPEND_PYC_TYPE(PyArray_), sizeof(STATMOD_C_TYPE));\
 }
 
+#define STATMOD_FUNCTION_d_A(name)   STATMOD_FUNCTION_GENERIC(name, d_A)
 
-#define STATMOD_FUNCTION_d_Ad(name) static PyObject * \
-STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
-{ \
-    PyObject *input = NULL; \
-    PyArrayObject *data; \
-    double mean; \
-    double result; \
-    size_t stride=1, n; \
- \
-    if(NUMERIC && PyArg_ParseTuple(args, "O!d", &PyArray_Type, &data, &mean) \
-       && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
-        /* already have NumPy array of Floats  */ \
-        if(data->nd != 1) { \
-            PyErr_SetString(PyExc_ValueError, "data array must be one-dimensional"); \
-            return NULL; \
-        } \
-        stride = data->strides[0] / sizeof(STATMOD_C_TYPE); \
-    } else { \
-        if(!PyArg_ParseTuple(args, "Od", &input, &mean)) \
-            return NULL; \
-        if(NULL == (data = (PyArrayObject *)PyArray_ContiguousFromObject(input, \
-                                                                         STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                         1, 1))) \
-            return NULL; \
-    } \
-    n = data->dimensions[0]; \
-    result = STATMOD_FUNC_EXT(gsl_stats, _ ## name)((STATMOD_C_TYPE *)data->data, stride, n, mean); \
-    if(NULL != input) { STATMOD_FREE(data) } \
-    return PyFloat_FromDouble(result); \
-}
+#define STATMOD_FUNCTION_l_A(name)   STATMOD_FUNCTION_GENERIC(name, l_A)
+#define STATMOD_FUNCTION_d_Ad(name)  STATMOD_FUNCTION_GENERIC(name, d_Ad)
+#define STATMOD_FUNCTION_d_Add(name) STATMOD_FUNCTION_GENERIC(name, d_Add)
+#define STATMOD_FUNCTION_d_Add(name) STATMOD_FUNCTION_GENERIC(name, d_Add)
 
+#define STATMOD_FUNCTION_d_AA(name)   STATMOD_FUNCTION_GENERIC(name, d_AA)
+#define STATMOD_FUNCTION_d_AAdd(name) STATMOD_FUNCTION_GENERIC(name, d_AAdd)
+#ifdef STATMOD_WEIGHTED
+#define STATMOD_FUNCTION_d_AAd(name)  STATMOD_FUNCTION_GENERIC(name, d_AAd)
+#endif
 
-#define STATMOD_FUNCTION_d_Add(name) static PyObject * \
-STATMOD_FUNC_EXT(statistics_ ## name, )(PyObject *self, PyObject *args) \
-{ \
-    PyObject *input; \
-    PyArrayObject *data; \
-    double mean, sd; \
-    double result; \
-    int stride=1; \
-    size_t n; \
- \
-    if(NUMERIC && PyArg_ParseTuple(args, "O!dd", &PyArray_Type, &data, &mean, &sd) \
-       && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
-        /* already have NumPy array of Floats  */ \
-        if(data->nd != 1) { \
-            PyErr_SetString(PyExc_ValueError, "data array must be one-dimensional"); \
-            return NULL; \
-        } \
-        stride = data->strides[0] / sizeof(STATMOD_C_TYPE); \
-    } else { \
-        if(!PyArg_ParseTuple(args, "Odd", &input, &mean, &sd)) \
-            return NULL; \
-        if(NULL == (data = (PyArrayObject *)PyArray_ContiguousFromObject(input, \
-                                                                         STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                         1, 1))) \
-            return NULL; \
-    } \
-    n = data->dimensions[0]; \
-    result = STATMOD_FUNC_EXT(gsl_stats, _ ## name)((STATMOD_C_TYPE *)data->data, stride, n, mean, sd); \
-    if(NULL != input) { \
-        STATMOD_FREE(data) \
-    } \
-    return PyFloat_FromDouble(result); \
-}
-
-
-#define STATMOD_FUNCTION_dd_A(name) static PyObject * \
-STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
-{ \
-    PyObject *input = NULL; \
-    PyArrayObject *data; \
-    STATMOD_C_TYPE result1, result2; \
-    int stride=1; \
-    size_t n; \
- \
-    if(NUMERIC && PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
-       && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
-        /* already have NumPy array of Floats  */ \
-        if(data->nd != 1) { \
-            PyErr_SetString(PyExc_ValueError, "data array must be one-dimensional"); \
-            return NULL; \
-        } \
-        stride = data->strides[0] / sizeof(STATMOD_C_TYPE); \
-    } else { \
-        if(!PyArg_ParseTuple(args, "O", &input)) \
-            return NULL; \
-        if(NULL == (data = (PyArrayObject *)PyArray_ContiguousFromObject(input, \
-                                                                         STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                         1, 1))) \
-            return NULL; \
-    } \
-    n = data->dimensions[0]; \
-    STATMOD_FUNC_EXT(gsl_stats,_ ## name)(&result1, &result2, (STATMOD_C_TYPE *)data->data, stride, n); \
-    if(NULL != input) { \
-        STATMOD_FREE(data) \
-    } \
-    return Py_BuildValue( "dd", result1, result2); \
-}
-
-
-#define STATMOD_FUNCTION_ll_A(name) static PyObject * \
-STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
-{ \
-    PyObject *input = NULL; \
-    PyArrayObject *data; \
-    size_t result1, result2; \
-    int stride=1; \
-    size_t n; \
- \
-    if(NUMERIC && PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
-       && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
-        /* already have NumPy array of Floats  */ \
-        if(data->nd != 1) { \
-            PyErr_SetString(PyExc_ValueError, "data array must be one-dimensional"); \
-            return NULL; \
-        } \
-        stride = data->strides[0] / sizeof(STATMOD_C_TYPE); \
-    } else { \
-        if(!PyArg_ParseTuple(args, "O", &input)) \
-            return NULL; \
-        if(NULL == (data = (PyArrayObject *)PyArray_ContiguousFromObject(input, \
-                                                                         STATMOD_APPEND_PYC_TYPE(PyArray_), \
-                                                                         1, 1))) \
-            return NULL; \
-    } \
-    n = data->dimensions[0]; \
-    STATMOD_FUNC_EXT(gsl_stats,_ ## name)(&result1, &result2, (STATMOD_C_TYPE *)data->data, stride, n); \
-    if(NULL != input) { \
-        STATMOD_FREE(data) \
-    } \
-    return Py_BuildValue( "ll", result1, result2); \
-}
-
-
-
+#define STATMOD_FUNCTION_ll_A(name)   STATMOD_FUNCTION_GENERIC(name, ll_A)
 
 /*** Mean, standard deviation, and variance ***/
 
@@ -392,12 +187,16 @@ STATMOD_FUNCTION_d_AAdd(wkurtosis_m_sd)
 
 
 /*** Maximum and Minimum values ***/
-
-STATMOD_FUNCTION_d_A(max)
-STATMOD_FUNCTION_d_A(min)
-STATMOD_FUNCTION_dd_A(minmax)
-STATMOD_FUNCTION_d_A(max_index)
-STATMOD_FUNCTION_d_A(min_index)
+/*
+  STATMOD_FUNCTION_d_A(max)
+  STATMOD_FUNCTION_d_A(min)
+  STATMOD_FUNCTION_dd_A(minmax)
+*/
+STATMOD_FUNCTION_t_A(max)
+STATMOD_FUNCTION_t_A(min)
+STATMOD_FUNCTION_tt_A(minmax)
+STATMOD_FUNCTION_l_A(max_index)
+STATMOD_FUNCTION_l_A(min_index)
 STATMOD_FUNCTION_ll_A(minmax_index)
 
     
