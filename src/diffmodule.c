@@ -78,14 +78,18 @@ PyGSL_diff_generic(PyObject *self, PyObject *args, pygsl_diff_func func)
 	PyObject *cb=NULL;
 
 	pygsl_diff_args pargs = {NULL, NULL};
-	gsl_function diff_gsl_callback = {&diff_callback, (void *) &pargs};
+	/* Changed to compile using Sun's Compiler */
+	gsl_function diff_gsl_callback = {NULL, NULL};
+
+
 
 
 	double x, value, abserr;
 	int flag;
 
-
-
+	/* Changed to compile using Sun's Compiler */
+	diff_gsl_callback.function = diff_callback;
+	diff_gsl_callback.params = (void *) &pargs;
 
 	if(! PyArg_ParseTuple(args, "Od|O", &cb, &x, &myargs)){
 		return NULL;
