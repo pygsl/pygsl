@@ -321,8 +321,8 @@ py_module_names = ['errors',
                    'math'
                    ]
 setup (name = "pygsl",
-       version = "0.2.0",
-       #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
+       #version = "0.2.0",
+       version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
        long_description = "This project provides a python interface for the GNU scientific library (gsl)",
        license = "GPL",

@@ -1,6 +1,7 @@
 #include "statmodule.h"
 
-static void * __PyGSL_STATISTICS_API[8] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+static void * __PyGSL_STATISTICS_API[8] = {NULL, NULL, NULL, NULL, NULL, NULL,
+					   NULL, NULL};
 
 
 static PyObject*
@@ -305,7 +306,7 @@ set_api_pointer(void)
     __PyGSL_STATISTICS_API[PyGSL_STATISTICS_d_Add_NUM]  = (void *) PyGSL_statistics_d_Add;
     __PyGSL_STATISTICS_API[PyGSL_STATISTICS_ll_A_NUM]   = (void *) PyGSL_statistics_ll_A;
      PyGSL_STATISTICS_API = __PyGSL_STATISTICS_API;
-     /* fprintf(stderr, "__PyGSL_RNG_API @ %p\n", (void *) __PyGSL_RNG_API); */
+     /* fprintf(stderr, "__PyGSL_STATISTICS_API @ %p\n", (void *) __PyGSL_STATISITCS_API); */
      FUNC_MESS_END();
 }
 

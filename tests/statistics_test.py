@@ -1,7 +1,10 @@
 # statistics tests
 #
 # author: Jochen K"upper
-
+#
+# March 2004: Removed any code without Numeric
+#
+#
 import unittest
 
 from pygsl._numobj import *

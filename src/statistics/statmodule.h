@@ -10,7 +10,7 @@
  * This api will be only exported to the various  statistics
  * modules.
  */
-void **PyGSL_STATISTICS_API = NULL;
+static void **PyGSL_STATISTICS_API = NULL;
 
 
 

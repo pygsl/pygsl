@@ -21,6 +21,7 @@ recursive-include testing/src *.ic
 recursive-include testing *.py
 include utils/util.h
 include gsl_Extension.py
+include gsl_numobj.py
 include swig_extension.py
 include gsl_site_example.py
 include common_objects.py

@@ -10,7 +10,7 @@
 
 /*
  * 27. December 2003. Removed support for non numeric part.
- * Pierre
+ *  Pierre Schnizer <schnizer@users.sourceforge.net>
  *
  *    March 2004: Made it compatible with nummarray
  *       On this way: converted the macros to functions and generated functions
@@ -53,7 +53,7 @@ statistics_t_A(PyObject *self, PyObject *args, STATMOD_C_TYPE (*pointer)(const S
     Py_DECREF(data);
     
     flag = STATMOD_APPEND_PYC_TYPE(PyArray_);
-    if(flag == PyArray_DOUBLE || PyArray_FLOAT)
+    if(flag == PyArray_DOUBLE || flag == PyArray_FLOAT)
 	r = PyFloat_FromDouble((double) result);
     else
 	r = PyInt_FromLong((long) result);
@@ -86,7 +86,7 @@ statistics_tt_A(PyObject *self, PyObject *args, void (*pointer)(STATMOD_C_TYPE *
     
     r = PyTuple_New(2);
     flag = STATMOD_APPEND_PYC_TYPE(PyArray_);
-    if(flag == PyArray_DOUBLE || PyArray_FLOAT){
+    if(flag == PyArray_DOUBLE || flag == PyArray_FLOAT){
 	PyTuple_SET_ITEM(r, 0, PyFloat_FromDouble((double) result1));
 	PyTuple_SET_ITEM(r, 1, PyFloat_FromDouble((double) result2));
     }else{
