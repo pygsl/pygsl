@@ -69,15 +69,18 @@ void
 create_qrng_types(PyObject *module)
 {
      PyGSL_qrng_type *a_rng = NULL;
-     const gsl_qrng_type* thisRNGType, 
-	  *types[3] = {gsl_qrng_niederreiter_2, gsl_qrng_sobol, NULL};
+     const gsl_qrng_type* thisRNGType, *types[3] = {NULL, NULL, NULL};
      const char* gsl_qrng_names[3] = {"_qrng.niederreiter_2", "_qrng.sobol", NULL};
 	  
      PyObject* module_dict=PyModule_GetDict(module);
      PyObject* item = NULL;
      int i;
      
+     
      FUNC_MESS_BEGIN();
+     types[0] = gsl_qrng_niederreiter_2;
+     types[1] = gsl_qrng_sobol;
+     types[3] = NULL;
      /* provide other rng types as subclasses of rng  */
      assert(module_dict);
 
