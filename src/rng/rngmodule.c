@@ -4,6 +4,8 @@
  *  Date   : 1. July. 2003
  *
  */
+
+
 #include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
@@ -528,28 +530,26 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
      {NULL, NULL, 0}        /* Sentinel */
 };
 
-#if 0
+
 void 
 set_api_pointer(void)
 {
-#if  DEBUG  < 1
-#undef DEBUG
-#define DEBUG 10
-#endif
 
      FUNC_MESS_BEGIN();
      assert(PyGSL_RNG_ObjectType_NUM < sizeof (__PyGSL_RNG_API));
      __PyGSL_RNG_API[PyGSL_RNG_ObjectType_NUM] = (void *) &PyGSL_rng_pytype;
-     DEBUG_MESS(2, "__PyGSL_RNG_API   @ %p,  ", __PyGSL_RNG_API);
-     DEBUG_MESS(2, "PyGSL_rng_pytype  @ %p,  ", PyGSL_rng_pytype);
+     DEBUG_MESS(2, "__PyGSL_RNG_API   @ %p,  ", (void *) __PyGSL_RNG_API);
+     DEBUG_MESS(2, "PyGSL_rng_pytype  @ %p,  ", (void *) &PyGSL_rng_pytype);
      PyGSL_API = __PyGSL_RNG_API;
+     fprintf(stderr, "__PyGSL_RNG_API @ %p\n", (void *) __PyGSL_RNG_API);
      FUNC_MESS_END();
 }
-#endif
+
 void 
 initrng(void)
 {
      PyObject *m=NULL, *item=NULL, *dict=NULL;
+     PyObject *api=NULL;
 
      m = Py_InitModule("rng", PyGSL_rng_module_functions);
      assert(m);
@@ -575,9 +575,17 @@ initrng(void)
      import_array();
      init_pygsl();
 
-#if 0
+
      set_api_pointer();
-#endif
+     api = PyCObject_FromVoidPtr((void *) PyGSL_API, NULL);
+     assert(api);
+     if (PyDict_SetItemString(dict, "_PYGSL_RNG_API", api) != 0){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not add  _PYGSL_RNG_API!");
+	  goto fail;
+     }
+     
+     
      return;
      
  fail:

@@ -657,11 +657,11 @@ static swig_type_info *swig_types[2];
 #include <gsl/gsl_dht.h>
 #include <pygsl/block_helpers.h>
 
-
    
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
+typedef int gsl_error_flag_drop;
 PyObject *pygsl_module_for_error_treatment = NULL;
 
 struct gsl_dht_struct *new_gsl_dht_struct(size_t const n){
@@ -782,12 +782,14 @@ static PyObject *_wrap_DiscreteHankelTransform_init(PyObject *self, PyObject *ar
     result = (int)gsl_dht_struct_init(arg1,arg2,arg3);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     return resultobj;
     fail:

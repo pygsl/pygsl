@@ -16,15 +16,26 @@
 #include <stdio.h>
 #include <gsl/gsl_siman.h>
 #include <pygsl/error_helpers.h>
-
+#include <pygsl/rng.h>
 
 /* callback functions
  * - python function passed by user
  * - actual C callback
  * - GSL wrapper struct
  */
-/* This function type should return the energy of a configuration XP. */
 static PyObject *siman_py_efunc = NULL;
+static PyObject *siman_py_step = NULL;
+static PyObject *siman_py_metric = NULL;
+static PyObject *siman_py_print = NULL;
+
+typedef struct{
+	PyObject * efunc;
+	PyObject * step;
+	PyObject * metric;
+	PyObject * print;
+}pygsl_siman_t;
+
+/* This function type should return the energy of a configuration XP. */
 static double siman_efunc(void *xp)
 {
 	PyObject *arglist = Py_BuildValue("(d)", xp);
@@ -39,12 +50,13 @@ static double siman_efunc(void *xp)
 	Py_DECREF(result);
 	return value;
 }
-static gsl_siman_Efunc_t siman_gsl_efunc;
 
 
-/* This function type should modify the configuration XP using a random step
-   taken from the generator R, up to a maximium distance of STEP_SIZE. */
-static PyObject *siman_py_step = NULL;
+
+/* 
+ *  This function type should modify the configuration XP using a random step
+ *  taken from the generator R, up to a maximium distance of STEP_SIZE. 
+ */
 static double siman_step(const gsl_rng *r, void *xp, double step_size)
 {
 	PyObject *arglist = Py_BuildValue("(d)", step_size);
@@ -59,12 +71,12 @@ static double siman_step(const gsl_rng *r, void *xp, double step_size)
 	Py_DECREF(result);
 	return value;
 }
-static gsl_siman_step_t siman_gsl_step;
+
 
 
 /* This function type should return the distance between two configurations XP
    and YP. */
-static PyObject *siman_py_metric = NULL;
+
 static double siman_metric(void *xp, void *yp)
 {
 	PyObject *arglist = Py_BuildValue("(d)", xp);
@@ -79,11 +91,11 @@ static double siman_metric(void *xp, void *yp)
 	Py_DECREF(result);
 	return value;
 }
-static gsl_siman_metric_t siman_gsl_metric;
+
 
 
 /* This function type should print the contents of the configuration XP. */
-static PyObject *siman_py_print = NULL;
+
 static double siman_print(void *xp)
 {
 	PyObject *arglist = Py_BuildValue("(d)", xp);
@@ -98,32 +110,46 @@ static double siman_print(void *xp)
 	Py_DECREF(result);
 	return value;
 }
-static gsl_siman_print_t siman_gsl_print;
+
 
 
 
 /* wrapper functions */
+static gsl_siman_step_t siman_gsl_step;
+static gsl_siman_Efunc_t siman_gsl_efunc;
+static gsl_siman_metric_t siman_gsl_metric;
+static gsl_siman_print_t siman_gsl_print;
 
 static PyObject *siman_solve(PyObject *self, PyObject *args)
 {
 	PyObject *result;
-	PyObject *efunc, *step, *metric, *print, *params;
-	gsl_rng_type *T;
-	gsl_rng *rng;
+	PyObject *efunc, *step, *metric, *print, *params, *r_o = NULL;
+
+	gsl_siman_copy_t           siman_gsl_copy = NULL;
+	gsl_siman_copy_construct_t siman_gsl_copy_construct = NULL;
+	gsl_siman_destroy_t        siman_gsl_copy_destroy = NULL;
+
+
+	gsl_rng *rng = NULL;
 
 	/* python arguments are (efunc, step, metric, print, (params)) */
-	if(! PyArg_ParseTuple(args, "OOOOO", &efunc, &step, &metric, &print, &params))
+	if(! PyArg_ParseTuple(args, "OOOOO",&r_o, &efunc, &step, &metric, &print, &params))
 		return NULL;
 	if(!(PyCallable_Check(efunc) && PyCallable_Check(step) && PyCallable_Check(metric))) {
 		PyErr_SetString(PyExc_TypeError, "first three function parameters must be callable");
 		return NULL;
 	}
 
-	if(! (PyCallable_Check(print) || (PyNone != print))) {
+	if(! (PyCallable_Check(print) || (Py_None != print))) {
 		PyErr_SetString(PyExc_TypeError, "print-function must be callable if given.");
 		return NULL;
 	}
-	
+	if(!PyGSL_RNG_Check(r_o)){
+		return NULL;
+	}
+
+
+
 	/* initialize/assign functions */
 	siman_gsl_efunc.function = &siman_efunc;
 	siman_gsl_efunc.params = NULL;
@@ -150,23 +176,24 @@ static PyObject *siman_solve(PyObject *self, PyObject *args)
 	siman_py_print = print;
 	
 	/* use default random number generator for now */
-	gsl_rng_env_setup();
-	T = gsl_rng_default;
-	r = gsl_rng_alloc(T);
 
-	if(PyNone != print)
-		gsl_siman_solve(r, &x0, &siman_gsl_efunc, &siman_gsl_step, &siman_gsl_metric,
-				&siman_gsl_print, NULL, NULL, NULL, size, params);
+	rng = ((PyGSL_rng *) rng)->rng; 
+		
+	if(Py_None != print)
+		gsl_siman_solve(rng, &x0, &siman_gsl_efunc, &siman_gsl_step, &siman_gsl_metric,
+				&siman_gsl_print, &siman_gsl_copy, &siman_gsl_copy_construct, 
+				&siman_gsl_copy_construct, size, params);
 	else
-		gsl_siman_solve(r, &x0, &siman_gsl_efunc, &siman_gsl_step, &siman_gsl_metric,
-				NULL, NULL, NULL, NULL, size, params);
+		gsl_siman_solve(rng, &x0, &siman_gsl_efunc, &siman_gsl_step, &siman_gsl_metric,
+				NULL, &siman_gsl_copy, &siman_gsl_copy_construct, 
+				&siman_gsl_copy_construct, size, params);
 
-	// result = Py_BuildValue("(dd)", value, abserr);
+	/* result = Py_BuildValue("(dd)", value, abserr); */
 	return result;
 }
 
 
-/* moduloe initialization */
+/* module initialization */
 
 static PyMethodDef simanMethods[] = {
 	{"solve", siman_solve, METH_VARARGS,
@@ -180,6 +207,7 @@ DL_EXPORT(void) simandiff(void)
 {
 	(void)Py_InitModule("siman", simanMethods);
 	init_pygsl();
+	import_pygsl_rng();
 	return;
 }
 
@@ -191,3 +219,4 @@ DL_EXPORT(void) simandiff(void)
  * c-file-style: "python"
  * End:
  */
+

@@ -22,13 +22,28 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
      
      /* Check that it is from the approbriate type ... */
      /* rng is now a type yet. Can not check for that yet .... */
-     if(!PyGSLRng_Check(object)){
+     if(!PyGSL_RNG_Check(object)){
 	  gsl_error("I expected a rng instance or an instance from "
 		    "a derived class",
 		    __FILE__, __LINE__, GSL_EFAULT);
 	  return NULL;
      }
+/*
+     tmp = PyObject_GetAttrString(object, "_rng");
+     if(tmp  == NULL)
+         return NULL;
 
+     if(!PyCObject_Check(tmp)){
+         gsl_error("I expected a PythonCObject as attribute '_rng.'",
+                   __FILE__, __LINE__, GSL_EFAULT);
+         return NULL;
+     }
+ 
+     random =(gsl_rng*) PyCObject_AsVoidPtr(tmp);
+     if(random == NULL){
+        FUNC_MESS("FAIL");
+          return NULL;
+*/
      random = ((PyGSL_rng *) tmp)->rng;
      if(random == NULL){
        FUNC_MESS("FAIL");

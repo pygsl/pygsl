@@ -771,6 +771,7 @@ static void _SWIG_exception(int code, const char *msg) {
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
+typedef int gsl_error_flag_drop;
 PyObject *pygsl_module_for_error_treatment = NULL;
 
 
@@ -820,6 +821,7 @@ PyObject *pygsl_module_for_error_treatment = NULL;
 
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_rng.h>
+#include <pygsl/rng.h>
 #include <pygsl/rng_helpers.h>
 
 
@@ -1561,7 +1563,7 @@ static PyObject *_wrap_gsl_monte_plain_integrate(PyObject *self, PyObject *args,
     arg5 = (size_t) PyInt_AsLong(obj2);
     if (PyErr_Occurred()) SWIG_fail;
     {
-        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);
+        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);     
         if(arg6 == NULL)
         goto fail;
     }
@@ -1967,7 +1969,7 @@ static PyObject *_wrap_gsl_monte_miser_integrate(PyObject *self, PyObject *args,
     arg5 = (size_t) PyInt_AsLong(obj2);
     if (PyErr_Occurred()) SWIG_fail;
     {
-        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);
+        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);     
         if(arg6 == NULL)
         goto fail;
     }
@@ -2466,7 +2468,7 @@ static PyObject *_wrap_pygsl_monte_vegas_set_ostream(PyObject *self, PyObject *a
         HANDLE_MINGW();
         if (!PyFile_Check(obj1)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
-            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 33);
+            PyGSL_add_traceback(NULL, "typemaps/file_typemaps.i", __FUNCTION__, 33);
             goto fail;
         }
         FUNC_MESS("Convert Python File to C File");
@@ -2548,7 +2550,7 @@ static PyObject *_wrap_gsl_monte_vegas_integrate(PyObject *self, PyObject *args,
     arg5 = (size_t) PyInt_AsLong(obj2);
     if (PyErr_Occurred()) SWIG_fail;
     {
-        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);
+        arg6= (gsl_rng*) PyGSL_gsl_rng_from_pyobject(obj3);     
         if(arg6 == NULL)
         goto fail;
     }
@@ -2889,8 +2891,8 @@ static PyObject *_wrap_gsl_root_fsolver_set(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -2970,8 +2972,8 @@ static PyObject *_wrap_gsl_root_fdfsolver_set(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3087,8 +3089,8 @@ static PyObject *_wrap_gsl_root_fsolver_iterate(PyObject *self, PyObject *args, 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3164,8 +3166,8 @@ static PyObject *_wrap_gsl_root_fdfsolver_iterate(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3296,8 +3298,8 @@ static PyObject *_wrap_gsl_root_test_interval(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3324,8 +3326,8 @@ static PyObject *_wrap_gsl_root_test_delta(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3350,8 +3352,8 @@ static PyObject *_wrap_gsl_root_test_residual(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3457,8 +3459,8 @@ static PyObject *_wrap_gsl_min_fminimizer_set(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3543,8 +3545,8 @@ static PyObject *_wrap_gsl_min_fminimizer_set_with_values(PyObject *self, PyObje
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3659,8 +3661,8 @@ static PyObject *_wrap_gsl_min_fminimizer_iterate(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -3771,8 +3773,8 @@ static PyObject *_wrap_gsl_min_test_interval(PyObject *self, PyObject *args, PyO
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -4100,8 +4102,8 @@ static PyObject *_wrap_gsl_multiroot_fsolver_set(PyObject *self, PyObject *args,
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -4137,8 +4139,8 @@ static PyObject *_wrap_gsl_multiroot_fsolver_iterate(PyObject *self, PyObject *a
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -4261,8 +4263,8 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_set(PyObject *self, PyObject *arg
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -4298,8 +4300,8 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_iterate(PyObject *self, PyObject 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -4443,8 +4445,8 @@ static PyObject *_wrap_gsl_multiroot_test_delta(PyObject *self, PyObject *args, 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -4518,8 +4520,8 @@ static PyObject *_wrap_gsl_multiroot_test_residual(PyObject *self, PyObject *arg
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -4930,8 +4932,8 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -5040,8 +5042,8 @@ static PyObject *_wrap_gsl_multimin_fminimizer_iterate(PyObject *self, PyObject 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -5216,8 +5218,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -5342,8 +5344,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_iterate(PyObject *self, PyObjec
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -5419,8 +5421,8 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_restart(PyObject *self, PyObjec
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -5498,8 +5500,8 @@ static PyObject *_wrap_gsl_multimin_test_gradient(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -5534,8 +5536,8 @@ static PyObject *_wrap_gsl_multimin_test_size(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6121,8 +6123,8 @@ static PyObject *_wrap_gsl_multifit_fsolver_set(PyObject *self, PyObject *args, 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6158,8 +6160,8 @@ static PyObject *_wrap_gsl_multifit_fsolver_iterate(PyObject *self, PyObject *ar
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6286,8 +6288,8 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_set(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6323,8 +6325,8 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_iterate(PyObject *self, PyObject *
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6468,8 +6470,8 @@ static PyObject *_wrap_gsl_multifit_test_delta(PyObject *self, PyObject *args, P
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6543,8 +6545,8 @@ static PyObject *_wrap_gsl_multifit_test_gradient(PyObject *self, PyObject *args
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6693,8 +6695,8 @@ static PyObject *_wrap_gsl_integration_qaws_table_set(PyObject *self, PyObject *
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6766,8 +6768,8 @@ static PyObject *_wrap_gsl_integration_qawo_table_set(PyObject *self, PyObject *
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6794,8 +6796,8 @@ static PyObject *_wrap_gsl_integration_qawo_table_set_length(PyObject *self, PyO
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6879,8 +6881,8 @@ static PyObject *_wrap_gsl_integration_qng(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -6986,8 +6988,8 @@ static PyObject *_wrap_gsl_integration_qag(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7086,8 +7088,8 @@ static PyObject *_wrap_gsl_integration_qagi(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7187,8 +7189,8 @@ static PyObject *_wrap_gsl_integration_qagiu(PyObject *self, PyObject *args, PyO
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7288,8 +7290,8 @@ static PyObject *_wrap_gsl_integration_qagil(PyObject *self, PyObject *args, PyO
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7390,8 +7392,8 @@ static PyObject *_wrap_gsl_integration_qags(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7503,8 +7505,8 @@ static PyObject *_wrap_gsl_integration_qagp(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7609,8 +7611,8 @@ static PyObject *_wrap_gsl_integration_qawc(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7714,8 +7716,8 @@ static PyObject *_wrap_gsl_integration_qaws(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7818,8 +7820,8 @@ static PyObject *_wrap_gsl_integration_qawo(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -7924,8 +7926,8 @@ static PyObject *_wrap_gsl_integration_qawf(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8054,8 +8056,8 @@ static PyObject *_wrap_gsl_cheb_init(PyObject *self, PyObject *args, PyObject *k
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8133,8 +8135,8 @@ static PyObject *_wrap_gsl_cheb_eval_err(PyObject *self, PyObject *args, PyObjec
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8204,8 +8206,8 @@ static PyObject *_wrap_gsl_cheb_eval_n_err(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8242,8 +8244,8 @@ static PyObject *_wrap_gsl_cheb_calc_deriv(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8272,8 +8274,8 @@ static PyObject *_wrap_gsl_cheb_calc_integ(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8349,8 +8351,8 @@ static PyObject *_wrap_pygsl_cheb_set_coefficients(PyObject *self, PyObject *arg
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8713,8 +8715,8 @@ static PyObject *_wrap_gsl_odeiv_step_reset(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8823,8 +8825,8 @@ static PyObject *_wrap_gsl_odeiv_control_init(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -8969,8 +8971,8 @@ static PyObject *_wrap_gsl_odeiv_evolve_reset(PyObject *self, PyObject *args, Py
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -9188,8 +9190,8 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -9426,8 +9428,8 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -9577,8 +9579,8 @@ static PyObject *_wrap_gsl_fit_linear(PyObject *self, PyObject *args, PyObject *
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -9716,8 +9718,8 @@ static PyObject *_wrap_gsl_fit_wlinear(PyObject *self, PyObject *args, PyObject 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -9785,8 +9787,8 @@ static PyObject *_wrap_gsl_fit_linear_est(PyObject *self, PyObject *args, PyObje
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -9873,8 +9875,8 @@ static PyObject *_wrap_gsl_fit_mul(PyObject *self, PyObject *args, PyObject *kwa
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -9991,8 +9993,8 @@ static PyObject *_wrap_gsl_fit_wmul(PyObject *self, PyObject *args, PyObject *kw
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -10045,8 +10047,8 @@ static PyObject *_wrap_gsl_fit_mul_est(PyObject *self, PyObject *args, PyObject 
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
         if (resultobj == NULL){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
-            __FUNCTION__, 45);
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 47);
             goto fail;
         }
     }
@@ -10435,6 +10437,9 @@ SWIGEXPORT(void) SWIG_init(void) {
     /* To use the numeric extension */
     import_array();
     init_pygsl();
+    
+    
+    import_pygsl_rng();
     
     PyDict_SetItemString(d,(char*)"cvar", SWIG_globals);
     SWIG_addvarlink(SWIG_globals,(char*)"gsl_root_fsolver_bisection",_wrap_gsl_root_fsolver_bisection_get, _wrap_gsl_root_fsolver_bisection_set);

@@ -5,10 +5,10 @@ Wrapper for the combination.
 
 Usage:
 
-    Initalisation:       
+    Initalisation:
         c = Combination(n, k)
 
-    Testing for validness:   
+    Testing for validness:
         c.valid()
     returns 0 = GSL_SUCCESS if ok. Raises a gsl_DomainError if
     invalid.

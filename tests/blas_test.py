@@ -6,11 +6,13 @@ from pygsl.errors import gsl_Error
 from pygsl.blas import *
 from pygsl import  _gslwrap
 
+import pygsl.blas
+print pygsl.blas
+print pygsl.blas._gslwrap
+
 class BlasTestCase(GSLTestCase):
     def testDdot(self):
-        result = fpcompare(
-            ddot(self.v1_4, self.v2_4),
-            -105.957, 3)
+        result = fpcompare(ddot(self.v1_4, self.v2_4), -105.957, 3)
         self.failUnless(result)
 
     def testZdotu(self):

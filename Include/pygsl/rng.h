@@ -25,23 +25,27 @@ typedef struct {
 #if defined(PyGSL_NO_IMPORT_API)
 extern void **PyGSL_API;
 #else
-#if defined(PY_ARRAY_UNIQUE_SYMBOL)
-void **PyGSL_API;
+#if defined(PyGSL_API_UNIQUE_SYMBOL)
+void **PyGSL_API = NULL;
 #else
-static void **PyGSL_API;
+static void **PyGSL_API = NULL;
 #endif
 #endif
 
 #define import_pygsl_rng() \
 { \
-  PyObject *pygsl = PyImport_ImportModule("pygsl.rng"); \
-  if (pygsl != NULL) { \
-    PyObject *module_dict = PyModule_GetDict(pygsl); \
-    PyObject *c_api_object = PyDict_GetItemString(module_dict, "_PYGSL_RNG_API"); \
-    if (PyCObject_Check(c_api_object)) { \
-      PyGSL_API = (void **)PyCObject_AsVoidPtr(c_api_object); \
-    } \
-  } \
+   PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
+   if ( \
+      (pygsl = PyImport_ImportModule("pygsl.rng"))         != NULL && \
+      (md = PyModule_GetDict(pygsl))                       != NULL && \
+      (c_api = PyDict_GetItemString(md, "_PYGSL_RNG_API")) != NULL && \
+      (PyCObject_Check(c_api))                                        \
+     ) { \
+	 PyGSL_API = (void **)PyCObject_AsVoidPtr(c_api); \
+   } else { \
+        PyGSL_API = NULL; \
+   } \
+   fprintf(stderr, "PyGSL_API points to %p\n", (void *) PyGSL_API); \
 }
 #endif  /* PyGSL_RNG_H */
 

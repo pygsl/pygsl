@@ -4,7 +4,7 @@
 #include <compile.h>
 #include <frameobject.h>
 
-static const char * error_module = "pygsl.errors";
+static const char  error_module[] = "pygsl.errors";
 
 int  
 PyGSL_error_flag(long flag)
@@ -124,7 +124,7 @@ PyObject * PyGSL_get_error_object(int gsl_error)
      char *err_str, *default_err_str="gsl_Error";
 
      
-     gsl_error_module=PyImport_ImportModule(error_module);
+     gsl_error_module=PyImport_ImportModule((char *) error_module);
      if(!gsl_error_module){
 	  fprintf(stderr, "I could not get module %s!\n", error_module);
 	  goto fail;
@@ -250,7 +250,7 @@ void PyGSL_module_error_handler(const char *reason, /* name of function*/
 
   /* error handler for gsl routines, sets exception */
 
-  gsl_error_module=PyImport_ImportModule(error_module);
+  gsl_error_module=PyImport_ImportModule((char *) error_module);
   if(gsl_error_module == NULL){
        fprintf(stderr, "I could not import the module %s\n", error_module);
   }

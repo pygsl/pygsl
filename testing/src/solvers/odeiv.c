@@ -918,6 +918,12 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
 	  goto fail; break;
      }
      
+     if(!step){
+	  PyErr_SetString(PyExc_TypeError, "The first argument must be a step object!");
+	  goto fail;
+     }
+
+
      if(tmp){	  
 	  PyGSL_add_traceback(module, this_file, odeiv_step_init_err_msg, 
 			      __LINE__ - 2);
@@ -946,7 +952,7 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
 	  PyErr_NoMemory();
 	  goto fail;
      }
-
+     assert(step);
      a_con->step =  step;
      Py_INCREF(step);
      FUNC_MESS_END();
@@ -984,11 +990,25 @@ PyGSL_odeiv_evolve_init(PyObject *self, PyObject *args)
 			     &PyGSL_odeiv_control_pytype, &control)){
 	  return NULL;
      }
+
+     if(!step){
+	  PyErr_SetString(PyExc_TypeError, "The first argument must be a step object!");
+	  goto fail;
+     }
+
+     if(!control){
+	  PyErr_SetString(PyExc_TypeError, "The second argument must be a control object!");
+	  goto fail;
+     }
+
      a_ev =  (PyGSL_odeiv_evolve *) PyObject_NEW(PyGSL_odeiv_evolve, &PyGSL_odeiv_evolve_pytype);
      if(NULL == a_ev){
 	  PyErr_NoMemory();
 	  return NULL;
      }
+     
+
+
      a_ev->step = step;
      a_ev->control = control;
 

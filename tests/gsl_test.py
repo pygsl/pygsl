@@ -2,6 +2,7 @@
 import fpformat
 import types
 import unittest
+import MLab
 from Numeric import *
 
 def fpcompare(a, b, digits):
@@ -33,9 +34,8 @@ def arrayCompare(a, l, digits):
 
 def arrayIsZero(a):
     result = 1
-    for i in a:
-        result = result and abs(i) < 0.000000001
-    return result
+    return MLab.max(absolute(ravel(a))) < 1e-8
+
 
 def herm(A):
     return transpose(conjugate(A))

@@ -23,6 +23,7 @@ BUILD_TESTING = 1
 # you do not need to modify anything here.
 
 
+
 import sys
 import time
 import string
@@ -98,6 +99,13 @@ exts.append(SWIG_Extension("_block",
                           )
             )
 
+# pygsl_siman=gsl_Extension("siman",
+#                           ['src/simanmodule.c'],
+#                           define_macros = macros,
+#                           gsl_min_version=(1,2),
+#                           python_min_version=(2,1)
+#                           )
+# exts.append(pygsl_siman)
 
 pygsl_const=gsl_Extension("const",
 			  ['src/constmodule.c'],
@@ -136,7 +144,7 @@ try:
                                   )
     exts.append(pygsl_multimin)    
     pygsl_rng=gsl_Extension("rng",
-                            ['src/rngmodule.c'],
+                            ['src/rng/rngmodule.c'],
                             #define_macros = [('DEBUG', 10)],
                             gsl_min_version=(1,'0+'),
                             define_macros = macros,
@@ -257,13 +265,6 @@ errortest = gsl_Extension("errortest",
 exts.append(errortest)
 
 if BUILD_TESTING:
-    rng=gsl_Extension("testing.rng",
-                      ['testing/src/rngmodule_testing.c'],
-                      gsl_min_version=(1,),
-                      define_macros = macros,
-                      python_min_version=(2,0)
-                      )
-    exts.append(rng)    
     sf=gsl_Extension("testing.sf",
                      ['testing/src/sfmodule_testing.c'],
                      gsl_min_version=(1,),

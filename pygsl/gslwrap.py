@@ -50,6 +50,8 @@ gsl_linalg_householder_hm1 = _gslwrap.gsl_linalg_householder_hm1
 
 gsl_linalg_complex_householder_hm = _gslwrap.gsl_linalg_complex_householder_hm
 
+gsl_linalg_complex_householder_hv = _gslwrap.gsl_linalg_complex_householder_hv
+
 gsl_linalg_SV_decomp = _gslwrap.gsl_linalg_SV_decomp
 
 gsl_linalg_SV_decomp_mod = _gslwrap.gsl_linalg_SV_decomp_mod
@@ -458,7 +460,6 @@ class CombinationPtr(Combination):
         if not hasattr(self,"thisown"): _swig_setattr(self, Combination, 'thisown', 0)
         _swig_setattr(self, Combination,self.__class__,Combination)
 _gslwrap.Combination_swigregister(CombinationPtr)
-cvar = _gslwrap.cvar
 
 M_E = _gslwrap.M_E
 M_LOG2E = _gslwrap.M_LOG2E
@@ -962,4 +963,5 @@ gsl_interp_free = _gslwrap.gsl_interp_free
 
 gsl_interp_bsearch = _gslwrap.gsl_interp_bsearch
 
+cvar = _gslwrap.cvar
 

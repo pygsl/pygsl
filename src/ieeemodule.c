@@ -3,6 +3,7 @@
  * created: May 2001
  * file: pygsl/src/ieeemodule.c
  * $Id$
+ *
  */
 
 #include <gsl/gsl_math.h>
@@ -10,6 +11,7 @@
 #include <gsl/gsl_errno.h>
 #include <Python.h>
 #include <pygsl/error_helpers.h>
+#include <pygsl/general_helpers.h>
 /*
  * constants definitions
  */
@@ -74,7 +76,8 @@ static PyObject* set_mode(PyObject *self,
   if (!PyArg_ParseTuple(args, "|iii", &precision, &rounding,  &exception_mask))
     return NULL;
   
-  if (GSL_SUCCESS!=gsl_ieee_set_mode(precision, rounding, exception_mask))
+ 
+  if (GSL_SUCCESS!=   PyGSL_error_flag(gsl_ieee_set_mode(precision, rounding, exception_mask)))
     return NULL;
 
   Py_INCREF(Py_None);
@@ -103,34 +106,34 @@ static PyObject* bin_repr(PyObject *self,
 }
 
 static PyObject* ieee_isnan(PyObject *self,
-		       PyObject *arg
-		       )
+			    PyObject *arg
+     )
 {
-  if (!PyFloat_Check(arg)) {
-    PyErr_SetString(PyExc_RuntimeError, "need a floating point object");
-    return NULL;
-  }
-  return PyInt_FromLong(gsl_isnan(PyFloat_AS_DOUBLE(arg)));
+     double tmp;
+     if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
+	  return NULL;
+     return PyInt_FromLong(gsl_isnan(tmp));
 }
 static PyObject* ieee_isinf(PyObject *self,
-		       PyObject *arg
-		       )
+			    PyObject *arg
+     )
 {
-  if (!PyFloat_Check(arg)) {
-    PyErr_SetString(PyExc_RuntimeError, "need a floating point object");
-    return NULL;
-  }
-  return PyInt_FromLong(gsl_isinf(PyFloat_AS_DOUBLE(arg)));
+     double tmp;
+     if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
+	  return NULL;
+     return PyInt_FromLong(gsl_isinf(tmp));
+
 }
+
 static PyObject* ieee_finite(PyObject *self,
 		       PyObject *arg
 		       )
 {
-  if (!PyFloat_Check(arg)) {
-    PyErr_SetString(PyExc_RuntimeError, "need a floating point object");
-    return NULL;
-  }
-  return PyInt_FromLong(gsl_finite(PyFloat_AS_DOUBLE(arg)));
+     double tmp;
+     if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
+	  return NULL;
+     return PyInt_FromLong(gsl_finite(tmp));
+
 }
 
 static PyObject* ieee_nan(PyObject *self)
@@ -150,7 +153,7 @@ static PyObject* ieee_posinf(PyObject *self)
 
 static PyMethodDef ieeeMethods[] = {
   {"set_mode", set_mode, METH_VARARGS},
-  {"env_setup", env_setup, METH_VARARGS},
+  {"env_setup", env_setup, METH_NOARGS},
   {"bin_repr", bin_repr, METH_VARARGS},
   /* tests on special IEEE-FP meanings */
   {"isnan",ieee_isnan,METH_O},

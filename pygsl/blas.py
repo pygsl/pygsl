@@ -41,7 +41,7 @@ def ddot(x, y):
     This function computes the scalar product x^T y for the vectors x and y,
     returning the result. 
     """
-    return _gslwrap.gsl_blas_ddot(x, y)[1]
+    return _gslwrap.gsl_blas_ddot(x, y)#[1]
 
 
 def zdotu(x, y):
@@ -49,7 +49,7 @@ def zdotu(x, y):
     This function computes the complex scalar product x^T y for the
     vectors x and y, returning the result.
     """
-    return _gslwrap.gsl_blas_zdotu(x, y, 1j)[1]
+    return _gslwrap.gsl_blas_zdotu(x, y, 1j)#[1]
 
 
 def zdotc(x, y):
@@ -57,7 +57,7 @@ def zdotc(x, y):
     This function computes the complex conjugate scalar product x^H y for the
     vectors x and y, returning the result. 
     """
-    return _gslwrap.gsl_blas_zdotc(x, y, 1j)[1]
+    return _gslwrap.gsl_blas_zdotc(x, y, 1j)#[1]
 
 
 def dnrm2(x):

@@ -50,6 +50,8 @@ gsl_linalg_householder_hm1 = _gslwrap.gsl_linalg_householder_hm1
 
 gsl_linalg_complex_householder_hm = _gslwrap.gsl_linalg_complex_householder_hm
 
+gsl_linalg_complex_householder_hv = _gslwrap.gsl_linalg_complex_householder_hv
+
 gsl_linalg_SV_decomp = _gslwrap.gsl_linalg_SV_decomp
 
 gsl_linalg_SV_decomp_mod = _gslwrap.gsl_linalg_SV_decomp_mod
@@ -200,21 +202,16 @@ class gsl_fft_complex_wavetable(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    __swig_setmethods__["n"] = _gslwrap.gsl_fft_complex_wavetable_n_set
     __swig_getmethods__["n"] = _gslwrap.gsl_fft_complex_wavetable_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_complex_wavetable_n_get,_gslwrap.gsl_fft_complex_wavetable_n_set)
-    __swig_setmethods__["nf"] = _gslwrap.gsl_fft_complex_wavetable_nf_set
+    if _newclass:n = property(_gslwrap.gsl_fft_complex_wavetable_n_get)
     __swig_getmethods__["nf"] = _gslwrap.gsl_fft_complex_wavetable_nf_get
-    if _newclass:nf = property(_gslwrap.gsl_fft_complex_wavetable_nf_get,_gslwrap.gsl_fft_complex_wavetable_nf_set)
-    __swig_setmethods__["factor"] = _gslwrap.gsl_fft_complex_wavetable_factor_set
+    if _newclass:nf = property(_gslwrap.gsl_fft_complex_wavetable_nf_get)
     __swig_getmethods__["factor"] = _gslwrap.gsl_fft_complex_wavetable_factor_get
-    if _newclass:factor = property(_gslwrap.gsl_fft_complex_wavetable_factor_get,_gslwrap.gsl_fft_complex_wavetable_factor_set)
-    __swig_setmethods__["twiddle"] = _gslwrap.gsl_fft_complex_wavetable_twiddle_set
+    if _newclass:factor = property(_gslwrap.gsl_fft_complex_wavetable_factor_get)
     __swig_getmethods__["twiddle"] = _gslwrap.gsl_fft_complex_wavetable_twiddle_get
-    if _newclass:twiddle = property(_gslwrap.gsl_fft_complex_wavetable_twiddle_get,_gslwrap.gsl_fft_complex_wavetable_twiddle_set)
-    __swig_setmethods__["trig"] = _gslwrap.gsl_fft_complex_wavetable_trig_set
+    if _newclass:twiddle = property(_gslwrap.gsl_fft_complex_wavetable_twiddle_get)
     __swig_getmethods__["trig"] = _gslwrap.gsl_fft_complex_wavetable_trig_get
-    if _newclass:trig = property(_gslwrap.gsl_fft_complex_wavetable_trig_get,_gslwrap.gsl_fft_complex_wavetable_trig_set)
+    if _newclass:trig = property(_gslwrap.gsl_fft_complex_wavetable_trig_get)
     def __repr__(self):
         return "<C gsl_fft_complex_wavetable instance at %s>" % (self.this,)
 
@@ -237,12 +234,10 @@ class gsl_fft_complex_workspace(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    __swig_setmethods__["n"] = _gslwrap.gsl_fft_complex_workspace_n_set
     __swig_getmethods__["n"] = _gslwrap.gsl_fft_complex_workspace_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_complex_workspace_n_get,_gslwrap.gsl_fft_complex_workspace_n_set)
-    __swig_setmethods__["scratch"] = _gslwrap.gsl_fft_complex_workspace_scratch_set
+    if _newclass:n = property(_gslwrap.gsl_fft_complex_workspace_n_get)
     __swig_getmethods__["scratch"] = _gslwrap.gsl_fft_complex_workspace_scratch_get
-    if _newclass:scratch = property(_gslwrap.gsl_fft_complex_workspace_scratch_get,_gslwrap.gsl_fft_complex_workspace_scratch_set)
+    if _newclass:scratch = property(_gslwrap.gsl_fft_complex_workspace_scratch_get)
     def __repr__(self):
         return "<C gsl_fft_complex_workspace instance at %s>" % (self.this,)
 
@@ -285,21 +280,16 @@ class gsl_fft_real_wavetable(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    __swig_setmethods__["n"] = _gslwrap.gsl_fft_real_wavetable_n_set
     __swig_getmethods__["n"] = _gslwrap.gsl_fft_real_wavetable_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_real_wavetable_n_get,_gslwrap.gsl_fft_real_wavetable_n_set)
-    __swig_setmethods__["nf"] = _gslwrap.gsl_fft_real_wavetable_nf_set
+    if _newclass:n = property(_gslwrap.gsl_fft_real_wavetable_n_get)
     __swig_getmethods__["nf"] = _gslwrap.gsl_fft_real_wavetable_nf_get
-    if _newclass:nf = property(_gslwrap.gsl_fft_real_wavetable_nf_get,_gslwrap.gsl_fft_real_wavetable_nf_set)
-    __swig_setmethods__["factor"] = _gslwrap.gsl_fft_real_wavetable_factor_set
+    if _newclass:nf = property(_gslwrap.gsl_fft_real_wavetable_nf_get)
     __swig_getmethods__["factor"] = _gslwrap.gsl_fft_real_wavetable_factor_get
-    if _newclass:factor = property(_gslwrap.gsl_fft_real_wavetable_factor_get,_gslwrap.gsl_fft_real_wavetable_factor_set)
-    __swig_setmethods__["twiddle"] = _gslwrap.gsl_fft_real_wavetable_twiddle_set
+    if _newclass:factor = property(_gslwrap.gsl_fft_real_wavetable_factor_get)
     __swig_getmethods__["twiddle"] = _gslwrap.gsl_fft_real_wavetable_twiddle_get
-    if _newclass:twiddle = property(_gslwrap.gsl_fft_real_wavetable_twiddle_get,_gslwrap.gsl_fft_real_wavetable_twiddle_set)
-    __swig_setmethods__["trig"] = _gslwrap.gsl_fft_real_wavetable_trig_set
+    if _newclass:twiddle = property(_gslwrap.gsl_fft_real_wavetable_twiddle_get)
     __swig_getmethods__["trig"] = _gslwrap.gsl_fft_real_wavetable_trig_get
-    if _newclass:trig = property(_gslwrap.gsl_fft_real_wavetable_trig_get,_gslwrap.gsl_fft_real_wavetable_trig_set)
+    if _newclass:trig = property(_gslwrap.gsl_fft_real_wavetable_trig_get)
     def __repr__(self):
         return "<C gsl_fft_real_wavetable instance at %s>" % (self.this,)
 
@@ -322,12 +312,10 @@ class gsl_fft_real_workspace(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    __swig_setmethods__["n"] = _gslwrap.gsl_fft_real_workspace_n_set
     __swig_getmethods__["n"] = _gslwrap.gsl_fft_real_workspace_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_real_workspace_n_get,_gslwrap.gsl_fft_real_workspace_n_set)
-    __swig_setmethods__["scratch"] = _gslwrap.gsl_fft_real_workspace_scratch_set
+    if _newclass:n = property(_gslwrap.gsl_fft_real_workspace_n_get)
     __swig_getmethods__["scratch"] = _gslwrap.gsl_fft_real_workspace_scratch_get
-    if _newclass:scratch = property(_gslwrap.gsl_fft_real_workspace_scratch_get,_gslwrap.gsl_fft_real_workspace_scratch_set)
+    if _newclass:scratch = property(_gslwrap.gsl_fft_real_workspace_scratch_get)
     def __repr__(self):
         return "<C gsl_fft_real_workspace instance at %s>" % (self.this,)
 
@@ -355,12 +343,10 @@ class Permutation(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, Permutation, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Permutation, name)
-    __swig_setmethods__["size"] = _gslwrap.Permutation_size_set
     __swig_getmethods__["size"] = _gslwrap.Permutation_size_get
-    if _newclass:size = property(_gslwrap.Permutation_size_get,_gslwrap.Permutation_size_set)
-    __swig_setmethods__["data"] = _gslwrap.Permutation_data_set
+    if _newclass:size = property(_gslwrap.Permutation_size_get)
     __swig_getmethods__["data"] = _gslwrap.Permutation_data_get
-    if _newclass:data = property(_gslwrap.Permutation_data_get,_gslwrap.Permutation_data_set)
+    if _newclass:data = property(_gslwrap.Permutation_data_get)
     def __init__(self,*args,**kwargs):
         _swig_setattr(self, Permutation, 'this', apply(_gslwrap.new_Permutation,args, kwargs))
         _swig_setattr(self, Permutation, 'thisown', 1)
@@ -368,6 +354,13 @@ class Permutation(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
+    def _linear_to_canonical(*args, **kwargs): return apply(_gslwrap.Permutation__linear_to_canonical,args, kwargs)
+    def _canonical_to_linear(*args, **kwargs): return apply(_gslwrap.Permutation__canonical_to_linear,args, kwargs)
+    def _mul(*args, **kwargs): return apply(_gslwrap.Permutation__mul,args, kwargs)
+    def inversions(*args, **kwargs): return apply(_gslwrap.Permutation_inversions,args, kwargs)
+    def linear_cycles(*args, **kwargs): return apply(_gslwrap.Permutation_linear_cycles,args, kwargs)
+    def canonical_cycles(*args, **kwargs): return apply(_gslwrap.Permutation_canonical_cycles,args, kwargs)
+    def _inverse(*args, **kwargs): return apply(_gslwrap.Permutation__inverse,args, kwargs)
     def __getitem__(*args, **kwargs): return apply(_gslwrap.Permutation___getitem__,args, kwargs)
     def swap(*args, **kwargs): return apply(_gslwrap.Permutation_swap,args, kwargs)
     def __len__(*args, **kwargs): return apply(_gslwrap.Permutation___len__,args, kwargs)
@@ -376,6 +369,8 @@ class Permutation(_object):
     def next(*args, **kwargs): return apply(_gslwrap.Permutation_next,args, kwargs)
     def prev(*args, **kwargs): return apply(_gslwrap.Permutation_prev,args, kwargs)
     def __str__(*args, **kwargs): return apply(_gslwrap.Permutation___str__,args, kwargs)
+    def tolist(*args, **kwargs): return apply(_gslwrap.Permutation_tolist,args, kwargs)
+    def toarray(*args, **kwargs): return apply(_gslwrap.Permutation_toarray,args, kwargs)
     def __repr__(self):
         return "<C Permutation instance at %s>" % (self.this,)
 
@@ -433,6 +428,38 @@ gsl_permutation_inversions = _gslwrap.gsl_permutation_inversions
 gsl_permutation_linear_cycles = _gslwrap.gsl_permutation_linear_cycles
 
 gsl_permutation_canonical_cycles = _gslwrap.gsl_permutation_canonical_cycles
+
+class Combination(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Combination, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Combination, name)
+    def __init__(self,*args,**kwargs):
+        _swig_setattr(self, Combination, 'this', apply(_gslwrap.new_Combination,args, kwargs))
+        _swig_setattr(self, Combination, 'thisown', 1)
+    def __del__(self, destroy= _gslwrap.delete_Combination):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __getitem__(*args, **kwargs): return apply(_gslwrap.Combination___getitem__,args, kwargs)
+    def k(*args, **kwargs): return apply(_gslwrap.Combination_k,args, kwargs)
+    def n(*args, **kwargs): return apply(_gslwrap.Combination_n,args, kwargs)
+    def init_first(*args, **kwargs): return apply(_gslwrap.Combination_init_first,args, kwargs)
+    def init_last(*args, **kwargs): return apply(_gslwrap.Combination_init_last,args, kwargs)
+    def valid(*args, **kwargs): return apply(_gslwrap.Combination_valid,args, kwargs)
+    def next(*args, **kwargs): return apply(_gslwrap.Combination_next,args, kwargs)
+    def prev(*args, **kwargs): return apply(_gslwrap.Combination_prev,args, kwargs)
+    def tolist(*args, **kwargs): return apply(_gslwrap.Combination_tolist,args, kwargs)
+    def toarray(*args, **kwargs): return apply(_gslwrap.Combination_toarray,args, kwargs)
+    def __repr__(self):
+        return "<C Combination instance at %s>" % (self.this,)
+
+class CombinationPtr(Combination):
+    def __init__(self,this):
+        _swig_setattr(self, Combination, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, Combination, 'thisown', 0)
+        _swig_setattr(self, Combination,self.__class__,Combination)
+_gslwrap.Combination_swigregister(CombinationPtr)
 
 M_E = _gslwrap.M_E
 M_LOG2E = _gslwrap.M_LOG2E
@@ -730,15 +757,12 @@ class gsl_eigen_symm_workspace(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    __swig_setmethods__["size"] = _gslwrap.gsl_eigen_symm_workspace_size_set
     __swig_getmethods__["size"] = _gslwrap.gsl_eigen_symm_workspace_size_get
-    if _newclass:size = property(_gslwrap.gsl_eigen_symm_workspace_size_get,_gslwrap.gsl_eigen_symm_workspace_size_set)
-    __swig_setmethods__["d"] = _gslwrap.gsl_eigen_symm_workspace_d_set
+    if _newclass:size = property(_gslwrap.gsl_eigen_symm_workspace_size_get)
     __swig_getmethods__["d"] = _gslwrap.gsl_eigen_symm_workspace_d_get
-    if _newclass:d = property(_gslwrap.gsl_eigen_symm_workspace_d_get,_gslwrap.gsl_eigen_symm_workspace_d_set)
-    __swig_setmethods__["sd"] = _gslwrap.gsl_eigen_symm_workspace_sd_set
+    if _newclass:d = property(_gslwrap.gsl_eigen_symm_workspace_d_get)
     __swig_getmethods__["sd"] = _gslwrap.gsl_eigen_symm_workspace_sd_get
-    if _newclass:sd = property(_gslwrap.gsl_eigen_symm_workspace_sd_get,_gslwrap.gsl_eigen_symm_workspace_sd_set)
+    if _newclass:sd = property(_gslwrap.gsl_eigen_symm_workspace_sd_get)
     def __repr__(self):
         return "<C gsl_eigen_symm_workspace instance at %s>" % (self.this,)
 
@@ -748,7 +772,6 @@ class gsl_eigen_symm_workspacePtr(gsl_eigen_symm_workspace):
         if not hasattr(self,"thisown"): _swig_setattr(self, gsl_eigen_symm_workspace, 'thisown', 0)
         _swig_setattr(self, gsl_eigen_symm_workspace,self.__class__,gsl_eigen_symm_workspace)
 _gslwrap.gsl_eigen_symm_workspace_swigregister(gsl_eigen_symm_workspacePtr)
-cvar = _gslwrap.cvar
 
 gsl_eigen_symm_alloc = _gslwrap.gsl_eigen_symm_alloc
 
@@ -768,21 +791,16 @@ class gsl_eigen_symmv_workspace(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    __swig_setmethods__["size"] = _gslwrap.gsl_eigen_symmv_workspace_size_set
     __swig_getmethods__["size"] = _gslwrap.gsl_eigen_symmv_workspace_size_get
-    if _newclass:size = property(_gslwrap.gsl_eigen_symmv_workspace_size_get,_gslwrap.gsl_eigen_symmv_workspace_size_set)
-    __swig_setmethods__["d"] = _gslwrap.gsl_eigen_symmv_workspace_d_set
+    if _newclass:size = property(_gslwrap.gsl_eigen_symmv_workspace_size_get)
     __swig_getmethods__["d"] = _gslwrap.gsl_eigen_symmv_workspace_d_get
-    if _newclass:d = property(_gslwrap.gsl_eigen_symmv_workspace_d_get,_gslwrap.gsl_eigen_symmv_workspace_d_set)
-    __swig_setmethods__["sd"] = _gslwrap.gsl_eigen_symmv_workspace_sd_set
+    if _newclass:d = property(_gslwrap.gsl_eigen_symmv_workspace_d_get)
     __swig_getmethods__["sd"] = _gslwrap.gsl_eigen_symmv_workspace_sd_get
-    if _newclass:sd = property(_gslwrap.gsl_eigen_symmv_workspace_sd_get,_gslwrap.gsl_eigen_symmv_workspace_sd_set)
-    __swig_setmethods__["gc"] = _gslwrap.gsl_eigen_symmv_workspace_gc_set
+    if _newclass:sd = property(_gslwrap.gsl_eigen_symmv_workspace_sd_get)
     __swig_getmethods__["gc"] = _gslwrap.gsl_eigen_symmv_workspace_gc_get
-    if _newclass:gc = property(_gslwrap.gsl_eigen_symmv_workspace_gc_get,_gslwrap.gsl_eigen_symmv_workspace_gc_set)
-    __swig_setmethods__["gs"] = _gslwrap.gsl_eigen_symmv_workspace_gs_set
+    if _newclass:gc = property(_gslwrap.gsl_eigen_symmv_workspace_gc_get)
     __swig_getmethods__["gs"] = _gslwrap.gsl_eigen_symmv_workspace_gs_get
-    if _newclass:gs = property(_gslwrap.gsl_eigen_symmv_workspace_gs_get,_gslwrap.gsl_eigen_symmv_workspace_gs_set)
+    if _newclass:gs = property(_gslwrap.gsl_eigen_symmv_workspace_gs_get)
     def __repr__(self):
         return "<C gsl_eigen_symmv_workspace instance at %s>" % (self.this,)
 
@@ -811,18 +829,14 @@ class gsl_eigen_herm_workspace(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    __swig_setmethods__["size"] = _gslwrap.gsl_eigen_herm_workspace_size_set
     __swig_getmethods__["size"] = _gslwrap.gsl_eigen_herm_workspace_size_get
-    if _newclass:size = property(_gslwrap.gsl_eigen_herm_workspace_size_get,_gslwrap.gsl_eigen_herm_workspace_size_set)
-    __swig_setmethods__["d"] = _gslwrap.gsl_eigen_herm_workspace_d_set
+    if _newclass:size = property(_gslwrap.gsl_eigen_herm_workspace_size_get)
     __swig_getmethods__["d"] = _gslwrap.gsl_eigen_herm_workspace_d_get
-    if _newclass:d = property(_gslwrap.gsl_eigen_herm_workspace_d_get,_gslwrap.gsl_eigen_herm_workspace_d_set)
-    __swig_setmethods__["sd"] = _gslwrap.gsl_eigen_herm_workspace_sd_set
+    if _newclass:d = property(_gslwrap.gsl_eigen_herm_workspace_d_get)
     __swig_getmethods__["sd"] = _gslwrap.gsl_eigen_herm_workspace_sd_get
-    if _newclass:sd = property(_gslwrap.gsl_eigen_herm_workspace_sd_get,_gslwrap.gsl_eigen_herm_workspace_sd_set)
-    __swig_setmethods__["tau"] = _gslwrap.gsl_eigen_herm_workspace_tau_set
+    if _newclass:sd = property(_gslwrap.gsl_eigen_herm_workspace_sd_get)
     __swig_getmethods__["tau"] = _gslwrap.gsl_eigen_herm_workspace_tau_get
-    if _newclass:tau = property(_gslwrap.gsl_eigen_herm_workspace_tau_get,_gslwrap.gsl_eigen_herm_workspace_tau_set)
+    if _newclass:tau = property(_gslwrap.gsl_eigen_herm_workspace_tau_get)
     def __repr__(self):
         return "<C gsl_eigen_herm_workspace instance at %s>" % (self.this,)
 
@@ -851,24 +865,18 @@ class gsl_eigen_hermv_workspace(_object):
         try:
             if self.thisown: destroy(self)
         except: pass
-    __swig_setmethods__["size"] = _gslwrap.gsl_eigen_hermv_workspace_size_set
     __swig_getmethods__["size"] = _gslwrap.gsl_eigen_hermv_workspace_size_get
-    if _newclass:size = property(_gslwrap.gsl_eigen_hermv_workspace_size_get,_gslwrap.gsl_eigen_hermv_workspace_size_set)
-    __swig_setmethods__["d"] = _gslwrap.gsl_eigen_hermv_workspace_d_set
+    if _newclass:size = property(_gslwrap.gsl_eigen_hermv_workspace_size_get)
     __swig_getmethods__["d"] = _gslwrap.gsl_eigen_hermv_workspace_d_get
-    if _newclass:d = property(_gslwrap.gsl_eigen_hermv_workspace_d_get,_gslwrap.gsl_eigen_hermv_workspace_d_set)
-    __swig_setmethods__["sd"] = _gslwrap.gsl_eigen_hermv_workspace_sd_set
+    if _newclass:d = property(_gslwrap.gsl_eigen_hermv_workspace_d_get)
     __swig_getmethods__["sd"] = _gslwrap.gsl_eigen_hermv_workspace_sd_get
-    if _newclass:sd = property(_gslwrap.gsl_eigen_hermv_workspace_sd_get,_gslwrap.gsl_eigen_hermv_workspace_sd_set)
-    __swig_setmethods__["tau"] = _gslwrap.gsl_eigen_hermv_workspace_tau_set
+    if _newclass:sd = property(_gslwrap.gsl_eigen_hermv_workspace_sd_get)
     __swig_getmethods__["tau"] = _gslwrap.gsl_eigen_hermv_workspace_tau_get
-    if _newclass:tau = property(_gslwrap.gsl_eigen_hermv_workspace_tau_get,_gslwrap.gsl_eigen_hermv_workspace_tau_set)
-    __swig_setmethods__["gc"] = _gslwrap.gsl_eigen_hermv_workspace_gc_set
+    if _newclass:tau = property(_gslwrap.gsl_eigen_hermv_workspace_tau_get)
     __swig_getmethods__["gc"] = _gslwrap.gsl_eigen_hermv_workspace_gc_get
-    if _newclass:gc = property(_gslwrap.gsl_eigen_hermv_workspace_gc_get,_gslwrap.gsl_eigen_hermv_workspace_gc_set)
-    __swig_setmethods__["gs"] = _gslwrap.gsl_eigen_hermv_workspace_gs_set
+    if _newclass:gc = property(_gslwrap.gsl_eigen_hermv_workspace_gc_get)
     __swig_getmethods__["gs"] = _gslwrap.gsl_eigen_hermv_workspace_gs_get
-    if _newclass:gs = property(_gslwrap.gsl_eigen_hermv_workspace_gs_get,_gslwrap.gsl_eigen_hermv_workspace_gs_set)
+    if _newclass:gs = property(_gslwrap.gsl_eigen_hermv_workspace_gs_get)
     def __repr__(self):
         return "<C gsl_eigen_hermv_workspace instance at %s>" % (self.this,)
 
@@ -955,4 +963,5 @@ gsl_interp_free = _gslwrap.gsl_interp_free
 
 gsl_interp_bsearch = _gslwrap.gsl_interp_bsearch
 
+cvar = _gslwrap.cvar
 
