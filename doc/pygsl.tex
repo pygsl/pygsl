@@ -7,15 +7,23 @@
 
 \documentclass{manual}
 
+% some convenience declarations
+\newcommand{\gsl}{GSL}
+\newcommand{\GSL}{GNU Scientific Library}
+\newcommand{\numpy}{NumPy}
+\newcommand{\NUMPY}{Numerical Python}
+\newcommand{\pygsl}{Pygsl}
+\newcommand{\PYGSL}{Pygsl: Python wrapper of the GNU Scientific Library}
+
 \title{pygsl Manual}
 
-\author{Achim G\"adke\raisebox{1ex}{\footnotesize{1)}}\\
+\author{Achim G\"adke\footnotemark[1] \\
 Jochen K\"upper}
 
 % Please at least include a long-lived email address;
 % the rest is at your discretion.
 \authoraddress{
-        \raisebox{1ex}{\footnotesize{1)}}Center for Applied Informatics, Cologne\\
+        \footnotemark[1]Center for Applied Informatics, Cologne\\
         Email: \email{achimgaedke@users.sourceforge.net}\\
         Email: \email{jochen@jochen-kuepper.de}
 }
@@ -53,29 +61,42 @@ Jochen K\"upper}
 \tableofcontents
 
 
-\chapter{Statistics Module}
-\label{cha:statistics-module}
-\input{statistics}
-
-\chapter{\protect\module{pygsl.histogram} --- Histogram types}
+\chapter[\protect\module{pygsl.histogram} --- Histogram Types]
+{\protect\module{pygsl.histogram} \\ Histogram Types}
 \label{cha:histogram-module}
 \input{histogram}
 
-\chapter{\protect\module{pygsl.const} --- Mathematical and scientific constants}
-\label{cha:const-module}
-\input{const}
+\chapter[\protect\module{pygsl.sf} --- Special Functions]
+{\protect\module{pygsl.sf} \\ Special Functions}
+\label{cha:sf-module}
+\input{sf}
 
-\chapter{\protect\module{pygsl.rng} --- Random Number generator Module}
+\chapter[\protect\module{pygsl.const} --- Mathematical and scientific
+constants]{\protect\module{pygsl.const} \\ Mathematical and scientific
+constants} 
+ \label{cha:const-module}
+ \input{const}
+
+
+\chapter[\protect\module{pygsl.statistics} --- Statistics
+functions]{\protect\module{pygsl.statistics} \\ Statistics functions}
+\label{cha:statistics-module}
+\input{statistics}
+
+\chapter[\protect\module{pygsl.rng} --- Random Number generator
+Module]{\protect\module{pygsl.rng} \\ Random Number generator Module}
 \label{cha:rng-module}
 \input{rng}
 
-\chapter{\protect\module{pygsl.errors} --- Error and warning classes}
-\label{cha:error-module}
-\input{errors}
-
-\chapter{\protect\module{pygsl.init} --- Library initialisation}
+\chapter[\protect\module{pygsl.init} --- Library
+initialisation]{\protect\module{pygsl.init} \\ Library initialisation}
 \label{cha:library-initialisation}
 \input{init}
+
+\chapter[\protect\module{pygsl.errors} --- Error and warning
+classes]{\protect\module{pygsl.errors} \\ Error and warning classes} 
+\label{cha:error-module}
+\input{errors}
 
 % \appendix
 % \chapter{...}
@@ -92,6 +113,7 @@ Jochen K\"upper}
 %% mode: LaTeX
 %% mode: auto-fill
 %% fill-column: 79
+%% indent-tabs-mode: nil
 %% ispell-dictionary: "american"
 %% reftex-fref-is-default: nil
 %% TeX-auto-save: t

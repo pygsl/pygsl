@@ -10,32 +10,32 @@
 \index{min}
 \index{max}
 
-This chapter describes the statistical functions in the library.  The
-basic statistical functions include routines to compute the mean,
-variance and standard deviation. More advanced functions allow you to
-calculate absolute deviations, skewness, and kurtosis as well as the
-median and arbitrary percentiles.  The algorithms use recurrence
-relations to compute average quantities in a stable way, without large
-intermediate values that might overflow. 
+This chapter describes the statistical functions in the library.  The basic
+statistical functions include routines to compute the mean, variance and
+standard deviation. More advanced functions allow you to calculate absolute
+deviations, skewness, and kurtosis as well as the median and arbitrary
+percentiles.  The algorithms use recurrence relations to compute average
+quantities in a stable way, without large intermediate values that might
+overflow.
 
-All functions work on any Python sequence (of the appropriate
-data-type), but see section \ref{sec:stat-speed-considerations} for
-advantages and drawbacks of different kinds of input data.
+All functions work on any Python sequence (of appropriate data-type), but see
+section \ref{sec:stat-speed-considerations} for advantages and drawbacks of
+different kinds of input data.
 
 
 \section{Organization of the module}
 \label{sec:stat-organization}
 
-The parts of the GSL functions names, providing artificial name spaces,
-are mapped to modules and submodules in pygsl.  That is
-\code{gsl_stats_mean} can be found as \code{pygsl.statistics.mean} and
-\code{gsl_stats_long_mean} as \code{pygsl.statistics.long.mean}.
+The parts of the \gsl{} functions names, providing artificial name spaces, are
+mapped to modules and submodules in \pygsl{}.  That is \code{gsl_stats_mean}
+can be found as \code{pygsl.statistics.mean} and \code{gsl_stats_long_mean} as
+\code{pygsl.statistics.long.mean}.
 
-The functions in the module are available in versions for datasets in
-the standard floating-point and integer types. The generic versions
-available in the \code{pygsl.statistics} module are using the generic
-GSL \code{double} versions.  The submodules use GSL functions according
-to the submodule name, e.g. long for \code{pygsl.statistics.long}.
+The functions in the module are available in versions for datasets in the
+standard floating-point and integer types. The generic versions available in
+the \code{pygsl.statistics} module are using the generic \gsl{} \code{double}
+versions.  The submodules use \gsl{} functions according to the submodule name,
+e.g. long for \code{pygsl.statistics.long}.
 
 Currently implemented submodules are \code{pygsl.statistics.double} and
 \code{pygsl.statistics.long}.
@@ -45,30 +45,31 @@ Currently implemented submodules are \code{pygsl.statistics.double} and
 \section{Speed considerations}
 \label{sec:stat-speed-considerations}
 
-All functions work on any Python sequence type but are optimized for use
-with NumPy arrays. It is strongly suggested that you install NumPy
-(available from \url{http://www.numpy.org})!
+All functions work on any Python sequence type but are optimized for use with
+\NUMPY{} (\numpy{}) arrays. It is strongly suggested that you install NumPy
+(available from \url{http://www.numpy.org}).
 
 If you pass NumPy arrays of the \emph{correct data-type} as input data
 to any of the functions they are passed straight to the C functions
 along with the stride information of the data.
 
-If you pass generic (non-NumPy) Python sequences or NumPy arrays of the
-wrong data-type a suitable copy of the data will be created and passed
-to the function.
+If you pass generic (non-\numpy{}) Python sequences or \numpy{} arrays of the
+wrong data-type a suitable copy of the data will be created and passed to the
+function.
 
 
 \section{Further Reading}
 \label{sec:stat-further-reading}
 
-See the gsl reference manual for a description of all available
-functions and the calculations they perform.
+See the \gsl{} reference manual for a description of all available functions
+and the calculations they perform.
 
 
 %% Local Variables:
 %% mode: LaTeX
 %% mode: auto-fill
 %% fill-column: 79
+%% indent-tabs-mode: nil
 %% ispell-dictionary: "american"
 %% reftex-fref-is-default: nil
 %% TeX-auto-save: t
