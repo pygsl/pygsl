@@ -37,12 +37,30 @@
          
     Homepage: http://pygsl.sourceforge.net
 """
+_init_import_errm ="""
+Did you try to import pygsl in the build directory?
+
+Well, that does not work out of the box. If you want to do that, please
+use
+      python setup.py build_ext -i
+to add the necessary extension module in the local pygsl/ directory!
+
+Please read the README first! Any further questions or missing information
+please post to pygsl-discuss@lists.sourceforge.net!
+"""
+__test = 0
+try:    
+    import pygsl.init
+    __test = 1
+finally:
+    if __test == 0:
+        print _init_import_errm
 
 # Central Module used by C callbacks. So a good idea to import it here to be
 # sure that  it exists from the very beginning!
 import pygsl.errors
 
-import pygsl.init
+
 from exceptions import Warning
 
 # The gsl version which was used when this module was compiled.
