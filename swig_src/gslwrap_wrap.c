@@ -656,26 +656,27 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 #define  SWIGTYPE_p_gsl_fft_real_workspace swig_types[12] 
 #define  SWIGTYPE_p_gsl_fft_complex_workspace swig_types[13] 
 #define  SWIGTYPE_p_gsl_permutation swig_types[14] 
-#define  SWIGTYPE_p_gsl_permutation_struct swig_types[15] 
-#define  SWIGTYPE_p_unsigned_int swig_types[16] 
-#define  SWIGTYPE_p_gsl_vector_complex swig_types[17] 
-#define  SWIGTYPE_p_gsl_complex swig_types[18] 
-#define  SWIGTYPE_p_gsl_matrix_complex swig_types[19] 
-#define  SWIGTYPE_p_p_gsl_complex swig_types[20] 
-#define  SWIGTYPE_p_gsl_matrix swig_types[21] 
-#define  SWIGTYPE_p_gsl_mode_t swig_types[22] 
-#define  SWIGTYPE_p_FILE swig_types[23] 
-#define  SWIGTYPE_p_gsl_matrix_complex_float swig_types[24] 
-#define  SWIGTYPE_p_gsl_matrix_float swig_types[25] 
-#define  SWIGTYPE_p_gsl_complex_float swig_types[26] 
-#define  SWIGTYPE_p_gsl_vector_complex_float swig_types[27] 
-#define  SWIGTYPE_p_gsl_vector_float swig_types[28] 
-#define  SWIGTYPE_p_float swig_types[29] 
-#define  SWIGTYPE_p_int swig_types[30] 
-#define  SWIGTYPE_p_gsl_interp swig_types[31] 
-#define  SWIGTYPE_p_gsl_interp_accel swig_types[32] 
-#define  SWIGTYPE_p_gsl_vector swig_types[33] 
-static swig_type_info *swig_types[35];
+#define  SWIGTYPE_p_gsl_combination_struct swig_types[15] 
+#define  SWIGTYPE_p_gsl_permutation_struct swig_types[16] 
+#define  SWIGTYPE_p_unsigned_int swig_types[17] 
+#define  SWIGTYPE_p_gsl_vector_complex swig_types[18] 
+#define  SWIGTYPE_p_gsl_complex swig_types[19] 
+#define  SWIGTYPE_p_gsl_matrix_complex swig_types[20] 
+#define  SWIGTYPE_p_p_gsl_complex swig_types[21] 
+#define  SWIGTYPE_p_gsl_matrix swig_types[22] 
+#define  SWIGTYPE_p_gsl_mode_t swig_types[23] 
+#define  SWIGTYPE_p_FILE swig_types[24] 
+#define  SWIGTYPE_p_gsl_matrix_complex_float swig_types[25] 
+#define  SWIGTYPE_p_gsl_matrix_float swig_types[26] 
+#define  SWIGTYPE_p_gsl_complex_float swig_types[27] 
+#define  SWIGTYPE_p_gsl_vector_complex_float swig_types[28] 
+#define  SWIGTYPE_p_gsl_vector_float swig_types[29] 
+#define  SWIGTYPE_p_float swig_types[30] 
+#define  SWIGTYPE_p_int swig_types[31] 
+#define  SWIGTYPE_p_gsl_interp swig_types[32] 
+#define  SWIGTYPE_p_gsl_interp_accel swig_types[33] 
+#define  SWIGTYPE_p_gsl_vector swig_types[34] 
+static swig_type_info *swig_types[36];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -688,28 +689,24 @@ static swig_type_info *swig_types[35];
 #define SWIG_name    "_gslwrap"
 
 #include <gsl/gsl_types.h>
-#include <Numeric/arrayobject.h>
 #include <stdio.h>
 
    
-#include <utils/util.h>  
+#include <pygsl/utils.h>
+#include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
 
 
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_matrix.h>
-#include <Numeric/arrayobject.h>
-#include <typemaps/gsl_block_helpers.ic>
+#include <pygsl/utils.h>
+#include <pygsl/block_helpers.h>
 #include <typemaps/convert_block_description.h>
-#include <utils/util.h>
 #include <string.h>
 #include <assert.h>
 
 
 #include <gsl/gsl_errno.h>
-#include <utils/util.h>
-#include <typemaps/gsl_complex_helpers.ic>
-
+#include <pygsl/utils.h>
+#include <pygsl/complex_helpers.h>
 
 
 #include <gsl/gsl_linalg.h>
@@ -780,6 +777,27 @@ struct gsl_permutation_struct *new_gsl_permutation_struct(size_t n){
 void delete_gsl_permutation_struct(struct gsl_permutation_struct *self){
     gsl_permutation_free(self);
   }
+int gsl_permutation_struct__linear_to_canonical(struct gsl_permutation_struct *self,struct gsl_permutation_struct *q){
+       return gsl_permutation_linear_to_canonical(q, self);
+  }
+int gsl_permutation_struct__canonical_to_linear(struct gsl_permutation_struct *self,struct gsl_permutation_struct *q){
+       return gsl_permutation_canonical_to_linear(q, self);
+  }
+int gsl_permutation_struct__mul(struct gsl_permutation_struct *self,struct gsl_permutation_struct *res,struct gsl_permutation_struct *m2){
+       return gsl_permutation_mul(res, self, m2);
+  }
+size_t gsl_permutation_struct_inversions(struct gsl_permutation_struct *self){
+       return gsl_permutation_inversions(self);
+  }
+size_t gsl_permutation_struct_linear_cycles(struct gsl_permutation_struct *self){
+       return gsl_permutation_linear_cycles(self);
+  }
+size_t gsl_permutation_struct_canonical_cycles(struct gsl_permutation_struct *self){
+       return gsl_permutation_canonical_cycles(self);
+  }
+int gsl_permutation_struct__inverse(struct gsl_permutation_struct *self,struct gsl_permutation_struct *inv){
+       return gsl_permutation_inverse(inv, self);
+  }
 size_t gsl_permutation_struct_get_item(struct gsl_permutation_struct *self,size_t const i){
     return gsl_permutation_get(self, i);
   }
@@ -807,7 +825,107 @@ char *gsl_permutation_struct_printf(struct gsl_permutation_struct *self){
     gsl_permutation_fprintf (stdout, self, " %u"); 
     return NULL;
   }
+PyObject *gsl_permutation_struct_tolist(struct gsl_permutation_struct *self){
+       PyObject *a_list = NULL, *a_int;
+       long size = 0, i;
+
+       size = (long) gsl_permutation_size(self);
+       a_list = PyList_New(size);
+       if (a_list == NULL)
+	    return NULL;
+       for(i=0; i<size; i++){
+	    a_int = PyInt_FromLong((long) gsl_permutation_get(self, i));
+	    if (a_int == NULL){
+		 Py_DECREF(a_list);
+		 return NULL;
+	    }
+	    PyList_SET_ITEM(a_list, i, a_int);
+       }
+       return a_list;
+  }
+PyObject *gsl_permutation_struct_toarray(struct gsl_permutation_struct *self){
+       PyArrayObject * a_array = NULL;
+       long *data;
+       int size, i;
+
+       size = (int) gsl_permutation_size(self);
+       a_array = (PyArrayObject *) PyArray_FromDims(1, &size, PyArray_LONG);
+       if(a_array == NULL)
+	    return NULL;
+       data = (long *) a_array->data;
+       for(i=0; i<size; i++){
+	    data[i] = (long) gsl_permutation_get(self, i);
+       }
+       return (PyObject *) a_array;
+  }
 extern int gsl_check_range;
+
+#include <gsl/gsl_combination.h>
+
+struct gsl_combination_struct *new_gsl_combination_struct(size_t const n,size_t const k){
+    return gsl_combination_calloc(n,k);
+  }
+void delete_gsl_combination_struct(struct gsl_combination_struct *self){
+    gsl_combination_free(self);
+  }
+size_t gsl_combination_struct_get_item(struct gsl_combination_struct *self,size_t const i){
+       return gsl_combination_get(self, i);
+  }
+size_t gsl_combination_struct_k(struct gsl_combination_struct *self){
+       return gsl_combination_k(self);
+  }
+size_t gsl_combination_struct_n(struct gsl_combination_struct *self){
+       return gsl_combination_n(self);
+  }
+void gsl_combination_struct_init_first(struct gsl_combination_struct *self){
+       return gsl_combination_init_first(self);	       
+  }
+void gsl_combination_struct_init_last(struct gsl_combination_struct *self){
+       return gsl_combination_init_last(self);
+  }
+int gsl_combination_struct_valid(struct gsl_combination_struct *self){
+       return gsl_combination_valid(self);
+  }
+int gsl_combination_struct_next(struct gsl_combination_struct *self){
+       return gsl_combination_next(self);
+  }
+int gsl_combination_struct_prev(struct gsl_combination_struct *self){
+       return gsl_combination_prev(self);
+  }
+PyObject *gsl_combination_struct_tolist(struct gsl_combination_struct *self){
+       PyObject *a_list = NULL, *a_int;
+       long size = 0, i;
+
+       size = (long) gsl_combination_k(self);
+       a_list = PyList_New(size);
+       if (a_list == NULL)
+	    return NULL;
+       for(i=0; i<size; i++){
+	    a_int = PyInt_FromLong((long) gsl_combination_get(self, i));
+	    if (a_int == NULL){
+		 Py_DECREF(a_list);
+		 return NULL;
+	    }
+	    PyList_SET_ITEM(a_list, i, a_int);
+       }
+       return a_list;
+  }
+PyObject *gsl_combination_struct_toarray(struct gsl_combination_struct *self){
+       PyArrayObject * a_array = NULL;
+       long *data;
+       size_t *c_data;
+       int size, i;
+
+       size = (int) gsl_combination_k(self);
+       a_array = (PyArrayObject *) PyArray_FromDims(1, &size, PyArray_LONG);
+       if(a_array == NULL)
+	    return NULL;
+       data = (long *) a_array->data;
+       for(i=0; i<size; i++){
+	    data[i] = (long) gsl_combination_get(self, i);
+       }
+       return (PyObject *) a_array;
+  }
 
 #include <gsl/gsl_math.h>
 
@@ -842,9 +960,9 @@ void delete_gsl_eigen_hermv_workspace(gsl_eigen_hermv_workspace *self){
     gsl_eigen_hermv_free(self);
   }
 
+#include <pygsl/block_helpers.h>
 #include <gsl/gsl_interp.h>
 #include <gsl/gsl_spline.h>
-#include <Numeric/arrayobject.h>
 #include <stdio.h>
 
 extern gsl_interp_type const *gsl_interp_linear;
@@ -936,20 +1054,8 @@ static PyObject *_wrap_gsl_linalg_matmult(PyObject *self, PyObject *args, PyObje
     result = (int)gsl_linalg_matmult((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -1063,20 +1169,8 @@ static PyObject *_wrap_gsl_linalg_matmult_mod(PyObject *self, PyObject *args, Py
     result = (int)gsl_linalg_matmult_mod((gsl_matrix const *)arg1,(gsl_linalg_matrix_mod_t )arg2,(gsl_matrix const *)arg3,(gsl_linalg_matrix_mod_t )arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -1170,20 +1264,8 @@ static PyObject *_wrap_gsl_linalg_exponential_ss(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_exponential_ss((gsl_matrix const *)arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -1242,29 +1324,6 @@ static PyObject *_wrap_gsl_linalg_householder_transform(PyObject *self, PyObject
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_linalg_householder_transform(arg1);
@@ -1319,29 +1378,6 @@ static PyObject *_wrap_gsl_linalg_complex_householder_transform(PyObject *self, 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = gsl_linalg_complex_householder_transform(arg1);
@@ -1405,29 +1441,6 @@ static PyObject *_wrap_gsl_linalg_householder_hm(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -1450,20 +1463,8 @@ static PyObject *_wrap_gsl_linalg_householder_hm(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_householder_hm(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -1529,29 +1530,6 @@ static PyObject *_wrap_gsl_linalg_householder_mh(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -1574,20 +1552,8 @@ static PyObject *_wrap_gsl_linalg_householder_mh(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_householder_mh(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -1653,29 +1619,6 @@ static PyObject *_wrap_gsl_linalg_householder_hv(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -1699,48 +1642,13 @@ static PyObject *_wrap_gsl_linalg_householder_hv(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_householder_hv(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -1799,20 +1707,8 @@ static PyObject *_wrap_gsl_linalg_householder_hm1(PyObject *self, PyObject *args
     result = (int)gsl_linalg_householder_hm1(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix2);
@@ -1851,7 +1747,6 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hm(PyObject *self, PyObjec
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_complex_householder_hm",kwnames,&obj0,&obj1,&obj2)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -1878,29 +1773,6 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hm(PyObject *self, PyObjec
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -1923,20 +1795,8 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hm(PyObject *self, PyObjec
     result = (int)gsl_linalg_complex_householder_hm(arg1,(gsl_vector_complex const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -2039,29 +1899,6 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -2085,48 +1922,13 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_SV_decomp(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -2276,29 +2078,6 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -2322,48 +2101,13 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_SV_decomp_mod(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -2492,48 +2236,13 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_jacobi(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_SV_decomp_jacobi(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -2658,29 +2367,6 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -2704,29 +2390,6 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -2750,48 +2413,13 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_SV_solve((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -2879,20 +2507,8 @@ static PyObject *_wrap_gsl_linalg_LU_decomp(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_LU_decomp(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyInt_FromLong((long) (*arg3));
@@ -2979,29 +2595,6 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -3025,48 +2618,13 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_LU_solve((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -3159,48 +2717,13 @@ static PyObject *_wrap_gsl_linalg_LU_svx(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_LU_svx((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -3320,29 +2843,6 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -3366,29 +2866,6 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -3412,48 +2889,13 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_LU_refine((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -3561,20 +3003,8 @@ static PyObject *_wrap_gsl_linalg_LU_invert(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_LU_invert((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -3784,20 +3214,8 @@ static PyObject *_wrap_gsl_linalg_complex_LU_decomp(PyObject *self, PyObject *ar
     result = (int)gsl_linalg_complex_LU_decomp(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyInt_FromLong((long) (*arg3));
@@ -3884,29 +3302,6 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -3930,48 +3325,13 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_complex *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_complex_LU_solve((gsl_matrix_complex const *)arg1,(gsl_permutation const *)arg2,(gsl_vector_complex const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -4048,48 +3408,13 @@ static PyObject *_wrap_gsl_linalg_complex_LU_svx(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_complex_LU_svx((gsl_matrix_complex const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -4201,29 +3526,6 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_complex *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -4247,29 +3549,6 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector_complex *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -4293,48 +3572,13 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector_complex *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_complex_LU_refine((gsl_matrix_complex const *)arg1,(gsl_matrix_complex const *)arg2,(gsl_permutation const *)arg3,(gsl_vector_complex const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -4418,20 +3662,8 @@ static PyObject *_wrap_gsl_linalg_complex_LU_invert(PyObject *self, PyObject *ar
     result = (int)gsl_linalg_complex_LU_invert((gsl_matrix_complex const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -4679,48 +3911,13 @@ static PyObject *_wrap_gsl_linalg_QR_decomp(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_decomp(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -4814,29 +4011,6 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -4860,29 +4034,6 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -4906,48 +4057,13 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_solve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -5051,29 +4167,6 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -5097,48 +4190,13 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_svx((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -5246,29 +4304,6 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -5292,29 +4327,6 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -5338,29 +4350,6 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -5384,48 +4373,13 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_lssolve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -5560,29 +4514,6 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -5606,48 +4537,13 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_QRsolve(arg1,arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -5751,29 +4647,6 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -5797,48 +4670,13 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_Rsolve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -5928,48 +4766,13 @@ static PyObject *_wrap_gsl_linalg_QR_Rsvx(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_Rsvx((gsl_matrix const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -6080,29 +4883,6 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -6126,48 +4906,13 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_update(arg1,arg2,arg3,(gsl_vector const *)arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -6271,29 +5016,6 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -6317,48 +5039,13 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_QTvec((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -6454,29 +5141,6 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -6500,48 +5164,13 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QR_Qvec((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -6643,29 +5272,6 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -6705,20 +5311,8 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_QR_unpack((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -6822,29 +5416,6 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -6868,48 +5439,13 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_R_solve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -7010,29 +5546,6 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
@@ -7057,48 +5570,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QRPT_decomp(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyInt_FromLong((long) (*arg4));
@@ -7249,29 +5727,6 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
@@ -7296,48 +5751,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg7 = (gsl_vector *) &(_vector7.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector7.vector.size < 6) ? 
-            _vector7.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            7, _PyVector7, _PyVector7, 
-            &_vector7.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector7.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QRPT_decomp2((gsl_matrix const *)arg1,arg2,arg3,arg4,arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyInt_FromLong((long) (*arg6));
@@ -7461,29 +5881,6 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
@@ -7508,29 +5905,6 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -7554,48 +5928,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QRPT_solve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -7701,29 +6040,6 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
@@ -7748,48 +6064,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QRPT_svx((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_permutation const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -7911,29 +6192,6 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -7957,48 +6215,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QRPT_QRsolve((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -8105,29 +6328,6 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -8151,48 +6351,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QRPT_Rsolve((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -8285,48 +6450,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsvx(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QRPT_Rsvx((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -8440,29 +6570,6 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -8486,48 +6593,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_QRPT_update(arg1,arg2,(gsl_permutation const *)arg3,arg4,(gsl_vector const *)arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -8601,20 +6673,8 @@ static PyObject *_wrap_gsl_linalg_cholesky_decomp(PyObject *self, PyObject *args
     result = (int)gsl_linalg_cholesky_decomp(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -8694,29 +6754,6 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -8740,48 +6777,13 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_cholesky_solve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -8871,48 +6873,13 @@ static PyObject *_wrap_gsl_linalg_cholesky_svx(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_cholesky_svx((gsl_matrix const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -8994,48 +6961,13 @@ static PyObject *_wrap_gsl_linalg_symmtd_decomp(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_symmtd_decomp(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -9135,29 +7067,6 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -9198,29 +7107,6 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -9244,48 +7130,13 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_symmtd_unpack((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -9397,29 +7248,6 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -9443,48 +7271,13 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_symmtd_unpack_T((gsl_matrix const *)arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -9574,48 +7367,13 @@ static PyObject *_wrap_gsl_linalg_hermtd_decomp(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_hermtd_decomp(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -9707,29 +7465,6 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -9770,29 +7505,6 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -9816,48 +7528,13 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_hermtd_unpack((gsl_matrix_complex const *)arg1,(gsl_vector_complex const *)arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -9961,29 +7638,6 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10007,48 +7661,13 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_hermtd_unpack_T((gsl_matrix_complex const *)arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -10144,29 +7763,6 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10190,48 +7786,13 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_HH_solve(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -10321,48 +7882,13 @@ static PyObject *_wrap_gsl_linalg_HH_svx(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_HH_svx(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -10439,29 +7965,6 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10485,29 +7988,6 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10531,29 +8011,6 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10577,48 +8034,13 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_solve_symm_tridiag((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -10717,29 +8139,6 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10763,29 +8162,6 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10809,29 +8185,6 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10855,29 +8208,6 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10901,48 +8231,13 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_solve_tridiag((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -11043,29 +8338,6 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11089,29 +8361,6 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11135,29 +8384,6 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11181,48 +8407,13 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_solve_symm_cyc_tridiag((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -11321,29 +8512,6 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11367,29 +8535,6 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11413,29 +8558,6 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11459,29 +8581,6 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11505,48 +8604,13 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_solve_cyc_tridiag((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -11658,29 +8722,6 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11704,48 +8745,13 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_bidiag_decomp(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -11865,29 +8871,6 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11928,29 +8911,6 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -11991,29 +8951,6 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -12037,48 +8974,13 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg7 = (gsl_vector *) &(_vector7.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector7.vector.size < 6) ? 
-            _vector7.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            7, _PyVector7, _PyVector7, 
-            &_vector7.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector7.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_bidiag_unpack((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,(gsl_vector const *)arg4,arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -12212,29 +9114,6 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -12258,29 +9137,6 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -12303,20 +9159,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_bidiag_unpack2(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -12420,29 +9264,6 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -12466,48 +9287,13 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_bidiag_unpack_B((gsl_matrix const *)arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -12597,48 +9383,13 @@ static PyObject *_wrap_gsl_linalg_balance_columns(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_linalg_balance_columns(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -12689,20 +9440,8 @@ static PyObject *_wrap_gsl_fft_complex_radix2_forward(PyObject *self, PyObject *
     result = (int)gsl_fft_complex_radix2_forward(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -12740,20 +9479,8 @@ static PyObject *_wrap_gsl_fft_complex_radix2_backward(PyObject *self, PyObject 
     result = (int)gsl_fft_complex_radix2_backward(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -12791,20 +9518,8 @@ static PyObject *_wrap_gsl_fft_complex_radix2_inverse(PyObject *self, PyObject *
     result = (int)gsl_fft_complex_radix2_inverse(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -12843,20 +9558,8 @@ static PyObject *_wrap_gsl_fft_complex_radix2_transform(PyObject *self, PyObject
     result = (int)gsl_fft_complex_radix2_transform(arg1,arg2,arg3,(gsl_fft_direction )arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -12894,20 +9597,8 @@ static PyObject *_wrap_gsl_fft_complex_radix2_dif_forward(PyObject *self, PyObje
     result = (int)gsl_fft_complex_radix2_dif_forward(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -12945,20 +9636,8 @@ static PyObject *_wrap_gsl_fft_complex_radix2_dif_backward(PyObject *self, PyObj
     result = (int)gsl_fft_complex_radix2_dif_backward(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -12996,20 +9675,8 @@ static PyObject *_wrap_gsl_fft_complex_radix2_dif_inverse(PyObject *self, PyObje
     result = (int)gsl_fft_complex_radix2_dif_inverse(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -13048,20 +9715,8 @@ static PyObject *_wrap_gsl_fft_complex_radix2_dif_transform(PyObject *self, PyOb
     result = (int)gsl_fft_complex_radix2_dif_transform(arg1,arg2,arg3,(gsl_fft_direction )arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -13112,29 +9767,6 @@ static PyObject *_wrap_delete_gsl_fft_complex_wavetable(PyObject *self, PyObject
 }
 
 
-static PyObject *_wrap_gsl_fft_complex_wavetable_n_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_complex_wavetable *arg1 = (gsl_fft_complex_wavetable *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","n", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_complex_wavetable_n_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_complex_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->n = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_fft_complex_wavetable_n_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_fft_complex_wavetable *arg1 = (gsl_fft_complex_wavetable *) 0 ;
@@ -13149,29 +9781,6 @@ static PyObject *_wrap_gsl_fft_complex_wavetable_n_get(PyObject *self, PyObject 
     result = (size_t) ((arg1)->n);
     
     resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_fft_complex_wavetable_nf_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_complex_wavetable *arg1 = (gsl_fft_complex_wavetable *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","nf", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_complex_wavetable_nf_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_complex_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->nf = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -13198,31 +9807,6 @@ static PyObject *_wrap_gsl_fft_complex_wavetable_nf_get(PyObject *self, PyObject
 }
 
 
-static PyObject *_wrap_gsl_fft_complex_wavetable_factor_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_complex_wavetable *arg1 = (gsl_fft_complex_wavetable *) 0 ;
-    size_t *arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","factor", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_complex_wavetable_factor_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_complex_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_size_t,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        int ii;
-        size_t *b = (size_t *) arg1->factor;
-        for (ii = 0; ii < 64; ii++) b[ii] = *((size_t *) arg2 + ii);
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_fft_complex_wavetable_factor_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_fft_complex_wavetable *arg1 = (gsl_fft_complex_wavetable *) 0 ;
@@ -13243,31 +9827,6 @@ static PyObject *_wrap_gsl_fft_complex_wavetable_factor_get(PyObject *self, PyOb
 }
 
 
-static PyObject *_wrap_gsl_fft_complex_wavetable_twiddle_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_complex_wavetable *arg1 = (gsl_fft_complex_wavetable *) 0 ;
-    gsl_complex **arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","twiddle", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_complex_wavetable_twiddle_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_complex_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_p_gsl_complex,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        int ii;
-        gsl_complex * *b = (gsl_complex * *) arg1->twiddle;
-        for (ii = 0; ii < 64; ii++) b[ii] = *((gsl_complex * *) arg2 + ii);
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_fft_complex_wavetable_twiddle_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_fft_complex_wavetable *arg1 = (gsl_fft_complex_wavetable *) 0 ;
@@ -13282,50 +9841,6 @@ static PyObject *_wrap_gsl_fft_complex_wavetable_twiddle_get(PyObject *self, PyO
     result = (gsl_complex **)(gsl_complex **) ((arg1)->twiddle);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_p_gsl_complex, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_fft_complex_wavetable_trig_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_complex_wavetable *arg1 = (gsl_fft_complex_wavetable *) 0 ;
-    gsl_complex *arg2 = (gsl_complex *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","trig", NULL 
-    };
-    
-    
-    gsl_complex tmp2;
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_complex_wavetable_trig_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_complex_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    
-    {
-        /* In Pointer */
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj1, &tmp2) != 
-        GSL_SUCCESS)
-        goto fail;
-        arg2 = &tmp2;
-    }
-    
-    if (arg1) (arg1)->trig = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    {
-        PyObject *out = NULL;
-        FUNC_MESS_BEGIN();
-        out = PyComplex_FromDoubles((double) arg2->dat[0],(double) arg2->dat[1]);
-        if(out == NULL){
-            PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-            goto fail;    
-        }
-        resultobj = t_output_helper(resultobj, out);
-        FUNC_MESS_END();
-    }
     return resultobj;
     fail:
     return NULL;
@@ -13399,29 +9914,6 @@ static PyObject *_wrap_delete_gsl_fft_complex_workspace(PyObject *self, PyObject
 }
 
 
-static PyObject *_wrap_gsl_fft_complex_workspace_n_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_complex_workspace *arg1 = (gsl_fft_complex_workspace *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","n", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_complex_workspace_n_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_complex_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->n = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_fft_complex_workspace_n_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_fft_complex_workspace *arg1 = (gsl_fft_complex_workspace *) 0 ;
@@ -13436,28 +9928,6 @@ static PyObject *_wrap_gsl_fft_complex_workspace_n_get(PyObject *self, PyObject 
     result = (size_t) ((arg1)->n);
     
     resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_fft_complex_workspace_scratch_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_complex_workspace *arg1 = (gsl_fft_complex_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","scratch", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_complex_workspace_scratch_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_complex_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->scratch = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -13588,20 +10058,8 @@ static PyObject *_wrap_gsl_fft_complex_memcpy(PyObject *self, PyObject *args, Py
     result = (int)gsl_fft_complex_memcpy(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -13642,20 +10100,8 @@ static PyObject *_wrap_gsl_fft_complex_forward(PyObject *self, PyObject *args, P
     result = (int)gsl_fft_complex_forward(arg1,arg2,arg3,(gsl_fft_complex_wavetable const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -13699,20 +10145,8 @@ static PyObject *_wrap_gsl_fft_complex_backward(PyObject *self, PyObject *args, 
     result = (int)gsl_fft_complex_backward(arg1,arg2,arg3,(gsl_fft_complex_wavetable const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -13756,20 +10190,8 @@ static PyObject *_wrap_gsl_fft_complex_inverse(PyObject *self, PyObject *args, P
     result = (int)gsl_fft_complex_inverse(arg1,arg2,arg3,(gsl_fft_complex_wavetable const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -13814,20 +10236,8 @@ static PyObject *_wrap_gsl_fft_complex_transform(PyObject *self, PyObject *args,
     result = (int)gsl_fft_complex_transform(arg1,arg2,arg3,(gsl_fft_complex_wavetable const *)arg4,arg5,(gsl_fft_direction )arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -13865,20 +10275,8 @@ static PyObject *_wrap_gsl_fft_real_radix2_transform(PyObject *self, PyObject *a
     result = (int)gsl_fft_real_radix2_transform(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -13929,29 +10327,6 @@ static PyObject *_wrap_delete_gsl_fft_real_wavetable(PyObject *self, PyObject *a
 }
 
 
-static PyObject *_wrap_gsl_fft_real_wavetable_n_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_real_wavetable *arg1 = (gsl_fft_real_wavetable *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","n", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_real_wavetable_n_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_real_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->n = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_fft_real_wavetable_n_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_fft_real_wavetable *arg1 = (gsl_fft_real_wavetable *) 0 ;
@@ -13966,29 +10341,6 @@ static PyObject *_wrap_gsl_fft_real_wavetable_n_get(PyObject *self, PyObject *ar
     result = (size_t) ((arg1)->n);
     
     resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_fft_real_wavetable_nf_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_real_wavetable *arg1 = (gsl_fft_real_wavetable *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","nf", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_real_wavetable_nf_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_real_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->nf = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -14015,31 +10367,6 @@ static PyObject *_wrap_gsl_fft_real_wavetable_nf_get(PyObject *self, PyObject *a
 }
 
 
-static PyObject *_wrap_gsl_fft_real_wavetable_factor_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_real_wavetable *arg1 = (gsl_fft_real_wavetable *) 0 ;
-    size_t *arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","factor", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_real_wavetable_factor_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_real_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_size_t,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        int ii;
-        size_t *b = (size_t *) arg1->factor;
-        for (ii = 0; ii < 64; ii++) b[ii] = *((size_t *) arg2 + ii);
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_fft_real_wavetable_factor_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_fft_real_wavetable *arg1 = (gsl_fft_real_wavetable *) 0 ;
@@ -14060,31 +10387,6 @@ static PyObject *_wrap_gsl_fft_real_wavetable_factor_get(PyObject *self, PyObjec
 }
 
 
-static PyObject *_wrap_gsl_fft_real_wavetable_twiddle_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_real_wavetable *arg1 = (gsl_fft_real_wavetable *) 0 ;
-    gsl_complex **arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","twiddle", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_real_wavetable_twiddle_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_real_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_p_gsl_complex,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    {
-        int ii;
-        gsl_complex * *b = (gsl_complex * *) arg1->twiddle;
-        for (ii = 0; ii < 64; ii++) b[ii] = *((gsl_complex * *) arg2 + ii);
-    }
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_fft_real_wavetable_twiddle_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_fft_real_wavetable *arg1 = (gsl_fft_real_wavetable *) 0 ;
@@ -14099,50 +10401,6 @@ static PyObject *_wrap_gsl_fft_real_wavetable_twiddle_get(PyObject *self, PyObje
     result = (gsl_complex **)(gsl_complex **) ((arg1)->twiddle);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_p_gsl_complex, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_fft_real_wavetable_trig_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_real_wavetable *arg1 = (gsl_fft_real_wavetable *) 0 ;
-    gsl_complex *arg2 = (gsl_complex *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","trig", NULL 
-    };
-    
-    
-    gsl_complex tmp2;
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_real_wavetable_trig_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_real_wavetable,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    
-    {
-        /* In Pointer */
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj1, &tmp2) != 
-        GSL_SUCCESS)
-        goto fail;
-        arg2 = &tmp2;
-    }
-    
-    if (arg1) (arg1)->trig = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    {
-        PyObject *out = NULL;
-        FUNC_MESS_BEGIN();
-        out = PyComplex_FromDoubles((double) arg2->dat[0],(double) arg2->dat[1]);
-        if(out == NULL){
-            PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-            goto fail;    
-        }
-        resultobj = t_output_helper(resultobj, out);
-        FUNC_MESS_END();
-    }
     return resultobj;
     fail:
     return NULL;
@@ -14216,29 +10474,6 @@ static PyObject *_wrap_delete_gsl_fft_real_workspace(PyObject *self, PyObject *a
 }
 
 
-static PyObject *_wrap_gsl_fft_real_workspace_n_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_real_workspace *arg1 = (gsl_fft_real_workspace *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","n", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_real_workspace_n_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_real_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->n = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_fft_real_workspace_n_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_fft_real_workspace *arg1 = (gsl_fft_real_workspace *) 0 ;
@@ -14253,28 +10488,6 @@ static PyObject *_wrap_gsl_fft_real_workspace_n_get(PyObject *self, PyObject *ar
     result = (size_t) ((arg1)->n);
     
     resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_fft_real_workspace_scratch_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_fft_real_workspace *arg1 = (gsl_fft_real_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","scratch", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fft_real_workspace_scratch_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_fft_real_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->scratch = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -14421,20 +10634,8 @@ static PyObject *_wrap_gsl_fft_real_transform(PyObject *self, PyObject *args, Py
     result = (int)gsl_fft_real_transform(arg1,arg2,arg3,(gsl_fft_real_wavetable const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         resultobj = t_output_helper(resultobj, (PyObject*)_PyVector1);	
@@ -14470,44 +10671,9 @@ static PyObject *_wrap_gsl_fft_real_unpack(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_fft_real_unpack((double const (*))arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_size_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","size", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation_size_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->size = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -14528,28 +10694,6 @@ static PyObject *_wrap_Permutation_size_get(PyObject *self, PyObject *args, PyOb
     result = (size_t) ((arg1)->size);
     
     resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_data_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t *arg2 = (size_t *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","data", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation_data_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_size_t,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->data = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -14616,6 +10760,173 @@ static PyObject *_wrap_delete_Permutation(PyObject *self, PyObject *args, PyObje
 }
 
 
+static PyObject *_wrap_Permutation__linear_to_canonical(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","q", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__linear_to_canonical",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_struct__linear_to_canonical(arg1,arg2);
+    
+    {
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation__canonical_to_linear(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","q", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__canonical_to_linear",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_struct__canonical_to_linear(arg1,arg2);
+    
+    {
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation__mul(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg3 = (struct gsl_permutation_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        "self","res","m2", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:Permutation__mul",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_struct__mul(arg1,arg2,arg3);
+    
+    {
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_inversions(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_inversions",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_struct_inversions(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_linear_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_linear_cycles",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_struct_linear_cycles(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_canonical_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_canonical_cycles",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_struct_canonical_cycles(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation__inverse(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","inv", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__inverse",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_struct__inverse(arg1,arg2);
+    
+    {
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_Permutation___getitem__(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
@@ -14662,20 +10973,8 @@ static PyObject *_wrap_Permutation_swap(PyObject *self, PyObject *args, PyObject
     result = (int)gsl_permutation_struct_swap(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -14717,20 +11016,8 @@ static PyObject *_wrap_Permutation_valid(PyObject *self, PyObject *args, PyObjec
     result = (int)gsl_permutation_struct_valid(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -14771,20 +11058,8 @@ static PyObject *_wrap_Permutation_next(PyObject *self, PyObject *args, PyObject
     result = (int)gsl_permutation_struct_next(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -14806,20 +11081,8 @@ static PyObject *_wrap_Permutation_prev(PyObject *self, PyObject *args, PyObject
     result = (int)gsl_permutation_struct_prev(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -14841,6 +11104,46 @@ static PyObject *_wrap_Permutation___str__(PyObject *self, PyObject *args, PyObj
     result = (char *)gsl_permutation_struct_printf(arg1);
     
     resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_tolist(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_tolist",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)gsl_permutation_struct_tolist(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_toarray(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_toarray",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)gsl_permutation_struct_toarray(arg1);
+    
+    resultobj = result;
     return resultobj;
     fail:
     return NULL;
@@ -14951,20 +11254,8 @@ static PyObject *_wrap_gsl_permutation_memcpy(PyObject *self, PyObject *args, Py
     result = (int)gsl_permutation_memcpy(arg1,(gsl_permutation const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -14989,20 +11280,8 @@ static PyObject *_wrap_gsl_permutation_fread(PyObject *self, PyObject *args, PyO
     result = (int)gsl_permutation_fread(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15027,20 +11306,8 @@ static PyObject *_wrap_gsl_permutation_fwrite(PyObject *self, PyObject *args, Py
     result = (int)gsl_permutation_fwrite(arg1,(gsl_permutation const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15065,20 +11332,8 @@ static PyObject *_wrap_gsl_permutation_fscanf(PyObject *self, PyObject *args, Py
     result = (int)gsl_permutation_fscanf(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15104,20 +11359,8 @@ static PyObject *_wrap_gsl_permutation_fprintf(PyObject *self, PyObject *args, P
     result = (int)gsl_permutation_fprintf(arg1,(gsl_permutation const *)arg2,(char const *)arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15211,20 +11454,8 @@ static PyObject *_wrap_gsl_permutation_swap(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_permutation_swap(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15246,20 +11477,8 @@ static PyObject *_wrap_gsl_permutation_valid(PyObject *self, PyObject *args, PyO
     result = (int)gsl_permutation_valid(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15303,20 +11522,8 @@ static PyObject *_wrap_gsl_permutation_inverse(PyObject *self, PyObject *args, P
     result = (int)gsl_permutation_inverse(arg1,(gsl_permutation const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15338,20 +11545,8 @@ static PyObject *_wrap_gsl_permutation_next(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_permutation_next(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15373,20 +11568,8 @@ static PyObject *_wrap_gsl_permutation_prev(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_permutation_prev(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15414,20 +11597,8 @@ static PyObject *_wrap_gsl_permutation_mul(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_permutation_mul(arg1,(gsl_permutation const *)arg2,(gsl_permutation const *)arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15452,20 +11623,8 @@ static PyObject *_wrap_gsl_permutation_linear_to_canonical(PyObject *self, PyObj
     result = (int)gsl_permutation_linear_to_canonical(arg1,(gsl_permutation const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15490,20 +11649,8 @@ static PyObject *_wrap_gsl_permutation_canonical_to_linear(PyObject *self, PyObj
     result = (int)gsl_permutation_canonical_to_linear(arg1,(gsl_permutation const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15572,15 +11719,8 @@ static PyObject *_wrap_gsl_permutation_canonical_cycles(PyObject *self, PyObject
 
 
 static int _wrap_gsl_check_range_set(PyObject *_val) {
-    {
-        long temp = PyInt_AsLong(_val);
-        if (PyErr_Occurred()) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_check_range (int)'");
-            return 1;
-        }
-        gsl_check_range = (int) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_check_range is read-only.");
+    return 1;
 }
 
 
@@ -15592,6 +11732,268 @@ static PyObject *_wrap_gsl_check_range_get() {
 }
 
 
+static PyObject *_wrap_new_Combination(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    size_t arg2 ;
+    struct gsl_combination_struct *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "n","k", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:new_Combination",kwnames,&obj0,&obj1)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (struct gsl_combination_struct *)new_gsl_combination_struct(arg1,arg2);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_combination_struct, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_delete_Combination(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:delete_Combination",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    delete_gsl_combination_struct(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination___getitem__(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    size_t arg2 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","i", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Combination___getitem__",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (size_t)gsl_combination_struct_get_item(arg1,arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_k(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_k",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_combination_struct_k(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_n(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_n",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_combination_struct_n(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_init_first(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_init_first",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_combination_struct_init_first(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_init_last(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_init_last",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_combination_struct_init_last(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_valid(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_valid",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_combination_struct_valid(arg1);
+    
+    {
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_next(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_next",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_combination_struct_next(arg1);
+    
+    {
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_prev(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_prev",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_combination_struct_prev(arg1);
+    
+    {
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_tolist(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_tolist",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)gsl_combination_struct_tolist(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_toarray(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_toarray",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)gsl_combination_struct_toarray(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject * Combination_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_gsl_combination_struct, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_gsl_max(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     double arg1 ;
@@ -15751,20 +12153,8 @@ static PyObject *_wrap_gsl_isnan(PyObject *self, PyObject *args, PyObject *kwarg
     result = (int)gsl_isnan(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15784,20 +12174,8 @@ static PyObject *_wrap_gsl_isinf(PyObject *self, PyObject *args, PyObject *kwarg
     result = (int)gsl_isinf(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -15817,20 +12195,8 @@ static PyObject *_wrap_gsl_finite(PyObject *self, PyObject *args, PyObject *kwar
     result = (int)gsl_finite(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -16025,20 +12391,8 @@ static PyObject *_wrap_gsl_fcmp(PyObject *self, PyObject *args, PyObject *kwargs
     result = (int)gsl_fcmp(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -16090,29 +12444,6 @@ static PyObject *_wrap_gsl_blas_sdsdot(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -16136,49 +12467,14 @@ static PyObject *_wrap_gsl_blas_sdsdot(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_float,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_blas_sdsdot(arg1,(gsl_vector_float const *)arg2,(gsl_vector_float const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -16230,29 +12526,6 @@ static PyObject *_wrap_gsl_blas_dsdot(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -16276,48 +12549,13 @@ static PyObject *_wrap_gsl_blas_dsdot(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_dsdot((gsl_vector_float const *)arg1,(gsl_vector_float const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg3));
@@ -16372,29 +12610,6 @@ static PyObject *_wrap_gsl_blas_sdot(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -16418,49 +12633,14 @@ static PyObject *_wrap_gsl_blas_sdot(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_float,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_blas_sdot((gsl_vector_float const *)arg1,(gsl_vector_float const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -16512,29 +12692,6 @@ static PyObject *_wrap_gsl_blas_ddot(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -16558,48 +12715,13 @@ static PyObject *_wrap_gsl_blas_ddot(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_ddot((gsl_vector const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg3));
@@ -16673,29 +12795,6 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -16719,57 +12818,18 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
-    
     {
-        /* In Pointer */
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex_float (obj2, &tmp3) != 
-        GSL_SUCCESS)
+        if(PyGSL_PyCOMPLEX_TO_gsl_complex_float (obj2, &tmp3) != GSL_SUCCESS)
         goto fail;
         arg3 = &tmp3;
     }
-    
     result = (int)gsl_blas_cdotu((gsl_vector_complex_float const *)arg1,(gsl_vector_complex_float const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -16823,29 +12883,6 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -16869,57 +12906,18 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
-    
     {
-        /* In Pointer */
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex_float (obj2, &tmp3) != 
-        GSL_SUCCESS)
+        if(PyGSL_PyCOMPLEX_TO_gsl_complex_float (obj2, &tmp3) != GSL_SUCCESS)
         goto fail;
         arg3 = &tmp3;
     }
-    
     result = (int)gsl_blas_cdotc((gsl_vector_complex_float const *)arg1,(gsl_vector_complex_float const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -16973,29 +12971,6 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -17019,57 +12994,18 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
-    
     {
-        /* In Pointer */
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj2, &tmp3) != 
-        GSL_SUCCESS)
+        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj2, &tmp3) != GSL_SUCCESS)
         goto fail;
         arg3 = &tmp3;
     }
-    
     result = (int)gsl_blas_zdotu((gsl_vector_complex const *)arg1,(gsl_vector_complex const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *out = NULL;
@@ -17134,29 +13070,6 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -17180,57 +13093,18 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
-    
     {
-        /* In Pointer */
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj2, &tmp3) != 
-        GSL_SUCCESS)
+        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj2, &tmp3) != GSL_SUCCESS)
         goto fail;
         arg3 = &tmp3;
     }
-    
     result = (int)gsl_blas_zdotc((gsl_vector_complex const *)arg1,(gsl_vector_complex const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *out = NULL;
@@ -17284,29 +13158,6 @@ static PyObject *_wrap_gsl_blas_snrm2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (float)gsl_blas_snrm2((gsl_vector_float const *)arg1);
@@ -17353,29 +13204,6 @@ static PyObject *_wrap_gsl_blas_sasum(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (float)gsl_blas_sasum((gsl_vector_float const *)arg1);
@@ -17422,29 +13250,6 @@ static PyObject *_wrap_gsl_blas_dnrm2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_blas_dnrm2((gsl_vector const *)arg1);
@@ -17499,29 +13304,6 @@ static PyObject *_wrap_gsl_blas_dasum(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_blas_dasum((gsl_vector const *)arg1);
@@ -17576,29 +13358,6 @@ static PyObject *_wrap_gsl_blas_scnrm2(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (float)gsl_blas_scnrm2((gsl_vector_complex_float const *)arg1);
@@ -17645,29 +13404,6 @@ static PyObject *_wrap_gsl_blas_scasum(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (float)gsl_blas_scasum((gsl_vector_complex_float const *)arg1);
@@ -17714,29 +13450,6 @@ static PyObject *_wrap_gsl_blas_dznrm2(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_blas_dznrm2((gsl_vector_complex const *)arg1);
@@ -17783,29 +13496,6 @@ static PyObject *_wrap_gsl_blas_dzasum(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_blas_dzasum((gsl_vector_complex const *)arg1);
@@ -17852,29 +13542,6 @@ static PyObject *_wrap_gsl_blas_isamax(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (CBLAS_INDEX_t)gsl_blas_isamax((gsl_vector_float const *)arg1);
@@ -17921,29 +13588,6 @@ static PyObject *_wrap_gsl_blas_idamax(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (CBLAS_INDEX_t)gsl_blas_idamax((gsl_vector const *)arg1);
@@ -17998,29 +13642,6 @@ static PyObject *_wrap_gsl_blas_icamax(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (CBLAS_INDEX_t)gsl_blas_icamax((gsl_vector_complex_float const *)arg1);
@@ -18067,29 +13688,6 @@ static PyObject *_wrap_gsl_blas_izamax(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (CBLAS_INDEX_t)gsl_blas_izamax((gsl_vector_complex const *)arg1);
@@ -18142,29 +13740,6 @@ static PyObject *_wrap_gsl_blas_sswap(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -18188,48 +13763,13 @@ static PyObject *_wrap_gsl_blas_sswap(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_sswap(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -18278,29 +13818,6 @@ static PyObject *_wrap_gsl_blas_scopy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -18324,48 +13841,13 @@ static PyObject *_wrap_gsl_blas_scopy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_scopy((gsl_vector_float const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -18415,29 +13897,6 @@ static PyObject *_wrap_gsl_blas_saxpy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -18461,48 +13920,13 @@ static PyObject *_wrap_gsl_blas_saxpy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_saxpy(arg1,(gsl_vector_float const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -18551,29 +13975,6 @@ static PyObject *_wrap_gsl_blas_dswap(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -18597,48 +13998,13 @@ static PyObject *_wrap_gsl_blas_dswap(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_dswap(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -18703,29 +14069,6 @@ static PyObject *_wrap_gsl_blas_dcopy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -18749,48 +14092,13 @@ static PyObject *_wrap_gsl_blas_dcopy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_dcopy((gsl_vector const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -18856,29 +14164,6 @@ static PyObject *_wrap_gsl_blas_daxpy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -18902,48 +14187,13 @@ static PyObject *_wrap_gsl_blas_daxpy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_daxpy(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -19008,29 +14258,6 @@ static PyObject *_wrap_gsl_blas_cswap(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -19054,48 +14281,13 @@ static PyObject *_wrap_gsl_blas_cswap(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_cswap(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -19144,29 +14336,6 @@ static PyObject *_wrap_gsl_blas_ccopy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -19190,48 +14359,13 @@ static PyObject *_wrap_gsl_blas_ccopy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_ccopy((gsl_vector_complex_float const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -19262,7 +14396,6 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_caxpy",kwnames,&obj0,&obj1,&obj2)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -19289,29 +14422,6 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -19335,48 +14445,13 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_caxpy(arg1,(gsl_vector_complex_float const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -19425,29 +14500,6 @@ static PyObject *_wrap_gsl_blas_zswap(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -19471,48 +14523,13 @@ static PyObject *_wrap_gsl_blas_zswap(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_zswap(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -19561,29 +14578,6 @@ static PyObject *_wrap_gsl_blas_zcopy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -19607,48 +14601,13 @@ static PyObject *_wrap_gsl_blas_zcopy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_zcopy((gsl_vector_complex const *)arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -19679,7 +14638,6 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_zaxpy",kwnames,&obj0,&obj1,&obj2)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -19706,29 +14664,6 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -19752,48 +14687,13 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_zaxpy(arg1,(gsl_vector_complex const *)arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -19824,20 +14724,8 @@ static PyObject *_wrap_gsl_blas_srotg(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_srotg(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -19869,20 +14757,8 @@ static PyObject *_wrap_gsl_blas_srotmg(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_srotmg(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -19933,29 +14809,6 @@ static PyObject *_wrap_gsl_blas_srot(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -19979,48 +14832,13 @@ static PyObject *_wrap_gsl_blas_srot(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_srot(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -20071,29 +14889,6 @@ static PyObject *_wrap_gsl_blas_srotm(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -20117,49 +14912,14 @@ static PyObject *_wrap_gsl_blas_srotm(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_float,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_blas_srotm(arg1,arg2,(float const (*))arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -20190,20 +14950,8 @@ static PyObject *_wrap_gsl_blas_drotg(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_drotg(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -20235,20 +14983,8 @@ static PyObject *_wrap_gsl_blas_drotmg(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_drotmg(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -20299,29 +15035,6 @@ static PyObject *_wrap_gsl_blas_drot(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -20345,48 +15058,13 @@ static PyObject *_wrap_gsl_blas_drot(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_drot(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -20453,29 +15131,6 @@ static PyObject *_wrap_gsl_blas_drotm(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -20499,49 +15154,14 @@ static PyObject *_wrap_gsl_blas_drotm(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_blas_drotm(arg1,arg2,(double const (*))arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -20600,29 +15220,6 @@ static PyObject *_wrap_gsl_blas_sscal(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_blas_sscal(arg1,arg2);
@@ -20669,29 +15266,6 @@ static PyObject *_wrap_gsl_blas_dscal(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_blas_dscal(arg1,arg2);
@@ -20727,7 +15301,6 @@ static PyObject *_wrap_gsl_blas_cscal(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_cscal",kwnames,&obj0,&obj1)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -20754,29 +15327,6 @@ static PyObject *_wrap_gsl_blas_cscal(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_blas_cscal(arg1,arg2);
@@ -20804,7 +15354,6 @@ static PyObject *_wrap_gsl_blas_zscal(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_zscal",kwnames,&obj0,&obj1)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -20831,29 +15380,6 @@ static PyObject *_wrap_gsl_blas_zscal(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_blas_zscal(arg1,arg2);
@@ -20900,29 +15426,6 @@ static PyObject *_wrap_gsl_blas_csscal(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_blas_csscal(arg1,arg2);
@@ -20969,29 +15472,6 @@ static PyObject *_wrap_gsl_blas_zdscal(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_blas_zdscal(arg1,arg2);
@@ -21070,29 +15550,6 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_float *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -21116,48 +15573,13 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector_float *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_sgemv((CBLAS_TRANSPOSE_t )arg1,arg2,(gsl_matrix_float const *)arg3,(gsl_vector_float const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -21234,48 +15656,13 @@ static PyObject *_wrap_gsl_blas_strmv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector_float *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_strmv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_float const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -21352,48 +15739,13 @@ static PyObject *_wrap_gsl_blas_strsv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector_float *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_strsv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_float const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -21476,29 +15828,6 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -21522,48 +15851,13 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_dgemv((CBLAS_TRANSPOSE_t )arg1,arg2,(gsl_matrix const *)arg3,(gsl_vector const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -21656,48 +15950,13 @@ static PyObject *_wrap_gsl_blas_dtrmv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_dtrmv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -21782,48 +16041,13 @@ static PyObject *_wrap_gsl_blas_dtrsv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_dtrsv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -21879,7 +16103,6 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOOO:gsl_blas_cgemv",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -21923,33 +16146,9 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_complex_float *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -21976,48 +16175,13 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector_complex_float *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_cgemv((CBLAS_TRANSPOSE_t )arg1,arg2,(gsl_matrix_complex_float const *)arg3,(gsl_vector_complex_float const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -22094,48 +16258,13 @@ static PyObject *_wrap_gsl_blas_ctrmv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector_complex_float *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_ctrmv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_complex_float const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -22212,48 +16341,13 @@ static PyObject *_wrap_gsl_blas_ctrsv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector_complex_float *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_ctrsv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_complex_float const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -22301,7 +16395,6 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOOO:gsl_blas_zgemv",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -22345,33 +16438,9 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_complex *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -22398,48 +16467,13 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector_complex *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_zgemv((CBLAS_TRANSPOSE_t )arg1,arg2,(gsl_matrix_complex const *)arg3,(gsl_vector_complex const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -22516,48 +16550,13 @@ static PyObject *_wrap_gsl_blas_ztrmv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector_complex *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_ztrmv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_complex const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -22634,48 +16633,13 @@ static PyObject *_wrap_gsl_blas_ztrsv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg5 = (gsl_vector_complex *) &(_vector5.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector5.vector.size < 6) ? 
-            _vector5.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            5, _PyVector5, _PyVector5, 
-            &_vector5.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector5.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_ztrsv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_complex const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -22758,29 +16722,6 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_float *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -22804,48 +16745,13 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector_float *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_ssymv((CBLAS_UPLO_t )arg1,arg2,(gsl_matrix_float const *)arg3,(gsl_vector_float const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -22909,29 +16815,6 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -22955,29 +16838,6 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23000,20 +16860,8 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_sger(arg1,(gsl_vector_float const *)arg2,(gsl_vector_float const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -23072,29 +16920,6 @@ static PyObject *_wrap_gsl_blas_ssyr(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23117,20 +16942,8 @@ static PyObject *_wrap_gsl_blas_ssyr(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_ssyr((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_float const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -23195,29 +17008,6 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23241,29 +17031,6 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_float *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23286,20 +17053,8 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ssyr2((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_float const *)arg3,(gsl_vector_float const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix5);
@@ -23382,29 +17137,6 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23428,48 +17160,13 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_dsymv((CBLAS_UPLO_t )arg1,arg2,(gsl_matrix const *)arg3,(gsl_vector const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -23549,29 +17246,6 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23595,29 +17269,6 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23640,20 +17291,8 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_dger(arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -23728,29 +17367,6 @@ static PyObject *_wrap_gsl_blas_dsyr(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23773,20 +17389,8 @@ static PyObject *_wrap_gsl_blas_dsyr(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_dsyr((CBLAS_UPLO_t )arg1,arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector3);
@@ -23859,29 +17463,6 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23905,29 +17486,6 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -23950,20 +17508,8 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dsyr2((CBLAS_UPLO_t )arg1,arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector3);
@@ -24027,7 +17573,6 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOOO:gsl_blas_chemv",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -24071,33 +17616,9 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_complex_float *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -24124,48 +17645,13 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector_complex_float *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_chemv((CBLAS_UPLO_t )arg1,arg2,(gsl_matrix_complex_float const *)arg3,(gsl_vector_complex_float const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -24210,7 +17696,6 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_blas_cgeru",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -24237,29 +17722,6 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -24283,29 +17745,6 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -24328,20 +17767,8 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cgeru(arg1,(gsl_vector_complex_float const *)arg2,(gsl_vector_complex_float const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -24386,7 +17813,6 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_blas_cgerc",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -24413,29 +17839,6 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -24459,29 +17862,6 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -24504,20 +17884,8 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cgerc(arg1,(gsl_vector_complex_float const *)arg2,(gsl_vector_complex_float const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -24576,29 +17944,6 @@ static PyObject *_wrap_gsl_blas_cher(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -24621,20 +17966,8 @@ static PyObject *_wrap_gsl_blas_cher(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_cher((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_complex_float const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -24680,7 +18013,6 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOO:gsl_blas_cher2",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -24707,29 +18039,6 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex_float *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -24753,29 +18062,6 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_complex_float *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -24798,20 +18084,8 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cher2((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_complex_float const *)arg3,(gsl_vector_complex_float const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix5);
@@ -24859,7 +18133,6 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOOO:gsl_blas_zhemv",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -24903,33 +18176,9 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_complex *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -24956,48 +18205,13 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg6 = (gsl_vector_complex *) &(_vector6.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector6.vector.size < 6) ? 
-            _vector6.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            6, _PyVector6, _PyVector6, 
-            &_vector6.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector6.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_blas_zhemv((CBLAS_UPLO_t )arg1,arg2,(gsl_matrix_complex const *)arg3,(gsl_vector_complex const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix3);
@@ -25042,7 +18256,6 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_blas_zgeru",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -25069,29 +18282,6 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -25115,29 +18305,6 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -25160,20 +18327,8 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zgeru(arg1,(gsl_vector_complex const *)arg2,(gsl_vector_complex const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -25218,7 +18373,6 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_blas_zgerc",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj0, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -25245,29 +18399,6 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -25291,29 +18422,6 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -25336,20 +18444,8 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zgerc(arg1,(gsl_vector_complex const *)arg2,(gsl_vector_complex const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -25408,29 +18504,6 @@ static PyObject *_wrap_gsl_blas_zher(PyObject *self, PyObject *args, PyObject *k
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -25453,20 +18526,8 @@ static PyObject *_wrap_gsl_blas_zher(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_zher((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_complex const *)arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -25512,7 +18573,6 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iOOOO:gsl_blas_zher2",kwnames,&arg1,&obj1,&obj2,&obj3,&obj4)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -25539,29 +18599,6 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg3 = (gsl_vector_complex *) &(_vector3.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector3.vector.size < 6) ? 
-            _vector3.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            3, _PyVector3, _PyVector3, 
-            &_vector3.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector3.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -25585,29 +18622,6 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg4 = (gsl_vector_complex *) &(_vector4.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector4.vector.size < 6) ? 
-            _vector4.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            4, _PyVector4, _PyVector4, 
-            &_vector4.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector4.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -25630,20 +18644,8 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zher2((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_complex const *)arg3,(gsl_vector_complex const *)arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix5);
@@ -25743,20 +18745,8 @@ static PyObject *_wrap_gsl_blas_sgemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_sgemm((CBLAS_TRANSPOSE_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_float const *)arg4,(gsl_matrix_float const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -25872,20 +18862,8 @@ static PyObject *_wrap_gsl_blas_ssymm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ssymm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_float const *)arg4,(gsl_matrix_float const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -25978,20 +18956,8 @@ static PyObject *_wrap_gsl_blas_ssyrk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ssyrk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_float const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -26099,20 +19065,8 @@ static PyObject *_wrap_gsl_blas_ssyr2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_ssyr2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_float const *)arg4,(gsl_matrix_float const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -26206,20 +19160,8 @@ static PyObject *_wrap_gsl_blas_strmm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_strmm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_float const *)arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix6);
@@ -26305,20 +19247,8 @@ static PyObject *_wrap_gsl_blas_strsm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_strsm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_float const *)arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix6);
@@ -26426,20 +19356,8 @@ static PyObject *_wrap_gsl_blas_dgemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dgemm((CBLAS_TRANSPOSE_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix const *)arg4,(gsl_matrix const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -26555,20 +19473,8 @@ static PyObject *_wrap_gsl_blas_dsymm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dsymm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix const *)arg4,(gsl_matrix const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -26661,20 +19567,8 @@ static PyObject *_wrap_gsl_blas_dsyrk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dsyrk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -26782,20 +19676,8 @@ static PyObject *_wrap_gsl_blas_dsyr2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_dsyr2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix const *)arg4,(gsl_matrix const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -26889,20 +19771,8 @@ static PyObject *_wrap_gsl_blas_dtrmm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dtrmm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix const *)arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix6);
@@ -26988,20 +19858,8 @@ static PyObject *_wrap_gsl_blas_dtrsm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dtrsm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix const *)arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix6);
@@ -27058,7 +19916,6 @@ static PyObject *_wrap_gsl_blas_cgemm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOOO:gsl_blas_cgemm",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27099,7 +19956,6 @@ static PyObject *_wrap_gsl_blas_cgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj5, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27125,20 +19981,8 @@ static PyObject *_wrap_gsl_blas_cgemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cgemm((CBLAS_TRANSPOSE_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -27203,7 +20047,6 @@ static PyObject *_wrap_gsl_blas_csymm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOOO:gsl_blas_csymm",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27244,7 +20087,6 @@ static PyObject *_wrap_gsl_blas_csymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj5, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27270,20 +20112,8 @@ static PyObject *_wrap_gsl_blas_csymm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_csymm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -27342,7 +20172,6 @@ static PyObject *_wrap_gsl_blas_csyrk(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOO:gsl_blas_csyrk",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27366,7 +20195,6 @@ static PyObject *_wrap_gsl_blas_csyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27392,20 +20220,8 @@ static PyObject *_wrap_gsl_blas_csyrk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_csyrk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -27462,7 +20278,6 @@ static PyObject *_wrap_gsl_blas_csyr2k(PyObject *self, PyObject *args, PyObject 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOOO:gsl_blas_csyr2k",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27503,7 +20318,6 @@ static PyObject *_wrap_gsl_blas_csyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj5, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27529,20 +20343,8 @@ static PyObject *_wrap_gsl_blas_csyr2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_csyr2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -27601,7 +20403,6 @@ static PyObject *_wrap_gsl_blas_ctrmm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiiOOO:gsl_blas_ctrmm",kwnames,&arg1,&arg2,&arg3,&arg4,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27644,20 +20445,8 @@ static PyObject *_wrap_gsl_blas_ctrmm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ctrmm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_complex_float const *)arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix6);
@@ -27708,7 +20497,6 @@ static PyObject *_wrap_gsl_blas_ctrsm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiiOOO:gsl_blas_ctrsm",kwnames,&arg1,&arg2,&arg3,&arg4,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27751,20 +20539,8 @@ static PyObject *_wrap_gsl_blas_ctrsm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ctrsm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_complex_float const *)arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix6);
@@ -27821,7 +20597,6 @@ static PyObject *_wrap_gsl_blas_zgemm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOOO:gsl_blas_zgemm",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27862,7 +20637,6 @@ static PyObject *_wrap_gsl_blas_zgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj5, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -27888,20 +20662,8 @@ static PyObject *_wrap_gsl_blas_zgemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zgemm((CBLAS_TRANSPOSE_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -27966,7 +20728,6 @@ static PyObject *_wrap_gsl_blas_zsymm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOOO:gsl_blas_zsymm",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28007,7 +20768,6 @@ static PyObject *_wrap_gsl_blas_zsymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj5, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28033,20 +20793,8 @@ static PyObject *_wrap_gsl_blas_zsymm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zsymm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -28105,7 +20853,6 @@ static PyObject *_wrap_gsl_blas_zsyrk(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOO:gsl_blas_zsyrk",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28129,7 +20876,6 @@ static PyObject *_wrap_gsl_blas_zsyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28155,20 +20901,8 @@ static PyObject *_wrap_gsl_blas_zsyrk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zsyrk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -28225,7 +20959,6 @@ static PyObject *_wrap_gsl_blas_zsyr2k(PyObject *self, PyObject *args, PyObject 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOOO:gsl_blas_zsyr2k",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28266,7 +20999,6 @@ static PyObject *_wrap_gsl_blas_zsyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj5, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28292,20 +21024,8 @@ static PyObject *_wrap_gsl_blas_zsyr2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_zsyr2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -28364,7 +21084,6 @@ static PyObject *_wrap_gsl_blas_ztrmm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiiOOO:gsl_blas_ztrmm",kwnames,&arg1,&arg2,&arg3,&arg4,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28407,20 +21126,8 @@ static PyObject *_wrap_gsl_blas_ztrmm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ztrmm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_complex const *)arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix6);
@@ -28471,7 +21178,6 @@ static PyObject *_wrap_gsl_blas_ztrsm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiiiOOO:gsl_blas_ztrsm",kwnames,&arg1,&arg2,&arg3,&arg4,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj4, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28514,20 +21220,8 @@ static PyObject *_wrap_gsl_blas_ztrsm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ztrsm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_complex const *)arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix6);
@@ -28584,7 +21278,6 @@ static PyObject *_wrap_gsl_blas_chemm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOOO:gsl_blas_chemm",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28625,7 +21318,6 @@ static PyObject *_wrap_gsl_blas_chemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj5, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28651,20 +21343,8 @@ static PyObject *_wrap_gsl_blas_chemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_chemm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -28757,20 +21437,8 @@ static PyObject *_wrap_gsl_blas_cherk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cherk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -28826,7 +21494,6 @@ static PyObject *_wrap_gsl_blas_cher2k(PyObject *self, PyObject *args, PyObject 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOfO:gsl_blas_cher2k",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&arg6,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -28886,20 +21553,8 @@ static PyObject *_wrap_gsl_blas_cher2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_cher2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -28964,7 +21619,6 @@ static PyObject *_wrap_gsl_blas_zhemm(PyObject *self, PyObject *args, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOOO:gsl_blas_zhemm",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -29005,7 +21659,6 @@ static PyObject *_wrap_gsl_blas_zhemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj5, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -29031,20 +21684,8 @@ static PyObject *_wrap_gsl_blas_zhemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zhemm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -29137,20 +21778,8 @@ static PyObject *_wrap_gsl_blas_zherk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zherk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -29206,7 +21835,6 @@ static PyObject *_wrap_gsl_blas_zher2k(PyObject *self, PyObject *args, PyObject 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"iiOOOdO:gsl_blas_zher2k",kwnames,&arg1,&arg2,&obj2,&obj3,&obj4,&arg6,&obj6)) goto fail;
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj2, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -29266,20 +21894,8 @@ static PyObject *_wrap_gsl_blas_zher2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_zher2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix4);
@@ -29351,29 +21967,6 @@ static PyObject *_wrap_delete_gsl_eigen_symm_workspace(PyObject *self, PyObject 
 }
 
 
-static PyObject *_wrap_gsl_eigen_symm_workspace_size_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_symm_workspace *arg1 = (gsl_eigen_symm_workspace *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","size", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_symm_workspace_size_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_symm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->size = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_symm_workspace_size_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_symm_workspace *arg1 = (gsl_eigen_symm_workspace *) 0 ;
@@ -29394,28 +21987,6 @@ static PyObject *_wrap_gsl_eigen_symm_workspace_size_get(PyObject *self, PyObjec
 }
 
 
-static PyObject *_wrap_gsl_eigen_symm_workspace_d_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_symm_workspace *arg1 = (gsl_eigen_symm_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","d", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_symm_workspace_d_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_symm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->d = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_symm_workspace_d_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_symm_workspace *arg1 = (gsl_eigen_symm_workspace *) 0 ;
@@ -29430,28 +22001,6 @@ static PyObject *_wrap_gsl_eigen_symm_workspace_d_get(PyObject *self, PyObject *
     result = (double *) ((arg1)->d);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_double, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_eigen_symm_workspace_sd_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_symm_workspace *arg1 = (gsl_eigen_symm_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","sd", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_symm_workspace_sd_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_symm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->sd = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -29585,49 +22134,14 @@ static PyObject *_wrap_gsl_eigen_symm(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_eigen_symm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_eigen_symm(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -29691,29 +22205,6 @@ static PyObject *_wrap_delete_gsl_eigen_symmv_workspace(PyObject *self, PyObject
 }
 
 
-static PyObject *_wrap_gsl_eigen_symmv_workspace_size_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_symmv_workspace *arg1 = (gsl_eigen_symmv_workspace *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","size", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_symmv_workspace_size_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_symmv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->size = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_symmv_workspace_size_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_symmv_workspace *arg1 = (gsl_eigen_symmv_workspace *) 0 ;
@@ -29728,28 +22219,6 @@ static PyObject *_wrap_gsl_eigen_symmv_workspace_size_get(PyObject *self, PyObje
     result = (size_t) ((arg1)->size);
     
     resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_eigen_symmv_workspace_d_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_symmv_workspace *arg1 = (gsl_eigen_symmv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","d", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_symmv_workspace_d_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_symmv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->d = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -29776,28 +22245,6 @@ static PyObject *_wrap_gsl_eigen_symmv_workspace_d_get(PyObject *self, PyObject 
 }
 
 
-static PyObject *_wrap_gsl_eigen_symmv_workspace_sd_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_symmv_workspace *arg1 = (gsl_eigen_symmv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","sd", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_symmv_workspace_sd_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_symmv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->sd = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_symmv_workspace_sd_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_symmv_workspace *arg1 = (gsl_eigen_symmv_workspace *) 0 ;
@@ -29818,28 +22265,6 @@ static PyObject *_wrap_gsl_eigen_symmv_workspace_sd_get(PyObject *self, PyObject
 }
 
 
-static PyObject *_wrap_gsl_eigen_symmv_workspace_gc_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_symmv_workspace *arg1 = (gsl_eigen_symmv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","gc", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_symmv_workspace_gc_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_symmv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->gc = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_symmv_workspace_gc_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_symmv_workspace *arg1 = (gsl_eigen_symmv_workspace *) 0 ;
@@ -29854,28 +22279,6 @@ static PyObject *_wrap_gsl_eigen_symmv_workspace_gc_get(PyObject *self, PyObject
     result = (double *) ((arg1)->gc);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_double, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_eigen_symmv_workspace_gs_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_symmv_workspace *arg1 = (gsl_eigen_symmv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","gs", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_symmv_workspace_gs_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_symmv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->gs = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -30015,29 +22418,6 @@ static PyObject *_wrap_gsl_eigen_symmv(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -30061,20 +22441,8 @@ static PyObject *_wrap_gsl_eigen_symmv(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_eigen_symmv(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -30146,29 +22514,6 @@ static PyObject *_wrap_delete_gsl_eigen_herm_workspace(PyObject *self, PyObject 
 }
 
 
-static PyObject *_wrap_gsl_eigen_herm_workspace_size_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_herm_workspace *arg1 = (gsl_eigen_herm_workspace *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","size", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_herm_workspace_size_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_herm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->size = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_herm_workspace_size_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_herm_workspace *arg1 = (gsl_eigen_herm_workspace *) 0 ;
@@ -30183,28 +22528,6 @@ static PyObject *_wrap_gsl_eigen_herm_workspace_size_get(PyObject *self, PyObjec
     result = (size_t) ((arg1)->size);
     
     resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_eigen_herm_workspace_d_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_herm_workspace *arg1 = (gsl_eigen_herm_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","d", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_herm_workspace_d_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_herm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->d = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -30231,28 +22554,6 @@ static PyObject *_wrap_gsl_eigen_herm_workspace_d_get(PyObject *self, PyObject *
 }
 
 
-static PyObject *_wrap_gsl_eigen_herm_workspace_sd_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_herm_workspace *arg1 = (gsl_eigen_herm_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","sd", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_herm_workspace_sd_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_herm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->sd = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_herm_workspace_sd_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_herm_workspace *arg1 = (gsl_eigen_herm_workspace *) 0 ;
@@ -30267,28 +22568,6 @@ static PyObject *_wrap_gsl_eigen_herm_workspace_sd_get(PyObject *self, PyObject 
     result = (double *) ((arg1)->sd);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_double, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_eigen_herm_workspace_tau_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_herm_workspace *arg1 = (gsl_eigen_herm_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","tau", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_herm_workspace_tau_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_herm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->tau = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -30422,49 +22701,14 @@ static PyObject *_wrap_gsl_eigen_herm(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_eigen_herm_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_eigen_herm(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -30528,29 +22772,6 @@ static PyObject *_wrap_delete_gsl_eigen_hermv_workspace(PyObject *self, PyObject
 }
 
 
-static PyObject *_wrap_gsl_eigen_hermv_workspace_size_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
-    size_t arg2 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","size", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_hermv_workspace_size_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_hermv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    if (arg1) (arg1)->size = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_hermv_workspace_size_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
@@ -30565,28 +22786,6 @@ static PyObject *_wrap_gsl_eigen_hermv_workspace_size_get(PyObject *self, PyObje
     result = (size_t) ((arg1)->size);
     
     resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_eigen_hermv_workspace_d_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","d", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_hermv_workspace_d_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_hermv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->d = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -30613,28 +22812,6 @@ static PyObject *_wrap_gsl_eigen_hermv_workspace_d_get(PyObject *self, PyObject 
 }
 
 
-static PyObject *_wrap_gsl_eigen_hermv_workspace_sd_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","sd", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_hermv_workspace_sd_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_hermv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->sd = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_hermv_workspace_sd_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
@@ -30649,28 +22826,6 @@ static PyObject *_wrap_gsl_eigen_hermv_workspace_sd_get(PyObject *self, PyObject
     result = (double *) ((arg1)->sd);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_double, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_eigen_hermv_workspace_tau_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","tau", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_hermv_workspace_tau_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_hermv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->tau = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -30697,28 +22852,6 @@ static PyObject *_wrap_gsl_eigen_hermv_workspace_tau_get(PyObject *self, PyObjec
 }
 
 
-static PyObject *_wrap_gsl_eigen_hermv_workspace_gc_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","gc", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_hermv_workspace_gc_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_hermv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->gc = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_gsl_eigen_hermv_workspace_gc_get(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
@@ -30733,28 +22866,6 @@ static PyObject *_wrap_gsl_eigen_hermv_workspace_gc_get(PyObject *self, PyObject
     result = (double *) ((arg1)->gc);
     
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_double, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_eigen_hermv_workspace_gs_set(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_eigen_hermv_workspace *arg1 = (gsl_eigen_hermv_workspace *) 0 ;
-    double *arg2 = (double *) 0 ;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","gs", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_eigen_hermv_workspace_gs_set",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_eigen_hermv_workspace,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN )) == -1) SWIG_fail;
-    if (arg1) (arg1)->gs = arg2;
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
     return NULL;
@@ -30894,29 +23005,6 @@ static PyObject *_wrap_gsl_eigen_hermv(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -30940,20 +23028,8 @@ static PyObject *_wrap_gsl_eigen_hermv(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_eigen_hermv(arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -31027,29 +23103,6 @@ static PyObject *_wrap_gsl_eigen_symmv_sort(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -31072,20 +23125,8 @@ static PyObject *_wrap_gsl_eigen_symmv_sort(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_eigen_symmv_sort(arg1,arg2,(gsl_eigen_sort_t )arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -31151,29 +23192,6 @@ static PyObject *_wrap_gsl_eigen_hermv_sort(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -31196,20 +23214,8 @@ static PyObject *_wrap_gsl_eigen_hermv_sort(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_eigen_hermv_sort(arg1,arg2,(gsl_eigen_sort_t )arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -31301,29 +23307,6 @@ static PyObject *_wrap_gsl_eigen_jacobi(PyObject *self, PyObject *args, PyObject
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -31349,20 +23332,8 @@ static PyObject *_wrap_gsl_eigen_jacobi(PyObject *self, PyObject *args, PyObject
     result = (int)gsl_eigen_jacobi(arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -31455,20 +23426,8 @@ static PyObject *_wrap_gsl_eigen_invert_jacobi(PyObject *self, PyObject *args, P
     result = (int)gsl_eigen_invert_jacobi((gsl_matrix const *)arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -31568,20 +23527,8 @@ static PyObject *_wrap_gsl_spline_init(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_spline_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -31596,34 +23543,26 @@ static PyObject *_wrap_gsl_spline_eval_e(PyObject *self, PyObject *args, PyObjec
     gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
     double *arg4 = (double *) 0 ;
     int result;
+    double temp4 ;
     PyObject * obj0 = 0 ;
     PyObject * obj2 = 0 ;
-    PyObject * obj3 = 0 ;
     char *kwnames[] = {
-        "spline","x","a","y", NULL 
+        "spline","x","a", NULL 
     };
     
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdOO:gsl_spline_eval_e",kwnames,&obj0,&arg2,&obj2,&obj3)) goto fail;
+    arg4 = &temp4;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval_e",kwnames,&obj0,&arg2,&obj2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_spline_eval_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg4));
+        resultobj = t_output_helper(resultobj,o);
     }
     return resultobj;
     fail:
@@ -31662,34 +23601,26 @@ static PyObject *_wrap_gsl_spline_eval_deriv_e(PyObject *self, PyObject *args, P
     gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
     double *arg4 = (double *) 0 ;
     int result;
+    double temp4 ;
     PyObject * obj0 = 0 ;
     PyObject * obj2 = 0 ;
-    PyObject * obj3 = 0 ;
     char *kwnames[] = {
-        "spline","x","a","OUT", NULL 
+        "spline","x","a", NULL 
     };
     
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdOO:gsl_spline_eval_deriv_e",kwnames,&obj0,&arg2,&obj2,&obj3)) goto fail;
+    arg4 = &temp4;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval_deriv_e",kwnames,&obj0,&arg2,&obj2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_spline_eval_deriv_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg4));
+        resultobj = t_output_helper(resultobj,o);
     }
     return resultobj;
     fail:
@@ -31728,34 +23659,26 @@ static PyObject *_wrap_gsl_spline_eval_deriv2_e(PyObject *self, PyObject *args, 
     gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
     double *arg4 = (double *) 0 ;
     int result;
+    double temp4 ;
     PyObject * obj0 = 0 ;
     PyObject * obj2 = 0 ;
-    PyObject * obj3 = 0 ;
     char *kwnames[] = {
-        "spline","x","a","OUT", NULL 
+        "spline","x","a", NULL 
     };
     
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdOO:gsl_spline_eval_deriv2_e",kwnames,&obj0,&arg2,&obj2,&obj3)) goto fail;
+    arg4 = &temp4;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval_deriv2_e",kwnames,&obj0,&arg2,&obj2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_spline_eval_deriv2_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg4));
+        resultobj = t_output_helper(resultobj,o);
     }
     return resultobj;
     fail:
@@ -31795,34 +23718,26 @@ static PyObject *_wrap_gsl_spline_eval_integ_e(PyObject *self, PyObject *args, P
     gsl_interp_accel *arg4 = (gsl_interp_accel *) 0 ;
     double *arg5 = (double *) 0 ;
     int result;
+    double temp5 ;
     PyObject * obj0 = 0 ;
     PyObject * obj3 = 0 ;
-    PyObject * obj4 = 0 ;
     char *kwnames[] = {
-        "spline","a","b","acc","OUT", NULL 
+        "spline","a","b","acc", NULL 
     };
     
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OddOO:gsl_spline_eval_integ_e",kwnames,&obj0,&arg2,&arg3,&obj3,&obj4)) goto fail;
+    arg5 = &temp5;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OddO:gsl_spline_eval_integ_e",kwnames,&obj0,&arg2,&arg3,&obj3)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj4,(void **) &arg5, SWIGTYPE_p_double,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     result = (int)gsl_spline_eval_integ_e((gsl_spline const *)arg1,arg2,arg3,arg4,arg5);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
+    }
+    {
+        PyObject *o = PyFloat_FromDouble((double) (*arg5));
+        resultobj = t_output_helper(resultobj,o);
     }
     return resultobj;
     fail:
@@ -31875,15 +23790,8 @@ static PyObject *_wrap_gsl_spline_free(PyObject *self, PyObject *args, PyObject 
 
 
 static int _wrap_gsl_interp_linear_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_linear (gsl_interp_type *)'");
-            return 1;
-        }
-        gsl_interp_linear = (gsl_interp_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_interp_linear is read-only.");
+    return 1;
 }
 
 
@@ -31896,15 +23804,8 @@ static PyObject *_wrap_gsl_interp_linear_get() {
 
 
 static int _wrap_gsl_interp_polynomial_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_polynomial (gsl_interp_type *)'");
-            return 1;
-        }
-        gsl_interp_polynomial = (gsl_interp_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_interp_polynomial is read-only.");
+    return 1;
 }
 
 
@@ -31917,15 +23818,8 @@ static PyObject *_wrap_gsl_interp_polynomial_get() {
 
 
 static int _wrap_gsl_interp_cspline_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_cspline (gsl_interp_type *)'");
-            return 1;
-        }
-        gsl_interp_cspline = (gsl_interp_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_interp_cspline is read-only.");
+    return 1;
 }
 
 
@@ -31938,15 +23832,8 @@ static PyObject *_wrap_gsl_interp_cspline_get() {
 
 
 static int _wrap_gsl_interp_cspline_periodic_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_cspline_periodic (gsl_interp_type *)'");
-            return 1;
-        }
-        gsl_interp_cspline_periodic = (gsl_interp_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_interp_cspline_periodic is read-only.");
+    return 1;
 }
 
 
@@ -31959,15 +23846,8 @@ static PyObject *_wrap_gsl_interp_cspline_periodic_get() {
 
 
 static int _wrap_gsl_interp_akima_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_akima (gsl_interp_type *)'");
-            return 1;
-        }
-        gsl_interp_akima = (gsl_interp_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_interp_akima is read-only.");
+    return 1;
 }
 
 
@@ -31980,15 +23860,8 @@ static PyObject *_wrap_gsl_interp_akima_get() {
 
 
 static int _wrap_gsl_interp_akima_periodic_set(PyObject *_val) {
-    {
-        void *temp;
-        if ((SWIG_ConvertPtr(_val,(void **) &temp, SWIGTYPE_p_gsl_interp_type, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN)) == -1) {
-            PyErr_SetString(PyExc_TypeError, "C variable 'gsl_interp_akima_periodic (gsl_interp_type *)'");
-            return 1;
-        }
-        gsl_interp_akima_periodic = (gsl_interp_type *) temp;
-    }
-    return 0;
+    PyErr_SetString(PyExc_TypeError,"Variable gsl_interp_akima_periodic is read-only.");
+    return 1;
 }
 
 
@@ -32069,20 +23942,8 @@ static PyObject *_wrap_gsl_interp_accel_reset(PyObject *self, PyObject *args, Py
     result = (int)gsl_interp_accel_reset(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -32185,20 +24046,8 @@ static PyObject *_wrap_gsl_interp_init(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_interp_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     return resultobj;
     fail:
@@ -32308,20 +24157,8 @@ static PyObject *_wrap_gsl_interp_eval_e(PyObject *self, PyObject *args, PyObjec
     result = (int)gsl_interp_eval_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg6));
@@ -32460,20 +24297,8 @@ static PyObject *_wrap_gsl_interp_eval_deriv_e(PyObject *self, PyObject *args, P
     result = (int)gsl_interp_eval_deriv_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg6));
@@ -32612,20 +24437,8 @@ static PyObject *_wrap_gsl_interp_eval_deriv2_e(PyObject *self, PyObject *args, 
     result = (int)gsl_interp_eval_deriv2_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg6));
@@ -32765,20 +24578,8 @@ static PyObject *_wrap_gsl_interp_eval_integ_e(PyObject *self, PyObject *args, P
     result = (int)gsl_interp_eval_integ_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6,arg7);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg7));
@@ -33019,22 +24820,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_fft_complex_radix2_dif_transform", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_transform, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"new_gsl_fft_complex_wavetable", (PyCFunction) _wrap_new_gsl_fft_complex_wavetable, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_gsl_fft_complex_wavetable", (PyCFunction) _wrap_delete_gsl_fft_complex_wavetable, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_n_set", (PyCFunction) _wrap_gsl_fft_complex_wavetable_n_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_wavetable_n_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_n_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_nf_set", (PyCFunction) _wrap_gsl_fft_complex_wavetable_nf_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_wavetable_nf_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_nf_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_factor_set", (PyCFunction) _wrap_gsl_fft_complex_wavetable_factor_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_wavetable_factor_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_factor_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_twiddle_set", (PyCFunction) _wrap_gsl_fft_complex_wavetable_twiddle_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_wavetable_twiddle_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_twiddle_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_trig_set", (PyCFunction) _wrap_gsl_fft_complex_wavetable_trig_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_wavetable_trig_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_trig_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_wavetable_swigregister", gsl_fft_complex_wavetable_swigregister, METH_VARARGS },
 	 { (char *)"new_gsl_fft_complex_workspace", (PyCFunction) _wrap_new_gsl_fft_complex_workspace, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_gsl_fft_complex_workspace", (PyCFunction) _wrap_delete_gsl_fft_complex_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_workspace_n_set", (PyCFunction) _wrap_gsl_fft_complex_workspace_n_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_workspace_n_get", (PyCFunction) _wrap_gsl_fft_complex_workspace_n_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_workspace_scratch_set", (PyCFunction) _wrap_gsl_fft_complex_workspace_scratch_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_workspace_scratch_get", (PyCFunction) _wrap_gsl_fft_complex_workspace_scratch_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_complex_workspace_swigregister", gsl_fft_complex_workspace_swigregister, METH_VARARGS },
 	 { (char *)"gsl_fft_complex_wavetable_alloc", (PyCFunction) _wrap_gsl_fft_complex_wavetable_alloc, METH_VARARGS | METH_KEYWORDS },
@@ -33049,22 +24843,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_fft_real_radix2_transform", (PyCFunction) _wrap_gsl_fft_real_radix2_transform, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"new_gsl_fft_real_wavetable", (PyCFunction) _wrap_new_gsl_fft_real_wavetable, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_gsl_fft_real_wavetable", (PyCFunction) _wrap_delete_gsl_fft_real_wavetable, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_n_set", (PyCFunction) _wrap_gsl_fft_real_wavetable_n_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_wavetable_n_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_n_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_nf_set", (PyCFunction) _wrap_gsl_fft_real_wavetable_nf_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_wavetable_nf_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_nf_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_factor_set", (PyCFunction) _wrap_gsl_fft_real_wavetable_factor_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_wavetable_factor_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_factor_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_twiddle_set", (PyCFunction) _wrap_gsl_fft_real_wavetable_twiddle_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_wavetable_twiddle_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_twiddle_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_trig_set", (PyCFunction) _wrap_gsl_fft_real_wavetable_trig_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_wavetable_trig_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_trig_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_wavetable_swigregister", gsl_fft_real_wavetable_swigregister, METH_VARARGS },
 	 { (char *)"new_gsl_fft_real_workspace", (PyCFunction) _wrap_new_gsl_fft_real_workspace, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_gsl_fft_real_workspace", (PyCFunction) _wrap_delete_gsl_fft_real_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_workspace_n_set", (PyCFunction) _wrap_gsl_fft_real_workspace_n_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_workspace_n_get", (PyCFunction) _wrap_gsl_fft_real_workspace_n_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_workspace_scratch_set", (PyCFunction) _wrap_gsl_fft_real_workspace_scratch_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_workspace_scratch_get", (PyCFunction) _wrap_gsl_fft_real_workspace_scratch_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_workspace_swigregister", gsl_fft_real_workspace_swigregister, METH_VARARGS },
 	 { (char *)"gsl_fft_real_wavetable_alloc", (PyCFunction) _wrap_gsl_fft_real_wavetable_alloc, METH_VARARGS | METH_KEYWORDS },
@@ -33073,12 +24860,17 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_fft_real_workspace_free", (PyCFunction) _wrap_gsl_fft_real_workspace_free, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_transform", (PyCFunction) _wrap_gsl_fft_real_transform, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fft_real_unpack", (PyCFunction) _wrap_gsl_fft_real_unpack, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"Permutation_size_set", (PyCFunction) _wrap_Permutation_size_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation_size_get", (PyCFunction) _wrap_Permutation_size_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"Permutation_data_set", (PyCFunction) _wrap_Permutation_data_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation_data_get", (PyCFunction) _wrap_Permutation_data_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"new_Permutation", (PyCFunction) _wrap_new_Permutation, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_Permutation", (PyCFunction) _wrap_delete_Permutation, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation__linear_to_canonical", (PyCFunction) _wrap_Permutation__linear_to_canonical, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation__canonical_to_linear", (PyCFunction) _wrap_Permutation__canonical_to_linear, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation__mul", (PyCFunction) _wrap_Permutation__mul, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation_inversions", (PyCFunction) _wrap_Permutation_inversions, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation_linear_cycles", (PyCFunction) _wrap_Permutation_linear_cycles, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation_canonical_cycles", (PyCFunction) _wrap_Permutation_canonical_cycles, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation__inverse", (PyCFunction) _wrap_Permutation__inverse, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation___getitem__", (PyCFunction) _wrap_Permutation___getitem__, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation_swap", (PyCFunction) _wrap_Permutation_swap, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation___len__", (PyCFunction) _wrap_Permutation___len__, METH_VARARGS | METH_KEYWORDS },
@@ -33087,6 +24879,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Permutation_next", (PyCFunction) _wrap_Permutation_next, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation_prev", (PyCFunction) _wrap_Permutation_prev, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation___str__", (PyCFunction) _wrap_Permutation___str__, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation_tolist", (PyCFunction) _wrap_Permutation_tolist, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Permutation_toarray", (PyCFunction) _wrap_Permutation_toarray, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation_swigregister", Permutation_swigregister, METH_VARARGS },
 	 { (char *)"gsl_permutation_alloc", (PyCFunction) _wrap_gsl_permutation_alloc, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_permutation_calloc", (PyCFunction) _wrap_gsl_permutation_calloc, METH_VARARGS | METH_KEYWORDS },
@@ -33112,6 +24906,19 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_permutation_inversions", (PyCFunction) _wrap_gsl_permutation_inversions, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_permutation_linear_cycles", (PyCFunction) _wrap_gsl_permutation_linear_cycles, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_permutation_canonical_cycles", (PyCFunction) _wrap_gsl_permutation_canonical_cycles, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"new_Combination", (PyCFunction) _wrap_new_Combination, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"delete_Combination", (PyCFunction) _wrap_delete_Combination, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination___getitem__", (PyCFunction) _wrap_Combination___getitem__, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_k", (PyCFunction) _wrap_Combination_k, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_n", (PyCFunction) _wrap_Combination_n, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_init_first", (PyCFunction) _wrap_Combination_init_first, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_init_last", (PyCFunction) _wrap_Combination_init_last, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_valid", (PyCFunction) _wrap_Combination_valid, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_next", (PyCFunction) _wrap_Combination_next, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_prev", (PyCFunction) _wrap_Combination_prev, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_tolist", (PyCFunction) _wrap_Combination_tolist, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_toarray", (PyCFunction) _wrap_Combination_toarray, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"Combination_swigregister", Combination_swigregister, METH_VARARGS },
 	 { (char *)"gsl_max", (PyCFunction) _wrap_gsl_max, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_min", (PyCFunction) _wrap_gsl_min, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_log1p", (PyCFunction) _wrap_gsl_log1p, METH_VARARGS | METH_KEYWORDS },
@@ -33241,11 +25048,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_blas_zher2k", (PyCFunction) _wrap_gsl_blas_zher2k, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"new_gsl_eigen_symm_workspace", (PyCFunction) _wrap_new_gsl_eigen_symm_workspace, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_gsl_eigen_symm_workspace", (PyCFunction) _wrap_delete_gsl_eigen_symm_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_symm_workspace_size_set", (PyCFunction) _wrap_gsl_eigen_symm_workspace_size_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symm_workspace_size_get", (PyCFunction) _wrap_gsl_eigen_symm_workspace_size_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_symm_workspace_d_set", (PyCFunction) _wrap_gsl_eigen_symm_workspace_d_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symm_workspace_d_get", (PyCFunction) _wrap_gsl_eigen_symm_workspace_d_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_symm_workspace_sd_set", (PyCFunction) _wrap_gsl_eigen_symm_workspace_sd_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symm_workspace_sd_get", (PyCFunction) _wrap_gsl_eigen_symm_workspace_sd_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symm_workspace_swigregister", gsl_eigen_symm_workspace_swigregister, METH_VARARGS },
 	 { (char *)"gsl_eigen_symm_alloc", (PyCFunction) _wrap_gsl_eigen_symm_alloc, METH_VARARGS | METH_KEYWORDS },
@@ -33253,15 +25057,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_eigen_symm", (PyCFunction) _wrap_gsl_eigen_symm, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"new_gsl_eigen_symmv_workspace", (PyCFunction) _wrap_new_gsl_eigen_symmv_workspace, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_gsl_eigen_symmv_workspace", (PyCFunction) _wrap_delete_gsl_eigen_symmv_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_symmv_workspace_size_set", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_size_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symmv_workspace_size_get", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_size_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_symmv_workspace_d_set", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_d_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symmv_workspace_d_get", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_d_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_symmv_workspace_sd_set", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_sd_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symmv_workspace_sd_get", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_sd_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_symmv_workspace_gc_set", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_gc_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symmv_workspace_gc_get", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_gc_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_symmv_workspace_gs_set", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_gs_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symmv_workspace_gs_get", (PyCFunction) _wrap_gsl_eigen_symmv_workspace_gs_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_symmv_workspace_swigregister", gsl_eigen_symmv_workspace_swigregister, METH_VARARGS },
 	 { (char *)"gsl_eigen_symmv_alloc", (PyCFunction) _wrap_gsl_eigen_symmv_alloc, METH_VARARGS | METH_KEYWORDS },
@@ -33269,13 +25068,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_eigen_symmv", (PyCFunction) _wrap_gsl_eigen_symmv, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"new_gsl_eigen_herm_workspace", (PyCFunction) _wrap_new_gsl_eigen_herm_workspace, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_gsl_eigen_herm_workspace", (PyCFunction) _wrap_delete_gsl_eigen_herm_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_herm_workspace_size_set", (PyCFunction) _wrap_gsl_eigen_herm_workspace_size_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_herm_workspace_size_get", (PyCFunction) _wrap_gsl_eigen_herm_workspace_size_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_herm_workspace_d_set", (PyCFunction) _wrap_gsl_eigen_herm_workspace_d_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_herm_workspace_d_get", (PyCFunction) _wrap_gsl_eigen_herm_workspace_d_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_herm_workspace_sd_set", (PyCFunction) _wrap_gsl_eigen_herm_workspace_sd_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_herm_workspace_sd_get", (PyCFunction) _wrap_gsl_eigen_herm_workspace_sd_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_herm_workspace_tau_set", (PyCFunction) _wrap_gsl_eigen_herm_workspace_tau_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_herm_workspace_tau_get", (PyCFunction) _wrap_gsl_eigen_herm_workspace_tau_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_herm_workspace_swigregister", gsl_eigen_herm_workspace_swigregister, METH_VARARGS },
 	 { (char *)"gsl_eigen_herm_alloc", (PyCFunction) _wrap_gsl_eigen_herm_alloc, METH_VARARGS | METH_KEYWORDS },
@@ -33283,17 +25078,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_eigen_herm", (PyCFunction) _wrap_gsl_eigen_herm, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"new_gsl_eigen_hermv_workspace", (PyCFunction) _wrap_new_gsl_eigen_hermv_workspace, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_gsl_eigen_hermv_workspace", (PyCFunction) _wrap_delete_gsl_eigen_hermv_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_hermv_workspace_size_set", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_size_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_hermv_workspace_size_get", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_size_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_hermv_workspace_d_set", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_d_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_hermv_workspace_d_get", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_d_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_hermv_workspace_sd_set", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_sd_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_hermv_workspace_sd_get", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_sd_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_hermv_workspace_tau_set", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_tau_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_hermv_workspace_tau_get", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_tau_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_hermv_workspace_gc_set", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_gc_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_hermv_workspace_gc_get", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_gc_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_eigen_hermv_workspace_gs_set", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_gs_set, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_hermv_workspace_gs_get", (PyCFunction) _wrap_gsl_eigen_hermv_workspace_gs_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_eigen_hermv_workspace_swigregister", gsl_eigen_hermv_workspace_swigregister, METH_VARARGS },
 	 { (char *)"gsl_eigen_hermv_alloc", (PyCFunction) _wrap_gsl_eigen_hermv_alloc, METH_VARARGS | METH_KEYWORDS },
@@ -33353,6 +25142,7 @@ static swig_type_info _swigt__p_gsl_eigen_symm_workspace[] = {{"_p_gsl_eigen_sym
 static swig_type_info _swigt__p_gsl_fft_real_workspace[] = {{"_p_gsl_fft_real_workspace", 0, "gsl_fft_real_workspace *", 0},{"_p_gsl_fft_real_workspace"},{0}};
 static swig_type_info _swigt__p_gsl_fft_complex_workspace[] = {{"_p_gsl_fft_complex_workspace", 0, "gsl_fft_complex_workspace *", 0},{"_p_gsl_fft_complex_workspace"},{0}};
 static swig_type_info _swigt__p_gsl_permutation[] = {{"_p_gsl_permutation", 0, "gsl_permutation const *", 0},{"_p_gsl_permutation_struct"},{"_p_gsl_permutation"},{0}};
+static swig_type_info _swigt__p_gsl_combination_struct[] = {{"_p_gsl_combination_struct", 0, "gsl_combination_struct *", 0},{"_p_gsl_combination_struct"},{0}};
 static swig_type_info _swigt__p_gsl_permutation_struct[] = {{"_p_gsl_permutation_struct", 0, "gsl_permutation_struct *", 0},{"_p_gsl_permutation_struct"},{"_p_gsl_permutation"},{0}};
 static swig_type_info _swigt__p_unsigned_int[] = {{"_p_unsigned_int", 0, "unsigned int *", 0},{"_p_unsigned_int"},{0}};
 static swig_type_info _swigt__p_gsl_vector_complex[] = {{"_p_gsl_vector_complex", 0, "gsl_vector_complex *", 0},{"_p_gsl_vector_complex"},{0}};
@@ -33389,6 +25179,7 @@ _swigt__p_gsl_eigen_symm_workspace,
 _swigt__p_gsl_fft_real_workspace, 
 _swigt__p_gsl_fft_complex_workspace, 
 _swigt__p_gsl_permutation, 
+_swigt__p_gsl_combination_struct, 
 _swigt__p_gsl_permutation_struct, 
 _swigt__p_unsigned_int, 
 _swigt__p_gsl_vector_complex, 
