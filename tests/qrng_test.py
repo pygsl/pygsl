@@ -1,34 +1,22 @@
 #!/usr/bin/env python
-import pygsl._qrng as qrng
+import pygsl.qrng as qrng
 import unittest
-import Numeric
+import pygsl._numobj as Numeric
 import types
 import string
 import copy
-
-
-
-class _QRNGType:
+            
+class _QrngTest(unittest.TestCase):
     _type = None
-
-class Sobol(_QRNGType):
-    _type = qrng.sobol
-    _name = 'sobol'
-    
-class Niederreiter(_QRNGType):
-    _type = qrng.niederreiter_base_2
-    _name = 'niederreiter_base_2'
-    
-class _QrngTestBasics(unittest.TestCase):
-    def testType(self):
-        self.assertRaises(TypeError, qrng.qrng, 2, 2)
+    #def testType(self):
+    #    self.assertRaises(TypeError, qrng.qrng, 2, 2)
 
     def testDims(self):
-        self.assertRaises(ValueError, qrng.qrng, self._type, -1)
+        self.assertRaises(ValueError, self._type, -1)
 
         
     def testName(self):
-        q = qrng.qrng(self._type, 2)
+        q = self._type(2)
         name = q.name()
         assert(type(name) == types.StringType)
         test = 0
@@ -44,28 +32,22 @@ class _QrngTestBasics(unittest.TestCase):
         """
         self and call are calling the same C function. Just test if it is there
         """
-        q = qrng.qrng(self._type, 2)
+        q = self._type(2)
         q.get(5)
         
     def testClone(self):
-        q = qrng.qrng(self._type, 1)
+        q = self._type(1)
         q1 = q.clone()
         for i in range(10):
-            assert(q1() == q())
+            t1 = q1()
+            t = q()
+            assert(len(t1) == len(t))
+            for j in range(len(t1)):
+                assert(t[0,j] == t1[0,j])
 
-    def testCopy(self):
-        """
-        Using clone I should be able to make a copy ...
-        """
-        q = qrng.qrng(self._type, 1)
-        q1 = copy.copy(q)
-        for i in range(10):
-            assert(q1() == q())
 
-            
-class _QrngTest(unittest.TestCase):
     def setUp(self):
-        self.qrng = qrng.qrng(self._type, self._dim)
+        self.qrng = self._type(self._dim)
 
     def __testreturn(self, array, dim0):
         test = 0
@@ -88,8 +70,16 @@ class _QrngTest(unittest.TestCase):
             tmp = self.qrng(i)
             self.__testreturn(tmp, i)
 
-class TestSobolBasics(_QrngTestBasics, Sobol): pass
-class TestNiederreiterBasics(_QrngTestBasics, Niederreiter): pass
+class Sobol:
+    _name = "sobol"
+    def _type(self, dim):
+        return qrng.sobol(dim)
+
+class Niederreiter:
+    _name = "niederreiter_base_2"
+    def _type(self, dim):
+        return qrng.niederreiter_base_2(dim)
+
     
 class _Dim1:    _dim = 1
 class _Dim2:    _dim = 2
@@ -131,8 +121,6 @@ class QRNGTestNiederreiter10(_Dim10, Niederreiter, _QrngTest): pass
 class QRNGTestNiederreiter11(_Dim11, Niederreiter, _QrngTest): pass
 class QRNGTestNiederreiter12(_Dim12, Niederreiter, _QrngTest): pass
 
-del _QrngTestBasics
-del _QRNGType
 del Sobol
 del Niederreiter
 del _QrngTest
