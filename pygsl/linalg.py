@@ -41,14 +41,17 @@ of the matrix P is given by the k-th column of the identity matrix, where
     The algorithm used in the decomposition is Gaussian Elimination with
     partial pivoting (Golub & Van Loan, Matrix Computations, Algorithm 3.4.1).
     """
+    
     p = Permutation(A.shape[1])
     code = A.typecode()
     if code == Numeric.Complex:
         An = A.astype(Numeric.Complex)
-        signum = _gslwrap.gsl_linalg_complex_LU_decomp(An, p)[1]
+        # Now all error flags are turned into python exceptions. So no
+        # unpack necessary any longer.
+        signum = _gslwrap.gsl_linalg_complex_LU_decomp(An, p)
     elif code == Numeric.Float:
         An = A.astype(Numeric.Float)
-        signum = _gslwrap.gsl_linalg_LU_decomp(An, p)[1]
+        signum = _gslwrap.gsl_linalg_LU_decomp(An, p)
     else:
         raise TypeError, "LU must be of type Float or Complex"
     return (An, p, signum)
