@@ -306,7 +306,7 @@ set_api_pointer(void)
     __PyGSL_STATISTICS_API[PyGSL_STATISTICS_d_Add_NUM]  = (void *) PyGSL_statistics_d_Add;
     __PyGSL_STATISTICS_API[PyGSL_STATISTICS_ll_A_NUM]   = (void *) PyGSL_statistics_ll_A;
      PyGSL_STATISTICS_API = __PyGSL_STATISTICS_API;
-     /* fprintf(stderr, "__PyGSL_STATISTICS_API @ %p\n", (void *) __PyGSL_STATISITCS_API); */
+     DEBUG_MESS(2, "__PyGSL_STATISTICS_API @ %p\n", (void *) __PyGSL_STATISTiCS_API);
      FUNC_MESS_END();
 }
 
@@ -316,9 +316,12 @@ DL_EXPORT(void) init_stat(void)
 {
      PyObject *api, *dict, *m;
 
+     FUNC_MESS_BEGIN()
+
+     m = Py_InitModule("_stat", NULL);
      import_array();
      init_pygsl();
-     m = Py_InitModule("_stat", NULL);
+
 
      if(m == NULL)
 	  goto fail;
@@ -334,8 +337,10 @@ DL_EXPORT(void) init_stat(void)
 			  "I could not add  _PYGSL_STATISTICS_API!");
 	  goto fail;
      }
-    return;
+     FUNC_MESS_END();
+     return;
  fail:
+     FUNC_MESS("Failed");
      if(!PyErr_Occurred()){
 	  PyErr_SetString(PyExc_ImportError, "I could not init statistics._stat module!");
      }

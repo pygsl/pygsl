@@ -26,24 +26,9 @@
 
 
 
-/* initialization */
-
-DL_EXPORT(void) inituchar(void)
-{
-    Py_InitModule("uchar", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
-    import_array();
-    init_pygsl();
-    import_pygsl_stats();   
-    return;
-}
 
 
-#undef STATMOD_C_TYPE
-#undef STATMOD_PY_AS_C
-#undef STATMOD_FUNC_EXT
-#undef STATMOD_APPEND_PYC_TYPE
-#undef STATMOD_APPEND_PY_TYPE
-
+PyGSL_STATISTICS_INIT(uchar, "uchar")
 
 
 /*

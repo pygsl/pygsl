@@ -4,7 +4,7 @@
  * file: pygsl/src/statistics/longmodule.c
  * $Id$
  *
- * optional usage of Numeric module, available at http://numpy.sourceforge.net
+ *
  *"
  */
 
@@ -27,17 +27,7 @@
 
 
 
-/* initialization */
-
-DL_EXPORT(void) initchar(void)
-{
-    Py_InitModule("char", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
-    import_array();
-    init_pygsl();
-    import_pygsl_stats();
-    return;
-}
-
+PyGSL_STATISTICS_INIT(char, "char")
 
 
 /*

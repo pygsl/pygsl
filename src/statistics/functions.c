@@ -103,7 +103,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject * self, PyObject *args) \
      return statistics_## type(self, args, STATMOD_FUNC_EXT(gsl_stats,_ ## name)); \
 }
 
-#define STATMOD_FUNCTION_t_A(name)   _STATMOD_FUNCTION_GENERIC(name, t_A)
+#define STATMOD_FUNCTION_t_A(name)    _STATMOD_FUNCTION_GENERIC(name, t_A)
 #define STATMOD_FUNCTION_tt_A(name)   _STATMOD_FUNCTION_GENERIC(name, tt_A)
 
 #undef STATMOD_FUNCTION_GENERIC
@@ -294,6 +294,18 @@ static PyMethodDef STATMOD_APPEND_PYC_TYPE(StatisticsMethods_)[] = {
 
 
 
+/* initialization */
+#define PyGSL_STATISTICS_INIT(type, typestr) \
+DL_EXPORT(void) init ## type (void) \
+{ \
+    FUNC_MESS_BEGIN(); \
+    Py_InitModule(typestr, STATMOD_APPEND_PYC_TYPE(StatisticsMethods_)); \
+    import_array(); \
+    init_pygsl(); \
+    import_pygsl_stats(); \
+    FUNC_MESS_END(); \
+    return; \
+}
 
 
 /*

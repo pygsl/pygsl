@@ -28,15 +28,7 @@
 
 /* initialization */
 
-DL_EXPORT(void) initshort(void)
-{
-    Py_InitModule("short", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
-    import_array();
-    init_pygsl();
-    import_pygsl_stats();
-    return;
-}
-
+PyGSL_STATISTICS_INIT(short, "short")
 
 
 /*

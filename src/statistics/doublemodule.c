@@ -27,17 +27,7 @@
 
 
 
-
-/* initialization */
-
-DL_EXPORT(void) initdouble(void)
-{
-    import_array();
-    init_pygsl();
-    import_pygsl_stats();
-    (void)Py_InitModule("double", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
-    return;
-}
+PyGSL_STATISTICS_INIT(double, "double")
 
 
 
