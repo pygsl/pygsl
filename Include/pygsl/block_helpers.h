@@ -229,7 +229,7 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
  *                             : GSL_SUCCESS | GSL_FAILURE
  *
  */
-int
+PyGSL_API_EXTERN int
 PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n, 
 				PyGSL_error_info * info);
 
