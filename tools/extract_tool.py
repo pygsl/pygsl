@@ -345,7 +345,7 @@ class sf_prototype:
 
         # get parameters from python argument list
         func+="""if (!PyArg_ParseTuple(args, \"%s\", %s)) {
-  /* say a little bit more */
+PyGSL_add_traceback(module, __func__, __file__, __line__ -1);
   return NULL;
 }\n"""%(arg_parse_type,arg_parse_name)
 
@@ -360,10 +360,7 @@ class sf_prototype:
         # check for errors
         func+="""
 if (int_result!=GSL_SUCCESS) {
-  const char* message;
-  message=gsl_strerror(int_result);
-  /* raise exception */
-  PyErr_SetString(gsl_module_error,message);
+  PyGSL_add_traceback(module, __func__, __file__, __line__ -1);
   return NULL;
 }
 """
