@@ -1,0 +1,70 @@
+% Complete documentation on the extended LaTeX markup used for Python
+% documentation is available in ``Documenting Python'', which is part
+% of the standard documentation for Python.  It may be found online
+% at:
+%
+%     http://www.python.org/doc/current/doc/doc.html
+
+\documentclass{manual}
+
+\title{pygsl Manual}
+
+\author{Achim G\"adke, Jochen K\"upper}
+
+% Please at least include a long-lived email address;
+% the rest is at your discretion.
+\authoraddress{
+	Center for applied informatics, Cologne\\
+	Email: \email{achimgaedke@users.sourceforge.net}
+	University of North Carolina\\
+	Email: \email{jochen@jochen-kuepper.de}
+
+}
+
+\date{January, 2002}		% update before release!
+				% Use an explicit date so that reformatting
+				% doesn't cause a new date to be used.  Setting
+				% the date to \today can be used during draft
+				% stages to make it easier to handle versions.
+
+\release{0.0.5}			% release version; this is used to define the
+				% \version macro
+
+\makeindex			% tell \index to actually write the .idx file
+
+\begin{document}
+
+\maketitle
+
+% This makes the contents more accessible from the front page of the HTML.
+\ifhtml
+\chapter*{Front Matter\label{front}}
+\fi
+
+\input{copyright}
+
+\begin{abstract}
+
+\noindent
+pygsl grants python users access to the GNU scientific library.
+More information about pygsl can be found at the project homepage,\url{http://pygsl.sf.net}.
+\end{abstract}
+
+\tableofcontents
+
+
+\chapter{Statistics Module}
+\input{statistics}
+
+\chapter{Histogram Module}
+\input{histogram}
+
+% \appendix
+% \chapter{...}
+% My appendix.
+% The \code{\e appendix} markup need not be repeated for additional
+% appendices.
+
+\input{\jobname.ind}			% Index
+
+\end{document}
