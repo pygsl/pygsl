@@ -106,19 +106,97 @@ PyGSL_add_traceback(PyObject *module, char *filename, char *funcname, int lineno
 }
 
 
+PyObject * PyGSL_get_error_object(int gsl_error)
+{
+     PyObject *gsl_error_module=NULL, *gsl_error_dict=NULL, *gsl_error_object=NULL;
+     char *err_str, *default_err_str="gsl_Error";
+
+     
+     gsl_error_module=PyImport_ImportModule("pygsl.errors");
+     if(!gsl_error_module){
+	  fprintf(stderr, "I could not get module pygsl.errors!");
+	  return NULL;
+     }
+
+     gsl_error_dict=PyModule_GetDict(gsl_error_module);
+     if(!gsl_error_dict){
+	  fprintf(stderr, "I could not get the dictionary of the module pygsl.errors!");
+	  return NULL;
+     }
+
+
+     err_str = default_err_str;
+     switch(gsl_error)
+     {
+     case GSL_FAILURE : err_str = "gsl_Error";                   break;
+     case GSL_CONTINUE: err_str = NULL;                          break;
+     case GSL_EDOM    : err_str = "gsl_DomainError";             break;
+     case GSL_ERANGE  : err_str = "gsl_RangeError";              break;
+     case GSL_EFAULT  : err_str = "gsl_PointerError";            break;
+     case GSL_EINVAL  : err_str = "gsl_InvalidArgumentError";    break;
+     case GSL_EFAILED : err_str = "gsl_GenericError";            break;
+     case GSL_EFACTOR : err_str = "gsl_FactorizationError";      break;
+     case GSL_ESANITY : err_str = "gsl_SanityCheckError";        break;
+     case GSL_ENOMEM  : PyErr_NoMemory();                        break;
+     case GSL_EBADFUNC: err_str = "gsl_BadFuncError";            break;
+     case GSL_ERUNAWAY: err_str = "gsl_RunAwayError";            break;
+     case GSL_EMAXITER: err_str = "gsl_MaximumIterationError";   break;
+     case GSL_EZERODIV: err_str = "gsl_ZeroDivisionError";       break;
+     case GSL_EBADTOL : err_str = "gsl_BadToleranceError";       break;
+     case GSL_ETOL    : err_str = "gsl_ToleranceError";          break;
+     case GSL_EUNDRFLW: err_str = "gsl_UnderflowError";          break;
+     case GSL_EOVRFLW : err_str = "gsl_OverflowError";           break;
+     case GSL_ELOSS   : err_str = "gsl_AccuracyLossError";       break;
+     case GSL_EROUND  : err_str = "gsl_RoundOffError";           break;
+     case GSL_EBADLEN : err_str = "gsl_BadLength";               break;
+     case GSL_ENOTSQR : err_str = "gsl_MatrixNotSquare";         break;
+     case GSL_ESING   : err_str = "gsl_SingularityError";        break;
+     case GSL_EDIVERGE: err_str = "gsl_DivergeError";            break;
+     case GSL_EUNSUP  : err_str = "gsl_NoHardwareSupportError";  break;
+     case GSL_EUNIMPL : err_str = "gsl_NotImplementedError";     break;
+     case GSL_ECACHE  : err_str = "gsl_CacheLimitError";         break;
+     case GSL_ETABLE  : err_str = "gsl_TableLimitError";         break;
+     case GSL_ENOPROG : err_str = "gsl_NoProgressError";         break;
+     case GSL_ENOPROGJ: err_str = "gsl_JacobianEvaluationError"; break;
+     case GSL_ETOLF   : err_str = "gsl_ToleranceFError";         break;
+     case GSL_ETOLX   : err_str = "gsl_ToleranceXError";         break;
+     case GSL_ETOLG   : err_str = "gsl_ToleranceGradientError";  break;
+     case GSL_EOF     : err_str = "gsl_EOFError";                break;
+     default:
+	  err_str = default_err_str;
+     } /* switch(gsl_errno) */
+
+
+     if (err_str == NULL) {
+	  fprintf(stderr, "Pygsl Internal Error. I got an error number of %d. "
+		  "For this errno no approbriate Exception was found!", gsl_error);
+     } else {
+	  gsl_error_object=PyDict_GetItemString(gsl_error_dict, err_str);
+     }
+     return gsl_error_object;
+}
 /*
  * sets the right exception, but does not return to python!
  */
 void PyGSL_module_error_handler(const char *reason, /* name of function*/
-				const char *file, /*from CPP*/
-				int line,   /*from CPP*/
-				int gsl_error) /* real "reason" */
+			const char *file, /*from CPP*/
+			int line,   /*from CPP*/
+			int gsl_error) /* real "reason" */
 {
   const char* error_explanation;
   char error_text[255];
   PyObject* gsl_error_object;
   PyObject* gsl_error_module;
   PyObject* gsl_error_dict;
+
+
+  /*
+   * GSL_ENOMEM is special. I am out of memory. No fancy tricks here.
+   */
+  if (GSL_ENOMEM == gsl_error){
+       PyErr_NoMemory();
+       return;
+  }
 
   error_explanation = gsl_strerror(gsl_error);
   if (error_explanation==NULL)
@@ -158,11 +236,19 @@ void PyGSL_module_error_handler(const char *reason, /* name of function*/
   gsl_error_module=PyImport_ImportModule("pygsl.errors");
   gsl_error_dict=PyModule_GetDict(gsl_error_module);
   Py_INCREF(gsl_error_dict);
+#if 0
   gsl_error_object=PyDict_GetItemString(gsl_error_dict,"gsl_Error");
-  Py_INCREF(gsl_error_object);
-  PyErr_SetObject(gsl_error_object,
-		  PyString_FromString(error_text));
-  Py_DECREF(gsl_error_object);
+#else
+  gsl_error_object=PyGSL_get_error_object(gsl_error);
+#endif 
+  if(gsl_error_object) {
+       Py_INCREF(gsl_error_object);
+       PyErr_SetObject(gsl_error_object,
+		       PyString_FromString(error_text));
+  } else {
+       fprintf(stderr, "pygsl.error. In Function %s. I could not get object gsl_Error!\n", __FUNCTION__);
+  }
+  Py_XDECREF(gsl_error_object);
   Py_DECREF(gsl_error_dict);
   Py_DECREF(gsl_error_module);
   return;
