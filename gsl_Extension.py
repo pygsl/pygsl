@@ -91,7 +91,7 @@ class _gsl_Location_gsl_config(_gsl_Location):
 		self.prefix = self.get_gsl_info('--prefix').strip()
 		self.cflags = self.get_gsl_info('--cflags').strip()
 		self.libs   = self.get_gsl_info('--libs').strip()
-                self.version = self._split_version(self.get_gsl_info('--version').strip())
+                self.version = self._split_version(self.get_gsl_info('--version').strip())[:2]
 		
 		# I am running on swig. I suppose that swig is in the path
 		self.swig = "swig"
