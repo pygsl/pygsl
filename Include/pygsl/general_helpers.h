@@ -36,6 +36,15 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
 int 
 PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info *info);
 
+#define PyGSL_PYLONG_TO_UINT(object, result, info)        \
+  ( PyLong_Check((object)) )                               \
+  ?                                                        \
+   (*(result))   = (unsigned int) PyLong_AsUnsignedLong((object)), GSL_SUCCESS \
+  :  PyGSL_pylong_to_uint((object),  (result), (info))  
+
+int 
+PyGSL_pylong_to_uint(PyObject *object, unsigned int *result, PyGSL_error_info *info);
+
 /*
  * Checks following conditions:
  *  For No Arguments: Got Py_None and No Error
