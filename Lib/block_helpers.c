@@ -10,7 +10,7 @@
  */
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <pygsl/profile.h>
 #include <pygsl/general_helpers.h>
