@@ -681,22 +681,19 @@ static swig_type_info *swig_types[26];
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_complex.h>
-#include <Numeric/arrayobject.h>
 #include <stdlib.h>
 #include <assert.h>
 
 
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_matrix.h>
-#include <Numeric/arrayobject.h>
-#include <typemaps/gsl_block_helpers.ic>
+#include <pygsl/utils.h>
+#include <pygsl/block_helpers.h>
 #include <typemaps/convert_block_description.h>
-#include <utils/util.h>
 #include <string.h>
 #include <assert.h>
 
    
-#include <utils/util.h>  
+#include <pygsl/utils.h>
+#include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
 
 
@@ -731,9 +728,8 @@ static PyObject* t_output_helper(PyObject* target, PyObject* o) {
 
 
 #include <gsl/gsl_errno.h>
-#include <utils/util.h>
-#include <typemaps/gsl_complex_helpers.ic>
-
+#include <pygsl/utils.h>
+#include <pygsl/complex_helpers.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -784,35 +780,7 @@ static PyObject *_wrap_gsl_vector_set_zero(PyObject *self, PyObject *args, PyObj
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
@@ -876,35 +844,7 @@ static PyObject *_wrap_gsl_vector_set_all(PyObject *self, PyObject *args, PyObje
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
@@ -969,53 +909,13 @@ static PyObject *_wrap_gsl_vector_set_basis(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_vector_set_basis(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
@@ -1085,53 +985,13 @@ static PyObject *_wrap_gsl_vector_fread(PyObject *self, PyObject *args, PyObject
     result = (int)gsl_vector_fread(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     {
@@ -1192,48 +1052,13 @@ static PyObject *_wrap_gsl_vector_fwrite(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_fwrite(arg1,(gsl_vector const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -1302,53 +1127,13 @@ static PyObject *_wrap_gsl_vector_fscanf(PyObject *self, PyObject *args, PyObjec
     result = (int)gsl_vector_fscanf(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     {
@@ -1410,48 +1195,13 @@ static PyObject *_wrap_gsl_vector_fprintf(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_fprintf(arg1,(gsl_vector const *)arg2,(char const *)arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyVector2);
@@ -1502,81 +1252,18 @@ static PyObject *_wrap_gsl_vector_reverse(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_reverse(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
@@ -1634,29 +1321,6 @@ static PyObject *_wrap_gsl_vector_swap(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -1680,115 +1344,24 @@ static PyObject *_wrap_gsl_vector_swap(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_swap(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     {
@@ -1852,29 +1425,6 @@ static PyObject *_wrap_gsl_vector_swap_elements(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -1884,53 +1434,13 @@ static PyObject *_wrap_gsl_vector_swap_elements(PyObject *self, PyObject *args, 
     result = (int)gsl_vector_swap_elements(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
@@ -1982,29 +1492,6 @@ static PyObject *_wrap_gsl_vector_max(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_max((gsl_vector const *)arg1);
@@ -2059,29 +1546,6 @@ static PyObject *_wrap_gsl_vector_min(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_min((gsl_vector const *)arg1);
@@ -2141,29 +1605,6 @@ static PyObject *_wrap_gsl_vector_minmax(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_minmax((gsl_vector const *)arg1,arg2,arg3);
@@ -2226,29 +1667,6 @@ static PyObject *_wrap_gsl_vector_max_index(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_max_index((gsl_vector const *)arg1);
@@ -2303,29 +1721,6 @@ static PyObject *_wrap_gsl_vector_min_index(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_min_index((gsl_vector const *)arg1);
@@ -2399,29 +1794,6 @@ static PyObject *_wrap_gsl_vector_minmax_index(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_minmax_index((gsl_vector const *)arg1,arg2,arg3);
@@ -2486,29 +1858,6 @@ static PyObject *_wrap_gsl_vector_isnull(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_isnull((gsl_vector const *)arg1);
@@ -2541,7 +1890,6 @@ static PyObject *_wrap_gsl_matrix_set_zero(PyObject *self, PyObject *args, PyObj
     TYPE_VIEW_gsl_matrix _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_set_zero",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -2553,22 +1901,14 @@ static PyObject *_wrap_gsl_matrix_set_zero(PyObject *self, PyObject *args, PyObj
         (BASIS_TYPE_C_gsl_matrix *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_set_zero(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -2599,7 +1939,6 @@ static PyObject *_wrap_gsl_matrix_set_all(PyObject *self, PyObject *args, PyObje
     TYPE_VIEW_gsl_matrix _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:gsl_matrix_set_all",kwnames,&obj0,&arg2)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -2611,22 +1950,14 @@ static PyObject *_wrap_gsl_matrix_set_all(PyObject *self, PyObject *args, PyObje
         (BASIS_TYPE_C_gsl_matrix *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_set_all(arg1,arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -2656,7 +1987,6 @@ static PyObject *_wrap_gsl_matrix_set_identity(PyObject *self, PyObject *args, P
     TYPE_VIEW_gsl_matrix _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_set_identity",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -2668,22 +1998,14 @@ static PyObject *_wrap_gsl_matrix_set_identity(PyObject *self, PyObject *args, P
         (BASIS_TYPE_C_gsl_matrix *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_set_identity(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -2723,7 +2045,6 @@ static PyObject *_wrap_gsl_matrix_fread(PyObject *self, PyObject *args, PyObject
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -2735,37 +2056,17 @@ static PyObject *_wrap_gsl_matrix_fread(PyObject *self, PyObject *args, PyObject
         (BASIS_TYPE_C_gsl_matrix *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_fread(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -2825,20 +2126,8 @@ static PyObject *_wrap_gsl_matrix_fwrite(PyObject *self, PyObject *args, PyObjec
     result = (int)gsl_matrix_fwrite(arg1,(gsl_matrix const *)arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix2);
@@ -2877,7 +2166,6 @@ static PyObject *_wrap_gsl_matrix_fscanf(PyObject *self, PyObject *args, PyObjec
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -2889,37 +2177,17 @@ static PyObject *_wrap_gsl_matrix_fscanf(PyObject *self, PyObject *args, PyObjec
         (BASIS_TYPE_C_gsl_matrix *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_fscanf(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -2980,20 +2248,8 @@ static PyObject *_wrap_gsl_matrix_fprintf(PyObject *self, PyObject *args, PyObje
     result = (int)gsl_matrix_fprintf(arg1,(gsl_matrix const *)arg2,(char const *)arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         Py_XDECREF(_PyMatrix2);
@@ -3066,41 +2322,17 @@ static PyObject *_wrap_gsl_matrix_swap(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_matrix_swap(arg1,arg2);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -3167,30 +2399,12 @@ static PyObject *_wrap_gsl_matrix_swap_rows(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_matrix_swap_rows(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -3249,30 +2463,12 @@ static PyObject *_wrap_gsl_matrix_swap_columns(PyObject *self, PyObject *args, P
     result = (int)gsl_matrix_swap_columns(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -3331,30 +2527,12 @@ static PyObject *_wrap_gsl_matrix_swap_rowcol(PyObject *self, PyObject *args, Py
     result = (int)gsl_matrix_swap_rowcol(arg1,arg2,arg3);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -3405,30 +2583,12 @@ static PyObject *_wrap_gsl_matrix_transpose(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_matrix_transpose(arg1);
     
     {
-        /* Warning: Swig will treat it as an pointer !! */
-        int flag;
-        flag = result;
-        if(DEBUG > 2){
-            fprintf(stderr,"I got an Error of %d\n", flag);
-        }
-        if(PyErr_Occurred())
-        goto fail;
-        resultobj = PyInt_FromLong((long) flag);
-        if(flag>0){
-            /* How can I end here without an Python error? */
-            gsl_error("Unknown Reason. It was not set by GSL.",  "typemaps/gsl_error_typemap.i", 46, flag);
-            goto fail;
-        }
+        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
+        if (resultobj == NULL) goto fail;
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -3946,12 +3106,9 @@ static PyObject *_wrap_gsl_matrix_diagonal(PyObject *self, PyObject *args, PyObj
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_view);
@@ -4018,12 +3175,9 @@ static PyObject *_wrap_gsl_matrix_subdiagonal(PyObject *self, PyObject *args, Py
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_view);
@@ -4090,12 +3244,9 @@ static PyObject *_wrap_gsl_matrix_superdiagonal(PyObject *self, PyObject *args, 
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_view);
@@ -4169,35 +3320,7 @@ static PyObject *_wrap_gsl_vector_float_set_zero(PyObject *self, PyObject *args,
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -4253,35 +3376,7 @@ static PyObject *_wrap_gsl_vector_float_set_all(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -4341,35 +3436,7 @@ static PyObject *_wrap_gsl_vector_float_set_basis(PyObject *self, PyObject *args
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -4434,35 +3501,7 @@ static PyObject *_wrap_gsl_vector_float_fread(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -4515,29 +3554,6 @@ static PyObject *_wrap_gsl_vector_float_fwrite(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_float_fwrite(arg1,(gsl_vector_float const *)arg2);
@@ -4605,35 +3621,7 @@ static PyObject *_wrap_gsl_vector_float_fscanf(PyObject *self, PyObject *args, P
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -4687,29 +3675,6 @@ static PyObject *_wrap_gsl_vector_float_fprintf(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_float_fprintf(arg1,(gsl_vector_float const *)arg2,(char const *)arg3);
@@ -4756,29 +3721,6 @@ static PyObject *_wrap_gsl_vector_float_reverse(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_float_reverse(arg1);
@@ -4787,35 +3729,7 @@ static PyObject *_wrap_gsl_vector_float_reverse(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -4865,29 +3779,6 @@ static PyObject *_wrap_gsl_vector_float_swap(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -4911,29 +3802,6 @@ static PyObject *_wrap_gsl_vector_float_swap(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_float_swap(arg1,arg2);
@@ -4942,69 +3810,13 @@ static PyObject *_wrap_gsl_vector_float_swap(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -5052,29 +3864,6 @@ static PyObject *_wrap_gsl_vector_float_swap_elements(PyObject *self, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -5087,35 +3876,7 @@ static PyObject *_wrap_gsl_vector_float_swap_elements(PyObject *self, PyObject *
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -5159,29 +3920,6 @@ static PyObject *_wrap_gsl_vector_float_max(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_float_max((gsl_vector_float const *)arg1);
@@ -5228,29 +3966,6 @@ static PyObject *_wrap_gsl_vector_float_min(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_float_min((gsl_vector_float const *)arg1);
@@ -5302,29 +4017,6 @@ static PyObject *_wrap_gsl_vector_float_minmax(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_float_minmax((gsl_vector_float const *)arg1,arg2,arg3);
@@ -5379,29 +4071,6 @@ static PyObject *_wrap_gsl_vector_float_max_index(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_float_max_index((gsl_vector_float const *)arg1);
@@ -5448,29 +4117,6 @@ static PyObject *_wrap_gsl_vector_float_min_index(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_float_min_index((gsl_vector_float const *)arg1);
@@ -5536,29 +4182,6 @@ static PyObject *_wrap_gsl_vector_float_minmax_index(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_float_minmax_index((gsl_vector_float const *)arg1,arg2,arg3);
@@ -5615,29 +4238,6 @@ static PyObject *_wrap_gsl_vector_float_isnull(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_float_isnull((gsl_vector_float const *)arg1);
@@ -5662,7 +4262,6 @@ static PyObject *_wrap_gsl_matrix_float_set_zero(PyObject *self, PyObject *args,
     TYPE_VIEW_gsl_matrix_float _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_float_set_zero",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -5674,22 +4273,14 @@ static PyObject *_wrap_gsl_matrix_float_set_zero(PyObject *self, PyObject *args,
         (BASIS_TYPE_C_gsl_matrix_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_float_set_zero(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -5720,7 +4311,6 @@ static PyObject *_wrap_gsl_matrix_float_set_all(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix_float _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Of:gsl_matrix_float_set_all",kwnames,&obj0,&arg2)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -5732,22 +4322,14 @@ static PyObject *_wrap_gsl_matrix_float_set_all(PyObject *self, PyObject *args, 
         (BASIS_TYPE_C_gsl_matrix_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_float_set_all(arg1,arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -5777,7 +4359,6 @@ static PyObject *_wrap_gsl_matrix_float_set_identity(PyObject *self, PyObject *a
     TYPE_VIEW_gsl_matrix_float _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_float_set_identity",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -5789,22 +4370,14 @@ static PyObject *_wrap_gsl_matrix_float_set_identity(PyObject *self, PyObject *a
         (BASIS_TYPE_C_gsl_matrix_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_float_set_identity(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -5844,7 +4417,6 @@ static PyObject *_wrap_gsl_matrix_float_fread(PyObject *self, PyObject *args, Py
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -5856,22 +4428,14 @@ static PyObject *_wrap_gsl_matrix_float_fread(PyObject *self, PyObject *args, Py
         (BASIS_TYPE_C_gsl_matrix_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_float_fread(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -5968,7 +4532,6 @@ static PyObject *_wrap_gsl_matrix_float_fscanf(PyObject *self, PyObject *args, P
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -5980,22 +4543,14 @@ static PyObject *_wrap_gsl_matrix_float_fscanf(PyObject *self, PyObject *args, P
         (BASIS_TYPE_C_gsl_matrix_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_float_fscanf(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -6130,23 +4685,11 @@ static PyObject *_wrap_gsl_matrix_float_swap(PyObject *self, PyObject *args, PyO
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -6216,12 +4759,6 @@ static PyObject *_wrap_gsl_matrix_float_swap_rows(PyObject *self, PyObject *args
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -6283,12 +4820,6 @@ static PyObject *_wrap_gsl_matrix_float_swap_columns(PyObject *self, PyObject *a
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -6350,12 +4881,6 @@ static PyObject *_wrap_gsl_matrix_float_swap_rowcol(PyObject *self, PyObject *ar
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -6409,12 +4934,6 @@ static PyObject *_wrap_gsl_matrix_float_transpose(PyObject *self, PyObject *args
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -6932,12 +5451,9 @@ static PyObject *_wrap_gsl_matrix_float_diagonal(PyObject *self, PyObject *args,
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_float_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_float_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_float_view);
@@ -7004,12 +5520,9 @@ static PyObject *_wrap_gsl_matrix_float_subdiagonal(PyObject *self, PyObject *ar
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_float_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_float_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_float_view);
@@ -7076,12 +5589,9 @@ static PyObject *_wrap_gsl_matrix_float_superdiagonal(PyObject *self, PyObject *
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_float_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_float_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_float_view);
@@ -7155,35 +5665,7 @@ static PyObject *_wrap_gsl_vector_long_set_zero(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -7239,35 +5721,7 @@ static PyObject *_wrap_gsl_vector_long_set_all(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -7327,35 +5781,7 @@ static PyObject *_wrap_gsl_vector_long_set_basis(PyObject *self, PyObject *args,
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -7420,35 +5846,7 @@ static PyObject *_wrap_gsl_vector_long_fread(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -7501,29 +5899,6 @@ static PyObject *_wrap_gsl_vector_long_fwrite(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_long *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_long_fwrite(arg1,(gsl_vector_long const *)arg2);
@@ -7591,35 +5966,7 @@ static PyObject *_wrap_gsl_vector_long_fscanf(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -7673,29 +6020,6 @@ static PyObject *_wrap_gsl_vector_long_fprintf(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_long *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_long_fprintf(arg1,(gsl_vector_long const *)arg2,(char const *)arg3);
@@ -7742,29 +6066,6 @@ static PyObject *_wrap_gsl_vector_long_reverse(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_long_reverse(arg1);
@@ -7773,35 +6074,7 @@ static PyObject *_wrap_gsl_vector_long_reverse(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -7851,29 +6124,6 @@ static PyObject *_wrap_gsl_vector_long_swap(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -7897,29 +6147,6 @@ static PyObject *_wrap_gsl_vector_long_swap(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_long *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_long_swap(arg1,arg2);
@@ -7928,69 +6155,13 @@ static PyObject *_wrap_gsl_vector_long_swap(PyObject *self, PyObject *args, PyOb
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -8038,29 +6209,6 @@ static PyObject *_wrap_gsl_vector_long_swap_elements(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -8073,35 +6221,7 @@ static PyObject *_wrap_gsl_vector_long_swap_elements(PyObject *self, PyObject *a
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -8145,29 +6265,6 @@ static PyObject *_wrap_gsl_vector_long_max(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_long_max((gsl_vector_long const *)arg1);
@@ -8214,29 +6311,6 @@ static PyObject *_wrap_gsl_vector_long_min(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_long_min((gsl_vector_long const *)arg1);
@@ -8288,29 +6362,6 @@ static PyObject *_wrap_gsl_vector_long_minmax(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_long_minmax((gsl_vector_long const *)arg1,arg2,arg3);
@@ -8365,29 +6416,6 @@ static PyObject *_wrap_gsl_vector_long_max_index(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_long_max_index((gsl_vector_long const *)arg1);
@@ -8434,29 +6462,6 @@ static PyObject *_wrap_gsl_vector_long_min_index(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_long_min_index((gsl_vector_long const *)arg1);
@@ -8522,29 +6527,6 @@ static PyObject *_wrap_gsl_vector_long_minmax_index(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_long_minmax_index((gsl_vector_long const *)arg1,arg2,arg3);
@@ -8601,29 +6583,6 @@ static PyObject *_wrap_gsl_vector_long_isnull(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_long *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_long(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_long_isnull((gsl_vector_long const *)arg1);
@@ -8648,7 +6607,6 @@ static PyObject *_wrap_gsl_matrix_long_set_zero(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix_long _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_long_set_zero",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -8660,22 +6618,14 @@ static PyObject *_wrap_gsl_matrix_long_set_zero(PyObject *self, PyObject *args, 
         (BASIS_TYPE_C_gsl_matrix_long *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_long_set_zero(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -8706,7 +6656,6 @@ static PyObject *_wrap_gsl_matrix_long_set_all(PyObject *self, PyObject *args, P
     TYPE_VIEW_gsl_matrix_long _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Ol:gsl_matrix_long_set_all",kwnames,&obj0,&arg2)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -8718,22 +6667,14 @@ static PyObject *_wrap_gsl_matrix_long_set_all(PyObject *self, PyObject *args, P
         (BASIS_TYPE_C_gsl_matrix_long *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_long_set_all(arg1,arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -8763,7 +6704,6 @@ static PyObject *_wrap_gsl_matrix_long_set_identity(PyObject *self, PyObject *ar
     TYPE_VIEW_gsl_matrix_long _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_long_set_identity",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -8775,22 +6715,14 @@ static PyObject *_wrap_gsl_matrix_long_set_identity(PyObject *self, PyObject *ar
         (BASIS_TYPE_C_gsl_matrix_long *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_long_set_identity(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -8830,7 +6762,6 @@ static PyObject *_wrap_gsl_matrix_long_fread(PyObject *self, PyObject *args, PyO
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -8842,22 +6773,14 @@ static PyObject *_wrap_gsl_matrix_long_fread(PyObject *self, PyObject *args, PyO
         (BASIS_TYPE_C_gsl_matrix_long *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_long_fread(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -8954,7 +6877,6 @@ static PyObject *_wrap_gsl_matrix_long_fscanf(PyObject *self, PyObject *args, Py
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -8966,22 +6888,14 @@ static PyObject *_wrap_gsl_matrix_long_fscanf(PyObject *self, PyObject *args, Py
         (BASIS_TYPE_C_gsl_matrix_long *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_long_fscanf(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -9116,23 +7030,11 @@ static PyObject *_wrap_gsl_matrix_long_swap(PyObject *self, PyObject *args, PyOb
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -9202,12 +7104,6 @@ static PyObject *_wrap_gsl_matrix_long_swap_rows(PyObject *self, PyObject *args,
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -9269,12 +7165,6 @@ static PyObject *_wrap_gsl_matrix_long_swap_columns(PyObject *self, PyObject *ar
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -9336,12 +7226,6 @@ static PyObject *_wrap_gsl_matrix_long_swap_rowcol(PyObject *self, PyObject *arg
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -9395,12 +7279,6 @@ static PyObject *_wrap_gsl_matrix_long_transpose(PyObject *self, PyObject *args,
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -9918,12 +7796,9 @@ static PyObject *_wrap_gsl_matrix_long_diagonal(PyObject *self, PyObject *args, 
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_long_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_long_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_long_view);
@@ -9990,12 +7865,9 @@ static PyObject *_wrap_gsl_matrix_long_subdiagonal(PyObject *self, PyObject *arg
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_long_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_long_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_long_view);
@@ -10062,12 +7934,9 @@ static PyObject *_wrap_gsl_matrix_long_superdiagonal(PyObject *self, PyObject *a
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_long_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_long_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_long_view);
@@ -10141,35 +8010,7 @@ static PyObject *_wrap_gsl_vector_int_set_zero(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -10225,35 +8066,7 @@ static PyObject *_wrap_gsl_vector_int_set_all(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -10313,35 +8126,7 @@ static PyObject *_wrap_gsl_vector_int_set_basis(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -10406,35 +8191,7 @@ static PyObject *_wrap_gsl_vector_int_fread(PyObject *self, PyObject *args, PyOb
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -10487,29 +8244,6 @@ static PyObject *_wrap_gsl_vector_int_fwrite(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_int *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_int_fwrite(arg1,(gsl_vector_int const *)arg2);
@@ -10577,35 +8311,7 @@ static PyObject *_wrap_gsl_vector_int_fscanf(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -10659,29 +8365,6 @@ static PyObject *_wrap_gsl_vector_int_fprintf(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_int *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_int_fprintf(arg1,(gsl_vector_int const *)arg2,(char const *)arg3);
@@ -10728,29 +8411,6 @@ static PyObject *_wrap_gsl_vector_int_reverse(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_int_reverse(arg1);
@@ -10759,35 +8419,7 @@ static PyObject *_wrap_gsl_vector_int_reverse(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -10837,29 +8469,6 @@ static PyObject *_wrap_gsl_vector_int_swap(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -10883,29 +8492,6 @@ static PyObject *_wrap_gsl_vector_int_swap(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_int *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_int_swap(arg1,arg2);
@@ -10914,69 +8500,13 @@ static PyObject *_wrap_gsl_vector_int_swap(PyObject *self, PyObject *args, PyObj
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -11024,29 +8554,6 @@ static PyObject *_wrap_gsl_vector_int_swap_elements(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -11059,35 +8566,7 @@ static PyObject *_wrap_gsl_vector_int_swap_elements(PyObject *self, PyObject *ar
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -11131,29 +8610,6 @@ static PyObject *_wrap_gsl_vector_int_max(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_int_max((gsl_vector_int const *)arg1);
@@ -11200,29 +8656,6 @@ static PyObject *_wrap_gsl_vector_int_min(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_int_min((gsl_vector_int const *)arg1);
@@ -11274,29 +8707,6 @@ static PyObject *_wrap_gsl_vector_int_minmax(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_int_minmax((gsl_vector_int const *)arg1,arg2,arg3);
@@ -11351,29 +8761,6 @@ static PyObject *_wrap_gsl_vector_int_max_index(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_int_max_index((gsl_vector_int const *)arg1);
@@ -11420,29 +8807,6 @@ static PyObject *_wrap_gsl_vector_int_min_index(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_int_min_index((gsl_vector_int const *)arg1);
@@ -11508,29 +8872,6 @@ static PyObject *_wrap_gsl_vector_int_minmax_index(PyObject *self, PyObject *arg
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_int_minmax_index((gsl_vector_int const *)arg1,arg2,arg3);
@@ -11587,29 +8928,6 @@ static PyObject *_wrap_gsl_vector_int_isnull(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_int *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_int(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_int_isnull((gsl_vector_int const *)arg1);
@@ -11634,7 +8952,6 @@ static PyObject *_wrap_gsl_matrix_int_set_zero(PyObject *self, PyObject *args, P
     TYPE_VIEW_gsl_matrix_int _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_int_set_zero",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -11646,22 +8963,14 @@ static PyObject *_wrap_gsl_matrix_int_set_zero(PyObject *self, PyObject *args, P
         (BASIS_TYPE_C_gsl_matrix_int *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_int_set_zero(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -11692,7 +9001,6 @@ static PyObject *_wrap_gsl_matrix_int_set_all(PyObject *self, PyObject *args, Py
     TYPE_VIEW_gsl_matrix_int _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:gsl_matrix_int_set_all",kwnames,&obj0,&arg2)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -11704,22 +9012,14 @@ static PyObject *_wrap_gsl_matrix_int_set_all(PyObject *self, PyObject *args, Py
         (BASIS_TYPE_C_gsl_matrix_int *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_int_set_all(arg1,arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -11749,7 +9049,6 @@ static PyObject *_wrap_gsl_matrix_int_set_identity(PyObject *self, PyObject *arg
     TYPE_VIEW_gsl_matrix_int _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_int_set_identity",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -11761,22 +9060,14 @@ static PyObject *_wrap_gsl_matrix_int_set_identity(PyObject *self, PyObject *arg
         (BASIS_TYPE_C_gsl_matrix_int *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_int_set_identity(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -11816,7 +9107,6 @@ static PyObject *_wrap_gsl_matrix_int_fread(PyObject *self, PyObject *args, PyOb
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -11828,22 +9118,14 @@ static PyObject *_wrap_gsl_matrix_int_fread(PyObject *self, PyObject *args, PyOb
         (BASIS_TYPE_C_gsl_matrix_int *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_int_fread(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -11940,7 +9222,6 @@ static PyObject *_wrap_gsl_matrix_int_fscanf(PyObject *self, PyObject *args, PyO
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -11952,22 +9233,14 @@ static PyObject *_wrap_gsl_matrix_int_fscanf(PyObject *self, PyObject *args, PyO
         (BASIS_TYPE_C_gsl_matrix_int *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_int_fscanf(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -12102,23 +9375,11 @@ static PyObject *_wrap_gsl_matrix_int_swap(PyObject *self, PyObject *args, PyObj
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -12188,12 +9449,6 @@ static PyObject *_wrap_gsl_matrix_int_swap_rows(PyObject *self, PyObject *args, 
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -12255,12 +9510,6 @@ static PyObject *_wrap_gsl_matrix_int_swap_columns(PyObject *self, PyObject *arg
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -12322,12 +9571,6 @@ static PyObject *_wrap_gsl_matrix_int_swap_rowcol(PyObject *self, PyObject *args
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -12381,12 +9624,6 @@ static PyObject *_wrap_gsl_matrix_int_transpose(PyObject *self, PyObject *args, 
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -12904,12 +10141,9 @@ static PyObject *_wrap_gsl_matrix_int_diagonal(PyObject *self, PyObject *args, P
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_int_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_int_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_int_view);
@@ -12976,12 +10210,9 @@ static PyObject *_wrap_gsl_matrix_int_subdiagonal(PyObject *self, PyObject *args
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_int_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_int_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_int_view);
@@ -13048,12 +10279,9 @@ static PyObject *_wrap_gsl_matrix_int_superdiagonal(PyObject *self, PyObject *ar
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_int_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_int_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_int_view);
@@ -13127,35 +10355,7 @@ static PyObject *_wrap_gsl_vector_short_set_zero(PyObject *self, PyObject *args,
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -13211,35 +10411,7 @@ static PyObject *_wrap_gsl_vector_short_set_all(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -13299,35 +10471,7 @@ static PyObject *_wrap_gsl_vector_short_set_basis(PyObject *self, PyObject *args
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -13392,35 +10536,7 @@ static PyObject *_wrap_gsl_vector_short_fread(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -13473,29 +10589,6 @@ static PyObject *_wrap_gsl_vector_short_fwrite(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_short *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_short_fwrite(arg1,(gsl_vector_short const *)arg2);
@@ -13563,35 +10656,7 @@ static PyObject *_wrap_gsl_vector_short_fscanf(PyObject *self, PyObject *args, P
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -13645,29 +10710,6 @@ static PyObject *_wrap_gsl_vector_short_fprintf(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_short *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_short_fprintf(arg1,(gsl_vector_short const *)arg2,(char const *)arg3);
@@ -13714,29 +10756,6 @@ static PyObject *_wrap_gsl_vector_short_reverse(PyObject *self, PyObject *args, 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_short_reverse(arg1);
@@ -13745,35 +10764,7 @@ static PyObject *_wrap_gsl_vector_short_reverse(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -13823,29 +10814,6 @@ static PyObject *_wrap_gsl_vector_short_swap(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -13869,29 +10837,6 @@ static PyObject *_wrap_gsl_vector_short_swap(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_short *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_short_swap(arg1,arg2);
@@ -13900,69 +10845,13 @@ static PyObject *_wrap_gsl_vector_short_swap(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -14010,29 +10899,6 @@ static PyObject *_wrap_gsl_vector_short_swap_elements(PyObject *self, PyObject *
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -14045,35 +10911,7 @@ static PyObject *_wrap_gsl_vector_short_swap_elements(PyObject *self, PyObject *
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -14117,29 +10955,6 @@ static PyObject *_wrap_gsl_vector_short_max(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_short_max((gsl_vector_short const *)arg1);
@@ -14186,29 +11001,6 @@ static PyObject *_wrap_gsl_vector_short_min(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_short_min((gsl_vector_short const *)arg1);
@@ -14260,29 +11052,6 @@ static PyObject *_wrap_gsl_vector_short_minmax(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_short_minmax((gsl_vector_short const *)arg1,arg2,arg3);
@@ -14337,29 +11106,6 @@ static PyObject *_wrap_gsl_vector_short_max_index(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_short_max_index((gsl_vector_short const *)arg1);
@@ -14406,29 +11152,6 @@ static PyObject *_wrap_gsl_vector_short_min_index(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_short_min_index((gsl_vector_short const *)arg1);
@@ -14494,29 +11217,6 @@ static PyObject *_wrap_gsl_vector_short_minmax_index(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_short_minmax_index((gsl_vector_short const *)arg1,arg2,arg3);
@@ -14573,29 +11273,6 @@ static PyObject *_wrap_gsl_vector_short_isnull(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_short *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_short(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_short_isnull((gsl_vector_short const *)arg1);
@@ -14620,7 +11297,6 @@ static PyObject *_wrap_gsl_matrix_short_set_zero(PyObject *self, PyObject *args,
     TYPE_VIEW_gsl_matrix_short _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_short_set_zero",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -14632,22 +11308,14 @@ static PyObject *_wrap_gsl_matrix_short_set_zero(PyObject *self, PyObject *args,
         (BASIS_TYPE_C_gsl_matrix_short *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_short_set_zero(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -14678,7 +11346,6 @@ static PyObject *_wrap_gsl_matrix_short_set_all(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix_short _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oh:gsl_matrix_short_set_all",kwnames,&obj0,&arg2)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -14690,22 +11357,14 @@ static PyObject *_wrap_gsl_matrix_short_set_all(PyObject *self, PyObject *args, 
         (BASIS_TYPE_C_gsl_matrix_short *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_short_set_all(arg1,arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -14735,7 +11394,6 @@ static PyObject *_wrap_gsl_matrix_short_set_identity(PyObject *self, PyObject *a
     TYPE_VIEW_gsl_matrix_short _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_short_set_identity",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -14747,22 +11405,14 @@ static PyObject *_wrap_gsl_matrix_short_set_identity(PyObject *self, PyObject *a
         (BASIS_TYPE_C_gsl_matrix_short *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_short_set_identity(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -14802,7 +11452,6 @@ static PyObject *_wrap_gsl_matrix_short_fread(PyObject *self, PyObject *args, Py
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -14814,22 +11463,14 @@ static PyObject *_wrap_gsl_matrix_short_fread(PyObject *self, PyObject *args, Py
         (BASIS_TYPE_C_gsl_matrix_short *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_short_fread(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -14926,7 +11567,6 @@ static PyObject *_wrap_gsl_matrix_short_fscanf(PyObject *self, PyObject *args, P
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -14938,22 +11578,14 @@ static PyObject *_wrap_gsl_matrix_short_fscanf(PyObject *self, PyObject *args, P
         (BASIS_TYPE_C_gsl_matrix_short *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_short_fscanf(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -15088,23 +11720,11 @@ static PyObject *_wrap_gsl_matrix_short_swap(PyObject *self, PyObject *args, PyO
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -15174,12 +11794,6 @@ static PyObject *_wrap_gsl_matrix_short_swap_rows(PyObject *self, PyObject *args
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -15241,12 +11855,6 @@ static PyObject *_wrap_gsl_matrix_short_swap_columns(PyObject *self, PyObject *a
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -15308,12 +11916,6 @@ static PyObject *_wrap_gsl_matrix_short_swap_rowcol(PyObject *self, PyObject *ar
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -15367,12 +11969,6 @@ static PyObject *_wrap_gsl_matrix_short_transpose(PyObject *self, PyObject *args
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -15890,12 +12486,9 @@ static PyObject *_wrap_gsl_matrix_short_diagonal(PyObject *self, PyObject *args,
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_short_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_short_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_short_view);
@@ -15962,12 +12555,9 @@ static PyObject *_wrap_gsl_matrix_short_subdiagonal(PyObject *self, PyObject *ar
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_short_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_short_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_short_view);
@@ -16034,12 +12624,9 @@ static PyObject *_wrap_gsl_matrix_short_superdiagonal(PyObject *self, PyObject *
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_short_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_short_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_short_view);
@@ -16113,35 +12700,7 @@ static PyObject *_wrap_gsl_vector_char_set_zero(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -16197,35 +12756,7 @@ static PyObject *_wrap_gsl_vector_char_set_all(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -16285,35 +12816,7 @@ static PyObject *_wrap_gsl_vector_char_set_basis(PyObject *self, PyObject *args,
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -16378,35 +12881,7 @@ static PyObject *_wrap_gsl_vector_char_fread(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -16459,29 +12934,6 @@ static PyObject *_wrap_gsl_vector_char_fwrite(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_char *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_char_fwrite(arg1,(gsl_vector_char const *)arg2);
@@ -16549,35 +13001,7 @@ static PyObject *_wrap_gsl_vector_char_fscanf(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -16631,29 +13055,6 @@ static PyObject *_wrap_gsl_vector_char_fprintf(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_char *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_char_fprintf(arg1,(gsl_vector_char const *)arg2,(char const *)arg3);
@@ -16700,29 +13101,6 @@ static PyObject *_wrap_gsl_vector_char_reverse(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_char_reverse(arg1);
@@ -16731,35 +13109,7 @@ static PyObject *_wrap_gsl_vector_char_reverse(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -16809,29 +13159,6 @@ static PyObject *_wrap_gsl_vector_char_swap(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -16855,29 +13182,6 @@ static PyObject *_wrap_gsl_vector_char_swap(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_char *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_char_swap(arg1,arg2);
@@ -16886,69 +13190,13 @@ static PyObject *_wrap_gsl_vector_char_swap(PyObject *self, PyObject *args, PyOb
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -16996,29 +13244,6 @@ static PyObject *_wrap_gsl_vector_char_swap_elements(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -17031,35 +13256,7 @@ static PyObject *_wrap_gsl_vector_char_swap_elements(PyObject *self, PyObject *a
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -17103,29 +13300,6 @@ static PyObject *_wrap_gsl_vector_char_max(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_char_max((gsl_vector_char const *)arg1);
@@ -17172,29 +13346,6 @@ static PyObject *_wrap_gsl_vector_char_min(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (double)gsl_vector_char_min((gsl_vector_char const *)arg1);
@@ -17242,29 +13393,6 @@ static PyObject *_wrap_gsl_vector_char_minmax(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_char_minmax((gsl_vector_char const *)arg1,arg2,arg3);
@@ -17311,29 +13439,6 @@ static PyObject *_wrap_gsl_vector_char_max_index(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_char_max_index((gsl_vector_char const *)arg1);
@@ -17380,29 +13485,6 @@ static PyObject *_wrap_gsl_vector_char_min_index(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (size_t)gsl_vector_char_min_index((gsl_vector_char const *)arg1);
@@ -17468,29 +13550,6 @@ static PyObject *_wrap_gsl_vector_char_minmax_index(PyObject *self, PyObject *ar
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     gsl_vector_char_minmax_index((gsl_vector_char const *)arg1,arg2,arg3);
@@ -17547,29 +13606,6 @@ static PyObject *_wrap_gsl_vector_char_isnull(PyObject *self, PyObject *args, Py
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_char *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_char(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_char_isnull((gsl_vector_char const *)arg1);
@@ -17594,7 +13630,6 @@ static PyObject *_wrap_gsl_matrix_char_set_zero(PyObject *self, PyObject *args, 
     TYPE_VIEW_gsl_matrix_char _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_char_set_zero",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -17606,22 +13641,14 @@ static PyObject *_wrap_gsl_matrix_char_set_zero(PyObject *self, PyObject *args, 
         (BASIS_TYPE_C_gsl_matrix_char *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_char_set_zero(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -17652,7 +13679,6 @@ static PyObject *_wrap_gsl_matrix_char_set_all(PyObject *self, PyObject *args, P
     TYPE_VIEW_gsl_matrix_char _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oc:gsl_matrix_char_set_all",kwnames,&obj0,&arg2)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -17664,22 +13690,14 @@ static PyObject *_wrap_gsl_matrix_char_set_all(PyObject *self, PyObject *args, P
         (BASIS_TYPE_C_gsl_matrix_char *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_char_set_all(arg1,arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -17709,7 +13727,6 @@ static PyObject *_wrap_gsl_matrix_char_set_identity(PyObject *self, PyObject *ar
     TYPE_VIEW_gsl_matrix_char _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_char_set_identity",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -17721,22 +13738,14 @@ static PyObject *_wrap_gsl_matrix_char_set_identity(PyObject *self, PyObject *ar
         (BASIS_TYPE_C_gsl_matrix_char *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_char_set_identity(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -17776,7 +13785,6 @@ static PyObject *_wrap_gsl_matrix_char_fread(PyObject *self, PyObject *args, PyO
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -17788,22 +13796,14 @@ static PyObject *_wrap_gsl_matrix_char_fread(PyObject *self, PyObject *args, PyO
         (BASIS_TYPE_C_gsl_matrix_char *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_char_fread(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -17900,7 +13900,6 @@ static PyObject *_wrap_gsl_matrix_char_fscanf(PyObject *self, PyObject *args, Py
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -17912,22 +13911,14 @@ static PyObject *_wrap_gsl_matrix_char_fscanf(PyObject *self, PyObject *args, Py
         (BASIS_TYPE_C_gsl_matrix_char *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_char_fscanf(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -18062,23 +14053,11 @@ static PyObject *_wrap_gsl_matrix_char_swap(PyObject *self, PyObject *args, PyOb
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -18148,12 +14127,6 @@ static PyObject *_wrap_gsl_matrix_char_swap_rows(PyObject *self, PyObject *args,
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -18215,12 +14188,6 @@ static PyObject *_wrap_gsl_matrix_char_swap_columns(PyObject *self, PyObject *ar
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -18282,12 +14249,6 @@ static PyObject *_wrap_gsl_matrix_char_swap_rowcol(PyObject *self, PyObject *arg
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -18341,12 +14302,6 @@ static PyObject *_wrap_gsl_matrix_char_transpose(PyObject *self, PyObject *args,
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -18852,12 +14807,9 @@ static PyObject *_wrap_gsl_matrix_char_diagonal(PyObject *self, PyObject *args, 
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_char_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_char_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_char_view);
@@ -18924,12 +14876,9 @@ static PyObject *_wrap_gsl_matrix_char_subdiagonal(PyObject *self, PyObject *arg
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_char_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_char_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_char_view);
@@ -18996,12 +14945,9 @@ static PyObject *_wrap_gsl_matrix_char_superdiagonal(PyObject *self, PyObject *a
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_char_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_char_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_char_view);
@@ -19075,35 +15021,7 @@ static PyObject *_wrap_gsl_vector_complex_set_zero(PyObject *self, PyObject *arg
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -19158,7 +15076,6 @@ static PyObject *_wrap_gsl_vector_complex_set_all(PyObject *self, PyObject *args
     }
     
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -19170,35 +15087,7 @@ static PyObject *_wrap_gsl_vector_complex_set_all(PyObject *self, PyObject *args
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -19258,35 +15147,7 @@ static PyObject *_wrap_gsl_vector_complex_set_basis(PyObject *self, PyObject *ar
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -19351,35 +15212,7 @@ static PyObject *_wrap_gsl_vector_complex_fread(PyObject *self, PyObject *args, 
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -19432,29 +15265,6 @@ static PyObject *_wrap_gsl_vector_complex_fwrite(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_fwrite(arg1,(gsl_vector_complex const *)arg2);
@@ -19522,35 +15332,7 @@ static PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *self, PyObject *args,
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -19604,29 +15386,6 @@ static PyObject *_wrap_gsl_vector_complex_fprintf(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_fprintf(arg1,(gsl_vector_complex const *)arg2,(char const *)arg3);
@@ -19673,29 +15432,6 @@ static PyObject *_wrap_gsl_vector_complex_reverse(PyObject *self, PyObject *args
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_reverse(arg1);
@@ -19704,35 +15440,7 @@ static PyObject *_wrap_gsl_vector_complex_reverse(PyObject *self, PyObject *args
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -19782,29 +15490,6 @@ static PyObject *_wrap_gsl_vector_complex_swap(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -19828,29 +15513,6 @@ static PyObject *_wrap_gsl_vector_complex_swap(PyObject *self, PyObject *args, P
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_swap(arg1,arg2);
@@ -19859,69 +15521,13 @@ static PyObject *_wrap_gsl_vector_complex_swap(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -19969,29 +15575,6 @@ static PyObject *_wrap_gsl_vector_complex_swap_elements(PyObject *self, PyObject
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -20004,35 +15587,7 @@ static PyObject *_wrap_gsl_vector_complex_swap_elements(PyObject *self, PyObject
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -20076,29 +15631,6 @@ static PyObject *_wrap_gsl_vector_complex_isnull(PyObject *self, PyObject *args,
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_isnull((gsl_vector_complex const *)arg1);
@@ -20123,7 +15655,6 @@ static PyObject *_wrap_gsl_matrix_complex_set_zero(PyObject *self, PyObject *arg
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_complex_set_zero",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -20135,22 +15666,14 @@ static PyObject *_wrap_gsl_matrix_complex_set_zero(PyObject *self, PyObject *arg
         (BASIS_TYPE_C_gsl_matrix_complex *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_complex_set_zero(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -20185,7 +15708,6 @@ static PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *self, PyObject *args
     gsl_complex tmp2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_set_all",kwnames,&obj0,&obj1)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -20197,12 +15719,9 @@ static PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *self, PyObject *args
         (BASIS_TYPE_C_gsl_matrix_complex *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     {
-        /* In direct */
         gsl_complex tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -20214,12 +15733,6 @@ static PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *self, PyObject *args
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -20249,7 +15762,6 @@ static PyObject *_wrap_gsl_matrix_complex_set_identity(PyObject *self, PyObject 
     TYPE_VIEW_gsl_matrix_complex _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_complex_set_identity",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -20261,22 +15773,14 @@ static PyObject *_wrap_gsl_matrix_complex_set_identity(PyObject *self, PyObject 
         (BASIS_TYPE_C_gsl_matrix_complex *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_complex_set_identity(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -20316,7 +15820,6 @@ static PyObject *_wrap_gsl_matrix_complex_fread(PyObject *self, PyObject *args, 
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -20328,22 +15831,14 @@ static PyObject *_wrap_gsl_matrix_complex_fread(PyObject *self, PyObject *args, 
         (BASIS_TYPE_C_gsl_matrix_complex *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_complex_fread(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -20440,7 +15935,6 @@ static PyObject *_wrap_gsl_matrix_complex_fscanf(PyObject *self, PyObject *args,
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -20452,22 +15946,14 @@ static PyObject *_wrap_gsl_matrix_complex_fscanf(PyObject *self, PyObject *args,
         (BASIS_TYPE_C_gsl_matrix_complex *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_complex_fscanf(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -20602,23 +16088,11 @@ static PyObject *_wrap_gsl_matrix_complex_swap(PyObject *self, PyObject *args, P
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -20688,12 +16162,6 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rows(PyObject *self, PyObject *ar
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -20755,12 +16223,6 @@ static PyObject *_wrap_gsl_matrix_complex_swap_columns(PyObject *self, PyObject 
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -20822,12 +16284,6 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rowcol(PyObject *self, PyObject *
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -20881,12 +16337,6 @@ static PyObject *_wrap_gsl_matrix_complex_transpose(PyObject *self, PyObject *ar
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -20986,12 +16436,9 @@ static PyObject *_wrap_gsl_matrix_complex_diagonal(PyObject *self, PyObject *arg
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_complex_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_complex_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_view);
@@ -21058,12 +16505,9 @@ static PyObject *_wrap_gsl_matrix_complex_subdiagonal(PyObject *self, PyObject *
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_complex_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_complex_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_view);
@@ -21130,12 +16574,9 @@ static PyObject *_wrap_gsl_matrix_complex_superdiagonal(PyObject *self, PyObject
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_complex_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_complex_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_view);
@@ -21209,35 +16650,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_zero(PyObject *self, PyObjec
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -21289,7 +16702,6 @@ static PyObject *_wrap_gsl_vector_complex_float_set_all(PyObject *self, PyObject
     }
     
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -21301,35 +16713,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_all(PyObject *self, PyObject
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -21389,35 +16773,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_basis(PyObject *self, PyObje
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -21482,35 +16838,7 @@ static PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *self, PyObject *
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -21563,29 +16891,6 @@ static PyObject *_wrap_gsl_vector_complex_float_fwrite(PyObject *self, PyObject 
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_float_fwrite(arg1,(gsl_vector_complex_float const *)arg2);
@@ -21653,35 +16958,7 @@ static PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *self, PyObject 
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -21735,29 +17012,6 @@ static PyObject *_wrap_gsl_vector_complex_float_fprintf(PyObject *self, PyObject
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_float_fprintf(arg1,(gsl_vector_complex_float const *)arg2,(char const *)arg3);
@@ -21804,29 +17058,6 @@ static PyObject *_wrap_gsl_vector_complex_float_reverse(PyObject *self, PyObject
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_float_reverse(arg1);
@@ -21835,35 +17066,7 @@ static PyObject *_wrap_gsl_vector_complex_float_reverse(PyObject *self, PyObject
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -21913,29 +17116,6 @@ static PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     
@@ -21959,29 +17139,6 @@ static PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *self, PyObject *a
         a_array->dimensions[0]);
         
         arg2 = (gsl_vector_complex_float *) &(_vector2.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector2.vector.size < 6) ? 
-            _vector2.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            2, _PyVector2, _PyVector2, 
-            &_vector2.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector2.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_float_swap(arg1,arg2);
@@ -21990,69 +17147,13 @@ static PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *self, PyObject *a
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     {
         assert(_PyVector2 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector2 = NULL;
     }
     return resultobj;
@@ -22100,29 +17201,6 @@ static PyObject *_wrap_gsl_vector_complex_float_swap_elements(PyObject *self, Py
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -22135,35 +17213,7 @@ static PyObject *_wrap_gsl_vector_complex_float_swap_elements(PyObject *self, Py
     {
         assert(_PyVector1 != NULL);
         
-        /* 
-         * This define worked with swig 1.1 I do not no, why it is failing for 
-         * swig1.3 so I disable it 
-         */
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyVector1 = NULL;
     }
     return resultobj;
@@ -22207,29 +17257,6 @@ static PyObject *_wrap_gsl_vector_complex_float_isnull(PyObject *self, PyObject 
         a_array->dimensions[0]);
         
         arg1 = (gsl_vector_complex_float *) &(_vector1.vector);
-        
-        /* 
-         *  This define worked with swig 1.1 I do not no, why it is failing for 
-         *  swig1.3 so I disable it 
-         */
-        #ifdef undef
-        #ifndef _GSL_BLOCK_COMPLEX_FUNCTIONS_C
-        if(DEBUG>10){
-            int i, size;
-            size = (_vector1.vector.size < 6) ? 
-            _vector1.vector.size : 5;
-            fprintf(stderr, "\tInput Vector %d array in memory %p, "\
-            "data in memory %p vector in memory %p\n", 
-            1, _PyVector1, _PyVector1, 
-            &_vector1.vector);
-            for(i=0; i<size; i++){
-                fprintf(stderr, "\t\tv_%d = %f\n", i, 
-                (double) GET_gsl_vector_complex_float(&(_vector1.vector), 
-                i));
-            }
-        }
-        #endif /* _GSL_BLOCK_COMPLEX_FUNCTIONS_C */
-        #endif
     }
     
     result = (int)gsl_vector_complex_float_isnull((gsl_vector_complex_float const *)arg1);
@@ -22254,7 +17281,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_zero(PyObject *self, PyObjec
     TYPE_VIEW_gsl_matrix_complex_float _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_complex_float_set_zero",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -22266,22 +17292,14 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_zero(PyObject *self, PyObjec
         (BASIS_TYPE_C_gsl_matrix_complex_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_complex_float_set_zero(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -22313,7 +17331,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_all(PyObject *self, PyObject
     TYPE_VIEW_gsl_matrix_complex_float _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_float_set_all",kwnames,&obj0,&obj1)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -22325,12 +17342,9 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_all(PyObject *self, PyObject
         (BASIS_TYPE_C_gsl_matrix_complex_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     {
-        /* In direct */
         gsl_complex_float tmp;
         if(PyGSL_PyCOMPLEX_TO_gsl_complex_float(obj1, &tmp) != GSL_SUCCESS)
         goto fail;
@@ -22342,12 +17356,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_all(PyObject *self, PyObject
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -22377,7 +17385,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_identity(PyObject *self, PyO
     TYPE_VIEW_gsl_matrix_complex_float _matrix1;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_complex_float_set_identity",kwnames,&obj0)) goto fail;
-    
     {
         PyArrayObject * a_array;
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -22389,22 +17396,14 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_identity(PyObject *self, PyO
         (BASIS_TYPE_C_gsl_matrix_complex_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        
+        arg1 = &(_matrix1.matrix);	  
     }
-    
     gsl_matrix_complex_float_set_identity(arg1);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -22444,7 +17443,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_fread(PyObject *self, PyObject *
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -22456,22 +17454,14 @@ static PyObject *_wrap_gsl_matrix_complex_float_fread(PyObject *self, PyObject *
         (BASIS_TYPE_C_gsl_matrix_complex_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_complex_float_fread(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -22568,7 +17558,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_fscanf(PyObject *self, PyObject 
         }
         arg1 = PyFile_AsFile(obj0);
     }
-    
     {
         PyArrayObject * a_array;
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
@@ -22580,22 +17569,14 @@ static PyObject *_wrap_gsl_matrix_complex_float_fscanf(PyObject *self, PyObject 
         (BASIS_TYPE_C_gsl_matrix_complex_float *) a_array->data, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
-        arg2 = &(_matrix2.matrix);
-        
+        arg2 = &(_matrix2.matrix);	  
     }
-    
     result = (int)gsl_matrix_complex_float_fscanf(arg1,arg2);
     
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -22730,23 +17711,11 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap(PyObject *self, PyObject *a
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix2 = NULL;
     }
     {
@@ -22816,12 +17785,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rows(PyObject *self, PyObje
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -22883,12 +17846,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_columns(PyObject *self, PyO
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -22950,12 +17907,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rowcol(PyObject *self, PyOb
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -23009,12 +17960,6 @@ static PyObject *_wrap_gsl_matrix_complex_float_transpose(PyObject *self, PyObje
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
-        /*
-              * Attention! To allow the intermix of these typemaps that's absolutely 
-              * necessary, as freearg is called afterwards and would free the memory 
-              * again. That way all can be intermixed without problem. Just think pure
-              * input. This here would not be called so freearg has to free the memory.
-              */
         _PyMatrix1 = NULL;
     }
     {
@@ -23114,12 +18059,9 @@ static PyObject *_wrap_gsl_matrix_complex_float_diagonal(PyObject *self, PyObjec
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_complex_float_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_complex_float_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_float_view);
@@ -23186,12 +18128,9 @@ static PyObject *_wrap_gsl_matrix_complex_float_subdiagonal(PyObject *self, PyOb
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_complex_float_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_complex_float_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_float_view);
@@ -23258,12 +18197,9 @@ static PyObject *_wrap_gsl_matrix_complex_float_superdiagonal(PyObject *self, Py
     
     {
         PyArrayObject * out = NULL;
-        
+        BASIS_TYPE_gsl_vector_complex_float_view tmp; 
         int i, dimension = -1;
         
-        BASIS_TYPE_gsl_vector_complex_float_view tmp; 
-        
-        //dimension = result->vector.size;
         dimension = (&result)->vector.size;
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_float_view);
