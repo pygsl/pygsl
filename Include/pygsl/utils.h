@@ -1,8 +1,12 @@
 #ifndef PYGSL_UTIL_H
 #define PYGSL_UTIL_H
 
-/* I want to enforce the asserts in the code now */
-
+/* Uncomment the following block to get DEBUG information
+/*
+#ifndef DEBUG
+#define DEBUG 10
+#endif
+*/
 #ifdef DEBUG
 #define FUNC_MESS(mess) fprintf(stderr,                            \
                                 "%s %s In File %s at line %d\n",   \
