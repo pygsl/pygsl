@@ -73,17 +73,26 @@ PyGSL_clear_name(char *name, int size);
 #define PyGSL_clear_name          (*(void (*)(char *, int))   PyGSL_API[PyGSL_clear_name_NUM])
 #endif /* _PyGSL_API_MODULE */
 
+
+
+
 #define PyGSL_PYLONG_TO_ULONG(object, result, info)        \
   ( PyLong_Check((object)) )                               \
   ?                                                        \
-   (*(result))   = PyLong_AsUnsignedLong((object)), GSL_SUCCESS \
-  :  PyGSL_pylong_to_ulong((object), (result), (info))  
+    ((*(result))   = PyLong_AsUnsignedLong((object)), GSL_SUCCESS) \
+  :  PyGSL_pylong_to_ulong((object), (result), (info))
 
 #define PyGSL_PYLONG_TO_UINT(object, result, info)        \
   ( PyLong_Check((object)) )                               \
   ?                                                        \
-   (*(result))   = (unsigned int) PyLong_AsUnsignedLong((object)), GSL_SUCCESS \
+   ((*(result))   = (unsigned int) PyLong_AsUnsignedLong((object)), GSL_SUCCESS) \
   :  PyGSL_pylong_to_uint((object),  (result), (info))  
+
+#define PyGSL_PYFLOAT_TO_DOUBLE(object, result, info)      \
+  ( PyFloat_Check((object)) )                              \
+  ?                                                        \
+   ((*(result))   = PyFloat_AsDouble((object)), (GSL_SUCCESS)) \
+  :  PyGSL_pyfloat_to_double((object), (result), (info))  
 
 #define PyGSL_CHECK_PYTHON_RETURN(object, nargs, info)                              \
   (                                                                                 \
@@ -97,10 +106,5 @@ PyGSL_clear_name(char *name, int size);
  :                                                                                  \
    PyGSL_check_python_return((object), (nargs), (info))        
 
-#define PyGSL_PYFLOAT_TO_DOUBLE(object, result, info)      \
-  ( PyFloat_Check((object)) )                              \
-  ?                                                        \
-   (*(result))   = PyFloat_AsDouble((object)), GSL_SUCCESS \
-  :  PyGSL_pyfloat_to_double((object), (result), (info))  
 
 #endif /* PyGSL_GENERAL_HELPERS_H */

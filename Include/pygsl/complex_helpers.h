@@ -34,24 +34,24 @@ PyGSL_PyComplex_to_gsl_complex_long_double(PyObject * src,
 #endif /* _PyGSL_API_MODULE */
 
 #define PyGSL_PyCOMPLEX_TO_gsl_complex(object, tmp)            \
-(PyComplex_Check(object)) ? 				       \
-     (tmp)->dat[0] = ((PyComplexObject *) object)->cval.real,  \
-     (tmp)->dat[1] = ((PyComplexObject *) object)->cval.imag,  \
-     GSL_SUCCESS 					       \
+(PyComplex_Check((object))) ? 				       \
+     ((tmp)->dat[0] = ((PyComplexObject *)(object))->cval.real,\
+      (tmp)->dat[1] = ((PyComplexObject *)(object))->cval.imag,\
+      GSL_SUCCESS) 					       \
      : PyGSL_PyComplex_to_gsl_complex(object, tmp)         
 
 #define PyGSL_PyCOMPLEX_TO_gsl_complex_float(object, tmp )     \
-(PyComplex_Check(object)) ?                                    \
-     (tmp)->dat[0] = ((PyComplexObject *) object)->cval.real,  \
-     (tmp)->dat[1] = ((PyComplexObject *) object)->cval.imag,  \
-     GSL_SUCCESS                                               \
+(PyComplex_Check((object))) ?                                  \
+     ((tmp)->dat[0] = ((PyComplexObject *)(object))->cval.real,\
+      (tmp)->dat[1] = ((PyComplexObject *)(object))->cval.imag,\
+      GSL_SUCCESS)                                             \
      : PyGSL_PyComplex_to_gsl_complex_float(object, tmp)      
 
 #define PyGSL_PyCOMPLEX_TO_gsl_complex_long_double(object, tmp ) \
-(PyComplex_Check(object)) ?                                      \
-     (tmp)->dat[0] = ((PyComplexObject *) object)->cval.real,    \
-     (tmp)->dat[1] = ((PyComplexObject *) object)->cval.imag,    \
-     GSL_SUCCESS                                                 \
+(PyComplex_Check((object))) ?                                     \
+     ((tmp)->dat[0] = ((PyComplexObject *)(object))->cval.real,  \
+      (tmp)->dat[1] = ((PyComplexObject *)(object))->cval.imag,  \
+      GSL_SUCCESS)                                               \
      : PyGSL_PyComplex_to_gsl_complex_long_double(object, tmp)
 
 #endif  /* PyGSL_COMPLEX_HELPERS_H */
