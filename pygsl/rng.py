@@ -7,7 +7,7 @@
 import pygsl._rng
 import pygsl.errors
 
-class gsl_rng:
+class rng:
     """
     base class for all gsl random number generators
     """
@@ -21,7 +21,7 @@ class gsl_rng:
                 self._rng=pygsl._rng.alloc(pygsl._rng.__dict__[name])
             else:
                 raise pygsl.errors.gsl_error,"no such random number generator"
-            
+
     def __del__(self):
         """
         frees the random number generator
@@ -205,115 +205,243 @@ class gsl_rng:
     def logarithmic(self,p):
         return pygsl._rng.logarithmic(self._rng,p)
 
-## all implemented random number generators
+    def landau(self):
+        return pygsl._rng.landau(self._rng)
 
-class gsl_rng_cmrg(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"cmrg")
+    def erlang(self,a,n):
+        return pygsl._rng.erlang(self._rng,a,n)
 
-class gsl_rng_minstd(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"minstd")
+class rng_borosh13(rng):
+   def __init__(self):
+      rng.__init__(self,"borosh13")
 
-class gsl_rng_mrg(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"mrg")
+class rng_coveyou(rng):
+   def __init__(self):
+      rng.__init__(self,"coveyou")
 
-class gsl_rng_mt19937(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"mt19937")
+class rng_cmrg(rng):
+   def __init__(self):
+      rng.__init__(self,"cmrg")
 
-class gsl_rng_r250(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"r250")
+class rng_fishman18(rng):
+   def __init__(self):
+      rng.__init__(self,"fishman18")
 
-class gsl_rng_ran0(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ran0")
+class rng_fishman20(rng):
+   def __init__(self):
+      rng.__init__(self,"fishman20")
 
-class gsl_rng_ran1(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ran1")
+class rng_fishman2x(rng):
+   def __init__(self):
+      rng.__init__(self,"fishman2x")
 
-class gsl_rng_ran2(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ran2")
+class rng_gfsr4(rng):
+   def __init__(self):
+      rng.__init__(self,"gfsr4")
 
-class gsl_rng_ran3(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ran3")
+class rng_knuthran(rng):
+   def __init__(self):
+      rng.__init__(self,"knuthran")
 
-class gsl_rng_rand(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"rand")
+class rng_knuthran2(rng):
+   def __init__(self):
+      rng.__init__(self,"knuthran2")
 
-class gsl_rng_rand48(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"rand48")
+class rng_lecuyer21(rng):
+   def __init__(self):
+      rng.__init__(self,"lecuyer21")
 
-class gsl_rng_random_bsd(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"random_bsd")
+class rng_minstd(rng):
+   def __init__(self):
+      rng.__init__(self,"minstd")
 
-class gsl_rng_random_glibc2(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"random_glibc2")
+class rng_mrg(rng):
+   def __init__(self):
+      rng.__init__(self,"mrg")
 
-class gsl_rng_random_libc5(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ran0")
+class rng_mt19937(rng):
+   def __init__(self):
+      rng.__init__(self,"mt19937")
 
-class gsl_rng_randu(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"randu")
+class rng_r250(rng):
+   def __init__(self):
+      rng.__init__(self,"r250")
 
-class gsl_rng_ranf(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ranf")
+class rng_ran0(rng):
+   def __init__(self):
+      rng.__init__(self,"ran0")
 
-class gsl_rng_ranlux(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ranlux")
+class rng_ran1(rng):
+   def __init__(self):
+      rng.__init__(self,"ran1")
 
-class gsl_rng_ranlux389(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ranlux389")
+class rng_ran2(rng):
+   def __init__(self):
+      rng.__init__(self,"ran2")
 
-class gsl_rng_ranmar(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"ranmar")
+class rng_ran3(rng):
+   def __init__(self):
+      rng.__init__(self,"ran3")
 
-class gsl_rng_slatec(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"saltec")
+class rng_rand(rng):
+   def __init__(self):
+      rng.__init__(self,"rand")
 
-class gsl_rng_taus(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"taus")
+class rng_rand48(rng):
+   def __init__(self):
+      rng.__init__(self,"rand48")
 
-##class gsl_rng_tds(gsl_rng):
-##    def __init__(self):
-##        gsl_rng.__init__(self,"tds")
+class rng_random128_bsd(rng):
+   def __init__(self):
+      rng.__init__(self,"random128_bsd")
 
-class gsl_rng_tt800(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"tt800")
+class rng_random128_glibc2(rng):
+   def __init__(self):
+      rng.__init__(self,"random128_glibc2")
 
-class gsl_rng_uni(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"uni")
+class rng_random128_libc5(rng):
+   def __init__(self):
+      rng.__init__(self,"random128_libc5")
 
-class gsl_rng_uni32(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"uni32")
+class rng_random256_bsd(rng):
+   def __init__(self):
+      rng.__init__(self,"random256_bsd")
 
-class gsl_rng_vax(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"vax")
+class rng_random256_glibc2(rng):
+   def __init__(self):
+      rng.__init__(self,"random256_glibc2")
 
-class gsl_rng_zuf(gsl_rng):
-    def __init__(self):
-        gsl_rng.__init__(self,"zuf")
+class rng_random256_libc5(rng):
+   def __init__(self):
+      rng.__init__(self,"random256_libc5")
+
+class rng_random32_bsd(rng):
+   def __init__(self):
+      rng.__init__(self,"random32_bsd")
+
+class rng_random32_glibc2(rng):
+   def __init__(self):
+      rng.__init__(self,"random32_glibc2")
+
+class rng_random32_libc5(rng):
+   def __init__(self):
+      rng.__init__(self,"random32_libc5")
+
+class rng_random64_bsd(rng):
+   def __init__(self):
+      rng.__init__(self,"random64_bsd")
+
+class rng_random64_glibc2(rng):
+   def __init__(self):
+      rng.__init__(self,"random64_glibc2")
+
+class rng_random64_libc5(rng):
+   def __init__(self):
+      rng.__init__(self,"random64_libc5")
+
+class rng_random8_bsd(rng):
+   def __init__(self):
+      rng.__init__(self,"random8_bsd")
+
+class rng_random8_glibc2(rng):
+   def __init__(self):
+      rng.__init__(self,"random8_glibc2")
+
+class rng_random8_libc5(rng):
+   def __init__(self):
+      rng.__init__(self,"random8_libc5")
+
+class rng_random_bsd(rng):
+   def __init__(self):
+      rng.__init__(self,"random_bsd")
+
+class rng_random_glibc2(rng):
+   def __init__(self):
+      rng.__init__(self,"random_glibc2")
+
+class rng_random_libc5(rng):
+   def __init__(self):
+      rng.__init__(self,"random_libc5")
+
+class rng_randu(rng):
+   def __init__(self):
+      rng.__init__(self,"randu")
+
+class rng_ranf(rng):
+   def __init__(self):
+      rng.__init__(self,"ranf")
+
+class rng_ranlux(rng):
+   def __init__(self):
+      rng.__init__(self,"ranlux")
+
+class rng_ranlux389(rng):
+   def __init__(self):
+      rng.__init__(self,"ranlux389")
+
+class rng_ranlxd1(rng):
+   def __init__(self):
+      rng.__init__(self,"ranlxd1")
+
+class rng_ranlxd2(rng):
+   def __init__(self):
+      rng.__init__(self,"ranlxd2")
+
+class rng_ranlxs0(rng):
+   def __init__(self):
+      rng.__init__(self,"ranlxs0")
+
+class rng_ranlxs1(rng):
+   def __init__(self):
+      rng.__init__(self,"ranlxs1")
+
+class rng_ranlxs2(rng):
+   def __init__(self):
+      rng.__init__(self,"ranlxs2")
+
+class rng_ranmar(rng):
+   def __init__(self):
+      rng.__init__(self,"ranmar")
+
+class rng_slatec(rng):
+   def __init__(self):
+      rng.__init__(self,"slatec")
+
+class rng_taus(rng):
+   def __init__(self):
+      rng.__init__(self,"taus")
+
+class rng_transputer(rng):
+   def __init__(self):
+      rng.__init__(self,"transputer")
+
+class rng_tt800(rng):
+   def __init__(self):
+      rng.__init__(self,"tt800")
+
+class rng_uni(rng):
+   def __init__(self):
+      rng.__init__(self,"uni")
+
+class rng_uni32(rng):
+   def __init__(self):
+      rng.__init__(self,"uni32")
+
+class rng_vax(rng):
+   def __init__(self):
+      rng.__init__(self,"vax")
+
+class rng_waterman14(rng):
+   def __init__(self):
+      rng.__init__(self,"waterman14")
+
+class rng_zuf(rng):
+   def __init__(self):
+      rng.__init__(self,"zuf")
+
+class rng_default(rng):
+   def __init__(self):
+      rng.__init__(self,"default")
 
 
 ## distributions
@@ -329,7 +457,6 @@ cauchy_pdf=pygsl._rng.cauchy_pdf
 rayleigh_pdf=pygsl._rng.rayleigh_pdf
 rayleigh_tail_pdf=pygsl._rng.rayleigh_tail_pdf
 ##missing
-##levy_pdf=pygsl._rng.levy_pdf
 gamma_pdf=pygsl._rng.gamma_pdf
 flat_pdf=pygsl._rng.flat_pdf
 lognormal_pdf=pygsl._rng.lognormal_pdf
@@ -350,6 +477,8 @@ pascal_pdf=pygsl._rng.pascal_pdf
 geometric_pdf=pygsl._rng.geometric_pdf
 hypergeometric_pdf=pygsl._rng.hypergeometric_pdf
 logarithmic_pdf=pygsl._rng.logarithmic_pdf  
+landau_pdf=pygsl._rng.landau_pdf
+erlang_pdf=pygsl._rng.erlang_pdf
 
 ## other useful things:
 

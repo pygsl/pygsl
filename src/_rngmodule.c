@@ -17,7 +17,16 @@ typedef struct {
 
 static const_rng_names rng_names[] = {
   /* used as rng prototype in gsl_rng_alloc*/
+  {"borosh13",&gsl_rng_borosh13},
   {"cmrg",&gsl_rng_cmrg},
+  {"coveyou",&gsl_rng_coveyou},
+  {"fishman18",&gsl_rng_fishman18},
+  {"fishman20",&gsl_rng_fishman20},
+  {"fishman2x",&gsl_rng_fishman2x},
+  {"gfsr4",&gsl_rng_gfsr4},
+  {"knuthran2",&gsl_rng_knuthran2},
+  {"knuthran",&gsl_rng_knuthran},
+  {"lecuyer21",&gsl_rng_lecuyer21},
   {"minstd",&gsl_rng_minstd},
   {"mrg",&gsl_rng_mrg},
   {"mt19937",&gsl_rng_mt19937},
@@ -26,23 +35,44 @@ static const_rng_names rng_names[] = {
   {"ran1",&gsl_rng_ran1},
   {"ran2",&gsl_rng_ran2},
   {"ran3",&gsl_rng_ran3},
-  {"rand",&gsl_rng_rand},
   {"rand48",&gsl_rng_rand48},
+  {"rand",&gsl_rng_rand},
+  {"random128_bsd",&gsl_rng_random128_bsd},
+  {"random128_glibc2",&gsl_rng_random128_glibc2},
+  {"random128_libc5",&gsl_rng_random128_libc5},
+  {"random256_bsd",&gsl_rng_random256_bsd},
+  {"random256_glibc2",&gsl_rng_random256_glibc2},
+  {"random256_libc5",&gsl_rng_random256_libc5},
+  {"random32_bsd",&gsl_rng_random32_bsd},
+  {"random32_glibc2",&gsl_rng_random32_glibc2},
+  {"random32_libc5",&gsl_rng_random32_libc5},
+  {"random64_bsd",&gsl_rng_random64_bsd},
+  {"random64_glibc2",&gsl_rng_random64_glibc2},
+  {"random64_libc5",&gsl_rng_random64_libc5},
+  {"random8_bsd",&gsl_rng_random8_bsd},
+  {"random8_glibc2",&gsl_rng_random8_glibc2},
+  {"random8_libc5",&gsl_rng_random8_libc5},
   {"random_bsd",&gsl_rng_random_bsd},
   {"random_glibc2",&gsl_rng_random_glibc2},
   {"random_libc5",&gsl_rng_random_libc5},
   {"randu",&gsl_rng_randu},
   {"ranf",&gsl_rng_ranf},
-  {"ranlux",&gsl_rng_ranlux},
   {"ranlux389",&gsl_rng_ranlux389},
+  {"ranlux",&gsl_rng_ranlux},
+  {"ranlxd1",&gsl_rng_ranlxd1},
+  {"ranlxd2",&gsl_rng_ranlxd2},
+  {"ranlxs0",&gsl_rng_ranlxs0},
+  {"ranlxs1",&gsl_rng_ranlxs1},
+  {"ranlxs2",&gsl_rng_ranlxs2},
   {"ranmar",&gsl_rng_ranmar},
   {"slatec",&gsl_rng_slatec},
   {"taus",&gsl_rng_taus},
-  /*  {"tds",&gsl_rng_tds}, */
+  {"transputer",&gsl_rng_transputer},
   {"tt800",&gsl_rng_tt800},
-  {"uni",&gsl_rng_uni},
   {"uni32",&gsl_rng_uni32},
+  {"uni",&gsl_rng_uni},
   {"vax",&gsl_rng_vax},
+  {"waterman14",&gsl_rng_waterman14},
   {"zuf",&gsl_rng_zuf},
   {"default",&gsl_rng_default},
   {0x0,0x0}
@@ -1091,6 +1121,41 @@ static PyObject* ran_logarithmic(PyObject *self,
   return py_result;
 }
 
+
+static PyObject* ran_landau(PyObject *self,
+			    PyObject *args
+			    )
+{
+  PyObject* py_rng;
+  gsl_rng* rng;
+  PyObject* py_result;
+  double result;
+  if (0==PyArg_ParseTuple(args,"O",&py_rng))
+    return NULL;
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
+  result=gsl_ran_landau(rng);
+  py_result=PyFloat_FromDouble(result);
+  return py_result;
+}
+
+static PyObject* ran_erlang(PyObject *self,
+			    PyObject *args
+			    )
+{
+  PyObject* py_rng;
+  gsl_rng* rng;
+  PyObject* py_result;
+  double a;
+  double n;
+  double result;
+  if (0==PyArg_ParseTuple(args,"Odd",&py_rng,&a,&n))
+    return NULL;
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
+  result=gsl_ran_erlang(rng,a,n);
+  py_result=PyFloat_FromDouble(result);
+  return py_result;
+}
+
 /* useful rng informations */
 
 static PyObject* rng_name(PyObject *self,
@@ -1646,17 +1711,16 @@ static PyObject* ran_poisson_pdf(PyObject *self,
 			     )
 {
   unsigned int x;
-  
   double mu;
   PyObject* py_result;
-  unsigned int result;
+  double result;
 
   if (0==PyArg_ParseTuple(args,"id",&x,&mu))
     return NULL;
 
   result=gsl_ran_poisson_pdf(x,mu);
 
-  py_result=PyLong_FromUnsignedLong(result);
+  py_result=PyFloat_FromDouble(result);
   return py_result;
 }
 
@@ -1668,14 +1732,14 @@ static PyObject* ran_bernoulli_pdf(PyObject *self,
   
   double p;
   PyObject* py_result;
-  unsigned int result;
+  double result;
 
   if (0==PyArg_ParseTuple(args,"id",&x,&p))
     return NULL;
 
   result=gsl_ran_bernoulli_pdf(x,p);
 
-  py_result=PyLong_FromUnsignedLong(result);
+  py_result=PyFloat_FromDouble(result);
 
   return py_result;
 }
@@ -1688,34 +1752,36 @@ static PyObject* ran_binomial_pdf(PyObject *self,
   
   double p;
   PyObject* py_result;
-  unsigned int n,result;
+  unsigned int n;
+  double result;
 
   if (0==PyArg_ParseTuple(args,"idi",&x,&p,&n))
     return NULL;
 
   result=gsl_ran_binomial_pdf(x,p,n);
 
-  py_result=PyLong_FromUnsignedLong(result);
+  py_result=PyFloat_FromDouble(result);
 
   return py_result;
 }
 
 static PyObject* ran_negative_binomial_pdf(PyObject *self,
-				       PyObject *args
-				       )
+					   PyObject *args
+					   )
 {
   unsigned int x;
   
   double p;
   PyObject* py_result;
-  unsigned int n,result;
+  unsigned int n;
+  double result;
 
   if (0==PyArg_ParseTuple(args,"idi",&x,&p,&n))
     return NULL;
 
   result=gsl_ran_negative_binomial_pdf(x,p,n);
 
-  py_result=PyLong_FromUnsignedLong(result);
+  py_result=PyFloat_FromDouble(result);
 
   return py_result;
 }
@@ -1728,14 +1794,15 @@ static PyObject* ran_pascal_pdf(PyObject *self,
   
   double p;
   PyObject* py_result;
-  unsigned int k,result;
+  unsigned int k;
+  double result;
 
   if (0==PyArg_ParseTuple(args,"idi",&x,&p,&k))
     return NULL;
 
   result=gsl_ran_pascal_pdf(x,p,k);
 
-  py_result=PyLong_FromUnsignedLong(result);
+  py_result=PyFloat_FromDouble(result);
   return py_result;
 }
 
@@ -1747,14 +1814,14 @@ static PyObject* ran_geometric_pdf(PyObject *self,
   
   double p;
   PyObject* py_result;
-  unsigned int result;
+  double result;
 
   if (0==PyArg_ParseTuple(args,"id",&x,&p))
     return NULL;
 
   result=gsl_ran_geometric_pdf(x,p);
 
-  py_result=PyLong_FromUnsignedLong(result);
+  py_result=PyFloat_FromDouble(result);
 
   return py_result;
 }
@@ -1766,15 +1833,12 @@ static PyObject* ran_hypergeometric_pdf(PyObject *self,
   unsigned int x;
   
   PyObject* py_result;
-  unsigned int n1,n2,t,result;
-
+  unsigned int n1,n2,t;
+  double result;
   if (0==PyArg_ParseTuple(args,"iiii",&x,&n1,&n2,&t))
     return NULL;
-
   result=gsl_ran_hypergeometric_pdf(x,n1,n2,t);
-
-  py_result=PyLong_FromUnsignedLong(result);
-
+  py_result=PyFloat_FromDouble(result);
   return py_result;
 }
 
@@ -1783,23 +1847,51 @@ static PyObject* ran_logarithmic_pdf(PyObject *self,
 				 )
 {
   unsigned int x;
-  
   double p;
   PyObject* py_result;
-  unsigned int result;
+  double result;
 
   if (0==PyArg_ParseTuple(args,"id",&x,&p))
     return NULL;
 
   result=gsl_ran_logarithmic_pdf(x,p);
 
-  py_result=PyLong_FromUnsignedLong(result);
+  py_result=PyFloat_FromDouble(result);
+  return py_result;
+}
+
+
+static PyObject* ran_landau_pdf(PyObject *self,
+				PyObject *args
+				)
+{
+  double p;
+  PyObject* py_result;
+  double result;
+  if (0==PyArg_ParseTuple(args,"d",&p))
+    return NULL;
+  result=gsl_ran_landau_pdf(p);
+  py_result=PyFloat_FromDouble(result);
+  return py_result;
+}
+
+static PyObject* ran_erlang_pdf(PyObject *self,
+				PyObject *args
+				)
+{
+  double x;
+  double a;
+  double n;
+  PyObject* py_result;
+  double result;
+  if (0==PyArg_ParseTuple(args,"ddd",&x,&a,&n))
+    return NULL;
+  result=gsl_ran_erlang_pdf(x,a,n);
+  py_result=PyFloat_FromDouble(result);
   return py_result;
 }
 
 /* end pdf*/
-
-
 
 static PyMethodDef rngMethods[] = {
   {"env_setup", rng_env_setup, METH_VARARGS},
@@ -1854,6 +1946,8 @@ static PyMethodDef rngMethods[] = {
   {"geometric",ran_geometric,METH_VARARGS},
   {"hypergeometric",ran_hypergeometric,METH_VARARGS},
   {"logarithmic",ran_logarithmic,METH_VARARGS},
+  {"landau",ran_landau,METH_VARARGS},
+  {"erlang",ran_erlang,METH_VARARGS},
   /*densities*/
   {"gaussian_pdf",ran_gaussian_pdf,METH_VARARGS},
   {"ugaussian_pdf",ran_ugaussian_pdf,METH_VARARGS},
@@ -1890,7 +1984,9 @@ static PyMethodDef rngMethods[] = {
   {"geometric_pdf",ran_geometric_pdf,METH_VARARGS},
   {"hypergeometric_pdf",ran_hypergeometric_pdf,METH_VARARGS},
   {"logarithmic_pdf",ran_logarithmic_pdf,METH_VARARGS},  
-  {NULL,     NULL}        /* Sentinel */
+  {"landau_pdf",ran_landau_pdf,METH_VARARGS},  
+  {"erlang_pdf",ran_erlang_pdf,METH_VARARGS},  
+  {NULL, NULL, 0}        /* Sentinel */
 };
 
 DL_EXPORT(void) init_rng(void)

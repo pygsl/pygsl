@@ -21,8 +21,8 @@ pygsl_ieee=gsl_Extension("ieee",
                          )
 pygsl__rng=gsl_Extension("_rng",
 			 ['src/_rngmodule.c'],
-                         gsl_min_version=(1,),
-                         python_min_version=(2,1)
+                         gsl_min_version=(1,'0+'),
+                         python_min_version=(2,2)
                          )
 pygsl_const=gsl_Extension("const",
 			  ['src/constmodule.c'],

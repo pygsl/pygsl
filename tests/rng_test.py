@@ -10,7 +10,7 @@ class rng_basics(unittest.TestCase):
         """
         allocate the default rng
         """
-        rng=pygsl.rng.gsl_rng()
+        rng=pygsl.rng.rng()
         self.failIf(rng.name()=="","name of rng was \"\"")
         self.failIf(rng.name() is None,"name of rng was None")
         rng=None
@@ -19,17 +19,17 @@ class rng_basics(unittest.TestCase):
         """
         get one value from rng
         """
-        rng=pygsl.rng.gsl_rng()
+        rng=pygsl.rng.rng()
         value=rng.uniform()
         rng=None
         self.failIf(value<0 or value>=1.0,"value of %f not expected from uniform distribution"%value)
 
     def test_gsl_rng_rand(self):
-        rng=pygsl.rng.gsl_rng_rand()
+        rng=pygsl.rng.rng_rand()
         rng=None
 
     def test_rng_reproduce(self):
-        rng=pygsl.rng.gsl_rng()
+        rng=pygsl.rng.rng()
         rng.set(1)
         value1=rng.get()
         rng.set(1)
@@ -41,7 +41,7 @@ class rng_distributions(unittest.TestCase):
     test different distributions
     """
     def setUp(self):
-        self.rng=pygsl.rng.gsl_rng()
+        self.rng=pygsl.rng.rng()
 
     def tearDown(self):
         self.rng=None
