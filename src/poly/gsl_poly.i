@@ -11,6 +11,7 @@
 %}
 %init %{
   import_array();
+  init_pygsl();
 %}
 /*
 typedef double * gsl_complex_packed_ptr;

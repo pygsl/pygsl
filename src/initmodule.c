@@ -10,6 +10,7 @@
 #include <gsl/gsl_ieee_utils.h>
 #include <Python.h>
 
+#if 0
 /*
  * sets the right exception, but does not return to python!
  */
@@ -72,6 +73,7 @@ void module_error_handler(const char *reason, /* name of function*/
   Py_DECREF(gsl_error_module);
   return;
 }
+#endif
 
 static PyMethodDef initMethods[] = {
   {NULL,     NULL}        /* Sentinel */
@@ -82,7 +84,7 @@ DL_EXPORT(void) initinit(void)
 {
   (void)Py_InitModule("pygsl.init", initMethods);
   /* error handler for python exceptions*/
-  gsl_set_error_handler (&module_error_handler);
+  /* gsl_set_error_handler (&module_error_handler); */
   /* setup gsl mode and ieee modes from environment variable GSL_IEEE_MODE */
   gsl_ieee_env_setup();
   /* setup default random generator from environment variables */

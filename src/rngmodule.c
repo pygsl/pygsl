@@ -13,6 +13,7 @@
 
 
 #include <pygsl/utils.h>
+#include <pygsl/error_helpers.h>
 
 #if 0
 /* maybe we will recycle this code later */
@@ -2258,6 +2259,8 @@ void make_subclasses(PyObject* module) {
 DL_EXPORT(void) initrng(void) {
   PyObject* m;
   m=Py_InitModule("rng", rngMethods);
+
+  init_pygsl();
   /* already done in init
     gsl_rng_env_setup();
   */

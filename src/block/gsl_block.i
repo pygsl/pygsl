@@ -22,11 +22,13 @@
 #include <gsl/gsl_complex.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <pygsl/error_helpers.h>
 %}
 
 %init %{
   /* To use the numeric extension */
   import_array();
+  init_pygsl();
 %}
 
 

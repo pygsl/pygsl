@@ -9,7 +9,7 @@
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_histogram.h>
 #include <gsl/gsl_histogram2d.h>
-
+#include <pygsl/error_helpers.h>
 /*
  *
  * histogram type
@@ -2683,6 +2683,7 @@ inithistogram(void)
   PyObject* m;
   m=Py_InitModule("histogram", histogramMethods);
 
+  init_pygsl();
   /* init histogram type */
   histogram_histogramType.ob_type  = &PyType_Type;
   histogram_histogramType.tp_alloc = PyType_GenericAlloc;

@@ -13,10 +13,12 @@
 %{
 #include <gsl/gsl_types.h>
 #include <stdio.h>
+#include <pygsl/error_helpers.h>
 %}
 
 %init {
   import_array();
+  init_pygsl();
 }
 
 typedef int size_t;

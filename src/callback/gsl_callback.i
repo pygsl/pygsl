@@ -11,11 +11,15 @@
 
 
 %include gsl_block_typemaps.i
+%{
+#include <pygsl/error_helpers.h>
+%}
 
 typedef unsigned int size_t;
 %init %{
   /* To use the numeric extension */
   import_array();
+  init_pygsl();
 %}
 
 /* add functions to allocate and free the memory stored by gsl_function */

@@ -7,7 +7,7 @@
  * optional usage of Numeric module, available at http://numpy.sourceforge.net
  */
 
-
+#include <pygsl/error_helpers.h>
 #include <Python.h>
 #if NUMERIC!=0
 # define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_DOUBLE
@@ -36,6 +36,7 @@ DL_EXPORT(void) initdouble(void)
 #if NUMERIC!=0
     import_array();
 #endif
+    init_pygsl();
     (void)Py_InitModule("double", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
     return;
 }

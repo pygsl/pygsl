@@ -9,7 +9,7 @@
 #include <gsl/gsl_ieee_utils.h>
 #include <gsl/gsl_errno.h>
 #include <Python.h>
-
+#include <pygsl/error_helpers.h>
 /*
  * constants definitions
  */
@@ -168,6 +168,7 @@ DL_EXPORT(void) initieee(void)
   PyObject* m;
 
   m=Py_InitModule("ieee", ieeeMethods);
+  init_pygsl();
   define_const_ints(m);
 
   return;

@@ -5,8 +5,21 @@
 #include <pygsl/block_helpers.h>
 %}
 
+%feature("test") {
+     {
+	  /*test feature*/
+	  $action
+     } 
+    {
+	 /*handling ?*/
+	 fprintf(stderr, "Handling feature!");
+    }
+}
+
+
 %init {
   import_array();
+  init_pygsl();
 }
 typedef unsigned int size_t;
 
@@ -40,11 +53,11 @@ struct gsl_dht_struct
        return gsl_dht_init(self, nu, xmax);
   }
 
-  double x_samle(int n){
+  double x_sample(int n){
        return gsl_dht_x_sample(self, n); 
   }
 
-  double k_samle(int n){
+  double k_sample(int n){
        return gsl_dht_k_sample(self, n); 
   }
 

@@ -7,6 +7,7 @@
  * Only works in fixed-size mode (yet).
  * uses default random number generator (for now).
  * A configuration has to be a Numeric array.
+ * "
  */
 
 #include <Python.h>
@@ -14,7 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <gsl/gsl_siman.h>
-
+#include <pygsl/error_helpers.h>
 
 
 /* callback functions
@@ -178,6 +179,7 @@ static PyMethodDef simanMethods[] = {
 DL_EXPORT(void) simandiff(void)
 {
 	(void)Py_InitModule("siman", simanMethods);
+	init_pygsl();
 	return;
 }
 

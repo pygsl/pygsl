@@ -9,6 +9,7 @@
 
 
 #include <Python.h>
+#include <pygsl/error_helpers.h>
 #if NUMERIC!=0
 # define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_LONG
 # include <Numeric/arrayobject.h>
@@ -36,6 +37,7 @@ DL_EXPORT(void) initshort(void)
 #if NUMERIC!=0
     import_array();
 #endif
+    init_pygsl();
     return;
 }
 

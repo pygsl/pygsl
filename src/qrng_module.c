@@ -2,6 +2,7 @@
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
 #include <gsl/gsl_qrng.h>
+#include <pygsl/error_helpers.h>
 #include "qrng_module_defines.h"
 static PyObject *module = NULL;
 
@@ -299,7 +300,7 @@ init_qrng(void)
      PyObject *m;
 
      m = Py_InitModule("_qrng", PyGSL_qrng_module_functions);
-
+     init_pygsl();
      import_array();
 
 

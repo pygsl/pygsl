@@ -8,7 +8,7 @@
 #include <Python.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_matrix.h>
-
+#include <pygsl/error_helpers.h>
 /*
  * matrix
  */
@@ -336,7 +336,7 @@ initmatrix(void)
 {
   PyObject* m;
   m=Py_InitModule("matrix", matrixMethods);
-
+  init_pygsl();
   /* init histogram type */
   matrix_matrixType.ob_type  = &PyType_Type;
   matrix_matrixType.tp_alloc = PyType_GenericAlloc;

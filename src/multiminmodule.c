@@ -8,6 +8,7 @@
 #include <Python.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_multimin.h>
+#include <pygsl/error_helpers.h>
 
 typedef struct {
   PyObject_HEAD
@@ -353,7 +354,7 @@ initmultimin(void)
 {
   PyObject* m;
   m=Py_InitModule("multimin", multiminMethods);
-
+  init_pygsl();
   /* init multimin type */
   multimin_multiminType.ob_type  = &PyType_Type;
   multimin_multiminType.tp_alloc = PyType_GenericAlloc;

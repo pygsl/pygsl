@@ -9,6 +9,7 @@
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_errno.h>
 #include <Python.h>
+#include <pygsl/error_helpers.h>
 
 static PyObject* gsl_module_error;
 
@@ -90,7 +91,9 @@ DL_EXPORT(void) initsf(void)
   PyObject* gsl_errors_module;
   PyObject* sf_module;
   PyObject* gsl_errors_dict;
+
   gsl_errors_module=PyImport_ImportModule ("pygsl.errors");
+  init_pygsl();
   /* here is an error check needed! */
   gsl_errors_dict=PyModule_GetDict(gsl_errors_module);
   gsl_module_error=PyDict_GetItemString(gsl_errors_dict,"gsl_Error");

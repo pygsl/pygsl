@@ -3,10 +3,12 @@
 %{
 #include <gsl/gsl_sum.h>
 #include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
 %}
 
 %init {
   import_array();
+  init_pygsl();
 }
 typedef unsigned int size_t;
 

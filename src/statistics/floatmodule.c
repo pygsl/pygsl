@@ -10,7 +10,7 @@
 
 #include <Python.h>
 #include <gsl/gsl_statistics.h>
-
+#include <pygsl/error_helpers.h>
 #if NUMERIC!=0
 # define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_FLOAT
 # include <Numeric/arrayobject.h>
@@ -40,6 +40,7 @@ DL_EXPORT(void) initfloat(void)
 #if NUMERIC!=0
     import_array();
 #endif
+    init_pygsl();
     (void)Py_InitModule("float", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
     return;
 }

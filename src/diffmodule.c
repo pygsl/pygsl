@@ -10,7 +10,7 @@
 #include <gsl/gsl_math.h>
 #include <Python.h>
 #include <stdio.h>
-
+#include <pygsl/error_helpers.h>
 
 /* callback functions
  * - python function passed by user
@@ -131,6 +131,7 @@ static PyMethodDef diffMethods[] = {
 DL_EXPORT(void) initdiff(void)
 {
 	(void)Py_InitModule("diff", diffMethods);
+	init_pygsl();
 	return;
 }
 
