@@ -1,0 +1,8 @@
+#! /bin/sh
+rm -f checkargs.pm html2texi.pl icons mkhowto mkinfo
+
+ln -s $1/dist/src/Doc/html/icons icons
+ln -s $1/dist/src/Doc/tools/checkargs.pm checkargs.pm
+ln -s $1/dist/src/Doc/tools/html2texi.pl html2texi.pl
+ln -s $1/dist/src/Doc/tools/mkhowto mkhowto
+ln -s $1/dist/src/Doc/tools/mkinfo mkinfo

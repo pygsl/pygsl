@@ -1,3 +1,12 @@
+2002-04-22  Jochen Küpper  <jochen@unc.edu>
+
+	* mklinks: Added to create necessary links.  Give path to your python
+	cvs sources as parameter.
+
+	* pygsl.tex, copyright.tex: Include Free Documentation License.
+
+	* freedoc.tex: Added.
+
 2002-04-17  Jochen Küpper  <jochen@unc.edu>
 
 	* index.html: Add link to News section.  Some reorganization, adherence
