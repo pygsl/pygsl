@@ -23,11 +23,11 @@
 %typemap(in) (const double *, const double *, size_t ) {
      int mysize = 0;
      if(!PySequence_Check($input)){
-	  PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+	  PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays!");
 	  goto fail;
      }
      if(PySequence_Fast_GET_SIZE($input) != 2){
-	  PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+	  PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays! Number of sequence arguments did not match!");
 	  goto fail;
      }
      _PyVector_1$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
