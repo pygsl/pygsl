@@ -25,8 +25,6 @@ setup (name = "pygsl",
        author = "Pierre Schnizer",
        author_email = "schnizer@users.sourceforge.net",
        url = "http://pygsl.sourceforge.net",
-       py_modules = [
-                     ],
        ext_package = 'pygsl.testing',
        ext_modules = exts,
        libraries  = [libpygsl, ]
