@@ -10,6 +10,7 @@ from distutils.file_util import copy_file
 
 import os.path
 import re
+import string
 remove_underscore=re.compile("_*(.*)")
 
 gsl_include_dir = gsl_Location.get_gsl_prefix() + '/include'
@@ -77,6 +78,7 @@ class SWIG_Extension(gsl_Extension):
                 includes.append('-I' + i)
             cmd = [gsl_Location.get_swig(),] + swig_flags + includes
             cmd.extend(['-o', target] + sources)
+            print string.join(cmd, " ")
             spawn(cmd, 1, 1)
             dst = name
             src = name + '.py'
