@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer 
 import unittest
-import random
+
 import pygsl
 from pygsl import fit
 from pygsl import multifit

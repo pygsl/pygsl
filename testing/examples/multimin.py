@@ -29,7 +29,7 @@ def fdf(x, params):
 
 m = multimin.nmsimplex(2)
 #m = multimin.conjugate_fr(2)
-#m = multimin.conjugate_pr(2)
+m = multimin.conjugate_pr(2)
 #m = multimin.steepest_descent(2)
 #m = multimin.vector_bfgs(2)
 

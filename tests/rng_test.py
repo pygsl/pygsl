@@ -150,8 +150,10 @@ class _rng_distributions(unittest.TestCase):
             assert(da.shape[0] == 10)
             assert(da.shape[1] == n)
             test = 1
-            if pdf_method:                
-                pa = apply(pdf_method, (da[:,0], da[:,1]) + args)
+            if pdf_method:
+                x = da[:,0]
+                y = da[:,1]
+                pa = apply(pdf_method, (x, y) + args)
                 assert(type(pa) == Numeric.ArrayType)
                 assert(pa.typecode() == Numeric.Float)
                 assert(len(pa.shape) == 1)

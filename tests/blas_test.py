@@ -340,8 +340,9 @@ class BlasTestCase(GSLTestCase):
         a = arange(10)
         try:
             ddot(a,a[:3])
-        except gsl_Error:
+        except gsl_Error:            
             pass
-
+        
+        
 if __name__ == '__main__':
     unittest.main()
