@@ -56,27 +56,32 @@ class gsl_constant:
         else:
             return "#define %s %s"%(self.name,self.definition)
 
-    def make_module_definition(self):
-        new_name=""
+    def derive_python_name(self):
+        """
+        make python name, cut M_ or GSL_CONST_, switch to lower case
+        """
+        new_name=None
         if self.name[:2]=="M_":
             new_name='_'.join(map(string.lower,self.name.split('_')[1:]))
         elif self.name[:10]=="GSL_CONST_":
             new_name='_'.join(map(string.lower,self.name.split('_')[3:]))
-        else:
-            return None
+        return new_name
+ 
+    def make_module_definition(self):
+        """
+        depreciated:
+        PyModule_AddObject(m,"achims_constant",PyFloat_FromDouble(ACHIM_ACHIMS_CONSTANT))
+        """
+        new_name=self.derive_python_name()
+        if new_name is None: return None
         return "PyModule_AddObject(m,\"%s\",PyFloat_FromDouble(%s))"%(new_name,self.name)
         
     def make_array_entry(self):
         """
         string of type {"achims_constant",ACHIM_ACHIMS_CONSTANT,"achims bug density"}
         """
-        new_name=""
-        if self.name[:2]=="M_":
-            new_name='_'.join(map(string.lower,self.name.split('_')[1:]))
-        elif self.name[:10]=="GSL_CONST_":
-            new_name='_'.join(map(string.lower,self.name.split('_')[3:]))
-        else:
-            return None
+        new_name=self.derive_python_name()
+        if new_name is None: return None
         return "{\"%s\",%s,\"%s\"}"%(new_name,self.name,self.comment.strip())
 
 class prototype_collector:
