@@ -120,7 +120,8 @@ class WriteConversion:
         """
         vec = des.gsl_vector()
         pya = des.pyarray()
-        print "#define TO_PyArray_TYPE_%-35s  %s" % (vec, pya)
+        #print "#define TO_PyArray_TYPE_%-35s  %s" % (vec, pya)
+        print "%-50s = %s," % (vec + "_py_array_type", pya)
         return
     
     def Convert_TO_TYPE_VIEW(self, des):
@@ -159,13 +160,15 @@ class WriteConversion:
     def Convert_TO_BASIS_TYPE(self, des):
         vec = des.gsl_vector()
         basis = des.gsl_base_type()
-        print "#define BASIS_TYPE_%-35s        %s" % (vec, basis) 
+        #print "#define BASIS_TYPE_%-35s        %s" % (vec, basis)
+        print "typedef %-35s %s_basis_type; " % (basis, vec)
         return
 
     def Convert_TO_BASIS_TYPE_C(self, des):
         vec = des.gsl_vector()
         basis = des.c_base_type()
-        print "#define BASIS_TYPE_C_%-35s        %s" % (vec, basis) 
+        #print "#define BASIS_TYPE_C_%-35s        %s" % (vec, basis)
+        print "typedef %-35s %s_basis_c_type; " % (basis, vec)
         return
 
     def Convert_TO_GET(self, des):
@@ -174,7 +177,12 @@ class WriteConversion:
         print "#define GET_%-35s        %s_get" % (vec, vec1) 
         return
 
-    
+    def Convert_TO_BASIS(self, des):
+        vec = des.gsl_vector()
+        vec1 = des.gsl_vector_basis()
+        print "#define BASIS_%-35s        %s" % (vec, vec1) 
+        return
+        
             
     def _find_func(self):
         l = []
@@ -188,14 +196,19 @@ class WriteConversion:
     def _iterate(self):
         for j in ("gsl_vector", "gsl_matrix"):
             for l in self._find_func():
+                if l == self.Convert_TO_PyArray_TYPE:
+                    print "enum {"
                 for k in ("", "view"):
                     for i in vector_tuple:
                         des = Description(i, vector_dic[i], j, k)
                         l(des)
                     print
+                if l == self.Convert_TO_PyArray_TYPE:
+                    print "};"
                 print
             print    
 
 if __name__ == '__main__':
     w = WriteConversion()
+    #w('test')
     w('convert_block_description.h')
