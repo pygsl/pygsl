@@ -196,19 +196,19 @@ class gsl_Extension(Extension):
 		    define_macros=[]
 	    try:
 		    imp.find_module("Numeric")
-		    define_macros.append(("NUMERIC",1))
-	    except ImportError:
-		    define_macros.append(("NUMERIC",0))		    
+		    define_macros = define_macros + [("NUMERIC",1),]
+	    except ImportError:	    
+		    define_macros = define_macros + [("NUMERIC",0), ]
 	    if undef_macros == None:
 		    undef_macros = []
 	    if 'NDEBUG' not in undef_macros:
 		    undef_macros.append('NDEBUG')
 	    tmp = map(lambda x: x[0], define_macros)
 	    if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
-		    define_macros.append(("PYGSL_GSL_MAJOR_VERSION", gsl_major_version))
+		    define_macros = define_macros + [("PYGSL_GSL_MAJOR_VERSION", gsl_major_version),]
 	    if "PYGSL_GSL_MINOR_VERSION" not in tmp:
 		    #define_macros.append(("PYGSL_GSL_MINOR_VERSION", gsl_minor_version))
-		    define_macros.append(("PYGSL_GSL_MINOR_VERSION", gsl_minor_version))
+		    define_macros = define_macros + [("PYGSL_GSL_MINOR_VERSION", gsl_minor_version),]
 
             Extension.__init__(self, name, sources,
                                include_dirs,
