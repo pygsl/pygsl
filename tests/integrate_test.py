@@ -51,7 +51,13 @@ class IntegrateTest(unittest.TestCase):
             return 1. / (1.* x**2)
         
         sys = integrate.gsl_function(f1, None)
-        flag, result, error = integrate.qagil(sys, -2, 1e-8, 1e-8, 1000000, self.w)
+        test = 0
+        try:
+            flag, result, error = integrate.qagil(sys, -2, 1e-8, 1e-8, 1000000, self.w)
+            test = 1
+        finally:
+            if test == 0:
+                print integrate.qagil(sys, -2, 1e-8, 1e-8, 1000000, self.w)
         assert(Numeric.absolute(result - expected) < 1e-7)
         assert(Numeric.absolute(error) < 1e-7)
         self.w.get_size()
