@@ -6,7 +6,7 @@
 #include <pygsl/profile.h>
 #include <pygsl/utils.h>
 
-int
+static int
 PyGSL_PyComplex_to_gsl_complex(PyObject * src, gsl_complex * mycomplex)
 {
      PyObject * fitem;
@@ -37,7 +37,8 @@ PyGSL_PyComplex_to_gsl_complex(PyObject * src, gsl_complex * mycomplex)
      return GSL_SUCCESS;
 
 }
-int
+
+static int
 PyGSL_PyComplex_to_gsl_complex_float(PyObject * src,  
 				     gsl_complex_float * mycomplex)
 {
@@ -58,7 +59,7 @@ PyGSL_PyComplex_to_gsl_complex_float(PyObject * src,
      return GSL_SUCCESS;
 }
  
-int 
+static int 
 PyGSL_PyComplex_to_gsl_complex_long_double(PyObject * src, 
 					   gsl_complex_long_double * mycomplex)
 {

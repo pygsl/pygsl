@@ -24,16 +24,16 @@ typedef struct
 }   
 PyGSL_error_info;
 
-int
+PyGSL_API_EXTERN int
 PyGSL_set_error_string_for_callback(PyGSL_error_info * info);
 
 
-int 
+PyGSL_API_EXTERN int 
 PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info);
 
 
 
-int 										       
+PyGSL_API_EXTERN  int 										       
 PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info *info);
 
 PyGSL_API_EXTERN int 

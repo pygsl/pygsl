@@ -6,7 +6,7 @@
 
 static const char  error_module[] = "pygsl.errors";
 
-int  
+static int  
 PyGSL_error_flag(long flag)
 {
      if(DEBUG > 2){
@@ -23,7 +23,7 @@ PyGSL_error_flag(long flag)
      return GSL_SUCCESS;
 }
 
-PyObject * 
+static PyObject * 
 PyGSL_error_flag_to_pyint(long flag)
 {
      PyObject * result = NULL;
@@ -34,7 +34,7 @@ PyGSL_error_flag_to_pyint(long flag)
      return result;
 }
 
-void 
+static void 
 PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname, int lineno)
 {
      PyObject *py_srcfile = NULL, *py_funcname = NULL, *py_globals = NULL,
@@ -118,7 +118,8 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 
 
 
-PyObject * PyGSL_get_error_object(int gsl_error)
+static PyObject * 
+PyGSL_get_error_object(int gsl_error)
 {
      PyObject *gsl_error_module=NULL, *gsl_error_dict=NULL, *gsl_error_object=NULL;
      char *err_str, *default_err_str="gsl_Error";
@@ -196,7 +197,8 @@ PyObject * PyGSL_get_error_object(int gsl_error)
 /*
  * sets the right exception, but does not return to python!
  */
-void PyGSL_module_error_handler(const char *reason, /* name of function*/
+static void 
+PyGSL_module_error_handler(const char *reason, /* name of function*/
 			const char *file, /*from CPP*/
 			int line,   /*from CPP*/
 			int gsl_error) /* real "reason" */

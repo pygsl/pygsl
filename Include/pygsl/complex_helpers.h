@@ -14,12 +14,13 @@
 /* -------------------------------------------------------------------------
    Helper Functions
    ------------------------------------------------------------------------- */
-int
+PyGSL_API_EXTERN int
 PyGSL_PyComplex_to_gsl_complex(PyObject * src, gsl_complex * mycomplex);
-int
+
+PyGSL_API_EXTERN int
 PyGSL_PyComplex_to_gsl_complex_float(PyObject * src, 
 				     gsl_complex_float * mycomplex);
-int 
+PyGSL_API_EXTERN int 
 PyGSL_PyComplex_to_gsl_complex_long_double(PyObject * src, 
 					   gsl_complex_long_double * mycomplex);
 

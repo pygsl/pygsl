@@ -1,6 +1,6 @@
-#include <pygsl/rng_helpers.h>
+#include <pygsl/rng.h>
 
-gsl_rng *
+static gsl_rng *
 PyGSL_gsl_rng_from_pyobject(PyObject * object)
 {
      PyGSL_rng *rng = NULL;

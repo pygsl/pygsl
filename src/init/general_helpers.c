@@ -9,7 +9,7 @@
 #include <pygsl/utils.h>
 #include <pygsl/profile.h>
 
-int
+PyGSL_API_EXTERN int
 PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 {
      PyObject *name_o = NULL;
@@ -73,7 +73,7 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 }
 
 
-int 
+PyGSL_API_EXTERN int 
 PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info)
 {
      
@@ -101,7 +101,7 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
      return GSL_SUCCESS;
 }
 
-int 
+PyGSL_API_EXTERN int 
 PyGSL_pylong_to_uint(PyObject *object, unsigned int *result, PyGSL_error_info *info)
 {
      int flag;
@@ -111,7 +111,7 @@ PyGSL_pylong_to_uint(PyObject *object, unsigned int *result, PyGSL_error_info *i
      return flag;
 }
 
-int 
+PyGSL_API_EXTERN int 
 PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info *info)
 {
      
@@ -161,7 +161,7 @@ PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info 
  :                                                                                  \
    PyGSL_check_python_return((object), (nargs), (info))        
 
-int
+PyGSL_API_EXTERN int
 PyGSL_check_python_return(PyObject *object, int nargs, PyGSL_error_info  *info)
 {
      int tuple_size, flag=-1;
@@ -233,7 +233,7 @@ PyGSL_check_python_return(PyObject *object, int nargs, PyGSL_error_info  *info)
      return flag;
 }
 
-void
+PyGSL_API_EXTERN void
 PyGSL_clear_name(char *name, int size)
 {
      int j;
