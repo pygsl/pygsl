@@ -33,7 +33,7 @@ You can download it here: <a href="http://pygsl.sourceforge.net/">http://pygsl.s
 <p><tt>gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-</tt>
 <br><tt>cd pygsl-x.y.z</tt>
 <br><tt>#do this with your prefered python version</tt>
-<br><tt>#to set the gsl location explicitly use --gsl-prefix=/path/to/gsl</tt>
+<br><tt>#to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl</tt>
 <br><tt>python setup.py build</tt>
 <br><tt># change to a id, that is allowed to do installation</tt>
 <br><tt>python setup.py install</tt>
@@ -66,10 +66,16 @@ the directory <tt>test</tt> will contain several testsuites, based on python <tt
 
 <ul>
 <li>module pygsl.sf: with 200 special functions</li>
-<li>module pygsl.const: with 23 often used mathematical constants</li>
+<li>module pygsl.const: with 206 often used mathematical constants</li>
 <li>module pygsl.ieee: access to the ieee-arithmetics layer of gsl</li>
 <li>module pygsl.rng: provides several random number generators and different probability densities</li>
 </ul>
+
+For the exact function volume, please type:
+<p><tt>import pygsl.sf</tt>
+<br><tt>dir(pygsl.sf)</tt>
+<p>
+You can do this with the other modules too. The naming sceme is the same as in gsl.
 
 <h2>Documentation:</h2>
 There will be a small tutorial, but the function reference can be found at the gsl-reference.
