@@ -1,0 +1,114 @@
+===================================================================
+			Typemaps for PyGSL
+===================================================================
+
+Requirements:
+=============
+     - SWIG 1.3	
+     - A good editor and a lot of Coffee
+
+General considerations for these typemaps
+==========================================
+
+Coding standard
+----------------
+These typemaps here should be able to generate correct C _and_ C++ code.
+As of this writing it was tested and found to work. (17. 1. 2003)
+
+How is this goal reached? 
+    - Additional needed parameters are always declared by arginit.
+    - Pointers to be used in (freearg) typemaps have to be set to NULL.
+      (See also error handling)
+    - Only static initalisation of the variables is allowed in arginit.
+
+Conversion from python to C
+----------------------------
+The conversion from python to C generally follows a two step procedure:
+1. A Macro finds out if the python type corresponds perfect to the
+   corresponding gsl type. If so it does the converion itself.
+2. If the above Macro failed, a function is invoked, which tries to convert
+   the object or to generate an approbriate error message. Further it
+   increases the approbriate counter, so that a user can find out, how many
+   conversions where necessary for his/her objects.
+ 
+Example (see also gsl_complex_typemap.i):
+<snip>
+/* The macro looking for a complex object and performing the conversion */
+#define PyGSL_PyCOMPLEX_TO_gsl_complex(object, tmp)            \
+(PyComplex_Check(object)) ? 				       \
+     (tmp)->dat[0] = ((PyComplexObject *) object)->cval.real,  \
+     (tmp)->dat[1] = ((PyComplexObject *) object)->cval.imag,  \
+     GSL_SUCCESS 					       \
+     : PyGSL_PyComplex_to_gsl_complex(object, tmp)  
+
+/* PyGSL_PyComplex_to_gsl_complex is defined in gsl_complex_helpers.ic */
+/* The typemap */
+%typemap( in) gsl_complex * IN %{ 
+     {
+	  if(PyGSL_PyCOMPLEX_TO_$1_basetype ($input, &tmp$argnum) != GSL_SUCCESS)
+	       goto fail;
+     }
+     $1 = tmp$argnum;
+%}
+</snip>
+
+Handling of errors in the callback
+----------------------------------
+
+Since swig1.3  the python wrappers provide  a "fail" label to  jump to perform
+clean up.  This allows to dereference  python objects also  when error occure.
+To  have this working  correctly all  pointers must  be set  to NULL,  and the
+cooresponding (freearg)  typemap must check if  the pointer is  not NULL.  The
+following typemap is taken from gsl_block_typemaps.
+
+%typemap(arginit) gsl_vector *  %{
+	  PyArrayObject * _PyVector$argnum = NULL;
+%}
+%typemap( freearg) gsl_vector * {
+	  /* Checks internaly for NULL*/
+          Py_XDECREF(_PyVector$argnum);	  
+	  /* Always a good idea ... */
+         _PyVector$argnum = NULL;
+}
+
+Callbacks to python
+-------------------
+
+Normally   generating  error   messages   in  C   code   is  rather   straight
+forward. Callbacks are a bit  different, as there execution can be unexpected.
+Further python is rather flexible dealing  with its objects, whereas C is very
+strict. PyParse_Tuple will generate non  informative messages for the user, if
+it is used to parse the object returned from PyEval_Callback.
+
+Therefore the following apprach is used: After a callback, the returned object
+is checked by: 
+int PyGSL_CHECK_PYTHON_RETURN(PyObject *object, int nargs,
+                              PyObject *callback, char *message) 
+This will strictly test, if an error has
+occurred,  while executing  the callback,  and see  if the  correct  number of
+arguments has  been returned.  If failed,  the callback object is  used to get
+the name of the python function, and together with message an error message is
+generated. This error  message is passed to the user  via GSL_ERRROR. So watch
+out, the message must  not get too long, as only the  first 256 (?) characters
+will make its way to the user.
+
+Not  all GSL  solvers (nota  bene solvers  using gsl_function  e.g. integrate)
+check correctly the return value  if they flag error. Therefore a gsl_function
+*BUFFER typemap is provided, which will use setjmp/longjmp to jump around GSL.
+
+Gsl_function
+------------
+GSL makes heavy use of this struct, its handling is provided by the
+gsl_funtion_typemap.
+
+Disclaimer
+----------
+I don't want to get on your nerves, I just want to express my intensions.
+All these details here show how I intended my wrappers.
+
+
+
+    Pierre Schnizer                       17.1.2003
+
+
+Have  fun !!!
