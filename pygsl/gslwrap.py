@@ -896,4 +896,62 @@ gsl_eigen_jacobi = _gslwrap.gsl_eigen_jacobi
 
 gsl_eigen_invert_jacobi = _gslwrap.gsl_eigen_invert_jacobi
 
+gsl_spline_alloc = _gslwrap.gsl_spline_alloc
+
+gsl_spline_init = _gslwrap.gsl_spline_init
+
+gsl_spline_eval_e = _gslwrap.gsl_spline_eval_e
+
+gsl_spline_eval = _gslwrap.gsl_spline_eval
+
+gsl_spline_eval_deriv_e = _gslwrap.gsl_spline_eval_deriv_e
+
+gsl_spline_eval_deriv = _gslwrap.gsl_spline_eval_deriv
+
+gsl_spline_eval_deriv2_e = _gslwrap.gsl_spline_eval_deriv2_e
+
+gsl_spline_eval_deriv2 = _gslwrap.gsl_spline_eval_deriv2
+
+gsl_spline_eval_integ_e = _gslwrap.gsl_spline_eval_integ_e
+
+gsl_spline_eval_integ = _gslwrap.gsl_spline_eval_integ
+
+gsl_spline_free = _gslwrap.gsl_spline_free
+
+gsl_interp_accel_alloc = _gslwrap.gsl_interp_accel_alloc
+
+gsl_interp_accel_find = _gslwrap.gsl_interp_accel_find
+
+gsl_interp_accel_reset = _gslwrap.gsl_interp_accel_reset
+
+gsl_interp_accel_free = _gslwrap.gsl_interp_accel_free
+
+gsl_interp_alloc = _gslwrap.gsl_interp_alloc
+
+gsl_interp_init = _gslwrap.gsl_interp_init
+
+gsl_interp_name = _gslwrap.gsl_interp_name
+
+gsl_interp_min_size = _gslwrap.gsl_interp_min_size
+
+gsl_interp_eval_e = _gslwrap.gsl_interp_eval_e
+
+gsl_interp_eval = _gslwrap.gsl_interp_eval
+
+gsl_interp_eval_deriv_e = _gslwrap.gsl_interp_eval_deriv_e
+
+gsl_interp_eval_deriv = _gslwrap.gsl_interp_eval_deriv
+
+gsl_interp_eval_deriv2_e = _gslwrap.gsl_interp_eval_deriv2_e
+
+gsl_interp_eval_deriv2 = _gslwrap.gsl_interp_eval_deriv2
+
+gsl_interp_eval_integ_e = _gslwrap.gsl_interp_eval_integ_e
+
+gsl_interp_eval_integ = _gslwrap.gsl_interp_eval_integ
+
+gsl_interp_free = _gslwrap.gsl_interp_free
+
+gsl_interp_bsearch = _gslwrap.gsl_interp_bsearch
+
 
