@@ -1,0 +1,173 @@
+#!/usr/bin/env python
+# Author : Pierre Schnizer 
+"""
+This module describes routines for computing Chebyshev
+approximations to univariate functions.  A Chebyshev approximation is a
+truncation of the series f(x) = \sum c_n T_n(x), where the Chebyshev
+polynomials T_n(x) = \cos(n \arccos x) provide an orthogonal basis of
+polynomials on the interval [-1,1] with the weight function 1 /
+\sqrt{1-x^2}.  The first few Chebyshev polynomials are, T_0(x) = 1,
+T_1(x) = x, T_2(x) = 2 x^2 - 1.
+
+
+def f(x, p):
+    if x < 0.5:
+        return 0.25
+    else:
+        return 0.75
+
+     
+i = 10000;
+n = i
+
+cs = cheb_series(40)
+F = gsl_function(f, None)
+cs.init(F, 0.0, 1.0)
+
+for i in range(100):
+    x = i * n / 100.
+    r10 = cs.eval_n(10, x)
+    r40 = cs.eval(x)
+    print "%g %g %g %g" % (x, f(x, None), r10, r40)
+
+"""
+import _callback
+
+from  _generic_solver import _workspace
+from gsl_function import gsl_function
+
+class cheb_series(_workspace):
+    """
+    This class manages all internal detail. It provides the space for a
+    Chebyshev series of order N.
+
+    """
+    _alloc    = _callback.gsl_cheb_alloc
+    _free     = _callback.gsl_cheb_free
+    _init     = _callback.gsl_cheb_init
+    _eval     = _callback.gsl_cheb_eval
+    _eval_err = _callback.gsl_cheb_eval_err
+    _eval_n   = _callback.gsl_cheb_eval_n
+    _eval_n_err = _callback.gsl_cheb_eval_n_err
+    #_eval_mode   = _callback.gsl_cheb_eval_mode
+    #_eval_mode_e   = _callback.gsl_cheb_eval_mode_e
+    _calc_deriv   = _callback.gsl_cheb_calc_deriv
+    _calc_integ   = _callback.gsl_cheb_calc_integ
+
+    def __init__(self, size):
+        """
+        input : n
+            n ... number of coefficients
+        """
+        self._size = size
+        _workspace.__init__(self, size)
+        
+    def init(self, f, a, b):
+        """
+        This function computes the Chebyshev approximation for the
+        function F over the range (a,b) to the previously specified order.
+        The computation of the Chebyshev approximation is an O(n^2)
+        process, and requires n function evaluations.
+
+        input : f, a, b
+            f ... a gsl_function
+            a ... lower limit
+            b ... upper limit
+        """
+        return self._init(self._ptr, f.get_ptr(), a, b)
+
+    def eval(self, x):
+        """
+        This function evaluates the Chebyshev series CS at a given point X
+
+        input : x
+             x ... value where the series shall be evaluated.
+        """
+        return self._eval(self._ptr, x)
+
+    def eval_err(self, x):
+        """
+         This function computes the Chebyshev series  at a given point X,
+         estimating both the series RESULT and its absolute error ABSERR.
+         The error estimate is made from the first neglected term in the
+         series.
+         
+         input : x
+             x ... value where the error shall be evaluated.
+        """
+        return self._eval_err(self._ptr, x)
+
+    def eval_n(self, order, x):
+        """
+         This function evaluates the Chebyshev series CS at a given point
+         N, to (at most) the given order ORDER.
+
+        input : n, x
+             n ... number of cooefficients
+             x ... value where the series shall be evaluated.
+         
+        """
+        return self._eval_n(self._ptr, order, x)
+
+    def eval_n_err(self, order, x):
+        """
+        This function evaluates a Chebyshev series CS at a given point X,
+        estimating both the series RESULT and its absolute error ABSERR,
+        to (at most) the given order ORDER.  The error estimate is made
+        from the first neglected term in the series.
+
+        input : n, x
+             n ... number of cooefficients
+             x ... value where the error shall be evaluated.
+
+        """
+        return self._eval_n_err(self._ptr, order, x)
+
+#    def eval_mode(self, x, mode):
+#        """
+#        
+#        """
+#        return self._eval(self._ptr, x, mode)
+#
+#    def eval_mode_e(self, x, mode):
+#        return self._eval(self._ptr, x, mode)
+
+    def calc_deriv(self):
+        """
+        This method computes the derivative of the series CS. It returns
+        a new instance of the cheb_series class.
+        """
+        tmp = cheb_series(self._size)
+        self._calc_deriv(tmp._ptr, self._ptr)
+        return tmp
+
+    def calc_integ(self):
+        """
+        This method computes the integral of the series CS. It returns
+        a new instance of the cheb_series class.
+
+        """
+        tmp = cheb_series(self._size)
+        self._calc_integ(tmp._ptr, self._ptr)
+        return tmp
+
+if __name__ == '__main__':
+    def f(x, p):
+        if x < 0.5:
+            return 0.25
+        else:
+            return 0.75
+        
+     
+
+    cs = cheb_series(40)
+    F = gsl_function(f, None)
+    cs.init(F, 0.0, 1.0)
+    i = 10000;
+    n = i
+
+    for i in xrange(n):
+        x = i / float(n)
+        r10 = cs.eval_n(10, x)
+        r40 = cs.eval(x)
+        print "%g %g %g %g" % (x, f(x, None), r10, r40)
