@@ -1,7 +1,7 @@
 /*
  *  A rng module implementation which can return a sample as an array.
- * Author : Pierre Schnizer <schnizer@users.sourceforge.net>
- * Date   : 1. July. 2003
+ *  Author : Pierre Schnizer <schnizer@users.sourceforge.net>
+ *  Date   : 1. July. 2003
  *
  */
 #include <pygsl/utils.h>
@@ -12,6 +12,11 @@
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 
+/*
+ * All doc strings
+ */
+#include "rngmodule_docs.h"
+
 static PyObject *module = NULL;
 
 static void			/* generic instance destruction */
@@ -21,8 +26,8 @@ generic_dealloc (PyObject *self)
   PyMem_Free(self);
 }
 
-static char  PyGSL_rng_type_type_doc[] = "a GSL rng type";
-static char  PyGSL_rng_type_doc[] = "PyGSL rng";
+static char  PyGSL_rng_type_type_doc[] = "A GSL rng type. GSL provides "\
+"different types of random generators. These types are wrapped here.";
 
 /*---------------------------------------------------------------------------*/
 /* encapsulation for the PyGSL_rng_type */
@@ -70,32 +75,6 @@ static PyTypeObject PyGSL_rng_type_pytype = {
 #define PyGSLRngType_Check(v) ((v)->ob_type == &PyGSL_rng_type_pytype)
 
 
-
-void
-create_rng_types(PyObject *module)
-{
-     PyGSL_rng_type *a_rng = NULL;
-     const gsl_rng_type** thisRNGType=gsl_rng_types_setup();
-     PyObject* module_dict=PyModule_GetDict(module);
-     PyObject* item = NULL;
-
-     FUNC_MESS_BEGIN();
-     /* provide other rng types as subclasses of rng */
-     assert(module_dict);
-
-     while ((*thisRNGType)!=NULL) {
-	  a_rng =  PyObject_NEW(PyGSL_rng_type, &PyGSL_rng_type_pytype);
-	  a_rng->rng_type = (gsl_rng_type *) *thisRNGType;
-	  item = PyString_FromString((*thisRNGType)->name);
-	  PyGSL_clear_name(PyString_AsString(item), PyString_Size(item));
-	  assert(item);
-	  PyDict_SetItem(module_dict, item, (PyObject *) a_rng);
-	  Py_DECREF(item);
-	  item = NULL;	       
-	  thisRNGType++;
-     }
-     FUNC_MESS_END();
-}
 /*---------------------------------------------------------------------------*/
 /* rng */
 
@@ -142,7 +121,7 @@ static PyTypeObject PyGSL_rng_pytype = {
   (setattrofunc) 0,		/* tp_setattro */
   0,				/* tp_as_buffer */
   0L,				/* tp_flags */
-  PyGSL_rng_type_doc		/* tp_doc */
+  rng_type_doc		/* tp_doc */
 };
 
 
@@ -324,7 +303,9 @@ rng_clone(PyGSL_rng *self, PyObject *args)
      return (PyObject *) rng;
 }
 
-
+/*
+ * Is #name a standard macro definition?
+ */
 #define RNG_DISTRIBUTION(name, function)                                     \
 static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args)              \
 {                                                                            \
@@ -342,64 +323,66 @@ static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args)              \
 #include "rng_distributions.h"
 
 /* Redefine to trigger emacs into correct coloring*/
-
+/*
+ * This list is not optimized. I guess... Do you know how to optimize it?
+ */
 static struct PyMethodDef rng_methods[] = {
-  {"get", (PyCFunction) rng_get, METH_VARARGS, NULL},
-  {"set", (PyCFunction) rng_set, METH_VARARGS, NULL},
-  {"uniform", (PyCFunction) rng_call, METH_VARARGS, NULL},
-  {"uniform_pos", (PyCFunction) rng_uniform_pos, METH_VARARGS, NULL},
-  {"uniform_int", (PyCFunction) rng_uniform_int, METH_VARARGS, NULL},
+  {"get", (PyCFunction) rng_get, METH_VARARGS, rng_get_doc},
+  {"set", (PyCFunction) rng_set, METH_VARARGS, rng_set_doc},
+  {"uniform", (PyCFunction) rng_call, METH_VARARGS, rng_uniform_doc},
+  {"uniform_pos", (PyCFunction) rng_uniform_pos, METH_VARARGS, rng_uniform_pos_doc},
+  {"uniform_int", (PyCFunction) rng_uniform_int, METH_VARARGS, rng_uniform_int_doc},
   {"name", (PyCFunction) rng_name, METH_VARARGS, NULL},
-  {"max", (PyCFunction) rng_max, METH_VARARGS, NULL},
-  {"min", (PyCFunction) rng_min, METH_VARARGS, NULL},
-  {"clone", (PyCFunction) rng_clone, METH_VARARGS, NULL},
-  {"__copy__", (PyCFunction) rng_clone, METH_VARARGS, NULL},
-  /* distributions */
+  {"max", (PyCFunction) rng_max, METH_VARARGS, rng_max_doc},
+  {"min", (PyCFunction) rng_min, METH_VARARGS, rng_min_doc},
+  {"clone", (PyCFunction) rng_clone, METH_VARARGS, rng_clone_doc},
+  {"__copy__", (PyCFunction) rng_clone, METH_VARARGS, rng_clone_doc},
 
-  {"gaussian", (PyCFunction) rng_gaussian,METH_VARARGS, NULL},
-  {"gaussian_ratio_method", (PyCFunction) rng_gaussian_ratio_method,METH_VARARGS, NULL},
-  {"ugaussian", (PyCFunction) rng_ugaussian,METH_VARARGS, NULL},
-  {"ugaussian_ratio_method",(PyCFunction) rng_ugaussian_ratio_method,METH_VARARGS, NULL},
-  {"gaussian_tail", (PyCFunction) rng_gaussian_tail,METH_VARARGS, NULL},
-  {"ugaussian_tail",(PyCFunction) rng_ugaussian_tail,METH_VARARGS, NULL},
-  {"bivariate_gaussian", (PyCFunction) rng_bivariate_gaussian,METH_VARARGS, NULL},
-  {"exponential",(PyCFunction)rng_exponential,METH_VARARGS, NULL},
-  {"laplace",(PyCFunction)rng_laplace,METH_VARARGS, NULL},
-  {"exppow",(PyCFunction)rng_exppow,METH_VARARGS, NULL},
-  {"cauchy",(PyCFunction)rng_cauchy,METH_VARARGS, NULL},
-  {"rayleigh",(PyCFunction)rng_rayleigh,METH_VARARGS, NULL},
-  {"rayleigh_tail",(PyCFunction)rng_rayleigh_tail,METH_VARARGS, NULL},
-  {"levy",(PyCFunction)rng_levy,METH_VARARGS, NULL},
-  {"levy_skew",(PyCFunction)rng_levy_skew,METH_VARARGS, NULL},
-  {"gamma",(PyCFunction)rng_gamma,METH_VARARGS, NULL},
+  /* distributions */
+  {"gaussian", (PyCFunction) rng_gaussian,METH_VARARGS, rng_gaussian_doc},
+  {"gaussian_ratio_method", (PyCFunction) rng_gaussian_ratio_method,METH_VARARGS, rng_gaussian_ratio_doc},
+  {"ugaussian", (PyCFunction) rng_ugaussian,METH_VARARGS, rng_ugaussian_doc},
+  {"ugaussian_ratio_method",(PyCFunction) rng_ugaussian_ratio_method,METH_VARARGS, rng_ugaussian_ratio_doc},
+  {"gaussian_tail", (PyCFunction) rng_gaussian_tail,METH_VARARGS, rng_gaussian_tail_doc},
+  {"ugaussian_tail",(PyCFunction) rng_ugaussian_tail,METH_VARARGS, rng_ugaussian_tail_doc},
+  {"bivariate_gaussian", (PyCFunction) rng_bivariate_gaussian,METH_VARARGS, rng_bivariate_gaussian_doc},
+  {"exponential",(PyCFunction)rng_exponential,METH_VARARGS, rng_exponential_doc},
+  {"laplace",(PyCFunction)rng_laplace,METH_VARARGS, rng_laplace_doc},
+  {"exppow",(PyCFunction)rng_exppow,METH_VARARGS, rng_exppow_doc},
+  {"cauchy",(PyCFunction)rng_cauchy,METH_VARARGS, rng_cauchy_doc},
+  {"rayleigh",(PyCFunction)rng_rayleigh,METH_VARARGS, rng_rayleigh_doc},
+  {"rayleigh_tail",(PyCFunction)rng_rayleigh_tail,METH_VARARGS, rng_rayleigh_tail_doc},
+  {"levy",(PyCFunction)rng_levy,METH_VARARGS, rng_levy_doc},
+  {"levy_skew",(PyCFunction)rng_levy_skew,METH_VARARGS, rng_levy_skew_doc},
+  {"gamma",(PyCFunction)rng_gamma,METH_VARARGS, rng_gamma_doc},
   {"gamma_int",(PyCFunction)rng_gamma_int,METH_VARARGS, NULL},
-  {"flat",(PyCFunction)rng_flat,METH_VARARGS, NULL},
-  {"lognormal",(PyCFunction)rng_lognormal,METH_VARARGS, NULL},
-  {"chisq",(PyCFunction)rng_chisq,METH_VARARGS, NULL},
-  {"fdist",(PyCFunction)rng_fdist,METH_VARARGS, NULL},
-  {"tdist",(PyCFunction)rng_tdist,METH_VARARGS, NULL},
-  {"beta",(PyCFunction)rng_beta,METH_VARARGS, NULL},
-  {"logistic",(PyCFunction)rng_logistic,METH_VARARGS, NULL},
-  {"pareto",(PyCFunction)rng_pareto,METH_VARARGS, NULL},
-  {"dir_2d",(PyCFunction)rng_dir_2d,METH_VARARGS, NULL},
-  {"dir_2d_trig_method",(PyCFunction)rng_dir_2d_trig_method,METH_VARARGS, NULL},
-  {"dir_3d",(PyCFunction)rng_dir_3d,METH_VARARGS, NULL},
-  {"dir_nd",(PyCFunction)rng_dir_nd,METH_VARARGS, NULL},
-  {"weibull",(PyCFunction)rng_weibull,METH_VARARGS, NULL},
-  {"gumbel1",(PyCFunction)rng_gumbel1,METH_VARARGS, NULL},
-  {"gumbel2",(PyCFunction)rng_gumbel2,METH_VARARGS, NULL},
-  {"poisson",(PyCFunction)rng_poisson,METH_VARARGS, NULL},
-  {"bernoulli",(PyCFunction)rng_bernoulli,METH_VARARGS, NULL},
-  {"binomial",(PyCFunction)rng_binomial,METH_VARARGS, NULL},
-  {"negative_binomial",(PyCFunction)rng_negative_binomial,METH_VARARGS, NULL},
-  {"pascal",(PyCFunction)rng_pascal,METH_VARARGS, NULL},
-  {"geometric",(PyCFunction)rng_geometric,METH_VARARGS, NULL},
-  {"hypergeometric",(PyCFunction)rng_hypergeometric,METH_VARARGS, NULL},
-  {"logarithmic",(PyCFunction)rng_logarithmic,METH_VARARGS, NULL},
-  {"landau",(PyCFunction)rng_landau,METH_VARARGS, NULL},
+  {"flat",(PyCFunction)rng_flat,METH_VARARGS, rng_flat_doc},
+  {"lognormal",(PyCFunction)rng_lognormal,METH_VARARGS, rng_lognormal_doc},
+  {"chisq",(PyCFunction)rng_chisq,METH_VARARGS, rng_chisq_doc},
+  {"fdist",(PyCFunction)rng_fdist,METH_VARARGS, rng_fdist_doc},
+  {"tdist",(PyCFunction)rng_tdist,METH_VARARGS, rng_tdist_doc},
+  {"beta",(PyCFunction)rng_beta,METH_VARARGS, rng_beta_doc},
+  {"logistic",(PyCFunction)rng_logistic,METH_VARARGS, rng_logistic_doc},
+  {"pareto",(PyCFunction)rng_pareto,METH_VARARGS, rng_pareto_doc},
+  {"dir_2d",(PyCFunction)rng_dir_2d,METH_VARARGS, rng_dir_2d_doc},
+  {"dir_2d_trig_method",(PyCFunction)rng_dir_2d_trig_method,METH_VARARGS, rng_dir_2d_trig_method_doc},
+  {"dir_3d",(PyCFunction)rng_dir_3d,METH_VARARGS, rng_dir_3d_doc},
+  {"dir_nd",(PyCFunction)rng_dir_nd,METH_VARARGS, rng_dir_nd_doc},
+  {"weibull",(PyCFunction)rng_weibull,METH_VARARGS, rng_weibull_doc},
+  {"gumbel1",(PyCFunction)rng_gumbel1,METH_VARARGS, rng_gumbel1_doc},
+  {"gumbel2",(PyCFunction)rng_gumbel2,METH_VARARGS, rng_gumbel2_doc},
+  {"poisson",(PyCFunction)rng_poisson,METH_VARARGS, rng_poisson_doc},
+  {"bernoulli",(PyCFunction)rng_bernoulli,METH_VARARGS, rng_bernoulli_doc},
+  {"binomial",(PyCFunction)rng_binomial,METH_VARARGS, rng_binomial_doc},
+  {"negative_binomial",(PyCFunction)rng_negative_binomial,METH_VARARGS, rng_negative_binomial_doc},
+  {"pascal",(PyCFunction)rng_pascal,METH_VARARGS, rng_pascal_doc},
+  {"geometric",(PyCFunction)rng_geometric,METH_VARARGS, rng_geometric_doc},
+  {"hypergeometric",(PyCFunction)rng_hypergeometric,METH_VARARGS, rng_hypergeometric_doc},
+  {"logarithmic",(PyCFunction)rng_logarithmic,METH_VARARGS, rng_logarithmic_doc},
+  {"landau",(PyCFunction)rng_landau,METH_VARARGS, rng_landau_doc},
   {"erlang",(PyCFunction)rng_erlang,METH_VARARGS, NULL},  
   {"multinomial",(PyCFunction)rng_multinomial,METH_VARARGS, NULL},
-  {"dirichlet",(PyCFunction)rng_dirichlet,METH_VARARGS, NULL},
+  {"dirichlet",(PyCFunction)rng_dirichlet,METH_VARARGS, rng_dirichlet_doc},
   {NULL, NULL}
 };
 
@@ -410,6 +393,7 @@ rng_getattr(PyGSL_rng *self, char *name)
 
      FUNC_MESS_BEGIN();
      assert(PyGSLRng_Check(self));
+ 
      tmp = Py_FindMethod(rng_methods, (PyObject *) self, name);
      if(NULL == tmp){	  
 	  PyGSL_add_traceback(module, __FILE__, "rng.__attr__", __LINE__ - 1);
@@ -417,6 +401,7 @@ rng_getattr(PyGSL_rng *self, char *name)
      }
      return tmp;
 }
+
 static PyObject *
 rng_types_setup(PyObject *self, PyObject *args)
 {
@@ -444,7 +429,8 @@ rng_types_setup(PyObject *self, PyObject *args)
      return NULL;
 }
 
-
+/*---------------------------------------------------------------------------*/
+/* Module set up */
 #define RNG_GENERATE_PDF
 #undef RNG_DISTRIBUTION
 #define RNG_DISTRIBUTION(name, function)                                   \
@@ -467,64 +453,114 @@ static PyObject* rng_dirichlet_lnpdf (PyObject *self, PyObject *args)
 { 
    return PyGSL_pdf_dA_to_dA(self, args, gsl_ran_dirichlet_lnpdf); 
 }
-static PyObject* rng_multinomial_lnpdf (PyObject *self, PyObject *args)         
+static PyObject* rng_multinomial_lnpdf (PyObject *self, PyObject *args)
 { 
    return PyGSL_pdf_uidA_to_uiA(self, args, gsl_ran_multinomial_lnpdf); 
 }
 
 static PyMethodDef PyGSL_rng_module_functions[] = {
-     {"rng", rng_init, METH_VARARGS},
+     {"rng", rng_init, METH_VARARGS, rng_doc},
      {"types_setup", rng_types_setup, METH_VARARGS},
      /*densities*/
-     {"gaussian_pdf",rng_gaussian_pdf,METH_VARARGS},
-     {"ugaussian_pdf",rng_ugaussian_pdf,METH_VARARGS},
-     {"gaussian_tail_pdf",rng_gaussian_tail_pdf,METH_VARARGS},
-     {"ugaussian_tail_pdf",rng_ugaussian_tail_pdf,METH_VARARGS},
-     {"bivariate_gaussian_pdf",rng_bivariate_gaussian_pdf,METH_VARARGS},
-     {"exponential_pdf",rng_exponential_pdf,METH_VARARGS},
-     {"laplace_pdf",rng_laplace_pdf,METH_VARARGS},
-     {"exppow_pdf",rng_exppow_pdf,METH_VARARGS},
-     {"cauchy_pdf",rng_cauchy_pdf,METH_VARARGS},
-     {"rayleigh_pdf",rng_rayleigh_pdf,METH_VARARGS},
-     {"rayleigh_tail_pdf",rng_rayleigh_tail_pdf,METH_VARARGS},
-     {"gamma_pdf",rng_gamma_pdf,METH_VARARGS},
-     {"flat_pdf",rng_flat_pdf,METH_VARARGS},
-     {"lognormal_pdf",rng_lognormal_pdf,METH_VARARGS},
-     {"chisq_pdf",rng_chisq_pdf,METH_VARARGS},
-     {"fdist_pdf",rng_fdist_pdf,METH_VARARGS},
-     {"tdist_pdf",rng_tdist_pdf,METH_VARARGS},
-     {"beta_pdf",rng_beta_pdf,METH_VARARGS},
-     {"logistic_pdf",rng_logistic_pdf,METH_VARARGS},
-     {"pareto_pdf",rng_pareto_pdf,METH_VARARGS},
-     {"weibull_pdf",rng_weibull_pdf,METH_VARARGS},
-     {"gumbel1_pdf",rng_gumbel1_pdf,METH_VARARGS},
-     {"gumbel2_pdf",rng_gumbel2_pdf,METH_VARARGS},
-     {"poisson_pdf",rng_poisson_pdf,METH_VARARGS},
-     {"bernoulli_pdf",rng_bernoulli_pdf,METH_VARARGS},
-     {"binomial_pdf",rng_binomial_pdf,METH_VARARGS},
-     {"negative_binomial_pdf",rng_negative_binomial_pdf,METH_VARARGS},
-     {"pascal_pdf",rng_pascal_pdf,METH_VARARGS},
-     {"geometric_pdf",rng_geometric_pdf,METH_VARARGS},
-     {"hypergeometric_pdf",rng_hypergeometric_pdf,METH_VARARGS},
-     {"logarithmic_pdf",rng_logarithmic_pdf,METH_VARARGS},  
-     {"landau_pdf",rng_landau_pdf,METH_VARARGS},  
-     {"erlang_pdf",rng_erlang_pdf,METH_VARARGS},
-     {"multinomial_pdf",rng_multinomial_pdf,METH_VARARGS},  
-     {"dirichlet_pdf",rng_dirichlet_pdf,METH_VARARGS},
-     {"multinomial_lnpdf",rng_multinomial_lnpdf,METH_VARARGS},  
-     {"dirichlet_lnpdf",rng_dirichlet_lnpdf,METH_VARARGS},  
+     {"gaussian_pdf",rng_gaussian_pdf,METH_VARARGS, rng_gaussian_pdf_doc},
+     {"ugaussian_pdf",rng_ugaussian_pdf,METH_VARARGS, rng_ugaussian_pdf_doc},
+     {"gaussian_tail_pdf",rng_gaussian_tail_pdf,METH_VARARGS, rng_gaussian_tail_pdf_doc},
+     {"ugaussian_tail_pdf",rng_ugaussian_tail_pdf,METH_VARARGS, rng_ugaussian_tail_pdf_doc},
+     {"bivariate_gaussian_pdf",rng_bivariate_gaussian_pdf,METH_VARARGS, rng_bivariate_gaussian_pdf_doc},
+     {"exponential_pdf",rng_exponential_pdf,METH_VARARGS, rng_exponential_pdf_doc},
+     {"laplace_pdf",rng_laplace_pdf,METH_VARARGS, rng_laplace_pdf_doc},
+     {"exppow_pdf",rng_exppow_pdf,METH_VARARGS, rng_exppow_pdf_doc},
+     {"cauchy_pdf",rng_cauchy_pdf,METH_VARARGS, rng_cauchy_pdf_doc},
+     {"rayleigh_pdf",rng_rayleigh_pdf,METH_VARARGS, rng_rayleigh_pdf_doc},
+     {"rayleigh_tail_pdf",rng_rayleigh_tail_pdf,METH_VARARGS, rng_rayleigh_tail_pdf_doc},
+     {"gamma_pdf",rng_gamma_pdf,METH_VARARGS, rng_gamma_pdf_doc},
+     {"flat_pdf",rng_flat_pdf,METH_VARARGS, rng_flat_pdf_doc},
+     {"lognormal_pdf",rng_lognormal_pdf,METH_VARARGS, rng_lognormal_pdf_doc},
+     {"chisq_pdf",rng_chisq_pdf,METH_VARARGS, rng_chisq_pdf_doc},
+     {"fdist_pdf",rng_fdist_pdf,METH_VARARGS, rng_fdist_pdf_doc},
+     {"tdist_pdf",rng_tdist_pdf,METH_VARARGS, rng_tdist_pdf_doc},
+     {"beta_pdf",rng_beta_pdf,METH_VARARGS, rng_beta_pdf_doc},
+     {"logistic_pdf",rng_logistic_pdf,METH_VARARGS, rng_logistic_pdf_doc},
+     {"pareto_pdf",rng_pareto_pdf,METH_VARARGS, rng_pareto_pdf_doc},
+     {"weibull_pdf",rng_weibull_pdf,METH_VARARGS, rng_weibull_pdf_doc},
+     {"gumbel1_pdf",rng_gumbel1_pdf,METH_VARARGS, rng_gumbel1_pdf_doc},
+     {"gumbel2_pdf",rng_gumbel2_pdf,METH_VARARGS, rng_gumbel2_pdf_doc},
+     {"poisson_pdf",rng_poisson_pdf,METH_VARARGS, rng_poisson_pdf_doc},
+     {"bernoulli_pdf",rng_bernoulli_pdf,METH_VARARGS, rng_bernoulli_pdf_doc},
+     {"binomial_pdf",rng_binomial_pdf,METH_VARARGS,  rng_binomial_pdf_doc},
+     {"negative_binomial_pdf",rng_negative_binomial_pdf,METH_VARARGS, rng_negative_binomial_pdf_doc},
+     {"pascal_pdf",rng_pascal_pdf,METH_VARARGS, rng_pascal_pdf_doc},
+     {"geometric_pdf",rng_geometric_pdf,METH_VARARGS, rng_geometric_pdf_doc},
+     {"hypergeometric_pdf",rng_hypergeometric_pdf,METH_VARARGS, rng_hypergeometric_pdf_doc},
+     {"logarithmic_pdf",rng_logarithmic_pdf,METH_VARARGS, rng_logarithmic_pdf_doc},  
+     {"landau_pdf",rng_landau_pdf,METH_VARARGS, rng_landau_pdf_doc},  
+     {"erlang_pdf",rng_erlang_pdf,METH_VARARGS, NULL},
+     {"multinomial_pdf",rng_multinomial_pdf,METH_VARARGS, NULL},  
+     {"dirichlet_pdf",rng_dirichlet_pdf,METH_VARARGS, rng_dirichlet_pdf_doc},
+     {"multinomial_lnpdf",rng_multinomial_lnpdf,METH_VARARGS, NULL},  
+     {"dirichlet_lnpdf",rng_dirichlet_lnpdf,METH_VARARGS, rng_dirichlet_lnpdf_doc},  
      {NULL, NULL, 0}        /* Sentinel */
 };
+
+
+void
+create_rng_types(PyObject *module)
+{
+     PyGSL_rng_type *a_rng = NULL;
+     const gsl_rng_type** thisRNGType=gsl_rng_types_setup();
+     PyObject* module_dict=PyModule_GetDict(module);
+     PyObject* item = NULL;
+
+     FUNC_MESS_BEGIN();
+     /* provide other rng types as subclasses of rng */
+     assert(module_dict);
+
+     while ((*thisRNGType)!=NULL) {
+	  a_rng =  PyObject_NEW(PyGSL_rng_type, &PyGSL_rng_type_pytype);
+	  a_rng->rng_type = (gsl_rng_type *) *thisRNGType;
+	  item = PyString_FromString((*thisRNGType)->name);
+	  PyGSL_clear_name(PyString_AsString(item), PyString_Size(item));
+	  assert(item);
+	  PyDict_SetItem(module_dict, item, (PyObject *) a_rng);
+	  Py_DECREF(item);
+	  item = NULL;	       
+	  thisRNGType++;
+     }
+     FUNC_MESS_END();
+}
 
 void 
 initrng(void)
 {
-     PyObject *m;
+     PyObject *m=NULL, *item=NULL, *dict=NULL;
+
      m = Py_InitModule("rng", PyGSL_rng_module_functions);
      assert(m);
      create_rng_types(m);
      module = m;
+
+     dict = PyModule_GetDict(m);
+     if(!dict)
+	  goto fail;
+     
+     if (!(item = PyString_FromString(rng_module_doc))){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not generate module doc string!");
+	  goto fail;
+     }
+     if (PyDict_SetItemString(dict, "__doc__", item) != 0){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not init doc string!");
+	  goto fail;
+     }
      PyGSL_rng_type_pytype.ob_type = &PyType_Type;
      PyGSL_rng_pytype.ob_type = &PyType_Type;
      import_array();
+     return;
+     
+ fail:
+     if(!PyErr_Occurred()){
+	  PyErr_SetString(PyExc_ImportError, "I could not init rng module!");
+     }
+
 }
