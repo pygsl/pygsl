@@ -657,10 +657,12 @@ static swig_type_info *swig_types[2];
 #include <gsl/gsl_dht.h>
 #include <pygsl/block_helpers.h>
 
+
    
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
+PyObject *pygsl_module_for_error_treatment = NULL;
 
 struct gsl_dht_struct *new_gsl_dht_struct(size_t const n){
     return gsl_dht_alloc(n);
@@ -671,10 +673,10 @@ void delete_gsl_dht_struct(struct gsl_dht_struct *self){
 int gsl_dht_struct_init(struct gsl_dht_struct *self,double nu,double xmax){
        return gsl_dht_init(self, nu, xmax);
   }
-double gsl_dht_struct_x_samle(struct gsl_dht_struct *self,int n){
+double gsl_dht_struct_x_sample(struct gsl_dht_struct *self,int n){
        return gsl_dht_x_sample(self, n); 
   }
-double gsl_dht_struct_k_samle(struct gsl_dht_struct *self,int n){
+double gsl_dht_struct_k_sample(struct gsl_dht_struct *self,int n){
        return gsl_dht_k_sample(self, n); 
   }
 size_t gsl_dht_struct_get_size(struct gsl_dht_struct *self){
@@ -781,7 +783,11 @@ static PyObject *_wrap_DiscreteHankelTransform_init(PyObject *self, PyObject *ar
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     return resultobj;
     fail:
@@ -789,7 +795,7 @@ static PyObject *_wrap_DiscreteHankelTransform_init(PyObject *self, PyObject *ar
 }
 
 
-static PyObject *_wrap_DiscreteHankelTransform_x_samle(PyObject *self, PyObject *args, PyObject *kwargs) {
+static PyObject *_wrap_DiscreteHankelTransform_x_sample(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ;
     int arg2 ;
@@ -799,9 +805,9 @@ static PyObject *_wrap_DiscreteHankelTransform_x_samle(PyObject *self, PyObject 
         "self","n", NULL 
     };
     
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:DiscreteHankelTransform_x_samle",kwnames,&obj0,&arg2)) goto fail;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:DiscreteHankelTransform_x_sample",kwnames,&obj0,&arg2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_dht_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (double)gsl_dht_struct_x_samle(arg1,arg2);
+    result = (double)gsl_dht_struct_x_sample(arg1,arg2);
     
     resultobj = PyFloat_FromDouble(result);
     return resultobj;
@@ -810,7 +816,7 @@ static PyObject *_wrap_DiscreteHankelTransform_x_samle(PyObject *self, PyObject 
 }
 
 
-static PyObject *_wrap_DiscreteHankelTransform_k_samle(PyObject *self, PyObject *args, PyObject *kwargs) {
+static PyObject *_wrap_DiscreteHankelTransform_k_sample(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ;
     int arg2 ;
@@ -820,9 +826,9 @@ static PyObject *_wrap_DiscreteHankelTransform_k_samle(PyObject *self, PyObject 
         "self","n", NULL 
     };
     
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:DiscreteHankelTransform_k_samle",kwnames,&obj0,&arg2)) goto fail;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:DiscreteHankelTransform_k_sample",kwnames,&obj0,&arg2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_dht_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (double)gsl_dht_struct_k_samle(arg1,arg2);
+    result = (double)gsl_dht_struct_k_sample(arg1,arg2);
     
     resultobj = PyFloat_FromDouble(result);
     return resultobj;
@@ -885,8 +891,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_DiscreteHankelTransform", (PyCFunction) _wrap_new_DiscreteHankelTransform, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"delete_DiscreteHankelTransform", (PyCFunction) _wrap_delete_DiscreteHankelTransform, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"DiscreteHankelTransform_init", (PyCFunction) _wrap_DiscreteHankelTransform_init, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"DiscreteHankelTransform_x_samle", (PyCFunction) _wrap_DiscreteHankelTransform_x_samle, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"DiscreteHankelTransform_k_samle", (PyCFunction) _wrap_DiscreteHankelTransform_k_samle, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"DiscreteHankelTransform_x_sample", (PyCFunction) _wrap_DiscreteHankelTransform_x_sample, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"DiscreteHankelTransform_k_sample", (PyCFunction) _wrap_DiscreteHankelTransform_k_sample, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"DiscreteHankelTransform_get_size", (PyCFunction) _wrap_DiscreteHankelTransform_get_size, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"DiscreteHankelTransform_apply", (PyCFunction) _wrap_DiscreteHankelTransform_apply, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"DiscreteHankelTransform_swigregister", DiscreteHankelTransform_swigregister, METH_VARARGS },
@@ -935,6 +941,10 @@ SWIGEXPORT(void) SWIG_init(void) {
     
     
     import_array();
+    init_pygsl();
+    
+    
+    pygsl_module_for_error_treatment = m;
     
 }
 

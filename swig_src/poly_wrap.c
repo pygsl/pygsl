@@ -669,6 +669,7 @@ static swig_type_info *swig_types[4];
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
+PyObject *pygsl_module_for_error_treatment = NULL;
 
 extern int gsl_poly_solve_quadratic(double,double,double,double *,double *);
 
@@ -1022,6 +1023,10 @@ SWIGEXPORT(void) SWIG_init(void) {
     
     
     import_array();
+    init_pygsl();
+    
+    
+    pygsl_module_for_error_treatment = m;
     
 }
 

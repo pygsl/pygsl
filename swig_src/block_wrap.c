@@ -683,6 +683,7 @@ static swig_type_info *swig_types[26];
 #include <gsl/gsl_complex.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <pygsl/error_helpers.h>
 
 
 #include <pygsl/utils.h>
@@ -695,6 +696,7 @@ static swig_type_info *swig_types[26];
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
+PyObject *pygsl_module_for_error_treatment = NULL;
 
 
 static PyObject* t_output_helper(PyObject* target, PyObject* o) {
@@ -753,6 +755,7 @@ static PyObject *_wrap_gsl_vector_set_zero(PyObject *self, PyObject *args, PyObj
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         1);
@@ -782,16 +785,19 @@ static PyObject *_wrap_gsl_vector_set_zero(PyObject *self, PyObject *args, PyObj
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -817,6 +823,7 @@ static PyObject *_wrap_gsl_vector_set_all(PyObject *self, PyObject *args, PyObje
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         1);
@@ -846,16 +853,19 @@ static PyObject *_wrap_gsl_vector_set_all(PyObject *self, PyObject *args, PyObje
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -883,6 +893,7 @@ static PyObject *_wrap_gsl_vector_set_basis(PyObject *self, PyObject *args, PyOb
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         1);
@@ -910,23 +921,30 @@ static PyObject *_wrap_gsl_vector_set_basis(PyObject *self, PyObject *args, PyOb
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert(_PyVector1 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -949,11 +967,17 @@ static PyObject *_wrap_gsl_vector_fread(PyObject *self, PyObject *args, PyObject
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -961,6 +985,7 @@ static PyObject *_wrap_gsl_vector_fread(PyObject *self, PyObject *args, PyObject
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         2);
@@ -986,23 +1011,30 @@ static PyObject *_wrap_gsl_vector_fread(PyObject *self, PyObject *args, PyObject
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1025,17 +1057,24 @@ static PyObject *_wrap_gsl_vector_fwrite(PyObject *self, PyObject *args, PyObjec
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 2, NULL);
@@ -1058,17 +1097,23 @@ static PyObject *_wrap_gsl_vector_fwrite(PyObject *self, PyObject *args, PyObjec
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1091,11 +1136,17 @@ static PyObject *_wrap_gsl_vector_fscanf(PyObject *self, PyObject *args, PyObjec
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -1103,6 +1154,7 @@ static PyObject *_wrap_gsl_vector_fscanf(PyObject *self, PyObject *args, PyObjec
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         2);
@@ -1128,23 +1180,30 @@ static PyObject *_wrap_gsl_vector_fscanf(PyObject *self, PyObject *args, PyObjec
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1168,17 +1227,24 @@ static PyObject *_wrap_gsl_vector_fprintf(PyObject *self, PyObject *args, PyObje
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 2, NULL);
@@ -1201,17 +1267,23 @@ static PyObject *_wrap_gsl_vector_fprintf(PyObject *self, PyObject *args, PyObje
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1236,6 +1308,7 @@ static PyObject *_wrap_gsl_vector_reverse(PyObject *self, PyObject *args, PyObje
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1258,23 +1331,30 @@ static PyObject *_wrap_gsl_vector_reverse(PyObject *self, PyObject *args, PyObje
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert(_PyVector1 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1305,6 +1385,7 @@ static PyObject *_wrap_gsl_vector_swap(PyObject *self, PyObject *args, PyObject 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1328,6 +1409,7 @@ static PyObject *_wrap_gsl_vector_swap(PyObject *self, PyObject *args, PyObject 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 2, NULL);
@@ -1350,37 +1432,47 @@ static PyObject *_wrap_gsl_vector_swap(PyObject *self, PyObject *args, PyObject 
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert(_PyVector1 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1409,6 +1501,7 @@ static PyObject *_wrap_gsl_vector_swap_elements(PyObject *self, PyObject *args, 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1435,23 +1528,30 @@ static PyObject *_wrap_gsl_vector_swap_elements(PyObject *self, PyObject *args, 
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert(_PyVector1 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1476,6 +1576,7 @@ static PyObject *_wrap_gsl_vector_max(PyObject *self, PyObject *args, PyObject *
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1500,12 +1601,14 @@ static PyObject *_wrap_gsl_vector_max(PyObject *self, PyObject *args, PyObject *
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1530,6 +1633,7 @@ static PyObject *_wrap_gsl_vector_min(PyObject *self, PyObject *args, PyObject *
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1554,12 +1658,14 @@ static PyObject *_wrap_gsl_vector_min(PyObject *self, PyObject *args, PyObject *
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1589,6 +1695,7 @@ static PyObject *_wrap_gsl_vector_minmax(PyObject *self, PyObject *args, PyObjec
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1621,12 +1728,14 @@ static PyObject *_wrap_gsl_vector_minmax(PyObject *self, PyObject *args, PyObjec
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1651,6 +1760,7 @@ static PyObject *_wrap_gsl_vector_max_index(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1675,12 +1785,14 @@ static PyObject *_wrap_gsl_vector_max_index(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1705,6 +1817,7 @@ static PyObject *_wrap_gsl_vector_min_index(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1729,12 +1842,14 @@ static PyObject *_wrap_gsl_vector_min_index(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1778,6 +1893,7 @@ static PyObject *_wrap_gsl_vector_minmax_index(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1812,12 +1928,14 @@ static PyObject *_wrap_gsl_vector_minmax_index(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1842,6 +1960,7 @@ static PyObject *_wrap_gsl_vector_isnull(PyObject *self, PyObject *args, PyObjec
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector, 
         0, -1, 1, NULL);
@@ -1866,12 +1985,14 @@ static PyObject *_wrap_gsl_vector_isnull(PyObject *self, PyObject *args, PyObjec
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1892,6 +2013,7 @@ static PyObject *_wrap_gsl_matrix_set_zero(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_set_zero",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1);
         a_array = _PyMatrix1;
@@ -1910,16 +2032,19 @@ static PyObject *_wrap_gsl_matrix_set_zero(PyObject *self, PyObject *args, PyObj
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1941,6 +2066,7 @@ static PyObject *_wrap_gsl_matrix_set_all(PyObject *self, PyObject *args, PyObje
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:gsl_matrix_set_all",kwnames,&obj0,&arg2)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1);
         a_array = _PyMatrix1;
@@ -1959,16 +2085,19 @@ static PyObject *_wrap_gsl_matrix_set_all(PyObject *self, PyObject *args, PyObje
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -1989,6 +2118,7 @@ static PyObject *_wrap_gsl_matrix_set_identity(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_set_identity",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1);
         a_array = _PyMatrix1;
@@ -2007,16 +2137,19 @@ static PyObject *_wrap_gsl_matrix_set_identity(PyObject *self, PyObject *args, P
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2039,14 +2172,21 @@ static PyObject *_wrap_gsl_matrix_fread(PyObject *self, PyObject *args, PyObject
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix, 2);
         a_array = _PyMatrix2;
@@ -2062,22 +2202,29 @@ static PyObject *_wrap_gsl_matrix_fread(PyObject *self, PyObject *args, PyObject
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2100,17 +2247,23 @@ static PyObject *_wrap_gsl_matrix_fwrite(PyObject *self, PyObject *args, PyObjec
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -2121,23 +2274,30 @@ static PyObject *_wrap_gsl_matrix_fwrite(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_fwrite(arg1,(gsl_matrix const *)arg2);
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2160,14 +2320,21 @@ static PyObject *_wrap_gsl_matrix_fscanf(PyObject *self, PyObject *args, PyObjec
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix, 2);
         a_array = _PyMatrix2;
@@ -2183,22 +2350,29 @@ static PyObject *_wrap_gsl_matrix_fscanf(PyObject *self, PyObject *args, PyObjec
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2222,17 +2396,23 @@ static PyObject *_wrap_gsl_matrix_fprintf(PyObject *self, PyObject *args, PyObje
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -2243,23 +2423,30 @@ static PyObject *_wrap_gsl_matrix_fprintf(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_fprintf(arg1,(gsl_matrix const *)arg2,(char const *)arg3);
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2289,7 +2476,7 @@ static PyObject *_wrap_gsl_matrix_swap(PyObject *self, PyObject *args, PyObject 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2300,13 +2487,14 @@ static PyObject *_wrap_gsl_matrix_swap(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -2317,41 +2505,52 @@ static PyObject *_wrap_gsl_matrix_swap(PyObject *self, PyObject *args, PyObject 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_swap(arg1,arg2);
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2379,7 +2578,7 @@ static PyObject *_wrap_gsl_matrix_swap_rows(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2390,6 +2589,7 @@ static PyObject *_wrap_gsl_matrix_swap_rows(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -2400,22 +2600,29 @@ static PyObject *_wrap_gsl_matrix_swap_rows(PyObject *self, PyObject *args, PyOb
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2443,7 +2650,7 @@ static PyObject *_wrap_gsl_matrix_swap_columns(PyObject *self, PyObject *args, P
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2454,6 +2661,7 @@ static PyObject *_wrap_gsl_matrix_swap_columns(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -2464,22 +2672,29 @@ static PyObject *_wrap_gsl_matrix_swap_columns(PyObject *self, PyObject *args, P
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2507,7 +2722,7 @@ static PyObject *_wrap_gsl_matrix_swap_rowcol(PyObject *self, PyObject *args, Py
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2518,6 +2733,7 @@ static PyObject *_wrap_gsl_matrix_swap_rowcol(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -2528,22 +2744,29 @@ static PyObject *_wrap_gsl_matrix_swap_rowcol(PyObject *self, PyObject *args, Py
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2567,7 +2790,7 @@ static PyObject *_wrap_gsl_matrix_transpose(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2578,28 +2801,36 @@ static PyObject *_wrap_gsl_matrix_transpose(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_transpose(arg1);
     
     {
         resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL) goto fail;
+        if (resultobj == NULL){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps//gsl_error_typemap.i", 
+            __FUNCTION__, 45);
+            goto fail;
+        }
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2623,7 +2854,7 @@ static PyObject *_wrap_gsl_matrix_max(PyObject *self, PyObject *args, PyObject *
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2634,6 +2865,7 @@ static PyObject *_wrap_gsl_matrix_max(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_max((gsl_matrix const *)arg1);
@@ -2642,12 +2874,14 @@ static PyObject *_wrap_gsl_matrix_max(PyObject *self, PyObject *args, PyObject *
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2671,7 +2905,7 @@ static PyObject *_wrap_gsl_matrix_min(PyObject *self, PyObject *args, PyObject *
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2682,6 +2916,7 @@ static PyObject *_wrap_gsl_matrix_min(PyObject *self, PyObject *args, PyObject *
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_min((gsl_matrix const *)arg1);
@@ -2690,12 +2925,14 @@ static PyObject *_wrap_gsl_matrix_min(PyObject *self, PyObject *args, PyObject *
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2724,7 +2961,7 @@ static PyObject *_wrap_gsl_matrix_minmax(PyObject *self, PyObject *args, PyObjec
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2735,6 +2972,7 @@ static PyObject *_wrap_gsl_matrix_minmax(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_minmax((gsl_matrix const *)arg1,arg2,arg3);
@@ -2751,12 +2989,14 @@ static PyObject *_wrap_gsl_matrix_minmax(PyObject *self, PyObject *args, PyObjec
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2799,7 +3039,7 @@ static PyObject *_wrap_gsl_matrix_max_index(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2810,6 +3050,7 @@ static PyObject *_wrap_gsl_matrix_max_index(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_max_index((gsl_matrix const *)arg1,arg2,arg3);
@@ -2828,12 +3069,14 @@ static PyObject *_wrap_gsl_matrix_max_index(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2876,7 +3119,7 @@ static PyObject *_wrap_gsl_matrix_min_index(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2887,6 +3130,7 @@ static PyObject *_wrap_gsl_matrix_min_index(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_min_index((gsl_matrix const *)arg1,arg2,arg3);
@@ -2905,12 +3149,14 @@ static PyObject *_wrap_gsl_matrix_min_index(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -2973,7 +3219,7 @@ static PyObject *_wrap_gsl_matrix_minmax_index(PyObject *self, PyObject *args, P
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -2984,6 +3230,7 @@ static PyObject *_wrap_gsl_matrix_minmax_index(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_minmax_index((gsl_matrix const *)arg1,arg2,arg3,arg4,arg5);
@@ -3012,12 +3259,14 @@ static PyObject *_wrap_gsl_matrix_minmax_index(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -3041,7 +3290,7 @@ static PyObject *_wrap_gsl_matrix_isnull(PyObject *self, PyObject *args, PyObjec
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -3052,6 +3301,7 @@ static PyObject *_wrap_gsl_matrix_isnull(PyObject *self, PyObject *args, PyObjec
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_isnull((gsl_matrix const *)arg1);
@@ -3060,12 +3310,14 @@ static PyObject *_wrap_gsl_matrix_isnull(PyObject *self, PyObject *args, PyObjec
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -3089,7 +3341,7 @@ static PyObject *_wrap_gsl_matrix_diagonal(PyObject *self, PyObject *args, PyObj
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -3100,6 +3352,7 @@ static PyObject *_wrap_gsl_matrix_diagonal(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = gsl_matrix_diagonal(arg1);
@@ -3109,28 +3362,43 @@ static PyObject *_wrap_gsl_matrix_diagonal(PyObject *self, PyObject *args, PyObj
         BASIS_TYPE_gsl_vector_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -3156,7 +3424,7 @@ static PyObject *_wrap_gsl_matrix_subdiagonal(PyObject *self, PyObject *args, Py
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -3167,6 +3435,7 @@ static PyObject *_wrap_gsl_matrix_subdiagonal(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -3178,28 +3447,43 @@ static PyObject *_wrap_gsl_matrix_subdiagonal(PyObject *self, PyObject *args, Py
         BASIS_TYPE_gsl_vector_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -3225,7 +3509,7 @@ static PyObject *_wrap_gsl_matrix_superdiagonal(PyObject *self, PyObject *args, 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -3236,6 +3520,7 @@ static PyObject *_wrap_gsl_matrix_superdiagonal(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -3247,28 +3532,43 @@ static PyObject *_wrap_gsl_matrix_superdiagonal(PyObject *self, PyObject *args, 
         BASIS_TYPE_gsl_vector_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -3293,6 +3593,7 @@ static PyObject *_wrap_gsl_vector_float_set_zero(PyObject *self, PyObject *args,
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         1);
@@ -3322,6 +3623,7 @@ static PyObject *_wrap_gsl_vector_float_set_zero(PyObject *self, PyObject *args,
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -3349,6 +3651,7 @@ static PyObject *_wrap_gsl_vector_float_set_all(PyObject *self, PyObject *args, 
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         1);
@@ -3378,6 +3681,7 @@ static PyObject *_wrap_gsl_vector_float_set_all(PyObject *self, PyObject *args, 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -3407,6 +3711,7 @@ static PyObject *_wrap_gsl_vector_float_set_basis(PyObject *self, PyObject *args
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         1);
@@ -3438,6 +3743,7 @@ static PyObject *_wrap_gsl_vector_float_set_basis(PyObject *self, PyObject *args
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -3462,11 +3768,17 @@ static PyObject *_wrap_gsl_vector_float_fread(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_float_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -3474,6 +3786,7 @@ static PyObject *_wrap_gsl_vector_float_fread(PyObject *self, PyObject *args, Py
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_float, 
         2);
@@ -3503,6 +3816,7 @@ static PyObject *_wrap_gsl_vector_float_fread(PyObject *self, PyObject *args, Py
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -3527,17 +3841,24 @@ static PyObject *_wrap_gsl_vector_float_fwrite(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_float_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 2, NULL);
@@ -3582,11 +3903,17 @@ static PyObject *_wrap_gsl_vector_float_fscanf(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_float_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -3594,6 +3921,7 @@ static PyObject *_wrap_gsl_vector_float_fscanf(PyObject *self, PyObject *args, P
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_float, 
         2);
@@ -3623,6 +3951,7 @@ static PyObject *_wrap_gsl_vector_float_fscanf(PyObject *self, PyObject *args, P
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -3648,17 +3977,24 @@ static PyObject *_wrap_gsl_vector_float_fprintf(PyObject *self, PyObject *args, 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_float_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 2, NULL);
@@ -3705,6 +4041,7 @@ static PyObject *_wrap_gsl_vector_float_reverse(PyObject *self, PyObject *args, 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -3731,6 +4068,7 @@ static PyObject *_wrap_gsl_vector_float_reverse(PyObject *self, PyObject *args, 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -3763,6 +4101,7 @@ static PyObject *_wrap_gsl_vector_float_swap(PyObject *self, PyObject *args, PyO
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -3786,6 +4125,7 @@ static PyObject *_wrap_gsl_vector_float_swap(PyObject *self, PyObject *args, PyO
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 2, NULL);
@@ -3812,12 +4152,14 @@ static PyObject *_wrap_gsl_vector_float_swap(PyObject *self, PyObject *args, PyO
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -3848,6 +4190,7 @@ static PyObject *_wrap_gsl_vector_float_swap_elements(PyObject *self, PyObject *
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -3878,6 +4221,7 @@ static PyObject *_wrap_gsl_vector_float_swap_elements(PyObject *self, PyObject *
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -3904,6 +4248,7 @@ static PyObject *_wrap_gsl_vector_float_max(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -3950,6 +4295,7 @@ static PyObject *_wrap_gsl_vector_float_min(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -4001,6 +4347,7 @@ static PyObject *_wrap_gsl_vector_float_minmax(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -4055,6 +4402,7 @@ static PyObject *_wrap_gsl_vector_float_max_index(PyObject *self, PyObject *args
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -4101,6 +4449,7 @@ static PyObject *_wrap_gsl_vector_float_min_index(PyObject *self, PyObject *args
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -4166,6 +4515,7 @@ static PyObject *_wrap_gsl_vector_float_minmax_index(PyObject *self, PyObject *a
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -4222,6 +4572,7 @@ static PyObject *_wrap_gsl_vector_float_isnull(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_float, 
         0, -1, 1, NULL);
@@ -4264,6 +4615,7 @@ static PyObject *_wrap_gsl_matrix_float_set_zero(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_float_set_zero",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1);
         a_array = _PyMatrix1;
@@ -4282,16 +4634,19 @@ static PyObject *_wrap_gsl_matrix_float_set_zero(PyObject *self, PyObject *args,
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4313,6 +4668,7 @@ static PyObject *_wrap_gsl_matrix_float_set_all(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Of:gsl_matrix_float_set_all",kwnames,&obj0,&arg2)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1);
         a_array = _PyMatrix1;
@@ -4331,16 +4687,19 @@ static PyObject *_wrap_gsl_matrix_float_set_all(PyObject *self, PyObject *args, 
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4361,6 +4720,7 @@ static PyObject *_wrap_gsl_matrix_float_set_identity(PyObject *self, PyObject *a
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_float_set_identity",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1);
         a_array = _PyMatrix1;
@@ -4379,16 +4739,19 @@ static PyObject *_wrap_gsl_matrix_float_set_identity(PyObject *self, PyObject *a
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4411,14 +4774,21 @@ static PyObject *_wrap_gsl_matrix_float_fread(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_float_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_float, 2);
         a_array = _PyMatrix2;
@@ -4437,16 +4807,19 @@ static PyObject *_wrap_gsl_matrix_float_fread(PyObject *self, PyObject *args, Py
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4469,17 +4842,23 @@ static PyObject *_wrap_gsl_matrix_float_fwrite(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_float_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -4490,6 +4869,7 @@ static PyObject *_wrap_gsl_matrix_float_fwrite(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_float_fwrite(arg1,(gsl_matrix_float const *)arg2);
@@ -4498,12 +4878,14 @@ static PyObject *_wrap_gsl_matrix_float_fwrite(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4526,14 +4908,21 @@ static PyObject *_wrap_gsl_matrix_float_fscanf(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_float_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_float, 2);
         a_array = _PyMatrix2;
@@ -4552,16 +4941,19 @@ static PyObject *_wrap_gsl_matrix_float_fscanf(PyObject *self, PyObject *args, P
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4585,17 +4977,23 @@ static PyObject *_wrap_gsl_matrix_float_fprintf(PyObject *self, PyObject *args, 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_float_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -4606,6 +5004,7 @@ static PyObject *_wrap_gsl_matrix_float_fprintf(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_float_fprintf(arg1,(gsl_matrix_float const *)arg2,(char const *)arg3);
@@ -4614,12 +5013,14 @@ static PyObject *_wrap_gsl_matrix_float_fprintf(PyObject *self, PyObject *args, 
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4649,7 +5050,7 @@ static PyObject *_wrap_gsl_matrix_float_swap(PyObject *self, PyObject *args, PyO
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -4660,13 +5061,14 @@ static PyObject *_wrap_gsl_matrix_float_swap(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -4677,6 +5079,7 @@ static PyObject *_wrap_gsl_matrix_float_swap(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_float_swap(arg1,arg2);
@@ -4686,29 +5089,35 @@ static PyObject *_wrap_gsl_matrix_float_swap(PyObject *self, PyObject *args, PyO
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4736,7 +5145,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_rows(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -4747,6 +5156,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_rows(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -4760,16 +5170,19 @@ static PyObject *_wrap_gsl_matrix_float_swap_rows(PyObject *self, PyObject *args
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4797,7 +5210,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_columns(PyObject *self, PyObject *a
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -4808,6 +5221,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_columns(PyObject *self, PyObject *a
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -4821,16 +5235,19 @@ static PyObject *_wrap_gsl_matrix_float_swap_columns(PyObject *self, PyObject *a
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4858,7 +5275,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_rowcol(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -4869,6 +5286,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_rowcol(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -4882,16 +5300,19 @@ static PyObject *_wrap_gsl_matrix_float_swap_rowcol(PyObject *self, PyObject *ar
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4915,7 +5336,7 @@ static PyObject *_wrap_gsl_matrix_float_transpose(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -4926,6 +5347,7 @@ static PyObject *_wrap_gsl_matrix_float_transpose(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_float_transpose(arg1);
@@ -4935,16 +5357,19 @@ static PyObject *_wrap_gsl_matrix_float_transpose(PyObject *self, PyObject *args
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -4968,7 +5393,7 @@ static PyObject *_wrap_gsl_matrix_float_max(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -4979,6 +5404,7 @@ static PyObject *_wrap_gsl_matrix_float_max(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_float_max((gsl_matrix_float const *)arg1);
@@ -4987,12 +5413,14 @@ static PyObject *_wrap_gsl_matrix_float_max(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5016,7 +5444,7 @@ static PyObject *_wrap_gsl_matrix_float_min(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5027,6 +5455,7 @@ static PyObject *_wrap_gsl_matrix_float_min(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_float_min((gsl_matrix_float const *)arg1);
@@ -5035,12 +5464,14 @@ static PyObject *_wrap_gsl_matrix_float_min(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5069,7 +5500,7 @@ static PyObject *_wrap_gsl_matrix_float_minmax(PyObject *self, PyObject *args, P
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5080,6 +5511,7 @@ static PyObject *_wrap_gsl_matrix_float_minmax(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_float_minmax((gsl_matrix_float const *)arg1,arg2,arg3);
@@ -5096,12 +5528,14 @@ static PyObject *_wrap_gsl_matrix_float_minmax(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5144,7 +5578,7 @@ static PyObject *_wrap_gsl_matrix_float_max_index(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5155,6 +5589,7 @@ static PyObject *_wrap_gsl_matrix_float_max_index(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_float_max_index((gsl_matrix_float const *)arg1,arg2,arg3);
@@ -5173,12 +5608,14 @@ static PyObject *_wrap_gsl_matrix_float_max_index(PyObject *self, PyObject *args
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5221,7 +5658,7 @@ static PyObject *_wrap_gsl_matrix_float_min_index(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5232,6 +5669,7 @@ static PyObject *_wrap_gsl_matrix_float_min_index(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_float_min_index((gsl_matrix_float const *)arg1,arg2,arg3);
@@ -5250,12 +5688,14 @@ static PyObject *_wrap_gsl_matrix_float_min_index(PyObject *self, PyObject *args
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5318,7 +5758,7 @@ static PyObject *_wrap_gsl_matrix_float_minmax_index(PyObject *self, PyObject *a
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5329,6 +5769,7 @@ static PyObject *_wrap_gsl_matrix_float_minmax_index(PyObject *self, PyObject *a
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_float_minmax_index((gsl_matrix_float const *)arg1,arg2,arg3,arg4,arg5);
@@ -5357,12 +5798,14 @@ static PyObject *_wrap_gsl_matrix_float_minmax_index(PyObject *self, PyObject *a
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5386,7 +5829,7 @@ static PyObject *_wrap_gsl_matrix_float_isnull(PyObject *self, PyObject *args, P
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5397,6 +5840,7 @@ static PyObject *_wrap_gsl_matrix_float_isnull(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_float_isnull((gsl_matrix_float const *)arg1);
@@ -5405,12 +5849,14 @@ static PyObject *_wrap_gsl_matrix_float_isnull(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5434,7 +5880,7 @@ static PyObject *_wrap_gsl_matrix_float_diagonal(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5445,6 +5891,7 @@ static PyObject *_wrap_gsl_matrix_float_diagonal(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = gsl_matrix_float_diagonal(arg1);
@@ -5454,28 +5901,43 @@ static PyObject *_wrap_gsl_matrix_float_diagonal(PyObject *self, PyObject *args,
         BASIS_TYPE_gsl_vector_float_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_float_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_float_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_float_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_float_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5501,7 +5963,7 @@ static PyObject *_wrap_gsl_matrix_float_subdiagonal(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5512,6 +5974,7 @@ static PyObject *_wrap_gsl_matrix_float_subdiagonal(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -5523,28 +5986,43 @@ static PyObject *_wrap_gsl_matrix_float_subdiagonal(PyObject *self, PyObject *ar
         BASIS_TYPE_gsl_vector_float_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_float_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_float_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_float_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_float_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5570,7 +6048,7 @@ static PyObject *_wrap_gsl_matrix_float_superdiagonal(PyObject *self, PyObject *
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -5581,6 +6059,7 @@ static PyObject *_wrap_gsl_matrix_float_superdiagonal(PyObject *self, PyObject *
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -5592,28 +6071,43 @@ static PyObject *_wrap_gsl_matrix_float_superdiagonal(PyObject *self, PyObject *
         BASIS_TYPE_gsl_vector_float_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_float_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_float_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_float_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_float_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -5638,6 +6132,7 @@ static PyObject *_wrap_gsl_vector_long_set_zero(PyObject *self, PyObject *args, 
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         1);
@@ -5667,6 +6162,7 @@ static PyObject *_wrap_gsl_vector_long_set_zero(PyObject *self, PyObject *args, 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -5694,6 +6190,7 @@ static PyObject *_wrap_gsl_vector_long_set_all(PyObject *self, PyObject *args, P
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         1);
@@ -5723,6 +6220,7 @@ static PyObject *_wrap_gsl_vector_long_set_all(PyObject *self, PyObject *args, P
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -5752,6 +6250,7 @@ static PyObject *_wrap_gsl_vector_long_set_basis(PyObject *self, PyObject *args,
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         1);
@@ -5783,6 +6282,7 @@ static PyObject *_wrap_gsl_vector_long_set_basis(PyObject *self, PyObject *args,
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -5807,11 +6307,17 @@ static PyObject *_wrap_gsl_vector_long_fread(PyObject *self, PyObject *args, PyO
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_long_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -5819,6 +6325,7 @@ static PyObject *_wrap_gsl_vector_long_fread(PyObject *self, PyObject *args, PyO
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_long, 
         2);
@@ -5848,6 +6355,7 @@ static PyObject *_wrap_gsl_vector_long_fread(PyObject *self, PyObject *args, PyO
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -5872,17 +6380,24 @@ static PyObject *_wrap_gsl_vector_long_fwrite(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_long_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 2, NULL);
@@ -5927,11 +6442,17 @@ static PyObject *_wrap_gsl_vector_long_fscanf(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_long_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -5939,6 +6460,7 @@ static PyObject *_wrap_gsl_vector_long_fscanf(PyObject *self, PyObject *args, Py
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_long, 
         2);
@@ -5968,6 +6490,7 @@ static PyObject *_wrap_gsl_vector_long_fscanf(PyObject *self, PyObject *args, Py
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -5993,17 +6516,24 @@ static PyObject *_wrap_gsl_vector_long_fprintf(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_long_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 2, NULL);
@@ -6050,6 +6580,7 @@ static PyObject *_wrap_gsl_vector_long_reverse(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6076,6 +6607,7 @@ static PyObject *_wrap_gsl_vector_long_reverse(PyObject *self, PyObject *args, P
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -6108,6 +6640,7 @@ static PyObject *_wrap_gsl_vector_long_swap(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6131,6 +6664,7 @@ static PyObject *_wrap_gsl_vector_long_swap(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 2, NULL);
@@ -6157,12 +6691,14 @@ static PyObject *_wrap_gsl_vector_long_swap(PyObject *self, PyObject *args, PyOb
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -6193,6 +6729,7 @@ static PyObject *_wrap_gsl_vector_long_swap_elements(PyObject *self, PyObject *a
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6223,6 +6760,7 @@ static PyObject *_wrap_gsl_vector_long_swap_elements(PyObject *self, PyObject *a
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -6249,6 +6787,7 @@ static PyObject *_wrap_gsl_vector_long_max(PyObject *self, PyObject *args, PyObj
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6295,6 +6834,7 @@ static PyObject *_wrap_gsl_vector_long_min(PyObject *self, PyObject *args, PyObj
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6346,6 +6886,7 @@ static PyObject *_wrap_gsl_vector_long_minmax(PyObject *self, PyObject *args, Py
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6400,6 +6941,7 @@ static PyObject *_wrap_gsl_vector_long_max_index(PyObject *self, PyObject *args,
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6446,6 +6988,7 @@ static PyObject *_wrap_gsl_vector_long_min_index(PyObject *self, PyObject *args,
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6511,6 +7054,7 @@ static PyObject *_wrap_gsl_vector_long_minmax_index(PyObject *self, PyObject *ar
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6567,6 +7111,7 @@ static PyObject *_wrap_gsl_vector_long_isnull(PyObject *self, PyObject *args, Py
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_long, 
         0, -1, 1, NULL);
@@ -6609,6 +7154,7 @@ static PyObject *_wrap_gsl_matrix_long_set_zero(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_long_set_zero",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1);
         a_array = _PyMatrix1;
@@ -6627,16 +7173,19 @@ static PyObject *_wrap_gsl_matrix_long_set_zero(PyObject *self, PyObject *args, 
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6658,6 +7207,7 @@ static PyObject *_wrap_gsl_matrix_long_set_all(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Ol:gsl_matrix_long_set_all",kwnames,&obj0,&arg2)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1);
         a_array = _PyMatrix1;
@@ -6676,16 +7226,19 @@ static PyObject *_wrap_gsl_matrix_long_set_all(PyObject *self, PyObject *args, P
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6706,6 +7259,7 @@ static PyObject *_wrap_gsl_matrix_long_set_identity(PyObject *self, PyObject *ar
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_long_set_identity",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1);
         a_array = _PyMatrix1;
@@ -6724,16 +7278,19 @@ static PyObject *_wrap_gsl_matrix_long_set_identity(PyObject *self, PyObject *ar
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6756,14 +7313,21 @@ static PyObject *_wrap_gsl_matrix_long_fread(PyObject *self, PyObject *args, PyO
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_long_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_long, 2);
         a_array = _PyMatrix2;
@@ -6782,16 +7346,19 @@ static PyObject *_wrap_gsl_matrix_long_fread(PyObject *self, PyObject *args, PyO
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6814,17 +7381,23 @@ static PyObject *_wrap_gsl_matrix_long_fwrite(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_long_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -6835,6 +7408,7 @@ static PyObject *_wrap_gsl_matrix_long_fwrite(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_long_fwrite(arg1,(gsl_matrix_long const *)arg2);
@@ -6843,12 +7417,14 @@ static PyObject *_wrap_gsl_matrix_long_fwrite(PyObject *self, PyObject *args, Py
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6871,14 +7447,21 @@ static PyObject *_wrap_gsl_matrix_long_fscanf(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_long_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_long, 2);
         a_array = _PyMatrix2;
@@ -6897,16 +7480,19 @@ static PyObject *_wrap_gsl_matrix_long_fscanf(PyObject *self, PyObject *args, Py
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6930,17 +7516,23 @@ static PyObject *_wrap_gsl_matrix_long_fprintf(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_long_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -6951,6 +7543,7 @@ static PyObject *_wrap_gsl_matrix_long_fprintf(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_long_fprintf(arg1,(gsl_matrix_long const *)arg2,(char const *)arg3);
@@ -6959,12 +7552,14 @@ static PyObject *_wrap_gsl_matrix_long_fprintf(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -6994,7 +7589,7 @@ static PyObject *_wrap_gsl_matrix_long_swap(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7005,13 +7600,14 @@ static PyObject *_wrap_gsl_matrix_long_swap(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -7022,6 +7618,7 @@ static PyObject *_wrap_gsl_matrix_long_swap(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_long_swap(arg1,arg2);
@@ -7031,29 +7628,35 @@ static PyObject *_wrap_gsl_matrix_long_swap(PyObject *self, PyObject *args, PyOb
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7081,7 +7684,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_rows(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7092,6 +7695,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_rows(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -7105,16 +7709,19 @@ static PyObject *_wrap_gsl_matrix_long_swap_rows(PyObject *self, PyObject *args,
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7142,7 +7749,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_columns(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7153,6 +7760,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_columns(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -7166,16 +7774,19 @@ static PyObject *_wrap_gsl_matrix_long_swap_columns(PyObject *self, PyObject *ar
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7203,7 +7814,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_rowcol(PyObject *self, PyObject *arg
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7214,6 +7825,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_rowcol(PyObject *self, PyObject *arg
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -7227,16 +7839,19 @@ static PyObject *_wrap_gsl_matrix_long_swap_rowcol(PyObject *self, PyObject *arg
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7260,7 +7875,7 @@ static PyObject *_wrap_gsl_matrix_long_transpose(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7271,6 +7886,7 @@ static PyObject *_wrap_gsl_matrix_long_transpose(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_long_transpose(arg1);
@@ -7280,16 +7896,19 @@ static PyObject *_wrap_gsl_matrix_long_transpose(PyObject *self, PyObject *args,
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7313,7 +7932,7 @@ static PyObject *_wrap_gsl_matrix_long_max(PyObject *self, PyObject *args, PyObj
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7324,6 +7943,7 @@ static PyObject *_wrap_gsl_matrix_long_max(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_long_max((gsl_matrix_long const *)arg1);
@@ -7332,12 +7952,14 @@ static PyObject *_wrap_gsl_matrix_long_max(PyObject *self, PyObject *args, PyObj
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7361,7 +7983,7 @@ static PyObject *_wrap_gsl_matrix_long_min(PyObject *self, PyObject *args, PyObj
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7372,6 +7994,7 @@ static PyObject *_wrap_gsl_matrix_long_min(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_long_min((gsl_matrix_long const *)arg1);
@@ -7380,12 +8003,14 @@ static PyObject *_wrap_gsl_matrix_long_min(PyObject *self, PyObject *args, PyObj
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7414,7 +8039,7 @@ static PyObject *_wrap_gsl_matrix_long_minmax(PyObject *self, PyObject *args, Py
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7425,6 +8050,7 @@ static PyObject *_wrap_gsl_matrix_long_minmax(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_long_minmax((gsl_matrix_long const *)arg1,arg2,arg3);
@@ -7441,12 +8067,14 @@ static PyObject *_wrap_gsl_matrix_long_minmax(PyObject *self, PyObject *args, Py
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7489,7 +8117,7 @@ static PyObject *_wrap_gsl_matrix_long_max_index(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7500,6 +8128,7 @@ static PyObject *_wrap_gsl_matrix_long_max_index(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_long_max_index((gsl_matrix_long const *)arg1,arg2,arg3);
@@ -7518,12 +8147,14 @@ static PyObject *_wrap_gsl_matrix_long_max_index(PyObject *self, PyObject *args,
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7566,7 +8197,7 @@ static PyObject *_wrap_gsl_matrix_long_min_index(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7577,6 +8208,7 @@ static PyObject *_wrap_gsl_matrix_long_min_index(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_long_min_index((gsl_matrix_long const *)arg1,arg2,arg3);
@@ -7595,12 +8227,14 @@ static PyObject *_wrap_gsl_matrix_long_min_index(PyObject *self, PyObject *args,
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7663,7 +8297,7 @@ static PyObject *_wrap_gsl_matrix_long_minmax_index(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7674,6 +8308,7 @@ static PyObject *_wrap_gsl_matrix_long_minmax_index(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_long_minmax_index((gsl_matrix_long const *)arg1,arg2,arg3,arg4,arg5);
@@ -7702,12 +8337,14 @@ static PyObject *_wrap_gsl_matrix_long_minmax_index(PyObject *self, PyObject *ar
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7731,7 +8368,7 @@ static PyObject *_wrap_gsl_matrix_long_isnull(PyObject *self, PyObject *args, Py
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7742,6 +8379,7 @@ static PyObject *_wrap_gsl_matrix_long_isnull(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_long_isnull((gsl_matrix_long const *)arg1);
@@ -7750,12 +8388,14 @@ static PyObject *_wrap_gsl_matrix_long_isnull(PyObject *self, PyObject *args, Py
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7779,7 +8419,7 @@ static PyObject *_wrap_gsl_matrix_long_diagonal(PyObject *self, PyObject *args, 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7790,6 +8430,7 @@ static PyObject *_wrap_gsl_matrix_long_diagonal(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = gsl_matrix_long_diagonal(arg1);
@@ -7799,28 +8440,43 @@ static PyObject *_wrap_gsl_matrix_long_diagonal(PyObject *self, PyObject *args, 
         BASIS_TYPE_gsl_vector_long_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_long_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_long_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_long_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_long_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7846,7 +8502,7 @@ static PyObject *_wrap_gsl_matrix_long_subdiagonal(PyObject *self, PyObject *arg
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7857,6 +8513,7 @@ static PyObject *_wrap_gsl_matrix_long_subdiagonal(PyObject *self, PyObject *arg
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -7868,28 +8525,43 @@ static PyObject *_wrap_gsl_matrix_long_subdiagonal(PyObject *self, PyObject *arg
         BASIS_TYPE_gsl_vector_long_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_long_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_long_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_long_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_long_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7915,7 +8587,7 @@ static PyObject *_wrap_gsl_matrix_long_superdiagonal(PyObject *self, PyObject *a
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_long, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -7926,6 +8598,7 @@ static PyObject *_wrap_gsl_matrix_long_superdiagonal(PyObject *self, PyObject *a
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -7937,28 +8610,43 @@ static PyObject *_wrap_gsl_matrix_long_superdiagonal(PyObject *self, PyObject *a
         BASIS_TYPE_gsl_vector_long_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_long_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_long_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_long_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_long_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -7983,6 +8671,7 @@ static PyObject *_wrap_gsl_vector_int_set_zero(PyObject *self, PyObject *args, P
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         1);
@@ -8012,6 +8701,7 @@ static PyObject *_wrap_gsl_vector_int_set_zero(PyObject *self, PyObject *args, P
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -8039,6 +8729,7 @@ static PyObject *_wrap_gsl_vector_int_set_all(PyObject *self, PyObject *args, Py
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         1);
@@ -8068,6 +8759,7 @@ static PyObject *_wrap_gsl_vector_int_set_all(PyObject *self, PyObject *args, Py
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -8097,6 +8789,7 @@ static PyObject *_wrap_gsl_vector_int_set_basis(PyObject *self, PyObject *args, 
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         1);
@@ -8128,6 +8821,7 @@ static PyObject *_wrap_gsl_vector_int_set_basis(PyObject *self, PyObject *args, 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -8152,11 +8846,17 @@ static PyObject *_wrap_gsl_vector_int_fread(PyObject *self, PyObject *args, PyOb
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_int_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -8164,6 +8864,7 @@ static PyObject *_wrap_gsl_vector_int_fread(PyObject *self, PyObject *args, PyOb
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_int, 
         2);
@@ -8193,6 +8894,7 @@ static PyObject *_wrap_gsl_vector_int_fread(PyObject *self, PyObject *args, PyOb
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -8217,17 +8919,24 @@ static PyObject *_wrap_gsl_vector_int_fwrite(PyObject *self, PyObject *args, PyO
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_int_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 2, NULL);
@@ -8272,11 +8981,17 @@ static PyObject *_wrap_gsl_vector_int_fscanf(PyObject *self, PyObject *args, PyO
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_int_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -8284,6 +8999,7 @@ static PyObject *_wrap_gsl_vector_int_fscanf(PyObject *self, PyObject *args, PyO
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_int, 
         2);
@@ -8313,6 +9029,7 @@ static PyObject *_wrap_gsl_vector_int_fscanf(PyObject *self, PyObject *args, PyO
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -8338,17 +9055,24 @@ static PyObject *_wrap_gsl_vector_int_fprintf(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_int_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 2, NULL);
@@ -8395,6 +9119,7 @@ static PyObject *_wrap_gsl_vector_int_reverse(PyObject *self, PyObject *args, Py
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8421,6 +9146,7 @@ static PyObject *_wrap_gsl_vector_int_reverse(PyObject *self, PyObject *args, Py
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -8453,6 +9179,7 @@ static PyObject *_wrap_gsl_vector_int_swap(PyObject *self, PyObject *args, PyObj
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8476,6 +9203,7 @@ static PyObject *_wrap_gsl_vector_int_swap(PyObject *self, PyObject *args, PyObj
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 2, NULL);
@@ -8502,12 +9230,14 @@ static PyObject *_wrap_gsl_vector_int_swap(PyObject *self, PyObject *args, PyObj
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -8538,6 +9268,7 @@ static PyObject *_wrap_gsl_vector_int_swap_elements(PyObject *self, PyObject *ar
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8568,6 +9299,7 @@ static PyObject *_wrap_gsl_vector_int_swap_elements(PyObject *self, PyObject *ar
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -8594,6 +9326,7 @@ static PyObject *_wrap_gsl_vector_int_max(PyObject *self, PyObject *args, PyObje
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8640,6 +9373,7 @@ static PyObject *_wrap_gsl_vector_int_min(PyObject *self, PyObject *args, PyObje
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8691,6 +9425,7 @@ static PyObject *_wrap_gsl_vector_int_minmax(PyObject *self, PyObject *args, PyO
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8745,6 +9480,7 @@ static PyObject *_wrap_gsl_vector_int_max_index(PyObject *self, PyObject *args, 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8791,6 +9527,7 @@ static PyObject *_wrap_gsl_vector_int_min_index(PyObject *self, PyObject *args, 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8856,6 +9593,7 @@ static PyObject *_wrap_gsl_vector_int_minmax_index(PyObject *self, PyObject *arg
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8912,6 +9650,7 @@ static PyObject *_wrap_gsl_vector_int_isnull(PyObject *self, PyObject *args, PyO
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_int, 
         0, -1, 1, NULL);
@@ -8954,6 +9693,7 @@ static PyObject *_wrap_gsl_matrix_int_set_zero(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_int_set_zero",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1);
         a_array = _PyMatrix1;
@@ -8972,16 +9712,19 @@ static PyObject *_wrap_gsl_matrix_int_set_zero(PyObject *self, PyObject *args, P
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9003,6 +9746,7 @@ static PyObject *_wrap_gsl_matrix_int_set_all(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oi:gsl_matrix_int_set_all",kwnames,&obj0,&arg2)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1);
         a_array = _PyMatrix1;
@@ -9021,16 +9765,19 @@ static PyObject *_wrap_gsl_matrix_int_set_all(PyObject *self, PyObject *args, Py
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9051,6 +9798,7 @@ static PyObject *_wrap_gsl_matrix_int_set_identity(PyObject *self, PyObject *arg
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_int_set_identity",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1);
         a_array = _PyMatrix1;
@@ -9069,16 +9817,19 @@ static PyObject *_wrap_gsl_matrix_int_set_identity(PyObject *self, PyObject *arg
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9101,14 +9852,21 @@ static PyObject *_wrap_gsl_matrix_int_fread(PyObject *self, PyObject *args, PyOb
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_int_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_int, 2);
         a_array = _PyMatrix2;
@@ -9127,16 +9885,19 @@ static PyObject *_wrap_gsl_matrix_int_fread(PyObject *self, PyObject *args, PyOb
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9159,17 +9920,23 @@ static PyObject *_wrap_gsl_matrix_int_fwrite(PyObject *self, PyObject *args, PyO
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_int_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -9180,6 +9947,7 @@ static PyObject *_wrap_gsl_matrix_int_fwrite(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_int_fwrite(arg1,(gsl_matrix_int const *)arg2);
@@ -9188,12 +9956,14 @@ static PyObject *_wrap_gsl_matrix_int_fwrite(PyObject *self, PyObject *args, PyO
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9216,14 +9986,21 @@ static PyObject *_wrap_gsl_matrix_int_fscanf(PyObject *self, PyObject *args, PyO
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_int_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_int, 2);
         a_array = _PyMatrix2;
@@ -9242,16 +10019,19 @@ static PyObject *_wrap_gsl_matrix_int_fscanf(PyObject *self, PyObject *args, PyO
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9275,17 +10055,23 @@ static PyObject *_wrap_gsl_matrix_int_fprintf(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_int_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -9296,6 +10082,7 @@ static PyObject *_wrap_gsl_matrix_int_fprintf(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_int_fprintf(arg1,(gsl_matrix_int const *)arg2,(char const *)arg3);
@@ -9304,12 +10091,14 @@ static PyObject *_wrap_gsl_matrix_int_fprintf(PyObject *self, PyObject *args, Py
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9339,7 +10128,7 @@ static PyObject *_wrap_gsl_matrix_int_swap(PyObject *self, PyObject *args, PyObj
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9350,13 +10139,14 @@ static PyObject *_wrap_gsl_matrix_int_swap(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -9367,6 +10157,7 @@ static PyObject *_wrap_gsl_matrix_int_swap(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_int_swap(arg1,arg2);
@@ -9376,29 +10167,35 @@ static PyObject *_wrap_gsl_matrix_int_swap(PyObject *self, PyObject *args, PyObj
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9426,7 +10223,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_rows(PyObject *self, PyObject *args, 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9437,6 +10234,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_rows(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -9450,16 +10248,19 @@ static PyObject *_wrap_gsl_matrix_int_swap_rows(PyObject *self, PyObject *args, 
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9487,7 +10288,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_columns(PyObject *self, PyObject *arg
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9498,6 +10299,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_columns(PyObject *self, PyObject *arg
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -9511,16 +10313,19 @@ static PyObject *_wrap_gsl_matrix_int_swap_columns(PyObject *self, PyObject *arg
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9548,7 +10353,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_rowcol(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9559,6 +10364,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_rowcol(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -9572,16 +10378,19 @@ static PyObject *_wrap_gsl_matrix_int_swap_rowcol(PyObject *self, PyObject *args
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9605,7 +10414,7 @@ static PyObject *_wrap_gsl_matrix_int_transpose(PyObject *self, PyObject *args, 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9616,6 +10425,7 @@ static PyObject *_wrap_gsl_matrix_int_transpose(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_int_transpose(arg1);
@@ -9625,16 +10435,19 @@ static PyObject *_wrap_gsl_matrix_int_transpose(PyObject *self, PyObject *args, 
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9658,7 +10471,7 @@ static PyObject *_wrap_gsl_matrix_int_max(PyObject *self, PyObject *args, PyObje
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9669,6 +10482,7 @@ static PyObject *_wrap_gsl_matrix_int_max(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_int_max((gsl_matrix_int const *)arg1);
@@ -9677,12 +10491,14 @@ static PyObject *_wrap_gsl_matrix_int_max(PyObject *self, PyObject *args, PyObje
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9706,7 +10522,7 @@ static PyObject *_wrap_gsl_matrix_int_min(PyObject *self, PyObject *args, PyObje
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9717,6 +10533,7 @@ static PyObject *_wrap_gsl_matrix_int_min(PyObject *self, PyObject *args, PyObje
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_int_min((gsl_matrix_int const *)arg1);
@@ -9725,12 +10542,14 @@ static PyObject *_wrap_gsl_matrix_int_min(PyObject *self, PyObject *args, PyObje
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9759,7 +10578,7 @@ static PyObject *_wrap_gsl_matrix_int_minmax(PyObject *self, PyObject *args, PyO
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9770,6 +10589,7 @@ static PyObject *_wrap_gsl_matrix_int_minmax(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_int_minmax((gsl_matrix_int const *)arg1,arg2,arg3);
@@ -9786,12 +10606,14 @@ static PyObject *_wrap_gsl_matrix_int_minmax(PyObject *self, PyObject *args, PyO
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9834,7 +10656,7 @@ static PyObject *_wrap_gsl_matrix_int_max_index(PyObject *self, PyObject *args, 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9845,6 +10667,7 @@ static PyObject *_wrap_gsl_matrix_int_max_index(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_int_max_index((gsl_matrix_int const *)arg1,arg2,arg3);
@@ -9863,12 +10686,14 @@ static PyObject *_wrap_gsl_matrix_int_max_index(PyObject *self, PyObject *args, 
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -9911,7 +10736,7 @@ static PyObject *_wrap_gsl_matrix_int_min_index(PyObject *self, PyObject *args, 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -9922,6 +10747,7 @@ static PyObject *_wrap_gsl_matrix_int_min_index(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_int_min_index((gsl_matrix_int const *)arg1,arg2,arg3);
@@ -9940,12 +10766,14 @@ static PyObject *_wrap_gsl_matrix_int_min_index(PyObject *self, PyObject *args, 
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -10008,7 +10836,7 @@ static PyObject *_wrap_gsl_matrix_int_minmax_index(PyObject *self, PyObject *arg
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -10019,6 +10847,7 @@ static PyObject *_wrap_gsl_matrix_int_minmax_index(PyObject *self, PyObject *arg
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_int_minmax_index((gsl_matrix_int const *)arg1,arg2,arg3,arg4,arg5);
@@ -10047,12 +10876,14 @@ static PyObject *_wrap_gsl_matrix_int_minmax_index(PyObject *self, PyObject *arg
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -10076,7 +10907,7 @@ static PyObject *_wrap_gsl_matrix_int_isnull(PyObject *self, PyObject *args, PyO
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -10087,6 +10918,7 @@ static PyObject *_wrap_gsl_matrix_int_isnull(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_int_isnull((gsl_matrix_int const *)arg1);
@@ -10095,12 +10927,14 @@ static PyObject *_wrap_gsl_matrix_int_isnull(PyObject *self, PyObject *args, PyO
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -10124,7 +10958,7 @@ static PyObject *_wrap_gsl_matrix_int_diagonal(PyObject *self, PyObject *args, P
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -10135,6 +10969,7 @@ static PyObject *_wrap_gsl_matrix_int_diagonal(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = gsl_matrix_int_diagonal(arg1);
@@ -10144,28 +10979,43 @@ static PyObject *_wrap_gsl_matrix_int_diagonal(PyObject *self, PyObject *args, P
         BASIS_TYPE_gsl_vector_int_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_int_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_int_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_int_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_int_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -10191,7 +11041,7 @@ static PyObject *_wrap_gsl_matrix_int_subdiagonal(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -10202,6 +11052,7 @@ static PyObject *_wrap_gsl_matrix_int_subdiagonal(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -10213,28 +11064,43 @@ static PyObject *_wrap_gsl_matrix_int_subdiagonal(PyObject *self, PyObject *args
         BASIS_TYPE_gsl_vector_int_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_int_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_int_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_int_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_int_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -10260,7 +11126,7 @@ static PyObject *_wrap_gsl_matrix_int_superdiagonal(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_int, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -10271,6 +11137,7 @@ static PyObject *_wrap_gsl_matrix_int_superdiagonal(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -10282,28 +11149,43 @@ static PyObject *_wrap_gsl_matrix_int_superdiagonal(PyObject *self, PyObject *ar
         BASIS_TYPE_gsl_vector_int_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_int_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_int_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_int_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_int_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -10328,6 +11210,7 @@ static PyObject *_wrap_gsl_vector_short_set_zero(PyObject *self, PyObject *args,
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         1);
@@ -10357,6 +11240,7 @@ static PyObject *_wrap_gsl_vector_short_set_zero(PyObject *self, PyObject *args,
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -10384,6 +11268,7 @@ static PyObject *_wrap_gsl_vector_short_set_all(PyObject *self, PyObject *args, 
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         1);
@@ -10413,6 +11298,7 @@ static PyObject *_wrap_gsl_vector_short_set_all(PyObject *self, PyObject *args, 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -10442,6 +11328,7 @@ static PyObject *_wrap_gsl_vector_short_set_basis(PyObject *self, PyObject *args
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         1);
@@ -10473,6 +11360,7 @@ static PyObject *_wrap_gsl_vector_short_set_basis(PyObject *self, PyObject *args
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -10497,11 +11385,17 @@ static PyObject *_wrap_gsl_vector_short_fread(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_short_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -10509,6 +11403,7 @@ static PyObject *_wrap_gsl_vector_short_fread(PyObject *self, PyObject *args, Py
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_short, 
         2);
@@ -10538,6 +11433,7 @@ static PyObject *_wrap_gsl_vector_short_fread(PyObject *self, PyObject *args, Py
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -10562,17 +11458,24 @@ static PyObject *_wrap_gsl_vector_short_fwrite(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_short_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 2, NULL);
@@ -10617,11 +11520,17 @@ static PyObject *_wrap_gsl_vector_short_fscanf(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_short_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -10629,6 +11538,7 @@ static PyObject *_wrap_gsl_vector_short_fscanf(PyObject *self, PyObject *args, P
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_short, 
         2);
@@ -10658,6 +11568,7 @@ static PyObject *_wrap_gsl_vector_short_fscanf(PyObject *self, PyObject *args, P
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -10683,17 +11594,24 @@ static PyObject *_wrap_gsl_vector_short_fprintf(PyObject *self, PyObject *args, 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_short_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 2, NULL);
@@ -10740,6 +11658,7 @@ static PyObject *_wrap_gsl_vector_short_reverse(PyObject *self, PyObject *args, 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -10766,6 +11685,7 @@ static PyObject *_wrap_gsl_vector_short_reverse(PyObject *self, PyObject *args, 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -10798,6 +11718,7 @@ static PyObject *_wrap_gsl_vector_short_swap(PyObject *self, PyObject *args, PyO
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -10821,6 +11742,7 @@ static PyObject *_wrap_gsl_vector_short_swap(PyObject *self, PyObject *args, PyO
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 2, NULL);
@@ -10847,12 +11769,14 @@ static PyObject *_wrap_gsl_vector_short_swap(PyObject *self, PyObject *args, PyO
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -10883,6 +11807,7 @@ static PyObject *_wrap_gsl_vector_short_swap_elements(PyObject *self, PyObject *
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -10913,6 +11838,7 @@ static PyObject *_wrap_gsl_vector_short_swap_elements(PyObject *self, PyObject *
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -10939,6 +11865,7 @@ static PyObject *_wrap_gsl_vector_short_max(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -10985,6 +11912,7 @@ static PyObject *_wrap_gsl_vector_short_min(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -11036,6 +11964,7 @@ static PyObject *_wrap_gsl_vector_short_minmax(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -11090,6 +12019,7 @@ static PyObject *_wrap_gsl_vector_short_max_index(PyObject *self, PyObject *args
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -11136,6 +12066,7 @@ static PyObject *_wrap_gsl_vector_short_min_index(PyObject *self, PyObject *args
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -11201,6 +12132,7 @@ static PyObject *_wrap_gsl_vector_short_minmax_index(PyObject *self, PyObject *a
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -11257,6 +12189,7 @@ static PyObject *_wrap_gsl_vector_short_isnull(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_short, 
         0, -1, 1, NULL);
@@ -11299,6 +12232,7 @@ static PyObject *_wrap_gsl_matrix_short_set_zero(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_short_set_zero",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1);
         a_array = _PyMatrix1;
@@ -11317,16 +12251,19 @@ static PyObject *_wrap_gsl_matrix_short_set_zero(PyObject *self, PyObject *args,
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11348,6 +12285,7 @@ static PyObject *_wrap_gsl_matrix_short_set_all(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oh:gsl_matrix_short_set_all",kwnames,&obj0,&arg2)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1);
         a_array = _PyMatrix1;
@@ -11366,16 +12304,19 @@ static PyObject *_wrap_gsl_matrix_short_set_all(PyObject *self, PyObject *args, 
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11396,6 +12337,7 @@ static PyObject *_wrap_gsl_matrix_short_set_identity(PyObject *self, PyObject *a
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_short_set_identity",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1);
         a_array = _PyMatrix1;
@@ -11414,16 +12356,19 @@ static PyObject *_wrap_gsl_matrix_short_set_identity(PyObject *self, PyObject *a
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11446,14 +12391,21 @@ static PyObject *_wrap_gsl_matrix_short_fread(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_short_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_short, 2);
         a_array = _PyMatrix2;
@@ -11472,16 +12424,19 @@ static PyObject *_wrap_gsl_matrix_short_fread(PyObject *self, PyObject *args, Py
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11504,17 +12459,23 @@ static PyObject *_wrap_gsl_matrix_short_fwrite(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_short_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -11525,6 +12486,7 @@ static PyObject *_wrap_gsl_matrix_short_fwrite(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_short_fwrite(arg1,(gsl_matrix_short const *)arg2);
@@ -11533,12 +12495,14 @@ static PyObject *_wrap_gsl_matrix_short_fwrite(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11561,14 +12525,21 @@ static PyObject *_wrap_gsl_matrix_short_fscanf(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_short_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_short, 2);
         a_array = _PyMatrix2;
@@ -11587,16 +12558,19 @@ static PyObject *_wrap_gsl_matrix_short_fscanf(PyObject *self, PyObject *args, P
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11620,17 +12594,23 @@ static PyObject *_wrap_gsl_matrix_short_fprintf(PyObject *self, PyObject *args, 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_short_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -11641,6 +12621,7 @@ static PyObject *_wrap_gsl_matrix_short_fprintf(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_short_fprintf(arg1,(gsl_matrix_short const *)arg2,(char const *)arg3);
@@ -11649,12 +12630,14 @@ static PyObject *_wrap_gsl_matrix_short_fprintf(PyObject *self, PyObject *args, 
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11684,7 +12667,7 @@ static PyObject *_wrap_gsl_matrix_short_swap(PyObject *self, PyObject *args, PyO
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -11695,13 +12678,14 @@ static PyObject *_wrap_gsl_matrix_short_swap(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -11712,6 +12696,7 @@ static PyObject *_wrap_gsl_matrix_short_swap(PyObject *self, PyObject *args, PyO
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_short_swap(arg1,arg2);
@@ -11721,29 +12706,35 @@ static PyObject *_wrap_gsl_matrix_short_swap(PyObject *self, PyObject *args, PyO
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11771,7 +12762,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_rows(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -11782,6 +12773,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_rows(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -11795,16 +12787,19 @@ static PyObject *_wrap_gsl_matrix_short_swap_rows(PyObject *self, PyObject *args
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11832,7 +12827,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_columns(PyObject *self, PyObject *a
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -11843,6 +12838,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_columns(PyObject *self, PyObject *a
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -11856,16 +12852,19 @@ static PyObject *_wrap_gsl_matrix_short_swap_columns(PyObject *self, PyObject *a
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11893,7 +12892,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_rowcol(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -11904,6 +12903,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_rowcol(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -11917,16 +12917,19 @@ static PyObject *_wrap_gsl_matrix_short_swap_rowcol(PyObject *self, PyObject *ar
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -11950,7 +12953,7 @@ static PyObject *_wrap_gsl_matrix_short_transpose(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -11961,6 +12964,7 @@ static PyObject *_wrap_gsl_matrix_short_transpose(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_short_transpose(arg1);
@@ -11970,16 +12974,19 @@ static PyObject *_wrap_gsl_matrix_short_transpose(PyObject *self, PyObject *args
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12003,7 +13010,7 @@ static PyObject *_wrap_gsl_matrix_short_max(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12014,6 +13021,7 @@ static PyObject *_wrap_gsl_matrix_short_max(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_short_max((gsl_matrix_short const *)arg1);
@@ -12022,12 +13030,14 @@ static PyObject *_wrap_gsl_matrix_short_max(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12051,7 +13061,7 @@ static PyObject *_wrap_gsl_matrix_short_min(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12062,6 +13072,7 @@ static PyObject *_wrap_gsl_matrix_short_min(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_short_min((gsl_matrix_short const *)arg1);
@@ -12070,12 +13081,14 @@ static PyObject *_wrap_gsl_matrix_short_min(PyObject *self, PyObject *args, PyOb
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12104,7 +13117,7 @@ static PyObject *_wrap_gsl_matrix_short_minmax(PyObject *self, PyObject *args, P
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12115,6 +13128,7 @@ static PyObject *_wrap_gsl_matrix_short_minmax(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_short_minmax((gsl_matrix_short const *)arg1,arg2,arg3);
@@ -12131,12 +13145,14 @@ static PyObject *_wrap_gsl_matrix_short_minmax(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12179,7 +13195,7 @@ static PyObject *_wrap_gsl_matrix_short_max_index(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12190,6 +13206,7 @@ static PyObject *_wrap_gsl_matrix_short_max_index(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_short_max_index((gsl_matrix_short const *)arg1,arg2,arg3);
@@ -12208,12 +13225,14 @@ static PyObject *_wrap_gsl_matrix_short_max_index(PyObject *self, PyObject *args
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12256,7 +13275,7 @@ static PyObject *_wrap_gsl_matrix_short_min_index(PyObject *self, PyObject *args
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12267,6 +13286,7 @@ static PyObject *_wrap_gsl_matrix_short_min_index(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_short_min_index((gsl_matrix_short const *)arg1,arg2,arg3);
@@ -12285,12 +13305,14 @@ static PyObject *_wrap_gsl_matrix_short_min_index(PyObject *self, PyObject *args
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12353,7 +13375,7 @@ static PyObject *_wrap_gsl_matrix_short_minmax_index(PyObject *self, PyObject *a
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12364,6 +13386,7 @@ static PyObject *_wrap_gsl_matrix_short_minmax_index(PyObject *self, PyObject *a
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_short_minmax_index((gsl_matrix_short const *)arg1,arg2,arg3,arg4,arg5);
@@ -12392,12 +13415,14 @@ static PyObject *_wrap_gsl_matrix_short_minmax_index(PyObject *self, PyObject *a
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12421,7 +13446,7 @@ static PyObject *_wrap_gsl_matrix_short_isnull(PyObject *self, PyObject *args, P
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12432,6 +13457,7 @@ static PyObject *_wrap_gsl_matrix_short_isnull(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_short_isnull((gsl_matrix_short const *)arg1);
@@ -12440,12 +13466,14 @@ static PyObject *_wrap_gsl_matrix_short_isnull(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12469,7 +13497,7 @@ static PyObject *_wrap_gsl_matrix_short_diagonal(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12480,6 +13508,7 @@ static PyObject *_wrap_gsl_matrix_short_diagonal(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = gsl_matrix_short_diagonal(arg1);
@@ -12489,28 +13518,43 @@ static PyObject *_wrap_gsl_matrix_short_diagonal(PyObject *self, PyObject *args,
         BASIS_TYPE_gsl_vector_short_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_short_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_short_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_short_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_short_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12536,7 +13580,7 @@ static PyObject *_wrap_gsl_matrix_short_subdiagonal(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12547,6 +13591,7 @@ static PyObject *_wrap_gsl_matrix_short_subdiagonal(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -12558,28 +13603,43 @@ static PyObject *_wrap_gsl_matrix_short_subdiagonal(PyObject *self, PyObject *ar
         BASIS_TYPE_gsl_vector_short_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_short_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_short_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_short_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_short_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12605,7 +13665,7 @@ static PyObject *_wrap_gsl_matrix_short_superdiagonal(PyObject *self, PyObject *
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_short, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -12616,6 +13676,7 @@ static PyObject *_wrap_gsl_matrix_short_superdiagonal(PyObject *self, PyObject *
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -12627,28 +13688,43 @@ static PyObject *_wrap_gsl_matrix_short_superdiagonal(PyObject *self, PyObject *
         BASIS_TYPE_gsl_vector_short_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_short_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_short_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_short_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_short_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -12673,6 +13749,7 @@ static PyObject *_wrap_gsl_vector_char_set_zero(PyObject *self, PyObject *args, 
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         1);
@@ -12702,6 +13779,7 @@ static PyObject *_wrap_gsl_vector_char_set_zero(PyObject *self, PyObject *args, 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -12729,6 +13807,7 @@ static PyObject *_wrap_gsl_vector_char_set_all(PyObject *self, PyObject *args, P
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         1);
@@ -12758,6 +13837,7 @@ static PyObject *_wrap_gsl_vector_char_set_all(PyObject *self, PyObject *args, P
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -12787,6 +13867,7 @@ static PyObject *_wrap_gsl_vector_char_set_basis(PyObject *self, PyObject *args,
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         1);
@@ -12818,6 +13899,7 @@ static PyObject *_wrap_gsl_vector_char_set_basis(PyObject *self, PyObject *args,
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -12842,11 +13924,17 @@ static PyObject *_wrap_gsl_vector_char_fread(PyObject *self, PyObject *args, PyO
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_char_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -12854,6 +13942,7 @@ static PyObject *_wrap_gsl_vector_char_fread(PyObject *self, PyObject *args, PyO
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_char, 
         2);
@@ -12883,6 +13972,7 @@ static PyObject *_wrap_gsl_vector_char_fread(PyObject *self, PyObject *args, PyO
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -12907,17 +13997,24 @@ static PyObject *_wrap_gsl_vector_char_fwrite(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_char_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 2, NULL);
@@ -12962,11 +14059,17 @@ static PyObject *_wrap_gsl_vector_char_fscanf(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_char_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -12974,6 +14077,7 @@ static PyObject *_wrap_gsl_vector_char_fscanf(PyObject *self, PyObject *args, Py
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_char, 
         2);
@@ -13003,6 +14107,7 @@ static PyObject *_wrap_gsl_vector_char_fscanf(PyObject *self, PyObject *args, Py
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -13028,17 +14133,24 @@ static PyObject *_wrap_gsl_vector_char_fprintf(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_char_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 2, NULL);
@@ -13085,6 +14197,7 @@ static PyObject *_wrap_gsl_vector_char_reverse(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13111,6 +14224,7 @@ static PyObject *_wrap_gsl_vector_char_reverse(PyObject *self, PyObject *args, P
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -13143,6 +14257,7 @@ static PyObject *_wrap_gsl_vector_char_swap(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13166,6 +14281,7 @@ static PyObject *_wrap_gsl_vector_char_swap(PyObject *self, PyObject *args, PyOb
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 2, NULL);
@@ -13192,12 +14308,14 @@ static PyObject *_wrap_gsl_vector_char_swap(PyObject *self, PyObject *args, PyOb
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -13228,6 +14346,7 @@ static PyObject *_wrap_gsl_vector_char_swap_elements(PyObject *self, PyObject *a
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13258,6 +14377,7 @@ static PyObject *_wrap_gsl_vector_char_swap_elements(PyObject *self, PyObject *a
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -13284,6 +14404,7 @@ static PyObject *_wrap_gsl_vector_char_max(PyObject *self, PyObject *args, PyObj
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13330,6 +14451,7 @@ static PyObject *_wrap_gsl_vector_char_min(PyObject *self, PyObject *args, PyObj
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13377,6 +14499,7 @@ static PyObject *_wrap_gsl_vector_char_minmax(PyObject *self, PyObject *args, Py
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13423,6 +14546,7 @@ static PyObject *_wrap_gsl_vector_char_max_index(PyObject *self, PyObject *args,
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13469,6 +14593,7 @@ static PyObject *_wrap_gsl_vector_char_min_index(PyObject *self, PyObject *args,
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13534,6 +14659,7 @@ static PyObject *_wrap_gsl_vector_char_minmax_index(PyObject *self, PyObject *ar
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13590,6 +14716,7 @@ static PyObject *_wrap_gsl_vector_char_isnull(PyObject *self, PyObject *args, Py
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_char, 
         0, -1, 1, NULL);
@@ -13632,6 +14759,7 @@ static PyObject *_wrap_gsl_matrix_char_set_zero(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_char_set_zero",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1);
         a_array = _PyMatrix1;
@@ -13650,16 +14778,19 @@ static PyObject *_wrap_gsl_matrix_char_set_zero(PyObject *self, PyObject *args, 
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -13681,6 +14812,7 @@ static PyObject *_wrap_gsl_matrix_char_set_all(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Oc:gsl_matrix_char_set_all",kwnames,&obj0,&arg2)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1);
         a_array = _PyMatrix1;
@@ -13699,16 +14831,19 @@ static PyObject *_wrap_gsl_matrix_char_set_all(PyObject *self, PyObject *args, P
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -13729,6 +14864,7 @@ static PyObject *_wrap_gsl_matrix_char_set_identity(PyObject *self, PyObject *ar
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_char_set_identity",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1);
         a_array = _PyMatrix1;
@@ -13747,16 +14883,19 @@ static PyObject *_wrap_gsl_matrix_char_set_identity(PyObject *self, PyObject *ar
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -13779,14 +14918,21 @@ static PyObject *_wrap_gsl_matrix_char_fread(PyObject *self, PyObject *args, PyO
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_char_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_char, 2);
         a_array = _PyMatrix2;
@@ -13805,16 +14951,19 @@ static PyObject *_wrap_gsl_matrix_char_fread(PyObject *self, PyObject *args, PyO
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -13837,17 +14986,23 @@ static PyObject *_wrap_gsl_matrix_char_fwrite(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_char_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -13858,6 +15013,7 @@ static PyObject *_wrap_gsl_matrix_char_fwrite(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_char_fwrite(arg1,(gsl_matrix_char const *)arg2);
@@ -13866,12 +15022,14 @@ static PyObject *_wrap_gsl_matrix_char_fwrite(PyObject *self, PyObject *args, Py
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -13894,14 +15052,21 @@ static PyObject *_wrap_gsl_matrix_char_fscanf(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_char_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_char, 2);
         a_array = _PyMatrix2;
@@ -13920,16 +15085,19 @@ static PyObject *_wrap_gsl_matrix_char_fscanf(PyObject *self, PyObject *args, Py
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -13953,17 +15121,23 @@ static PyObject *_wrap_gsl_matrix_char_fprintf(PyObject *self, PyObject *args, P
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_char_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -13974,6 +15148,7 @@ static PyObject *_wrap_gsl_matrix_char_fprintf(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_char_fprintf(arg1,(gsl_matrix_char const *)arg2,(char const *)arg3);
@@ -13982,12 +15157,14 @@ static PyObject *_wrap_gsl_matrix_char_fprintf(PyObject *self, PyObject *args, P
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14017,7 +15194,7 @@ static PyObject *_wrap_gsl_matrix_char_swap(PyObject *self, PyObject *args, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14028,13 +15205,14 @@ static PyObject *_wrap_gsl_matrix_char_swap(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -14045,6 +15223,7 @@ static PyObject *_wrap_gsl_matrix_char_swap(PyObject *self, PyObject *args, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_char_swap(arg1,arg2);
@@ -14054,29 +15233,35 @@ static PyObject *_wrap_gsl_matrix_char_swap(PyObject *self, PyObject *args, PyOb
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14104,7 +15289,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_rows(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14115,6 +15300,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_rows(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -14128,16 +15314,19 @@ static PyObject *_wrap_gsl_matrix_char_swap_rows(PyObject *self, PyObject *args,
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14165,7 +15354,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_columns(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14176,6 +15365,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_columns(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -14189,16 +15379,19 @@ static PyObject *_wrap_gsl_matrix_char_swap_columns(PyObject *self, PyObject *ar
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14226,7 +15419,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_rowcol(PyObject *self, PyObject *arg
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14237,6 +15430,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_rowcol(PyObject *self, PyObject *arg
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -14250,16 +15444,19 @@ static PyObject *_wrap_gsl_matrix_char_swap_rowcol(PyObject *self, PyObject *arg
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14283,7 +15480,7 @@ static PyObject *_wrap_gsl_matrix_char_transpose(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14294,6 +15491,7 @@ static PyObject *_wrap_gsl_matrix_char_transpose(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_char_transpose(arg1);
@@ -14303,16 +15501,19 @@ static PyObject *_wrap_gsl_matrix_char_transpose(PyObject *self, PyObject *args,
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14336,7 +15537,7 @@ static PyObject *_wrap_gsl_matrix_char_max(PyObject *self, PyObject *args, PyObj
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14347,6 +15548,7 @@ static PyObject *_wrap_gsl_matrix_char_max(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_char_max((gsl_matrix_char const *)arg1);
@@ -14355,12 +15557,14 @@ static PyObject *_wrap_gsl_matrix_char_max(PyObject *self, PyObject *args, PyObj
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14384,7 +15588,7 @@ static PyObject *_wrap_gsl_matrix_char_min(PyObject *self, PyObject *args, PyObj
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14395,6 +15599,7 @@ static PyObject *_wrap_gsl_matrix_char_min(PyObject *self, PyObject *args, PyObj
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (double)gsl_matrix_char_min((gsl_matrix_char const *)arg1);
@@ -14403,12 +15608,14 @@ static PyObject *_wrap_gsl_matrix_char_min(PyObject *self, PyObject *args, PyObj
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14433,7 +15640,7 @@ static PyObject *_wrap_gsl_matrix_char_minmax(PyObject *self, PyObject *args, Py
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14444,6 +15651,7 @@ static PyObject *_wrap_gsl_matrix_char_minmax(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_char_minmax((gsl_matrix_char const *)arg1,arg2,arg3);
@@ -14452,12 +15660,14 @@ static PyObject *_wrap_gsl_matrix_char_minmax(PyObject *self, PyObject *args, Py
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14500,7 +15710,7 @@ static PyObject *_wrap_gsl_matrix_char_max_index(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14511,6 +15721,7 @@ static PyObject *_wrap_gsl_matrix_char_max_index(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_char_max_index((gsl_matrix_char const *)arg1,arg2,arg3);
@@ -14529,12 +15740,14 @@ static PyObject *_wrap_gsl_matrix_char_max_index(PyObject *self, PyObject *args,
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14577,7 +15790,7 @@ static PyObject *_wrap_gsl_matrix_char_min_index(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14588,6 +15801,7 @@ static PyObject *_wrap_gsl_matrix_char_min_index(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_char_min_index((gsl_matrix_char const *)arg1,arg2,arg3);
@@ -14606,12 +15820,14 @@ static PyObject *_wrap_gsl_matrix_char_min_index(PyObject *self, PyObject *args,
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14674,7 +15890,7 @@ static PyObject *_wrap_gsl_matrix_char_minmax_index(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14685,6 +15901,7 @@ static PyObject *_wrap_gsl_matrix_char_minmax_index(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     gsl_matrix_char_minmax_index((gsl_matrix_char const *)arg1,arg2,arg3,arg4,arg5);
@@ -14713,12 +15930,14 @@ static PyObject *_wrap_gsl_matrix_char_minmax_index(PyObject *self, PyObject *ar
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14742,7 +15961,7 @@ static PyObject *_wrap_gsl_matrix_char_isnull(PyObject *self, PyObject *args, Py
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14753,6 +15972,7 @@ static PyObject *_wrap_gsl_matrix_char_isnull(PyObject *self, PyObject *args, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_char_isnull((gsl_matrix_char const *)arg1);
@@ -14761,12 +15981,14 @@ static PyObject *_wrap_gsl_matrix_char_isnull(PyObject *self, PyObject *args, Py
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14790,7 +16012,7 @@ static PyObject *_wrap_gsl_matrix_char_diagonal(PyObject *self, PyObject *args, 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14801,6 +16023,7 @@ static PyObject *_wrap_gsl_matrix_char_diagonal(PyObject *self, PyObject *args, 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = gsl_matrix_char_diagonal(arg1);
@@ -14810,28 +16033,43 @@ static PyObject *_wrap_gsl_matrix_char_diagonal(PyObject *self, PyObject *args, 
         BASIS_TYPE_gsl_vector_char_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_char_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_char_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_char_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_char_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14857,7 +16095,7 @@ static PyObject *_wrap_gsl_matrix_char_subdiagonal(PyObject *self, PyObject *arg
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14868,6 +16106,7 @@ static PyObject *_wrap_gsl_matrix_char_subdiagonal(PyObject *self, PyObject *arg
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -14879,28 +16118,43 @@ static PyObject *_wrap_gsl_matrix_char_subdiagonal(PyObject *self, PyObject *arg
         BASIS_TYPE_gsl_vector_char_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_char_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_char_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_char_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_char_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14926,7 +16180,7 @@ static PyObject *_wrap_gsl_matrix_char_superdiagonal(PyObject *self, PyObject *a
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_char, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -14937,6 +16191,7 @@ static PyObject *_wrap_gsl_matrix_char_superdiagonal(PyObject *self, PyObject *a
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -14948,28 +16203,43 @@ static PyObject *_wrap_gsl_matrix_char_superdiagonal(PyObject *self, PyObject *a
         BASIS_TYPE_gsl_vector_char_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_char_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_char_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_char_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_char_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -14994,6 +16264,7 @@ static PyObject *_wrap_gsl_vector_complex_set_zero(PyObject *self, PyObject *arg
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         1);
@@ -15023,6 +16294,7 @@ static PyObject *_wrap_gsl_vector_complex_set_zero(PyObject *self, PyObject *arg
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -15054,6 +16326,7 @@ static PyObject *_wrap_gsl_vector_complex_set_all(PyObject *self, PyObject *args
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         1);
@@ -15089,6 +16362,7 @@ static PyObject *_wrap_gsl_vector_complex_set_all(PyObject *self, PyObject *args
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -15118,6 +16392,7 @@ static PyObject *_wrap_gsl_vector_complex_set_basis(PyObject *self, PyObject *ar
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         1);
@@ -15149,6 +16424,7 @@ static PyObject *_wrap_gsl_vector_complex_set_basis(PyObject *self, PyObject *ar
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -15173,11 +16449,17 @@ static PyObject *_wrap_gsl_vector_complex_fread(PyObject *self, PyObject *args, 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -15185,6 +16467,7 @@ static PyObject *_wrap_gsl_vector_complex_fread(PyObject *self, PyObject *args, 
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         2);
@@ -15214,6 +16497,7 @@ static PyObject *_wrap_gsl_vector_complex_fread(PyObject *self, PyObject *args, 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -15238,17 +16522,24 @@ static PyObject *_wrap_gsl_vector_complex_fwrite(PyObject *self, PyObject *args,
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         0, -1, 2, NULL);
@@ -15293,11 +16584,17 @@ static PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *self, PyObject *args,
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -15305,6 +16602,7 @@ static PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *self, PyObject *args,
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         2);
@@ -15334,6 +16632,7 @@ static PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *self, PyObject *args,
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -15359,17 +16658,24 @@ static PyObject *_wrap_gsl_vector_complex_fprintf(PyObject *self, PyObject *args
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_complex_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         0, -1, 2, NULL);
@@ -15416,6 +16722,7 @@ static PyObject *_wrap_gsl_vector_complex_reverse(PyObject *self, PyObject *args
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         0, -1, 1, NULL);
@@ -15442,6 +16749,7 @@ static PyObject *_wrap_gsl_vector_complex_reverse(PyObject *self, PyObject *args
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -15474,6 +16782,7 @@ static PyObject *_wrap_gsl_vector_complex_swap(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         0, -1, 1, NULL);
@@ -15497,6 +16806,7 @@ static PyObject *_wrap_gsl_vector_complex_swap(PyObject *self, PyObject *args, P
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         0, -1, 2, NULL);
@@ -15523,12 +16833,14 @@ static PyObject *_wrap_gsl_vector_complex_swap(PyObject *self, PyObject *args, P
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -15559,6 +16871,7 @@ static PyObject *_wrap_gsl_vector_complex_swap_elements(PyObject *self, PyObject
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         0, -1, 1, NULL);
@@ -15589,6 +16902,7 @@ static PyObject *_wrap_gsl_vector_complex_swap_elements(PyObject *self, PyObject
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -15615,6 +16929,7 @@ static PyObject *_wrap_gsl_vector_complex_isnull(PyObject *self, PyObject *args,
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex, 
         0, -1, 1, NULL);
@@ -15657,6 +16972,7 @@ static PyObject *_wrap_gsl_matrix_complex_set_zero(PyObject *self, PyObject *arg
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_complex_set_zero",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1);
         a_array = _PyMatrix1;
@@ -15675,16 +16991,19 @@ static PyObject *_wrap_gsl_matrix_complex_set_zero(PyObject *self, PyObject *arg
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -15710,6 +17029,7 @@ static PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_set_all",kwnames,&obj0,&obj1)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1);
         a_array = _PyMatrix1;
@@ -15734,16 +17054,19 @@ static PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *self, PyObject *args
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -15764,6 +17087,7 @@ static PyObject *_wrap_gsl_matrix_complex_set_identity(PyObject *self, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_complex_set_identity",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1);
         a_array = _PyMatrix1;
@@ -15782,16 +17106,19 @@ static PyObject *_wrap_gsl_matrix_complex_set_identity(PyObject *self, PyObject 
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -15814,14 +17141,21 @@ static PyObject *_wrap_gsl_matrix_complex_fread(PyObject *self, PyObject *args, 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex, 2);
         a_array = _PyMatrix2;
@@ -15840,16 +17174,19 @@ static PyObject *_wrap_gsl_matrix_complex_fread(PyObject *self, PyObject *args, 
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -15872,17 +17209,23 @@ static PyObject *_wrap_gsl_matrix_complex_fwrite(PyObject *self, PyObject *args,
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -15893,6 +17236,7 @@ static PyObject *_wrap_gsl_matrix_complex_fwrite(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_fwrite(arg1,(gsl_matrix_complex const *)arg2);
@@ -15901,12 +17245,14 @@ static PyObject *_wrap_gsl_matrix_complex_fwrite(PyObject *self, PyObject *args,
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -15929,14 +17275,21 @@ static PyObject *_wrap_gsl_matrix_complex_fscanf(PyObject *self, PyObject *args,
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex, 2);
         a_array = _PyMatrix2;
@@ -15955,16 +17308,19 @@ static PyObject *_wrap_gsl_matrix_complex_fscanf(PyObject *self, PyObject *args,
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -15988,17 +17344,23 @@ static PyObject *_wrap_gsl_matrix_complex_fprintf(PyObject *self, PyObject *args
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_complex_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -16009,6 +17371,7 @@ static PyObject *_wrap_gsl_matrix_complex_fprintf(PyObject *self, PyObject *args
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_fprintf(arg1,(gsl_matrix_complex const *)arg2,(char const *)arg3);
@@ -16017,12 +17380,14 @@ static PyObject *_wrap_gsl_matrix_complex_fprintf(PyObject *self, PyObject *args
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16052,7 +17417,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap(PyObject *self, PyObject *args, P
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16063,13 +17428,14 @@ static PyObject *_wrap_gsl_matrix_complex_swap(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -16080,6 +17446,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap(PyObject *self, PyObject *args, P
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_swap(arg1,arg2);
@@ -16089,29 +17456,35 @@ static PyObject *_wrap_gsl_matrix_complex_swap(PyObject *self, PyObject *args, P
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16139,7 +17512,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rows(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16150,6 +17523,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rows(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -16163,16 +17537,19 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rows(PyObject *self, PyObject *ar
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16200,7 +17577,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_columns(PyObject *self, PyObject 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16211,6 +17588,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_columns(PyObject *self, PyObject 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -16224,16 +17602,19 @@ static PyObject *_wrap_gsl_matrix_complex_swap_columns(PyObject *self, PyObject 
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16261,7 +17642,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rowcol(PyObject *self, PyObject *
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16272,6 +17653,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rowcol(PyObject *self, PyObject *
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -16285,16 +17667,19 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rowcol(PyObject *self, PyObject *
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16318,7 +17703,7 @@ static PyObject *_wrap_gsl_matrix_complex_transpose(PyObject *self, PyObject *ar
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16329,6 +17714,7 @@ static PyObject *_wrap_gsl_matrix_complex_transpose(PyObject *self, PyObject *ar
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_transpose(arg1);
@@ -16338,16 +17724,19 @@ static PyObject *_wrap_gsl_matrix_complex_transpose(PyObject *self, PyObject *ar
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16371,7 +17760,7 @@ static PyObject *_wrap_gsl_matrix_complex_isnull(PyObject *self, PyObject *args,
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16382,6 +17771,7 @@ static PyObject *_wrap_gsl_matrix_complex_isnull(PyObject *self, PyObject *args,
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_isnull((gsl_matrix_complex const *)arg1);
@@ -16390,12 +17780,14 @@ static PyObject *_wrap_gsl_matrix_complex_isnull(PyObject *self, PyObject *args,
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16419,7 +17811,7 @@ static PyObject *_wrap_gsl_matrix_complex_diagonal(PyObject *self, PyObject *arg
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16430,6 +17822,7 @@ static PyObject *_wrap_gsl_matrix_complex_diagonal(PyObject *self, PyObject *arg
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = gsl_matrix_complex_diagonal(arg1);
@@ -16439,28 +17832,43 @@ static PyObject *_wrap_gsl_matrix_complex_diagonal(PyObject *self, PyObject *arg
         BASIS_TYPE_gsl_vector_complex_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_complex_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_complex_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_complex_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16486,7 +17894,7 @@ static PyObject *_wrap_gsl_matrix_complex_subdiagonal(PyObject *self, PyObject *
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16497,6 +17905,7 @@ static PyObject *_wrap_gsl_matrix_complex_subdiagonal(PyObject *self, PyObject *
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -16508,28 +17917,43 @@ static PyObject *_wrap_gsl_matrix_complex_subdiagonal(PyObject *self, PyObject *
         BASIS_TYPE_gsl_vector_complex_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_complex_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_complex_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_complex_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16555,7 +17979,7 @@ static PyObject *_wrap_gsl_matrix_complex_superdiagonal(PyObject *self, PyObject
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -16566,6 +17990,7 @@ static PyObject *_wrap_gsl_matrix_complex_superdiagonal(PyObject *self, PyObject
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -16577,28 +18002,43 @@ static PyObject *_wrap_gsl_matrix_complex_superdiagonal(PyObject *self, PyObject
         BASIS_TYPE_gsl_vector_complex_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_complex_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_complex_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_complex_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -16623,6 +18063,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_zero(PyObject *self, PyObjec
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         1);
@@ -16652,6 +18093,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_zero(PyObject *self, PyObjec
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -16680,6 +18122,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_all(PyObject *self, PyObject
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         1);
@@ -16715,6 +18158,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_all(PyObject *self, PyObject
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -16744,6 +18188,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_basis(PyObject *self, PyObje
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_generate_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         1);
@@ -16775,6 +18220,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_basis(PyObject *self, PyObje
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -16799,11 +18245,17 @@ static PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *self, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_float_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -16811,6 +18263,7 @@ static PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *self, PyObject *
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         2);
@@ -16840,6 +18293,7 @@ static PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *self, PyObject *
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -16864,17 +18318,24 @@ static PyObject *_wrap_gsl_vector_complex_float_fwrite(PyObject *self, PyObject 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_float_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         0, -1, 2, NULL);
@@ -16919,11 +18380,17 @@ static PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *self, PyObject 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_float_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
@@ -16931,6 +18398,7 @@ static PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *self, PyObject 
         
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_generate_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         2);
@@ -16960,6 +18428,7 @@ static PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *self, PyObject 
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -16985,17 +18454,24 @@ static PyObject *_wrap_gsl_vector_complex_float_fprintf(PyObject *self, PyObject
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_vector_complex_float_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         0, -1, 2, NULL);
@@ -17042,6 +18518,7 @@ static PyObject *_wrap_gsl_vector_complex_float_reverse(PyObject *self, PyObject
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         0, -1, 1, NULL);
@@ -17068,6 +18545,7 @@ static PyObject *_wrap_gsl_vector_complex_float_reverse(PyObject *self, PyObject
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -17100,6 +18578,7 @@ static PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *self, PyObject *a
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         0, -1, 1, NULL);
@@ -17123,6 +18602,7 @@ static PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *self, PyObject *a
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         0, -1, 2, NULL);
@@ -17149,12 +18629,14 @@ static PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *self, PyObject *a
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
         _PyVector2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -17185,6 +18667,7 @@ static PyObject *_wrap_gsl_vector_complex_float_swap_elements(PyObject *self, Py
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         0, -1, 1, NULL);
@@ -17215,6 +18698,7 @@ static PyObject *_wrap_gsl_vector_complex_float_swap_elements(PyObject *self, Py
         
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
         _PyVector1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
@@ -17241,6 +18725,7 @@ static PyObject *_wrap_gsl_vector_complex_float_isnull(PyObject *self, PyObject 
         PyArrayObject * a_array;
         int stride_recalc=0;
         
+        FUNC_MESS_BEGIN();
         _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
         TO_PyArray_TYPE_gsl_vector_complex_float, 
         0, -1, 1, NULL);
@@ -17283,6 +18768,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_zero(PyObject *self, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_complex_float_set_zero",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1);
         a_array = _PyMatrix1;
@@ -17301,16 +18787,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_zero(PyObject *self, PyObjec
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17333,6 +18822,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_all(PyObject *self, PyObject
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_float_set_all",kwnames,&obj0,&obj1)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1);
         a_array = _PyMatrix1;
@@ -17357,16 +18847,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_all(PyObject *self, PyObject
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17387,6 +18880,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_identity(PyObject *self, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_matrix_complex_float_set_identity",kwnames,&obj0)) goto fail;
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1);
         a_array = _PyMatrix1;
@@ -17405,16 +18899,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_identity(PyObject *self, PyO
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17437,14 +18934,21 @@ static PyObject *_wrap_gsl_matrix_complex_float_fread(PyObject *self, PyObject *
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_float_fread",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex_float, 2);
         a_array = _PyMatrix2;
@@ -17463,16 +18967,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_fread(PyObject *self, PyObject *
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17495,17 +19002,23 @@ static PyObject *_wrap_gsl_matrix_complex_float_fwrite(PyObject *self, PyObject 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_float_fwrite",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -17516,6 +19029,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_fwrite(PyObject *self, PyObject 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_float_fwrite(arg1,(gsl_matrix_complex_float const *)arg2);
@@ -17524,12 +19038,14 @@ static PyObject *_wrap_gsl_matrix_complex_float_fwrite(PyObject *self, PyObject 
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17552,14 +19068,21 @@ static PyObject *_wrap_gsl_matrix_complex_float_fscanf(PyObject *self, PyObject 
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_float_fscanf",kwnames,&obj0,&obj1)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     {
         PyArrayObject * a_array;
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_generate_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex_float, 2);
         a_array = _PyMatrix2;
@@ -17578,16 +19101,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_fscanf(PyObject *self, PyObject 
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17611,17 +19137,23 @@ static PyObject *_wrap_gsl_matrix_complex_float_fprintf(PyObject *self, PyObject
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_matrix_complex_float_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
     {
+        FUNC_MESS_BEGIN();
         if (!PyFile_Check(obj0)) {
             PyErr_SetString(PyExc_TypeError, "Need a file!");
+            PyGSL_add_traceback(NULL, "typemaps//file_typemaps.i", __FUNCTION__, 11);
             goto fail;
         }
+        FUNC_MESS("GET FILE");
         arg1 = PyFile_AsFile(obj0);
+        DEBUG_MESS(2, "Using file at %p with filedes %d", (void *) arg1, fileno(arg1));
+        assert(arg1 != NULL);
+        
     }
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -17632,6 +19164,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_fprintf(PyObject *self, PyObject
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_float_fprintf(arg1,(gsl_matrix_complex_float const *)arg2,(char const *)arg3);
@@ -17640,12 +19173,14 @@ static PyObject *_wrap_gsl_matrix_complex_float_fprintf(PyObject *self, PyObject
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17675,7 +19210,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap(PyObject *self, PyObject *a
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -17686,13 +19221,14 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap(PyObject *self, PyObject *a
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix2 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj1, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 2, NULL);
         a_array = _PyMatrix2;
@@ -17703,6 +19239,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap(PyObject *self, PyObject *a
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg2 = &(_matrix2.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix2.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_float_swap(arg1,arg2);
@@ -17712,29 +19249,35 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap(PyObject *self, PyObject *a
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix2);
         _PyMatrix2 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17762,7 +19305,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rows(PyObject *self, PyObje
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -17773,6 +19316,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rows(PyObject *self, PyObje
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -17786,16 +19330,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rows(PyObject *self, PyObje
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17823,7 +19370,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_columns(PyObject *self, PyO
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -17834,6 +19381,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_columns(PyObject *self, PyO
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -17847,16 +19395,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_columns(PyObject *self, PyO
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17884,7 +19435,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rowcol(PyObject *self, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -17895,6 +19446,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rowcol(PyObject *self, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -17908,16 +19460,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rowcol(PyObject *self, PyOb
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17941,7 +19496,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_transpose(PyObject *self, PyObje
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -17952,6 +19507,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_transpose(PyObject *self, PyObje
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_float_transpose(arg1);
@@ -17961,16 +19517,19 @@ static PyObject *_wrap_gsl_matrix_complex_float_transpose(PyObject *self, PyObje
         assert((PyObject *) _PyMatrix1 != NULL);
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -17994,7 +19553,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_isnull(PyObject *self, PyObject 
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -18005,6 +19564,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_isnull(PyObject *self, PyObject 
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = (int)gsl_matrix_complex_float_isnull((gsl_matrix_complex_float const *)arg1);
@@ -18013,12 +19573,14 @@ static PyObject *_wrap_gsl_matrix_complex_float_isnull(PyObject *self, PyObject 
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -18042,7 +19604,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_diagonal(PyObject *self, PyObjec
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -18053,6 +19615,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_diagonal(PyObject *self, PyObjec
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     result = gsl_matrix_complex_float_diagonal(arg1);
@@ -18062,28 +19625,43 @@ static PyObject *_wrap_gsl_matrix_complex_float_diagonal(PyObject *self, PyObjec
         BASIS_TYPE_gsl_vector_complex_float_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_float_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_complex_float_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_complex_float_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_complex_float_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -18109,7 +19687,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_subdiagonal(PyObject *self, PyOb
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -18120,6 +19698,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_subdiagonal(PyObject *self, PyOb
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -18131,28 +19710,43 @@ static PyObject *_wrap_gsl_matrix_complex_float_subdiagonal(PyObject *self, PyOb
         BASIS_TYPE_gsl_vector_complex_float_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_float_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_complex_float_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_complex_float_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_complex_float_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -18178,7 +19772,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_superdiagonal(PyObject *self, Py
     {
         PyArrayObject * a_array;
         
-        
+        FUNC_MESS_BEGIN();
         _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
         obj0, TO_PyArray_TYPE_gsl_matrix_complex_float, 1, -1, -1, 1, NULL);
         a_array = _PyMatrix1;
@@ -18189,6 +19783,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_superdiagonal(PyObject *self, Py
         a_array->dimensions[0],
         a_array->dimensions[1]);
         arg1 = &(_matrix1.matrix);
+        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
     }
     
     arg2 = (size_t) PyInt_AsLong(obj1);
@@ -18200,28 +19795,43 @@ static PyObject *_wrap_gsl_matrix_complex_float_superdiagonal(PyObject *self, Py
         BASIS_TYPE_gsl_vector_complex_float_view tmp; 
         int i, dimension = -1;
         
+        FUNC_MESS_BEGIN();
+        DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
+        &((&result)->vector), (&result)->vector.size, (&result)->vector.data, *((char *)(&result)->vector.data));
         dimension = (&result)->vector.size;
+        DEBUG_MESS(2, "Creating a vector of length %d", dimension);
+        assert(dimension > 0);
         out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
         TO_PyArray_TYPE_gsl_vector_complex_float_view);
         if(out == NULL) goto fail;
-        
+        DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
+        out->strides[0]);
+        assert(dimension == out->dimensions[0]);
+        FUNC_MESS("Copying vector to PyArray");     
         /* Should I copy the array now? Increase the reference of a_array ? */
         for(i=0; i<out->dimensions[0]; i++){
-            tmp = GET_gsl_vector_complex_float_view(&( (&result)->vector), i); 
+            DEBUG_MESS(2, "Writing element %d", i);
+            tmp = GET_gsl_vector_complex_float_view(&((&result)->vector), i);
+            DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
             ((BASIS_TYPE_gsl_vector_complex_float_view *) out->data)[i] = tmp;
+            
+            FUNC_MESS("Element written");
         }
         
         resultobj = (PyObject *) out;
+        FUNC_MESS_END();
     }
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return resultobj;
     fail:
     {
         Py_XDECREF(_PyMatrix1);
         _PyMatrix1 = NULL;
+        FUNC_MESS_END();
     }
     return NULL;
 }
@@ -18610,6 +20220,10 @@ SWIGEXPORT(void) SWIG_init(void) {
     
     /* To use the numeric extension */
     import_array();
+    init_pygsl();
+    
+    
+    pygsl_module_for_error_treatment = m;
     
 }
 
