@@ -7,7 +7,11 @@
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
+PyObject *pygsl_module_for_error_treatment = NULL;
 %}
+%init {
+     pygsl_module_for_error_treatment = m;
+}
 
 /*
  * GSL passes the error as int. The following typemap will make python 
@@ -36,6 +40,10 @@ typedef int gsl_error_flag;
 /* Warning: Swig will treat it as an pointer !! */
 %typemap(python, out) gsl_error_flag {
      $result = PyGSL_ERROR_FLAG_TO_PYINT($1);
-     if ($result == NULL) goto fail;
+     if ($result == NULL){ 
+	  PyGSL_add_traceback(pygsl_module_for_error_treatment, __FILE__, 
+			      __FUNCTION__, __LINE__);
+	  goto fail;
+     }
 }
 
