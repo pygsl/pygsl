@@ -285,6 +285,8 @@ if BUILD_TESTING:
 
 py_module_names = ['errors',
                    'statistics.__init__',
+		   '_numobj',
+		   '_mlab',
                    '_block',
                    '_callback',
                    '_generic_solver',
