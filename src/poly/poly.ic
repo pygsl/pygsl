@@ -1,0 +1,237 @@
+/* -*- C -*- */
+/**
+ * author: Pierre Schnizer
+ * created: December 2002
+ * file: src/poly/poly.ic
+ *
+ */
+/*
+ * 30.12.2002
+ * Added handling of PyErr_Occured.
+ */
+#include <Python.h>
+#include <Numeric/arrayobject.h>
+#include <typemaps/gsl_block_helpers.ic>
+#include <gsl/gsl_poly.h>
+/*
+extern double gsl_poly_eval (const double *INSIMPLE, const int simplelen, 
+			     const double X);
+*/
+static PyObject * 
+pygsl_poly_eval(PyObject *self, PyObject *args)
+{
+  PyObject * result = NULL, *array_o = NULL;
+  PyArrayObject *array = NULL;
+  double x, y;
+
+  FUNC_MESS_BEGIN();
+
+  if(! PyArg_ParseTuple(args, "Od", &array_o, &x)){
+      return NULL;
+    }
+  array = PyGSL_PyArray_PREPARE_gsl_vector_view(array_o, PyArray_DOUBLE, 1, -1, 1, NULL);
+  if (array == NULL) goto fail;
+
+  y = gsl_poly_eval((double *) array->data, array->dimensions[0], x);
+  Py_DECREF(array);
+
+
+  result = Py_BuildValue("d", y);
+  FUNC_MESS_END();
+  return result;
+
+ fail:
+  Py_XDECREF(array);
+  return NULL;
+}
+/*
+extern int gsl_poly_dd_init (double dd[], const double xa[], const double ya[],
+			     size_t SIZE);
+*/
+static PyObject * 
+pygsl_poly_dd_init(PyObject *self, PyObject *args)
+{
+  PyObject * result = NULL, *xa_o = NULL, *ya_o = NULL;
+  PyArrayObject *xa = NULL, *ya = NULL, *dd=NULL;
+
+  int dimension, r;
+
+  FUNC_MESS_BEGIN();
+
+  if(! PyArg_ParseTuple(args, "OO", &xa_o, &ya_o)){
+      return NULL;
+  }
+  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, 1, -1, 1, NULL);
+  if (xa == NULL) goto fail;
+  dimension = xa->dimensions[0];
+  ya = PyGSL_PyArray_PREPARE_gsl_vector_view(ya_o, PyArray_DOUBLE, 1, dimension, 2, NULL);
+  if (ya == NULL) goto fail;
+  dd = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+  if (dd == NULL) goto fail;
+
+  r = gsl_poly_dd_init ((double *) dd->data, 
+			(double *) xa->data, 
+			(double *) ya->data, 
+			dimension);
+
+  if (PyErr_Occurred())
+    goto  fail;
+
+  result = Py_BuildValue("iO", r, dd);
+  Py_DECREF(xa);
+  Py_DECREF(ya);
+  Py_DECREF(dd);
+  FUNC_MESS_END();
+  return result;
+ fail:
+  Py_XDECREF(xa);
+  Py_XDECREF(ya);
+  Py_XDECREF(dd);
+  return NULL;
+}
+/*
+extern double gsl_poly_dd_eval (const double dd[], const double xa[], 
+				const size_t SIZE, const double X);
+*/
+static PyObject * 
+pygsl_poly_dd_eval(PyObject *self, PyObject *args)
+{
+  PyObject * result = NULL, *xa_o = NULL, *dd_o = NULL;
+  PyArrayObject *xa = NULL, *dd=NULL;
+  double x, y;
+  int dimension;
+
+  FUNC_MESS_BEGIN();
+
+  if(! PyArg_ParseTuple(args, "OOd", &dd_o, &xa_o, &x)){
+      return NULL;
+  }
+  FUNC_MESS("    Array BEGIN");
+  FUNC_MESS("    xa");
+  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, 1, -1, 1, NULL);
+  if (xa == NULL) goto fail;
+  dimension = xa->dimensions[0];
+  FUNC_MESS("    dd");
+  dd = PyGSL_PyArray_PREPARE_gsl_vector_view(dd_o, PyArray_DOUBLE, 1, -1, 2, NULL);
+  if (dd == NULL) goto fail;
+  FUNC_MESS("    Call gsl");
+  y = gsl_poly_dd_eval ((double *) dd->data, 
+			(double *) xa->data, 
+			dimension, x);
+  if (PyErr_Occurred())
+    goto fail;
+
+  FUNC_MESS("    Build value");
+  Py_DECREF(xa);
+  Py_DECREF(dd);
+  FUNC_MESS_END();
+  result = Py_BuildValue("d", y);
+  return result;
+ fail:
+  Py_XDECREF(xa);
+  Py_XDECREF(dd);
+  return NULL;
+}
+/*
+extern int gsl_poly_dd_taylor (double c[], double XP, const double dd[], 
+			       const double xa[], size_t SIZE, double w[]);
+*/
+static PyObject * 
+pygsl_poly_dd_taylor(PyObject *self, PyObject *args)
+{
+  PyObject * result = NULL, *xa_o = NULL, *dd_o = NULL, *wa_o = NULL;
+  PyArrayObject *xa = NULL, *dd=NULL, *wa = NULL, *c=NULL;
+  double xp;
+  int dimension, r;
+
+  FUNC_MESS_BEGIN();
+
+  if(! PyArg_ParseTuple(args, "dOOO", &xp, &dd_o, &xa_o, &wa_o)){
+      return NULL;
+  }
+  dd = PyGSL_PyArray_PREPARE_gsl_vector_view(dd_o, PyArray_DOUBLE, 1, -1, 1, NULL);
+  if (dd == NULL) goto fail;
+  dimension = dd->dimensions[0];
+  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, 1, dimension, 2, NULL);
+  if (xa == NULL) goto fail;
+  wa = PyGSL_PyArray_PREPARE_gsl_vector_view(wa_o, PyArray_DOUBLE, 1, dimension, 3, NULL);
+  if (wa == NULL) goto fail;
+  c = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+  if (c == NULL) goto fail;
+
+  r = gsl_poly_dd_taylor(((double *) c->data), xp,
+			 ((double *) dd->data),
+			 ((double *) xa->data), 
+			 dimension, ((double *) wa->data));
+  
+  Py_DECREF(wa);
+  Py_DECREF(xa);
+  Py_DECREF(dd);
+  FUNC_MESS_END();
+  result = Py_BuildValue("iO", r,c);
+  return result;
+ fail:
+  Py_XDECREF(wa);
+  Py_XDECREF(xa);
+  Py_XDECREF(dd);
+  Py_XDECREF(c);
+  return NULL;
+}
+/*
+extern int gsl_poly_complex_solve (const double * A, size_t N, 
+				   gsl_poly_complex_workspace * W, 
+				   gsl_complex_packet_ptr *Z);
+*/
+static PyObject *
+pygsl_poly_complex_solve(PyObject *self, PyObject *args)
+{
+  PyObject *result = NULL, *a_o = NULL, *w =NULL;
+  PyArrayObject *a = NULL, *za = NULL; 
+
+
+  int r, dimension, za_dimension;
+  gsl_poly_complex_workspace * ws = NULL;
+  
+  FUNC_MESS_BEGIN();
+  if(! PyArg_ParseTuple(args, "OO", &a_o, &w)){
+      return NULL;
+  }
+
+  if((SWIG_ConvertPtr(w, (void **) &ws, SWIGTYPE_p_gsl_poly_complex_workspace,1)) == -1){
+    PyErr_SetString(PyExc_TypeError, "Could not convert workspace to pointer");
+    goto fail;
+  }
+
+  a = PyGSL_PyArray_PREPARE_gsl_vector_view(a_o, PyArray_DOUBLE, 1, -1, 2, NULL);
+  if (a == NULL) goto fail;
+  dimension = a->dimensions[0];
+  za_dimension = dimension - 1;
+  /* ws->nc stores the potenz of the highest coefficient */
+  if(za_dimension != ws->nc){
+    fprintf(stderr, "ws->nc = %d, dimension = %d\n", ws->nc, dimension);
+    PyErr_SetString(PyExc_TypeError, 
+		    "The dimension of the array a does not correspond to"
+		    " the size of the workspace!");
+    goto fail;
+  }
+  za = (PyArrayObject *) PyArray_FromDims(1, &za_dimension, PyArray_CDOUBLE);
+  if (za == NULL) goto fail;
+
+  
+  r = gsl_poly_complex_solve ((double *) a->data, (size_t) dimension, ws, 
+			      (gsl_complex_packed_ptr) za->data);
+  if (PyErr_Occurred())
+    goto fail;
+
+  result = Py_BuildValue("iO", r, za);
+
+  Py_DECREF(a);
+  Py_DECREF(za);
+  FUNC_MESS_END();
+  return result;
+
+ fail:
+  Py_XDECREF(a);
+  Py_XDECREF(za);
+  return NULL;
+}
