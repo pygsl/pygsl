@@ -1,3 +1,8 @@
+2002-04-17  Jochen Küpper  <jochen@unc.edu>
+
+	* index.html: Add link to News section.  Some reorganization, adherence
+	to HTML standards.
+
 2002-04-17  Jochen Küpper  <jochen@jochen-kuepper.de>
 
 	* doc/differentiation.tex: Added.
