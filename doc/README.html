@@ -14,13 +14,13 @@ More information about it at <a href="http://sources.redhat.com/gsl/">http://sou
 <h2>Status of this interface:</h2>
 We are collecting implementations of parts of gsl.
 So the interface is not complete.
-The version 0.0.4 is a pre-release for pygsl-0.1 and honors changes that came with gsl-1.0.
+The version 0.0.5 is a developement snapshot for pygsl-0.1.
 
 <h2>Requirements:</h2>
 To build the interface, you will need
 <ul>
 <li>gsl-1.0 or better,</li>
-<li>python2.0 or better and</li>
+<li>python2.2 or better and</li>
 <li>a c compiler (like gcc).</li>
 </ul>
 
@@ -71,9 +71,11 @@ the directory <tt>test</tt> will contain several testsuites, based on python <tt
 <li>module pygsl.const: with 206 often used mathematical and scientific constants</li>
 <li>module pygsl.ieee: access to the ieee-arithmetics layer of gsl</li>
 <li>module pygsl.rng: provides several random number generators and different probability densities</li>
+<li>module pygsl.histogram: histograms and operations on histograms</li>
+<li>module pygsl.statistics: some statistics functions for arrays.</li>
 </ul>
 
-For the exact function volume, please type:
+For the exact function volume for a module, please type:
 <p><tt>import pygsl.sf</tt>
 <br><tt>dir(pygsl.sf)</tt>
 <p>
@@ -116,6 +118,11 @@ Implement other parts: (I don't want to do that alone)
 <li>a gsl-interface for python was needed for a project at <a href="http://www.zaik.uni-koeln.de/AFS">center for applied informatics cologne</a>.
 <li>gsl-0.0.3 was released at May 23, 2001</li>
 <li>gsl-0.0.4 was released at January 8, 2002</li>
+</ul>
+
+<h2>Thanks:</h2>
+<ul>
+<li><a href="mailto:jochen@jochen-kuepper.de">Jochen K&uuml;pper</a> for pygsl.statistics functions</li>
 </ul>
 
 <h2>Maintainer:</h2>

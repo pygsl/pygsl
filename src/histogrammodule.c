@@ -415,6 +415,36 @@ static PyObject* histogram_histogram_sigma(PyObject *self) {
   return PyFloat_FromDouble(gsl_histogram_sigma(histogram));
 }
 
+/*
+  double gsl_histogram_sigma (const gsl_histogram * h)
+ */
+
+#ifndef HAVE_GSL_HISTOGRAM_SUM
+double 
+gsl_histogram_sum(const gsl_histogram * h)
+{
+  double sum=0;
+  size_t i=0;
+  size_t n;
+  n=h->n;
+  
+  while(i < n)
+    sum += h->bin[i++];
+  
+  return sum;
+}
+#endif /* HAVE_GSL_HISTOGRAM_SUM */
+
+static PyObject* histogram_histogram_sum(PyObject *self) {
+  gsl_histogram * histogram;
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.sigma got a NULL pointer");
+    return NULL;
+  }
+  return PyFloat_FromDouble(gsl_histogram_sum(histogram));
+}
+
 
 /*
   int gsl_histogram_set_ranges (gsl_histogram * h, const double range[], size_t size)
@@ -753,6 +783,7 @@ static PyMethodDef histogram_histogram_methods[] = {
   {"min_bin",(PyCFunction)histogram_histogram_min_bin,METH_NOARGS,"returns bin index with minimal value"},
   {"mean",(PyCFunction)histogram_histogram_mean,METH_NOARGS,"returns mean of histogram"},
   {"sigma",(PyCFunction)histogram_histogram_sigma,METH_NOARGS,"returns std deviation of histogram"},
+  {"sum",(PyCFunction)histogram_histogram_sum,METH_NOARGS,"returns sum of bin values"},
   {"set_ranges",(PyCFunction)histogram_histogram_set_ranges,METH_O,"sets range according given sequence"},
   {"shift",(PyCFunction)histogram_histogram_shift,METH_O,"shifts the contents of the bins by the given offset"},
   {"scale",(PyCFunction)histogram_histogram_scale,METH_O,"multiplies the contents of the bins by the given scale"},

@@ -86,11 +86,12 @@ class histogram_basics(unittest.TestCase):
         self.failIf(-1!=hist.min_val())
         self.failIf(0!=hist.min_bin())
 
-    def test_meansigma(self):
+    def test_meansigmasum(self):
         hist=pygsl.histogram.histogram(100)
         hist.set_ranges_uniform(0,20)
         hist.increment(10)
         self.failIf(10.1!=hist.mean())
+        self.failIf(hist.sum()!=1)
 
     def test_as_map(self):
         hist=pygsl.histogram.histogram(100)
@@ -128,6 +129,8 @@ class histogram_basics(unittest.TestCase):
         hist2.sub(hist1)
         self.failIf(hist2[1]!=-1)
         self.failIf(hist1[1]!=3)
+
+test=(histogram_basics)
 
 if __name__ == "__main__":
     unittest.main()
