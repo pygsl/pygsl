@@ -656,19 +656,18 @@ static swig_type_info *swig_types[4];
 
 #define SWIG_name    "__poly"
 
-#include <Numeric/arrayobject.h>
 #include <gsl/gsl_poly.h>
 #include <gsl/gsl_errno.h>
 #include <poly.ic>
 
 
 #include <gsl/gsl_errno.h>
-#include <utils/util.h>
-#include <typemaps/gsl_complex_helpers.ic>
-
+#include <pygsl/utils.h>
+#include <pygsl/complex_helpers.h>
 
    
-#include <utils/util.h>  
+#include <pygsl/utils.h>
+#include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
 
 extern int gsl_poly_solve_quadratic(double,double,double,double *,double *);
@@ -756,10 +755,8 @@ static PyObject *_wrap_gsl_poly_complex_solve_quadratic(PyObject *self, PyObject
     };
     
     
-    gsl_complex tmp4;
     
     
-    gsl_complex tmp5;
     
     {
         FUNC_MESS_BEGIN();
@@ -861,13 +858,10 @@ static PyObject *_wrap_gsl_poly_complex_solve_cubic(PyObject *self, PyObject *ar
     };
     
     
-    gsl_complex tmp4;
     
     
-    gsl_complex tmp5;
     
     
-    gsl_complex tmp6;
     
     {
         FUNC_MESS_BEGIN();
