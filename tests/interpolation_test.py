@@ -20,24 +20,24 @@ class _test_common(unittest.TestCase):
 
        
     def test_eval_e(self):
-        t, v = self.interp.eval_e(10)
-        assert(t==0)
+        v = self.interp.eval_e(10)
+
         assert(v==21)
         
     def test_eval_deriv_e(self):
-        t, v = self.interp.eval_deriv_e(10)
-        assert(t==0)
+        v = self.interp.eval_deriv_e(10)
+
         assert(v==2)
         
     def test_eval_deriv2_e(self):
-        t, v = self.interp.eval_deriv2_e(10)
-        assert(t==0)
+        v = self.interp.eval_deriv2_e(10)
+
         assert(v==0)
         
     def test_eval_integ_e(self):
-        t, v = self.interp.eval_integ_e(0,10)
+        v = self.interp.eval_integ_e(0,10)
         assert(v==110)
-        assert(t==0)
+
         
     def test_accel_reset(self):
         t = self.interp.accel_reset()
