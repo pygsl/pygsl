@@ -47,7 +47,7 @@ def test_evolve_bsimp():
 
 
 
-    file = open("/tmp/out2", "w")
+
     sys.stdout = file
     h = 1
     t = 0.0
