@@ -37,14 +37,14 @@ class statistics_test(unittest.TestCase):
 
     def test_mean_char(self):
         self.failIf(char.mean([1,2,3]) != 2)
-        self.failIf(char.mean(array([1,2,3], 'c')) != 2)
+        self.failIf(char.mean(array([1,2,3], Int8)) != 2)
     
     def test_mean_float(self):
         self.failIf(float.mean(array([-1.,-3.,1.], 'f')) != -1)
         self.failIf(float.mean([1.,2.,3.]) != 2)
     
     def test_mean_int(self):
-        self.failIf(int.mean(array([-1,-3,1])) != -1)
+        self.failIf(int.mean(array([-1,-3,1], Int32)) != -1)
         self.failIf(int.mean([1,2,3]) != 2)
     
     def test_mean_long(self):
