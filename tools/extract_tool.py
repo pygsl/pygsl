@@ -11,7 +11,7 @@ class constant_collector:
 
     def get_all_constants(self):
         constants=[]
-        for file_name in ["gsl_const_cgs.h","gsl_const_mks.h","gsl_const_num.h"]:
+        for file_name in ["gsl_const_cgs.h","gsl_const_mks.h","gsl_const_num.h","gsl_math.h"]:
             constants.extend(self.get_constants_from_file(file_name))
         return constants
 
@@ -57,8 +57,27 @@ class gsl_constant:
             return "#define %s %s"%(self.name,self.definition)
 
     def make_module_definition(self):
-        new_name='_'.join(map(string.lower,self.name.split('_')[2:]))
+        new_name=""
+        if self.name[:2]=="M_":
+            new_name='_'.join(map(string.lower,self.name.split('_')[1:]))
+        elif self.name[:10]=="GSL_CONST_":
+            new_name='_'.join(map(string.lower,self.name.split('_')[3:]))
+        else:
+            return None
         return "PyModule_AddObject(m,\"%s\",PyFloat_FromDouble(%s))"%(new_name,self.name)
+        
+    def make_array_entry(self):
+        """
+        string of type {"achims_constant",ACHIM_ACHIMS_CONSTANT,"achims bug density"}
+        """
+        new_name=""
+        if self.name[:2]=="M_":
+            new_name='_'.join(map(string.lower,self.name.split('_')[1:]))
+        elif self.name[:10]=="GSL_CONST_":
+            new_name='_'.join(map(string.lower,self.name.split('_')[3:]))
+        else:
+            return None
+        return "{\"%s\",%s,\"%s\"}"%(new_name,self.name,self.comment.strip())
 
 class prototype_collector:
     """
