@@ -11,7 +11,7 @@
 
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_multimin.h>
-
+#include "multiminmodule_doc.h"
 /* 
  * I have two different types to minimize and I am too lazy to implement the same
  * twice. Therefore I use unions and add a flag to the minimizer for the type
@@ -47,7 +47,7 @@ typedef struct {
      union pygsl_multimin_minimizer min;
      size_t n;
      int mytype;
-     int isset;
+     int isset; /* Used as a flag if the jmp_buf is set */
      jmp_buf buffer;
 } PyGSL_multimin;
 
@@ -59,7 +59,7 @@ PyGSL_multimin_dealloc(PyGSL_multimin* self);
 static PyObject*
 PyGSL_multimin_getattr(PyObject * obj, char *name);
 
-static const char PyGSL_multimin_type_doc[] = "XXX Type doc missing!";
+
 
 PyTypeObject PyGSL_multimin_pytype = {
   PyObject_HEAD_INIT(NULL)	 /* fix up the type slot in initcrng */
@@ -103,43 +103,69 @@ PyGSL_multimin_function_f(const gsl_vector* x, void* params)
 {
      double result;
      int flag;
-     
+     int i;
+
+     FUNC_MESS_BEGIN();     
      PyGSL_multimin *min_o;     
      min_o = (PyGSL_multimin *) params;
      
+     for(i = 0; i<x->size; i++){
+	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
+     }
      flag = PyGSL_function_wrap_On_O(x, min_o->py_f, min_o->trailing_params, &result,
 				     NULL, x->size, __FUNCTION__);
      if (flag!= GSL_SUCCESS){
 	  result = gsl_nan();
 	  if(min_o->isset == 1) longjmp(min_o->buffer,flag);	  
      }  
+     DEBUG_MESS(2, "Got a result of %f", result);
+     FUNC_MESS_END();
      return result;
 }
 
 void 
 PyGSL_multimin_function_df(const gsl_vector* x, void* params, gsl_vector *df)
 {
-     int flag;
+     int flag, i;
      PyGSL_multimin *min_o;     
      min_o = (PyGSL_multimin *) params;
-     flag = PyGSL_function_wrap_Op_On(x, df, min_o->py_f, min_o->trailing_params,
-				      x->size, df->size, __FUNCTION__);
+
+     FUNC_MESS_BEGIN();
+     for(i = 0; i<x->size; i++){
+	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
+     }
+     flag = PyGSL_function_wrap_Op_On(x, df, min_o->py_df, min_o->trailing_params,
+				      x->size, x->size, __FUNCTION__);
+     for(i = 0; i<df->size; i++){
+	  DEBUG_MESS(2, "Got df x[%d] of %f", i, gsl_vector_get(df, i));
+     }
      if(flag!=GSL_SUCCESS){
 	  if(min_o->isset == 1) longjmp(min_o->buffer,flag);	  
      }
+     FUNC_MESS_END();
 } 
 void 
 PyGSL_multimin_function_fdf(const gsl_vector* x, void* params, double *f, gsl_vector *df)
 {
-     int flag;
+     int flag, i;
      PyGSL_multimin *min_o;     
+
+     FUNC_MESS_BEGIN();
      min_o = (PyGSL_multimin *) params;
-     flag = PyGSL_function_wrap_On_O(x, min_o->py_f, min_o->trailing_params, f,
+     for(i = 0; i<x->size; i++){
+	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
+     }
+     flag = PyGSL_function_wrap_On_O(x, min_o->py_fdf, min_o->trailing_params, f,
 				     df, x->size, __FUNCTION__);
+     DEBUG_MESS(2, "Got a result of %f", *f);
+     for(i = 0; i<df->size; i++){
+	  DEBUG_MESS(2, "Got df x[%d] of %f", i, gsl_vector_get(df, i));
+     }
      if (flag!= GSL_SUCCESS){
 	  *f = gsl_nan();
 	  if(min_o->isset == 1) longjmp(min_o->buffer,flag);  
      }  
+     FUNC_MESS_END();
      return;
 }
 
@@ -155,13 +181,21 @@ PyGSL_multimin_set_f(PyGSL_multimin *self, PyObject *args)
      gsl_vector_view gsl_steps;
 
 
+     FUNC_MESS_BEGIN();
      if (self->min.f == NULL) {
 	  gsl_error("Got a NULL Pointer of min.f",  filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
      }
+
+     assert(args);
      /* arguments PyFunction, Parameters, start Vector, step Vector */
-     if (0==PyArg_ParseTuple(args,"O!OOO", &PyFunction_Type,&func,&params,&x,&steps))
+     if (0==PyArg_ParseTuple(args,"OOOO",&func,&params,&x,&steps))
 	  return NULL;
+
+     if(!PyCallable_Check(func)){
+	  gsl_error("First argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
+	  return NULL;	  
+     }
      n=self->n;
      xa  = PyGSL_PyArray_PREPARE_gsl_vector_view(x, PyArray_DOUBLE, 0, n, 4, NULL);
      if (xa == NULL){
@@ -184,7 +218,7 @@ PyGSL_multimin_set_f(PyGSL_multimin *self, PyObject *args)
 	  Py_XDECREF(self->py_f);
      } else {
 	  /* allocate function space */
-	  self->func.f=malloc(sizeof(gsl_multimin_function));
+	  self->func.f=calloc(1, sizeof(gsl_multimin_function));
 	  if (self->func.f==NULL) {
 	       gsl_error("Could not allocate the object for the minimizer function", 
 			 filename, __LINE__ - 3, GSL_ENOMEM);
@@ -213,14 +247,15 @@ PyGSL_multimin_set_f(PyGSL_multimin *self, PyObject *args)
      }
      Py_DECREF(xa);
      Py_DECREF(stepsa);
-     
 
      Py_INCREF(Py_None);
      self->isset = 0;
+     FUNC_MESS_END();
      return Py_None;
 
      
  fail:
+     FUNC_MESS("Fail");
      PyGSL_ERROR_FLAG(flag);
      self->isset = 0;
      Py_XDECREF(xa);
@@ -240,6 +275,7 @@ PyGSL_multimin_set_fdf(PyGSL_multimin *self, PyObject *args)
      double step, tol;
      gsl_vector_view gsl_x;
 
+     FUNC_MESS_BEGIN();
      if (self->min.fdf == NULL) {
 	  gsl_error("Got a NULL Pointer of min.fdf", filename, __LINE__ - 3, GSL_EFAULT);
 	       return NULL;
@@ -299,6 +335,7 @@ PyGSL_multimin_set_fdf(PyGSL_multimin *self, PyObject *args)
      Py_DECREF(xa);
 
      Py_INCREF(Py_None);
+     FUNC_MESS_END();
      return Py_None;
 
  fail:
@@ -325,6 +362,7 @@ PyGSL_multimin_iterate(PyGSL_multimin *self, PyObject *args)
 {
      int result, flag;
 
+     FUNC_MESS_BEGIN();
      if ( self->min.f ==NULL || self->func.f ==NULL) {
 	  gsl_error("Got a NULL Pointer of min.f", filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
@@ -343,7 +381,7 @@ PyGSL_multimin_iterate(PyGSL_multimin *self, PyObject *args)
 	  return NULL;
      }
      self->isset = 0;
-
+     FUNC_MESS_END();
      return PyGSL_error_flag_to_pyint(result);
 }
 
@@ -353,6 +391,7 @@ PyGSL_multimin_x(PyGSL_multimin *self, PyObject *args)
 {
      gsl_vector* result;
      
+     FUNC_MESS_BEGIN();
      if (self->min.f==NULL || self->func.f==NULL) {
 	  gsl_error("Got a NULL Pointer for min.f", filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
@@ -366,6 +405,7 @@ PyGSL_multimin_x(PyGSL_multimin *self, PyObject *args)
 	  gsl_error("How could that happen?",  filename, __LINE__ - 3, GSL_ESANITY);
 	  return NULL;
      }
+     FUNC_MESS_END();
      return (PyObject *) PyGSL_copy_gslvector_to_pyarray(result);
 }
 
@@ -373,6 +413,8 @@ static PyObject*
 PyGSL_multimin_minimum(PyGSL_multimin *self, PyObject *args) 
 {
      double min;
+
+     FUNC_MESS_BEGIN();
      if (self->min.f == NULL || self->func.f ==NULL) {
 	  gsl_error("Got a NULL Pointer of min.f", filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
@@ -382,6 +424,7 @@ PyGSL_multimin_minimum(PyGSL_multimin *self, PyObject *args)
      } else {
 	  min = gsl_multimin_fdfminimizer_minimum(self->min.fdf);
      }
+     FUNC_MESS_END();
      return PyFloat_FromDouble(min);
 }
 
@@ -389,11 +432,13 @@ static PyObject*
 PyGSL_multimin_name(PyGSL_multimin *self, PyObject *args) 
 {
      const char * name;
+     FUNC_MESS_BEGIN();
      if(PyGSL_multimin_isf(self)){       
 	  name = gsl_multimin_fminimizer_name(self->min.f);
      } else {
 	  name = gsl_multimin_fdfminimizer_name(self->min.fdf);
      }
+     FUNC_MESS_END();
      return PyString_FromString(name);
 }
 
@@ -401,8 +446,7 @@ static PyObject*
 PyGSL_multimin_size(PyGSL_multimin *self, PyObject *args) 
 {
      double size;
-     PyGSL_multimin *min_o = NULL;
-     min_o = (PyGSL_multimin *)self;
+     FUNC_MESS_BEGIN();
      if ( self->min.f ==NULL || self->func.f ==NULL) {
 	  PyErr_SetString(PyExc_RuntimeError,"no function specified!");
 	  return NULL;
@@ -413,39 +457,85 @@ PyGSL_multimin_size(PyGSL_multimin *self, PyObject *args)
 	  gsl_error("Can not calculate size for a FDF", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
+     FUNC_MESS_END();
      return PyFloat_FromDouble(size);
 }
+
+static PyObject* 
+PyGSL_multimin_test_size_method(PyGSL_multimin *self, PyObject *args) 
+{
+     int flag=GSL_EFAILED;
+     double epsabs;
+
+     FUNC_MESS_BEGIN();
+     if ( self->min.f ==NULL || self->func.f ==NULL) {
+	  PyErr_SetString(PyExc_RuntimeError,"no function specified!");
+	  return NULL;
+     }
+
+     if(PyGSL_multimin_isf(self)){
+	  if (0==PyArg_ParseTuple(args,"d", &epsabs))
+	       return NULL;            
+	  flag = gsl_multimin_test_size(gsl_multimin_fminimizer_size(self->min.f), epsabs);
+     } else {
+	  gsl_error("Can not calculate size for a FDF", filename, __LINE__, GSL_ESANITY);
+	  return NULL;
+     }
+
+     FUNC_MESS_END();
+     return PyGSL_ERROR_FLAG_TO_PYINT(flag);
+}
+
 static PyObject* 
 PyGSL_multimin_restart(PyGSL_multimin *self, PyObject *args) 
 {
      int flag;
 
+     FUNC_MESS_BEGIN();
      if(PyGSL_multimin_isf(self)){       
 	  gsl_error("Can not restart for a F type solver", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
      flag = gsl_multimin_fdfminimizer_restart(self->min.fdf);
-     
-     if(PyGSL_ERROR_FLAG(flag) == GSL_SUCCESS){
-	  Py_INCREF(Py_None);
-	  return Py_None;
-     }
-     return NULL;
 
+     if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
+	  return NULL;
+     }
+     FUNC_MESS_END();
+     Py_INCREF(Py_None);
+     return Py_None;
 }
 static PyObject* 
 PyGSL_multimin_vec_fdf(PyGSL_multimin *self, PyObject *args, 
 		       gsl_vector *(*func)(gsl_multimin_fdfminimizer * s))
 {
      gsl_vector *result;
+     FUNC_MESS_BEGIN();
      if(PyGSL_multimin_isf(self)){       
 	  gsl_error("Can not retrieve this information for a F type solver!", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
      } else {
 	  result=func(self->min.fdf);
      }
+     FUNC_MESS_END();
      return (PyObject *) PyGSL_copy_gslvector_to_pyarray(result);
 } 
+
+static PyObject* 
+PyGSL_multimin_istype(PyGSL_multimin *self, PyObject *args)
+{
+     static const char *f = "F-Minimizer",  *fdf = "Fdf-Minimizer";
+     const char *p;
+
+     FUNC_MESS_BEGIN();
+     if(PyGSL_multimin_isf(self)){ 
+	  p = f;
+     } else {
+	  p = fdf;
+     }
+     FUNC_MESS_END();
+     return PyString_FromString(p);
+}
 
 static PyObject* 
 PyGSL_multimin_dx(PyGSL_multimin *self, PyObject *args)
@@ -458,12 +548,14 @@ PyGSL_multimin_gradient(PyGSL_multimin *self, PyObject *args)
 {
      return PyGSL_multimin_vec_fdf(self, args, gsl_multimin_fdfminimizer_gradient);
 }
+
 static PyObject*
 PyGSL_multimin_test_gradient_method(PyGSL_multimin * self, PyObject *args)
 {
 
      double epsabs;
      int flag;
+     FUNC_MESS_BEGIN();
 
      if (0==PyArg_ParseTuple(args,"d", &epsabs))
 	  return NULL;     
@@ -473,30 +565,33 @@ PyGSL_multimin_test_gradient_method(PyGSL_multimin * self, PyObject *args)
 	  return NULL;
      }
      flag = gsl_multimin_test_gradient(gsl_multimin_fdfminimizer_gradient(self->min.fdf), epsabs);
+     FUNC_MESS_END();
      return PyGSL_ERROR_FLAG_TO_PYINT(flag);
      
 }
 
 #define PyGSL_MULTIMIN_COMMON_METHODS  \
-  {"x",(PyCFunction)PyGSL_multimin_x,METH_NOARGS,"estimated position of the minimum"},           \
-  {"minimum",(PyCFunction)PyGSL_multimin_minimum,METH_NOARGS,"estimated value of the minimum"},  \
-  {"name",(PyCFunction)PyGSL_multimin_name,METH_NOARGS,"Returns the name of the minimizer"},  \
-  {"iterate",(PyCFunction)PyGSL_multimin_iterate,METH_NOARGS,"makes next step"},
+  {"iterate",     (PyCFunction)PyGSL_multimin_iterate,METH_NOARGS,(char *)multimin_iterate_doc,}, \
+  {"x",           (PyCFunction)PyGSL_multimin_x,      METH_NOARGS,(char *)multimin_x_doc,      }, \
+  {"minimum",     (PyCFunction)PyGSL_multimin_minimum,METH_NOARGS,(char *)multimin_minimum_doc,}, \
+  {"name",        (PyCFunction)PyGSL_multimin_name,   METH_NOARGS,(char *)multimin_name_doc,   }, \
+  {"type",        (PyCFunction)PyGSL_multimin_istype, METH_NOARGS,(char *)multimin_istype_doc, },
 
 static PyMethodDef PyGSL_multimin_fmethods[] = {
      PyGSL_MULTIMIN_COMMON_METHODS
-     {"set",(PyCFunction)PyGSL_multimin_set_f,METH_VARARGS,"sets a function and start values"},     
-     {"size",(PyCFunction)PyGSL_multimin_size,METH_NOARGS,"size of the minimizer"},
+     {"set",      (PyCFunction)PyGSL_multimin_set_f,           METH_VARARGS, (char *)multimin_set_f_doc    },     
+     {"size",     (PyCFunction)PyGSL_multimin_size,            METH_NOARGS,  (char *)multimin_size_doc     },
+     {"test_size",(PyCFunction)PyGSL_multimin_test_size_method,METH_VARARGS, (char *)multimin_test_size_doc},
      {NULL, NULL, 0, NULL}           /* sentinel */
 };
 
 static PyMethodDef PyGSL_multimin_fdfmethods[] = {
      PyGSL_MULTIMIN_COMMON_METHODS
-     {"set",(PyCFunction)PyGSL_multimin_set_fdf,METH_VARARGS,"sets a function and start values"},     
-     {"restart",(PyCFunction)PyGSL_multimin_restart,METH_NOARGS,"restart the solver"},     
-     {"dx",(PyCFunction)PyGSL_multimin_dx,METH_NOARGS,"get dx"},     
-     {"gradient",(PyCFunction)PyGSL_multimin_gradient,METH_NOARGS,"get the gradient"},     
-     {"test_gradient",(PyCFunction)PyGSL_multimin_test_gradient_method,METH_VARARGS,"test if the gradient is inside"},     
+     {"set",      (PyCFunction)PyGSL_multimin_set_fdf,                 METH_VARARGS, (char *)multimin_set_fdf_doc      },     
+     {"restart",  (PyCFunction)PyGSL_multimin_restart,                 METH_NOARGS,  (char *)multimin_restart_doc      },     
+     {"dx",       (PyCFunction)PyGSL_multimin_dx,                      METH_NOARGS,  (char *)multimin_dx_doc           },     
+     {"gradient", (PyCFunction)PyGSL_multimin_gradient,                METH_NOARGS,  (char *)multimin_gradient_doc     },     
+     {"test_gradient",(PyCFunction)PyGSL_multimin_test_gradient_method,METH_VARARGS, (char *)multimin_test_gradient_doc},     
      {NULL, NULL, 0, NULL}           /* sentinel */
 };
 
@@ -508,7 +603,8 @@ PyGSL_multimin_init(PyObject *self, PyObject *args,
      PyGSL_multimin *min_o=NULL;
      size_t n;
      /* static const char functionname [] = __FUNCTION__; */
-     
+
+     FUNC_MESS_BEGIN();     
      min_o =  (PyGSL_multimin *) PyObject_NEW(PyGSL_multimin, &PyGSL_multimin_pytype);
      if(min_o == NULL){
 	  return NULL;
@@ -539,6 +635,8 @@ PyGSL_multimin_init(PyObject *self, PyObject *args,
 			  filename, __LINE__ - 3, GSL_ENOMEM);
 	       goto fail;
 	  }
+	  min_o->mytype = 0;
+	  assert(PyGSL_multimin_isf(min_o));
      } else {
 	  min_o->min.fdf = gsl_multimin_fdfminimizer_alloc(type.fdf,n);
 	  if (min_o->min.fdf == NULL) {
@@ -546,7 +644,10 @@ PyGSL_multimin_init(PyObject *self, PyObject *args,
 			  filename, __LINE__ - 3, GSL_ENOMEM);
 	       goto fail;
 	  }
+	  min_o->mytype = 1;
+	  assert(!PyGSL_multimin_isf(min_o));
      }
+     FUNC_MESS_END();
      return (PyObject *) min_o;
  fail:
      Py_XDECREF(min_o);
@@ -593,6 +694,7 @@ AMINIMIZER_FDF(conjugate_fr)
 static void
 PyGSL_multimin_dealloc(PyGSL_multimin *self)
 {
+     FUNC_MESS_BEGIN();
      if(PyGSL_multimin_isf(self)){
 	  if (self->min.f  != NULL)   gsl_multimin_fminimizer_free(self->min.f);
 	  if (self->func.f != NULL)  free(self->func.f); 
@@ -606,6 +708,7 @@ PyGSL_multimin_dealloc(PyGSL_multimin *self)
      Py_XDECREF(self->py_df);     
      Py_XDECREF(self->py_fdf);     
      PyMem_Free(self);
+     FUNC_MESS_END();
 }
 
 
@@ -613,13 +716,17 @@ static PyObject*
 PyGSL_multimin_getattr(PyObject *self, char *name)
 {
 
+     PyObject *tmp = NULL;
      PyGSL_multimin* s= (PyGSL_multimin *) self; 
-     if(PyGSL_multimin_isf(s)){
-	  return Py_FindMethod(PyGSL_multimin_fmethods, (PyObject *) s, name);
-     } else {
-	  return Py_FindMethod(PyGSL_multimin_fdfmethods, (PyObject *) s, name);
-     }
 
+     FUNC_MESS_BEGIN();
+     if(PyGSL_multimin_isf(s)){
+	  tmp = Py_FindMethod(PyGSL_multimin_fmethods, (PyObject *) s, name);
+     } else {
+	  tmp = Py_FindMethod(PyGSL_multimin_fdfmethods, (PyObject *) s, name);
+     }
+     FUNC_MESS_END();
+     return tmp;
 }
 
 
@@ -672,9 +779,11 @@ PyGSL_multimin_test_size(PyObject * self, PyObject *args)
 {
      double size, epsabs;
      int flag = GSL_EFAILED;
+     FUNC_MESS_BEGIN();
      if (0==PyArg_ParseTuple(args,"dd", &size, &epsabs))
 	  return NULL;     
      flag = gsl_multimin_test_size(size, epsabs);
+     FUNC_MESS_END();
      return PyGSL_ERROR_FLAG_TO_PYINT(flag);
      
 }
@@ -689,6 +798,7 @@ PyGSL_multimin_test_gradient(PyObject * self, PyObject *args)
      double epsabs;
      int flag = GSL_EFAILED, stride_recalc=-1;
 
+     FUNC_MESS_BEGIN();
      if (0==PyArg_ParseTuple(args,"Od", &g, &epsabs))
 	  return NULL;     
 
@@ -701,18 +811,22 @@ PyGSL_multimin_test_gradient(PyObject * self, PyObject *args)
      gradient = gsl_vector_view_array_with_stride((double *)(ga->data), stride_recalc, ga->dimensions[0]);
 
      flag = gsl_multimin_test_gradient(&gradient.vector, epsabs);
+     FUNC_MESS_END();
      return PyGSL_ERROR_FLAG_TO_PYINT(flag);
      
 }
 
+
+
+
 static PyMethodDef multiminMethods[] = {
-     {"nmsimplex", PyGSL_multimin_init_nmsimplex, METH_VARARGS, NULL},
-     {"steepest_descent", PyGSL_multimin_init_steepest_descent, METH_VARARGS, NULL},
-     {"vector_bfgs", PyGSL_multimin_init_vector_bfgs, METH_VARARGS, NULL},
-     {"conjugate_pr", PyGSL_multimin_init_conjugate_pr, METH_VARARGS, NULL},
-     {"conjugate_fr", PyGSL_multimin_init_conjugate_fr, METH_VARARGS, NULL},
-     {"test_size", PyGSL_multimin_test_size, METH_VARARGS, NULL},
-     {"test_gradient", PyGSL_multimin_test_gradient, METH_VARARGS, NULL},
+     {"nmsimplex",        PyGSL_multimin_init_nmsimplex,        METH_VARARGS, (char *)nmsimplex_doc       },
+     {"steepest_descent", PyGSL_multimin_init_steepest_descent, METH_VARARGS, (char *)steepest_descent_doc},
+     {"vector_bfgs",      PyGSL_multimin_init_vector_bfgs,      METH_VARARGS, (char *)vector_bfgs_doc     },
+     {"conjugate_pr",     PyGSL_multimin_init_conjugate_pr,     METH_VARARGS, (char *)conjugate_pr_doc    },
+     {"conjugate_fr",     PyGSL_multimin_init_conjugate_fr,     METH_VARARGS, (char *)conjugate_fr_doc    },
+     {"test_size",        PyGSL_multimin_test_size,             METH_VARARGS, (char *)test_size_doc       },
+     {"test_gradient",    PyGSL_multimin_test_gradient,         METH_VARARGS, (char *)test_gradient_doc   },
      {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
@@ -723,12 +837,10 @@ initmultimin(void)
 {
   PyObject* m;
   m=Py_InitModule("multimin", multiminMethods);
+  import_array();
   init_pygsl();
   /* init multimin type */
   PyGSL_multiminType.ob_type  = &PyType_Type;
-  PyGSL_multiminType.tp_alloc = PyType_GenericAlloc;
-  PyGSL_multiminType.tp_new   = PyType_GenericNew;
-  PyGSL_multiminType.tp_free  = _PyObject_Del;
 
   module = m;
 
