@@ -1,4 +1,4 @@
-GSL interface for python
+pygsl: GSL interface for python
 
 Status of GSL-Library:
 
@@ -8,7 +8,8 @@ information about it at http://sources.redhat.com/gsl/.
 Status of this interface:
 
 We are collecting implementations of parts of gsl. So the interface is not
-complete.
+complete. The version 0.0.4 is a pre-release for pygsl-0.1 and honors
+changes that came with gsl-1.0.
 
 Requirements:
 
@@ -29,11 +30,28 @@ gsl-config must be on your path:
 gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
 cd pygsl-x.y.z
 #do this with your prefered python version
+#to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl
 python setup.py build
 # change to a id, that is allowed to do installation
 python setup.py install
 
 Ready....
+
+Using pygsl
+
+Just write
+
+import pygsl.sf
+print "%g+/-%g"%pygsl.sf.erf(1)
+
+or
+
+import pygsl.rng
+rng=pygsl.rng.gsl_rng()
+print rng.gaussian(1.0)
+
+You may set the environment variable LD_LIBRARY_PATH to find the gsl shared
+object.
 
 Uninstall GSL interface:
 
@@ -46,19 +64,28 @@ Supported Platforms:
 
 Testing:
 
-not yet (coming soon...)
+the directory test will contain several testsuites, based on python
+unittest.
 
 What is implemented:
 
    * module pygsl.sf: with 200 special functions
-   * module pygsl.const: with 23 often used mathematical constants
+   * module pygsl.const: with 206 often used mathematical constants
    * module pygsl.ieee: access to the ieee-arithmetics layer of gsl
    * module pygsl.rng: provides several random number generators and
      different probability densities
 
+For the exact function volume, please type:
+
+import pygsl.sf
+dir(pygsl.sf)
+
+You can do this with the other modules too. The naming sceme is the same as
+in gsl.
+
 Documentation:
 
-There will be a little tutorial, but the function reference can be found at
+There will be a small tutorial, but the function reference can be found at
 the gsl-reference.
 
 Support:
@@ -92,6 +119,13 @@ Implement other parts: (I don't want to do that alone)
    * Fitting/Minimization
    * FFT
    * Numerical Integration
+
+History:
+
+   * a gsl-interface for python was needed for a project at center for
+     applied informatics cologne.
+   * gsl-0.0.3 was released at May 23, 2001
+   * gsl-0.0.4 was released at January 8, 2002
 
 Maintainer:
 
