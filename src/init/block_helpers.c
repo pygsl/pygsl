@@ -25,7 +25,10 @@ static const char filename[] = __FILE__;
 static int 
 PyGSL_stride_recalc(int strides, int basic_type_size, int * stride_recalc)
 {
+     int line;
+
      FUNC_MESS_BEGIN();
+     line = __LINE__ + 1;
      if((strides % basic_type_size) == 0) {
 	  *stride_recalc = strides / basic_type_size; 
 	  DEBUG_MESS(2, "\tRecalculated strides to %d", *stride_recalc);
@@ -37,7 +40,7 @@ PyGSL_stride_recalc(int strides, int basic_type_size, int * stride_recalc)
 		strides, basic_type_size);
      gsl_error("Can not convert the stride to a GSL stride", 
 	       filename, __LINE__, PyGSL_ESTRIDE);
-     PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);     
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);     
      return PyGSL_ESTRIDE;
 }
 /* ========================================================================= */
@@ -51,18 +54,24 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 {
 
      int i;
+     int error_flag = GSL_ESANITY, line = -1;
 
      if(!PyArray_Check((PyObject *) a_array)){
 	  gsl_error("Did not recieve an array!", filename, __LINE__, GSL_ESANITY);
-	  return GSL_ESANITY;
+	  line = __LINE__ - 2;
+	  error_flag =  GSL_ESANITY;
+	  goto fail;
      }
      if(nd <  1 || nd > 2){	  
 	  DEBUG_MESS(2, "Got an nd of %d", nd);          
+	  line = __LINE__ - 2;
 	  gsl_error("nd must either 1 or 2!", filename, __LINE__, GSL_ESANITY);
-	  return GSL_ESANITY;
+	  error_flag =  GSL_ESANITY;
+	  goto fail;
      }
 
      if (a_array->nd !=  nd){
+	  line = __LINE__ - 1;
 	  sprintf(pygsl_error_str, "I could not convert argument number % 3d."
 		  " I expected a %s, but got an array of % 3d dimensions!\n", argnum, 
 		  (nd == 1) ? "vector" : "matrix", a_array->nd);
@@ -73,7 +82,8 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 	  } else {
 	       gsl_error(pygsl_error_str, filename, __LINE__, GSL_EBADLEN);
 	  }
-	  return GSL_EBADLEN;
+	  error_flag = GSL_EBADLEN;
+	  goto fail;
      }
      
 
@@ -83,7 +93,7 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 	       switch(i){
 	       case 0: DEBUG_MESS(2, "\t\t No one cares about its first dimension! %d", 0);  break;
 	       case 1: DEBUG_MESS(2, "\t\t No one cares about its second dimension! %d", 0); break;
-	       default: return GSL_ESANITY; break;
+	       default: error_flag = GSL_ESANITY; line = __LINE__ - 3; goto fail; break;
 	       }
 	       continue;
 	  } 
@@ -97,27 +107,41 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 	       } else {
 		    gsl_error(pygsl_error_str, filename, __LINE__, GSL_EBADLEN);
 	       }	       
-	       return GSL_EBADLEN;
+	       error_flag = GSL_EBADLEN;
+	       line = __LINE__ - 11;
+	       goto fail;
 	  }
      }
 
      if(  ((PyArrayObject *) (a_array))->data == NULL){
 	  gsl_error("Got an array object were the data was NULL!", filename, __LINE__, GSL_ESANITY);
-	  return GSL_ESANITY;
+	  error_flag = GSL_ESANITY;	  
+	  line = __LINE__ - 4;
+	  goto fail;
      }
      if(  ((PyArrayObject *) (a_array))->descr->type_num == (array_type) )
 	  DEBUG_MESS(4, "\t\tArray type matched! %d", 0);
-     else
+     else{
 	  gsl_error("The array type did not match the spezified one!", filename, __LINE__, GSL_ESANITY);
-
+	  error_flag = GSL_ESANITY;
+	  line = __LINE__ - 6;
+	  goto fail;
+     }
      if ((flag &  PyGSL_CONTIGUOUS) == 0){
 	  DEBUG_MESS(2, "\t\t Can deal with discontiguous arrays! %d", 0);
      } else {
 	  if(!(((PyArrayObject *) (a_array))->flags & CONTIGUOUS )){
 	       gsl_error("The array is not contingous as requested!", filename, __LINE__, GSL_ESANITY);
+	       error_flag = GSL_ESANITY;
+	       line = __LINE__ - 3;
+	       goto fail;
 	  }
      }
      return GSL_SUCCESS;    
+
+ fail:
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
+     return error_flag;
 }
 
 static PyArrayObject * 
@@ -212,9 +236,7 @@ PyGSL_copy_gslvector_to_pyarray(const gsl_vector *x)
      for (i=0;i<dimension;i++){
        tmp = gsl_vector_get(x, i);
        ((double *) a_array->data)[i] = tmp;
-	  if(DEBUG){
-	    fprintf(stderr, "\t\ta_array_%d = %f\n", i, tmp);
-	  }
+       DEBUG_MESS(3, "\t\ta_array_%d = %f\n", i, tmp);
      }
      FUNC_MESS_END();
      return a_array;
@@ -239,9 +261,7 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x)
 		                     + a_array->strides[1] * j;
 	       tmp = gsl_matrix_get(x, j, i);
 	       *((double *) myptr) = tmp;
-	       if(DEBUG){
-		    fprintf(stderr, "\t\ta_array_%d = %f\n", i, tmp);
-	       }
+	       DEBUG_MESS(3, "\t\ta_array_%d = %f\n", i, tmp);
 	  }
      }
      FUNC_MESS_END();
@@ -277,9 +297,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n, PyGSL_er
     for (i=0;i<n;i++){
 	 tmp = *((double *) (a_array->data + a_array->strides[0] * i));
 	 gsl_vector_set(f, i, tmp);
-	 if(DEBUG>2){
-	   fprintf(stderr, "\t\ta_array_%d = %f\n", i, tmp);
-	 }
+	 DEBUG_MESS(3, "\t\ta_array_%d = %f\n", i, tmp);
 
      }
     FUNC_MESS_END();
@@ -325,9 +343,7 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,  
 	      myptr =  a_array->data + a_array->strides[0] * i  
 		                     + a_array->strides[1] * j;
 	      tmp = *((double *)(myptr));
-	      if(DEBUG>2){
-		   fprintf(stderr, "\t\ta_array_%d_%d = %f\n", i, j, tmp);
-	      }
+	      DEBUG_MESS(3, "\t\ta_array_%d = %f\n", i, tmp);
 	      gsl_matrix_set(f, i, j, tmp);
 	 }
     }

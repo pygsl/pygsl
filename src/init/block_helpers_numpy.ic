@@ -28,26 +28,30 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
 				      long size, int argnum, PyGSL_error_info * info)
 {
      PyArrayObject * a_array = NULL;
-
+     int line = -1;
 
      FUNC_MESS_BEGIN();
      if ((flag & PyGSL_CONTIGUOUS) == 0){
 	  a_array = (PyArrayObject *) PyArray_FromObject(src, array_type, 1, 1);
+	  line = __LINE__ - 1;
      }else { 
 	  a_array = (PyArrayObject *) PyArray_ContiguousFromObject(src, array_type, 1, 1);
+	  line = __LINE__ - 1;
      }
      /* Here one could put some more information */
-     if(NULL == a_array)
+     if(NULL == a_array){
 	  goto fail;
+     }
+     if(PyGSL_PyArray_Check(a_array, array_type, flag,  1, &size, argnum, info) != GSL_SUCCESS){
+	  line = __LINE__ - 1;
+	  goto fail;
+     }
 
-     if(PyGSL_PyArray_Check(a_array, array_type, flag,  1, &size, argnum, info) != GSL_SUCCESS)
-	  goto fail;
-    
      FUNC_MESS_END();
      PyGSL_INCREASE_vector_transform_counter();
      return a_array;
  fail:
-     PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
      Py_XDECREF(a_array);
      return NULL;
 }
