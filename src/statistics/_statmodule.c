@@ -120,7 +120,7 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     n1 = data1->dimensions[0];
 
 
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
+    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input2, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
     if(data2 == NULL){
 	 goto fail;
     }
@@ -128,11 +128,14 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, &stride2) != GSL_SUCCESS){
 	 goto fail;
     }    
+    DEBUG_MESS(3, "basis_type_size %d\t stride1 %ld\t stride2 %ld", basis_type_size, (long) stride1, (long) stride2);
     result = pointer((void *)data1->data, (size_t) stride1, (void *)data2->data, (size_t) stride2,  (size_t) n1);
+    DEBUG_MESS(2, "result = %e", result);
     Py_DECREF(data1); 
     Py_DECREF(data2); 
     FUNC_MESS_END();
     return PyFloat_FromDouble(result); 
+
  fail:    
     FUNC_MESS("Fail");
     Py_XDECREF(data1);
@@ -165,7 +168,7 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
 
     n1 = data1->dimensions[0];
 
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
+    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input2, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
     if(data2 == NULL){
 	Py_XDECREF(data1); 
 	return NULL;
@@ -211,7 +214,7 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
 
     n1 = data1->dimensions[0];
 
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
+    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input2, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
     if(data2 == NULL){
 	Py_XDECREF(data1); 
 	return NULL;
