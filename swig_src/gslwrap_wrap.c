@@ -849,10 +849,10 @@ size_t gsl_combination_struct_n(struct gsl_combination_struct *self){
        return gsl_combination_n(self);
   }
 void gsl_combination_struct_init_first(struct gsl_combination_struct *self){
-       return gsl_combination_init_first(self);	       
+       gsl_combination_init_first(self);	       
   }
 void gsl_combination_struct_init_last(struct gsl_combination_struct *self){
-       return gsl_combination_init_last(self);
+       gsl_combination_init_last(self);
   }
 int gsl_combination_struct_valid(struct gsl_combination_struct *self){
        return gsl_combination_valid(self);
