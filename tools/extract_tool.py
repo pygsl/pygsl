@@ -56,6 +56,10 @@ class gsl_constant:
         else:
             return "#define %s %s"%(self.name,self.definition)
 
+    def make_module_definition(self):
+        new_name='_'.join(map(string.lower,self.name.split('_')[2:]))
+        return "PyModule_AddObject(m,\"%s\",PyFloat_FromDouble(%s))"%(new_name,self.definition)
+
 class prototype_collector:
     """
     collects special function prototypes from headers
@@ -349,17 +353,3 @@ if (int_result!=GSL_SUCCESS) {
         func+="}\n"
         return func
 
-# missing: 
-#          documentation data
-#          other functions without error values
-#          size_t type
-
-if __name__ == '__main__':
-    #   file_prefix="sf"
-    #    print "creating index and functions to %s*.c"%file_prefix
-    #    sf_prototypes=prototype_collector("/opt/gsl-1.0")
-    #    sf_prototypes.make_wrapper_and_index_file(file_prefix)
-    gsl_constants=constant_collector("/opt/gsl-1.0")
-    constant_list=gsl_constants.get_all_constants()
-    for c in constant_list:
-        print c.make_cpp_definition()
