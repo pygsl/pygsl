@@ -50,3 +50,27 @@ These values are used as \constant{type} in \function{bin\_repr}:
 \lineii{type\_zero}{\code{GSL\_IEEE\_TYPE\_ZERO}}
 \end{tableii}
 \end{funcdesc}
+
+\begin{funcdesc}{isnan}{float value}
+determines if the argument is not a valid number
+\end{funcdesc}
+
+\begin{funcdesc}{nan}{}
+generates a ``not-a-number'' value. This is implemented as function, because of the potential exception generation by your floating-point unit.
+\end{funcdesc}
+
+\begin{funcdesc}{isinf}{float value}
+returns -1 if the argument represents a negative infinite value and +1 if positive, 0 otherwise
+\end{funcdesc}
+
+\begin{funcdesc}{posinf}{}
+gives you the representation of ``positive infinity''
+\end{funcdesc}
+
+\begin{funcdesc}{neginf}{}
+the same as posinf, but negative
+\end{funcdesc}
+
+\begin{funcdesc}{finite}{float value}
+results in 1 if the value is finite, 0 if it is not a number or infinite
+\end{funcdesc}

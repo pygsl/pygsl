@@ -5,6 +5,7 @@
  * $Id$
  */
 
+#include <gsl/gsl_math.h>
 #include <gsl/gsl_ieee_utils.h>
 #include <gsl/gsl_errno.h>
 #include <Python.h>
@@ -101,10 +102,64 @@ static PyObject* bin_repr(PyObject *self,
   return Py_BuildValue("(isii)",r.sign,r.mantissa,r.exponent,r.type);
 }
 
+static PyObject* ieee_isnan(PyObject *self,
+		       PyObject *arg
+		       )
+{
+  if (!PyFloat_Check(arg)) {
+    PyErr_SetString(PyExc_RuntimeError, "need a floating point object");
+    return NULL;
+  }
+  return PyInt_FromLong(gsl_isnan(PyFloat_AS_DOUBLE(arg)));
+}
+static PyObject* ieee_isinf(PyObject *self,
+		       PyObject *arg
+		       )
+{
+  if (!PyFloat_Check(arg)) {
+    PyErr_SetString(PyExc_RuntimeError, "need a floating point object");
+    return NULL;
+  }
+  return PyInt_FromLong(gsl_isinf(PyFloat_AS_DOUBLE(arg)));
+}
+static PyObject* ieee_finite(PyObject *self,
+		       PyObject *arg
+		       )
+{
+  if (!PyFloat_Check(arg)) {
+    PyErr_SetString(PyExc_RuntimeError, "need a floating point object");
+    return NULL;
+  }
+  return PyInt_FromLong(gsl_finite(PyFloat_AS_DOUBLE(arg)));
+}
+
+static PyObject* ieee_nan(PyObject *self)
+{
+  return PyFloat_FromDouble(GSL_NAN);
+}
+
+static PyObject* ieee_neginf(PyObject *self)
+{
+  return PyFloat_FromDouble(GSL_NEGINF);
+}
+
+static PyObject* ieee_posinf(PyObject *self)
+{
+  return PyFloat_FromDouble(GSL_POSINF);
+}
+
 static PyMethodDef ieeeMethods[] = {
   {"set_mode", set_mode, METH_VARARGS},
   {"env_setup", env_setup, METH_VARARGS},
   {"bin_repr", bin_repr, METH_VARARGS},
+  /* tests on special IEEE-FP meanings */
+  {"isnan",ieee_isnan,METH_O},
+  {"isinf",ieee_isinf,METH_O},
+  {"finite",ieee_finite,METH_O},
+  /* some special ieee-numbers */
+  {"nan",(PyCFunction)ieee_nan, METH_NOARGS},
+  {"neginf",(PyCFunction)ieee_neginf, METH_NOARGS},
+  {"posinf",(PyCFunction)ieee_posinf, METH_NOARGS},
   {NULL,     NULL}        /* Sentinel */
 };
 
