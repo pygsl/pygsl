@@ -58,7 +58,7 @@ class gsl_constant:
 
     def make_module_definition(self):
         new_name='_'.join(map(string.lower,self.name.split('_')[2:]))
-        return "PyModule_AddObject(m,\"%s\",PyFloat_FromDouble(%s))"%(new_name,self.definition)
+        return "PyModule_AddObject(m,\"%s\",PyFloat_FromDouble(%s))"%(new_name,self.name)
 
 class prototype_collector:
     """

@@ -7,6 +7,9 @@
 
 #include <Python.h>
 #include <gsl/gsl_math.h>
+#include <gsl/gsl_const_cgs.h>
+#include <gsl/gsl_const_mks.h>
+#include <gsl/gsl_const_num.h>
 
 static PyMethodDef constMethods[] = {
   {NULL,     NULL}        /* Sentinel */
