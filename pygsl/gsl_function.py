@@ -267,8 +267,8 @@ class gsl_multimin_function(gsl_multiroot_function):
     sys = multimin.gsl_multifit_function(my_f, params, 2)
     """
 
-    initfunc =  _callback.gsl_multimin_function_init_fdf
-    freefunc =  _callback.gsl_multimin_function_free_fdf
+    initfunc =  _callback.gsl_multimin_function_init
+    freefunc =  _callback.gsl_multimin_function_free
 
 class gsl_multimin_function_fdf(gsl_multiroot_function_fdf):
     """
@@ -310,3 +310,11 @@ class gsl_multimin_function_fdf(gsl_multiroot_function_fdf):
     initfunc =  _callback.gsl_multimin_function_init_fdf
     freefunc =  _callback.gsl_multimin_function_free_fdf
 
+class gsl_monte_function(gsl_multiroot_function):    
+    """
+    This class defines the callbacks for gsl_monte_function.
+
+    """
+
+    initfunc =  _callback.gsl_monte_function_init
+    freefunc =  _callback.gsl_monte_function_free
