@@ -26,7 +26,7 @@ class _DefaultTestCase(unittest.TestCase):
     #_retrieve = None
     
     def setUp(self):
-	print "Testing class ", self.__class__.__name__
+	#print "Testing class ", self.__class__.__name__
         sys.stdout.flush()
         sys.stderr.flush()
         self._mysetUp()
@@ -568,7 +568,6 @@ class _DiagonalMatrixTestCase(_DefaultMatrixTestCase):
         assert tmp.shape == (self.size, self.size), "Not of size 10, 10"
 
     def test_3_diagonal(self):
-        print "Diagonal!"
         function = self._get_function('diagonal')
         tmp = function(self.array)
         for i in range(self.size):
@@ -577,7 +576,6 @@ class _DiagonalMatrixTestCase(_DefaultMatrixTestCase):
 
     def test_4_diagonaltranspose(self):
         tmp = self._gettranspose()
-        print "Diagonal transpose!"
         for i in range(self.size):
             msg = "Error in getting diagonal! tmp[+"+`i`+"] = " + `tmp`
             assert tmp[i] ==  i, msg
@@ -1500,7 +1498,7 @@ class _SwapVectorTestCase(_DefaultVectorTestCase):
 #    def test_fwrite(self):        
 #        file = getopentmpfile('w')
 #        function =  self._get_function('fwrite')
-#        print "Testing fwrite!"
+#        #print "Testing fwrite!"
 #        tmp = function(file, self.array)
 #
 #    def test_fread(self):        
