@@ -35,7 +35,7 @@ PyGSL_error_flag_to_pyint(long flag)
 }
 
 void 
-PyGSL_add_traceback(PyObject *module, char *filename, char *funcname, int lineno)
+PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname, int lineno)
 {
      PyObject *py_srcfile = NULL, *py_funcname = NULL, *py_globals = NULL,
 	  *empty_tuple = NULL,  *empty_string = NULL;

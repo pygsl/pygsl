@@ -58,7 +58,7 @@ PyGSL_error_flag_to_pyint(long flag);
  *     lineno   ... The Linenumber where the error occurred.
  */
 void 
-PyGSL_add_traceback(PyObject *module, char *filename, char *funcname, int lineno);
+PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname, int lineno);
 
 void PyGSL_module_error_handler(const char *reason, /* name of function*/
 				const char *file,   /*from CPP*/
