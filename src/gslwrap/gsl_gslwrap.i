@@ -33,9 +33,9 @@ typedef int size_t;
 %include linalg.i 
 %include permutation.i
 %include combination.i
+%include math.i
 %typemap (out) int = gsl_error_flag_drop;
 %include fft.i
-%include math.i
 %include blas.i
 %include eigen.i
 %include interpolation.i

@@ -645,8 +645,8 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 #define  SWIGTYPE_p_gsl_fft_real_wavetable swig_types[1] 
 #define  SWIGTYPE_p_gsl_fft_complex_wavetable swig_types[2] 
 #define  SWIGTYPE_p_gsl_interp_type swig_types[3] 
-#define  SWIGTYPE_p_long_double swig_types[4] 
-#define  SWIGTYPE_p_double swig_types[5] 
+#define  SWIGTYPE_p_double swig_types[4] 
+#define  SWIGTYPE_p_long_double swig_types[5] 
 #define  SWIGTYPE_p_size_t swig_types[6] 
 #define  SWIGTYPE_p_gsl_complex_packed_array swig_types[7] 
 #define  SWIGTYPE_p_gsl_eigen_hermv_workspace swig_types[8] 
@@ -656,13 +656,13 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 #define  SWIGTYPE_p_gsl_fft_real_workspace swig_types[12] 
 #define  SWIGTYPE_p_gsl_fft_complex_workspace swig_types[13] 
 #define  SWIGTYPE_p_gsl_permutation swig_types[14] 
-#define  SWIGTYPE_p_gsl_combination_struct swig_types[15] 
-#define  SWIGTYPE_p_gsl_permutation_struct swig_types[16] 
+#define  SWIGTYPE_p_gsl_permutation_struct swig_types[15] 
+#define  SWIGTYPE_p_gsl_combination_struct swig_types[16] 
 #define  SWIGTYPE_p_unsigned_int swig_types[17] 
-#define  SWIGTYPE_p_gsl_vector_complex swig_types[18] 
-#define  SWIGTYPE_p_gsl_complex swig_types[19] 
-#define  SWIGTYPE_p_gsl_matrix_complex swig_types[20] 
-#define  SWIGTYPE_p_p_gsl_complex swig_types[21] 
+#define  SWIGTYPE_p_p_gsl_complex swig_types[18] 
+#define  SWIGTYPE_p_gsl_vector_complex swig_types[19] 
+#define  SWIGTYPE_p_gsl_complex swig_types[20] 
+#define  SWIGTYPE_p_gsl_matrix_complex swig_types[21] 
 #define  SWIGTYPE_p_gsl_matrix swig_types[22] 
 #define  SWIGTYPE_p_gsl_mode_t swig_types[23] 
 #define  SWIGTYPE_p_FILE swig_types[24] 
@@ -742,36 +742,6 @@ static PyObject* t_output_helper(PyObject* target, PyObject* o) {
 }
 
 
-#include <gsl/gsl_fft.h>
-#include <gsl/gsl_fft_complex.h>
-#include <gsl/gsl_fft_real.h>
-#include <typemaps/convert_block_description.h>
-
-gsl_fft_complex_wavetable *new_gsl_fft_complex_wavetable(size_t n){
-    return gsl_fft_complex_wavetable_alloc(n);
-  }
-void delete_gsl_fft_complex_wavetable(gsl_fft_complex_wavetable *self){
-    gsl_fft_complex_wavetable_free(self);
-  }
-gsl_fft_complex_workspace *new_gsl_fft_complex_workspace(size_t n){
-    return gsl_fft_complex_workspace_alloc(n);
-  }
-void delete_gsl_fft_complex_workspace(gsl_fft_complex_workspace *self){
-    gsl_fft_complex_workspace_free(self);
-  }
-gsl_fft_real_wavetable *new_gsl_fft_real_wavetable(size_t n){
-    return gsl_fft_real_wavetable_alloc(n);
-  }
-void delete_gsl_fft_real_wavetable(gsl_fft_real_wavetable *self){
-    gsl_fft_real_wavetable_free(self);
-  }
-gsl_fft_real_workspace *new_gsl_fft_real_workspace(size_t n){
-    return gsl_fft_real_workspace_alloc(n);
-  }
-void delete_gsl_fft_real_workspace(gsl_fft_real_workspace *self){
-    gsl_fft_real_workspace_free(self);
-  }
-
 #include <gsl/gsl_permutation.h>
 
 struct gsl_permutation_struct *new_gsl_permutation_struct(size_t n){
@@ -780,13 +750,13 @@ struct gsl_permutation_struct *new_gsl_permutation_struct(size_t n){
 void delete_gsl_permutation_struct(struct gsl_permutation_struct *self){
     gsl_permutation_free(self);
   }
-int gsl_permutation_struct__linear_to_canonical(struct gsl_permutation_struct *self,struct gsl_permutation_struct *q){
+gsl_error_flag_drop gsl_permutation_struct__linear_to_canonical(struct gsl_permutation_struct *self,struct gsl_permutation_struct *q){
        return gsl_permutation_linear_to_canonical(q, self);
   }
-int gsl_permutation_struct__canonical_to_linear(struct gsl_permutation_struct *self,struct gsl_permutation_struct *q){
+gsl_error_flag_drop gsl_permutation_struct__canonical_to_linear(struct gsl_permutation_struct *self,struct gsl_permutation_struct *q){
        return gsl_permutation_canonical_to_linear(q, self);
   }
-int gsl_permutation_struct__mul(struct gsl_permutation_struct *self,struct gsl_permutation_struct *res,struct gsl_permutation_struct *m2){
+gsl_error_flag_drop gsl_permutation_struct__mul(struct gsl_permutation_struct *self,struct gsl_permutation_struct *res,struct gsl_permutation_struct *m2){
        return gsl_permutation_mul(res, self, m2);
   }
 size_t gsl_permutation_struct_inversions(struct gsl_permutation_struct *self){
@@ -798,19 +768,19 @@ size_t gsl_permutation_struct_linear_cycles(struct gsl_permutation_struct *self)
 size_t gsl_permutation_struct_canonical_cycles(struct gsl_permutation_struct *self){
        return gsl_permutation_canonical_cycles(self);
   }
-int gsl_permutation_struct__inverse(struct gsl_permutation_struct *self,struct gsl_permutation_struct *inv){
+gsl_error_flag_drop gsl_permutation_struct__inverse(struct gsl_permutation_struct *self,struct gsl_permutation_struct *inv){
        return gsl_permutation_inverse(inv, self);
   }
 size_t gsl_permutation_struct_get_item(struct gsl_permutation_struct *self,size_t const i){
     return gsl_permutation_get(self, i);
   }
-int gsl_permutation_struct_swap(struct gsl_permutation_struct *self,size_t const i,size_t const j){
+gsl_error_flag_drop gsl_permutation_struct_swap(struct gsl_permutation_struct *self,size_t const i,size_t const j){
     return gsl_permutation_swap(self, i, j);
   }
 size_t gsl_permutation_struct_size(struct gsl_permutation_struct *self){
     return gsl_permutation_size(self);
   }
-int gsl_permutation_struct_valid(struct gsl_permutation_struct *self){ 
+gsl_error_flag_drop gsl_permutation_struct_valid(struct gsl_permutation_struct *self){ 
     return gsl_permutation_valid(self);
   }
 void gsl_permutation_struct_reverse(struct gsl_permutation_struct *self){
@@ -824,7 +794,6 @@ int gsl_permutation_struct_prev(struct gsl_permutation_struct *self){
   }
 char *gsl_permutation_struct_printf(struct gsl_permutation_struct *self){
     /* FIXME this must return a string */
-
     gsl_permutation_fprintf (stdout, self, " %u"); 
     return NULL;
   }
@@ -917,7 +886,6 @@ PyObject *gsl_combination_struct_tolist(struct gsl_combination_struct *self){
 PyObject *gsl_combination_struct_toarray(struct gsl_combination_struct *self){
        PyArrayObject * a_array = NULL;
        long *data;
-       size_t *c_data;
        int size, i;
 
        size = (int) gsl_combination_k(self);
@@ -933,6 +901,36 @@ PyObject *gsl_combination_struct_toarray(struct gsl_combination_struct *self){
 
 #include <gsl/gsl_math.h>
 
+
+#include <gsl/gsl_fft.h>
+#include <gsl/gsl_fft_complex.h>
+#include <gsl/gsl_fft_real.h>
+#include <typemaps/convert_block_description.h>
+
+gsl_fft_complex_wavetable *new_gsl_fft_complex_wavetable(size_t n){
+    return gsl_fft_complex_wavetable_alloc(n);
+  }
+void delete_gsl_fft_complex_wavetable(gsl_fft_complex_wavetable *self){
+    gsl_fft_complex_wavetable_free(self);
+  }
+gsl_fft_complex_workspace *new_gsl_fft_complex_workspace(size_t n){
+    return gsl_fft_complex_workspace_alloc(n);
+  }
+void delete_gsl_fft_complex_workspace(gsl_fft_complex_workspace *self){
+    gsl_fft_complex_workspace_free(self);
+  }
+gsl_fft_real_wavetable *new_gsl_fft_real_wavetable(size_t n){
+    return gsl_fft_real_wavetable_alloc(n);
+  }
+void delete_gsl_fft_real_wavetable(gsl_fft_real_wavetable *self){
+    gsl_fft_real_wavetable_free(self);
+  }
+gsl_fft_real_workspace *new_gsl_fft_real_workspace(size_t n){
+    return gsl_fft_real_workspace_alloc(n);
+  }
+void delete_gsl_fft_real_workspace(gsl_fft_real_workspace *self){
+    gsl_fft_real_workspace_free(self);
+  }
 
 #include <gsl/gsl_blas.h>
 
@@ -10466,6 +10464,1682 @@ static PyObject *_wrap_gsl_linalg_balance_columns(PyObject *self, PyObject *args
 }
 
 
+static PyObject *_wrap_Permutation_size_get(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_size_get",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t) ((arg1)->size);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_data_get(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_data_get",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t *) ((arg1)->data);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_size_t, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_Permutation(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    struct gsl_permutation_struct *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "n", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new_Permutation",kwnames,&obj0)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (struct gsl_permutation_struct *)new_gsl_permutation_struct(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_permutation_struct, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_delete_Permutation(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:delete_Permutation",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    delete_gsl_permutation_struct(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation__linear_to_canonical(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
+    gsl_error_flag_drop result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","q", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__linear_to_canonical",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = gsl_permutation_struct__linear_to_canonical(arg1,arg2);
+    
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation__canonical_to_linear(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
+    gsl_error_flag_drop result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","q", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__canonical_to_linear",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = gsl_permutation_struct__canonical_to_linear(arg1,arg2);
+    
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation__mul(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg3 = (struct gsl_permutation_struct *) 0 ;
+    gsl_error_flag_drop result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        "self","res","m2", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:Permutation__mul",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = gsl_permutation_struct__mul(arg1,arg2,arg3);
+    
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_inversions(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_inversions",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_struct_inversions(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_linear_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_linear_cycles",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_struct_linear_cycles(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_canonical_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_canonical_cycles",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_struct_canonical_cycles(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation__inverse(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
+    gsl_error_flag_drop result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","inv", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__inverse",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = gsl_permutation_struct__inverse(arg1,arg2);
+    
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation___getitem__(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t arg2 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","i", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation___getitem__",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (size_t)gsl_permutation_struct_get_item(arg1,arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t arg2 ;
+    size_t arg3 ;
+    gsl_error_flag_drop result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        "self","i","j", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:Permutation_swap",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    arg3 = (size_t) PyInt_AsLong(obj2);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = gsl_permutation_struct_swap(arg1,arg2,arg3);
+    
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation___len__(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation___len__",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_struct_size(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_valid(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    gsl_error_flag_drop result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_valid",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = gsl_permutation_struct_valid(arg1);
+    
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_reverse",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_permutation_struct_reverse(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_next(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_next",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_struct_next(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_prev(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_prev",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_struct_prev(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation___str__(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    char *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation___str__",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (char *)gsl_permutation_struct_printf(arg1);
+    
+    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_tolist(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_tolist",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)gsl_permutation_struct_tolist(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Permutation_toarray(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_toarray",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)gsl_permutation_struct_toarray(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject * Permutation_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_gsl_permutation_struct, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
+static PyObject *_wrap_gsl_permutation_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    gsl_permutation *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "n", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_alloc",kwnames,&obj0)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (gsl_permutation *)gsl_permutation_alloc(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_permutation, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_calloc(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    gsl_permutation *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "n", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_calloc",kwnames,&obj0)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (gsl_permutation *)gsl_permutation_calloc(arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_permutation, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_init(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_init",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_permutation_init(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_free(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_free",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_permutation_free(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_memcpy(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "dest","src", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_memcpy",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_memcpy(arg1,(gsl_permutation const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    FILE *arg1 = (FILE *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "stream","p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_fread",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_FILE,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_fread(arg1,arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    FILE *arg1 = (FILE *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "stream","p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_fwrite",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_FILE,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_fwrite(arg1,(gsl_permutation const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    FILE *arg1 = (FILE *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "stream","p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_fscanf",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_FILE,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_fscanf(arg1,arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    FILE *arg1 = (FILE *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    char *arg3 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "stream","p","format", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_permutation_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_FILE,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_fprintf(arg1,(gsl_permutation const *)arg2,(char const *)arg3);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_size(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_size",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_size((gsl_permutation const *)arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_data(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    size_t *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_data",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t *)gsl_permutation_data((gsl_permutation const *)arg1);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_size_t, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_get(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    size_t arg2 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "p","i", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_get",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (size_t)gsl_permutation_get((gsl_permutation const *)arg1,arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    size_t arg2 ;
+    size_t arg3 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        "p","i","j", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_permutation_swap",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    arg3 = (size_t) PyInt_AsLong(obj2);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (int)gsl_permutation_swap(arg1,arg2,arg3);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_valid(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_valid",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_valid(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_reverse",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_permutation_reverse(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_inverse(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "inv","p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_inverse",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_inverse(arg1,(gsl_permutation const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_next(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_next",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_next(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_prev(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_prev",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_prev(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_mul(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    gsl_permutation *arg3 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        "p","pa","pb", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_permutation_mul",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_mul(arg1,(gsl_permutation const *)arg2,(gsl_permutation const *)arg3);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_linear_to_canonical(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "q","p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_linear_to_canonical",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_linear_to_canonical(arg1,(gsl_permutation const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_canonical_to_linear(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "p","q", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_canonical_to_linear",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_permutation_canonical_to_linear(arg1,(gsl_permutation const *)arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_inversions(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_inversions",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_inversions((gsl_permutation const *)arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_linear_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "p", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_linear_cycles",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_linear_cycles((gsl_permutation const *)arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_permutation_canonical_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "q", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_canonical_cycles",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_permutation_canonical_cycles((gsl_permutation const *)arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_Combination(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    size_t arg1 ;
+    size_t arg2 ;
+    struct gsl_combination_struct *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "n","k", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:new_Combination",kwnames,&obj0,&obj1)) goto fail;
+    arg1 = (size_t) PyInt_AsLong(obj0);
+    if (PyErr_Occurred()) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (struct gsl_combination_struct *)new_gsl_combination_struct(arg1,arg2);
+    
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_combination_struct, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_delete_Combination(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:delete_Combination",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    delete_gsl_combination_struct(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination___getitem__(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    size_t arg2 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "self","i", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Combination___getitem__",kwnames,&obj0,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    arg2 = (size_t) PyInt_AsLong(obj1);
+    if (PyErr_Occurred()) SWIG_fail;
+    result = (size_t)gsl_combination_struct_get_item(arg1,arg2);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_k(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_k",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_combination_struct_k(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_n(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_n",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (size_t)gsl_combination_struct_n(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_init_first(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_init_first",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_combination_struct_init_first(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_init_last(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_init_last",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    gsl_combination_struct_init_last(arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_valid(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_valid",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_combination_struct_valid(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_next(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_next",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_combination_struct_next(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_prev(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_prev",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (int)gsl_combination_struct_prev(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_tolist(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_tolist",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)gsl_combination_struct_tolist(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_Combination_toarray(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_toarray",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (PyObject *)gsl_combination_struct_toarray(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject * Combination_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_gsl_combination_struct, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
+static PyObject *_wrap_gsl_max(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double arg2 ;
+    double result;
+    char *kwnames[] = {
+        "a","b", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_max",kwnames,&arg1,&arg2)) goto fail;
+    result = (double)gsl_max(arg1,arg2);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_min(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double arg2 ;
+    double result;
+    char *kwnames[] = {
+        "a","b", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_min",kwnames,&arg1,&arg2)) goto fail;
+    result = (double)gsl_min(arg1,arg2);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_log1p(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_log1p",kwnames,&arg1)) goto fail;
+    result = (double)gsl_log1p(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_expm1(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_expm1",kwnames,&arg1)) goto fail;
+    result = (double)gsl_expm1(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_hypot(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double arg2 ;
+    double result;
+    char *kwnames[] = {
+        "x","y", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_hypot",kwnames,&arg1,&arg2)) goto fail;
+    result = (double)gsl_hypot(arg1,arg2);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_acosh(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_acosh",kwnames,&arg1)) goto fail;
+    result = (double)gsl_acosh(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_asinh(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_asinh",kwnames,&arg1)) goto fail;
+    result = (double)gsl_asinh(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_atanh(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_atanh",kwnames,&arg1)) goto fail;
+    result = (double)gsl_atanh(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_isnan(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    int result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_isnan",kwnames,&arg1)) goto fail;
+    result = (int)gsl_isnan(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_isinf(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    int result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_isinf",kwnames,&arg1)) goto fail;
+    result = (int)gsl_isinf(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_finite(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    int result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_finite",kwnames,&arg1)) goto fail;
+    result = (int)gsl_finite(arg1);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_nan(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double result;
+    char *kwnames[] = {
+        NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":gsl_nan",kwnames)) goto fail;
+    result = (double)gsl_nan();
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_posinf(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double result;
+    char *kwnames[] = {
+        NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":gsl_posinf",kwnames)) goto fail;
+    result = (double)gsl_posinf();
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_neginf(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double result;
+    char *kwnames[] = {
+        NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":gsl_neginf",kwnames)) goto fail;
+    result = (double)gsl_neginf();
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_fdiv(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double arg2 ;
+    double result;
+    char *kwnames[] = {
+        "x","y", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_fdiv",kwnames,&arg1,&arg2)) goto fail;
+    result = (double)gsl_fdiv(arg1,arg2);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_coerce_double(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_coerce_double",kwnames,&arg1)) goto fail;
+    result = (double)gsl_coerce_double(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_coerce_float(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    float arg1 ;
+    float result;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"f:gsl_coerce_float",kwnames,&arg1)) goto fail;
+    result = (float)gsl_coerce_float(arg1);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_coerce_long_double(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    long double arg1 ;
+    long double result;
+    long double *argp1 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        "x", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_coerce_long_double",kwnames,&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &argp1, SWIGTYPE_p_long_double,SWIG_POINTER_EXCEPTION) == -1)) SWIG_fail;
+    arg1 = *argp1; 
+    result = gsl_coerce_long_double(arg1);
+    
+    {
+        long double * resultptr;
+        resultptr = (long double *) malloc(sizeof(long double));
+        memmove(resultptr, &result, sizeof(long double));
+        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_long_double, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_ldexp(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    int arg2 ;
+    double result;
+    char *kwnames[] = {
+        "x","e", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"di:gsl_ldexp",kwnames,&arg1,&arg2)) goto fail;
+    result = (double)gsl_ldexp(arg1,arg2);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_frexp(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    int *arg2 = (int *) 0 ;
+    double result;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        "x","e", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dO:gsl_frexp",kwnames,&arg1,&obj1)) goto fail;
+    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_int,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    result = (double)gsl_frexp(arg1,arg2);
+    
+    resultobj = PyFloat_FromDouble(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_fcmp(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    double arg1 ;
+    double arg2 ;
+    double arg3 ;
+    int result;
+    char *kwnames[] = {
+        "x1","x2","epsilon", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"ddd:gsl_fcmp",kwnames,&arg1,&arg2,&arg3)) goto fail;
+    result = (int)gsl_fcmp(arg1,arg2,arg3);
+    
+    resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_gsl_fft_complex_radix2_forward(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_complex_packed_array arg1 ;
@@ -11812,1880 +13486,6 @@ static PyObject *_wrap_gsl_fft_real_unpack(PyObject *self, PyObject *args, PyObj
     arg4 = (size_t) PyInt_AsLong(obj3);
     if (PyErr_Occurred()) SWIG_fail;
     result = (int)gsl_fft_real_unpack((double const (*))arg1,arg2,arg3,arg4);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_size_get(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_size_get",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t) ((arg1)->size);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_data_get(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_data_get",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t *) ((arg1)->data);
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_size_t, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_new_Permutation(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    size_t arg1 ;
-    struct gsl_permutation_struct *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "n", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new_Permutation",kwnames,&obj0)) goto fail;
-    arg1 = (size_t) PyInt_AsLong(obj0);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (struct gsl_permutation_struct *)new_gsl_permutation_struct(arg1);
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_permutation_struct, 1);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_delete_Permutation(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:delete_Permutation",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    delete_gsl_permutation_struct(arg1);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation__linear_to_canonical(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","q", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__linear_to_canonical",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_struct__linear_to_canonical(arg1,arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation__canonical_to_linear(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","q", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__canonical_to_linear",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_struct__canonical_to_linear(arg1,arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation__mul(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
-    struct gsl_permutation_struct *arg3 = (struct gsl_permutation_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    PyObject * obj2 = 0 ;
-    char *kwnames[] = {
-        "self","res","m2", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:Permutation__mul",kwnames,&obj0,&obj1,&obj2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_struct__mul(arg1,arg2,arg3);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_inversions(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_inversions",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_permutation_struct_inversions(arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_linear_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_linear_cycles",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_permutation_struct_linear_cycles(arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_canonical_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_canonical_cycles",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_permutation_struct_canonical_cycles(arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation__inverse(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    struct gsl_permutation_struct *arg2 = (struct gsl_permutation_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","inv", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation__inverse",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_struct__inverse(arg1,arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation___getitem__(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t arg2 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","i", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Permutation___getitem__",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (size_t)gsl_permutation_struct_get_item(arg1,arg2);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t arg2 ;
-    size_t arg3 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    PyObject * obj2 = 0 ;
-    char *kwnames[] = {
-        "self","i","j", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:Permutation_swap",kwnames,&obj0,&obj1,&obj2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    arg3 = (size_t) PyInt_AsLong(obj2);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (int)gsl_permutation_struct_swap(arg1,arg2,arg3);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation___len__(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation___len__",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_permutation_struct_size(arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_valid(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_valid",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_struct_valid(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_reverse",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    gsl_permutation_struct_reverse(arg1);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_next(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_next",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_struct_next(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_prev(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_prev",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_struct_prev(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation___str__(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    char *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation___str__",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (char *)gsl_permutation_struct_printf(arg1);
-    
-    resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_tolist(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    PyObject *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_tolist",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (PyObject *)gsl_permutation_struct_tolist(arg1);
-    
-    resultobj = result;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Permutation_toarray(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_permutation_struct *arg1 = (struct gsl_permutation_struct *) 0 ;
-    PyObject *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Permutation_toarray",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (PyObject *)gsl_permutation_struct_toarray(arg1);
-    
-    resultobj = result;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject * Permutation_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_gsl_permutation_struct, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static PyObject *_wrap_gsl_permutation_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    size_t arg1 ;
-    gsl_permutation *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "n", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_alloc",kwnames,&obj0)) goto fail;
-    arg1 = (size_t) PyInt_AsLong(obj0);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (gsl_permutation *)gsl_permutation_alloc(arg1);
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_permutation, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_calloc(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    size_t arg1 ;
-    gsl_permutation *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "n", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_calloc",kwnames,&obj0)) goto fail;
-    arg1 = (size_t) PyInt_AsLong(obj0);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (gsl_permutation *)gsl_permutation_calloc(arg1);
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_permutation, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_init(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_init",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    gsl_permutation_init(arg1);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_free(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_free",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    gsl_permutation_free(arg1);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_memcpy(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "dest","src", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_memcpy",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_memcpy(arg1,(gsl_permutation const *)arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    FILE *arg1 = (FILE *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "stream","p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_fread",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_FILE,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_fread(arg1,arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    FILE *arg1 = (FILE *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "stream","p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_fwrite",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_FILE,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_fwrite(arg1,(gsl_permutation const *)arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    FILE *arg1 = (FILE *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "stream","p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_fscanf",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_FILE,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_fscanf(arg1,arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    FILE *arg1 = (FILE *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    char *arg3 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "stream","p","format", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOs:gsl_permutation_fprintf",kwnames,&obj0,&obj1,&arg3)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_FILE,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_fprintf(arg1,(gsl_permutation const *)arg2,(char const *)arg3);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_size(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_size",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_permutation_size((gsl_permutation const *)arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_data(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    size_t *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_data",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t *)gsl_permutation_data((gsl_permutation const *)arg1);
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_size_t, 0);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_get(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    size_t arg2 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "p","i", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_get",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (size_t)gsl_permutation_get((gsl_permutation const *)arg1,arg2);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    size_t arg2 ;
-    size_t arg3 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    PyObject * obj2 = 0 ;
-    char *kwnames[] = {
-        "p","i","j", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_permutation_swap",kwnames,&obj0,&obj1,&obj2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    arg3 = (size_t) PyInt_AsLong(obj2);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (int)gsl_permutation_swap(arg1,arg2,arg3);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_valid(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_valid",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_valid(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_reverse",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    gsl_permutation_reverse(arg1);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_inverse(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "inv","p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_inverse",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_inverse(arg1,(gsl_permutation const *)arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_next(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_next",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_next(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_prev(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_prev",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_prev(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_mul(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    gsl_permutation *arg3 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    PyObject * obj2 = 0 ;
-    char *kwnames[] = {
-        "p","pa","pb", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_permutation_mul",kwnames,&obj0,&obj1,&obj2)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_mul(arg1,(gsl_permutation const *)arg2,(gsl_permutation const *)arg3);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_linear_to_canonical(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "q","p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_linear_to_canonical",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_linear_to_canonical(arg1,(gsl_permutation const *)arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_canonical_to_linear(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "p","q", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_permutation_canonical_to_linear",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_permutation_canonical_to_linear(arg1,(gsl_permutation const *)arg2);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_inversions(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_inversions",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_permutation_inversions((gsl_permutation const *)arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_linear_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "p", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_linear_cycles",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_permutation_linear_cycles((gsl_permutation const *)arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_permutation_canonical_cycles(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    gsl_permutation *arg1 = (gsl_permutation *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "q", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_permutation_canonical_cycles",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_permutation,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_permutation_canonical_cycles((gsl_permutation const *)arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_new_Combination(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    size_t arg1 ;
-    size_t arg2 ;
-    struct gsl_combination_struct *result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "n","k", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:new_Combination",kwnames,&obj0,&obj1)) goto fail;
-    arg1 = (size_t) PyInt_AsLong(obj0);
-    if (PyErr_Occurred()) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (struct gsl_combination_struct *)new_gsl_combination_struct(arg1,arg2);
-    
-    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_gsl_combination_struct, 1);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_delete_Combination(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:delete_Combination",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    delete_gsl_combination_struct(arg1);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination___getitem__(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    size_t arg2 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "self","i", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:Combination___getitem__",kwnames,&obj0,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    arg2 = (size_t) PyInt_AsLong(obj1);
-    if (PyErr_Occurred()) SWIG_fail;
-    result = (size_t)gsl_combination_struct_get_item(arg1,arg2);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_k(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_k",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_combination_struct_k(arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_n(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    size_t result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_n",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (size_t)gsl_combination_struct_n(arg1);
-    
-    resultobj = PyInt_FromLong((long)result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_init_first(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_init_first",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    gsl_combination_struct_init_first(arg1);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_init_last(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_init_last",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    gsl_combination_struct_init_last(arg1);
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_valid(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_valid",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_combination_struct_valid(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_next(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_next",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_combination_struct_next(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_prev(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    int result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_prev",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_combination_struct_prev(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_tolist(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    PyObject *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_tolist",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (PyObject *)gsl_combination_struct_tolist(arg1);
-    
-    resultobj = result;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_Combination_toarray(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    struct gsl_combination_struct *arg1 = (struct gsl_combination_struct *) 0 ;
-    PyObject *result;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "self", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:Combination_toarray",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_combination_struct,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (PyObject *)gsl_combination_struct_toarray(arg1);
-    
-    resultobj = result;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject * Combination_swigregister(PyObject *self, PyObject *args) {
-    PyObject *obj;
-    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
-    SWIG_TypeClientData(SWIGTYPE_p_gsl_combination_struct, obj);
-    Py_INCREF(obj);
-    return Py_BuildValue((char *)"");
-}
-static PyObject *_wrap_gsl_max(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double arg2 ;
-    double result;
-    char *kwnames[] = {
-        "a","b", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_max",kwnames,&arg1,&arg2)) goto fail;
-    result = (double)gsl_max(arg1,arg2);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_min(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double arg2 ;
-    double result;
-    char *kwnames[] = {
-        "a","b", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_min",kwnames,&arg1,&arg2)) goto fail;
-    result = (double)gsl_min(arg1,arg2);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_log1p(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_log1p",kwnames,&arg1)) goto fail;
-    result = (double)gsl_log1p(arg1);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_expm1(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_expm1",kwnames,&arg1)) goto fail;
-    result = (double)gsl_expm1(arg1);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_hypot(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double arg2 ;
-    double result;
-    char *kwnames[] = {
-        "x","y", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_hypot",kwnames,&arg1,&arg2)) goto fail;
-    result = (double)gsl_hypot(arg1,arg2);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_acosh(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_acosh",kwnames,&arg1)) goto fail;
-    result = (double)gsl_acosh(arg1);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_asinh(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_asinh",kwnames,&arg1)) goto fail;
-    result = (double)gsl_asinh(arg1);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_atanh(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_atanh",kwnames,&arg1)) goto fail;
-    result = (double)gsl_atanh(arg1);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_isnan(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    int result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_isnan",kwnames,&arg1)) goto fail;
-    result = (int)gsl_isnan(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_isinf(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    int result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_isinf",kwnames,&arg1)) goto fail;
-    result = (int)gsl_isinf(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_finite(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    int result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_finite",kwnames,&arg1)) goto fail;
-    result = (int)gsl_finite(arg1);
-    
-    {
-        assert(result >= 0);
-        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
-            goto fail;
-        }
-        Py_INCREF(Py_None);
-        resultobj = Py_None;
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_nan(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double result;
-    char *kwnames[] = {
-        NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":gsl_nan",kwnames)) goto fail;
-    result = (double)gsl_nan();
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_posinf(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double result;
-    char *kwnames[] = {
-        NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":gsl_posinf",kwnames)) goto fail;
-    result = (double)gsl_posinf();
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_neginf(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double result;
-    char *kwnames[] = {
-        NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":gsl_neginf",kwnames)) goto fail;
-    result = (double)gsl_neginf();
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_fdiv(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double arg2 ;
-    double result;
-    char *kwnames[] = {
-        "x","y", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dd:gsl_fdiv",kwnames,&arg1,&arg2)) goto fail;
-    result = (double)gsl_fdiv(arg1,arg2);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_coerce_double(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"d:gsl_coerce_double",kwnames,&arg1)) goto fail;
-    result = (double)gsl_coerce_double(arg1);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_coerce_float(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    float arg1 ;
-    float result;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"f:gsl_coerce_float",kwnames,&arg1)) goto fail;
-    result = (float)gsl_coerce_float(arg1);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_coerce_long_double(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    long double arg1 ;
-    long double result;
-    long double *argp1 ;
-    PyObject * obj0 = 0 ;
-    char *kwnames[] = {
-        "x", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_coerce_long_double",kwnames,&obj0)) goto fail;
-    if ((SWIG_ConvertPtr(obj0,(void **) &argp1, SWIGTYPE_p_long_double,SWIG_POINTER_EXCEPTION) == -1)) SWIG_fail;
-    arg1 = *argp1; 
-    result = gsl_coerce_long_double(arg1);
-    
-    {
-        long double * resultptr;
-        resultptr = (long double *) malloc(sizeof(long double));
-        memmove(resultptr, &result, sizeof(long double));
-        resultobj = SWIG_NewPointerObj((void *) resultptr, SWIGTYPE_p_long_double, 1);
-    }
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_ldexp(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    int arg2 ;
-    double result;
-    char *kwnames[] = {
-        "x","e", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"di:gsl_ldexp",kwnames,&arg1,&arg2)) goto fail;
-    result = (double)gsl_ldexp(arg1,arg2);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_frexp(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    int *arg2 = (int *) 0 ;
-    double result;
-    PyObject * obj1 = 0 ;
-    char *kwnames[] = {
-        "x","e", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dO:gsl_frexp",kwnames,&arg1,&obj1)) goto fail;
-    if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_int,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (double)gsl_frexp(arg1,arg2);
-    
-    resultobj = PyFloat_FromDouble(result);
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_gsl_fcmp(PyObject *self, PyObject *args, PyObject *kwargs) {
-    PyObject *resultobj;
-    double arg1 ;
-    double arg2 ;
-    double arg3 ;
-    int result;
-    char *kwnames[] = {
-        "x1","x2","epsilon", NULL 
-    };
-    
-    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"ddd:gsl_fcmp",kwnames,&arg1,&arg2,&arg3)) goto fail;
-    result = (int)gsl_fcmp(arg1,arg2,arg3);
     
     {
         assert(result >= 0);
@@ -25903,7 +25703,7 @@ static PyObject *_wrap_gsl_spline_init(PyObject *self, PyObject *args, PyObject 
     double *arg2 ;
     double *arg3 ;
     size_t arg4 ;
-    int result;
+    gsl_error_flag_drop result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     char *kwnames[] = {
@@ -25946,7 +25746,7 @@ static PyObject *_wrap_gsl_spline_init(PyObject *self, PyObject *args, PyObject 
     {
         ;
     }
-    result = (int)gsl_spline_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
+    result = gsl_spline_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
     
     {
         assert(result >= 0);
@@ -25970,7 +25770,7 @@ static PyObject *_wrap_gsl_spline_eval_e(PyObject *self, PyObject *args, PyObjec
     double arg2 ;
     gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
     double *arg4 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp4 ;
     PyObject * obj0 = 0 ;
     PyObject * obj2 = 0 ;
@@ -25982,7 +25782,7 @@ static PyObject *_wrap_gsl_spline_eval_e(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval_e",kwnames,&obj0,&arg2,&obj2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_spline_eval_e((gsl_spline const *)arg1,arg2,arg3,arg4);
+    result = gsl_spline_eval_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
         assert(result >= 0);
@@ -26034,7 +25834,7 @@ static PyObject *_wrap_gsl_spline_eval_deriv_e(PyObject *self, PyObject *args, P
     double arg2 ;
     gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
     double *arg4 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp4 ;
     PyObject * obj0 = 0 ;
     PyObject * obj2 = 0 ;
@@ -26046,7 +25846,7 @@ static PyObject *_wrap_gsl_spline_eval_deriv_e(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval_deriv_e",kwnames,&obj0,&arg2,&obj2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_spline_eval_deriv_e((gsl_spline const *)arg1,arg2,arg3,arg4);
+    result = gsl_spline_eval_deriv_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
         assert(result >= 0);
@@ -26098,7 +25898,7 @@ static PyObject *_wrap_gsl_spline_eval_deriv2_e(PyObject *self, PyObject *args, 
     double arg2 ;
     gsl_interp_accel *arg3 = (gsl_interp_accel *) 0 ;
     double *arg4 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp4 ;
     PyObject * obj0 = 0 ;
     PyObject * obj2 = 0 ;
@@ -26110,7 +25910,7 @@ static PyObject *_wrap_gsl_spline_eval_deriv2_e(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OdO:gsl_spline_eval_deriv2_e",kwnames,&obj0,&arg2,&obj2)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj2,(void **) &arg3, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_spline_eval_deriv2_e((gsl_spline const *)arg1,arg2,arg3,arg4);
+    result = gsl_spline_eval_deriv2_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
         assert(result >= 0);
@@ -26163,7 +25963,7 @@ static PyObject *_wrap_gsl_spline_eval_integ_e(PyObject *self, PyObject *args, P
     double arg3 ;
     gsl_interp_accel *arg4 = (gsl_interp_accel *) 0 ;
     double *arg5 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp5 ;
     PyObject * obj0 = 0 ;
     PyObject * obj3 = 0 ;
@@ -26175,7 +25975,7 @@ static PyObject *_wrap_gsl_spline_eval_integ_e(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OddO:gsl_spline_eval_integ_e",kwnames,&obj0,&arg2,&arg3,&obj3)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_spline,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     if ((SWIG_ConvertPtr(obj3,(void **) &arg4, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_spline_eval_integ_e((gsl_spline const *)arg1,arg2,arg3,arg4,arg5);
+    result = gsl_spline_eval_integ_e((gsl_spline const *)arg1,arg2,arg3,arg4,arg5);
     
     {
         assert(result >= 0);
@@ -26383,7 +26183,7 @@ static PyObject *_wrap_gsl_interp_accel_find(PyObject *self, PyObject *args, PyO
 static PyObject *_wrap_gsl_interp_accel_reset(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_interp_accel *arg1 = (gsl_interp_accel *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     PyObject * obj0 = 0 ;
     char *kwnames[] = {
         "a", NULL 
@@ -26391,7 +26191,7 @@ static PyObject *_wrap_gsl_interp_accel_reset(PyObject *self, PyObject *args, Py
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_interp_accel_reset",kwnames,&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_interp_accel,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_interp_accel_reset(arg1);
+    result = gsl_interp_accel_reset(arg1);
     
     {
         assert(result >= 0);
@@ -26458,7 +26258,7 @@ static PyObject *_wrap_gsl_interp_init(PyObject *self, PyObject *args, PyObject 
     double *arg2 ;
     double *arg3 ;
     size_t arg4 ;
-    int result;
+    gsl_error_flag_drop result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     char *kwnames[] = {
@@ -26501,7 +26301,7 @@ static PyObject *_wrap_gsl_interp_init(PyObject *self, PyObject *args, PyObject 
     {
         ;
     }
-    result = (int)gsl_interp_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
+    result = gsl_interp_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
     
     {
         assert(result >= 0);
@@ -26567,7 +26367,7 @@ static PyObject *_wrap_gsl_interp_eval_e(PyObject *self, PyObject *args, PyObjec
     double arg4 ;
     gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
     double *arg6 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp6 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -26618,7 +26418,7 @@ static PyObject *_wrap_gsl_interp_eval_e(PyObject *self, PyObject *args, PyObjec
         goto fail;
         arg3 = (double *)(_PyVector3->data);
     }
-    result = (int)gsl_interp_eval_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
+    result = gsl_interp_eval_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
         assert(result >= 0);
@@ -26713,7 +26513,7 @@ static PyObject *_wrap_gsl_interp_eval_deriv_e(PyObject *self, PyObject *args, P
     double arg4 ;
     gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
     double *arg6 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp6 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -26764,7 +26564,7 @@ static PyObject *_wrap_gsl_interp_eval_deriv_e(PyObject *self, PyObject *args, P
         goto fail;
         arg3 = (double *)(_PyVector3->data);
     }
-    result = (int)gsl_interp_eval_deriv_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
+    result = gsl_interp_eval_deriv_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
         assert(result >= 0);
@@ -26859,7 +26659,7 @@ static PyObject *_wrap_gsl_interp_eval_deriv2_e(PyObject *self, PyObject *args, 
     double arg4 ;
     gsl_interp_accel *arg5 = (gsl_interp_accel *) 0 ;
     double *arg6 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp6 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -26910,7 +26710,7 @@ static PyObject *_wrap_gsl_interp_eval_deriv2_e(PyObject *self, PyObject *args, 
         goto fail;
         arg3 = (double *)(_PyVector3->data);
     }
-    result = (int)gsl_interp_eval_deriv2_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
+    result = gsl_interp_eval_deriv2_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
         assert(result >= 0);
@@ -27006,7 +26806,7 @@ static PyObject *_wrap_gsl_interp_eval_integ_e(PyObject *self, PyObject *args, P
     double arg5 ;
     gsl_interp_accel *arg6 = (gsl_interp_accel *) 0 ;
     double *arg7 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp7 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -27057,7 +26857,7 @@ static PyObject *_wrap_gsl_interp_eval_integ_e(PyObject *self, PyObject *args, P
         goto fail;
         arg3 = (double *)(_PyVector3->data);
     }
-    result = (int)gsl_interp_eval_integ_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6,arg7);
+    result = gsl_interp_eval_integ_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6,arg7);
     
     {
         assert(result >= 0);
@@ -27299,56 +27099,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_linalg_bidiag_unpack2", (PyCFunction) _wrap_gsl_linalg_bidiag_unpack2, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_linalg_bidiag_unpack_B", (PyCFunction) _wrap_gsl_linalg_bidiag_unpack_B, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_linalg_balance_columns", (PyCFunction) _wrap_gsl_linalg_balance_columns, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_radix2_forward", (PyCFunction) _wrap_gsl_fft_complex_radix2_forward, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_radix2_backward", (PyCFunction) _wrap_gsl_fft_complex_radix2_backward, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_radix2_inverse", (PyCFunction) _wrap_gsl_fft_complex_radix2_inverse, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_radix2_transform", (PyCFunction) _wrap_gsl_fft_complex_radix2_transform, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_radix2_dif_forward", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_forward, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_radix2_dif_backward", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_backward, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_radix2_dif_inverse", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_inverse, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_radix2_dif_transform", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_transform, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"new_gsl_fft_complex_wavetable", (PyCFunction) _wrap_new_gsl_fft_complex_wavetable, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"delete_gsl_fft_complex_wavetable", (PyCFunction) _wrap_delete_gsl_fft_complex_wavetable, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_n_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_n_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_nf_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_nf_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_factor_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_factor_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_twiddle_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_twiddle_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_trig_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_trig_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_swigregister", gsl_fft_complex_wavetable_swigregister, METH_VARARGS },
-	 { (char *)"new_gsl_fft_complex_workspace", (PyCFunction) _wrap_new_gsl_fft_complex_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"delete_gsl_fft_complex_workspace", (PyCFunction) _wrap_delete_gsl_fft_complex_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_workspace_n_get", (PyCFunction) _wrap_gsl_fft_complex_workspace_n_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_workspace_scratch_get", (PyCFunction) _wrap_gsl_fft_complex_workspace_scratch_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_workspace_swigregister", gsl_fft_complex_workspace_swigregister, METH_VARARGS },
-	 { (char *)"gsl_fft_complex_wavetable_alloc", (PyCFunction) _wrap_gsl_fft_complex_wavetable_alloc, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_wavetable_free", (PyCFunction) _wrap_gsl_fft_complex_wavetable_free, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_workspace_alloc", (PyCFunction) _wrap_gsl_fft_complex_workspace_alloc, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_workspace_free", (PyCFunction) _wrap_gsl_fft_complex_workspace_free, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_memcpy", (PyCFunction) _wrap_gsl_fft_complex_memcpy, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_forward", (PyCFunction) _wrap_gsl_fft_complex_forward, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_backward", (PyCFunction) _wrap_gsl_fft_complex_backward, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_inverse", (PyCFunction) _wrap_gsl_fft_complex_inverse, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_complex_transform", (PyCFunction) _wrap_gsl_fft_complex_transform, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_radix2_transform", (PyCFunction) _wrap_gsl_fft_real_radix2_transform, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"new_gsl_fft_real_wavetable", (PyCFunction) _wrap_new_gsl_fft_real_wavetable, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"delete_gsl_fft_real_wavetable", (PyCFunction) _wrap_delete_gsl_fft_real_wavetable, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_n_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_n_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_nf_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_nf_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_factor_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_factor_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_twiddle_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_twiddle_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_trig_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_trig_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_swigregister", gsl_fft_real_wavetable_swigregister, METH_VARARGS },
-	 { (char *)"new_gsl_fft_real_workspace", (PyCFunction) _wrap_new_gsl_fft_real_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"delete_gsl_fft_real_workspace", (PyCFunction) _wrap_delete_gsl_fft_real_workspace, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_workspace_n_get", (PyCFunction) _wrap_gsl_fft_real_workspace_n_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_workspace_scratch_get", (PyCFunction) _wrap_gsl_fft_real_workspace_scratch_get, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_workspace_swigregister", gsl_fft_real_workspace_swigregister, METH_VARARGS },
-	 { (char *)"gsl_fft_real_wavetable_alloc", (PyCFunction) _wrap_gsl_fft_real_wavetable_alloc, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_wavetable_free", (PyCFunction) _wrap_gsl_fft_real_wavetable_free, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_workspace_alloc", (PyCFunction) _wrap_gsl_fft_real_workspace_alloc, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_workspace_free", (PyCFunction) _wrap_gsl_fft_real_workspace_free, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_transform", (PyCFunction) _wrap_gsl_fft_real_transform, METH_VARARGS | METH_KEYWORDS },
-	 { (char *)"gsl_fft_real_unpack", (PyCFunction) _wrap_gsl_fft_real_unpack, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation_size_get", (PyCFunction) _wrap_Permutation_size_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"Permutation_data_get", (PyCFunction) _wrap_Permutation_data_get, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"new_Permutation", (PyCFunction) _wrap_new_Permutation, METH_VARARGS | METH_KEYWORDS },
@@ -27429,6 +27179,56 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_ldexp", (PyCFunction) _wrap_gsl_ldexp, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_frexp", (PyCFunction) _wrap_gsl_frexp, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_fcmp", (PyCFunction) _wrap_gsl_fcmp, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_radix2_forward", (PyCFunction) _wrap_gsl_fft_complex_radix2_forward, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_radix2_backward", (PyCFunction) _wrap_gsl_fft_complex_radix2_backward, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_radix2_inverse", (PyCFunction) _wrap_gsl_fft_complex_radix2_inverse, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_radix2_transform", (PyCFunction) _wrap_gsl_fft_complex_radix2_transform, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_radix2_dif_forward", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_forward, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_radix2_dif_backward", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_backward, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_radix2_dif_inverse", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_inverse, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_radix2_dif_transform", (PyCFunction) _wrap_gsl_fft_complex_radix2_dif_transform, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"new_gsl_fft_complex_wavetable", (PyCFunction) _wrap_new_gsl_fft_complex_wavetable, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"delete_gsl_fft_complex_wavetable", (PyCFunction) _wrap_delete_gsl_fft_complex_wavetable, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_wavetable_n_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_n_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_wavetable_nf_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_nf_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_wavetable_factor_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_factor_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_wavetable_twiddle_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_twiddle_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_wavetable_trig_get", (PyCFunction) _wrap_gsl_fft_complex_wavetable_trig_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_wavetable_swigregister", gsl_fft_complex_wavetable_swigregister, METH_VARARGS },
+	 { (char *)"new_gsl_fft_complex_workspace", (PyCFunction) _wrap_new_gsl_fft_complex_workspace, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"delete_gsl_fft_complex_workspace", (PyCFunction) _wrap_delete_gsl_fft_complex_workspace, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_workspace_n_get", (PyCFunction) _wrap_gsl_fft_complex_workspace_n_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_workspace_scratch_get", (PyCFunction) _wrap_gsl_fft_complex_workspace_scratch_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_workspace_swigregister", gsl_fft_complex_workspace_swigregister, METH_VARARGS },
+	 { (char *)"gsl_fft_complex_wavetable_alloc", (PyCFunction) _wrap_gsl_fft_complex_wavetable_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_wavetable_free", (PyCFunction) _wrap_gsl_fft_complex_wavetable_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_workspace_alloc", (PyCFunction) _wrap_gsl_fft_complex_workspace_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_workspace_free", (PyCFunction) _wrap_gsl_fft_complex_workspace_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_memcpy", (PyCFunction) _wrap_gsl_fft_complex_memcpy, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_forward", (PyCFunction) _wrap_gsl_fft_complex_forward, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_backward", (PyCFunction) _wrap_gsl_fft_complex_backward, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_inverse", (PyCFunction) _wrap_gsl_fft_complex_inverse, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_complex_transform", (PyCFunction) _wrap_gsl_fft_complex_transform, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_radix2_transform", (PyCFunction) _wrap_gsl_fft_real_radix2_transform, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"new_gsl_fft_real_wavetable", (PyCFunction) _wrap_new_gsl_fft_real_wavetable, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"delete_gsl_fft_real_wavetable", (PyCFunction) _wrap_delete_gsl_fft_real_wavetable, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_wavetable_n_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_n_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_wavetable_nf_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_nf_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_wavetable_factor_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_factor_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_wavetable_twiddle_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_twiddle_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_wavetable_trig_get", (PyCFunction) _wrap_gsl_fft_real_wavetable_trig_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_wavetable_swigregister", gsl_fft_real_wavetable_swigregister, METH_VARARGS },
+	 { (char *)"new_gsl_fft_real_workspace", (PyCFunction) _wrap_new_gsl_fft_real_workspace, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"delete_gsl_fft_real_workspace", (PyCFunction) _wrap_delete_gsl_fft_real_workspace, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_workspace_n_get", (PyCFunction) _wrap_gsl_fft_real_workspace_n_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_workspace_scratch_get", (PyCFunction) _wrap_gsl_fft_real_workspace_scratch_get, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_workspace_swigregister", gsl_fft_real_workspace_swigregister, METH_VARARGS },
+	 { (char *)"gsl_fft_real_wavetable_alloc", (PyCFunction) _wrap_gsl_fft_real_wavetable_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_wavetable_free", (PyCFunction) _wrap_gsl_fft_real_wavetable_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_workspace_alloc", (PyCFunction) _wrap_gsl_fft_real_workspace_alloc, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_workspace_free", (PyCFunction) _wrap_gsl_fft_real_workspace_free, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_transform", (PyCFunction) _wrap_gsl_fft_real_transform, METH_VARARGS | METH_KEYWORDS },
+	 { (char *)"gsl_fft_real_unpack", (PyCFunction) _wrap_gsl_fft_real_unpack, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_blas_sdsdot", (PyCFunction) _wrap_gsl_blas_sdsdot, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_blas_dsdot", (PyCFunction) _wrap_gsl_blas_dsdot, METH_VARARGS | METH_KEYWORDS },
 	 { (char *)"gsl_blas_sdot", (PyCFunction) _wrap_gsl_blas_sdot, METH_VARARGS | METH_KEYWORDS },
@@ -27620,9 +27420,9 @@ static swig_type_info _swigt__p_gsl_spline[] = {{"_p_gsl_spline", 0, "gsl_spline
 static swig_type_info _swigt__p_gsl_fft_real_wavetable[] = {{"_p_gsl_fft_real_wavetable", 0, "gsl_fft_real_wavetable *", 0},{"_p_gsl_fft_real_wavetable"},{0}};
 static swig_type_info _swigt__p_gsl_fft_complex_wavetable[] = {{"_p_gsl_fft_complex_wavetable", 0, "gsl_fft_complex_wavetable *", 0},{"_p_gsl_fft_complex_wavetable"},{0}};
 static swig_type_info _swigt__p_gsl_interp_type[] = {{"_p_gsl_interp_type", 0, "gsl_interp_type *", 0},{"_p_gsl_interp_type"},{0}};
-static swig_type_info _swigt__p_long_double[] = {{"_p_long_double", 0, "long double *", 0},{"_p_long_double"},{0}};
 static swig_type_info _swigt__p_double[] = {{"_p_double", 0, "double *", 0},{"_p_double"},{0}};
-static swig_type_info _swigt__p_size_t[] = {{"_p_size_t", 0, "size_t *", 0},{"_p_size_t"},{"_p_int"},{0}};
+static swig_type_info _swigt__p_long_double[] = {{"_p_long_double", 0, "long double *", 0},{"_p_long_double"},{0}};
+static swig_type_info _swigt__p_size_t[] = {{"_p_size_t", 0, "size_t [64]", 0},{"_p_size_t"},{"_p_int"},{0}};
 static swig_type_info _swigt__p_gsl_complex_packed_array[] = {{"_p_gsl_complex_packed_array", 0, "gsl_complex_packed_array *", 0},{"_p_gsl_complex_packed_array"},{0}};
 static swig_type_info _swigt__p_gsl_eigen_hermv_workspace[] = {{"_p_gsl_eigen_hermv_workspace", 0, "gsl_eigen_hermv_workspace *", 0},{"_p_gsl_eigen_hermv_workspace"},{0}};
 static swig_type_info _swigt__p_gsl_eigen_herm_workspace[] = {{"_p_gsl_eigen_herm_workspace", 0, "gsl_eigen_herm_workspace *", 0},{"_p_gsl_eigen_herm_workspace"},{0}};
@@ -27631,13 +27431,13 @@ static swig_type_info _swigt__p_gsl_eigen_symm_workspace[] = {{"_p_gsl_eigen_sym
 static swig_type_info _swigt__p_gsl_fft_real_workspace[] = {{"_p_gsl_fft_real_workspace", 0, "gsl_fft_real_workspace *", 0},{"_p_gsl_fft_real_workspace"},{0}};
 static swig_type_info _swigt__p_gsl_fft_complex_workspace[] = {{"_p_gsl_fft_complex_workspace", 0, "gsl_fft_complex_workspace *", 0},{"_p_gsl_fft_complex_workspace"},{0}};
 static swig_type_info _swigt__p_gsl_permutation[] = {{"_p_gsl_permutation", 0, "gsl_permutation const *", 0},{"_p_gsl_permutation_struct"},{"_p_gsl_permutation"},{0}};
-static swig_type_info _swigt__p_gsl_combination_struct[] = {{"_p_gsl_combination_struct", 0, "gsl_combination_struct *", 0},{"_p_gsl_combination_struct"},{0}};
 static swig_type_info _swigt__p_gsl_permutation_struct[] = {{"_p_gsl_permutation_struct", 0, "gsl_permutation_struct *", 0},{"_p_gsl_permutation_struct"},{"_p_gsl_permutation"},{0}};
+static swig_type_info _swigt__p_gsl_combination_struct[] = {{"_p_gsl_combination_struct", 0, "gsl_combination_struct *", 0},{"_p_gsl_combination_struct"},{0}};
 static swig_type_info _swigt__p_unsigned_int[] = {{"_p_unsigned_int", 0, "unsigned int *", 0},{"_p_unsigned_int"},{0}};
+static swig_type_info _swigt__p_p_gsl_complex[] = {{"_p_p_gsl_complex", 0, "gsl_complex **", 0},{"_p_p_gsl_complex"},{0}};
 static swig_type_info _swigt__p_gsl_vector_complex[] = {{"_p_gsl_vector_complex", 0, "gsl_vector_complex *", 0},{"_p_gsl_vector_complex"},{0}};
 static swig_type_info _swigt__p_gsl_complex[] = {{"_p_gsl_complex", 0, "gsl_complex *", 0},{"_p_gsl_complex"},{0}};
 static swig_type_info _swigt__p_gsl_matrix_complex[] = {{"_p_gsl_matrix_complex", 0, "gsl_matrix_complex *", 0},{"_p_gsl_matrix_complex"},{0}};
-static swig_type_info _swigt__p_p_gsl_complex[] = {{"_p_p_gsl_complex", 0, "gsl_complex **", 0},{"_p_p_gsl_complex"},{0}};
 static swig_type_info _swigt__p_gsl_matrix[] = {{"_p_gsl_matrix", 0, "gsl_matrix *", 0},{"_p_gsl_matrix"},{0}};
 static swig_type_info _swigt__p_gsl_mode_t[] = {{"_p_gsl_mode_t", 0, "gsl_mode_t *", 0},{"_p_gsl_mode_t"},{0}};
 static swig_type_info _swigt__p_FILE[] = {{"_p_FILE", 0, "FILE *", 0},{"_p_FILE"},{0}};
@@ -27657,8 +27457,8 @@ _swigt__p_gsl_spline,
 _swigt__p_gsl_fft_real_wavetable, 
 _swigt__p_gsl_fft_complex_wavetable, 
 _swigt__p_gsl_interp_type, 
-_swigt__p_long_double, 
 _swigt__p_double, 
+_swigt__p_long_double, 
 _swigt__p_size_t, 
 _swigt__p_gsl_complex_packed_array, 
 _swigt__p_gsl_eigen_hermv_workspace, 
@@ -27668,13 +27468,13 @@ _swigt__p_gsl_eigen_symm_workspace,
 _swigt__p_gsl_fft_real_workspace, 
 _swigt__p_gsl_fft_complex_workspace, 
 _swigt__p_gsl_permutation, 
-_swigt__p_gsl_combination_struct, 
 _swigt__p_gsl_permutation_struct, 
+_swigt__p_gsl_combination_struct, 
 _swigt__p_unsigned_int, 
+_swigt__p_p_gsl_complex, 
 _swigt__p_gsl_vector_complex, 
 _swigt__p_gsl_complex, 
 _swigt__p_gsl_matrix_complex, 
-_swigt__p_p_gsl_complex, 
 _swigt__p_gsl_matrix, 
 _swigt__p_gsl_mode_t, 
 _swigt__p_FILE, 
@@ -27698,8 +27498,6 @@ static swig_const_info swig_const_table[] = {
 { SWIG_PY_INT,     (char *)"GSL_LINALG_MOD_NONE", (long) GSL_LINALG_MOD_NONE, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"GSL_LINALG_MOD_TRANSPOSE", (long) GSL_LINALG_MOD_TRANSPOSE, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"GSL_LINALG_MOD_CONJUGATE", (long) GSL_LINALG_MOD_CONJUGATE, 0, 0, 0},
-{ SWIG_PY_INT,     (char *)"forward", (long) forward, 0, 0, 0},
-{ SWIG_PY_INT,     (char *)"backward", (long) backward, 0, 0, 0},
 { SWIG_PY_FLOAT,   (char*)"M_E", 0, (double) 2.71828182845904523536028747135, 0, 0},
 { SWIG_PY_FLOAT,   (char*)"M_LOG2E", 0, (double) 1.44269504088896340735992468100, 0, 0},
 { SWIG_PY_FLOAT,   (char*)"M_LOG10E", 0, (double) 0.43429448190325182765112891892, 0, 0},
@@ -27719,6 +27517,8 @@ static swig_const_info swig_const_table[] = {
 { SWIG_PY_FLOAT,   (char*)"M_EULER", 0, (double) 0.57721566490153286060651209008, 0, 0},
 { SWIG_PY_INT,     (char *)"GSL_POSZERO", (long) (+0), 0, 0, 0},
 { SWIG_PY_INT,     (char *)"GSL_NEGZERO", (long) (-0), 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"forward", (long) forward, 0, 0, 0},
+{ SWIG_PY_INT,     (char *)"backward", (long) backward, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CblasRowMajor", (long) CblasRowMajor, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CblasColMajor", (long) CblasColMajor, 0, 0, 0},
 { SWIG_PY_INT,     (char *)"CblasNoTrans", (long) CblasNoTrans, 0, 0, 0},

@@ -1510,7 +1510,7 @@ static PyObject *_wrap_gsl_monte_plain_integrate(PyObject *self, PyObject *args,
     gsl_monte_plain_state *arg7 = (gsl_monte_plain_state *) 0 ;
     double *arg8 = (double *) 0 ;
     double *arg9 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp6 ;
     double temp7 ;
     PyObject * obj0 = 0 ;
@@ -1536,11 +1536,11 @@ static PyObject *_wrap_gsl_monte_plain_integrate(PyObject *self, PyObject *args,
     {
         int mysize = 0;
         if(!PySequence_Check(obj1)){
-            PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays!");
             goto fail;
         }
         if(PySequence_Fast_GET_SIZE(obj1) != 2){
-            PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays! Number of sequence arguments did not match!");
             goto fail;
         }
         _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
@@ -1594,9 +1594,18 @@ static PyObject *_wrap_gsl_monte_plain_integrate(PyObject *self, PyObject *args,
     {
         ;
     }
-    result = (int)gsl_monte_plain_integrate((gsl_monte_function const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    result = gsl_monte_plain_integrate((gsl_monte_function const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6,arg7,arg8,arg9);
     
-    resultobj = PyInt_FromLong((long)result);
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg8));
         resultobj = t_output_helper(resultobj,o);
@@ -1659,7 +1668,7 @@ static PyObject *_wrap_gsl_monte_plain_alloc(PyObject *self, PyObject *args, PyO
 static PyObject *_wrap_gsl_monte_plain_init(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_monte_plain_state *arg1 = (gsl_monte_plain_state *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     PyObject * obj0 = 0 ;
     char *kwnames[] = {
         "state", NULL 
@@ -1667,9 +1676,18 @@ static PyObject *_wrap_gsl_monte_plain_init(PyObject *self, PyObject *args, PyOb
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_plain_init",kwnames,&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_plain_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_monte_plain_init(arg1);
+    result = gsl_monte_plain_init(arg1);
     
-    resultobj = PyInt_FromLong((long)result);
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
     return resultobj;
     fail:
     return NULL;
@@ -1916,7 +1934,7 @@ static PyObject *_wrap_gsl_monte_miser_integrate(PyObject *self, PyObject *args,
     gsl_monte_miser_state *arg7 = (gsl_monte_miser_state *) 0 ;
     double *arg8 = (double *) 0 ;
     double *arg9 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp6 ;
     double temp7 ;
     PyObject * obj0 = 0 ;
@@ -1942,11 +1960,11 @@ static PyObject *_wrap_gsl_monte_miser_integrate(PyObject *self, PyObject *args,
     {
         int mysize = 0;
         if(!PySequence_Check(obj1)){
-            PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays!");
             goto fail;
         }
         if(PySequence_Fast_GET_SIZE(obj1) != 2){
-            PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays! Number of sequence arguments did not match!");
             goto fail;
         }
         _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
@@ -2000,9 +2018,18 @@ static PyObject *_wrap_gsl_monte_miser_integrate(PyObject *self, PyObject *args,
     {
         ;
     }
-    result = (int)gsl_monte_miser_integrate(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    result = gsl_monte_miser_integrate(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
     
-    resultobj = PyInt_FromLong((long)result);
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg8));
         resultobj = t_output_helper(resultobj,o);
@@ -2065,7 +2092,7 @@ static PyObject *_wrap_gsl_monte_miser_alloc(PyObject *self, PyObject *args, PyO
 static PyObject *_wrap_gsl_monte_miser_init(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_monte_miser_state *arg1 = (gsl_monte_miser_state *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     PyObject * obj0 = 0 ;
     char *kwnames[] = {
         "state", NULL 
@@ -2073,9 +2100,18 @@ static PyObject *_wrap_gsl_monte_miser_init(PyObject *self, PyObject *args, PyOb
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_miser_init",kwnames,&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_miser_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_monte_miser_init(arg1);
+    result = gsl_monte_miser_init(arg1);
     
-    resultobj = PyInt_FromLong((long)result);
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
     return resultobj;
     fail:
     return NULL;
@@ -2497,7 +2533,7 @@ static PyObject *_wrap_gsl_monte_vegas_integrate(PyObject *self, PyObject *args,
     gsl_monte_vegas_state *arg7 = (gsl_monte_vegas_state *) 0 ;
     double *arg8 = (double *) 0 ;
     double *arg9 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp6 ;
     double temp7 ;
     PyObject * obj0 = 0 ;
@@ -2523,11 +2559,11 @@ static PyObject *_wrap_gsl_monte_vegas_integrate(PyObject *self, PyObject *args,
     {
         int mysize = 0;
         if(!PySequence_Check(obj1)){
-            PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays!");
             goto fail;
         }
         if(PySequence_Fast_GET_SIZE(obj1) != 2){
-            PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
+            PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays! Number of sequence arguments did not match!");
             goto fail;
         }
         _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
@@ -2581,9 +2617,18 @@ static PyObject *_wrap_gsl_monte_vegas_integrate(PyObject *self, PyObject *args,
     {
         ;
     }
-    result = (int)gsl_monte_vegas_integrate(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    result = gsl_monte_vegas_integrate(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
     
-    resultobj = PyInt_FromLong((long)result);
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg8));
         resultobj = t_output_helper(resultobj,o);
@@ -2646,7 +2691,7 @@ static PyObject *_wrap_gsl_monte_vegas_alloc(PyObject *self, PyObject *args, PyO
 static PyObject *_wrap_gsl_monte_vegas_init(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_monte_vegas_state *arg1 = (gsl_monte_vegas_state *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     PyObject * obj0 = 0 ;
     char *kwnames[] = {
         "state", NULL 
@@ -2654,9 +2699,18 @@ static PyObject *_wrap_gsl_monte_vegas_init(PyObject *self, PyObject *args, PyOb
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_monte_vegas_init",kwnames,&obj0)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_monte_vegas_state,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
-    result = (int)gsl_monte_vegas_init(arg1);
+    result = gsl_monte_vegas_init(arg1);
     
-    resultobj = PyInt_FromLong((long)result);
+    {
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+            PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+            __FUNCTION__, 70); 
+            goto fail;
+        }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
+    }
     return resultobj;
     fail:
     return NULL;
@@ -9053,7 +9107,7 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
     gsl_matrix *arg4 = (gsl_matrix *) 0 ;
     double *arg5 = (double *) 0 ;
     gsl_multifit_linear_workspace *arg6 = (gsl_multifit_linear_workspace *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp5 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -9185,15 +9239,17 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
         
         arg4 = (gsl_matrix *) &(_matrix4.matrix);
     }
-    result = (int)gsl_multifit_linear((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,arg4,arg5,arg6);
+    result = gsl_multifit_linear((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,arg4,arg5,arg6);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 47);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     {
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector3);
@@ -9262,7 +9318,7 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
     gsl_matrix *arg5 = (gsl_matrix *) 0 ;
     double *arg6 = (double *) 0 ;
     gsl_multifit_linear_workspace *arg7 = (gsl_multifit_linear_workspace *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp6 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -9423,15 +9479,17 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
         
         arg5 = (gsl_matrix *) &(_matrix5.matrix);
     }
-    result = (int)gsl_multifit_wlinear((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4,arg5,arg6,arg7);
+    result = gsl_multifit_wlinear((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4,arg5,arg6,arg7);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 47);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     {
         resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector4);
@@ -9514,7 +9572,7 @@ static PyObject *_wrap_gsl_fit_linear(PyObject *self, PyObject *args, PyObject *
     double *arg9 = (double *) 0 ;
     double *arg10 = (double *) 0 ;
     double *arg11 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp4 ;
     double temp5 ;
     double temp6 ;
@@ -9574,15 +9632,17 @@ static PyObject *_wrap_gsl_fit_linear(PyObject *self, PyObject *args, PyObject *
     {
         arg5 = _PyVectorLengthx;
     }
-    result = (int)gsl_fit_linear((double const *)arg1,arg2,(double const *)arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
+    result = gsl_fit_linear((double const *)arg1,arg2,(double const *)arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 47);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -9635,7 +9695,7 @@ static PyObject *_wrap_gsl_fit_wlinear(PyObject *self, PyObject *args, PyObject 
     double *arg11 = (double *) 0 ;
     double *arg12 = (double *) 0 ;
     double *arg13 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp5 ;
     double temp6 ;
     double temp7 ;
@@ -9713,15 +9773,17 @@ static PyObject *_wrap_gsl_fit_wlinear(PyObject *self, PyObject *args, PyObject 
     {
         arg7 = _PyVectorLengthx;
     }
-    result = (int)gsl_fit_wlinear((double const *)arg1,arg2,(double const *)arg3,arg4,(double const *)arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13);
+    result = gsl_fit_wlinear((double const *)arg1,arg2,(double const *)arg3,arg4,(double const *)arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 47);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -9772,7 +9834,7 @@ static PyObject *_wrap_gsl_fit_linear_est(PyObject *self, PyObject *args, PyObje
     double arg6 ;
     double *arg7 = (double *) 0 ;
     double *arg8 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp7 ;
     double temp8 ;
     char *kwnames[] = {
@@ -9782,15 +9844,17 @@ static PyObject *_wrap_gsl_fit_linear_est(PyObject *self, PyObject *args, PyObje
     arg7 = &temp7;
     arg8 = &temp8;
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"dddddd:gsl_fit_linear_est",kwnames,&arg1,&arg2,&arg3,&arg4,&arg5,&arg6)) goto fail;
-    result = (int)gsl_fit_linear_est(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
+    result = gsl_fit_linear_est(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 47);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg7));
@@ -9816,7 +9880,7 @@ static PyObject *_wrap_gsl_fit_mul(PyObject *self, PyObject *args, PyObject *kwa
     double *arg6 = (double *) 0 ;
     double *arg7 = (double *) 0 ;
     double *arg8 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp4 ;
     double temp5 ;
     double temp6 ;
@@ -9870,15 +9934,17 @@ static PyObject *_wrap_gsl_fit_mul(PyObject *self, PyObject *args, PyObject *kwa
     {
         arg5 = _PyVectorLengthx;
     }
-    result = (int)gsl_fit_mul((double const *)arg1,arg2,(double const *)arg3,arg4,arg5,arg6,arg7,arg8);
+    result = gsl_fit_mul((double const *)arg1,arg2,(double const *)arg3,arg4,arg5,arg6,arg7,arg8);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 47);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -9916,7 +9982,7 @@ static PyObject *_wrap_gsl_fit_wmul(PyObject *self, PyObject *args, PyObject *kw
     double *arg8 = (double *) 0 ;
     double *arg9 = (double *) 0 ;
     double *arg10 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp5 ;
     double temp6 ;
     double temp7 ;
@@ -9988,15 +10054,17 @@ static PyObject *_wrap_gsl_fit_wmul(PyObject *self, PyObject *args, PyObject *kw
     {
         arg7 = _PyVectorLengthx;
     }
-    result = (int)gsl_fit_wmul((double const *)arg1,arg2,(double const *)arg3,arg4,(double const *)arg5,arg6,arg7,arg8,arg9,arg10);
+    result = gsl_fit_wmul((double const *)arg1,arg2,(double const *)arg3,arg4,(double const *)arg5,arg6,arg7,arg8,arg9,arg10);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 47);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     {
         Py_XDECREF(_PyVector1);
@@ -10032,7 +10100,7 @@ static PyObject *_wrap_gsl_fit_mul_est(PyObject *self, PyObject *args, PyObject 
     double arg3 ;
     double *arg4 = (double *) 0 ;
     double *arg5 = (double *) 0 ;
-    int result;
+    gsl_error_flag_drop result;
     double temp4 ;
     double temp5 ;
     char *kwnames[] = {
@@ -10042,15 +10110,17 @@ static PyObject *_wrap_gsl_fit_mul_est(PyObject *self, PyObject *args, PyObject 
     arg4 = &temp4;
     arg5 = &temp5;
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"ddd:gsl_fit_mul_est",kwnames,&arg1,&arg2,&arg3)) goto fail;
-    result = (int)gsl_fit_mul_est(arg1,arg2,arg3,arg4,arg5);
+    result = gsl_fit_mul_est(arg1,arg2,arg3,arg4,arg5);
     
     {
-        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-        if (resultobj == NULL){
+        assert(result >= 0);
+        if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 47);
+            __FUNCTION__, 70); 
             goto fail;
         }
+        Py_INCREF(Py_None);
+        resultobj = Py_None;
     }
     {
         PyObject *o = PyFloat_FromDouble((double) (*arg4));

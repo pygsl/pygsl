@@ -314,6 +314,7 @@ setup (name = "pygsl",
                      'pygsl.spline',
                      'pygsl.testing.__init__',
                      'pygsl.vector',
+                     'pygsl.math'
                      ],
        ext_package = 'pygsl',
        ext_modules = exts,

@@ -2,21 +2,6 @@
 GSL Capabilites not yet wrapped by PyGSL
 ========================================
 
-Monte Carlo Integration
-------------------------
-For the callback wrapping the [A_p O   ->  d]  wrapper can be used. See
-typemaps/gsl_functions_reference.txt and typemaps/gsl_function_helpers.ic. The
-monte carlo integration makes heavy use of the random generator. Here the
-wrapper should use a Rng (to be) provided handshake to use the C Code directly
-if a GSL random generator is used. Otherwise it should try to evaluate the
-object to get the random number.
-       
-
-
-Combination
------------
-
-
 Sorting
 -------
 
@@ -27,10 +12,13 @@ Fourier Transforms.
 
 Series Acceleration
 -------------------
-
+SWIG wrapped, but do you know what it is supposed to do? If so write a test
+and an example!
 
 Discrete Hankel Transforms
 --------------------------
+SWIG wrapped, but do you know what it is supposed to do? If so write a test
+and an example!
 
 
 N-tuples
@@ -41,27 +29,12 @@ them, assistance will be provided if required.
 GSL Capabilites partly implemented
 ==================================
 
-SIMAN
------
-The current implementation does not implement the full feature set of gsl.
 
 
 PyGSL related Capabilites
 =========================
 
-Error handling
---------------
-Currently all internal error handling is performed using the GSL_ERROR which
-is translated to a pygsl.error object. The GSL Library, however, forsees to
-pass the type of the error. This type shall be translated to an approbriate
-exception derived from the gsl_Error, e.g. GSL_EZERODIV to gsl_ZeroDivison.
-	  Done: 5. October 2003.
 
-An additional error handler is forseen which will report errors  raised from
-PyGSL wrapper spotting errors typical for the conversion between Python and C
-objects. These errors will just be additional pygsl exceptions for the user of
-pygsl. A seperate handler will be written to avoid interference with the GSL
-error handling.
           
 Blas Memory handling
 --------------------
@@ -81,7 +54,3 @@ many functions, which is to be used as  return argument. This avoids the need
 to delete and reallocate objects. 
 
 
-Build structure
-===============
-wxPython is based on swig and only needs setup.py to build it. One could
-follow this example here and replace the makefile.

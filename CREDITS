@@ -8,12 +8,12 @@ Parts:
 
 rng:
 ----
-Achim, c Module, python classes
+Achim, Pierre, c Module
 Test
 
-rn distributions:
+rng distributions:
 -----------------
-Achim, c Module
+Achim, Pierre, c Module
 
 histogram:
 ----------
@@ -40,7 +40,7 @@ Achim, c Module,
 
 error:
 ------
-Achim, python Module, python exceptions
+Achim, Pierre, python Module, python exceptions
 
 polynomials:
 ------------
@@ -59,7 +59,7 @@ Test
 
 numerical integration:
 ---------------------
-Pierre
+Pierre c Module swig, python class
 Test
 
 statistics:
@@ -73,7 +73,7 @@ Achim, c Module, c Type
 
 siman:
 ------
-Jochen, c Module
+Jochen, Pierre, c Module
 
 multimin:
 ---------
@@ -91,7 +91,7 @@ Test
 
 numerical differntiation:
 -------------------------
-Jochen
+Jochen, Pierre, c Module
 
 Chebyshev Approximations:
 -------------------------
@@ -130,9 +130,9 @@ complex:
 --------
 -> Numeric
 
-combination, sorting:
+sorting:
 ---------------------
-not done, See TODO
+See TODO
 
 vectors:
 --------

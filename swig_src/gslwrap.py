@@ -172,172 +172,6 @@ gsl_linalg_bidiag_unpack_B = _gslwrap.gsl_linalg_bidiag_unpack_B
 
 gsl_linalg_balance_columns = _gslwrap.gsl_linalg_balance_columns
 
-forward = _gslwrap.forward
-backward = _gslwrap.backward
-gsl_fft_complex_radix2_forward = _gslwrap.gsl_fft_complex_radix2_forward
-
-gsl_fft_complex_radix2_backward = _gslwrap.gsl_fft_complex_radix2_backward
-
-gsl_fft_complex_radix2_inverse = _gslwrap.gsl_fft_complex_radix2_inverse
-
-gsl_fft_complex_radix2_transform = _gslwrap.gsl_fft_complex_radix2_transform
-
-gsl_fft_complex_radix2_dif_forward = _gslwrap.gsl_fft_complex_radix2_dif_forward
-
-gsl_fft_complex_radix2_dif_backward = _gslwrap.gsl_fft_complex_radix2_dif_backward
-
-gsl_fft_complex_radix2_dif_inverse = _gslwrap.gsl_fft_complex_radix2_dif_inverse
-
-gsl_fft_complex_radix2_dif_transform = _gslwrap.gsl_fft_complex_radix2_dif_transform
-
-class gsl_fft_complex_wavetable(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_complex_wavetable, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_complex_wavetable, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_fft_complex_wavetable, 'this', apply(_gslwrap.new_gsl_fft_complex_wavetable,args, kwargs))
-        _swig_setattr(self, gsl_fft_complex_wavetable, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_fft_complex_wavetable):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["n"] = _gslwrap.gsl_fft_complex_wavetable_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_complex_wavetable_n_get)
-    __swig_getmethods__["nf"] = _gslwrap.gsl_fft_complex_wavetable_nf_get
-    if _newclass:nf = property(_gslwrap.gsl_fft_complex_wavetable_nf_get)
-    __swig_getmethods__["factor"] = _gslwrap.gsl_fft_complex_wavetable_factor_get
-    if _newclass:factor = property(_gslwrap.gsl_fft_complex_wavetable_factor_get)
-    __swig_getmethods__["twiddle"] = _gslwrap.gsl_fft_complex_wavetable_twiddle_get
-    if _newclass:twiddle = property(_gslwrap.gsl_fft_complex_wavetable_twiddle_get)
-    __swig_getmethods__["trig"] = _gslwrap.gsl_fft_complex_wavetable_trig_get
-    if _newclass:trig = property(_gslwrap.gsl_fft_complex_wavetable_trig_get)
-    def __repr__(self):
-        return "<C gsl_fft_complex_wavetable instance at %s>" % (self.this,)
-
-class gsl_fft_complex_wavetablePtr(gsl_fft_complex_wavetable):
-    def __init__(self,this):
-        _swig_setattr(self, gsl_fft_complex_wavetable, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_complex_wavetable, 'thisown', 0)
-        _swig_setattr(self, gsl_fft_complex_wavetable,self.__class__,gsl_fft_complex_wavetable)
-_gslwrap.gsl_fft_complex_wavetable_swigregister(gsl_fft_complex_wavetablePtr)
-
-class gsl_fft_complex_workspace(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_complex_workspace, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_complex_workspace, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_fft_complex_workspace, 'this', apply(_gslwrap.new_gsl_fft_complex_workspace,args, kwargs))
-        _swig_setattr(self, gsl_fft_complex_workspace, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_fft_complex_workspace):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["n"] = _gslwrap.gsl_fft_complex_workspace_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_complex_workspace_n_get)
-    __swig_getmethods__["scratch"] = _gslwrap.gsl_fft_complex_workspace_scratch_get
-    if _newclass:scratch = property(_gslwrap.gsl_fft_complex_workspace_scratch_get)
-    def __repr__(self):
-        return "<C gsl_fft_complex_workspace instance at %s>" % (self.this,)
-
-class gsl_fft_complex_workspacePtr(gsl_fft_complex_workspace):
-    def __init__(self,this):
-        _swig_setattr(self, gsl_fft_complex_workspace, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_complex_workspace, 'thisown', 0)
-        _swig_setattr(self, gsl_fft_complex_workspace,self.__class__,gsl_fft_complex_workspace)
-_gslwrap.gsl_fft_complex_workspace_swigregister(gsl_fft_complex_workspacePtr)
-
-gsl_fft_complex_wavetable_alloc = _gslwrap.gsl_fft_complex_wavetable_alloc
-
-gsl_fft_complex_wavetable_free = _gslwrap.gsl_fft_complex_wavetable_free
-
-gsl_fft_complex_workspace_alloc = _gslwrap.gsl_fft_complex_workspace_alloc
-
-gsl_fft_complex_workspace_free = _gslwrap.gsl_fft_complex_workspace_free
-
-gsl_fft_complex_memcpy = _gslwrap.gsl_fft_complex_memcpy
-
-gsl_fft_complex_forward = _gslwrap.gsl_fft_complex_forward
-
-gsl_fft_complex_backward = _gslwrap.gsl_fft_complex_backward
-
-gsl_fft_complex_inverse = _gslwrap.gsl_fft_complex_inverse
-
-gsl_fft_complex_transform = _gslwrap.gsl_fft_complex_transform
-
-gsl_fft_real_radix2_transform = _gslwrap.gsl_fft_real_radix2_transform
-
-class gsl_fft_real_wavetable(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_real_wavetable, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_real_wavetable, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_fft_real_wavetable, 'this', apply(_gslwrap.new_gsl_fft_real_wavetable,args, kwargs))
-        _swig_setattr(self, gsl_fft_real_wavetable, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_fft_real_wavetable):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["n"] = _gslwrap.gsl_fft_real_wavetable_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_real_wavetable_n_get)
-    __swig_getmethods__["nf"] = _gslwrap.gsl_fft_real_wavetable_nf_get
-    if _newclass:nf = property(_gslwrap.gsl_fft_real_wavetable_nf_get)
-    __swig_getmethods__["factor"] = _gslwrap.gsl_fft_real_wavetable_factor_get
-    if _newclass:factor = property(_gslwrap.gsl_fft_real_wavetable_factor_get)
-    __swig_getmethods__["twiddle"] = _gslwrap.gsl_fft_real_wavetable_twiddle_get
-    if _newclass:twiddle = property(_gslwrap.gsl_fft_real_wavetable_twiddle_get)
-    __swig_getmethods__["trig"] = _gslwrap.gsl_fft_real_wavetable_trig_get
-    if _newclass:trig = property(_gslwrap.gsl_fft_real_wavetable_trig_get)
-    def __repr__(self):
-        return "<C gsl_fft_real_wavetable instance at %s>" % (self.this,)
-
-class gsl_fft_real_wavetablePtr(gsl_fft_real_wavetable):
-    def __init__(self,this):
-        _swig_setattr(self, gsl_fft_real_wavetable, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_real_wavetable, 'thisown', 0)
-        _swig_setattr(self, gsl_fft_real_wavetable,self.__class__,gsl_fft_real_wavetable)
-_gslwrap.gsl_fft_real_wavetable_swigregister(gsl_fft_real_wavetablePtr)
-
-class gsl_fft_real_workspace(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_real_workspace, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_real_workspace, name)
-    def __init__(self,*args,**kwargs):
-        _swig_setattr(self, gsl_fft_real_workspace, 'this', apply(_gslwrap.new_gsl_fft_real_workspace,args, kwargs))
-        _swig_setattr(self, gsl_fft_real_workspace, 'thisown', 1)
-    def __del__(self, destroy= _gslwrap.delete_gsl_fft_real_workspace):
-        try:
-            if self.thisown: destroy(self)
-        except: pass
-    __swig_getmethods__["n"] = _gslwrap.gsl_fft_real_workspace_n_get
-    if _newclass:n = property(_gslwrap.gsl_fft_real_workspace_n_get)
-    __swig_getmethods__["scratch"] = _gslwrap.gsl_fft_real_workspace_scratch_get
-    if _newclass:scratch = property(_gslwrap.gsl_fft_real_workspace_scratch_get)
-    def __repr__(self):
-        return "<C gsl_fft_real_workspace instance at %s>" % (self.this,)
-
-class gsl_fft_real_workspacePtr(gsl_fft_real_workspace):
-    def __init__(self,this):
-        _swig_setattr(self, gsl_fft_real_workspace, 'this', this)
-        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_real_workspace, 'thisown', 0)
-        _swig_setattr(self, gsl_fft_real_workspace,self.__class__,gsl_fft_real_workspace)
-_gslwrap.gsl_fft_real_workspace_swigregister(gsl_fft_real_workspacePtr)
-
-gsl_fft_real_wavetable_alloc = _gslwrap.gsl_fft_real_wavetable_alloc
-
-gsl_fft_real_wavetable_free = _gslwrap.gsl_fft_real_wavetable_free
-
-gsl_fft_real_workspace_alloc = _gslwrap.gsl_fft_real_workspace_alloc
-
-gsl_fft_real_workspace_free = _gslwrap.gsl_fft_real_workspace_free
-
-gsl_fft_real_transform = _gslwrap.gsl_fft_real_transform
-
-gsl_fft_real_unpack = _gslwrap.gsl_fft_real_unpack
-
 class Permutation(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Permutation, name, value)
@@ -521,6 +355,172 @@ gsl_ldexp = _gslwrap.gsl_ldexp
 gsl_frexp = _gslwrap.gsl_frexp
 
 gsl_fcmp = _gslwrap.gsl_fcmp
+
+forward = _gslwrap.forward
+backward = _gslwrap.backward
+gsl_fft_complex_radix2_forward = _gslwrap.gsl_fft_complex_radix2_forward
+
+gsl_fft_complex_radix2_backward = _gslwrap.gsl_fft_complex_radix2_backward
+
+gsl_fft_complex_radix2_inverse = _gslwrap.gsl_fft_complex_radix2_inverse
+
+gsl_fft_complex_radix2_transform = _gslwrap.gsl_fft_complex_radix2_transform
+
+gsl_fft_complex_radix2_dif_forward = _gslwrap.gsl_fft_complex_radix2_dif_forward
+
+gsl_fft_complex_radix2_dif_backward = _gslwrap.gsl_fft_complex_radix2_dif_backward
+
+gsl_fft_complex_radix2_dif_inverse = _gslwrap.gsl_fft_complex_radix2_dif_inverse
+
+gsl_fft_complex_radix2_dif_transform = _gslwrap.gsl_fft_complex_radix2_dif_transform
+
+class gsl_fft_complex_wavetable(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_complex_wavetable, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_complex_wavetable, name)
+    def __init__(self,*args,**kwargs):
+        _swig_setattr(self, gsl_fft_complex_wavetable, 'this', apply(_gslwrap.new_gsl_fft_complex_wavetable,args, kwargs))
+        _swig_setattr(self, gsl_fft_complex_wavetable, 'thisown', 1)
+    def __del__(self, destroy= _gslwrap.delete_gsl_fft_complex_wavetable):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    __swig_getmethods__["n"] = _gslwrap.gsl_fft_complex_wavetable_n_get
+    if _newclass:n = property(_gslwrap.gsl_fft_complex_wavetable_n_get)
+    __swig_getmethods__["nf"] = _gslwrap.gsl_fft_complex_wavetable_nf_get
+    if _newclass:nf = property(_gslwrap.gsl_fft_complex_wavetable_nf_get)
+    __swig_getmethods__["factor"] = _gslwrap.gsl_fft_complex_wavetable_factor_get
+    if _newclass:factor = property(_gslwrap.gsl_fft_complex_wavetable_factor_get)
+    __swig_getmethods__["twiddle"] = _gslwrap.gsl_fft_complex_wavetable_twiddle_get
+    if _newclass:twiddle = property(_gslwrap.gsl_fft_complex_wavetable_twiddle_get)
+    __swig_getmethods__["trig"] = _gslwrap.gsl_fft_complex_wavetable_trig_get
+    if _newclass:trig = property(_gslwrap.gsl_fft_complex_wavetable_trig_get)
+    def __repr__(self):
+        return "<C gsl_fft_complex_wavetable instance at %s>" % (self.this,)
+
+class gsl_fft_complex_wavetablePtr(gsl_fft_complex_wavetable):
+    def __init__(self,this):
+        _swig_setattr(self, gsl_fft_complex_wavetable, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_complex_wavetable, 'thisown', 0)
+        _swig_setattr(self, gsl_fft_complex_wavetable,self.__class__,gsl_fft_complex_wavetable)
+_gslwrap.gsl_fft_complex_wavetable_swigregister(gsl_fft_complex_wavetablePtr)
+
+class gsl_fft_complex_workspace(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_complex_workspace, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_complex_workspace, name)
+    def __init__(self,*args,**kwargs):
+        _swig_setattr(self, gsl_fft_complex_workspace, 'this', apply(_gslwrap.new_gsl_fft_complex_workspace,args, kwargs))
+        _swig_setattr(self, gsl_fft_complex_workspace, 'thisown', 1)
+    def __del__(self, destroy= _gslwrap.delete_gsl_fft_complex_workspace):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    __swig_getmethods__["n"] = _gslwrap.gsl_fft_complex_workspace_n_get
+    if _newclass:n = property(_gslwrap.gsl_fft_complex_workspace_n_get)
+    __swig_getmethods__["scratch"] = _gslwrap.gsl_fft_complex_workspace_scratch_get
+    if _newclass:scratch = property(_gslwrap.gsl_fft_complex_workspace_scratch_get)
+    def __repr__(self):
+        return "<C gsl_fft_complex_workspace instance at %s>" % (self.this,)
+
+class gsl_fft_complex_workspacePtr(gsl_fft_complex_workspace):
+    def __init__(self,this):
+        _swig_setattr(self, gsl_fft_complex_workspace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_complex_workspace, 'thisown', 0)
+        _swig_setattr(self, gsl_fft_complex_workspace,self.__class__,gsl_fft_complex_workspace)
+_gslwrap.gsl_fft_complex_workspace_swigregister(gsl_fft_complex_workspacePtr)
+
+gsl_fft_complex_wavetable_alloc = _gslwrap.gsl_fft_complex_wavetable_alloc
+
+gsl_fft_complex_wavetable_free = _gslwrap.gsl_fft_complex_wavetable_free
+
+gsl_fft_complex_workspace_alloc = _gslwrap.gsl_fft_complex_workspace_alloc
+
+gsl_fft_complex_workspace_free = _gslwrap.gsl_fft_complex_workspace_free
+
+gsl_fft_complex_memcpy = _gslwrap.gsl_fft_complex_memcpy
+
+gsl_fft_complex_forward = _gslwrap.gsl_fft_complex_forward
+
+gsl_fft_complex_backward = _gslwrap.gsl_fft_complex_backward
+
+gsl_fft_complex_inverse = _gslwrap.gsl_fft_complex_inverse
+
+gsl_fft_complex_transform = _gslwrap.gsl_fft_complex_transform
+
+gsl_fft_real_radix2_transform = _gslwrap.gsl_fft_real_radix2_transform
+
+class gsl_fft_real_wavetable(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_real_wavetable, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_real_wavetable, name)
+    def __init__(self,*args,**kwargs):
+        _swig_setattr(self, gsl_fft_real_wavetable, 'this', apply(_gslwrap.new_gsl_fft_real_wavetable,args, kwargs))
+        _swig_setattr(self, gsl_fft_real_wavetable, 'thisown', 1)
+    def __del__(self, destroy= _gslwrap.delete_gsl_fft_real_wavetable):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    __swig_getmethods__["n"] = _gslwrap.gsl_fft_real_wavetable_n_get
+    if _newclass:n = property(_gslwrap.gsl_fft_real_wavetable_n_get)
+    __swig_getmethods__["nf"] = _gslwrap.gsl_fft_real_wavetable_nf_get
+    if _newclass:nf = property(_gslwrap.gsl_fft_real_wavetable_nf_get)
+    __swig_getmethods__["factor"] = _gslwrap.gsl_fft_real_wavetable_factor_get
+    if _newclass:factor = property(_gslwrap.gsl_fft_real_wavetable_factor_get)
+    __swig_getmethods__["twiddle"] = _gslwrap.gsl_fft_real_wavetable_twiddle_get
+    if _newclass:twiddle = property(_gslwrap.gsl_fft_real_wavetable_twiddle_get)
+    __swig_getmethods__["trig"] = _gslwrap.gsl_fft_real_wavetable_trig_get
+    if _newclass:trig = property(_gslwrap.gsl_fft_real_wavetable_trig_get)
+    def __repr__(self):
+        return "<C gsl_fft_real_wavetable instance at %s>" % (self.this,)
+
+class gsl_fft_real_wavetablePtr(gsl_fft_real_wavetable):
+    def __init__(self,this):
+        _swig_setattr(self, gsl_fft_real_wavetable, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_real_wavetable, 'thisown', 0)
+        _swig_setattr(self, gsl_fft_real_wavetable,self.__class__,gsl_fft_real_wavetable)
+_gslwrap.gsl_fft_real_wavetable_swigregister(gsl_fft_real_wavetablePtr)
+
+class gsl_fft_real_workspace(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_fft_real_workspace, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, gsl_fft_real_workspace, name)
+    def __init__(self,*args,**kwargs):
+        _swig_setattr(self, gsl_fft_real_workspace, 'this', apply(_gslwrap.new_gsl_fft_real_workspace,args, kwargs))
+        _swig_setattr(self, gsl_fft_real_workspace, 'thisown', 1)
+    def __del__(self, destroy= _gslwrap.delete_gsl_fft_real_workspace):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    __swig_getmethods__["n"] = _gslwrap.gsl_fft_real_workspace_n_get
+    if _newclass:n = property(_gslwrap.gsl_fft_real_workspace_n_get)
+    __swig_getmethods__["scratch"] = _gslwrap.gsl_fft_real_workspace_scratch_get
+    if _newclass:scratch = property(_gslwrap.gsl_fft_real_workspace_scratch_get)
+    def __repr__(self):
+        return "<C gsl_fft_real_workspace instance at %s>" % (self.this,)
+
+class gsl_fft_real_workspacePtr(gsl_fft_real_workspace):
+    def __init__(self,this):
+        _swig_setattr(self, gsl_fft_real_workspace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_fft_real_workspace, 'thisown', 0)
+        _swig_setattr(self, gsl_fft_real_workspace,self.__class__,gsl_fft_real_workspace)
+_gslwrap.gsl_fft_real_workspace_swigregister(gsl_fft_real_workspacePtr)
+
+gsl_fft_real_wavetable_alloc = _gslwrap.gsl_fft_real_wavetable_alloc
+
+gsl_fft_real_wavetable_free = _gslwrap.gsl_fft_real_wavetable_free
+
+gsl_fft_real_workspace_alloc = _gslwrap.gsl_fft_real_workspace_alloc
+
+gsl_fft_real_workspace_free = _gslwrap.gsl_fft_real_workspace_free
+
+gsl_fft_real_transform = _gslwrap.gsl_fft_real_transform
+
+gsl_fft_real_unpack = _gslwrap.gsl_fft_real_unpack
 
 CblasRowMajor = _gslwrap.CblasRowMajor
 CblasColMajor = _gslwrap.CblasColMajor

@@ -18,6 +18,7 @@
          -- integrate
          -- interpolation
          -- linalg
+         -- math
          -- minimize
          -- multifit
          -- multifit_nlin
@@ -54,11 +55,13 @@ run_gsl_version = pygsl.init.run_gsl_version
 compile_date = pygsl.init.compile_date
 
 version="0.1.x"
-__all__=['sf','const','ieee','rng','errors','histogram',
-         'statistics','matrix']
+__all__=['blas', 'chebyshev', 'combination', 'const', 'diff', 'eigen', 'fit',
+         'ieee', 'integrate', 'interpolation','linalg', 'math', 'minimize',
+         'multifit', 'multifit_nlin', 'multimin', 'multiroots', 'odeiv',
+         'permutation', 'poly', 'qrng', 'rng', 'roots', 'siman', 'sf',
+         'spline', 'statistics']
 
 if compiled_gsl_version != run_gsl_version:
-    # Make warning out of it
     txt = """WARNING: This pygsl module was compiled for GSL version %s but it
 is used with version %s!"""
 
@@ -67,33 +70,12 @@ is used with version %s!"""
 
 def import_all():
     """
-    PyGSL does not import all modules on statup. If you like that
+    PyGSL does not import all modules on statup. If you need it
     e.g for autocompletion call this function!
     """
-    import pygsl.blas
-    import pygsl.chebyshev
-    import pygsl.combination
-    import pygsl.const
-    import pygsl.diff
-    import pygsl.eigen
-    import pygsl.fit
-    import pygsl.ieee
-    import pygsl.integrate
-    import pygsl.interpolation
-    import pygsl.linalg
-    import pygsl.minimize
-    import pygsl.multifit
-    import pygsl.multifit_nlin
-    import pygsl.multimin
-    import pygsl.multiroots
-    import pygsl.odeiv
-    import pygsl.permutation
-    import pygsl.poly
-    import pygsl.qrng
-    import pygsl.rng
-    import pygsl.roots
-    import pygsl.siman
-    import pygsl.sf
-    import pygsl.statistics
-    
-    
+    for i in __all__:
+        name = "pygsl." + i
+        try:
+            __import__(name, globals(), locals(), [])
+        except ImportError:
+            print "Import of %s failed!" % (name,)

@@ -15,10 +15,16 @@ recursive-include Include *.h
 recursive-include Lib *.c
 recursive-include testing *.c
 recursive-include testing *.h
-include utils/util.h
+recursive-include testing *.py
 include gsl_Extension.py
+include swig_extension.py
+include gsl_site_example.py
+include common_objects.py
 include test.py
 include README
+include CREDITS
+include TODO
+include Changelog
 include Makefile
 include setup.py
 include MANIFEST.in

@@ -28,7 +28,7 @@ odeiv = gsl_Extension("odeiv",
                       
                       )
 exts.append(odeiv)    
-min = gsl_Extension("min",
+min = gsl_Extension("multimin",
                       ['testing/src/multiminmodule.c'],
                       gsl_min_version=(1,),
                       python_min_version=(2,0),

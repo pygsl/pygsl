@@ -7,8 +7,8 @@ from pygsl.blas import *
 from pygsl import  _gslwrap
 
 import pygsl.blas
-print pygsl.blas
-print pygsl.blas._gslwrap
+#print pygsl.blas
+#print pygsl.blas._gslwrap
 
 class BlasTestCase(GSLTestCase):
     def testDdot(self):
