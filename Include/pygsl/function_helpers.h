@@ -25,6 +25,7 @@
 #include <gsl/gsl_multifit_nlin.h>
 #include <gsl/gsl_monte.h>
 #include <pygsl/utils.h>
+#include <pygsl/error_helpers.h>
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/function_helpers.h>
@@ -42,7 +43,16 @@
                   set to zero when the struct is generated. I hope this 
 		  will stop the wrapper trying to jump to NIRVANA.
    ------------------------------------------------------------------------- */
-
+/* 
+ *  11 December 2003
+ *  I return the flag that GSL returned using the flag argument to longjmp.
+ *  This flag must be different from zero to be useful. GSL uses 
+ *  0 (== GSL_SUCCESS) to indicate it. I check for that here to see if it is 
+ *  always like that.
+ */
+#if GSL_SUCCESS != 0
+#error "The function helpers use longjmp. GSL_SUCCESS must be zero. Pygsl Design error"
+#endif
 typedef struct {
      PyObject *function;
      PyObject *arguments;
