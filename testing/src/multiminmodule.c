@@ -54,10 +54,11 @@ typedef struct {
 #define PyGSL_multimin_check(op)  ((op)->ob_type == &PyGSL_multimin_pytype)
 #define PyGSL_multimin_isf(op)    ((op)->mytype  == 0)
 
+
 static void
 PyGSL_multimin_dealloc(PyGSL_multimin* self);
 static PyObject*
-PyGSL_multimin_getattr(PyObject * obj, char *name);
+PyGSL_multimin_getattr(PyGSL_multimin * obj, char *name);
 
 
 
@@ -89,7 +90,7 @@ PyTypeObject PyGSL_multimin_pytype = {
   (setattrofunc) 0,		/* tp_setattro */
   0,				/* tp_as_buffer */
   0L,				/* tp_flags */
-  (char *)PyGSL_multimin_type_doc		/* tp_doc */
+  (char *) PyGSL_multimin_type_doc		/* tp_doc */
 };
 
 
@@ -108,7 +109,7 @@ PyGSL_multimin_function_f(const gsl_vector* x, void* params)
      FUNC_MESS_BEGIN();     
      PyGSL_multimin *min_o;     
      min_o = (PyGSL_multimin *) params;
-     
+     assert(PyGSL_multimin_check(min_o));     
      for(i = 0; i<x->size; i++){
 	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
      }
@@ -131,6 +132,7 @@ PyGSL_multimin_function_df(const gsl_vector* x, void* params, gsl_vector *df)
      min_o = (PyGSL_multimin *) params;
 
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(min_o));     
      for(i = 0; i<x->size; i++){
 	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
      }
@@ -152,6 +154,7 @@ PyGSL_multimin_function_fdf(const gsl_vector* x, void* params, double *f, gsl_ve
 
      FUNC_MESS_BEGIN();
      min_o = (PyGSL_multimin *) params;
+     assert(PyGSL_multimin_check(min_o));     
      for(i = 0; i<x->size; i++){
 	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
      }
@@ -182,6 +185,7 @@ PyGSL_multimin_set_f(PyGSL_multimin *self, PyObject *args)
 
 
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if (self->min.f == NULL) {
 	  gsl_error("Got a NULL Pointer of min.f",  filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
@@ -276,6 +280,7 @@ PyGSL_multimin_set_fdf(PyGSL_multimin *self, PyObject *args)
      gsl_vector_view gsl_x;
 
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if (self->min.fdf == NULL) {
 	  gsl_error("Got a NULL Pointer of min.fdf", filename, __LINE__ - 3, GSL_EFAULT);
 	       return NULL;
@@ -363,6 +368,7 @@ PyGSL_multimin_iterate(PyGSL_multimin *self, PyObject *args)
      int result, flag;
 
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if ( self->min.f ==NULL || self->func.f ==NULL) {
 	  gsl_error("Got a NULL Pointer of min.f", filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
@@ -392,6 +398,7 @@ PyGSL_multimin_x(PyGSL_multimin *self, PyObject *args)
      gsl_vector* result;
      
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if (self->min.f==NULL || self->func.f==NULL) {
 	  gsl_error("Got a NULL Pointer for min.f", filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
@@ -415,6 +422,7 @@ PyGSL_multimin_minimum(PyGSL_multimin *self, PyObject *args)
      double min;
 
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if (self->min.f == NULL || self->func.f ==NULL) {
 	  gsl_error("Got a NULL Pointer of min.f", filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
@@ -433,6 +441,7 @@ PyGSL_multimin_name(PyGSL_multimin *self, PyObject *args)
 {
      const char * name;
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if(PyGSL_multimin_isf(self)){       
 	  name = gsl_multimin_fminimizer_name(self->min.f);
      } else {
@@ -447,6 +456,7 @@ PyGSL_multimin_size(PyGSL_multimin *self, PyObject *args)
 {
      double size;
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if ( self->min.f ==NULL || self->func.f ==NULL) {
 	  PyErr_SetString(PyExc_RuntimeError,"no function specified!");
 	  return NULL;
@@ -468,6 +478,7 @@ PyGSL_multimin_test_size_method(PyGSL_multimin *self, PyObject *args)
      double epsabs;
 
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if ( self->min.f ==NULL || self->func.f ==NULL) {
 	  PyErr_SetString(PyExc_RuntimeError,"no function specified!");
 	  return NULL;
@@ -492,6 +503,7 @@ PyGSL_multimin_restart(PyGSL_multimin *self, PyObject *args)
      int flag;
 
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if(PyGSL_multimin_isf(self)){       
 	  gsl_error("Can not restart for a F type solver", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
@@ -511,6 +523,7 @@ PyGSL_multimin_vec_fdf(PyGSL_multimin *self, PyObject *args,
 {
      gsl_vector *result;
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if(PyGSL_multimin_isf(self)){       
 	  gsl_error("Can not retrieve this information for a F type solver!", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
@@ -528,6 +541,7 @@ PyGSL_multimin_istype(PyGSL_multimin *self, PyObject *args)
      const char *p;
 
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if(PyGSL_multimin_isf(self)){ 
 	  p = f;
      } else {
@@ -557,6 +571,7 @@ PyGSL_multimin_test_gradient_method(PyGSL_multimin * self, PyObject *args)
      int flag;
      FUNC_MESS_BEGIN();
 
+     assert(PyGSL_multimin_check(self));     
      if (0==PyArg_ParseTuple(args,"d", &epsabs))
 	  return NULL;     
 
@@ -695,6 +710,7 @@ static void
 PyGSL_multimin_dealloc(PyGSL_multimin *self)
 {
      FUNC_MESS_BEGIN();
+     assert(PyGSL_multimin_check(self));     
      if(PyGSL_multimin_isf(self)){
 	  if (self->min.f  != NULL)   gsl_multimin_fminimizer_free(self->min.f);
 	  if (self->func.f != NULL)  free(self->func.f); 
@@ -713,66 +729,25 @@ PyGSL_multimin_dealloc(PyGSL_multimin *self)
 
 
 static PyObject*
-PyGSL_multimin_getattr(PyObject *self, char *name)
+PyGSL_multimin_getattr(PyGSL_multimin *self, char *name)
 {
 
      PyObject *tmp = NULL;
-     PyGSL_multimin* s= (PyGSL_multimin *) self; 
+
 
      FUNC_MESS_BEGIN();
-     if(PyGSL_multimin_isf(s)){
-	  tmp = Py_FindMethod(PyGSL_multimin_fmethods, (PyObject *) s, name);
+     assert(PyGSL_multimin_check(self));     
+     if(PyGSL_multimin_isf(self)){
+	  tmp = Py_FindMethod(PyGSL_multimin_fmethods, (PyObject *) self, name);
      } else {
-	  tmp = Py_FindMethod(PyGSL_multimin_fdfmethods, (PyObject *) s, name);
+	  tmp = Py_FindMethod(PyGSL_multimin_fdfmethods, (PyObject *) self, name);
      }
      FUNC_MESS_END();
      return tmp;
 }
 
 
-static
-PyTypeObject PyGSL_multiminType = {
-	PyObject_HEAD_INIT(NULL)
-	0,
-	(char *) "pygsl.multimin.multimin",
-	sizeof(PyGSL_multimin),
-	0,
-	(destructor)PyGSL_multimin_dealloc,  /* tp_dealloc */
-	0,                                      /* tp_print */
-	PyGSL_multimin_getattr,              /* tp_getattr */
-	0,					/* tp_setattr */
-	0,			                /* tp_compare */
-	0,                  			/* tp_repr */
-	0,					/* tp_as_number */
-	0,	                		/* tp_as_sequence */
-	0,                                      /* tp_as_mapping */
-	0,				        /* tp_hash */
-	0,					/* tp_call */
-	0,					/* tp_str */
-	0,		                        /* tp_getattro */
-	0,					/* tp_setattro */
-	0,					/* tp_as_buffer */
-	Py_TPFLAGS_DEFAULT,		        /* tp_flags */
-        0,				        /* tp_doc */
-	0, 		                        /* tp_traverse */
-	0,			                /* tp_clear */
-	0,              			/* tp_richcompare */
-	0,					/* tp_weaklistoffset */
-	0,			                /* tp_iter */
-	0,					/* tp_iternext */
-	0,				        /* tp_methods */
-	0,					/* tp_members */
-	0,					/* tp_getset */
-	0,					/* tp_base */
-	0,					/* tp_dict */
-	0,					/* tp_descr_get */
-	0,					/* tp_descr_set */
-	0,					/* tp_dictoffset */
-	(initproc)PyGSL_multimin_init,	/* tp_init */
-	NULL,              			/* tp_alloc */
-	NULL,                			/* tp_new */
-	NULL         			        /* tp_free */
-};
+
 
 static PyObject*
 PyGSL_multimin_test_size(PyObject * self, PyObject *args)
@@ -835,16 +810,33 @@ static PyMethodDef multiminMethods[] = {
 void
 initmultimin(void)
 {
-  PyObject* m;
+  PyObject* m, *dict, *item;
   m=Py_InitModule("multimin", multiminMethods);
   import_array();
   init_pygsl();
   /* init multimin type */
-  PyGSL_multiminType.ob_type  = &PyType_Type;
+  PyGSL_multimin_pytype.ob_type  = &PyType_Type;
+
 
   module = m;
 
-  Py_INCREF((PyObject*)&PyGSL_multiminType);
-  PyModule_AddObject(m,"multimin", (PyObject*)&PyGSL_multiminType);
+  Py_INCREF((PyObject*)&PyGSL_multimin_pytype);
 
+  dict = PyModule_GetDict(m);
+  if(!dict)
+       goto fail;
+  
+  if (!(item = PyString_FromString((char*)PyGSL_multimin_module_doc))){
+       PyErr_SetString(PyExc_ImportError, 
+		       "I could not generate module doc string!");
+       goto fail;
+  }
+  if (PyDict_SetItemString(dict, "__doc__", item) != 0){
+       PyErr_SetString(PyExc_ImportError, 
+		       "I could not init doc string!");
+       goto fail;
+  }
+
+ fail:
+  return;
 }
