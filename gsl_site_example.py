@@ -14,7 +14,6 @@ libs   = "-L" + os.path.join(prefix, "lib")+ " -lgsl -lgslcblas -lm"
 version = "1.3"
 
 
-=======
 # swig_extension.py needs swig to generate the approbriate wrapper files. This
 # variable only needs to be correct is you use USE_SWIG=1 in setup.py
 swig = os.path.join("F:\\", "Programs", "Swig", "swig")
