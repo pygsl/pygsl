@@ -20,13 +20,22 @@ class histogram_canvas(Tkinter.Canvas):
     bar_fix = (10,-1)
     bar_scale = (0,-1)
 
-    #list for bar item lookups
+    # list for bar item lookups
     bar_items = None
 
+    # if there is a function given, it will be called with histogram and index
+    # info_function(histogram, index)
+    info_function=None
+    
     def __init__(self,histogram=None,master=None,**kw):
         """
         initialisation routine: initialises canvas and creates histogram items
         """
+        # get some entries from kw
+        if 'info_function' in kw:
+            self.info_function=kw["info_function"]
+            del kw["info_function"]
+
         Tkinter.Canvas.__init__(self,master=master,cnf=kw)
         if histogram is not None:
             self.new_histogram(histogram)
@@ -60,7 +69,12 @@ class histogram_canvas(Tkinter.Canvas):
         self.bar_items=[]
 
         for i in xrange(0,self.my_histogram.bins()):
-            self.bar_items.append(self.create_rectangle(self.get_bar_coordinates(i),tags=str(i)))
+            item=self.create_rectangle(self.get_bar_coordinates(i),
+                                       fill=self['bg'],
+                                       tags=str(i))
+            self.tag_bind(item,"<Enter>",self.on_bar_event)
+            self.tag_bind(item,"<Leave>",self.off_bar_event)
+            self.bar_items.append(item)
 
     def update_histogram_items(self):
         """
@@ -81,6 +95,30 @@ class histogram_canvas(Tkinter.Canvas):
         y0=self.basepoint[1]+self.next_offset[1]*i
         y1=y0+self.bar_fix[1]+self.bar_scale[1]*self.my_histogram[i]
         return (x0,y0,x1,y1)
+
+    def on_bar_event(self,event):
+        """
+        reports when entering a bar
+        """
+        if self.bar_items is None or self.info_function is None:
+            # no need for an event
+            return
+        this_tag=self.find_withtag(Tkinter.CURRENT)[0]
+        if this_tag not in self.bar_items:
+            # should not happen
+            return
+        self.info_function(self.my_histogram,self.bar_items.index(this_tag))
+
+    def off_bar_event(self,event):
+        """
+        reports when leaving a bar
+        """
+        if self.bar_items is None or self.info_function is None:
+            # no need for an event
+            return
+        self.info_function(None,-1)
+        
+
 
 class example_application(Tkinter.Frame):
     """
@@ -106,8 +144,19 @@ class example_application(Tkinter.Frame):
         a menu, the histogram canvas, some buttons
         """
         # histogram
-        self.hist_canvas=histogram_canvas(histogram=self.hist,master=self,bg="white")
+        self.hist_canvas=histogram_canvas(histogram=self.hist,
+                                          master=self,
+                                          bg="white",
+                                          info_function=self.info_event)
         self.hist_canvas.pack(fill=Tkinter.BOTH, expand=1,side=Tkinter.TOP)
+
+        # info bar
+        self.info_text=Tkinter.StringVar()
+        self.info_widget=Tkinter.Entry(self,
+                                       bg="white",
+                                       textvariable=self.info_text,
+                                       state=Tkinter.DISABLED)
+        self.info_widget.pack(fill=Tkinter.X,expand=1, side=Tkinter.TOP)
 
         # button bar
         button_frame=Tkinter.Frame(self)
@@ -119,7 +168,7 @@ class example_application(Tkinter.Frame):
         new_button.pack(side=Tkinter.LEFT, padx=5, pady=5)
         quit_button=Tkinter.Button(button_frame, text="Quit", command=self.quit_action)
         quit_button.pack(side=Tkinter.RIGHT, padx=5, pady=5)
-        button_frame.pack(expand=1,fill=Tkinter.X)
+        button_frame.pack(expand=1,fill=Tkinter.X,side=Tkinter.BOTTOM)
 
     def new_action(self):
         """
@@ -187,6 +236,20 @@ class example_application(Tkinter.Frame):
 
     def quit_action(self):
         self.quit()
+
+    def info_event(self,h, i):
+        """
+        gets index from histogram canvas, if on bar
+        """
+        self.info_widget["state"]=Tkinter.NORMAL
+        self.info_widget.delete(0, Tkinter.END)
+        if h is not None:
+            sum=h.sum()
+            part=0
+            if sum>0: part=h[i]/sum*100.0
+            (lower,upper)=h.get_range(i)
+            self.info_widget.insert(Tkinter.END,"bin %d: Range %g-%g, Value %g (%g%%)"%(i,lower,upper,h[i],part))
+        self.info_widget["state"]=Tkinter.DISABLED
 
 if __name__ == "__main__":
     example_application()
