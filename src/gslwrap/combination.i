@@ -46,9 +46,11 @@ struct gsl_combination_struct
        return gsl_combination_valid(self);
   }
   int next(){
+       /* returns gsl_success or gsl_failure. Should gsl_failure translate to an exception? */
        return gsl_combination_next(self);
   }
   int prev(){
+       /* returns gsl_success or gsl_failure. Should gsl_failure translate to an exception? */
        return gsl_combination_prev(self);
   }
   
