@@ -1,12 +1,131 @@
 \declaremodule{extension}{pygsl.histogram}
 \moduleauthor{Achim G\"adke}{achimgaedke@users.sourceforge.net}
+% for indexing like \refihistogramindex{histogram}{get}
+\newcommand{\refhistogramindex}[2]{\texttt{#2}\index{#2@\texttt{#2} (#1)}}
 
 This chapter is about the \class{histogram} and \class{histogram2d} type that
 are contained in \module{pygsl.histogram}.
 
-\section{\protect\class{histogram}}
+\section{\protect\class{histogram} --- 1-dimensional histograms}
 
-\section{\protect\class{histogram2d}}
+\index{histogram@\class{histogram} (pygsl.histogram)}
+This type implements all methods on \ctype{struct gsl_histogram}.
+These are:
+
+\newcommand{\methodhistogramindex}[1]{\refhistogramindex{histogram}{#1}}
+\begin{longtableiii}{l|l|l}{methodhistogramindex}{Method}{Description}{Return value}
+\lineiii{alloc}{allocate necessary space}{\texttt{None}}
+\lineiii{set_ranges_uniform}{set the ranges to uniform distance}{\texttt{None}}
+\lineiii{reset}{sets all bin values to 0}{\texttt{None}}
+\lineiii{increment}{increments corresponding bin}{\texttt{None}}
+\lineiii{accumulate}{adds the weight to corresponding bin}{\texttt{None}}
+\lineiii{max}{returns upper range}{\texttt{float}}
+\lineiii{min}{returns lower range}{\texttt{float}}
+\lineiii{bins}{returns number of bins}{\texttt{long}}
+\lineiii{get}{gets value of indexed bin}{\texttt{float}}
+\lineiii{get_range}{gets upper and lower range of indexed bin}{\texttt{(float,float)}}
+\lineiii{find}{finds index of corresponding bin}{\texttt{long}}
+\lineiii{max_val}{returns maximal bin value}{\texttt{float}}
+\lineiii{max_bin}{returns bin index with maximal value}{\texttt{long}}
+\lineiii{min_val}{returns minimal bin value}{\texttt{float}}
+\lineiii{min_bin}{returns bin index with minimal value}{\texttt{long}}
+\lineiii{mean}{returns mean of histogram}{\texttt{float}}
+\lineiii{sigma}{returns std deviation of histogram}{\texttt{float}}
+\lineiii{sum}{returns sum of bin values}{\texttt{float}}
+\lineiii{set_ranges}{sets range according given sequence}{\texttt{None}}
+\lineiii{shift}{shifts the contents of the bins by the given offset}{\texttt{None}}
+\lineiii{scale}{multiplies the contents of the bins by the given scale}{\texttt{None}}
+\lineiii{equal_bins_p}{true if the all of the individual bin ranges are identical}{\texttt{int}}
+\lineiii{add}{adds the contents of the bins}{\texttt{None}}
+\lineiii{sub}{substracts the contents of the bins}{\texttt{None}}
+\lineiii{mul}{multiplicates the contents of the bins}{\texttt{None}}
+\lineiii{div}{divides the contents of the bins}{\texttt{None}}
+\lineiii{clone}{returns a new copy of this histogram}{\texttt{histogram}}
+\lineiii{copy}{copies the given histogram to myself}{\texttt{None}}
+\lineiii{read}{reads histogram binary data from file}{\texttt{None}}
+\lineiii{write}{writes histogram binary data to file}{\texttt{None}}
+\lineiii{scanf}{reads histogram data from file using scanf}{\texttt{None}}
+\lineiii{printf}{writes histogram data to file using printf}{\texttt{None}}
+\end{longtableiii}
+
+Some mapping operations are supported too:\nopagebreak
+\begin{tableii}{l|l}{texttt}{Mapping syntax}{Effect}
+\lineii{histogram[index]}{returns the value of the indexed bin}
+\lineii{histogram[index]=value}{sets the value of the indexed bin}
+\lineii{len(histogram)}{returns the length of the histogram}
+\end{tableii}
+
+\begin{seealso}
+For the special meaning and details please consult the GNU Scientific Library
+reference.
+\end{seealso}
+
+
+\section{\protect\class{histogram2d} --- 2-dimensional histograms}
+\index{histogram2d@\class{histogram2d} (pygsl.histogram)}
+
+Most of the methods are the same as of \class{histogram}:
+
+\newcommand{\methodhistogramddindex}[1]{\refhistogramindex{histogram2d}{#1}}
+
+\begin{longtableiii}{l|l|l}{methodhistogramddindex}{Method}{Description}{Return value}
+\lineiii{alloc}{allocate necessary space}{\texttt{None}}
+\lineiii{set_ranges_uniform}{set the ranges to uniform distance}{\texttt{None}}
+\lineiii{reset}{sets all bin values to 0}{\texttt{None}}
+\lineiii{increment}{increments corresponding bin}{\texttt{None}}
+\lineiii{accumulate}{adds the weight to corresponding bin}{\texttt{None}}
+\lineiii{xmax}{returns upper x range}{\texttt{float}}
+\lineiii{xmin}{returns lower x range}{\texttt{float}}
+\lineiii{ymax}{returns upper y range}{\texttt{float}}
+\lineiii{ymin}{returns lower y range}{\texttt{float}}
+\lineiii{nx}{returns number of x bins}{\texttt{long}}
+\lineiii{ny}{returns number of y bins}{\texttt{long}}
+\lineiii{get}{gets value of indexed bin}{\texttt{float}}
+\lineiii{get_xrange}{gets upper and lower x range of indexed bin}{\texttt{(float,float)}}
+\lineiii{get_yrange}{gets upper and lower y range of indexed bin}{\texttt{(float,float)}}
+\lineiii{find}{finds index pair of corresponding value pair}{\texttt{(long,long)}}
+\lineiii{max_val}{returns maximal bin value}{\texttt{float}}
+\lineiii{max_bin}{returns bin index with maximal value}{\texttt{long}}
+\lineiii{min_val}{returns minimal bin value}{\texttt{float}}
+\lineiii{min_bin}{returns bin index with minimal value}{\texttt{long}}
+\lineiii{sum}{returns sum of bin values}{\texttt{float}}
+\lineiii{xmean}{returns x mean of histogram}{\texttt{float}}
+\lineiii{xsigma}{returns x std deviation of histogram}{\texttt{float}}
+\lineiii{ymean}{returns y mean of histogram}{\texttt{float}}
+\lineiii{ysigma}{returns y std deviation of histogram}{\texttt{float}}
+\lineiii{cov}{returns covariance of histogram}{\texttt{float}}
+\lineiii{set_ranges}{set the ranges according to given sequences}{\texttt{None}}
+\lineiii{shift}{shifts the contents of the bins by the given offset}{\texttt{None}}
+\lineiii{scale}{multiplies the contents of the bins by the given scale}{\texttt{None}}
+\lineiii{equal_bins_p}{true if the all of the individual bin ranges are identical}{\texttt{int}}
+\lineiii{add}{adds the contents of the bins}{\texttt{None}}
+\lineiii{sub}{substracts the contents of the bins}{\texttt{None}}
+\lineiii{mul}{multiplicates the contents of the bins}{\texttt{None}}
+\lineiii{div}{divides the contents of the bins}{\texttt{None}}
+\lineiii{clone}{returns a new copy of this histogram}{\texttt{histogram2d}}
+\lineiii{copy}{copies the given histogram to myself}{\texttt{None}}
+\lineiii{read}{reads histogram binary data from file}{\texttt{None}}
+\lineiii{write}{writes histogram binary data to file}{\texttt{None}}
+\lineiii{scanf}{reads histogram data from file using scanf}{\texttt{None}}
+\lineiii{printf}{writes histogram data to file using printf}{\texttt{None}}
+\end{longtableiii}
+
+Some mapping operations are supported too:\nopagebreak
+\begin{tableii}{l|l}{code}{Mapping syntax}{Effect}
+\lineii{histogram[x\_index,y\_index]}{returns the value of the indexed bin}
+\lineii{histogram[x\_index,y\_index]=value}{sets the value of the indexed bin}
+\lineii{len(histogram)}{returns the size of the histogram, i.e nx$\times$ny}
+\end{tableii}
+
+
+\begin{seealso}
+For the special meaning and details please consult the GNU Scientific Library
+reference.
+\end{seealso}
+
+\section{\protect\class{histogram_pdf} and \protect\class{histogram2d_pdf}}
+
+To be implemented\dots
 
 %% Local Variables:
 %% mode: LaTeX
