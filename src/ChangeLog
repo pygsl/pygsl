@@ -1,3 +1,8 @@
+2002-09-20  Achim Gädke  <achim.gaedke@uni-koeln.de>
+
+	* rngmodule.c (ran_levy_skew): Added
+	  (all functions): bug in argument parsing, fixed
+
 2002-05-05  Jochen Küpper  <jochen@jochen-kuepper.de>
 
 	* simanmodule.c (initsiman): Added.

@@ -315,30 +315,6 @@ static PyObject* ran_rayleigh_tail_pdf(PyObject *self,
   return py_result;
 }
 
-/*just missing ?!*/
-#if 0
-static PyObject* ran_levy_pdf(PyObject *self,
-			      PyObject *args
-			      )
-{
-  double x;
-  
-  double mu,a;
-  PyObject* py_result;
-  double result;
-
-  if (0==PyArg_ParseTuple(args,"ddd",&x,&mu,&a))
-    return NULL;
-
-  result=gsl_ran_levy_pdf(x,mu,a);
-
-  py_result=PyFloat_FromDouble(result);
-
-  return py_result;
-}
-
-#endif
-
 static PyObject* ran_gamma_pdf(PyObject *self,
 			   PyObject *args
 			   )
@@ -779,10 +755,6 @@ static PyMethodDef rngMethods[] = {
   {"cauchy_pdf",ran_cauchy_pdf,METH_VARARGS},
   {"rayleigh_pdf",ran_rayleigh_pdf,METH_VARARGS},
   {"rayleigh_tail_pdf",ran_rayleigh_tail_pdf,METH_VARARGS},
-  /*missing*/
-#if 0
-  {"levy_pdf",ran_levy_pdf,METH_VARARGS},
-#endif
   {"gamma_pdf",ran_gamma_pdf,METH_VARARGS},
   {"flat_pdf",ran_flat_pdf,METH_VARARGS},
   {"lognormal_pdf",ran_lognormal_pdf,METH_VARARGS},
@@ -1420,6 +1392,29 @@ static PyObject* ran_levy(PyObject *self,
   rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
 
   result=gsl_ran_levy(rng,mu,a);
+  Py_DECREF(py_rng);
+
+  py_result=PyFloat_FromDouble(result);
+
+  return py_result;
+}
+
+static PyObject* ran_levy_skew(PyObject *self,
+                              PyObject *args
+                              )
+{
+  PyObject* py_rng;
+  gsl_rng* rng;
+  double mu,a,beta;
+  PyObject* py_result;
+  double result;
+
+  if (0==PyArg_ParseTuple(args,"O!ddd", &PyInstance_Type, &py_rng,&mu,&a,&beta))
+    return NULL;
+  py_rng=PyObject_GetAttrString(py_rng,"_rng");
+  rng=(gsl_rng*)PyCObject_AsVoidPtr(py_rng);
+
+  result=gsl_ran_levy_skew(rng,mu,a,beta);
   Py_DECREF(py_rng);
 
   py_result=PyFloat_FromDouble(result);
@@ -2093,6 +2088,7 @@ static PyMethodDef classMethods[] = {
   {"rayleigh",ran_rayleigh,METH_VARARGS, NULL},
   {"rayleigh_tail",ran_rayleigh_tail,METH_VARARGS, NULL},
   {"levy",ran_levy,METH_VARARGS, NULL},
+  {"levy_skew",ran_levy_skew,METH_VARARGS, NULL},
   {"gamma",ran_gamma,METH_VARARGS, NULL},
   {"gamma_int",ran_gamma_int,METH_VARARGS, NULL},
   {"flat",ran_flat,METH_VARARGS, NULL},
