@@ -9,29 +9,17 @@ typedef struct {
   gsl_rng * rng;
 } PyGSL_rng;
 
-#if 0
-#define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 
-/*
- * This API import trick was copied from Numeric/arrayobject.h
+
+/* 
+ * Get a gsl_rng object from a PyGSL rng wrapper.
  */
-#if defined(PyGSL_API_UNIQUE_SYMBOL)
-#define PyGSL_API PyGSL_API_UNIQUE_SYMBOL
-#endif
-
-/* C API address pointer */ 
-#if defined(PyGSL_NO_IMPORT_API)
-extern void **PyGSL_API;
-#else
-#if defined(PyGSL_API_UNIQUE_SYMBOL)
-void **PyGSL_API = NULL;
-#else
-static void **PyGSL_API = NULL;
-#endif
-#endif
-#endif
-
-
+PyGSL_API_EXTERN gsl_rng *
+PyGSL_gsl_rng_from_pyobject(PyObject * object);
+#ifndef _PyGSL_API_MODULE
+#define PyGSL_gsl_rng_from_pyobject \
+(*(gsl_rng *  (*) (PyObject *)) PyGSL_API[PyGSL_gsl_rng_from_pyobject_NUM])
+#endif /* _PyGSL_API_MODULE */
 
 #define PyGSL_RNG_Check(op) \
    ((op)->ob_type == (PyTypeObject *)PyGSL_API[PyGSL_RNG_ObjectType_NUM])
