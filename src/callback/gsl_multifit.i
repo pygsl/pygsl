@@ -137,7 +137,7 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 		       double * sumsq,
 		       double * chisq};
 
-int
+gsl_error_flag_drop
 gsl_multifit_linear (const gsl_matrix * IN,
                      const gsl_vector * IN,
                      gsl_vector * OUT,
@@ -145,7 +145,7 @@ gsl_multifit_linear (const gsl_matrix * IN,
                      double * chisq,
                      gsl_multifit_linear_workspace * work_provide);
 
-int
+gsl_error_flag_drop
 gsl_multifit_wlinear (const gsl_matrix * IN,
                       const gsl_vector * IN,
                       const gsl_vector * IN,
@@ -162,7 +162,7 @@ gsl_multifit_wlinear (const gsl_matrix * IN,
 			  (const double * w, const size_t wstride)
 			 };
 /* ---------------------------------------------------------------------- */		       
-int gsl_fit_linear (const double * x, const size_t xstride,
+gsl_error_flag_drop gsl_fit_linear (const double * x, const size_t xstride,
                     const double * y, const size_t ystride,
                     const size_t n,
                     double * c0, double * c1, 
@@ -170,7 +170,7 @@ int gsl_fit_linear (const double * x, const size_t xstride,
                     double * sumsq);
 
 
-int gsl_fit_wlinear (const double * x, const size_t xstride,
+gsl_error_flag_drop gsl_fit_wlinear (const double * x, const size_t xstride,
                      const double * w, const size_t wstride,
                      const double * y, const size_t ystride,
                      const size_t n,
@@ -181,21 +181,21 @@ int gsl_fit_wlinear (const double * x, const size_t xstride,
 %apply double * OUTPUT {double * y, 
 			double * y_err} 
 
-int
+gsl_error_flag_drop
 gsl_fit_linear_est (const double x, 
                     const double c0, const double c1, 
                     const double c00, const double c01, const double c11,
                     double *y, double *y_err);
 
 
-int gsl_fit_mul (const double * x, const size_t xstride,
+gsl_error_flag_drop gsl_fit_mul (const double * x, const size_t xstride,
                  const double * y, const size_t ystride,
                  const size_t n,
                  double * c1, 
                  double * cov11, 
                  double * sumsq);
 
-int gsl_fit_wmul (const double * x, const size_t xstride,
+gsl_error_flag_drop gsl_fit_wmul (const double * x, const size_t xstride,
                   const double * w, const size_t wstride,
                   const double * y, const size_t ystride,
                   const size_t n,
@@ -204,7 +204,7 @@ int gsl_fit_wmul (const double * x, const size_t xstride,
                   double * sumsq);
 
 
-int
+gsl_error_flag_drop
 gsl_fit_mul_est (const double x, 
                  const double c1, 
                  const double c11,

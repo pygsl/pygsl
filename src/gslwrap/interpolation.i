@@ -108,18 +108,18 @@
 gsl_spline *
 gsl_spline_alloc(const gsl_interp_type * T, size_t n);
      
-int
+gsl_error_flag_drop
 gsl_spline_init(gsl_spline * spline, const double xa[], const double ya[], size_t size);
 
 
-int
+gsl_error_flag_drop
 gsl_spline_eval_e(const gsl_spline * spline, double x,
                   gsl_interp_accel * a, double * OUTPUT);
 
 double
 gsl_spline_eval(const gsl_spline * spline, double x, gsl_interp_accel * a);
 
-int
+gsl_error_flag_drop
 gsl_spline_eval_deriv_e(const gsl_spline * spline,
                         double x,
 			gsl_interp_accel * a,
@@ -130,7 +130,7 @@ gsl_spline_eval_deriv(const gsl_spline * spline,
                       double x,
 		      gsl_interp_accel * a);
 
-int
+gsl_error_flag_drop
 gsl_spline_eval_deriv2_e(const gsl_spline * spline,
                          double x,
 			 gsl_interp_accel * a,
@@ -141,7 +141,7 @@ gsl_spline_eval_deriv2(const gsl_spline * spline,
                        double x,
 		       gsl_interp_accel * a);
 
-int
+gsl_error_flag_drop
 gsl_spline_eval_integ_e(const gsl_spline * spline,
                         double a, double b,
 			gsl_interp_accel * acc,
@@ -171,7 +171,7 @@ gsl_interp_accel_alloc(void);
 size_t
 gsl_interp_accel_find(gsl_interp_accel * a, const double x_array[], size_t size, double x);
 
-int
+gsl_error_flag_drop
 gsl_interp_accel_reset (gsl_interp_accel * a);
 
 void
@@ -180,14 +180,14 @@ gsl_interp_accel_free(gsl_interp_accel * a);
 gsl_interp *
 gsl_interp_alloc(const gsl_interp_type * T, size_t n);
      
-int
+gsl_error_flag_drop
 gsl_interp_init(gsl_interp * obj, const double xa[], const double ya[], size_t size);
 
 const char * gsl_interp_name(const gsl_interp * interp);
 unsigned int gsl_interp_min_size(const gsl_interp * interp);
 
 
-int
+gsl_error_flag_drop
 gsl_interp_eval_e(const gsl_interp * IN,
                   const double xa[], const double ya[], double x,
                   gsl_interp_accel * a, double * OUTPUT);
@@ -197,7 +197,7 @@ gsl_interp_eval(const gsl_interp * IN,
                 const double xa[], const double ya[], double x,
                 gsl_interp_accel * a);
 
-int
+gsl_error_flag_drop
 gsl_interp_eval_deriv_e(const gsl_interp * IN,
                         const double xa[], const double ya[], double x,
 			gsl_interp_accel * a,
@@ -208,7 +208,7 @@ gsl_interp_eval_deriv(const gsl_interp * IN,
                       const double xa[], const double ya[], double x,
 		      gsl_interp_accel * a);
 
-int
+gsl_error_flag_drop
 gsl_interp_eval_deriv2_e(const gsl_interp * IN,
                          const double xa[], const double ya[], double x,
 			 gsl_interp_accel * a,
@@ -219,7 +219,7 @@ gsl_interp_eval_deriv2(const gsl_interp * IN,
                        const double xa[], const double ya[], double x,
 		       gsl_interp_accel * a);
 
-int
+gsl_error_flag_drop
 gsl_interp_eval_integ_e(const gsl_interp * IN,
                         const double xa[], const double ya[],
                         double a, double b,

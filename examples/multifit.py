@@ -11,9 +11,9 @@ def calculate(x, y, sigma):
     X[:,2] = x ** 2
     w = 1.0 / sigma ** 2
     work = pygsl.multifit.linear_workspace(n,3)
-    flag, c, cov, chisq = pygsl.multifit.wlinear(X, w, y, work)
-    #flag, c, cov, chisq = pygsl.multifit.linear(X, y, work)
-    assert(flag == 0)
+    c, cov, chisq = pygsl.multifit.wlinear(X, w, y, work)
+    c, cov, chisq = pygsl.multifit.linear(X, y, work)
+
     
     print "# best fit: Y = %g + %g * X + %g * X ** 2" % tuple(c)
     print "# covariance matrix #"
@@ -24,7 +24,7 @@ def calculate(x, y, sigma):
     return c, cov, chisq
 
 def generate_data():
-    r = pygsl.rng.rng_mt19937()
+    r = pygsl.rng.mt19937()
     a = Numeric.arange(20) / 10.# + .1
     y0 = Numeric.exp(a)
     sigma = 0.1 * y0
