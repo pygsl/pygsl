@@ -3,13 +3,8 @@
 # author: Jochen K"upper
 
 import unittest
-try:
-    from Numeric import *
-    have_numeric = 1
-except ImportError:
-    have_numeric = 0
-    print "Numpy not available, some tests are pretty meaningless..."
-    array = lambda seq, type=None: seq
+
+from pygsl._numobj import *
 
 from pygsl.statistics import *
 from pygsl.statistics import char as char
@@ -32,10 +27,10 @@ class statistics_test(unittest.TestCase):
         # contigous array anyway...
         data = array([1.,2.,3.,4.,5.,6.,7.,8.,9.,10.])
         self.failIf(mean(data) != 5.5)
-        if have_numeric:
-            self.failIf(mean(data[::2]) != 5.0)
-            self.failIf(mean(data[::-1]) != 5.5)
-            self.failIf(mean(data[::-2]) != 6.0)
+
+        self.failIf(mean(data[::2]) != 5.0)
+        self.failIf(mean(data[::-1]) != 5.5)
+        self.failIf(mean(data[::-2]) != 6.0)
 
     def test_mean_char(self):
         self.failIf(char.mean([1,2,3]) != 2)
@@ -55,8 +50,8 @@ class statistics_test(unittest.TestCase):
         
     def test_mean_short(self):
         self.failIf(short.mean([1,2,3]) != 2)
-        if have_numeric:
-            self.failIf(short.mean(array([-1,-3,1], Int16)) != -1)
+        
+        self.failIf(short.mean(array([-1,-3,1], Int16)) != -1)
 
     def test_mean_uchar(self):
         self.failIf(uchar.mean(array([1,2,3], 'b')) != 2)
