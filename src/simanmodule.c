@@ -126,7 +126,7 @@ PyGSL_siman_efunc(void *xp)
 	pygsl_siman_t *x;
 	int flag=GSL_EFAILED;
 	double value;
-	static const char functionname[] = __FUNCTION__;
+	static const char *functionname  = __FUNCTION__;
 
 	FUNC_MESS_BEGIN();
 
@@ -186,7 +186,7 @@ PyGSL_siman_step(const gsl_rng *r, void *xp, double step_size)
 	pygsl_siman_t *x;
 	int flag=GSL_EFAILED;
 
-	static const char functionname[] = __FUNCTION__;
+	static const char * functionname  = __FUNCTION__;
 
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) xp;
@@ -240,7 +240,7 @@ PyGSL_siman_metric(void *xp, void *yp)
 	pygsl_siman_t *x, *y;
 	int flag=GSL_EFAILED;
 	double value;
-	static const char functionname[] = __FUNCTION__;
+	static const char * functionname = __FUNCTION__;
 
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) xp;
@@ -299,7 +299,7 @@ PyGSL_siman_print(void *xp)
 	PyGSL_error_info info;
 	pygsl_siman_t *x;
 	int flag=GSL_EFAILED;
-	static const char functionname[] = __FUNCTION__;
+	static const char * functionname  = __FUNCTION__;
 
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) xp;
@@ -349,7 +349,7 @@ PyGSL_siman_copy(void *src, void *dst)
 	PyGSL_error_info info;
 	pygsl_siman_t *x, *y;
 	int flag=GSL_EFAILED;
-	static const char functionname[] = __FUNCTION__;
+	static const char * functionname = __FUNCTION__;
 
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) src;
@@ -548,7 +548,7 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 	pygsl_siman_t        myargs = {NULL, NULL, NULL, NULL}; 
 	
 
-	static const char  functionname[] = __FUNCTION__;
+	static const char  * functionname = __FUNCTION__;
 
 	int flag=GSL_EFAILED, do_print=0;
 	void * x0 = NULL;
