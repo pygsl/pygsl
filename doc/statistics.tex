@@ -117,9 +117,77 @@ these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
 \subsection{Absolute deviation}
 \label{sec:stat:absolute-deviation}
 
+\begin{funcdesc}{absdev}{data}
+   Compute the absolute deviation from the mean of \var{data} The absolute
+   deviation from the mean is defined as
+   \begin{equation}
+      absdev  = (1/N) \sum |x_i - \hat\mu|
+   \end{equation}
+   where $x_i$ are the elements of the dataset \var{data}.  The absolute
+   deviation from the mean provides a more robust measure of the width of a
+   distribution than the variance.  This function computes the mean of
+   \var{data} via a call to \function{mean}.
+\end{funcdesc}
+
+\begin{funcdesc}{absdev_m}{data, mean}
+   Compute the absolute deviation of the dataset \var{data} relative to the
+   given value of \var{mean}
+   \begin{equation}
+      absdev  = (1/N) \sum |x_i - mean|
+   \end{equation}
+   This function is useful if you have already computed the mean of \var{data}
+   (and want to avoid recomputing it), or wish to calculate the absolute
+   deviation relative to another value (such as zero, or the median).
+\end{funcdesc}
+
 
 \subsection{Higher moments (skewness and kurtosis)}
 \label{sec:stat:higher-moments}
+
+\begin{funcdesc}{skew}{data}
+   Compute the skewness of \var{data}.  The skewness is defined as
+   \begin{equation}
+      skew = (1/N) \sum ((x_i - \hat\mu)/\hat\sigma)^3
+   \end{equation}
+   where $x_i$ are the elements of the dataset \var{data}.  The skewness
+   measures the asymmetry of the tails of a distribution.
+   
+   The function computes the mean and estimated standard deviation of
+   \var{data} via calls to \function{mean} and \function{sd}.
+\end{funcdesc}
+
+
+\begin{funcdesc}{skew_m_sd}{data, mean, sd}
+   Compute the skewness of the dataset \var{data} using the given values of the
+   mean \var{mean} and standard deviation var{sd}
+   \begin{equation}
+      skew = (1/N) \sum ((x_i - mean)/sd)^3
+   \end{equation}
+   These functions are useful if you have already computed the mean and
+   standard deviation of \var{data} and want to avoid recomputing them.
+\end{funcdesc}
+
+
+\begin{funcdesc}{kurtosis}{data}
+   Compute the kurtosis of \var{data}.  The kurtosis is defined as
+   \begin{equation}
+      kurtosis = ((1/N) \sum ((x_i - \hat\mu)/\hat\sigma)^4) - 3
+   \end{equation}
+   The kurtosis measures how sharply peaked a distribution is, relative to its
+   width.  The kurtosis is normalized to zero for a gaussian distribution.
+\end{funcdesc}
+
+
+\begin{funcdesc}{kurtosis_m_sd}{data, mean, sd}
+   This function computes the kurtosis of the dataset \var{data} using the
+   given values of the mean \var{mean} and standard deviation \var{sd}
+   \begin{equation}
+      kurtosis = ((1/N) \sum ((x_i - mean)/sd)^4) - 3
+   \end{equation}
+   This function is useful if you have already computed the mean and standard
+   deviation of \var{data} and want to avoid recomputing them.
+\end{funcdesc}
+
 
 
 \subsection{Autocorrelation}
@@ -143,6 +211,7 @@ these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
 \end{funcdesc}
 
 
+
 \subsection{Covariance}
 \label{sec:stat:covariance}
 
@@ -152,7 +221,7 @@ these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
    \begin{equation}
       c = \frac{1}{n-1} \sum^{n}_{i=1} (x_i - \hat x) (y_i - \hat y)
    \end{equation}
- \end{funcdesc}
+\end{funcdesc}
 
 \begin{funcdesc}{lag1_autocorrelation_m}{x, y, mean\_x, mean\_y}
    Computes the covariance of the datasets \var{x} and \var{y} using the given
@@ -171,8 +240,198 @@ these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
 \label{sec:stat:max-min-value}
 
 
+\begin{funcdesc}{max}{data}
+   This function returns the maximum value in \var{data}.  The maximum value is
+   defined as the value of the element $x_i$ which satisfies $x_i \ge x_j$ for
+   all $j$.
+   
+   If you want instead to find the element with the largest absolute magnitude
+   you will need to apply `fabs' or `abs' to your data before calling this
+   function.
+\end{funcdesc}
+
+\begin{funcdesc}{min}{data}
+   This function returns the minimum value in \var{data}. The maximum value is
+   defined as the value of the element $x_i$ which satisfies $x_i \le x_j$ for
+   all $j$.
+   
+   If you want instead to find the element with the smallest absolute magnitude
+   you will need to apply `fabs' or `abs' to your data before calling this
+   function.
+\end{funcdesc}
+
+\begin{funcdesc}{minmax}{data}
+   This function returns both the minimum and maximum values of \var{data},
+   determined in a single pass.
+\end{funcdesc}
+
+\begin{funcdesc}{max_index}{data}
+   This function returns the index of the maximum value in \var{data}.  The
+   maximum value is defined as the value of the element $x_i$ which satisfies
+   $x_i \ge x_j$ for all $j$.  When there are several equal maximum elements
+   then the first one is chosen.
+\end{funcdesc}
+
+\begin{funcdesc}{min_index}{data}
+   This function returns the index of the minimum value in \var{data}.  The
+   minimum value is defined as the value of the element $x_i$ which satisfies
+   $x_i \le x_j$ for all $j$.  When there are several equal minimum elements
+   then the first one is chosen.
+\end{funcdesc}
+
+\begin{funcdesc}{minmax_index}{data}
+   This function returns the indexes of the minimum and maximum values of
+   \var{data}, determined in a single pass.
+\end{funcdesc}
+
+
+
 \subsection{Median and Percentiles}
 \label{sec:stat:median-percentiles}
+
+The median and percentile functions described in this section operate on sorted
+data.  For convenience we use "quantiles", measured on a scale of 0 to 1,
+instead of percentiles (which use a scale of 0 to 100).
+
+\begin{funcdesc}{median_from_sorted_data}{data}
+   This function returns the median value of \var{data}.  The elements of the
+   array must be in ascending numerical order.  There are no checks to see
+   whether the data are sorted, so the function \function{sort} should always
+   be used first.
+   
+   When the dataset has an odd number of elements the median is the value of
+   element (n-1)/2.  When the dataset has an even number of elements the median
+   is the mean of the two nearest middle values, elements (n-1)/2 and n/2.
+   Since the algorithm for computing the median involves interpolation this
+   function always returns a floating-point number, even for integer data
+   types.
+\end{funcdesc}
+
+\begin{funcdesc}{quantile_from_sorted_data}{data, F}
+   This function returns a quantile value of \var{data}.  The elements of the
+   array must be in ascending numerical order.  The quantile is determined by
+   the \var{F}, a fraction between 0 and 1.  For example, to compute the value
+   of the 75th percentile \var{F} should have the value 0.75.
+   
+   There are no checks to see whether the data are sorted, so the function
+   \function{sort} should always be used first.
+   
+   The quantile is found by interpolation, using the formula
+   \begin{equation}
+      quantile = (1 - \delta) x_i + \delta x_{i+1}
+   \end{equation}
+   where $i$ is $floor((n - 1)f)$ and $\delta$ is $(n-1)f - i$.
+   
+   Thus the minimum value of the array (\var{data[0]}) is given by \var{F}
+   equal to zero, the maximum value (\var{data[-1]}) is given by \var{F} equal
+   to one and the median value is given by \var{F} equal to 0.5.  Since the
+   algorithm for computing quantiles involves interpolation this function
+   always returns a floating-point number, even for integer data types.
+\end{funcdesc}
+
+
+\subsection{Weighted Samples}
+\label{sec:weighted-samples}
+
+The functions described in this section allow the computation of statistics for
+weighted samples.  The functions accept an array of samples, $x_i$, with
+associated weights, $w_i$.  Each sample $x_i$ is considered as having been
+drawn from a Gaussian distribution with variance $\sigma_i^2$.  The sample
+weight $w_i$ is defined as the reciprocal of this variance, $w_i =
+1/\sigma_i^2$.  Setting a weight to zero corresponds to removing a sample from
+a dataset.
+
+\begin{funcdesc}{wmean}{w, data}
+   This function returns the weighted mean of the dataset \var{data} using the
+   set of weights \var{w}.  The weighted mean is defined as
+   \begin{equation}
+      \hat\mu = (\sum w_i x_i) / (\sum w_i)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wvariance }{w, data}
+   This function returns the estimated variance of the dataset \var{data},
+   using the set of weights \var{w}.  The estimated variance of a weighted
+   dataset is defined as
+   \begin{equation}
+      \hat\sigma^2 = ((\sum w_i)/((\sum w_i)^2 - \sum (w_i^2))) \sum w_i (x_i - \hat\mu)^2
+   \end{equation}
+   Note that this expression reduces to an unweighted variance with the
+   familiar $1/(N-1)$ factor when there are $N$ equal non-zero weights.
+\end{funcdesc}
+
+\begin{funcdesc}{wvariance_m}{w, data, wmean}
+   This function returns the estimated variance of the weighted dataset
+   \var{data} using the given weighted mean \var{wmean}.
+\end{funcdesc}
+
+\begin{funcdesc}{wsd}{w, data}
+   The standard deviation is defined as the square root of the variance.  This
+   function returns the square root of the corresponding variance function
+   \function{wvariance} above.
+\end{funcdesc}
+
+\begin{funcdesc}{wsd_m}{w, data, wmean}
+   This function returns the square root of the corresponding variance function
+   \function{wvariance_m} above.
+\end{funcdesc}
+
+\begin{funcdesc}{wvariance_with_fixed_mean}{w, data, mean}
+   This function computes an unbiased estimate of the variance of weighted
+   dataset \var{data} when the population mean \var{mean} of the underlying
+   distribution is known _a priori_.  In this case the estimator for the
+   variance replaces the sample mean $\hat\mu$ by the known population mean
+   $\mu$,
+   \begin{equation}
+      \hat\sigma^2 = (\sum w_i (x_i - \mu)^2) / (\sum w_i)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wsd_with_fixed_mean}{w, data, mean}
+   The standard deviation is defined as the square root of the variance.  This
+   function returns the square root of the corresponding variance function
+   above.
+\end{funcdesc}
+
+\begin{funcdesc}{wabsdev}{w, data}
+   This function computes the weighted absolute deviation from the weighted
+   mean of \var{data}.  The absolute deviation from the mean is defined as
+   \begin{equation}
+      absdev = (\sum w_i |x_i - \hat\mu|) / (\sum w_i)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wabsdev_m}{w, data, wmean}
+   This function computes the absolute deviation of the weighted dataset DATA
+   about the given weighted mean WMEAN.
+\end{funcdesc}
+
+\begin{funcdesc}{wskew}{w, data}
+   This function computes the weighted skewness of the dataset DATA.
+   \begin{equation}
+      skew = (\sum w_i ((x_i - xbar)/\sigma)^3) / (\sum w_i)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wskew_m_sd}{w, data, mean, wsd}
+   This function computes the weighted skewness of the dataset \var{data} using
+   the given values of the weighted mean and weighted standard deviation,
+   \var{wmean} and \var{wsd}.
+\end{funcdesc}
+
+\begin{funcdesc}{wkurtosis}{w, data}
+   This function computes the weighted kurtosis of the dataset \var{data}. The
+   kurtosis is defined as 
+   \begin{equation}
+      kurtosis = ((\sum w_i ((x_i - xbar)/sigma)^4) / (\sum w_i)) - 3
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wkurtosis_m_sd}{w, data, mean, wsd}
+   This function computes the weighted kurtosis of the dataset \var{data} using
+   the given values of the weighted mean and weighted standard deviation,
+   \var{wmean} and \var{wsd}.
+\end{funcdesc}
 
 
 
@@ -240,10 +499,16 @@ Particle Physics.
    \seetext{R.M. Barnett et al: Review of Particle Properties. \emph{Physical
          Review} \textbf{D54}, 1 (1996).}
    
-   \seetext{D.E. Groom et al., \emph{The European Physical Journal}
+   \seetext{D.E.\ Groom et al., \emph{The European Physical Journal}
       \textbf{C15}, 1 (2000) and \emph{2001 off-year partial update for the
          2002 edition} available on the PDG WWW pages (URL:
       \url{http://pdg.lbl.gov/}).}
+   
+   \seetext{Siegmund Brandt: \emph{Datenanalyse}, 4th ed. 1999, Spektrum,
+      Heidelberg, ISBN 3827401585.}  
+   
+   \seetext{Siegmund Brandt: \emph{Data Analysis}. 3rd ed. 1998, Springer,
+      Berlin, ISBN 0387984984.}
 \end{seealso}
 
 
