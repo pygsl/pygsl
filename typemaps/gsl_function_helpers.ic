@@ -809,6 +809,27 @@ static char * pygsl_multimin_df_function  = "multimin_df";
 static char * pygsl_multimin_fdf_function = "multimin_fdf";
 
 static double
+PyGSL_multimin_function_wrap(const gsl_vector *x, void *params)
+{
+     double tmp;
+     int flag;
+     callback_function_params *p;
+
+
+     p = (callback_function_params *) params;
+     flag = PyGSL_function_wrap_On_O(x, p->function, p->arguments, &tmp, NULL, x->size, p->c_func_name);
+     if (flag!= GSL_SUCCESS){
+	  if(p->buffer_is_set == 1){
+	       longjmp(p->buffer, flag);
+	       FUNC_MESS("\t\t Using jump buffer");
+	  } else {
+	       FUNC_MESS("\t\t Jump buffer was not defined!");
+	       tmp = gsl_nan();
+	  }
+     }
+     return tmp;
+}
+static double
 PyGSL_multimin_function_wrap_f(const gsl_vector *x, void *params)
 {
      double tmp;
@@ -873,6 +894,31 @@ PyGSL_multimin_function_wrap_fdf(const gsl_vector *x, void *params, double *f, g
 
 }
 
+static gsl_multimin_function *  
+PyGSL_convert_to_gsl_multimin_function(PyObject * object)
+{
+     gsl_multimin_function * f = NULL;
+     callback_function_params *params;
+     int size;
+
+     FUNC_MESS_BEGIN();
+     params = PyGSL_convert_to_generic_function(object, &size, NULL, pygsl_multimin_function);
+     if(params == NULL){
+	  return NULL;
+     }
+     if ((f = (gsl_multiroot_function *) malloc(sizeof(gsl_multimin_function))) == NULL){
+	  PyGSL_params_free(params);
+	  PyErr_NoMemory();
+	  return NULL;
+     }
+
+     /* f->f =  double (*) (const gsl_vector *, void *) PyGSL_multimin_function_wrap; */
+     f->f =  PyGSL_multimin_function_wrap;
+     f->n = size;
+     f->params   = params; 
+     FUNC_MESS_END();
+     return f;
+}
 
 static gsl_multimin_function_fdf *  
 PyGSL_convert_to_gsl_multimin_function_fdf(PyObject * object){
