@@ -1,0 +1,93 @@
+/* -*- C -*- */
+static PyArrayObject *
+PyGSL_New_Array(int nd, int *dimensions, int type)
+{
+     return (PyArrayObject *) PyArray_FromDims(nd, dimensions, type);
+     gsl_error("This function should not be called as a macro calls the"
+	       " approbriate numpy function",
+	       filename, __LINE__, GSL_ESANITY);
+     return NULL;
+}
+
+static PyArrayObject *
+PyGSL_Copy_Array(PyArrayObject *ob, int type)
+{
+     int nd;
+     nd = ob->nd;
+     if(!PyArray_Check((PyObject *) ob)){
+	  gsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
+	  return NULL;
+     }
+     return (PyArrayObject *) PyArray_Copy(ob);
+}
+
+PyArrayObject * 
+PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
+				      int array_type,
+				      int flag, 
+				      long size, int argnum, PyGSL_error_info * info)
+{
+     PyArrayObject * a_array = NULL;
+
+
+     FUNC_MESS_BEGIN();
+     if ((flag & PyGSL_CONTIGUOUS) == 0){
+	  a_array = (PyArrayObject *) PyArray_FromObject(src, array_type, 1, 1);
+     }else { 
+	  a_array = (PyArrayObject *) PyArray_ContiguousFromObject(src, array_type, 1, 1);
+     }
+     /* Here one could put some more information */
+     if(NULL == a_array)
+	  goto fail;
+
+     if(PyGSL_PyArray_Check(a_array, array_type, flag,  1, &size, argnum, info) != GSL_SUCCESS)
+	  goto fail;
+    
+     FUNC_MESS_END();
+     PyGSL_INCREASE_vector_transform_counter();
+     return a_array;
+ fail:
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
+     Py_XDECREF(a_array);
+     return NULL;
+}
+
+PyArrayObject *
+PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
+				      int array_type,
+				      int flag, 
+				      long size1, long size2, int argnum, 
+				      PyGSL_error_info * info)
+{
+     PyArrayObject * a_array = NULL;
+     long dimensions[2];
+
+     if ((flag & PyGSL_CONTIGUOUS) == 0){
+	  FUNC_MESS("\t Looking for NON Contiguous Matrix");
+	  a_array = (PyArrayObject *) PyArray_FromObject(src, array_type, 2, 2);
+     } else {
+	  FUNC_MESS("\t Looking for     Contiguous Matrix");
+	  a_array = (PyArrayObject *) PyArray_ContiguousFromObject(src, array_type, 2, 2);
+     }
+     if(NULL == a_array){
+	  FUNC_MESS("\t Conversion to Array Failed!");
+	  goto fail;
+     }
+
+     dimensions[0] = size1;
+     dimensions[1] = size2;
+     if(PyGSL_PyArray_Check(a_array, array_type, flag,  2, dimensions, argnum, info) != GSL_SUCCESS)
+	  goto fail;
+
+     PyGSL_INCREASE_matrix_transform_counter();    
+     FUNC_MESS_END();
+     return a_array;
+
+ fail:
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
+     Py_XDECREF(a_array);
+     return NULL;
+
+}
+
+/* EOF */
