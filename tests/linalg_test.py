@@ -134,9 +134,10 @@ class LinalgTestCase(GSLTestCase):
         b = array([1,1,1,1], Float)
         (qr,tau) = QR_decomp(A)
         (x, res) = QR_lssovle(qr, tau, b)
-        res1 = arrayCompare(x, [ -0.0000001, 0.25925], 3)
-        res2 = arrayCompare(res, [0.48148, 0.2222, -0.03703, -0.296296], 4)
-        self.failUnless(res1 and res2)
+        assert(Numeric.absolute(x[0]) < 1e-7)
+        assert(Numeric.absolute(x[1] - 0.25925) < 1e-4)        
+        res2 = arrayCompare(res, [0.48148, 0.2222, -0.037037037, -0.296296], 4)
+        self.failUnless(res2)
 
     def testQR_QTvec(self):
         (qr, tau) = QR_decomp(self.m1_4)
