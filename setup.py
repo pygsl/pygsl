@@ -39,15 +39,16 @@ exts.append(gsl_Extension("_hankel",
                           )
             
             )
-exts.append(gsl_Extension("_sum",
-                          ["swig_src/sum_wrap.c"],
-                          gsl_min_version=(1,0),
-                          define_macros = [('SWIG_COBJECT_TYPES', 1),
-                                           #('DEBUG' ,'2'),
-                                           ],
-                          python_min_version=(2,0),
-                          )
-            )
+# Basic implementation here but not working yet....
+#exts.append(gsl_Extension("_sum",
+#                          ["swig_src/sum_wrap.c"],
+#                          gsl_min_version=(1,0),
+#                          define_macros = [('SWIG_COBJECT_TYPES', 1),
+#                                           #('DEBUG' ,'2'),
+#                                           ],
+#                          python_min_version=(2,0),
+#                          )
+#            )
 
 exts.append(gsl_Extension("__callback",
                           ["swig_src/callback_wrap.c"],
@@ -208,6 +209,7 @@ setup (name = "pygsl",
                      'pygsl.statistics.__init__',
                      'pygsl._block',
                      'pygsl._callback',
+                     'pygsl.hankel',
                      'pygsl._generic_solver',
                      'pygsl._poly',
                      'pygsl.blas',
