@@ -69,7 +69,7 @@ these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
 \label{sec:stat:available-functions}
 
 \subsection{Mean, Standard Deviation, and Variance}
-\label{sec:stat:mean-stddev}
+\label{sec:stat:mean-stddev-var}
 
 \begin{funcdesc}{mean}{x}\index{mean}
    Arithmetic mean (\emph{sample mean}) of \var{x}:
@@ -114,10 +114,6 @@ these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
 \end{funcdesc}
 
 
-\subsection{Mean, Standard Deviation, and Variance}
-\label{sec:stat:mean-sd-var}
-
-
 \subsection{Absolute deviation}
 \label{sec:stat:absolute-deviation}
 
@@ -129,9 +125,46 @@ these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
 \subsection{Autocorrelation}
 \label{sec:stat:autocorrelation}
 
+\begin{funcdesc}{lag1_autocorrelation}{x}
+   Computes the lag-1 autocorrelation of the dataset \var{x}
+   \begin{equation}
+      a_1 = \frac{\sum^{n}_{i = 1} (x_{i} - \hat\mu) (x_{i-1} - \hat\mu)}{
+         \sum^{n}_{i = 1} (x_{i} - \hat\mu) (x_{i} - \hat\mu)}
+   \end{equation}
+ \end{funcdesc}
+
+\begin{funcdesc}{lag1_autocorrelation_m}{x, mean}
+   Computes the lag-1 autocorrelation of the dataset \var{x} using the given
+   value of the mean \var{mean}.
+   \begin{equation}
+      a_1 = \frac{\sum_{i = 1}^{n} (x_{i} - \var{mean}) (x_{i-1} - \var{mean})}{
+         \sum^{n}_{i = 1} (x_{i} - \var{mean}) (x_{i} - \var{mean})}
+   \end{equation}
+\end{funcdesc}
+
 
 \subsection{Covariance}
 \label{sec:stat:covariance}
+
+\begin{funcdesc}{covariance}{x, y}
+   Computes the covariance of the datasets \var{x} and \var{y} which must be of
+   same length.
+   \begin{equation}
+      c = \frac{1}{n-1} \sum^{n}_{i=1} (x_i - \hat x) (y_i - \hat y)
+   \end{equation}
+ \end{funcdesc}
+
+\begin{funcdesc}{lag1_autocorrelation_m}{x, y, mean\_x, mean\_y}
+   Computes the covariance of the datasets \var{x} and \var{y} using the given
+   values of the means \var{mean\_x} and \var{mean\_y}. The datasets \var{x}
+   and \var{y} must be of equal length.
+   \begin{equation}
+      c = \frac{1}{n-1} \sum^{n}_{i=1} (x_i - \var{mean\_x}) (y_i -
+      \var{mean\_y})
+   \end{equation}
+\end{funcdesc}
+
+
 
 
 \subsection{Maximum and Minimum values}
@@ -159,8 +192,8 @@ against data-losses due to downcasts are taken. Esp. when calling functions
 from a module of the smaller datatpes (\module{char}, \module{uchar},
 \module{short}) you have to make sure all your data fits into the C
 representation of the respective C dataype on the machine the program is
-\emph{executed}. \footnote{Of course you also should not pass floating point
-   data to integer modules.}
+\emph{executed}. \footnote{Of course you should not pass floating point data to
+   integer modules either.}
 
 In general, when not using \numpy{} you should always use the default
 implementation \module{pygsl.statistics} or the special implementation
