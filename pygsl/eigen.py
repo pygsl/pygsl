@@ -11,6 +11,12 @@ import _gslwrap
 import gslwrap
 import Numeric
 
+eigen_symm_workspace = gslwrap.gsl_eigen_symm_workspace
+eigen_symmv_workspace = gslwrap.gsl_eigen_symmv_workspace
+eigen_herm_workspace = gslwrap.gsl_eigen_symm_workspace
+eigen_hermv_workspace = gslwrap.gsl_eigen_symmv_workspace
+
+
 def eigenvalues(a, ws=None):
     """eigenvalues(a, ws=None) -> array
     
