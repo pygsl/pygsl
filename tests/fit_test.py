@@ -19,20 +19,20 @@ class FitTest(unittest.TestCase):
 
 
     def test_0_linear(self):
-        tmp, c0, c1, c00, c01, c10, sumsq =  fit.linear(self.x, self.y)
+        c0, c1, c00, c01, c10, sumsq =  fit.linear(self.x, self.y)
         assert(Numeric.absolute(c0 - self.a)<self._eps)
         assert(Numeric.absolute(c1 - self.b)<self._eps)
-        y, yerr =  fit.est(1, c0, c1, c00, c01, c10)[1:]
+        y, yerr =  fit.est(1, c0, c1, c00, c01, c10)
         assert(Numeric.absolute(y - (self.a+self.b*1)) < self._eps)
         assert(Numeric.absolute(yerr) < self._eps)
         
 
         
     def test_1_wlinear(self):
-        tmp, c0, c1, c00, c01, c10, chisq = fit.wlinear(self.x, self.w, self.y)
+        c0, c1, c00, c01, c10, chisq = fit.wlinear(self.x, self.w, self.y)
         assert(Numeric.absolute(c0 - self.a)<self._eps)
         assert(Numeric.absolute(c1 - self.b)<self._eps)
-        y, yerr =  fit.est(1, c0, c1, c00, c01, c10)[1:]
+        y, yerr =  fit.est(1, c0, c1, c00, c01, c10)
         assert(Numeric.absolute(y - (self.a+self.b*1)) < self._eps)
 
 class FitMulTest(unittest.TestCase):
@@ -46,19 +46,18 @@ class FitMulTest(unittest.TestCase):
 
 
     def test_0_linear(self):
-        tmp, c1, c11, sumsq =  fit.mul(self.x, self.y)
-        assert(tmp==0)
+        c1, c11, sumsq =  fit.mul(self.x, self.y)
         assert(Numeric.absolute(c1 - self.b)<self._eps)
-        y, yerr =  fit.mul_est(1, c1, c11)[1:]
+        y, yerr =  fit.mul_est(1, c1, c11)
         assert(Numeric.absolute(y - (self.a+self.b*1)) < self._eps)
         assert(Numeric.absolute(yerr) < self._eps)
         
 
         
     def test_1_wlinear(self):
-        tmp, c1,  c11, chisq = fit.wmul(self.x, self.w, self.y)
+        c1,  c11, chisq = fit.wmul(self.x, self.w, self.y)
         assert(Numeric.absolute(c1 - self.b)<self._eps)
-        y, yerr =  fit.mul_est(1, c1, c11)[1:]
+        y, yerr =  fit.mul_est(1, c1, c11)
         assert(Numeric.absolute(y - (self.a+self.b*1)) < self._eps)
 
 
@@ -79,14 +78,12 @@ class MultiFitTest(unittest.TestCase):
 
     
     def test_linear(self):
-        flag, c, cov, chisq = multifit.linear(self.X, self.y, self.ws)
-        assert(flag == 0)
+        c, cov, chisq = multifit.linear(self.X, self.y, self.ws)
         assert(Numeric.absolute(c[0] - self.a) < self._eps)
         assert(Numeric.absolute(c[1] - self.b) < self._eps)
 
     def test_wlinear(self):
-        flag, c, cov, chisq = multifit.wlinear(self.X, self.w, self.y, self.ws)
-        assert(flag == 0)
+        c, cov, chisq = multifit.wlinear(self.X, self.w, self.y, self.ws)
         assert(Numeric.absolute(c[0] - self.a) < self._eps)
         assert(Numeric.absolute(c[1] - self.b) < self._eps)
 
