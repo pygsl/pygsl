@@ -1,7 +1,7 @@
 # Author : Pierre Schnizer 
 import sys
 import unittest
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl
 #print pygsl
 #multiroots = pygsl.roots.multiroots

@@ -3,7 +3,7 @@ import unittest
 import pygsl
 from pygsl.linalg import *
 from gsl_test import *
-import Numeric
+import pygsl._numobj as Numeric
 
 class LinalgTestCase(GSLTestCase):
     def testLU_decomp(self):

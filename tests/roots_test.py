@@ -3,7 +3,7 @@ import sys
 from pygsl import  roots
 import unittest
 #import unittestgui
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl
 sys.stdout = sys.stderr
 

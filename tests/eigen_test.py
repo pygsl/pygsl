@@ -1,6 +1,6 @@
 # Author : Fabian Jakobs 
 import unittest
-import Numeric
+import pygsl._numobj as Numeric
 #import _pygsl2
 from gsl_test import *
 from pygsl.eigen import *

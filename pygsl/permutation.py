@@ -8,7 +8,7 @@ where v'_i = v_{p_i}.  For example, the array (0,1,3,2) represents a
 permutation which exchanges the last two elements of a four element
 vector.  The corresponding identity permutation is (0,1,2,3).
 """
-import Numeric
+
 import gslwrap
 
 class Permutation(gslwrap.Permutation):

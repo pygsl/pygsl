@@ -1,6 +1,6 @@
 # Author : Pierre Schnizer 
 import sys
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl
 from pygsl import  odeiv
 sys.stdout = sys.stderr

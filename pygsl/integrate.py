@@ -12,7 +12,7 @@ written by Piessens, Doncker-Kapenga, Uberhuber and Kahaner.  Fortran code for
 QUADPACK is available on Netlib.
 """
 import _callback
-import Numeric
+
 
 from  gsl_function import gsl_function
 from _generic_solver import _workspace

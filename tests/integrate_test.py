@@ -2,7 +2,7 @@
 # Author : Pierre Schnizer
 
 import unittest
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl
 from pygsl import  integrate
 

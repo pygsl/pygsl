@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import unittest
-import Numeric
+import pygsl._numobj as Numeric
 from pygsl import spline, interpolation, errors
 
 class _test_common(unittest.TestCase):

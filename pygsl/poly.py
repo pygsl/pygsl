@@ -11,7 +11,7 @@ available for finding the roots of general polynomials with real coefficients
 All the doc strings were taken form the gsl reference document.
 """
 
-import Numeric
+import pygsl._numobj as Numeric
 import _poly
 
 #GSL_SUCCESS = pygsl.errors.GSL_SUCCESS

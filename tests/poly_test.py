@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer 
 import types
-import Numeric
+import pygsl._numobj as Numeric
 from pygsl import poly
 import unittest
 #import pygsl

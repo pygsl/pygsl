@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import types
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl.monte as monte
 import pygsl.rng
 
