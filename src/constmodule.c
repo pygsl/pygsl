@@ -15,38 +15,47 @@ static PyMethodDef constMethods[] = {
   {NULL,     NULL}        /* Sentinel */
 };
 
-static void add_constants(PyObject* m)
+static void add_math_constants(PyObject* m)
 {
-  PyModule_AddObject(m,"posinf",PyFloat_FromDouble(GSL_POSINF));
-  PyModule_AddObject(m,"neginf",PyFloat_FromDouble(GSL_NEGINF));
-  PyModule_AddObject(m,"nan",PyFloat_FromDouble(GSL_NAN));
-  PyModule_AddObject(m,"e",PyFloat_FromDouble(M_E));
-  PyModule_AddObject(m,"log2e",PyFloat_FromDouble(M_LOG2E));
-  PyModule_AddObject(m,"log10e",PyFloat_FromDouble(M_LOG10E));
-  PyModule_AddObject(m,"sqrt2",PyFloat_FromDouble(M_SQRT2));
-  PyModule_AddObject(m,"sqrt1_2",PyFloat_FromDouble(M_SQRT1_2));
-  PyModule_AddObject(m,"sqrt3",PyFloat_FromDouble(M_SQRT3));
-  PyModule_AddObject(m,"pi",PyFloat_FromDouble(M_PI));
-  PyModule_AddObject(m,"pi_2",PyFloat_FromDouble(M_PI_2));
-  PyModule_AddObject(m,"pi_4",PyFloat_FromDouble(M_PI_4));
-  PyModule_AddObject(m,"sqrtpi",PyFloat_FromDouble(M_SQRTPI));
-  PyModule_AddObject(m,"two_sqrtpi",PyFloat_FromDouble(M_2_SQRTPI));
-  PyModule_AddObject(m,"one_pi",PyFloat_FromDouble(M_1_PI));
-  PyModule_AddObject(m,"two_pi",PyFloat_FromDouble(M_2_PI));
-  PyModule_AddObject(m,"ln10",PyFloat_FromDouble(M_LN10));
-  PyModule_AddObject(m,"ln2",PyFloat_FromDouble(M_LN2));
-  PyModule_AddObject(m,"lnpi",PyFloat_FromDouble(M_LNPI));
-  PyModule_AddObject(m,"euler",PyFloat_FromDouble(M_EULER));
-#include "scientific_constants.c"
+#include "const_add_math.c"
 }
 
+static void add_num_constants(PyObject* m)
+{
+#include "const_add_num.c"
+}
+
+static void add_mks_constants(PyObject *m){
+#include "const_add_mks.c"
+}
+
+static void add_cgs_constants(PyObject *m){
+#include "const_add_cgs.c"
+}
 
 DL_EXPORT(void) initconst(void)
 {
-  /* error handler for gsl routines, sets exception */
+  PyObject* const_module = Py_InitModule("const", constMethods);
+  PyObject* mks_module   = PyImport_AddModule("pygsl.const.mks");
+  PyObject* cgs_module   = PyImport_AddModule("pygsl.const.cgs");
+  PyObject* math_module  = PyImport_AddModule("pygsl.const.math");
+  PyObject* num_module   = PyImport_AddModule("pygsl.const.num");
 
-  PyObject* m=Py_InitModule("const", constMethods);
-  add_constants(m);
+  /* distribute constants on modules */
+  add_math_constants(const_module);
+  add_num_constants(const_module);
+  add_mks_constants(const_module);
+  add_mks_constants(mks_module);
+  add_cgs_constants(cgs_module);
+  add_num_constants(num_module);
+  add_math_constants(math_module);
+
+  /* add them to to the root module */
+  PyModule_AddObject(const_module,"cgs",cgs_module);
+  PyModule_AddObject(const_module,"mks",mks_module);
+  PyModule_AddObject(const_module,"math",math_module);
+  PyModule_AddObject(const_module,"num",num_module);
 
   return;
 }
+

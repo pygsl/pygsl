@@ -2,16 +2,37 @@
 \moduleauthor{Achim G\"adke}{achimgaedke@users.sourceforge.net}
 
 In this module some usefull constants are defined.
-There are three groups of constants:
+There are four groups of constants:
 
 \begin{itemize}
 \item mathematical
 \item physical in cgs unit system
 \item physical in mks unit system
+\item physical number constants (e.g. fine structure)
 \end{itemize}
 
-\section{mathematical constants}
+The other modules are created during the initialisation of \module{pygsl.const}.
+The mathematical, physical mks constants and number constants are available in the namespace of \module{pygsl.const}, e.g.
+\begin{verbatim}
+import pygsl.const
+import pygsl.const.cgs
+print pygsl.const.cgs.speed_of_light/pygsl.const.speed_of_light
+\end{verbatim}
+Of course the result is 100.0.
 
-\section{\protect\code{cgs_*} constants}
+\section[\protect\module{pygsl.const.math} --- Mathematical constants]
+{\protect\module{pygsl.const.math} \\ Mathematical constants} 
+\label{cha:const-math-module}
 
-\section{\protect\code{mks_*} constants}
+\section[\protect\module{pygsl.const.cgs} --- Scientific constants in cgs units]
+{\protect\module{pygsl.const.cgs} \\ Scientific constants in cgs units} 
+\label{cha:const-cgs-module}
+
+\section[\protect\module{pygsl.const.mks} --- Scientific constants in mks units]
+{\protect\module{pygsl.const.mks} \\ Scientific constants in mks units} 
+\label{cha:const-mks-module}
+
+\section[\protect\module{pygsl.const.num} --- Scientific number constants]
+{\protect\module{pygsl.const.num} \\ Scientific number constants} 
+\label{cha:const-num-module}
+
