@@ -322,7 +322,7 @@ static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args)              \
 
 #include "rng_distributions.h"
 
-/* Redefine to trigger emacs into correct coloring*/
+/* Redefine to trigger emacs into correct coloring */
 /*
  * This list is not optimized. I guess... Do you know how to optimize it?
  */
@@ -336,8 +336,11 @@ static struct PyMethodDef rng_methods[] = {
   {"max", (PyCFunction) rng_max, METH_VARARGS, rng_max_doc},
   {"min", (PyCFunction) rng_min, METH_VARARGS, rng_min_doc},
   {"clone", (PyCFunction) rng_clone, METH_VARARGS, rng_clone_doc},
+#if  (PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION == 3)
+  /* RNG clone can not be used to copy a rng type in python 2.3 No idea how to do that correctly */
+#else
   {"__copy__", (PyCFunction) rng_clone, METH_VARARGS, rng_clone_doc},
-
+#endif
   /* distributions */
   {"gaussian", (PyCFunction) rng_gaussian,METH_VARARGS, rng_gaussian_doc},
   {"gaussian_ratio_method", (PyCFunction) rng_gaussian_ratio_method,METH_VARARGS, rng_gaussian_ratio_doc},
@@ -556,6 +559,7 @@ initrng(void)
      PyGSL_rng_type_pytype.ob_type = &PyType_Type;
      PyGSL_rng_pytype.ob_type = &PyType_Type;
      import_array();
+     init_pygsl();
      return;
      
  fail:
