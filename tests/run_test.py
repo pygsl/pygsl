@@ -5,7 +5,7 @@ import glob
 
 excluded_files = ['gsl_test.py', 'run_test.py']
 
-def run_file(file):
+def run_file_posix(file):
     
 
     pid = os.fork()
@@ -31,7 +31,18 @@ def run_file(file):
 	sys.exit(-1)
     else:
 	raise ValueError, "How could I end up here?"
-	
+
+def run_file_nt(file):
+    absfile = os.path.abspath(file)
+    print absfile
+    pid = os.spawnv(os.P_WAIT, sys.executable, (" ", absfile))
+    pass
+
+if os.name == 'posix':
+    run_file = run_file_posix
+elif os.name == 'nt':   
+    run_file = run_file_nt
+    
 def run():
     import pygsl
     try:
