@@ -36,11 +36,11 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 
 	  int stride_recalc=0;
 
-	  a_array = (PyArrayObject *) PyArray_FromDims(1, &_work_provide_n_work_provide, PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyArray_FromDims(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
 	  if(NULL == a_array){
 	       return NULL;
 	  }
-	  a_array = _PyVector$argnum;
+	  _PyVector$argnum = a_array;
 
 	  /* Numpy calculates strides in bytes, gsl in basis type */
 	  stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_$1_basetype);
@@ -57,7 +57,7 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  PyArrayObject * a_array;
 
 	  int stride_recalc=0, dimensions[2];
-	  dimensions[0] = _work_provide_n_work_provide;
+	  dimensions[0] = _work_provide_p_work_provide;
 	  dimensions[1] = _work_provide_p_work_provide;
 	  a_array = (PyArrayObject *) PyArray_FromDims(2, dimensions, PyArray_DOUBLE);
 	  if(NULL == a_array){
@@ -77,6 +77,14 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 
 	  $1 = ($basetype *) &(_matrix$argnum.matrix);
 }
+%typemap(argout) gsl_vector * OUT{
+     $result = t_output_helper($result,  (PyObject *) _PyVector$argnum);
+     _PyVector$argnum =NULL;
+};
+%typemap(argout) gsl_matrix * OUT{
+     $result = t_output_helper($result,  (PyObject *) _PyMatrix$argnum);
+     _PyMatrix$argnum =NULL;
+};
 
 /* ---------------------------------------------------------------------- */
 /* 
