@@ -89,13 +89,13 @@ class gsl_Extension(Extension):
 
 
 	    # test if Numeric module is available
+	    if define_macros is None:
+		    define_macros=[]
 	    try:
 		    imp.find_module("Numeric")
-		    if define_macros is None:
-			    define_macros=[]
-		    define_macros.append(("HAVE_NUMERIC",None))
+		    define_macros.append(("NUMERIC",1))
 	    except ImportError:
-		    pass
+                    define_macros.append(("NUMERIC",0))
 	    
             Extension.__init__(self, name, sources,
                                include_dirs,

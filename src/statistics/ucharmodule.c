@@ -9,7 +9,7 @@
 
 
 #include <Python.h>
-#ifdef HAVE_NUMERIC
+#if NUMERIC!=0
 # define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_UCHAR
 # include <Numeric/arrayobject.h>
 #endif
@@ -33,7 +33,7 @@
 DL_EXPORT(void) inituchar(void)
 {
     Py_InitModule("uchar", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
-#ifdef HAVE_NUMERIC
+#if NUMERIC!=0
     import_array();
 #endif
     return;

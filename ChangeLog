@@ -1,0 +1,11 @@
+2002-01-27  Jochen Küpper  <jochen@jochen-kuepper.de>
+
+	* gsl_Extension.py (gsl_Extension.__init__): Set additional macro
+	NUMERIC to 0 or 1 according to the availablity of NumPy. This
+	macro can be used as boolean flag in code.
+
+
+	* Local Variables:
+	* mode: auto-fill
+	* fill-column: 79
+	* End:

@@ -11,20 +11,20 @@
 #include <Python.h>
 #include <gsl/gsl_statistics.h>
 
-#ifdef HAVE_NUMERIC
+#if NUMERIC!=0
 # define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_FLOAT
 # include <Numeric/arrayobject.h>
-#endif /* HAVE_NUMERIC */
+#endif /* NUMERIC */
 
 
 /* include real functions for default data-types (double in C) */
 
 #define STATMOD_WEIGHTED
-#ifdef HAVE_NUMERIC
+#if NUMERIC!=0
 #  define STATMOD_APPEND_PY_TYPE(X) X ## Float32
 #else
 #  define STATMOD_APPEND_PY_TYPE(X) X ## Float
-#endif /* HAVE_NUMERIC */
+#endif /* NUMERIC */
 #define STATMOD_APPEND_PYC_TYPE(X) X ## FLOAT
 #define STATMOD_FUNC_EXT(X, Y) X ## _float ## Y
 #define STATMOD_PY_AS_C PyFloat_AsDouble
@@ -37,7 +37,7 @@
 
 DL_EXPORT(void) initfloat(void)
 {
-#ifdef HAVE_NUMERIC
+#if NUMERIC!=0
     import_array();
 #endif
     (void)Py_InitModule("float", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));

@@ -8,7 +8,7 @@
  */
 
 
-#ifndef HAVE_NUMERIC
+#if NUMERIC==0
 /** NumPy replacements
  *
  * In case NumPy is not available,
@@ -111,7 +111,7 @@ PyTypeObject PyArray_Type = {
 #  define STATMOD_FREE(data) free(data->descr); free(data);
 #else
 #  define STATMOD_FREE(data) Py_DECREF(data);
-#endif /* HAVE_NUMERIC */
+#endif /* NUMERIC */
 
 
 /** macros of the actual function implementations
@@ -126,7 +126,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     double result; \
     size_t stride=1, n; \
  \
-    if(PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
+    if(NUMERIC && PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
        && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
         /* already have NumPy array of right data-type */ \
         if(data->nd != 1) { \
@@ -158,7 +158,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     size_t stride1=1, stride2=1; \
     size_t n1, n2; \
  \
-    if(PyArg_ParseTuple(args, "O!O!", &PyArray_Type, &data1, &PyArray_Type, &data2) \
+    if(NUMERIC && PyArg_ParseTuple(args, "O!O!", &PyArray_Type, &data1, &PyArray_Type, &data2) \
        && (data1->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_)) \
        && (data2->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
         /* already have NumPy array of Floats  */ \
@@ -206,7 +206,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     size_t stride1=1, stride2=1; \
     size_t n1, n2; \
  \
-    if(PyArg_ParseTuple(args, "O!O!d", &PyArray_Type, &data1, &PyArray_Type, &data2, &mean) \
+    if(NUMERIC && PyArg_ParseTuple(args, "O!O!d", &PyArray_Type, &data1, &PyArray_Type, &data2, &mean) \
        && (data1->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_)) \
        && (data2->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
         /* already have NumPy array of Floats  */ \
@@ -255,7 +255,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     int stride1=1, stride2=1; \
     size_t n1, n2; \
  \
-    if(PyArg_ParseTuple(args, "O!O!dd", &PyArray_Type, &data1, &PyArray_Type, &data2, &mean1, &mean2) \
+    if(NUMERIC && PyArg_ParseTuple(args, "O!O!dd", &PyArray_Type, &data1, &PyArray_Type, &data2, &mean1, &mean2) \
        && (data1->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_)) \
        && (data2->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
         /* already have NumPy array of Floats  */ \
@@ -304,7 +304,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     double result; \
     size_t stride=1, n; \
  \
-    if(PyArg_ParseTuple(args, "O!d", &PyArray_Type, &data, &mean) \
+    if(NUMERIC && PyArg_ParseTuple(args, "O!d", &PyArray_Type, &data, &mean) \
        && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
         /* already have NumPy array of Floats  */ \
         if(data->nd != 1) { \
@@ -337,7 +337,7 @@ STATMOD_FUNC_EXT(statistics_ ## name, )(PyObject *self, PyObject *args) \
     int stride=1; \
     size_t n; \
  \
-    if(PyArg_ParseTuple(args, "O!dd", &PyArray_Type, &data, &mean, &sd) \
+    if(NUMERIC && PyArg_ParseTuple(args, "O!dd", &PyArray_Type, &data, &mean, &sd) \
        && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
         /* already have NumPy array of Floats  */ \
         if(data->nd != 1) { \
@@ -371,7 +371,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     int stride=1; \
     size_t n; \
  \
-    if(PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
+    if(NUMERIC && PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
        && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
         /* already have NumPy array of Floats  */ \
         if(data->nd != 1) { \
@@ -405,7 +405,7 @@ STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject *self, PyObject *args) \
     int stride=1; \
     size_t n; \
  \
-    if(PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
+    if(NUMERIC && PyArg_ParseTuple(args, "O!", &PyArray_Type, &data) \
        && (data->descr->type_num == STATMOD_APPEND_PYC_TYPE(PyArray_))) { \
         /* already have NumPy array of Floats  */ \
         if(data->nd != 1) { \

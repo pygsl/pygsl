@@ -1,0 +1,20 @@
+2002-01-27  Jochen Küpper  <jochen@jochen-kuepper.de>
+
+	* functions.c (All function macro implementations): Add a test for
+	NumPy as first part of the if-clause trying to parse a real NumPy
+	array. This way the compiler optimizes it away in the non-NumPy case
+	(or at least never performs any of the code -- I hope you are
+	debugging, otherwise its a crappy compiler:).
+
+2002-01-26  Jochen Küpper  <jochen@jochen-kuepper.de>
+
+	* all: first complete working implementation. Submodules char, uchar,
+	short, int, long, float, and double are available and work with
+	NumPy. Other datatypes are not provided by NumPy.  There are some
+	remaining problems with the non-NumPy implementation, to be resolved:)
+
+
+	* Local Variables:
+	* mode: auto-fill
+	* fill-column: 79
+	* End:
