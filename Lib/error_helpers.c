@@ -175,6 +175,7 @@ PyObject * PyGSL_get_error_object(int gsl_error)
      case GSL_ETOLX   : err_str = "gsl_ToleranceXError";         break;
      case GSL_ETOLG   : err_str = "gsl_ToleranceGradientError";  break;
      case GSL_EOF     : err_str = "gsl_EOFError";                break;
+     case PyGSL_ESTRIDE : err_str = "pygsl_StrideError";	 break; 
      default:
 	  err_str = default_err_str;
      } /* switch(gsl_errno) */

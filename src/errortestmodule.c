@@ -83,6 +83,7 @@ DL_EXPORT(void) initerrortest(void)
      ADD_ERRNO(GSL_ETOLX   , "GSL_ETOLX"   );
      ADD_ERRNO(GSL_ETOLG   , "GSL_ETOLG"   );
      ADD_ERRNO(GSL_EOF     , "GSL_EOF"     );
+     ADD_ERRNO(PyGSL_ESTRIDE, "PyGSL_ESTRIDE");
      
 
 

@@ -4,9 +4,19 @@
 #include <pygsl/utils.h>
 #include <Python.h>
 
+/*
+ * PyGSL needs also to flag errors which do not match to one of the errors of
+ * GSL.
+ */
+enum{
+     PyGSL_ESTRIDE = 64, /* 
+			  *  Can not convert the stride from a Python array
+			  *  object to a GSL Vector/Matrix stride 
+			  */
+};
 
 /*
- * Handle gsl error flags.
+ * handle gsl error flags.
  *
  * If a flag arrives check if there was already a python error. If so leave it alone.
  * We cannot return two exceptions. 

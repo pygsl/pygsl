@@ -230,6 +230,13 @@ class gsl_DomainError(gsl_Error):
     pass
 
 
+class pygsl_StrideError(gsl_SanityCheckError):
+    """
+    Could not recalculate a stride of a python array object to the stride
+    of a gsl_vector or gsl_matrix.
+    """
+    pass
+
 class pygsl_NotImplementedError(gsl_Error, exceptions.NotImplementedError):
      """
      Base for all Errors, which are known but not implemented yet!
