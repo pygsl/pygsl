@@ -19,11 +19,12 @@ relations to compute average quantities in a stable way, without large
 intermediate values that might overflow. 
 
 All functions work on any Python sequence (of the appropriate
-data-type), but see section \ref{Speed considerations} for advantages and
-drawbacks of different kinds of input data.
+data-type), but see section \ref{sec:stat-speed-considerations} for
+advantages and drawbacks of different kinds of input data.
 
 
 \section{Organization of the module}
+\label{sec:stat-organization}
 
 The parts of the GSL functions names, providing artificial name spaces,
 are mapped to modules and submodules in pygsl.  That is
@@ -42,7 +43,8 @@ Currently implemented submodules are \code{pygsl.statistics.double} and
 
 
 \section{Speed considerations}
-\label{Speed considerations}
+\label{sec:stat-speed-considerations}
+
 All functions work on any Python sequence type but are optimized for use
 with NumPy arrays. It is strongly suggested that you install NumPy
 (available from \url{http://www.numpy.org})!
@@ -57,6 +59,20 @@ to the function.
 
 
 \section{Further Reading}
+\label{sec:stat-further-reading}
 
 See the gsl reference manual for a description of all available
 functions and the calculations they perform.
+
+
+%% Local Variables:
+%% mode: LaTeX
+%% mode: auto-fill
+%% fill-column: 79
+%% ispell-dictionary: "american"
+%% reftex-fref-is-default: nil
+%% TeX-auto-save: t
+%% TeX-command-default: "pdfeLaTeX"
+%% TeX-master: "pygsl"
+%% TeX-parse-self: t
+%% End:

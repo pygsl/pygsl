@@ -34,8 +34,8 @@ class statistics_test(unittest.TestCase):
         self.failIf(mean(data[::-2]) != 6.0)
 
     def test_mean_float(self):
-        #self.failIf(float.mean(array([-1.,-3.,1.]), Float32) != -1)
-        #self.failIf(float.mean([1.,2.,3.]) != 2)
+        self.failIf(float.mean(array([-1.,-3.,1.], Float32)) != -1)
+        self.failIf(float.mean([1.,2.,3.]) != 2)
         return
     
     def test_mean_long(self):
