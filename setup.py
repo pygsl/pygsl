@@ -26,6 +26,11 @@ pygsl_histogram=gsl_Extension("histogram",
                               gsl_min_version=(1,'0+'),
                               python_min_version=(2,2)
                               )
+pygsl_histogram=gsl_Extension("matrix",
+                              ['src/matrixmodule.c'],
+                              gsl_min_version=(1,'0+'),
+                              python_min_version=(2,2)
+                              )
 pygsl_ieee=gsl_Extension("ieee",
 			 ['src/ieeemodule.c'],
                          gsl_min_version=(1,),
