@@ -95,15 +95,16 @@ static PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;
 { \
    PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
    if ( \
-      (pygsl = PyImport_ImportModule("pygsl.statistics._stat"))         != NULL && \
-      (md = PyModule_GetDict(pygsl))                       != NULL && \
+      (pygsl = PyImport_ImportModule("pygsl.statistics._stat"))   != NULL && \
+      (md = PyModule_GetDict(pygsl))                              != NULL && \
       (c_api = PyDict_GetItemString(md, "_PYGSL_STATISTICS_API")) != NULL && \
       (PyCObject_Check(c_api))                                        \
      ) { \
 	 PyGSL_STATISTICS_API = (void **)PyCObject_AsVoidPtr(c_api); \
    } else { \
+        fprintf(stderr, "Could not init pygsl.statistics._stat!\n"); \
         PyGSL_STATISTICS_API = NULL; \
    } \
-   /* fprintf(stderr, "PyGSL_API points to %p\n", (void *) PyGSL_API); */ \
+   if(!PyGSL_API) fprintf(stderr, "PyGSL_API points to %p in file %s\n", (void *) PyGSL_API, __FILE__);  \
 }
 #endif /* PYGSL_STATMODULE_H */
