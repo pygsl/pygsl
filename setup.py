@@ -21,7 +21,8 @@ libpygsl = ('pygsl', {'sources' : ['Lib/general_helpers.c',
                                    'Lib/error_helpers.c',
                                    'Lib/rng_helpers.c',
                                    'Lib/profile.c',
-                                   'Lib/chars.c'],
+                                   'Lib/chars.c',
+                                   ],
                       'include_dirs' : ['Include',
                                         sysconfig.get_python_inc()],
                       'shared' : 1,
@@ -124,12 +125,21 @@ try:
                             python_min_version=(2,2)
                          )
     exts.append(pygsl_rng)
+    pygsl_qrng=gsl_Extension("_qrng",
+                            ['src/qrng_module.c'],
+                            #define_macros = [('DEBUG', 10)],
+                            gsl_min_version=(1,'0+'),
+                            python_min_version=(2,2)
+                         )
+    exts.append(pygsl_qrng)
+    
     pygsl_ieee=gsl_Extension("ieee",
                              ['src/ieeemodule.c'],
                              gsl_min_version=(1,),
                              python_min_version=(2,2)
                              )
-    exts.append(pygsl_ieee)    
+    exts.append(pygsl_ieee)
+    
     exts.append(gsl_Extension("_gslwrap",
                               ["swig_src/gslwrap_wrap.c"],
                               #include_dirs=["src/gslwrap", "."],
@@ -200,7 +210,7 @@ pygsl_statistics_short=gsl_Extension("statistics.short",
 exts.append(pygsl_statistics_short)    
 
 setup (name = "pygsl",
-       version = "0.1b-pierre1",
+       version = "0.1b",
        description = "GNU Scientific Library Interface",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",
@@ -235,6 +245,7 @@ setup (name = "pygsl",
                      'pygsl.roots',
                      'pygsl.vector',
                      'pygsl.monte',
+                     'pygsl.qrng'
                      ],
        ext_package = 'pygsl',
        ext_modules = exts,
