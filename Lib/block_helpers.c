@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <pygsl/profile.h>
 #include <pygsl/general_helpers.h>
-#define DEBUG 0
 #include <pygsl/utils.h>
 /* ========================================================================= */
 /*
