@@ -1,3 +1,7 @@
+2003-10-5   Pierre Schnizer <schnizer@users.sourceforge.net>
+	* Added translation of the GSL error number code in the approbriate
+	  python exception.
+
 2003-06-03  Pierre Schnizer <pierre@itp.tu-graz.ac.at>
         * combined all helper functions in a library.
 	* added support for Monte Carlo Integration and Combination. 
