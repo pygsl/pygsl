@@ -6,6 +6,12 @@
 %     http://www.python.org/doc/current/doc/doc.html
 
 \documentclass{manual}
+\catcode`\@=11
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+                                    {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                    {2.3ex \@plus.2ex}%
+                                    {\reset@font\Large\py@HeaderFamily}}
+\catcode`\@=12
 
 % some convenience declarations
 \newcommand{\gsl}{GSL}
@@ -92,13 +98,13 @@ Module]{\protect\module{pygsl.rng} \\ Random Number generator Module}
 \label{cha:ieee-module}
 \input{ieee}
 
-\chapter[\protect\module{pygsl.init} --- Library
-initialisation]{\protect\module{pygsl.init} \\ Library initialisation}
+\chapter[\protect\module{pygsl.init} --- Library initialisation]
+{\protect\module{pygsl.init} \\ Library initialisation}
 \label{cha:library-initialisation}
 \input{init}
 
-\chapter[\protect\module{pygsl.errors} --- Error and warning
-classes]{\protect\module{pygsl.errors} \\ Error and warning classes} 
+\chapter[\protect\module{pygsl.errors} --- Error and warning classes]
+{\protect\module{pygsl.errors} \\ Error and warning classes} 
 \label{cha:error-module}
 \input{errors}
 
