@@ -31,9 +31,9 @@
 DL_EXPORT(void) initlong(void)
 {
     Py_InitModule("long", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
-    import_pygsl_stats();
     import_array();
     init_pygsl();
+    import_pygsl_stats();
     return;
 }
 

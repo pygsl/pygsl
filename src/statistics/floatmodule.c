@@ -36,8 +36,8 @@ DL_EXPORT(void) initfloat(void)
 {
 
     import_array();
-    import_pygsl_stats();
     init_pygsl();
+    import_pygsl_stats();
     (void)Py_InitModule("float", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
     return;
 }
