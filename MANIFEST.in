@@ -1,6 +1,7 @@
 recursive-include src *.c
 recursive-include src *.ic
 recursive-include src *.i
+recursive-include src *.h
 recursive-include typemaps *.py
 recursive-include typemaps *.h
 recursive-include typemaps *.ic
@@ -12,6 +13,8 @@ recursive-include doc *.tex
 recursive-include doc *.html
 recursive-include Include *.h
 recursive-include Lib *.c
+recursive-include testing *.c
+recursive-include testing *.h
 include utils/util.h
 include gsl_Extension.py
 include test.py
