@@ -212,14 +212,18 @@ PyGSL_multimin_set_f(PyGSL_multimin *self, PyObject *args, PyObject *kw)
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  goto fail;
      }
-     stride_recalc = xa->strides[0] / sizeof(double);
+     if(PyGSL_STRIDE_RECALC(xa->strides[0],sizeof(double), &stride_recalc) != GSL_SUCCESS)
+	  goto fail;
+
      gsl_x = gsl_vector_view_array_with_stride((double *)(xa->data), stride_recalc, xa->dimensions[0]);
      stepsa =  PyGSL_PyArray_PREPARE_gsl_vector_view(steps, PyArray_DOUBLE, 0, n, 5, NULL);
      if (stepsa == NULL){
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  goto fail;
      }
-     stride_recalc = stepsa->strides[0] / sizeof(double);
+     if(PyGSL_STRIDE_RECALC(stepsa->strides[0],sizeof(double), &stride_recalc) != GSL_SUCCESS)
+	  goto fail;
+
      gsl_steps = gsl_vector_view_array_with_stride((double *)(stepsa->data), stride_recalc, stepsa->dimensions[0]);
 
      if (self->func.f != NULL) {
@@ -308,7 +312,8 @@ PyGSL_multimin_set_fdf(PyGSL_multimin *self, PyObject *args, PyObject *kw)
           /* Reference counter increased later, when the parameters are set */
 	  params = Py_None; 
      }
-     stride_recalc = xa->strides[0] / sizeof(double);
+     if(PyGSL_STRIDE_RECALC(xa->strides[0],sizeof(double), &stride_recalc) != GSL_SUCCESS)
+	  goto fail;
      gsl_x = gsl_vector_view_array_with_stride((double *)(xa->data), stride_recalc, xa->dimensions[0]);
 
      if (self->func.fdf != NULL) {
@@ -795,7 +800,10 @@ PyGSL_multimin_test_gradient(PyObject * self, PyObject *args)
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  return NULL;
      }
-     stride_recalc = ga->strides[0] / sizeof(double);
+     if((PyGSL_STRIDE_RECALC(ga->strides[0],sizeof(double), &stride_recalc)) != GSL_SUCCESS){
+	  Py_XDECREF(ga);
+	  return NULL;
+     }
      gradient = gsl_vector_view_array_with_stride((double *)(ga->data), stride_recalc, ga->dimensions[0]);
 
      flag = gsl_multimin_test_gradient(&gradient.vector, epsabs);
