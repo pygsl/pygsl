@@ -4,12 +4,15 @@
  * file: pygsl/src/ngmodule.c
  * $Id$
  */
-
+#include <assert.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_errno.h>
+
 #include <Python.h>
 
+
+#include <pygsl/utils.h>
 
 #if 0
 /* maybe we will recycle this code later */
@@ -854,7 +857,7 @@ PyObject* class___init__(PyObject *self,
       py_rng=PyCObject_FromVoidPtr((void*)my_rng,(void (*)(void*))gsl_rng_free);
       if (py_rng==NULL) {
 	return NULL;
-      }
+      } /* end if the type is given as name or CObject or a rng is copied/cloned */
 
       /* and put it into the instance */
       PyObject_SetAttrString(thisInstance,"_rng",py_rng);
@@ -2124,6 +2127,7 @@ static PyObject* derived_rng___init__(PyObject* self,
 				      PyObject* args) {
   PyObject* thisInstance;
   PyObject* py_result;
+  FUNC_MESS_BEGIN();
   if (0==PyArg_ParseTuple(args,"O!",&PyInstance_Type,&thisInstance))
     return NULL;
 
@@ -2131,13 +2135,23 @@ static PyObject* derived_rng___init__(PyObject* self,
     PyErr_SetString(PyExc_RuntimeError, "found no type information in *self while initialising" );
     return NULL;
   }
-
+  DEBUG_MESS(2, " \t Initialising rng type %p ", (void *) self);
   /* initialise base class with gsl_rng_type handover */
+  assert(thisInstance);
   {
-    PyClassObject* base=(PyClassObject*)PySequence_GetItem(((PyInstanceObject*)thisInstance)->in_class->cl_bases,0);
-    PyObject* base_init=PyMethod_Function(PyMapping_GetItemString(base->cl_dict,"__init__"));
+    PyObject *tmp, *base_init;
+    PyClassObject * base=(PyClassObject*)PySequence_GetItem(((PyInstanceObject*)thisInstance)->in_class->cl_bases,0);
+    assert(base != NULL);
+    assert(base->cl_dict != NULL);
+    assert(PyMapping_Check(base->cl_dict));
+    /* Change from Pierre, there must be at least one mapping ! */
+    assert(PyMapping_Size(base->cl_dict) > 0);
+    tmp = PyMapping_GetItemString(base->cl_dict, "__init__");
+    assert(tmp != NULL);
+    base_init=PyMethod_Function(tmp);
     py_result=PyObject_CallFunction(base_init, "OO", thisInstance, self);
   }
+  FUNC_MESS_END();
   return py_result;
 }
 
@@ -2163,15 +2177,19 @@ void make_baseclass(PyObject* module) {
 
   /* create new class*/
   new_class=PyClass_New(NULL,new_class_dict,new_class_name);
-  Py_DECREF(new_class_dict);
+  /* Change from Pierre. Why must I not defererence that object ? */
+  /* Py_DECREF(new_class_dict); */
+  /* End */ 
 
   /* add some methods */
   {
     PyMethodDef* methods_pos=classMethods;
     while (methods_pos->ml_name!=NULL)
       {
-	PyObject* myFunc=PyCFunction_New(methods_pos,(PyObject*)NULL);
-	PyObject* myMeth=PyMethod_New(myFunc, (PyObject*)NULL, new_class);
+	PyObject* myFunc=NULL, *myMeth=NULL;  
+	myFunc=PyCFunction_New(methods_pos,(PyObject*)NULL);
+	assert(myFunc);
+	myMeth=PyMethod_New(myFunc, (PyObject*)NULL, new_class);
 	Py_DECREF(myFunc);
 	PyObject_SetAttrString(new_class,methods_pos->ml_name,myMeth);
 	Py_DECREF(myMeth);
@@ -2190,6 +2208,7 @@ void make_subclasses(PyObject* module) {
   PyObject* base_class=PyDict_GetItemString(module_dict,"rng");
   const gsl_rng_type** thisRNGType=gsl_rng_types_setup();
 
+  FUNC_MESS_BEGIN();
   /* provide other rng types as subclasses of rng */
   
   while ((*thisRNGType)!=NULL) {
@@ -2207,7 +2226,7 @@ void make_subclasses(PyObject* module) {
     derived_class=PyClass_New(base_classes,derived_class_dict,derived_class_name);
     Py_DECREF(base_classes);
     Py_DECREF(derived_class_dict);
-    if (derived_class==NULL) {
+    if (derived_class==NULL){
       Py_DECREF(derived_class_name);
       return;
     }
@@ -2232,6 +2251,7 @@ void make_subclasses(PyObject* module) {
   }
 
   Py_DECREF(base_class);
+  FUNC_MESS_END();
   return;
 }
 
