@@ -207,7 +207,7 @@ pygsl_poly_complex_solve(PyObject *self, PyObject *args)
   za_dimension = dimension - 1;
   /* ws->nc stores the potenz of the highest coefficient */
   if(za_dimension != ws->nc){
-    fprintf(stderr, "ws->nc = %d, dimension = %d\n", ws->nc, dimension);
+    fprintf(stderr, "ws->nc = %d, dimension = %d\n", (int) ws->nc, (int) dimension);
     PyErr_SetString(PyExc_TypeError, 
 		    "The dimension of the array a does not correspond to"
 		    " the size of the workspace!");
