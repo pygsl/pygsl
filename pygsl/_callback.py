@@ -35,6 +35,93 @@ gsl_function_free = __callback.gsl_function_free
 
 gsl_function_free_fdf = __callback.gsl_function_free_fdf
 
+gsl_monte_function_init = __callback.gsl_monte_function_init
+
+gsl_monte_function_free = __callback.gsl_monte_function_free
+
+gsl_monte_plain_integrate = __callback.gsl_monte_plain_integrate
+
+gsl_monte_plain_alloc = __callback.gsl_monte_plain_alloc
+
+gsl_monte_plain_init = __callback.gsl_monte_plain_init
+
+gsl_monte_plain_free = __callback.gsl_monte_plain_free
+
+pygsl_monte_miser_get_min_calls = __callback.pygsl_monte_miser_get_min_calls
+
+pygsl_monte_miser_get_min_calls_per_bisection = __callback.pygsl_monte_miser_get_min_calls_per_bisection
+
+pygsl_monte_miser_get_dither = __callback.pygsl_monte_miser_get_dither
+
+pygsl_monte_miser_get_estimate_frac = __callback.pygsl_monte_miser_get_estimate_frac
+
+pygsl_monte_miser_get_alpha = __callback.pygsl_monte_miser_get_alpha
+
+pygsl_monte_miser_set_min_calls = __callback.pygsl_monte_miser_set_min_calls
+
+pygsl_monte_miser_set_min_calls_per_bisection = __callback.pygsl_monte_miser_set_min_calls_per_bisection
+
+pygsl_monte_miser_set_dither = __callback.pygsl_monte_miser_set_dither
+
+pygsl_monte_miser_set_estimate_frac = __callback.pygsl_monte_miser_set_estimate_frac
+
+pygsl_monte_miser_set_alpha = __callback.pygsl_monte_miser_set_alpha
+
+gsl_monte_miser_integrate = __callback.gsl_monte_miser_integrate
+
+gsl_monte_miser_alloc = __callback.gsl_monte_miser_alloc
+
+gsl_monte_miser_init = __callback.gsl_monte_miser_init
+
+gsl_monte_miser_free = __callback.gsl_monte_miser_free
+
+GSL_VEGAS_MODE_IMPORTANCE = __callback.GSL_VEGAS_MODE_IMPORTANCE
+GSL_VEGAS_MODE_IMPORTANCE_ONLY = __callback.GSL_VEGAS_MODE_IMPORTANCE_ONLY
+GSL_VEGAS_MODE_STRATIFIED = __callback.GSL_VEGAS_MODE_STRATIFIED
+pygsl_monte_vegas_get_result = __callback.pygsl_monte_vegas_get_result
+
+pygsl_monte_vegas_get_sigma = __callback.pygsl_monte_vegas_get_sigma
+
+pygsl_monte_vegas_get_chisq = __callback.pygsl_monte_vegas_get_chisq
+
+pygsl_monte_vegas_get_alpha = __callback.pygsl_monte_vegas_get_alpha
+
+pygsl_monte_vegas_get_iterations = __callback.pygsl_monte_vegas_get_iterations
+
+pygsl_monte_vegas_get_stage = __callback.pygsl_monte_vegas_get_stage
+
+pygsl_monte_vegas_get_mode = __callback.pygsl_monte_vegas_get_mode
+
+pygsl_monte_vegas_get_verbose = __callback.pygsl_monte_vegas_get_verbose
+
+pygsl_monte_vegas_get_ostream = __callback.pygsl_monte_vegas_get_ostream
+
+pygsl_monte_vegas_set_result = __callback.pygsl_monte_vegas_set_result
+
+pygsl_monte_vegas_set_sigma = __callback.pygsl_monte_vegas_set_sigma
+
+pygsl_monte_vegas_set_chisq = __callback.pygsl_monte_vegas_set_chisq
+
+pygsl_monte_vegas_set_alpha = __callback.pygsl_monte_vegas_set_alpha
+
+pygsl_monte_vegas_set_iterations = __callback.pygsl_monte_vegas_set_iterations
+
+pygsl_monte_vegas_set_stage = __callback.pygsl_monte_vegas_set_stage
+
+pygsl_monte_vegas_set_mode = __callback.pygsl_monte_vegas_set_mode
+
+pygsl_monte_vegas_set_verbose = __callback.pygsl_monte_vegas_set_verbose
+
+pygsl_monte_vegas_set_ostream = __callback.pygsl_monte_vegas_set_ostream
+
+gsl_monte_vegas_integrate = __callback.gsl_monte_vegas_integrate
+
+gsl_monte_vegas_alloc = __callback.gsl_monte_vegas_alloc
+
+gsl_monte_vegas_init = __callback.gsl_monte_vegas_init
+
+gsl_monte_vegas_free = __callback.gsl_monte_vegas_free
+
 gsl_root_fsolver_alloc = __callback.gsl_root_fsolver_alloc
 
 gsl_root_fsolver_free = __callback.gsl_root_fsolver_free
