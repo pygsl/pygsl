@@ -29,8 +29,8 @@ pygsl_init=gsl_Extension("init",
                          gsl_min_version=(1,),
                          python_min_version=(2,1)
                          )
-pygsl__rng=gsl_Extension("_rng",
-			 ['src/_rngmodule.c'],
+pygsl_rng=gsl_Extension("rng",
+			 ['src/rngmodule.c'],
                          gsl_min_version=(1,'0+'),
                          python_min_version=(2,2)
                          )
@@ -77,13 +77,12 @@ pygsl_statistics_short=gsl_Extension("statistics.short",
 
 
 setup (name = "pygsl",
-       version = "0.0.5",
+       version = "0.1",
        description = "GNU Scientific Library Interface",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",
        url = "http://pygsl.sourceforge.net",
        py_modules = ['pygsl.errors',
-                     'pygsl.rng',
                      'pygsl.statistics.__init__'
                      ],
        ext_package = 'pygsl',
@@ -92,7 +91,7 @@ setup (name = "pygsl",
                       pygsl_histogram,
                       pygsl_ieee,
                       pygsl_init,
-                      pygsl__rng,
+                      pygsl_rng,
                       pygsl_sf,
                       pygsl_statistics_char,
                       pygsl_statistics_uchar,
