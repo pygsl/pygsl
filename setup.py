@@ -131,6 +131,13 @@ pygsl_diff = gsl_Extension("diff",
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_diff)
+pygsl_deriv = gsl_Extension("deriv",
+                           ['src/derivmodule.c'],
+                           define_macros = macros,
+                           gsl_min_version=(1, 5),
+                           python_min_version=(2,1)
+                           )
+exts.append(pygsl_deriv)
 pygsl_fft = gsl_Extension("fft",
                            ['src/fftmodule.c'],
                            define_macros = macros,
