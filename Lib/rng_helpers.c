@@ -1,5 +1,6 @@
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
+#define PyGSL_NO_IMPORT_API 1
 #include <pygsl/rng_helpers.h>
 #include <pygsl/rng.h>
 #include <pygsl/utils.h>
@@ -13,40 +14,28 @@
 gsl_rng *
 PyGSL_gsl_rng_from_pyobject(PyObject * object)
 {
-     PyObject *tmp = NULL;
      PyGSL_rng *rng = NULL;
      gsl_rng *random = NULL;
 
      FUNC_MESS("Begin GSL_RNG");
      assert(object);
      
+     assert(PyGSL_API != NULL);
+
      /* Check that it is from the approbriate type ... */
-     /* rng is now a type yet. Can not check for that yet .... */
+     if(object == NULL){
+	  gsl_error("I expected a rng instance, but got a NULL pointer!", __FILE__, __LINE__, GSL_ESANITY);
+     }
      if(!PyGSL_RNG_Check(object)){
 	  gsl_error("I expected a rng instance or an instance from "
 		    "a derived class",
 		    __FILE__, __LINE__, GSL_EFAULT);
 	  return NULL;
      }
-/*
-     tmp = PyObject_GetAttrString(object, "_rng");
-     if(tmp  == NULL)
-         return NULL;
-
-     if(!PyCObject_Check(tmp)){
-         gsl_error("I expected a PythonCObject as attribute '_rng.'",
-                   __FILE__, __LINE__, GSL_EFAULT);
-         return NULL;
-     }
- 
-     random =(gsl_rng*) PyCObject_AsVoidPtr(tmp);
+     rng = ((PyGSL_rng *) object);
+     random = rng->rng;
      if(random == NULL){
-        FUNC_MESS("FAIL");
-          return NULL;
-*/
-     random = ((PyGSL_rng *) tmp)->rng;
-     if(random == NULL){
-       FUNC_MESS("FAIL");
+	  gsl_error("I expected a valid rng_pointer, but got a NULL pointer!", __FILE__, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
      FUNC_MESS("End GSL_RNG");
@@ -340,6 +329,8 @@ PyGSL_pdf_ddd_to_double(PyObject *self, PyObject *args, double (*evaluator)(doub
      PyArrayObject *array_in = NULL, *array_out = NULL;
      double d1, d2, d3;
      int dimension=1;
+
+
 
 
      FUNC_MESS_BEGIN();

@@ -9,8 +9,11 @@
 #include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
-#include <pygsl/rng.h>
+#ifdef PyGSL_NO_IMPORT_API
+#undef PyGSL_NO_IMPORT_API
+#endif
 #include <pygsl/rng_helpers.h>
+#include <pygsl/rng.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 
@@ -18,8 +21,9 @@
  * All doc strings
  */
 #include "rngmodule_docs.h"
-static void * __PyGSL_RNG_API[] = {NULL,};
 static PyObject *module = NULL;
+
+void * __PyGSL_RNG_API[] = {NULL,};
 
 static void rng_delete(PyGSL_rng *self);
 static PyObject * rng_call(PyGSL_rng *self, PyObject *args);
