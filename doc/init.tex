@@ -1,0 +1,35 @@
+\declaremodule{extension}{pygsl.init}
+\moduleauthor{Achim G\"adke}{achimgaedke@users.sourceforge.net}
+
+This module is called the first time when loading \module{pygsl}.
+All code and following procedures are called once.
+
+\section{Exception handling}
+
+GSL provides a selectable error handler, that is called for occuring errors (like domain errors, division by zero, etc. ).
+\module{pygsl.init} installs a handler by calling \cfunction{gsl_set_error_handler} to set an appropiate exception from \module{pygsl.errors}.
+A \module{pygsl} interface function should return \code{NULL} in case of an error, so the exception is raised.
+If this handler is called more than once before returning to python, only the first set exception is raised.
+
+Here is a python level example:
+
+\begin{verbatim}
+import pygsl.histogram
+import pygsl.errors
+hist=pygsl.histogram.histogram2d(100,100)
+try:
+   hist[-1,-1]=0
+except pygsl.errors.gsl_Error:
+   print "array indices out of range"
+\end{verbatim}
+
+\section{IEEE-mode}
+
+The IEEE mode is set from the environment variable \code{GSL_IEEE_MODE} via \cfunction{gsl_ieee_env_setup()}.
+After the initialisation use \module{pygsl.ieee} for manipulation.
+
+\section{random number generators}
+
+Also the random number generator can be initialised from the environment variables \code{GSL_RNG_TYPE} and
+\code{GSL_RNG_SEED} using the gsl function \cfunction{gsl_rng_env_setup()}.
+The random number generators are initialised with \code{GLS_RNG_SEED} and the default generator can be created by \code{my_rng=gsl_rng()}.
