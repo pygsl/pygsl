@@ -40,11 +40,13 @@ You can download it here: <a href="http://pygsl.sourceforge.net/">http://pygsl.s
 <p>Ready....
 
 <h2>Using pygsl</h2>
-Just write
-<p><tt>import pygsl.sf</tt>
+<b>Do not test the interface in the distribution root.</b>
+Due to the existence of the file <tt>pygsl/__init__.py</tt> python will use this source directory as module, instead of the installed code.
+<p>Just write in python
+<br><tt>import pygsl.sf</tt>
 <br><tt>print "%g+/-%g"%pygsl.sf.erf(1)</tt>
 <p>or
-<p><tt>import pygsl.rng</tt>
+<br><tt>import pygsl.rng</tt>
 <br><tt>rng=pygsl.rng.gsl_rng()</tt>
 <br><tt>print rng.gaussian(1.0)</tt>
 <p>
@@ -66,7 +68,7 @@ the directory <tt>test</tt> will contain several testsuites, based on python <tt
 
 <ul>
 <li>module pygsl.sf: with 200 special functions</li>
-<li>module pygsl.const: with 206 often used mathematical constants</li>
+<li>module pygsl.const: with 206 often used mathematical and scientific constants</li>
 <li>module pygsl.ieee: access to the ieee-arithmetics layer of gsl</li>
 <li>module pygsl.rng: provides several random number generators and different probability densities</li>
 </ul>
@@ -75,7 +77,7 @@ For the exact function volume, please type:
 <p><tt>import pygsl.sf</tt>
 <br><tt>dir(pygsl.sf)</tt>
 <p>
-You can do this with the other modules too. The naming sceme is the same as in gsl.
+You can do this with the other modules, too. The naming scheme is the same as in gsl.
 
 <h2>Documentation:</h2>
 There will be a small tutorial, but the function reference can be found at the gsl-reference.
