@@ -57,7 +57,7 @@
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 %typemap(arginit) gsl_vector *  %{
-	  PyArrayObject * _PyVector$argnum = NULL;
+	  PyArrayObject * volatile _PyVector$argnum = NULL;
      	  TYPE_VIEW_$1_basetype _vector$argnum;
 %}
 %typemap(in) gsl_vector * IN  %{

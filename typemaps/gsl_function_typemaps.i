@@ -72,7 +72,7 @@
  * ------------------------------------------------------------------------- */
 %typemap(arginit) gsl_fsolver * BUFFER %{
      /* Arginit gsl_fsolver */
-     $1_basetype * _solver$argnum = NULL;
+     $1_basetype * volatile _solver$argnum = NULL;
 %}
 %typemap(arginit) gsl_fdfsolver * BUFFER = gsl_fsolver * BUFFER;
 
@@ -161,7 +161,7 @@
  * and  defining the macro the jumpbuffer is attached to the functions.
  */
 %typemap(arginit) gsl_function * BUFFER %{
-     $1_basetype *_solver$argnum = NULL;
+     $1_basetype volatile *_solver$argnum = NULL;
 %}
 %typemap(arginit) gsl_function_fdf * BUFFER = gsl_function * BUFFER;
 
