@@ -75,6 +75,16 @@ class histogram_basics(unittest.TestCase):
         hist.increment(10)
         self.failIf(10.1!=hist.mean())
 
+    def test_as_map(self):
+        hist=pygsl.histogram.histogram(100)
+        hist.set_ranges_uniform(0,100)
+        self.failIf(len(hist)!=100)
+        hist[2]=1
+        self.failIf(hist.get(2)!=1)
+        self.failIf(hist[2]!=1)
+        del hist[2]
+        self.failIf(hist[2]!=0)
+
 if __name__ == "__main__":
     unittest.main()
    

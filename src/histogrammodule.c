@@ -55,9 +55,24 @@ static int histogram_histogram_init(PyObject *self,
 
   if (histogram==NULL)
     return -1;
+  gsl_histogram_reset(histogram);
   ((histogram_histogramObject*)self)->h=histogram;
   return 0;
 }
+
+static int
+histogram_histogram_clear(PyObject *self)
+{
+  gsl_histogram* histogram;
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.reset got a NULL pointer");
+    return -1;
+  }
+  gsl_histogram_reset(histogram);
+  return 0;
+}
+
 
 /*
   the very methods!
@@ -123,9 +138,7 @@ static PyObject* histogram_histogram_set_ranges_uniform(PyObject *self,
 }
 
 
-static PyObject* histogram_histogram_reset(PyObject *self,
-				  PyObject *args
-				  )
+static PyObject* histogram_histogram_reset(PyObject *self)
 {
   gsl_histogram* histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -235,9 +248,7 @@ static PyObject* histogram_histogram_accumulate(PyObject *self,
   double gsl_histogram_max (const gsl_histogram * h)
 */
 
-static PyObject* histogram_histogram_max(PyObject *self,
-				PyObject *args
-				)
+static PyObject* histogram_histogram_max(PyObject *self)
 {
   gsl_histogram* histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -252,9 +263,7 @@ static PyObject* histogram_histogram_max(PyObject *self,
   double gsl_histogram_min (const gsl_histogram * h)
 */
 
-static PyObject* histogram_histogram_min(PyObject *self,
-				PyObject *args
-				)
+static PyObject* histogram_histogram_min(PyObject *self)
 {
   gsl_histogram* histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -269,9 +278,7 @@ static PyObject* histogram_histogram_min(PyObject *self,
   size_t gsl_histogram_bins (const gsl_histogram * h)
 */
 
-static PyObject* histogram_histogram_bins(PyObject *self,
-					  PyObject *args
-					  )
+static PyObject* histogram_histogram_bins(PyObject *self)
 {
   gsl_histogram* histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -302,7 +309,6 @@ static PyObject* histogram_histogram_get(PyObject *self,
   /* get index */  
   if (0==PyArg_ParseTuple(args,"l",&n))
       return NULL;
-  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
   if (n<0 || n>=histogram->n) {
     gsl_error ("index lies outside valid range of 0 .. n - 1",
 	       __FILE__,
@@ -378,9 +384,7 @@ static PyObject* histogram_histogram_find(PyObject *self,
   double gsl_histogram_max_val (const gsl_histogram * h)
  */
 
-static PyObject* histogram_histogram_max_val(PyObject *self,
-				    PyObject *args
-				    )
+static PyObject* histogram_histogram_max_val(PyObject *self)
 {
   gsl_histogram * histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -395,9 +399,7 @@ static PyObject* histogram_histogram_max_val(PyObject *self,
   double gsl_histogram_max_bin (const gsl_histogram * h)
  */
 
-static PyObject* histogram_histogram_max_bin(PyObject *self,
-				    PyObject *args
-				    )
+static PyObject* histogram_histogram_max_bin(PyObject *self)
 {
   gsl_histogram * histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -413,9 +415,7 @@ static PyObject* histogram_histogram_max_bin(PyObject *self,
   double gsl_histogram_min_val (const gsl_histogram * h)
  */
 
-static PyObject* histogram_histogram_min_val(PyObject *self,
-					     PyObject *args
-					     )
+static PyObject* histogram_histogram_min_val(PyObject *self)
 {
   gsl_histogram * histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -430,9 +430,7 @@ static PyObject* histogram_histogram_min_val(PyObject *self,
   double gsl_histogram_min_bin (const gsl_histogram * h)
  */
 
-static PyObject* histogram_histogram_min_bin(PyObject *self,
-				    PyObject *args
-				    )
+static PyObject* histogram_histogram_min_bin(PyObject *self)
 {
   gsl_histogram * histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -447,9 +445,7 @@ static PyObject* histogram_histogram_min_bin(PyObject *self,
   double gsl_histogram_min_val (const gsl_histogram * h)
  */
 
-static PyObject* histogram_histogram_mean(PyObject *self,
-				 PyObject *args
-				 )
+static PyObject* histogram_histogram_mean(PyObject *self)
 {
   gsl_histogram * histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -465,9 +461,7 @@ static PyObject* histogram_histogram_mean(PyObject *self,
   double gsl_histogram_sigma (const gsl_histogram * h)
  */
 
-static PyObject* histogram_histogram_sigma(PyObject *self,
-				 PyObject *args
-				 )
+static PyObject* histogram_histogram_sigma(PyObject *self)
 {
   gsl_histogram * histogram;
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
@@ -478,44 +472,145 @@ static PyObject* histogram_histogram_sigma(PyObject *self,
   return PyFloat_FromDouble(gsl_histogram_sigma(histogram));
 }
 
+/*
+  methods for map protocol
+ */
+
+
+static int histogram_histogram_mp_length(PyObject *self)
+{
+  gsl_histogram* histogram;
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.bins got a NULL pointer");
+    return -1;
+  }
+  return gsl_histogram_bins(histogram);
+}
+
+static PyObject* histogram_histogram_mp_subscript(PyObject *self,
+						  PyObject *key
+						  )
+{
+  gsl_histogram* histogram;
+  long int k;
+  PyObject* my_key;
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.get got a NULL pointer");
+    return NULL;
+  }
+
+  /* get key */
+  my_key=PyNumber_Long(key);
+  if (my_key==NULL) return NULL;
+  k=PyInt_AsLong(my_key);
+  if (k<0 || k>=histogram->n) {
+    gsl_error ("index lies outside valid range of 0 .. n - 1",
+	       __FILE__,
+	       __LINE__,
+	       GSL_EDOM );
+    return NULL;
+  }
+  Py_DECREF(my_key);
+  return PyFloat_FromDouble(gsl_histogram_get(histogram,k));
+}
+
+
+static int
+histogram_histogram_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *value) {
+  gsl_histogram* histogram;
+  PyObject* my_key;
+  PyObject* my_value;
+  double v;
+  size_t k;
+  /* get histogram struct */
+  histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
+  if (histogram==NULL) {
+    PyErr_SetString(PyExc_RuntimeError, "histogram.get got a NULL pointer");
+    return -1;
+  }
+
+  /* get key */
+  my_key=PyNumber_Long(key);
+  if (my_key==NULL) return -1;
+  k=PyInt_AsLong(my_key);
+  if (k<0 || k>=histogram->n) {
+    gsl_error ("index lies outside valid range of 0 .. n - 1",
+	       __FILE__,
+	       __LINE__,
+	       GSL_EDOM );
+    return -1;
+  }
+  Py_DECREF(my_key);
+
+  /* get value */
+  if (value == NULL)
+    v=0;
+  else {
+    my_value=PyNumber_Float(value);
+    if (my_value==NULL) return -1;
+    v=PyFloat_AsDouble(value);
+    Py_DECREF(my_value);
+  }
+
+  histogram->bin[k]=v;
+  return 0;
+}
+
+
+/*
+  typedef struct {
+        inquiry mp_length;
+        binaryfunc mp_subscript;
+        objobjargproc mp_ass_subscript;
+  } PyMappingMethods;
+ */
+
+static PyMappingMethods histogram_histogram_as_mapping = {
+  (inquiry)histogram_histogram_mp_length, /* inquiry mp_length */
+  (binaryfunc)histogram_histogram_mp_subscript, /* binaryfunc mp_subscript */
+  (objobjargproc)histogram_histogram_mp_ass_subscript/* objobjargproc mp_ass_subscript */
+};
+
 
 /*
   methods and definitions for method invokation
 */
 
 
-static PyMethodDef hist_histogram_methods[] = {
+static PyMethodDef histogram_histogram_methods[] = {
   {"alloc",(PyCFunction)histogram_histogram_alloc,METH_VARARGS,"allocate necessary space"},
   {"set_ranges_uniform", (PyCFunction)histogram_histogram_set_ranges_uniform, METH_VARARGS,
    "set the ranges to uniform distance"},
-  {"reset",(PyCFunction)histogram_histogram_reset,METH_VARARGS,"sets all bin values to 0"},
+  {"reset",(PyCFunction)histogram_histogram_reset,METH_NOARGS,"sets all bin values to 0"},
   {"increment",(PyCFunction)histogram_histogram_increment,METH_VARARGS,"increments corresponding bin"},
   {"accumulate",(PyCFunction)histogram_histogram_accumulate,METH_VARARGS,"adds the weight to corresponding bin"},
-  {"max",(PyCFunction)histogram_histogram_max,METH_VARARGS,"returns upper range"},
-  {"min",(PyCFunction)histogram_histogram_min,METH_VARARGS,"returns lower range"},
-  {"bins",(PyCFunction)histogram_histogram_bins,METH_VARARGS,"returns number of bins"},
+  {"max",(PyCFunction)histogram_histogram_max,METH_NOARGS,"returns upper range"},
+  {"min",(PyCFunction)histogram_histogram_min,METH_NOARGS,"returns lower range"},
+  {"bins",(PyCFunction)histogram_histogram_bins,METH_NOARGS,"returns number of bins"},
   {"get",(PyCFunction)histogram_histogram_get,METH_VARARGS,"gets value of indexed bin"},
   {"get_range",(PyCFunction)histogram_histogram_get_range,METH_VARARGS,"gets upper and lower range of indexed bin"},
   {"find",(PyCFunction)histogram_histogram_find,METH_VARARGS,"finds index of corresponding bin"},
-  {"max_val",(PyCFunction)histogram_histogram_max_val,METH_VARARGS,"returns maximal bin value"},
-  {"max_bin",(PyCFunction)histogram_histogram_max_bin,METH_VARARGS,"returns bin index with maximal value"},
-  {"min_val",(PyCFunction)histogram_histogram_min_val,METH_VARARGS,"returns minimal bin value"},
-  {"min_bin",(PyCFunction)histogram_histogram_min_bin,METH_VARARGS,"returns bin index with minimal value"},
-  {"mean",(PyCFunction)histogram_histogram_mean,METH_VARARGS,"returns mean of histogram"},
-  {"sigma",(PyCFunction)histogram_histogram_sigma,METH_VARARGS,"returns std deviation of histogram"},
+  {"max_val",(PyCFunction)histogram_histogram_max_val,METH_NOARGS,"returns maximal bin value"},
+  {"max_bin",(PyCFunction)histogram_histogram_max_bin,METH_NOARGS,"returns bin index with maximal value"},
+  {"min_val",(PyCFunction)histogram_histogram_min_val,METH_NOARGS,"returns minimal bin value"},
+  {"min_bin",(PyCFunction)histogram_histogram_min_bin,METH_NOARGS,"returns bin index with minimal value"},
+  {"mean",(PyCFunction)histogram_histogram_mean,METH_NOARGS,"returns mean of histogram"},
+  {"sigma",(PyCFunction)histogram_histogram_sigma,METH_NOARGS,"returns std deviation of histogram"},
   {NULL, NULL, 0, NULL}           /* sentinel */
 };
 
 static PyObject*
 histogram_histogram_getattr(PyObject* obj, char *name)
 {
-  return Py_FindMethod(hist_histogram_methods, obj, name);
+  return Py_FindMethod(histogram_histogram_methods, obj, name);
 }
 
 static PyTypeObject histogram_histogramType = {
     PyObject_HEAD_INIT(NULL)
     0,
-    "pygsl.hist.histogram",
+    "pygsl.histogram.histogram",
     sizeof(histogram_histogramObject),
     0,
     histogram_histogram_dealloc, /*tp_dealloc*/
@@ -546,6 +641,7 @@ inithistogram(void)
   histogram_histogramType.tp_alloc=PyType_GenericAlloc;
   histogram_histogramType.tp_init=histogram_histogram_init;
   histogram_histogramType.tp_free=_PyObject_Del;
+  histogram_histogramType.tp_as_mapping=&histogram_histogram_as_mapping;
   /* install histogram type */
   /* important! must increment histogram type reference counter */
   Py_INCREF((PyObject*)&histogram_histogramType);
