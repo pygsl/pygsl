@@ -205,7 +205,15 @@ pygsl_sf=gsl_Extension("sf",
                        define_macros = macros,
                        python_min_version=(2,1)
                        )
-exts.append(pygsl_sf)    
+exts.append(pygsl_sf)
+pygsl_statistics_basis=gsl_Extension("statistics._stat",
+                                     ['src/statistics/_statmodule.c'],
+                                     gsl_min_version=(1,),
+                                     #define_macros = [('DEBUG', 10)],
+                                     define_macros = macros,
+                                     python_min_version=(2,1)                                     
+                                     )
+exts.append(pygsl_statistics_basis)
 pygsl_statistics_uchar=gsl_Extension("statistics.uchar",
                                      ['src/statistics/ucharmodule.c'],
                                      gsl_min_version=(1,),
