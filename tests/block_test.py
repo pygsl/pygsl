@@ -22,7 +22,7 @@ def getopentmpfile(mode='rb'):
 class _DefaultTestCase(unittest.TestCase):
     _type     = ''
     _base     = None
-
+    _reference_value = 137
     #_retrieve = None
     
     def setUp(self):
@@ -31,6 +31,9 @@ class _DefaultTestCase(unittest.TestCase):
         sys.stderr.flush()
         self._mysetUp()
 
+    def _get_reference_value(self):
+        return self._reference_value
+    
     def _get_format(self):
         return self._format
     
@@ -157,7 +160,8 @@ class _ShortVectorTestCase(_DefaultVectorTestCase):
 class _CharVectorTestCase(_DefaultVectorTestCase):
     _type = 'char'
     _format   = '%c'
-        
+    _reference_value = chr(137)
+    
 class _SetIdentityMatrixTestCase(_DefaultMatrixTestCase):
     function = 'set_identity'
     size = 10
@@ -429,7 +433,7 @@ class _SetAllMatrixTestCase(_DefaultMatrixTestCase):
     size = 10
     def _mysetUp(self):
         tmp = self._get_function()
-        self.array = tmp((self.size, self.size), 137)
+        self.array = tmp((self.size, self.size), self._get_reference_value())
         
         
     def test_1_matrixsize(self):        
@@ -438,7 +442,7 @@ class _SetAllMatrixTestCase(_DefaultMatrixTestCase):
     def test_2_all(self):
         for i in range(self.size):
             for j in range(self.size):
-                assert self.array[i,j] ==  137, "Vale not 137!"
+                assert self.array[i,j] ==  self._get_reference_value(), "Value not 137!"
         
     def _mytearDown(self):
         del self.array
@@ -456,7 +460,7 @@ class SetAllComplexMatrixTestCase(_ComplexMatrixTestCase,
                                   ):
     def _mysetUp(self):
         tmp = self._get_function()
-        self.array = tmp((self.size, self.size), 137+0j)
+        self.array = tmp((self.size, self.size), self._get_reference_value()+0j)
 
    
 
@@ -1113,28 +1117,44 @@ class _CharVectorSetup:
     def _mysetup(self):
         self.array = tmp(self.size, ord(137))
         
-    def test_2_diagonale(self):
-        assert ord(self.array[self.basis][0]) == 1, "Diagonale not one !"
+    #def test_2_diagonale(self):
+    #    assert ord(self.array[self.basis][0]) == 1, "Diagonale not one !"
 
-    def test_3_diagonale(self):
-        for i in range(self.size):
-            if i == self.basis :
-                continue                
-            assert ord(self.array[i][0]) ==  0, \
-                   "Of Diagonale not zero!"
+    #def test_3_diagonale(self):
+    #    for i in range(self.size):
+    #        if i == self.basis :
+    #            continue                
+    #        assert ord(self.array[i][0]) ==  0, \
+    #               "Off Diagonale not zero!"
     
 class SetBasisCharVectorUITestCase(_CharVectorTestCase,
                                    _UIAccess,
                                    _CharVectorSetup,
                                    _SetBasisVectorTestCase,
                                  ):
-    pass
+    def test_2_diagonale(self):
+        assert ord(self.array[self.basis]) == 1, "Basis not one !"
+
+    def test_3_diagonale(self):
+        for i in range(self.size):
+            if i == self.basis :
+                continue                
+            assert ord(self.array[i]) ==  0, "Basis not zero!"
+
 class SetBasisCharVectorTestCase(_CharVectorTestCase,
                                  _DirectAccess,
                                  _CharVectorSetup,
                                  _SetBasisVectorTestCase,
                                  ):
-    pass
+    def test_2_diagonale(self):
+        assert ord(self.array[self.basis]) == 1, "Basis not one !"
+
+    def test_3_diagonale(self):
+        for i in range(self.size):
+            if i == self.basis :
+                continue                
+            assert ord(self.array[i]) ==  0, "Basis not zero!"
+
         
 class _SetZeroVectorTestCase(_DefaultVectorTestCase):
     function = 'set_zero'
@@ -1263,7 +1283,7 @@ class _SetAllVectorTestCase(_DefaultVectorTestCase):
     size = 10
     def _mysetUp(self):
         tmp = self._get_function()
-        self.array = tmp(self.size, 137)
+        self.array = tmp(self.size, self._get_reference_value())
         
         
     def test_1_matrixsize(self):        
@@ -1271,7 +1291,7 @@ class _SetAllVectorTestCase(_DefaultVectorTestCase):
 
     def test_2_all(self):
         for i in range(self.size):
-            assert self.array[i] ==  137, "Vale not 137!"
+            assert self.array[i] ==  self._get_reference_value(), "Value not 137!"
         
     def _mytearDown(self):
         del self.array
