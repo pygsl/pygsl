@@ -50,8 +50,8 @@ def SWIG_Extension(*args, **kws):
     return apply(_SWIG_Extension, args, kws)
 
 
-macros = [('SWIG_COBJECT_TYPES', 1),] #, [('NO_IMPORT_ARRAY', 1)]
-debug_macros = macros + [('DEBUG', 10)]
+macros = [('SWIG_COBJECT_TYPES', 1)] #, ('DEBUG', 1)]
+debug_macros = macros #+ [('DEBUG', 10)]
 
 pygsl_init=gsl_Extension("init",
 			 ['src/init/initmodule.c'],

@@ -1,8 +1,10 @@
 # This file was created automatically by SWIG.
 # Don't modify this file, modify the SWIG interface instead.
 # This file is compatible with both classic and new-style classes.
+
 import __callback
-def _swig_setattr(self,class_type,name,value):
+
+def _swig_setattr_nondynamic(self,class_type,name,value,static=1):
     if (name == "this"):
         if isinstance(value, class_type):
             self.__dict__[name] = value.this
@@ -11,7 +13,13 @@ def _swig_setattr(self,class_type,name,value):
             return
     method = class_type.__swig_setmethods__.get(name,None)
     if method: return method(self,value)
-    self.__dict__[name] = value
+    if (not static) or hasattr(self,name) or (name == "thisown"):
+        self.__dict__[name] = value
+    else:
+        raise AttributeError("You cannot add attributes to %s" % self)
+
+def _swig_setattr(self,class_type,name,value):
+    return _swig_setattr_nondynamic(self,class_type,name,value,0)
 
 def _swig_getattr(self,class_type,name):
     method = class_type.__swig_getmethods__.get(name,None)
@@ -25,6 +33,8 @@ try:
 except AttributeError:
     class _object : pass
     _newclass = 0
+del types
+
 
 
 gsl_function_init = __callback.gsl_function_init
@@ -74,10 +84,10 @@ gsl_monte_miser_alloc = __callback.gsl_monte_miser_alloc
 gsl_monte_miser_init = __callback.gsl_monte_miser_init
 
 gsl_monte_miser_free = __callback.gsl_monte_miser_free
-
 GSL_VEGAS_MODE_IMPORTANCE = __callback.GSL_VEGAS_MODE_IMPORTANCE
 GSL_VEGAS_MODE_IMPORTANCE_ONLY = __callback.GSL_VEGAS_MODE_IMPORTANCE_ONLY
 GSL_VEGAS_MODE_STRATIFIED = __callback.GSL_VEGAS_MODE_STRATIFIED
+
 pygsl_monte_vegas_get_result = __callback.pygsl_monte_vegas_get_result
 
 pygsl_monte_vegas_get_sigma = __callback.pygsl_monte_vegas_get_sigma
@@ -333,9 +343,9 @@ gsl_integration_qaws_table_alloc = __callback.gsl_integration_qaws_table_alloc
 gsl_integration_qaws_table_set = __callback.gsl_integration_qaws_table_set
 
 gsl_integration_qaws_table_free = __callback.gsl_integration_qaws_table_free
-
 GSL_INTEG_COSINE = __callback.GSL_INTEG_COSINE
 GSL_INTEG_SINE = __callback.GSL_INTEG_SINE
+
 gsl_integration_qawo_table_alloc = __callback.gsl_integration_qawo_table_alloc
 
 gsl_integration_qawo_table_set = __callback.gsl_integration_qawo_table_set
@@ -343,13 +353,13 @@ gsl_integration_qawo_table_set = __callback.gsl_integration_qawo_table_set
 gsl_integration_qawo_table_set_length = __callback.gsl_integration_qawo_table_set_length
 
 gsl_integration_qawo_table_free = __callback.gsl_integration_qawo_table_free
-
 GSL_INTEG_GAUSS15 = __callback.GSL_INTEG_GAUSS15
 GSL_INTEG_GAUSS21 = __callback.GSL_INTEG_GAUSS21
 GSL_INTEG_GAUSS31 = __callback.GSL_INTEG_GAUSS31
 GSL_INTEG_GAUSS41 = __callback.GSL_INTEG_GAUSS41
 GSL_INTEG_GAUSS51 = __callback.GSL_INTEG_GAUSS51
 GSL_INTEG_GAUSS61 = __callback.GSL_INTEG_GAUSS61
+
 gsl_integration_qng = __callback.gsl_integration_qng
 
 gsl_integration_qag = __callback.gsl_integration_qag
@@ -419,10 +429,10 @@ gsl_odeiv_step_free = __callback.gsl_odeiv_step_free
 gsl_odeiv_step_name = __callback.gsl_odeiv_step_name
 
 gsl_odeiv_step_order = __callback.gsl_odeiv_step_order
-
 gsl_odeiv_hadj_dec = __callback.gsl_odeiv_hadj_dec
 gsl_odeiv_hadj_inc = __callback.gsl_odeiv_hadj_inc
 gsl_odeiv_hadj_nil = __callback.gsl_odeiv_hadj_nil
+
 gsl_odeiv_control_alloc = __callback.gsl_odeiv_control_alloc
 
 gsl_odeiv_control_init = __callback.gsl_odeiv_control_init
@@ -462,12 +472,44 @@ gsl_fit_mul = __callback.gsl_fit_mul
 gsl_fit_wmul = __callback.gsl_fit_wmul
 
 gsl_fit_mul_est = __callback.gsl_fit_mul_est
-
 cvar = __callback.cvar
+gsl_root_fsolver_bisection = cvar.gsl_root_fsolver_bisection
+gsl_root_fsolver_brent = cvar.gsl_root_fsolver_brent
+gsl_root_fsolver_falsepos = cvar.gsl_root_fsolver_falsepos
+gsl_root_fdfsolver_newton = cvar.gsl_root_fdfsolver_newton
+gsl_root_fdfsolver_secant = cvar.gsl_root_fdfsolver_secant
+gsl_root_fdfsolver_steffenson = cvar.gsl_root_fdfsolver_steffenson
+gsl_min_fminimizer_goldensection = cvar.gsl_min_fminimizer_goldensection
+gsl_min_fminimizer_brent = cvar.gsl_min_fminimizer_brent
+gsl_multiroot_fsolver_dnewton = cvar.gsl_multiroot_fsolver_dnewton
+gsl_multiroot_fsolver_broyden = cvar.gsl_multiroot_fsolver_broyden
+gsl_multiroot_fsolver_hybrid = cvar.gsl_multiroot_fsolver_hybrid
+gsl_multiroot_fsolver_hybrids = cvar.gsl_multiroot_fsolver_hybrids
+gsl_multiroot_fdfsolver_newton = cvar.gsl_multiroot_fdfsolver_newton
+gsl_multiroot_fdfsolver_gnewton = cvar.gsl_multiroot_fdfsolver_gnewton
+gsl_multiroot_fdfsolver_hybridj = cvar.gsl_multiroot_fdfsolver_hybridj
+gsl_multiroot_fdfsolver_hybridsj = cvar.gsl_multiroot_fdfsolver_hybridsj
+gsl_multimin_fdfminimizer_steepest_descent = cvar.gsl_multimin_fdfminimizer_steepest_descent
+gsl_multimin_fdfminimizer_conjugate_pr = cvar.gsl_multimin_fdfminimizer_conjugate_pr
+gsl_multimin_fdfminimizer_conjugate_fr = cvar.gsl_multimin_fdfminimizer_conjugate_fr
+gsl_multimin_fdfminimizer_vector_bfgs = cvar.gsl_multimin_fdfminimizer_vector_bfgs
+gsl_multimin_fminimizer_nmsimplex = cvar.gsl_multimin_fminimizer_nmsimplex
 gsl_multifit_gradient = __callback.gsl_multifit_gradient
 
 gsl_multifit_covar = __callback.gsl_multifit_covar
 
+gsl_multifit_fdfsolver_lmder = cvar.gsl_multifit_fdfsolver_lmder
+gsl_multifit_fdfsolver_lmsder = cvar.gsl_multifit_fdfsolver_lmsder
+gsl_odeiv_step_rk2 = cvar.gsl_odeiv_step_rk2
+gsl_odeiv_step_rk4 = cvar.gsl_odeiv_step_rk4
+gsl_odeiv_step_rkf45 = cvar.gsl_odeiv_step_rkf45
+gsl_odeiv_step_rkck = cvar.gsl_odeiv_step_rkck
+gsl_odeiv_step_rk8pd = cvar.gsl_odeiv_step_rk8pd
+gsl_odeiv_step_rk2imp = cvar.gsl_odeiv_step_rk2imp
+gsl_odeiv_step_rk4imp = cvar.gsl_odeiv_step_rk4imp
+gsl_odeiv_step_bsimp = cvar.gsl_odeiv_step_bsimp
+gsl_odeiv_step_gear1 = cvar.gsl_odeiv_step_gear1
+gsl_odeiv_step_gear2 = cvar.gsl_odeiv_step_gear2
 gsl_odeiv_step_apply = __callback.gsl_odeiv_step_apply
 
 gsl_odeiv_control_hadjust = __callback.gsl_odeiv_control_hadjust
