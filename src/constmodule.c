@@ -34,7 +34,7 @@ static void add_constants(PyObject* m)
   PyModule_AddObject(m,"ln2",PyFloat_FromDouble(M_LN2));
   PyModule_AddObject(m,"lnpi",PyFloat_FromDouble(M_LNPI));
   PyModule_AddObject(m,"euler",PyFloat_FromDouble(M_EULER));
-# include "scientific_constants.c"
+#include "scientific_constants.c"
 }
 
 

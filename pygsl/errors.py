@@ -7,7 +7,14 @@ import exceptions
 
 class gsl_Error(exceptions.Exception):
     """
-    base of all exceptions defined here
+    base of all gsl exceptions defined here
+    """
+    pass
+
+
+class gsl_Warning(exceptions.Warning):
+    """
+    base of all gsl warnings defined here
     """
     pass
 
@@ -29,5 +36,11 @@ class gsl_ZeroDivisionError(gsl_Error,exceptions.ZeroDivisionError):
 
 class gsl_FloatingPointError(gsl_Error,exceptions.FloatingPointError):
     """
+    """
+    pass
+
+class gsl_DomainWarning(gsl_Warning):
+    """
+    used by pygsl.histogram
     """
     pass

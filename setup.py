@@ -10,6 +10,8 @@ pygsl_ieee=gsl_Extension("ieee",
 			 ['src/ieeemodule.c'])
 pygsl__rng=gsl_Extension("_rng",
 			 ['src/_rngmodule.c'])
+pygsl__histogram=gsl_Extension("_histogram",
+                               ['src/_histogrammodule.c'])
 pygsl_const=gsl_Extension("const",
 			  ['src/constmodule.c'])
 pygsl_init=gsl_Extension("init",
@@ -21,7 +23,7 @@ setup (name = "pygsl",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",
        url = "http://pygsl.sourceforge.net",
-       py_modules = ['pygsl.errors','pygsl.rng'],
+       py_modules = ['pygsl.errors','pygsl.rng','pygsl.histogram'],
        ext_package = 'pygsl',
-       ext_modules = [pygsl_sf, pygsl_const, pygsl_ieee, pygsl__rng, pygsl_init],
+       ext_modules = [pygsl_sf, pygsl_const, pygsl_ieee, pygsl__rng, pygsl__histogram, pygsl_init],
        )
