@@ -1,135 +1,178 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
-<html>
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-</head>
-<body>
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
-<h1>pygsl: GSL interface for python</h1>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-15"/>
+    <meta name="generator" content="Emacs"/>
+    <meta name="author" content="Jochen K&uuml;pper"/>
+    <meta name="version" content="$Id$"/>
 
-<h2>Status of GSL-Library:</h2>
-The gsl-library is since version 1.0 stable and for general use.
-More information about it at <a href="http://sources.redhat.com/gsl/">http://sources.redhat.com/gsl/</a>.
+    <meta name="keywords" content="numeric, scientific, python,
+    extension, module, GNU, library"/>
 
-<h2>Status of this interface:</h2>
-We are collecting implementations of parts of gsl.
-So the interface is not complete.
-The version pygsl-0.1a is the first step towards pygsl-0.1.
+    <title>PyGSL: Python interface for GNU Scientific Library</title>
 
-<h2>Requirements:</h2>
-To build the interface, you will need
-<ul>
-<li> <a href="http://sources.redhat.com/gsl">gsl-1.2</a> or better,</li>
-<li> <a href="http://www.python.org">python2.2</a> or better and</li>
-<li> <a href="http://numpy.sf.net">NumPy</a>, and</li>
-<li>a c compiler (like gcc).</li>
-</ul>
+  </head>
 
-<h2>Retriving the Interface:</h2>
-You can download it here: <a href="http://pygsl.sourceforge.net/">http://pygsl.sourceforge.net</a>
+  <body>
 
-<h2>Installing GSL interface:</h2>
 
-<tt>gsl-config</tt> must be on your path:
-<p><tt>gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-</tt>
-<br><tt>cd pygsl-x.y.z</tt>
-<br><tt>#do this with your prefered python version</tt>
-<br><tt>#to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl</tt>
-<br><tt>python setup.py build</tt>
-<br><tt># change to a id, that is allowed to do installation</tt>
-<br><tt>python setup.py install</tt>
-<p>Ready....
+  <h1>PyGSL: Python interface for GNU Scientific Library</h1>
 
-<h2>Using pygsl</h2>
-<b>Do test the interface in the distribution root without changing the module path -- use <tt>test.py</tt> instead !</b>
-Due to the existence of the file <tt>pygsl/__init__.py</tt> python will use this source directory as module, instead of the installed code.
-<p>Just write in python
-<br><tt>import pygsl.sf</tt>
-<br><tt>print "%g+/-%g"%pygsl.sf.erf(1)</tt>
-<p>or
-<br><tt>import pygsl.rng</tt>
-<br><tt>rng=pygsl.rng.gsl_rng()</tt>
-<br><tt>print rng.gaussian(1.0)</tt>
-<p>
-You may set the environment variable <tt>LD_LIBRARY_PATH</tt> to find the gsl shared object.
+  <h2>Status of GSL-Library:</h2>
 
-<h2>Uninstall GSL interface:</h2>
-<tt>rm -r </tt>"python install path"<tt>/lib/python</tt>"version"<tt>/site-packages/pygsl</tt>
+  The gsl-library is since version 1.0 stable and for general use.
+  Read more about it at the <a
+  href="http://sources.redhat.com/gsl/">GSL homepage</a>.
 
-<h2>Supported Platforms:</h2>
-<ul>
-<li>Linux (Redhat 7.*/SuSE) with python2.* and gsl-1.2 </li>
-<li>SUN</li>
-</ul>
+  <h2>Status of this interface:</h2>
 
-<h2>Testing:</h2>
-the directory <tt>test</tt> will contain several testsuites, based on python <tt>unittest</tt>.
+  We are collecting implementations of parts of gsl. So the interface
+  is not complete. We are looking forward to contributions of new
+  submodules, while maintaining the awailabel code.
 
-<h2>What is implemented:</h2>
+  <h2>Requirements:</h2>
 
-<ul>
-<li>module pygsl.sf: with 200 special functions</li>
-<li>module pygsl.const: with 206 often used mathematical and scientific constants</li>
-<li>module pygsl.ieee: access to the ieee-arithmetics layer of gsl</li>
-<li>module pygsl.rng: provides several random number generators and different probability densities</li>
-<li>module pygsl.histogram: histograms and operations on histograms</li>
-<li>module pygsl.statistics: some statistics functions for arrays.</li>
-</ul>
+  To build the interface, you will need
+  <ul>
+  <li> <a href="http://sources.redhat.com/gsl">gsl-1.2</a> or better,</li>
+  <li> <a href="http://www.python.org">python2.2</a> or better and</li>
+  <li> <a href="http://numpy.sf.net">NumPy</a>, and</li>
+  <li>a ANSI C compiler (i.e. gcc).</li>
+  </ul>
 
-For the exact function volume for a module, please type:
-<p><tt>import pygsl.sf</tt>
-<br><tt>dir(pygsl.sf)</tt>
-<p>
-You can do this with the other modules, too. The naming scheme is the same as in gsl.
 
-<h2>Documentation:</h2>
-There will be a small tutorial, but the function reference can be found at the gsl-reference.
+  <h2>Retrieving the Interface:</h2>
 
-<h2>Support:</h2>
-Please send mails to <a href="mailto:pygsl-discuss@lists.sourceforge.net">the pygsl mailinglist</a>.
+  You can download pygsl at <a
+  href="http://pygsl.sourceforge.net/">http://pygsl.sourceforge.net</a>
 
-<h2>Developement:</h2>
+  <h2>Installing GSL interface:</h2>
 
-You can browse our <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/">cvs tree</a>.
-<p>
-Type this to check out the actual version:<br>
-<tt>cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login</tt><br>
-Hit return for no password.<br>
-<tt>cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co pygsl</tt>
-<p>
-The script <tt>tools/extract_tool.py</tt> generates most of the special function code.
+  <tt>gsl-config</tt> must be on your path:
+  <p><tt>gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-</tt>
+  <br><tt>cd pygsl-x.y.z</tt>
+  <br><tt>#do this with your prefered python version</tt>
+  <br><tt>#to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl</tt>
+  <br><tt>python setup.py build</tt>
+  <br><tt># change to a id, that is allowed to do installation</tt>
+  <br><tt>python setup.py install</tt>
+  <p>Ready....
 
-<h2>ToDo:</h2>
-Implement other parts: (I don't want to do that alone)
-<ul>
-<li>Chebyshev-Series</li>
-<li>Complex Numbers</li>
-<li>Matrix</li>
-<li>Lin Algebra</li>
-<li>Permutation</li>
-<li>Sorting</li>
-<li>Statistics</li>
-<li>Fitting/Minimization</li>
-<li>FFT</li>
-<li>Numerical Integration</li>
-</ul>
+  <h2>Using pygsl</h2>
 
-<h2>History:</h2>
-<ul>
-<li>a gsl-interface for python was needed for a project at <a href="http://www.zaik.uni-koeln.de/AFS">center for applied informatics cologne</a>.
-<li>gsl-0.0.3 was released at May 23, 2001</li>
-<li>gsl-0.0.4 was released at January 8, 2002</li>
-<li>gsl-0.1a was released at August 27, 2002</li>
-</ul>
+  <b>Do test the interface in the distribution root without changing
+  the module path -- use <tt>test.py</tt> instead !</b> Due to the
+  existence of the file <tt>pygsl/__init__.py</tt> python will use
+  this source directory as module, instead of the installed code.
 
-<h2>Thanks:</h2>
-<ul>
-<li><a href="mailto:jochen@jochen-kuepper.de">Jochen K&uuml;pper</a> for pygsl.statistics functions</li>
-</ul>
+  <p>Just write in python
+  <br><tt>import pygsl.sf</tt>
+  <br><tt>print "%g+/-%g"%pygsl.sf.erf(1)</tt>
+  <p>or
+  <br><tt>import pygsl.rng</tt>
+  <br><tt>rng=pygsl.rng.gsl_rng()</tt>
+  <br><tt>print rng.gaussian(1.0)</tt>
+  <p>
+  You may set the environment variable <tt>LD_LIBRARY_PATH</tt> to
+  find the gsl shared object.
 
-<h2>Maintainer:</h2>
-<a href="mailto:AchimGaedke@users.sourceforge.net">AchimGaedke@users.sourceforge.net</a>
+  <h2>Uninstall GSL interface:</h2>
 
-</body>
+  <tt>rm -r </tt>"python install
+  path"<tt>/lib/python</tt>"version"<tt>/site-packages/pygsl</tt>
 
+  <h2>Supported Platforms:</h2>
+
+  <ul> <li>Linux (Redhat 7.*/SuSE) with python2.* and gsl-1.2 </li>
+  <li>SUN</li> </ul>
+
+  <h2>Testing:</h2>
+  
+  The directory <tt>test</tt> will contain several testsuites, based
+  on python <tt>unittest</tt>.
+
+  <h2>What is implemented:</h2>
+
+  <ul>
+  <li>module pygsl.sf: with 200 special functions</li>
+  <li>module pygsl.const: with 206 often used mathematical and scientific constants</li>
+  <li>module pygsl.ieee: access to the ieee-arithmetics layer of gsl</li>
+  <li>module pygsl.rng: provides several random number generators and different probability densities</li>
+  <li>module pygsl.histogram: histograms and operations on histograms</li>
+  <li>module pygsl.statistics: some statistics functions for arrays.</li>
+  </ul>
+
+  For the exact function volume for a module, please type:
+  <p><tt>import pygsl.sf</tt>
+  <br><tt>dir(pygsl.sf)</tt>
+  <p>
+  You can do this with the other modules, too. The naming scheme is
+  the same as in gsl.
+
+  <h2>Documentation:</h2>
+
+  There will be a small tutorial, but the function reference can be
+  found at the gsl-reference.
+
+  <h2>Support:</h2>
+
+  Please send mails to <a
+  href="mailto:pygsl-discuss@lists.sourceforge.net">the pygsl
+  mailinglist</a>.
+
+  <h2>Developement:</h2>
+
+  You can browse our <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/">cvs tree</a>.
+  <p>
+  Type this to check out the actual version:<br>
+  <tt>cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login</tt><br>
+  Hit return for no password.<br>
+  <tt>cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co pygsl</tt>
+  <p>
+  The script <tt>tools/extract_tool.py</tt> generates most of the
+  special function code.
+
+  <h2>ToDo:</h2>
+
+  Implement other parts: (I don't want to do that alone)
+  <ul>
+  <li>Chebyshev-Series</li>
+  <li>Complex Numbers</li>
+  <li>Matrix</li>
+  <li>Lin Algebra</li>
+  <li>Permutation</li>
+  <li>Sorting</li>
+  <li>Statistics</li>
+  <li>Fitting/Minimization</li>
+  <li>FFT</li>
+  <li>Numerical Integration</li>
+  </ul>
+
+  <h2>History:</h2>
+
+  <ul>
+  <li>a gsl-interface for python was needed for a project at <a
+  href="http://www.zaik.uni-koeln.de/AFS">center for applied
+  informatics cologne</a>. 
+  <li>gsl-0.0.3 was released at May 23, 2001</li>
+  <li>gsl-0.0.4 was released at January 8, 2002</li>
+  <li>gsl-0.1a was released at August 27, 2002</li>
+  </ul>
+
+  <h2>Thanks:</h2>
+
+  <ul>
+  <li><a href="mailto:jochen@jochen-kuepper.de">Jochen K&uuml;pper</a> for pygsl.statistics functions</li>
+  </ul>
+
+  <h2>Maintainer:</h2>
+  
+  <p>PyGSL is currently maintained by <a
+  href="mailto:AchimGaedke@users.sourceforge.net">Achim
+  Gaedke</a>.</p>
+
+  </body>
 </html>

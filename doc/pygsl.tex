@@ -5,20 +5,27 @@
 %
 %     http://www.python.org/doc/current/doc/doc.html
 
-\documentclass{manual}
+\documentclass[hyperref]{manual}
+
+% latex2html doesn't know [T1]{fontenc}, so we cannot use that:(
+\usepackage{amsmath}
+\usepackage[latin1]{inputenc}
+\usepackage{textcomp}
+
 
 % this version does not reset module names at section level
 %begin{latexonly}
-\catcode`\@=11
+\makeatletter
 \let\py@OldOldChapter=\chapter
 \renewcommand{\chapter}{\py@reset%
                         \py@OldOldChapter}
 \renewcommand{\section}{\@startsection{section}{1}{\z@}%
-                                    {-3.5ex \@plus -1ex \@minus -.2ex}%
-                                    {2.3ex \@plus.2ex}%
-                                    {\reset@font\Large\py@HeaderFamily}}
-\catcode`\@=12
+   {-3.5ex \@plus -1ex \@minus -.2ex}%
+   {2.3ex \@plus.2ex}%
+   {\reset@font\Large\py@HeaderFamily}}
+\makeatother
 %end{latexonly}
+
 
 % some convenience declarations
 \newcommand{\gsl}{GSL}
@@ -28,29 +35,39 @@
 \newcommand{\pygsl}{Pygsl}
 \newcommand{\PYGSL}{Pygsl: Python wrapper of the GNU Scientific Library}
 
+
 \title{pygsl Manual}
 
-\author{Achim G\"adke\makebox[0pt]{ \footnotemark[1]} \\
-Jochen K\"upper}
-
-% Please at least include a long-lived email address;
-% the rest is at your discretion.
-\authoraddress{
-        \footnotemark[1]Center for Applied Informatics, Cologne\\
-        Email: \email{achimgaedke@users.sourceforge.net}\\
-        Email: \email{jochen@jochen-kuepper.de}
+\ifhtml
+\author{%
+   \ulink{Achim G\"adke}{mailto:achimgaedke@users.sourceforge.net}\\
+   Center for Applied Informatics, Cologne \\
+   \ulink{Jochen K\"upper}{mailto:jochen@jochen-kuepper.de}\\
+   Fritz-Haber-Institut der MPG, Berlin
 }
+\else
+%begin{latexonly}
+%% pdfelatex (TeXLive 7) doesn't handle \footnotemark in here...
+\author{Achim G\"adke \\ Jochen K\"upper}
+% Please at least include a long-lived email address!
+\authoraddress{
+   Center for Applied Informatics, Cologne \\
+   \email{achimgaedke@users.sourceforge.net} \\[2mm]
+   Fritz-Haber-Institut der MPG, Berlin \\
+   \email{jochen@jochen-kuepper.de} \\
+}
+%end{latexonly}
+\fi
 
-\date{August, 2002}             % update before release!
+\date{January, 2003}            % update before release!
                                 % Use an explicit date so that reformatting
                                 % doesn't cause a new date to be used.  Setting
                                 % the date to \today can be used during draft
                                 % stages to make it easier to handle versions.
-
-\release{0.1a}                  % release version; this is used to define the
-                                % \version macro
-
+\release{0.1}                   % release version; this is used to define the
+\setshortversion{0.1}           % \version macro
 \makeindex                      % tell \index to actually write the .idx file
+
 
 \begin{document}
 

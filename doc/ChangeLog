@@ -1,15 +1,23 @@
-2002-04-22  Jochen Küpper  <jochen@unc.edu>
+2003-01-16  Jochen Küpper  <jochen@jochen-kuepper.de>
 
-	* mklinks: Added to create necessary links.  Give path to your python
+	* Makefile: Added.
+
+	* pygsl.tex: Update my address. Fix pdflatex problems with \footnotemark
+	in \author, generally fix author/address issue. Set version to 0.1, date
+	to January 2003.
+
+2002-04-22  Jochen Küpper  <jochen@jochen-kuepper.de>
+
+	* mklinks: Added to create necessary links. Give path to your python
 	cvs sources as parameter.
 
 	* pygsl.tex, copyright.tex: Include Free Documentation License.
 
 	* freedoc.tex: Added.
 
-2002-04-17  Jochen Küpper  <jochen@unc.edu>
+2002-04-17  Jochen Küpper  <jochen@jochen-kuepper.de>
 
-	* index.html: Add link to News section.  Some reorganization, adherence
+	* index.html: Add link to News section. Some reorganization, adherence
 	to HTML standards.
 
 2002-04-17  Jochen Küpper  <jochen@jochen-kuepper.de>
@@ -20,6 +28,6 @@
 
 
 	* Local Variables:
-	* mode: auto-fill
-	* fill-column: 79
+	* mode: Change-Log
+	* fill-column: 80
 	* End:
