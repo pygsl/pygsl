@@ -10,6 +10,7 @@
 
 #include <Python.h>
 #ifdef HAVE_NUMERIC
+# define PY_ARRAY_UNIQUE_SYMBOL PYGSL_STATISTICS_LONG
 # include <Numeric/arrayobject.h>
 #endif
 #include <gsl/gsl_statistics.h>
@@ -17,7 +18,7 @@
 
 /* include real functions for different data-types */
 
-#define STATMOD_APPEND_PY_TYPE(X) X ## Long
+#define STATMOD_APPEND_PY_TYPE(X) X ## Int
 #define STATMOD_APPEND_PYC_TYPE(X) X ## LONG
 #define STATMOD_FUNC_EXT(X, Y) X ## _long ## Y
 #define STATMOD_C_TYPE long
@@ -34,29 +35,11 @@
 
 
 
-
-/* table of methods */
-
-static PyMethodDef StatisticsLongMethods[] = {
-    {"absdev", statistics_absdev_long, METH_VARARGS},
-    {"absdev_m", statistics_absdev_m_long, METH_VARARGS},
-    {"mean", statistics_mean_long, METH_VARARGS},
-    {"sd", statistics_sd_long, METH_VARARGS},
-    {"sd_m", statistics_sd_m_long, METH_VARARGS},
-    {"sd_with_fixed_mean", statistics_sd_with_fixed_mean_long, METH_VARARGS},
-    {"variance", statistics_variance_long, METH_VARARGS},
-    {"variance_m", statistics_variance_m_long, METH_VARARGS},
-    {"variance_with_fixed_mean", statistics_variance_with_fixed_mean_long, METH_VARARGS},
-    {NULL, NULL}
-};
-
-
-
 /* initialization */
 
 DL_EXPORT(void) initlong(void)
 {
-    Py_InitModule("long", StatisticsLongMethods);
+    Py_InitModule("long", StatisticsMethods_Int);
 #ifdef HAVE_NUMERIC
     import_array();
 #endif

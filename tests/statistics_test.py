@@ -4,19 +4,32 @@
 
 import unittest
 try:
-    from Numeric import array
+    from Numeric import array, zeros
 except ImportError:
-    array=lambda seq:seq
+    print "Numpy not available, some tests are pretty meaningless..."
+    array = lambda seq: seq
+
+import random
 
 from pygsl.statistics import *
-import pygsl.statistics.long as long
+from pygsl.statistics import long as long
+
 
 class statistics_test(unittest.TestCase):
     """Simple tests on statistics functions"""
 
     def test_mean(self):
         self.failIf(mean(array([-1.,-3.,1.])) != -1.0)
-        self.failIf(mean([1, 2, 3]) != 2)
+        self.failIf(mean([1,2,3]) != 2)
+        # test stride != 1
+        # these are only valid tests when using NumPy,
+        # since otherwise the sequence is trnsformed to an
+        # contigous array anyway...
+        data = array([1.,2.,3.,4.,5.,6.,7.,8.,9.,10.])
+        self.failIf(mean(data) != 5.5)
+        self.failIf(mean(data[::-1]) != 5.5)
+        self.failIf(mean(data[::2]) != 5.0)
+        self.failIf(mean(data[::-2]) != 6.0)
 
     def test_mean_long(self):
         self.failIf(long.mean(array([-1,-3,1])) != -1)
