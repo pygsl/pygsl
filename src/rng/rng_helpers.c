@@ -1,4 +1,3 @@
-#define DEBUG 10
 #include <pygsl/intern.h>
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
@@ -13,8 +12,7 @@
  * work otherwise anyway.
  */
 #define NUMERIC 1
-#undef DEBUG
-#define DEBUG 0
+
 /*
  * Numeric 21.0 does not include PyArray_UINT. Until Numerical 23.0 is 
  * more spread I will use PyArray_Long instead. The following switch allows 

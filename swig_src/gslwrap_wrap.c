@@ -13786,7 +13786,7 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     
-    gsl_complex_float tmp3;
+    gsl_complex_float _complex_tmp3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_cdotu",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
@@ -13836,9 +13836,9 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex_float (obj2, &tmp3) != GSL_SUCCESS)
+        if(PyGSL_PyCOMPLEX_TO_gsl_complex_float (obj2, &_complex_tmp3) != GSL_SUCCESS)
         goto fail;
-        arg3 = &tmp3;
+        arg3 = &_complex_tmp3;
     }
     result = (int)gsl_blas_cdotu((gsl_vector_complex_float const *)arg1,(gsl_vector_complex_float const *)arg2,arg3);
     
@@ -13880,7 +13880,7 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_vector_complex_float _vector2;
     
     
-    gsl_complex_float tmp3;
+    gsl_complex_float _complex_tmp3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_cdotc",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
@@ -13930,9 +13930,9 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex_float (obj2, &tmp3) != GSL_SUCCESS)
+        if(PyGSL_PyCOMPLEX_TO_gsl_complex_float (obj2, &_complex_tmp3) != GSL_SUCCESS)
         goto fail;
-        arg3 = &tmp3;
+        arg3 = &_complex_tmp3;
     }
     result = (int)gsl_blas_cdotc((gsl_vector_complex_float const *)arg1,(gsl_vector_complex_float const *)arg2,arg3);
     
@@ -13974,7 +13974,7 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
-    gsl_complex tmp3;
+    gsl_complex _complex_tmp3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_zdotu",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
@@ -14024,9 +14024,9 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj2, &tmp3) != GSL_SUCCESS)
+        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj2, &_complex_tmp3) != GSL_SUCCESS)
         goto fail;
-        arg3 = &tmp3;
+        arg3 = &_complex_tmp3;
     }
     result = (int)gsl_blas_zdotu((gsl_vector_complex const *)arg1,(gsl_vector_complex const *)arg2,arg3);
     
@@ -14079,7 +14079,7 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
     TYPE_VIEW_gsl_vector_complex _vector2;
     
     
-    gsl_complex tmp3;
+    gsl_complex _complex_tmp3;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_zdotc",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
@@ -14129,9 +14129,9 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj2, &tmp3) != GSL_SUCCESS)
+        if(PyGSL_PyCOMPLEX_TO_gsl_complex (obj2, &_complex_tmp3) != GSL_SUCCESS)
         goto fail;
-        arg3 = &tmp3;
+        arg3 = &_complex_tmp3;
     }
     result = (int)gsl_blas_zdotc((gsl_vector_complex const *)arg1,(gsl_vector_complex const *)arg2,arg3);
     

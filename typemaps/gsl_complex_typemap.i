@@ -29,6 +29,7 @@
 %}
 
 /* In direct */
+
 %typemap(in) gsl_complex {
      $1_basetype tmp;
      if(PyGSL_PyCOMPLEX_TO_$1_basetype($input, &tmp) != GSL_SUCCESS)
@@ -40,13 +41,13 @@
    Pointer Version
    ------------------------------------------------------------------------- */
 %typemap(arginit) gsl_complex * IN %{
-    $1_basetype tmp$argnum;
+    $1_basetype _complex_tmp$argnum;
 %}
 /* In Pointer */
 %typemap( in) gsl_complex * IN {
-     if(PyGSL_PyCOMPLEX_TO_$1_basetype ($input, &tmp$argnum) != GSL_SUCCESS)
+     if(PyGSL_PyCOMPLEX_TO_$1_basetype ($input, &_complex_tmp$argnum) != GSL_SUCCESS)
 	  goto fail;
-     $1 = &tmp$argnum;
+     $1 = &_complex_tmp$argnum;
 }
 
 %typemap(arginit) gsl_complex * OUT %{
@@ -78,7 +79,6 @@
  *  swig wraps structs as pointers anyway. So the pointer version can be 
  *  reused.
  */
-%typemap(arginit) gsl_complex      IN = gsl_complex *IN;
 %typemap(arginit) gsl_complex * INOUT = gsl_complex *IN;
 %typemap(in)      gsl_complex * INOUT = gsl_complex *IN;
 %typemap(argout)  gsl_complex * INOUT = gsl_complex *OUT;

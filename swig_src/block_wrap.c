@@ -16185,9 +16185,6 @@ static PyObject *_wrap_gsl_vector_complex_set_all(PyObject *self, PyObject *args
     PyArrayObject * volatile _PyVector1 = NULL;
     TYPE_VIEW_gsl_vector_complex _vector1;
     
-    
-    gsl_complex tmp2;
-    
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_vector_complex_set_all",kwnames,&obj0,&obj1)) goto fail;
     
     {
@@ -16872,9 +16869,6 @@ static PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *self, PyObject *args
     
     PyArrayObject * _PyMatrix1 = NULL;
     TYPE_VIEW_gsl_matrix_complex _matrix1;
-    
-    
-    gsl_complex tmp2;
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_matrix_complex_set_all",kwnames,&obj0,&obj1)) goto fail;
     {

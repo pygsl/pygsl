@@ -85,11 +85,11 @@ typedef struct {
 
 
 /* 1. A_n O -> A_p  */
-PyGSL_API_EXTERN int
+int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback, 
 			  PyObject * arguments, int n, int p, char *c_func_name);
 /* 2. A_n O -> A_n_p */
-PyGSL_API_EXTERN int
+int
 PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
 			   PyObject *arguments, int n, int p, char * c_func_name);
 
