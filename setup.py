@@ -11,21 +11,62 @@ import sys
 import distutils
 from distutils.core import setup, Extension
 from gsl_Extension import gsl_Extension
+from distutils import sysconfig
 
+# NDEBUG : This macro removes asserts!! Not to be used for debugging!!
+libpygsl = ('pygsl', {'sources' : ['Lib/general_helpers.c',
+                                   'Lib/complex_helpers.c',
+                                   'Lib/block_helpers.c',
+                                   'Lib/function_helpers.c',
+                                   'Lib/error_helpers.c',
+                                   'Lib/rng_helpers.c',
+                                   'Lib/profile.c',
+                                   'Lib/chars.c'],
+                      'include_dirs' : ['Include',
+                                        sysconfig.get_python_inc()],
+                      'shared' : 1,
+                      }
+            )
 
 exts = []
+exts.append(gsl_Extension("_hankel",
+                          ["swig_src/hankel_wrap.c"],
+                          gsl_min_version=(1,0),
+                          define_macros = [('SWIG_COBJECT_TYPES', 1),
+                                           #('DEBUG' ,'2'),
+                                           ],
+                          python_min_version=(2,0),
+                          )
+            
+            )
+exts.append(gsl_Extension("_sum",
+                          ["swig_src/sum_wrap.c"],
+                          gsl_min_version=(1,0),
+                          define_macros = [('SWIG_COBJECT_TYPES', 1),
+                                           #('DEBUG' ,'2'),
+                                           ],
+                          python_min_version=(2,0),
+                          )
+            )
+
 exts.append(gsl_Extension("__callback",
                           ["swig_src/callback_wrap.c"],
-                          include_dirs=["src/callback", "."],
+                          include_dirs=["src/callback"],
                           gsl_min_version=(1,2),
-                          #define_macros=[('DEBUG' ,'2')],
-                          python_min_version=(2,1)
+                          define_macros = [('SWIG_COBJECT_TYPES', 1),
+                                           #('DEBUG' ,'2'),
+                                           ],
+                          python_min_version=(2,1),
                           )
+            
             )
 
 exts.append(gsl_Extension("__poly",
                           ["swig_src/poly_wrap.c"],
-                          include_dirs=["src/poly", "."],
+                          include_dirs=["src/poly"],
+                          define_macros = [('SWIG_COBJECT_TYPES', 1),
+                                           #('DEBUG' ,'2'),
+                                           ],                          
                           gsl_min_version=(1,2),
                           python_min_version=(2,1)
                           )
@@ -33,8 +74,11 @@ exts.append(gsl_Extension("__poly",
 
 exts.append(gsl_Extension("__block",
                           ["swig_src/block_wrap.c"],
-                          include_dirs=["src/block", "."],
+                          #include_dirs=["src/block"],
                           #define_macros=[('DEBUG' ,'0')],
+                          define_macros = [('SWIG_COBJECT_TYPES', 1),
+                                           #('DEBUG' ,'2'),
+                                           ],
                           gsl_min_version=(1,2),
                           python_min_version=(2,1)
                           )
@@ -73,20 +117,24 @@ try:
                                   )
     exts.append(pygsl_multimin)    
     pygsl_rng=gsl_Extension("rng",
-			 ['src/rngmodule.c'],
-                         gsl_min_version=(1,'0+'),
-                         python_min_version=(2,2)
+                            ['src/rngmodule.c'],
+                            #define_macros = [('DEBUG', 10)],
+                            gsl_min_version=(1,'0+'),
+                            python_min_version=(2,2)
                          )
     exts.append(pygsl_rng)
     pygsl_ieee=gsl_Extension("ieee",
-			 ['src/ieeemodule.c'],
-                         gsl_min_version=(1,),
-                         python_min_version=(2,2)
-                         )
+                             ['src/ieeemodule.c'],
+                             gsl_min_version=(1,),
+                             python_min_version=(2,2)
+                             )
     exts.append(pygsl_ieee)    
     exts.append(gsl_Extension("_gslwrap",
                               ["swig_src/gslwrap_wrap.c"],
-                              include_dirs=["src/gslwrap", "."],
+                              #include_dirs=["src/gslwrap", "."],
+                              define_macros = [('SWIG_COBJECT_TYPES', 1),
+                                               #('DEBUG' ,'2'),
+                                           ],
                               gsl_min_version=(1,2),
                               python_min_version=(2,2)
                               )
@@ -151,7 +199,7 @@ pygsl_statistics_short=gsl_Extension("statistics.short",
 exts.append(pygsl_statistics_short)    
 
 setup (name = "pygsl",
-       version = "0.1b",
+       version = "0.1b-pierre1",
        description = "GNU Scientific Library Interface",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",
@@ -180,13 +228,20 @@ setup (name = "pygsl",
                      'pygsl.multiroots',
                      'pygsl.odeiv',
                      'pygsl.permutation',
+                     'pygsl.combination',
                      'pygsl.poly',
                      'pygsl.roots',
                      'pygsl.vector',
+                     'pygsl.monte',
                      ],
        ext_package = 'pygsl',
-       ext_modules = exts
+       ext_modules = exts,
+       libraries  = [libpygsl, ]
+                                    
+       #'].append(('superlu',{'sources':superlu,
+                             #              'include_dirs':head}))
        )
+
 
 
 
