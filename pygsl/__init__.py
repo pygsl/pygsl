@@ -29,6 +29,7 @@
          -- qrng
          -- rng
          -- roots
+         -- siman
          -- sf
          -- statistics
 
@@ -39,6 +40,7 @@
 # Central Module used by C callbacks. So a good idea to import it here to be
 # sure that  it exists from the very beginning!
 import pygsl.errors
+
 import pygsl.init
 from exceptions import Warning
 
@@ -63,3 +65,35 @@ is used with version %s!"""
     raise Warning,  txt % (compiled_gsl_version, run_gsl_version)
 
 
+def import_all():
+    """
+    PyGSL does not import all modules on statup. If you like that
+    e.g for autocompletion call this function!
+    """
+    import pygsl.blas
+    import pygsl.chebyshev
+    import pygsl.combination
+    import pygsl.const
+    import pygsl.diff
+    import pygsl.eigen
+    import pygsl.fit
+    import pygsl.ieee
+    import pygsl.integrate
+    import pygsl.interpolation
+    import pygsl.linalg
+    import pygsl.minimize
+    import pygsl.multifit
+    import pygsl.multifit_nlin
+    import pygsl.multimin
+    import pygsl.multiroots
+    import pygsl.odeiv
+    import pygsl.permutation
+    import pygsl.poly
+    import pygsl.qrng
+    import pygsl.rng
+    import pygsl.roots
+    import pygsl.siman
+    import pygsl.sf
+    import pygsl.statistics
+    
+    
