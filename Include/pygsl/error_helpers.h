@@ -1,5 +1,6 @@
 #ifndef PyGSL_ERROR_HELPER_H
 #define PyGSL_ERROR_HELPER_H 1
+#include <gsl/gsl_errno.h>
 #include <pygsl/utils.h>
 #include <Python.h>
 
@@ -29,3 +30,13 @@ PyGSL_error_flag_to_pyint(long flag);
  */
 void 
 PyGSL_add_traceback(PyObject *module, char *filename, char *funcname, int lineno);
+
+void PyGSL_module_error_handler(const char *reason, /* name of function*/
+				const char *file,   /*from CPP*/
+				int line,          /*from CPP*/
+				int gsl_error);    /* real "reason" */
+
+#define init_pygsl()\
+{ \
+  gsl_set_error_handler (&PyGSL_module_error_handler); \
+} 
