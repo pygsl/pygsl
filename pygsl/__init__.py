@@ -67,6 +67,8 @@ is used with version %s!"""
     raise Warning,  txt % (compiled_gsl_version, run_gsl_version)
 
 
+import pygsl._numobj
+import pygsl._mlab
 def import_all():
     """
     PyGSL does not import all modules on statup. If you need it

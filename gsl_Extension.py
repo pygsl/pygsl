@@ -7,7 +7,7 @@
 # module for gsl extensions compilation
 
 from distutils.core import setup, Extension
-from distutils.errors import DistutilsExecError
+from distutils.errors import DistutilsModuleError
 import os
 import os.path
 import re
@@ -16,8 +16,11 @@ import types
 import imp
 from sys import argv,version_info
 
-# steel --gsl-prefix from option list
+import gsl_numobj
 
+
+
+# steel --gsl-prefix from option list
 gsl_prefix_option=None
 gsl_prefix_option_pattern=re.compile("--gsl-prefix=(.+)")
 pos=0
