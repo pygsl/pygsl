@@ -104,7 +104,7 @@
        int size, i;
 
        size = (int) gsl_permutation_size(self);
-       a_array = (PyArrayObject *) PyArray_FromDims(1, &size, PyArray_LONG);
+       a_array = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_LONG);
        if(a_array == NULL)
 	    return NULL;
        data = (long *) a_array->data;

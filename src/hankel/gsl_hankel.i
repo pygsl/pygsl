@@ -77,7 +77,7 @@ struct gsl_dht_struct
        if (a_in == NULL)        
 	    goto fail;
 
-       a_out = (PyArrayObject *) PyArray_FromDims(1, &size, PyArray_DOUBLE);
+       a_out = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_DOUBLE);
        if (a_out == NULL)
 	    goto fail;
        

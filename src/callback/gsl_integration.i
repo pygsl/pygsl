@@ -153,7 +153,7 @@ int gsl_integration_qags (const gsl_function *  BUFFER,
      if (_PyVector$argnum == NULL)
 	  goto fail;
      $1 = (double*)(_PyVector$argnum->data);
-     $2 = PyArray_Size((PyObject*)_PyVector$argnum);
+     $2 = _PyVector$argnum->dimensions[0];
 %};
 %typemap(argout) (double *pts, 
 		  size_t npts) {
