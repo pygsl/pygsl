@@ -19,6 +19,24 @@
 #include <Python.h>
 #include <pygsl/error_helpers.h>
 
+/* Taken from Modules/getbuildinfo */
+#ifndef DATE
+#ifdef __DATE__
+#define DATE __DATE__
+#else
+#define DATE "xx/xx/xx"
+#endif
+#endif
+
+#ifndef TIME
+#ifdef __TIME__
+#define TIME __TIME__
+#else
+#define TIME "xx:xx:xx"
+#endif
+#endif
+/* End */
+
 static PyMethodDef initMethods[] = {
   {NULL,     NULL}        /* Sentinel */
 };
@@ -26,7 +44,7 @@ static PyMethodDef initMethods[] = {
 
 DL_EXPORT(void) initinit(void)
 {
-  PyObject *m = NULL, *d = NULL, *version=NULL;
+  PyObject *m = NULL, *d = NULL, *version=NULL, *date=NULL;
 
   m = Py_InitModule("pygsl.init", initMethods);
   init_pygsl();
@@ -59,6 +77,16 @@ DL_EXPORT(void) initinit(void)
   }
   if(PyDict_SetItemString(d, "run_gsl_version", version) != 0){
        fprintf(stderr, "I could not add the run version string to the module dict of pygsl.init!");
+       return;
+  }
+
+  date = PyString_FromString(DATE " " TIME);
+  if(version == NULL){
+       fprintf(stderr, "I could not create the date string for pygsl.init!");
+       return;
+  }
+  if(PyDict_SetItemString(d, "compile_date", date) != 0){
+       fprintf(stderr, "I could not add the date version string to the module dict of pygsl.init!");
        return;
   }
 
