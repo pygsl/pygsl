@@ -12,12 +12,14 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
      
      /* Check that it is from the approbriate type ... */
      /* rng is not a type yet. Can not check for that yet .... */
+     /*
      if(!PyGSL_RngCheck(object)){
 	  gsl_error("I expected a rng instance or an instance from "
 		    "a derived class",
 		    __FILE__, __LINE__, GSL_EFAULT);
 	  return NULL;
      }
+     */
      tmp = PyObject_GetAttrString(object, "_rng");
      if(tmp  == NULL)
 	  return NULL;
