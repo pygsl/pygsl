@@ -1,3 +1,13 @@
+2003-06-03  Pierre Schnizer <pierre@itp.tu-graz.ac.at>
+        * combined all helper functions in a library.
+	* added support for Monte Carlo Integration and Combination. 
+	* added methods to the permutation. Moved the tolist method to a C 
+	  implementation.
+	* Fixed a bug in the error reporting of the float conversion routine.
+	* added Hankel transform support
+	* Fixed the spline implementation (was using the interpolation 
+	  implementation instead of the spline implementation)
+	
 2003-05-18  Achim Gädke  <achim.gaedke@physik.tu-darmstadt.de>
 
 	* now checked in several changes to create a new release.
