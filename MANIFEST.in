@@ -1,8 +1,17 @@
 recursive-include src *.c
+recursive-include src *.ic
+recursive-include src *.i
+recursive-include typemaps *.py
+recursive-include typemaps *.h
+recursive-include typemaps *.ic
+recursive-include typemaps *.i
+recursive-include swig_src *.c
 recursive-include pygsl *.py
 recursive-include tests *.py
 recursive-include doc *.tex
 recursive-include doc *.html
+include utils/util.h
 include gsl_Extension.py
 include test.py
 include README
+include Makefile
