@@ -98,7 +98,7 @@ class prototype_collector:
         """
 
         #prepare file names
-        general_include_dir_name=os.path.join(self.prefix,"include")
+        general_include_dir_name=self.prefix
         general_include_file_name=os.path.join(general_include_dir_name,"gsl","gsl_sf.h")
 
         #test if exists
@@ -277,7 +277,7 @@ class sf_prototype:
             elif arg_type=="unsigned int" and arg_operator is None:
                 arg_decl+="unsigned int %s=0;\nlong %s_long=0;\n"%(arg_name,arg_name)
                 arg_parse_type+="l"
-                arg_parse_name+="&%s, "%arg_name
+                arg_parse_name+="&%s_long, "%arg_name
                 parameter_string+="%s, "%arg_name
                 arg_control+="""if (%s_long<0) {
   PyErr_SetString(gsl_module_error,"expected non negative value for %s");

@@ -222,7 +222,7 @@ unsigned int s=0;
 long s_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &s)) {
+if (!PyArg_ParseTuple(args, "l", &s_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -252,7 +252,7 @@ unsigned int s=0;
 long s_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &s)) {
+if (!PyArg_ParseTuple(args, "l", &s_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -282,7 +282,7 @@ unsigned int s=0;
 long s_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &s)) {
+if (!PyArg_ParseTuple(args, "l", &s_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -312,7 +312,7 @@ unsigned int s=0;
 long s_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &s)) {
+if (!PyArg_ParseTuple(args, "l", &s_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -1343,7 +1343,7 @@ unsigned int s=0;
 long s_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &s)) {
+if (!PyArg_ParseTuple(args, "l", &s_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -1373,7 +1373,7 @@ unsigned int s=0;
 long s_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &s)) {
+if (!PyArg_ParseTuple(args, "l", &s_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -1404,7 +1404,7 @@ unsigned int s=0;
 long s_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "dl", &nu, &s)) {
+if (!PyArg_ParseTuple(args, "dl", &nu, &s_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -2916,7 +2916,7 @@ unsigned int n=0;
 long n_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &n)) {
+if (!PyArg_ParseTuple(args, "l", &n_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -2946,7 +2946,7 @@ unsigned int n=0;
 long n_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &n)) {
+if (!PyArg_ParseTuple(args, "l", &n_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -2976,7 +2976,7 @@ unsigned int n=0;
 long n_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &n)) {
+if (!PyArg_ParseTuple(args, "l", &n_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -3006,7 +3006,7 @@ unsigned int n=0;
 long n_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "l", &n)) {
+if (!PyArg_ParseTuple(args, "l", &n_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -3038,7 +3038,7 @@ unsigned int m=0;
 long m_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "ll", &n, &m)) {
+if (!PyArg_ParseTuple(args, "ll", &n_long, &m_long)) {
   /* say a little bit more */
   return NULL;
 }
@@ -3075,7 +3075,7 @@ unsigned int m=0;
 long m_long=0;
 gsl_sf_result result;
 
-if (!PyArg_ParseTuple(args, "ll", &n, &m)) {
+if (!PyArg_ParseTuple(args, "ll", &n_long, &m_long)) {
   /* say a little bit more */
   return NULL;
 }
