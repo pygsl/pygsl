@@ -40,8 +40,8 @@ class DiscreteHankelTransform(_object):
             if self.thisown: destroy(self)
         except: pass
     def init(*args, **kwargs): return apply(_hankel.DiscreteHankelTransform_init,args, kwargs)
-    def x_samle(*args, **kwargs): return apply(_hankel.DiscreteHankelTransform_x_samle,args, kwargs)
-    def k_samle(*args, **kwargs): return apply(_hankel.DiscreteHankelTransform_k_samle,args, kwargs)
+    def x_sample(*args, **kwargs): return apply(_hankel.DiscreteHankelTransform_x_sample,args, kwargs)
+    def k_sample(*args, **kwargs): return apply(_hankel.DiscreteHankelTransform_k_sample,args, kwargs)
     def get_size(*args, **kwargs): return apply(_hankel.DiscreteHankelTransform_get_size,args, kwargs)
     def apply(*args, **kwargs): return apply(_hankel.DiscreteHankelTransform_apply,args, kwargs)
     def __repr__(self):
