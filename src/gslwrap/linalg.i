@@ -12,7 +12,7 @@
    Therefore I can not map int to gsl_error_flag. So I apply it to all 
    but the one function.
 */
-%apply gsl_error_flag {
+%apply gsl_error_flag_drop {
 		       int gsl_linalg_matmult,
 		       int gsl_linalg_matmult_mod,
 		       int gsl_linalg_matmult,
