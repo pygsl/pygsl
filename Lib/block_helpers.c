@@ -9,10 +9,12 @@
  *  error Reporting.
  */
 #include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
 #include <malloc.h>
 #include <stdio.h>
 #include <pygsl/profile.h>
 #include <pygsl/general_helpers.h>
+#define DEBUG 0
 #include <pygsl/utils.h>
 /* ========================================================================= */
 /*
@@ -54,7 +56,8 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
      else
 	  a_array = (PyArrayObject *) PyArray_ContiguousFromObject(src, array_type, 1, 1);
      /* Here one could put some more information */
-     if(NULL == a_array) return NULL;
+     if(NULL == a_array)
+	  goto fail;
     
 
      if(a_array->nd != 1){
@@ -87,6 +90,7 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
      PyGSL_INCREASE_vector_transform_counter();
      return a_array;
  fail:
+     PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
      Py_XDECREF(a_array);
      return NULL;
 }
@@ -365,6 +369,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n, PyGSL_er
     Py_DECREF(a_array);
     return GSL_SUCCESS;
  fail:
+    PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
     FUNC_MESS("Failure");
     Py_XDECREF(a_array);
     return GSL_FAILURE;
@@ -413,6 +418,7 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,  
     Py_DECREF(a_array);
     return GSL_SUCCESS;
  fail:
+    PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
     FUNC_MESS("  Failure");
     Py_XDECREF(a_array);
     return GSL_FAILURE;

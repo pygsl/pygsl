@@ -4,7 +4,7 @@
  * Date: January 2003
  */
 #include <pygsl/function_helpers.h>
-
+#include <pygsl/error_helpers.h>
 
 
 
@@ -16,12 +16,16 @@ PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callbac
      PyArrayObject *a_array = NULL;
      PyObject *object=NULL, *arglist=NULL;
      PyGSL_error_info  info;
-
+     /* the line number to appear in the traceback */ 
+     int trb_lineno = -1;
      FUNC_MESS_BEGIN();    
 
      /* Do I need to copy the array ??? */
      a_array = PyGSL_copy_gslvector_to_pyarray(x);
-     if (a_array == NULL) goto fail;
+     if (a_array == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
 
      arglist = Py_BuildValue("(OO)", a_array, arguments);
      if(DEBUG > 2){
@@ -38,10 +42,12 @@ PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callbac
      info.error_description = NULL;
      info.argnum = 0;
      if(PyGSL_CHECK_PYTHON_RETURN(object, 1, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
 	  goto fail;
      }
      info.argnum = 1;
      if(PyGSL_copy_pyarray_to_gslvector(f, object, p, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
 	  goto fail;
      }     
      Py_DECREF(arglist);    
@@ -50,6 +56,7 @@ PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callbac
      FUNC_MESS_END();
      return GSL_SUCCESS;
  fail:
+     PyGSL_add_traceback(NULL, __FILE__, c_func_name, trb_lineno);
      FUNC_MESS("Failure");
      Py_XDECREF(arglist);
      Py_XDECREF(a_array);
@@ -65,12 +72,17 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
      PyArrayObject *a_array = NULL;
      PyObject *result = NULL, *arglist=NULL;
      PyGSL_error_info  info;
+     /* the line number to appear in the traceback */ 
+     int trb_lineno = -1;
 
      FUNC_MESS_BEGIN();    
 
      /* Do I need to copy the array ??? */
      a_array = PyGSL_copy_gslvector_to_pyarray(x);
-     if (a_array == NULL) goto fail;
+     if (a_array == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
 
      arglist = Py_BuildValue("(OO)", a_array, arguments);
      if(DEBUG > 2){
@@ -85,10 +97,12 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
      info.callback = callback;
      info.message  = c_func_name;
      if(PyGSL_CHECK_PYTHON_RETURN(result, 1, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
 	  goto fail;
      }
      info.argnum = 1;
      if(PyGSL_copy_pyarray_to_gslmatrix(f, result, n, p, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
 	  goto fail;
      }
      Py_DECREF(arglist);    
@@ -96,6 +110,7 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
      FUNC_MESS_END();
      return GSL_SUCCESS;
  fail:
+     PyGSL_add_traceback(NULL, __FILE__, c_func_name, trb_lineno);
      FUNC_MESS("Failure");
      Py_XDECREF(arglist);
      Py_XDECREF(a_array);
@@ -111,6 +126,8 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
      PyObject *object = NULL, *arglist = NULL, *tmp = NULL;
      int flag;
      PyGSL_error_info  info;
+     /* the line number to appear in the traceback */ 
+     int trb_lineno = -1;
 
      FUNC_MESS_BEGIN();
      assert(arguments != NULL);
@@ -131,6 +148,7 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
      if (result2){
 	  flag = PyGSL_CHECK_PYTHON_RETURN(object, 2, &info);
 	  if(flag !=  GSL_SUCCESS){
+	       trb_lineno = __LINE__ - 2;
 	       FUNC_MESS("   PyGSL_CHECK_PYTHON_RETURN  Failed ");
 	       goto fail;
 	  }
@@ -138,6 +156,7 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
      }else{
 	  flag = PyGSL_CHECK_PYTHON_RETURN(object, 1, &info);
 	  if(flag !=  GSL_SUCCESS){
+	       trb_lineno = __LINE__ - 2;
 	       FUNC_MESS("   PyGSL_CHECK_PYTHON_RETURN  Failed ");
 	       goto fail;
 	  }
@@ -147,6 +166,7 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
      info.argnum = 1;
      flag = PyGSL_PYFLOAT_TO_DOUBLE(tmp, result, &info);
      if(flag !=  GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 2;
 	  FUNC_MESS("   PyGSL_PYFLOAT_TO_DOUBLE  Failed ");
 	  goto fail;
      }
@@ -155,6 +175,7 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
 	  info.argnum = 2;
 	  flag = PyGSL_PYFLOAT_TO_DOUBLE(tmp, result2, &info);
 	  if(flag !=  GSL_SUCCESS){
+	       trb_lineno = __LINE__ - 2;
 	       FUNC_MESS("   PyGSL_PYFLOAT_TO_DOUBLE  Failed ");
 	       goto fail;
 	  }
@@ -164,6 +185,7 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
      return GSL_SUCCESS;
 
  fail:
+     PyGSL_add_traceback(NULL, __FILE__, c_func_name, trb_lineno);
      FUNC_MESS("Fail");
      Py_XDECREF(object);
      return flag;
@@ -183,11 +205,16 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
      PyArrayObject *a_array = NULL;
      PyObject *object=NULL, *arglist=NULL, *tmp=NULL;
      PyGSL_error_info  info;
+     /* the line number to appear in the traceback */ 
+     int trb_lineno = -1;
 
      FUNC_MESS_BEGIN();    
 
      a_array = PyGSL_copy_gslvector_to_pyarray(x);
-     if (a_array == NULL) goto fail;
+     if (a_array == NULL){
+	  trb_lineno = __LINE__ - 2;	       
+	  goto fail;
+     }
 
      arglist = Py_BuildValue("(OO)", a_array, arguments);
      if(DEBUG > 2){
@@ -204,11 +231,13 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
      FUNC_MESS(" Checking Return Values");
      if(result2 == NULL){
 	  if(PyGSL_CHECK_PYTHON_RETURN(object, 1, &info) != GSL_SUCCESS){
+	       trb_lineno = __LINE__ - 1;
 	       goto fail;
 	  }
 	  tmp = object;
      }else{
 	  if(PyGSL_CHECK_PYTHON_RETURN(object, 2, &info) != GSL_SUCCESS){
+	       trb_lineno = __LINE__ - 1;
 	       goto fail;
 	  }
 	  tmp = PyTuple_GET_ITEM(object, 0);
@@ -216,6 +245,7 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
      FUNC_MESS("\tExtracting data from function");
      info.argnum = 1;
      if(PyGSL_PYFLOAT_TO_DOUBLE(tmp, result1, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
 	  goto fail;
      }
      if(DEBUG>2){
@@ -227,7 +257,8 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 	  tmp = PyTuple_GET_ITEM(object, 1);
 	  info.argnum = 2;
 	  if(PyGSL_copy_pyarray_to_gslvector(result2, tmp, n, &info)!= GSL_SUCCESS){
-	    goto fail;
+	       trb_lineno = __LINE__ - 1;
+	       goto fail;
 	  }
      }
      Py_DECREF(arglist);    
@@ -237,6 +268,7 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
      return GSL_SUCCESS;
  fail:
      FUNC_MESS("Failure");
+     PyGSL_add_traceback(NULL, __FILE__, c_func_name, trb_lineno);
      Py_XDECREF(arglist);
      Py_XDECREF(a_array);
      Py_XDECREF(object);
@@ -253,12 +285,17 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
      PyArrayObject *a_array = NULL;
      PyObject *object = NULL, *r1=NULL, *r2 = NULL, *arglist=NULL;
      PyGSL_error_info  info;
+     /* the line number to appear in the traceback */ 
+     int trb_lineno = -1;
 
      FUNC_MESS_BEGIN();    
 
      /* Do I need to copy the array ??? */
      a_array = PyGSL_copy_gslvector_to_pyarray(x);
-     if (a_array == NULL) goto fail;
+     if (a_array == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
 
      arglist = Py_BuildValue("(OO)", a_array, arguments);
      if(DEBUG > 2){
@@ -273,17 +310,20 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
      info.callback = callback;
      info.message  = c_func_name;	  
      if(PyGSL_CHECK_PYTHON_RETURN(object, 2, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
 	  goto fail;
      }
      r1 = PyTuple_GET_ITEM(object, 0);
      r2 = PyTuple_GET_ITEM(object, 1);
      info.argnum = 1;
      if(PyGSL_copy_pyarray_to_gslvector(f1, r1, n, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
 	  FUNC_MESS("   Could not convert f to gsl vector!");
 	  goto fail;
      }
      info.argnum = 2;
      if(PyGSL_copy_pyarray_to_gslmatrix(f2, r2, n, p, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
 	  FUNC_MESS("   Could not convert df to gsl matrix!");
 	  goto fail;
      }
@@ -294,6 +334,7 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
      return GSL_SUCCESS;
  fail:
      FUNC_MESS("Failure");
+     PyGSL_add_traceback(NULL, __FILE__, c_func_name, trb_lineno);
      Py_XDECREF(arglist);
      Py_XDECREF(a_array);
      Py_XDECREF(object);
