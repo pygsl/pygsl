@@ -43,6 +43,12 @@ Installing GSL interface:
 
 Using pygsl
 
+   Do NOT test the interface in the distribution root directory! --
+   please install it first and then change to the tests directory and
+   execute python run_test.py If you want to execute it in the
+   distribution root directory, please run python setup.py build_ext -i
+   first! It will put the requried binary files into the pygsl directory.
+
    Just write in python
    import pygsl.sf
    print "%g+/-%g"%pygsl.sf.erf(1)
@@ -103,7 +109,6 @@ What is not implemented yet (versus gsl1.4):
 
      * GSL Capabilites not yet wrapped by PyGSL
           + Sorting
-          + Fourier Transforms
           + N-tuples
      * GSL Capabilites partly implemented
           + Series Acceleration
@@ -176,7 +181,7 @@ References
    3. http://www.python.org/
    4. http://numpy.sf.net/
    5. http://pygsl.sourceforge.net/
-   6. file://localhost/mnt/redhat/home/schnizer/Devel/PyGSL/pygsl/doc/TODO.html
+   6. file://localhost/home/schnizer/Devel/pygsl/doc/TODO.html
    7. mailto:pygsl-discuss@lists.sourceforge.net
    8. http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/
    9. http://www.zaik.uni-koeln.de/AFS

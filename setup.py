@@ -11,7 +11,7 @@
 # Use SWIG to generate the approbriate wrapper files. This is only necessary
 # if you modified any interface file as the wrapper files are included in the
 # distribution
-USE_SWIG = 1
+USE_SWIG = 0
 
 # Some modules have been reimplemented. These modules will be installed in
 # pygsl.testing...

@@ -1,3 +1,13 @@
+2005-1     Pierre Schnizer <schnizer@users.sourceforge.net>
+	   * Added switchable debug prints for the C modules
+	     Compile the software with debug=1. Then you can 
+	     use pygsl.init.set_debug_level() to switch the 
+             debug prints off and on
+	
+2004-12    Pierre Schnizer <schnizer@users.sourceforge.net>
+	   * Added fft module
+	   
+	
 2004-04    Pierre Schnizer <schnizer@users.sourceforge.net>
 	   * Added support for numarray. Now numarray
 	     can be defined at compile time and numarray
