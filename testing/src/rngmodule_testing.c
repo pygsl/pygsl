@@ -479,10 +479,10 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
 };
 
 void 
-initrng_new(void)
+initrng(void)
 {
      PyObject *m;
-     m = Py_InitModule("rng_new", PyGSL_rng_module_functions);
+     m = Py_InitModule("rng", PyGSL_rng_module_functions);
      assert(m);
      create_rng_types(m);
      module = m;
