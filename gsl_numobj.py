@@ -55,6 +55,7 @@ except ImportError:
 use_numeric = 0
 use_numarray = 0
 
+#array_preference = 'numarray'
 if array_preference != None:
     if array_preference == 'Numeric':
         if have_numeric == 1:
@@ -83,6 +84,7 @@ if use_numeric == 1:
 
 elif use_numarray == 1:    
 	print "Using nummarray as array Package"
+	print "WARNING: Only use if you want to participate in the porting!!"
 	use_numeric = 0
         nummodule = "numarray"
 else:
