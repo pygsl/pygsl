@@ -106,7 +106,7 @@ PyGSL_fft_space_get_factors(PyGSL_fft_space *self, PyGSL_fft_space *args)
        }
 
        assert(nf < 64);
-       a_array = (PyArrayObject *) PyArray_FromDims(1, &nf, PyArray_LONG);
+       a_array = (PyArrayObject *) PyGSL_New_Array(1, &nf, PyArray_LONG);
        if(a_array == NULL)
 	       return NULL;
        data = (long *) a_array->data;
@@ -504,7 +504,7 @@ PyGSL_complex_fft_(PyObject *self, PyObject *args, transform * transform, const 
 		if(in_array_type == out_array_type){
 			r = (PyArrayObject *) PyArray_CopyFromObject((PyObject *) a, in_array_type, 1, 1);
 		} else {
-			r = (PyArrayObject *) PyArray_FromDims(1, &return_n, out_array_type);			
+			r = (PyArrayObject *) PyGSL_New_Array(1, &return_n, out_array_type);
 			if(r == NULL)
 				goto fail;
 			if(PyGSL_ERROR_FLAG(PyGSL_copy_complex_real(r, a) != GSL_SUCCESS))

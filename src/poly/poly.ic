@@ -10,6 +10,7 @@
  * Added handling of PyErr_Occured.
  */
 #include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
 #include <pygsl/utils.h>
 #include <gsl/gsl_poly.h>
 /*
@@ -28,7 +29,7 @@ pygsl_poly_eval(PyObject *self, PyObject *args)
   if(! PyArg_ParseTuple(args, "Od", &array_o, &x)){
       return NULL;
     }
-  array = PyGSL_PyArray_PREPARE_gsl_vector_view(array_o, PyArray_DOUBLE, 1, -1, 1, NULL);
+  array = PyGSL_PyArray_PREPARE_gsl_vector_view(array_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
   if (array == NULL) goto fail;
 
   y = gsl_poly_eval((double *) array->data, array->dimensions[0], x);
@@ -60,12 +61,12 @@ pygsl_poly_dd_init(PyObject *self, PyObject *args)
   if(! PyArg_ParseTuple(args, "OO", &xa_o, &ya_o)){
       return NULL;
   }
-  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, 1, -1, 1, NULL);
+  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
   if (xa == NULL) goto fail;
   dimension = xa->dimensions[0];
-  ya = PyGSL_PyArray_PREPARE_gsl_vector_view(ya_o, PyArray_DOUBLE, 1, dimension, 2, NULL);
+  ya = PyGSL_PyArray_PREPARE_gsl_vector_view(ya_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 2, NULL);
   if (ya == NULL) goto fail;
-  dd = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+  dd = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
   if (dd == NULL) goto fail;
 
   r = gsl_poly_dd_init ((double *) dd->data, 
@@ -107,11 +108,11 @@ pygsl_poly_dd_eval(PyObject *self, PyObject *args)
   }
   FUNC_MESS("    Array BEGIN");
   FUNC_MESS("    xa");
-  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, 1, -1, 1, NULL);
+  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
   if (xa == NULL) goto fail;
   dimension = xa->dimensions[0];
   FUNC_MESS("    dd");
-  dd = PyGSL_PyArray_PREPARE_gsl_vector_view(dd_o, PyArray_DOUBLE, 1, -1, 2, NULL);
+  dd = PyGSL_PyArray_PREPARE_gsl_vector_view(dd_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
   if (dd == NULL) goto fail;
   FUNC_MESS("    Call gsl");
   y = gsl_poly_dd_eval ((double *) dd->data, 
@@ -141,22 +142,22 @@ pygsl_poly_dd_taylor(PyObject *self, PyObject *args)
   PyObject * result = NULL, *xa_o = NULL, *dd_o = NULL, *wa_o = NULL;
   PyArrayObject *xa = NULL, *dd=NULL, *wa = NULL, *c=NULL;
   double xp;
-  int dimension, r;
+  int dimension, r, nline;
 
   FUNC_MESS_BEGIN();
 
   if(! PyArg_ParseTuple(args, "dOOO", &xp, &dd_o, &xa_o, &wa_o)){
       return NULL;
   }
-  dd = PyGSL_PyArray_PREPARE_gsl_vector_view(dd_o, PyArray_DOUBLE, 1, -1, 1, NULL);
-  if (dd == NULL) goto fail;
+  dd = PyGSL_PyArray_PREPARE_gsl_vector_view(dd_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+  if (dd == NULL) {nline = __LINE__ -1; goto fail;}
   dimension = dd->dimensions[0];
-  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, 1, dimension, 2, NULL);
-  if (xa == NULL) goto fail;
-  wa = PyGSL_PyArray_PREPARE_gsl_vector_view(wa_o, PyArray_DOUBLE, 1, dimension, 3, NULL);
-  if (wa == NULL) goto fail;
-  c = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
-  if (c == NULL) goto fail;
+  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 2, NULL);
+  if (xa == NULL)  {nline = __LINE__ -1; goto fail;}
+  wa = PyGSL_PyArray_PREPARE_gsl_vector_view(wa_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 3, NULL);
+  if (wa == NULL)  {nline = __LINE__ -1; goto fail;}
+  c = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+  if (c == NULL)  {nline = __LINE__ -1; goto fail;}
 
   r = gsl_poly_dd_taylor(((double *) c->data), xp,
 			 ((double *) dd->data),
@@ -167,9 +168,10 @@ pygsl_poly_dd_taylor(PyObject *self, PyObject *args)
   Py_DECREF(xa);
   Py_DECREF(dd);
   FUNC_MESS_END();
-  result = Py_BuildValue("iO", r,c);
+  result = Py_BuildValue("iO", r, PyArray_Return(c));
   return result;
  fail:
+  PyGSL_add_traceback(NULL, __FILE__, "_dd_taylor", nline);
   Py_XDECREF(wa);
   Py_XDECREF(xa);
   Py_XDECREF(dd);
@@ -201,7 +203,7 @@ pygsl_poly_complex_solve(PyObject *self, PyObject *args)
     goto fail;
   }
 
-  a = PyGSL_PyArray_PREPARE_gsl_vector_view(a_o, PyArray_DOUBLE, 1, -1, 2, NULL);
+  a = PyGSL_PyArray_PREPARE_gsl_vector_view(a_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
   if (a == NULL) goto fail;
   dimension = a->dimensions[0];
   za_dimension = dimension - 1;
@@ -213,7 +215,7 @@ pygsl_poly_complex_solve(PyObject *self, PyObject *args)
 		    " the size of the workspace!");
     goto fail;
   }
-  za = (PyArrayObject *) PyArray_FromDims(1, &za_dimension, PyArray_CDOUBLE);
+  za = (PyArrayObject *) PyGSL_New_Array(1, &za_dimension, PyArray_CDOUBLE);
   if (za == NULL) goto fail;
 
   

@@ -104,7 +104,7 @@ exts.append(SWIG_Extension("_block",
                           ["src/block/gsl_block.i"],
                            swig_include_dirs=["src/block"],
                           define_macros = macros,
-                          gsl_min_version=(1,2),
+                           gsl_min_version=(1,2),
                           python_min_version=(2,1)
                           )
             )
@@ -126,6 +126,13 @@ pygsl_const=gsl_Extension("const",
 exts.append(pygsl_const)
 pygsl_diff = gsl_Extension("diff",
                            ['src/diffmodule.c'],
+                           define_macros = macros,
+                           gsl_min_version=(1,'0+'),
+                           python_min_version=(2,1)
+                           )
+exts.append(pygsl_diff)
+pygsl_fft = gsl_Extension("fft",
+                           ['src/fftmodule.c'],
                            define_macros = macros,
                            gsl_min_version=(1,'0+'),
                            python_min_version=(2,1)

@@ -7,7 +7,7 @@
 #include <gsl/gsl_fft.h>
 #include <gsl/gsl_fft_complex.h>
 #include <gsl/gsl_fft_real.h>
-#include <typemaps/convert_block_description.h>
+#include <pygsl/block_helpers.h>
 %}
 
 %include typemaps.i
@@ -19,7 +19,7 @@
 
 %typemap(in) (double data[], const size_t stride, const size_t n) {
      _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	  $input, PyArray_DOUBLE, 0, -1, $argnum, NULL);
+	  $input, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_IO_ARRAY, -1, $argnum, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
      $1 = (double *)(_PyVector$argnum->data);
@@ -38,7 +38,7 @@
 /* I do not support strides here, before I have implemented the tests. */
 %typemap(in) (gsl_complex_packed_array data, const size_t stride, const size_t n) {
      _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	  $input, PyArray_CDOUBLE, 1, -1, $argnum, NULL);
+	  $input, PyArray_CDOUBLE, PyGSL_CONTIGUOUS | PyGSL_IO_ARRAY, -1, $argnum, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
      $1 = (double *)(_PyVector$argnum->data);

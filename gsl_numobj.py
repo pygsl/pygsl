@@ -18,6 +18,7 @@ When imported this module:
          
 """
 import re
+import string
 import sys
 import os
 from distutils.errors import DistutilsModuleError
@@ -99,7 +100,8 @@ file.write('"""\n')
 file.write(warnmsg)
 file.write('"""\n')
 file.write('\n')
-file.write('from %s import *' % nummodule)
+file.write('from %s import *\n\n' % nummodule)
+file.write('nummodule = "%s"\n' % nummodule)
 file.close()
 del file
 
@@ -108,7 +110,8 @@ file = open(os.path.join("Include", "pygsl", "arrayobject.h"), "w")
 file.write('/*')
 file.write(warnmsg)
 file.write('*/\n')
-file.write('#include <%s/arrayobject.h>\n' % nummodule)
+#file.write('#include <%s/arrayobject.h>\n' % nummodule)
+file.write('#define PyGSL_%s 1\n' % string.upper(nummodule))
 file.close()
 del file
 

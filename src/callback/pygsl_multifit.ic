@@ -22,11 +22,11 @@ PyGSL_gsl_multifit_gradient(PyObject *self, PyObject *args)
        return NULL;
   }
 
-  J_a = PyGSL_PyArray_PREPARE_gsl_matrix_view(J_o, PyArray_DOUBLE, 1, -1, -1, 1, NULL);
+  J_a = PyGSL_PyArray_PREPARE_gsl_matrix_view(J_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, -1, 1, NULL);
   if(J_a == NULL) goto fail;
 
   /* Numpy calculates strides in bytes, gsl in basis type */
-  f_a = PyGSL_PyArray_PREPARE_gsl_vector_view(f_o, PyArray_DOUBLE, 0, -1, 2, NULL);
+  f_a = PyGSL_PyArray_PREPARE_gsl_vector_view(f_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
   if(f_a == NULL) goto fail;
 
   stride_recalc = f_a->strides[0] / sizeof(double);
@@ -38,7 +38,7 @@ PyGSL_gsl_multifit_gradient(PyObject *self, PyObject *args)
        goto fail;
   }
   dimension = J_a->dimensions[1];
-  g_a = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+  g_a = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
   if(g_a == NULL) goto fail;
 
   J = gsl_matrix_view_array((double *) J_a->data, J_a->dimensions[0], J_a->dimensions[1]);
@@ -72,12 +72,12 @@ PyGSL_gsl_multifit_covar(PyObject *self, PyObject *args)
     return NULL;
   }
 
-  J_a = PyGSL_PyArray_PREPARE_gsl_matrix_view(J_o, PyArray_DOUBLE, 1, -1, -1, 1, NULL);
+  J_a = PyGSL_PyArray_PREPARE_gsl_matrix_view(J_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, -1, 1, NULL);
   if(J_a == NULL) goto fail;
 
   dimensions[0] = J_a->dimensions[1];
   dimensions[1] = J_a->dimensions[1];
-  C_a = (PyArrayObject *) PyArray_FromDims(2, dimensions, PyArray_DOUBLE);
+  C_a = (PyArrayObject *) PyGSL_New_Array(2, dimensions, PyArray_DOUBLE);
   if(C_a == NULL) goto fail;
 
   J = gsl_matrix_view_array((double *) J_a->data, J_a->dimensions[0], J_a->dimensions[1]);

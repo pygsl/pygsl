@@ -15,11 +15,11 @@ exts = []
 #                  python_min_version=(2,0)
 #                  )
 #exts.append(rng)
-#sf=gsl_Extension("sf",
-#                 ['testing/src/sfmodule_testing.c'],
-#                 gsl_min_version=(1,),
-#                 python_min_version=(2,0)
-#                 )
+sf=gsl_Extension("sf",
+                 ['testing/src/sfmodule_testing.c'],
+                 gsl_min_version=(1,),
+                 python_min_version=(2,0)
+                 )
 odeiv = gsl_Extension("odeiv",
                       ['testing/src/solvers/odeiv.c'],
                       gsl_min_version=(1,),

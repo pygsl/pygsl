@@ -29,12 +29,51 @@
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
 #include <Python.h>
-#include <pygsl/arrayobject.h>
-/* #include <Numeric/arrayobject.h>   */
-/* #include <numarray/arrayobject.h> */
 #include <pygsl/general_helpers.h>
+
+#include <pygsl/arrayobject.h>
+#ifdef PyGSL_NUMERIC
+#include <Numeric/arrayobject.h>
+#endif
+#ifdef PyGSL_NUMARRAY
+#include <numarray/libnumarray.h>
+#endif
+#if (!defined  PyGSL_NUMERIC) && (! defined PyGSL_NUMARRAY)
+#error "Neither numarray nor numeric is defined!"
+#endif
+
+
+
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
+
+enum PyGSL_Array_Flags {
+     PyGSL_NON_CONTIGUOUS = 0,
+     PyGSL_CONTIGUOUS = 1,
+     /* Additional flags needed for numarray */
+     PyGSL_INPUT_ARRAY = 2,
+     PyGSL_OUTPUT_ARRAY = 4,
+     PyGSL_IO_ARRAY = 8,
+};
+
+/*
+ * PyGSL_New_Array:
+ *                Generate an new array with the specified dimensions.
+ *
+ *                The numpy backend expects an array of int, whereas 
+ *                the numarray backend expects  an array of long
+ */
+PyGSL_API_EXTERN PyArrayObject *
+PyGSL_New_Array(int nd, int *dimensions, int type);
+
+/*
+ * PyGSL_Copy_Array:
+ *
+ *                 Copy an array. The output array will have the same
+ *                 size as the input array.
+ */
+PyGSL_API_EXTERN PyArrayObject *
+PyGSL_Copy_Array(PyArrayObject *, int type);
 
 /*
  * PyGSL_STRIDE_RECALC:
@@ -69,7 +108,7 @@ PyGSL_stride_recalc(int strides, int basis_type_size, int * stride_recalc);
  *         array_type          : the required C type for the array
  *         contiguous          : 1 the array must be contigous,
  *                               0 discontigous ones are acceptable.
- *         number of elements  : length of the vector, or -1 if no check 
+ *         size                : length of the vector, or -1 if no check 
  *                               needed.
  *         argument number     : The argument number. Used for error reporting
  *         info                : a PyGSL_Error_info struct. Used for error 
@@ -80,18 +119,11 @@ PyGSL_stride_recalc(int strides, int basis_type_size, int * stride_recalc);
  *                             : a pointer to a PyArrayObject or NULL in case 
  *                              of error. This object must be dereferenced.
  */
-
-/*
- * Added the check for the object->data != NULL as numarray had a bug there ..... :-(
- */
-
-
-
 PyGSL_API_EXTERN PyArrayObject * 
 PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
-				      enum PyArray_TYPES array_type,
-				      int contiguous, 
-				      int num, int argnum, PyGSL_error_info * info);
+				      int array_type,
+				      int flag, 
+				      long size, int argnum, PyGSL_error_info * info);
 
 /*
  * PyGSL_PyArray_PREPARE_gsl_matrix_view
@@ -132,9 +164,9 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
 
 PyGSL_API_EXTERN PyArrayObject *
 PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
-				      enum PyArray_TYPES array_type,
-				      int contiguous, 
-				      int size1, int size2, int argnum, 
+				      int array_type,
+				      int flag, 
+				      long size1, long size2, int argnum, 
 				      PyGSL_error_info * info);
 
 
@@ -156,7 +188,7 @@ PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
  */
 PyGSL_API_EXTERN PyArrayObject * 
 PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
-				       enum PyArray_TYPES array_type,
+				       int array_type,
 				       int argnum);
 
 /*
@@ -177,7 +209,7 @@ PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
  */
 PyGSL_API_EXTERN PyArrayObject * 
 PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
-				       enum PyArray_TYPES array_type,
+				       int array_type,
 				       int argnum);
 
 /*
@@ -256,6 +288,10 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
 #ifndef _PyGSL_API_MODULE
 #define PyGSL_stride_recalc \
 (*(int (*)(int, int, int * ))                                        PyGSL_API[PyGSL_stride_recalc_NUM])
+#define  PyGSL_New_Array  \
+(*(PyArrayObject * (*)(int, int *, int))                              PyGSL_API[PyGSL_PyArray_new_NUM])
+#define  PyGSL_Copy_Array  \
+(*(PyArrayObject * (*)(PyArrayObject *))                               PyGSL_API[PyGSL_PyArray_copy_NUM])
 #define  PyGSL_PyArray_prepare_gsl_vector_view  \
 (*(PyArrayObject * (*)(PyObject *, enum PyArray_TYPES, int,  int, int, PyGSL_error_info *)) \
                                                                      PyGSL_API[PyGSL_PyArray_prepare_gsl_vector_view_NUM])
@@ -278,42 +314,23 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
 
 #define PyGSL_copy_gslmatrix_to_pyarray \
  (*(PyArrayObject * (*)(const gsl_matrix *))                         PyGSL_API[ PyGSL_copy_gslmatrix_to_pyarray_NUM])         
+
+
 #endif /* _PyGSL_API_MODULE */
 
 #define PyGSL_STRIDE_RECALC(strides, basis_type_size, stride_recalc) \
            (((strides) % (basis_type_size)) == 0) \
          ? \
-           ((*stride_recalc) = (strides) / (basis_type_size)), GSL_SUCCESS \
+           ((*(stride_recalc)) = (strides) / (basis_type_size)), GSL_SUCCESS \
          : \
            PyGSL_stride_recalc(strides, basis_type_size, stride_recalc)
 
-#define PyGSL_PyArray_PREPARE_gsl_vector_view(object, array_type, contiguous, num, argnum, info) \
-  (                                                                                              \
-       ( PyArray_Check((object)) )                                                               \
-    && ( ((PyArrayObject *) (object))->nd == 1 )                                                 \
-    && ( ((PyArrayObject *) (object))->descr->type_num == (array_type) )                         \
-    && ( ((PyArrayObject *) (object))->data != (NULL) )                                          \
-    && ( ( -1 == (num)        )  || ( ((PyArrayObject *) (object))->dimensions[0] == (num) ) )   \
-    && ( (  0 == (contiguous) )  || ( ((PyArrayObject *) (object))->flags & CONTIGUOUS     ) )   \
-  )                                                                                              \
-   ?                                                                                             \
-    Py_INCREF( (object) ), ( (PyArrayObject *) (object))                                         \
- :                                                                                               \
-    PyGSL_PyArray_prepare_gsl_vector_view(object, array_type, contiguous, num, argnum, info)
+#ifdef PyGSL_NUMERIC
+#include <pygsl/block_helpers_numpy.h>
+#endif
 
-#define PyGSL_PyArray_PREPARE_gsl_matrix_view(object, array_type, contiguous, size1, size2, argnum, info) \
-  (                                                                                                       \
-       ( PyArray_Check((object)) )                                                                        \
-    && ( ( (PyArrayObject *) (object))->nd == 2 )                                                         \
-    && ( ( (PyArrayObject *) (object))->descr->type_num == (array_type) )                                 \
-    && ( ( (PyArrayObject *) (object))->data != (NULL) )                                                  \
-    && ( ( -1 == (size1) )       ||  ( ((PyArrayObject *) (object))->dimensions[0] == (size1) ) )         \
-    && ( ( -1 == (size2) )       ||  ( ((PyArrayObject *) (object))->dimensions[1] == (size2) ) )         \
-    && ( (  0 == (contiguous) )  ||  ( ((PyArrayObject *) (object))->flags & CONTIGUOUS       ) )         \
-  )                                                                                                       \
-   ?                                                                                                      \
-    Py_INCREF( (object) ), ( (PyArrayObject *) (object))                                                  \
- :                                                                                                        \
-    PyGSL_PyArray_prepare_gsl_matrix_view(object, array_type, contiguous, size1, size2, argnum, info)
+#ifdef PyGSL_NUMARRAY
+#include <pygsl/block_helpers_numarray.h>
+#endif
 
 #endif /* PyGSL_BLOCK_HELPERS_H */

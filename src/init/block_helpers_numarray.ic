@@ -82,7 +82,7 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
      return NULL;
 }
 
-PyArrayObject *
+static PyArrayObject *
 PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
 				      int array_type,
 				      int flag, 

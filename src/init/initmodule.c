@@ -41,6 +41,7 @@
 /* End */
 
 
+static char pygsl_error_str[512];
 
 #include "error_helpers.c"
 #include "general_helpers.c"
@@ -82,6 +83,8 @@ PyGSL_init_api(void)
      _PyGSL_API[PyGSL_PyComplex_to_gsl_complex_long_double_NUM ] = (void *) & PyGSL_PyComplex_to_gsl_complex_long_double ;
 
      _PyGSL_API[PyGSL_stride_recalc_NUM                        ] = (void *) & PyGSL_stride_recalc                        ;
+     _PyGSL_API[PyGSL_PyArray_new_NUM                          ] = (void *) & PyGSL_New_Array                            ;
+     _PyGSL_API[PyGSL_PyArray_copy_NUM                         ] = (void *) & PyGSL_Copy_Array                           ;
      _PyGSL_API[PyGSL_PyArray_prepare_gsl_vector_view_NUM      ] = (void *) & PyGSL_PyArray_prepare_gsl_vector_view      ;
      _PyGSL_API[PyGSL_PyArray_prepare_gsl_matrix_view_NUM      ] = (void *) & PyGSL_PyArray_prepare_gsl_matrix_view      ;
      _PyGSL_API[PyGSL_PyArray_generate_gsl_vector_view_NUM     ] = (void *) & PyGSL_PyArray_generate_gsl_vector_view     ;

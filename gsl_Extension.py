@@ -7,7 +7,7 @@
 # module for gsl extensions compilation
 
 from distutils.core import setup, Extension
-from distutils.errors import DistutilsModuleError
+from distutils.errors import DistutilsModuleError, DistutilsExecError
 import os
 import os.path
 import re

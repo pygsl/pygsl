@@ -34,41 +34,45 @@ static void **PyGSL_API;
 #endif /* _PyGSL_API_MODULE */
 
 
-/* zero here for historical reasons, perhaps to order them meaningfull now? */
-#define PyGSL_RNG_ObjectType_NUM         0
+
+
 
 /* Functions found in the file <pygsl/error_helpers.h> */
-#define PyGSL_error_flag_NUM             1
-#define PyGSL_error_flag_to_pyint_NUM    2
-#define PyGSL_add_traceback_NUM          3
-#define PyGSL_module_error_handler_NUM   4
+#define PyGSL_error_flag_NUM                            0
+#define PyGSL_error_flag_to_pyint_NUM                   1
+#define PyGSL_add_traceback_NUM                         2
+#define PyGSL_module_error_handler_NUM                  3
 
-#define PyGSL_error_string_for_callback_NUM   5
-#define PyGSL_pyfloat_to_double_NUM           6
-#define PyGSL_pylong_to_ulong_NUM             7
-#define PyGSL_pylong_to_uint_NUM              8
-#define PyGSL_check_python_return_NUM         9
-#define PyGSL_clear_name_NUM                 10 
+#define PyGSL_error_string_for_callback_NUM             4
+#define PyGSL_pyfloat_to_double_NUM                     5
+#define PyGSL_pylong_to_ulong_NUM                       6
+#define PyGSL_pylong_to_uint_NUM                        7
+#define PyGSL_check_python_return_NUM                   8
+#define PyGSL_clear_name_NUM                            9 
 
-#define PyGSL_PyComplex_to_gsl_complex_NUM             11
-#define PyGSL_PyComplex_to_gsl_complex_float_NUM       12
-#define PyGSL_PyComplex_to_gsl_complex_long_double_NUM 13
+#define PyGSL_PyComplex_to_gsl_complex_NUM             10
+#define PyGSL_PyComplex_to_gsl_complex_float_NUM       11
+#define PyGSL_PyComplex_to_gsl_complex_long_double_NUM 12
 
 
 
-#define PyGSL_stride_recalc_NUM                        14
-#define PyGSL_PyArray_prepare_gsl_vector_view_NUM      15
-#define PyGSL_PyArray_prepare_gsl_matrix_view_NUM      16
-#define PyGSL_PyArray_generate_gsl_vector_view_NUM     17 
-#define PyGSL_PyArray_generate_gsl_matrix_view_NUM     18
-#define PyGSL_copy_pyarray_to_gslvector_NUM            19
-#define PyGSL_copy_pyarray_to_gslmatrix_NUM            20
-#define PyGSL_copy_gslvector_to_pyarray_NUM            21
-#define PyGSL_copy_gslmatrix_to_pyarray_NUM            22
+#define PyGSL_stride_recalc_NUM                        13
+#define PyGSL_PyArray_new_NUM                          14
+#define PyGSL_PyArray_copy_NUM                         15
 
-#define PyGSL_gsl_rng_from_pyobject_NUM                23 
-#define PyGSL_function_wrap_helper_NUM                 24
-#define PyGSL_NENTRIES_NUM                             25
+#define PyGSL_PyArray_prepare_gsl_vector_view_NUM      16
+#define PyGSL_PyArray_prepare_gsl_matrix_view_NUM      17
+#define PyGSL_PyArray_generate_gsl_vector_view_NUM     18 
+#define PyGSL_PyArray_generate_gsl_matrix_view_NUM     19
+#define PyGSL_copy_pyarray_to_gslvector_NUM            20
+#define PyGSL_copy_pyarray_to_gslmatrix_NUM            21
+#define PyGSL_copy_gslvector_to_pyarray_NUM            22
+#define PyGSL_copy_gslmatrix_to_pyarray_NUM            23
+
+#define PyGSL_RNG_ObjectType_NUM                       24
+#define PyGSL_gsl_rng_from_pyobject_NUM                25 
+#define PyGSL_function_wrap_helper_NUM                 26
+#define PyGSL_NENTRIES_NUM                             27
 
 #ifndef _PyGSL_API_MODULE
 #endif /* _PyGSL_API_MODULE */

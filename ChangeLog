@@ -1,11 +1,19 @@
+2004-03-24 Pierre Schnizer <schnizer@users.sourceforge.net>,
+           Eric Gurrola, Peter Stoltz
+	* Moved common functions to one python module to support the 
+	  MAC OSX platform
+	* Rewrite of the statistics module. Moved common functions to 
+	  one module. Made them generic and changed the macros to use these
+	  generic functions.
+	
 2004-01-09 Leonardo Milano
 	* Added support for rpm generation
 	
 2003-12-27  Pierre Schnizer <schnizer@users.sourceforge.net>
-        *  Reimplementation of the siman module
+        * Reimplementation of the siman module
 	
 2003-12-22  Pierre Schnizer <schnizer@users.sourceforge.net>
-	*  Added Monte Carlo support    
+	* Added Monte Carlo support    
 	
 2003-12-17 Pierre Schnizer <schnizer@users.sourceforge.net>
 	* error return codes are translated to python exceptions internally.

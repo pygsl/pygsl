@@ -775,9 +775,11 @@ typedef int gsl_error_flag_drop;
 PyObject *pygsl_module_for_error_treatment = NULL;
 
 
+     typedef unsigned char uchar;
+     typedef long double long_double;
 #include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
-#include <typemaps/convert_block_description.h>
+#include <typemaps/block_conversion_functions.h>
 #include <string.h>
 #include <assert.h>
 
@@ -1540,19 +1542,19 @@ static PyObject *_wrap_gsl_monte_plain_integrate(PyObject *self, PyObject *args,
             PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays!");
             goto fail;
         }
-        if(PySequence_Fast_GET_SIZE(obj1) != 2){
+        if(PySequence_Size(obj1) != 2){
             PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays! Number of sequence arguments did not match!");
             goto fail;
         }
         _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, 1, -1, 2, NULL);
+        PySequence_GetItem(obj1, 0), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
         if (_PyVector_12 == NULL)
         goto fail;
         
         mysize = _PyVector_12->dimensions[0];
         
         _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE, 1, mysize, 2+1, NULL);
+        PySequence_GetItem(obj1, 1), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, mysize, 2+1, NULL);
         if (_PyVector_22 == NULL)
         goto fail;
         
@@ -1964,19 +1966,19 @@ static PyObject *_wrap_gsl_monte_miser_integrate(PyObject *self, PyObject *args,
             PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays!");
             goto fail;
         }
-        if(PySequence_Fast_GET_SIZE(obj1) != 2){
+        if(PySequence_Size(obj1) != 2){
             PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays! Number of sequence arguments did not match!");
             goto fail;
         }
         _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, 1, -1, 2, NULL);
+        PySequence_GetItem(obj1, 0), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
         if (_PyVector_12 == NULL)
         goto fail;
         
         mysize = _PyVector_12->dimensions[0];
         
         _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE, 1, mysize, 2+1, NULL);
+        PySequence_GetItem(obj1, 1), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, mysize, 2+1, NULL);
         if (_PyVector_22 == NULL)
         goto fail;
         
@@ -2563,19 +2565,19 @@ static PyObject *_wrap_gsl_monte_vegas_integrate(PyObject *self, PyObject *args,
             PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays!");
             goto fail;
         }
-        if(PySequence_Fast_GET_SIZE(obj1) != 2){
+        if(PySequence_Size(obj1) != 2){
             PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays! Number of sequence arguments did not match!");
             goto fail;
         }
         _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, 1, -1, 2, NULL);
+        PySequence_GetItem(obj1, 0), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
         if (_PyVector_12 == NULL)
         goto fail;
         
         mysize = _PyVector_12->dimensions[0];
         
         _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE, 1, mysize, 2+1, NULL);
+        PySequence_GetItem(obj1, 1), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, mysize, 2+1, NULL);
         if (_PyVector_22 == NULL)
         goto fail;
         
@@ -4130,25 +4132,11 @@ static PyObject *_wrap_gsl_multiroot_fsolver_set(PyObject *self, PyObject *args,
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_multiroot_function,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 3, NULL);
-        if(_PyVector3 == NULL) goto fail;
-        a_array = _PyVector3;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg3 = (gsl_vector *) &(_vector3.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multiroot_fsolver_set(arg1,arg2,arg3);
@@ -4290,25 +4278,11 @@ static PyObject *_wrap_gsl_multiroot_fdfsolver_set(PyObject *self, PyObject *arg
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_multiroot_function_fdf,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 3, NULL);
-        if(_PyVector3 == NULL) goto fail;
-        a_array = _PyVector3;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg3 = (gsl_vector *) &(_vector3.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multiroot_fdfsolver_set(arg1,arg2,arg3);
@@ -4447,48 +4421,20 @@ static PyObject *_wrap_gsl_multiroot_test_delta(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOdd:gsl_multiroot_test_delta",kwnames,&obj0,&obj1,&arg3,&arg4)) goto fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 1, NULL);
-        if(_PyVector1 == NULL) goto fail;
-        a_array = _PyVector1;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg1 = (gsl_vector *) &(_vector1.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
+        PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 2, NULL);
-        if(_PyVector2 == NULL) goto fail;
-        a_array = _PyVector2;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg2 = (gsl_vector *) &(_vector2.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multiroot_test_delta((gsl_vector const *)arg1,(gsl_vector const *)arg2,arg3,arg4);
@@ -4544,25 +4490,11 @@ static PyObject *_wrap_gsl_multiroot_test_residual(PyObject *self, PyObject *arg
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:gsl_multiroot_test_residual",kwnames,&obj0,&arg2)) goto fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 1, NULL);
-        if(_PyVector1 == NULL) goto fail;
-        a_array = _PyVector1;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg1 = (gsl_vector *) &(_vector1.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
+        PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multiroot_test_residual((gsl_vector const *)arg1,arg2);
@@ -4908,48 +4840,20 @@ static PyObject *_wrap_gsl_multimin_fminimizer_set(PyObject *self, PyObject *arg
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_multimin_function,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 3, NULL);
-        if(_PyVector3 == NULL) goto fail;
-        a_array = _PyVector3;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg3 = (gsl_vector *) &(_vector3.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector4 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj3, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 4, NULL);
-        if(_PyVector4 == NULL) goto fail;
-        a_array = _PyVector4;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg4 = (gsl_vector *) &(_vector4.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     {
@@ -5216,25 +5120,11 @@ static PyObject *_wrap_gsl_multimin_fdfminimizer_set(PyObject *self, PyObject *a
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_multimin_function_fdf,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 3, NULL);
-        if(_PyVector3 == NULL) goto fail;
-        a_array = _PyVector3;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg3 = (gsl_vector *) &(_vector3.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     {
@@ -5520,25 +5410,11 @@ static PyObject *_wrap_gsl_multimin_test_gradient(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:gsl_multimin_test_gradient",kwnames,&obj0,&arg2)) goto fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 1, NULL);
-        if(_PyVector1 == NULL) goto fail;
-        a_array = _PyVector1;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg1 = (gsl_vector *) &(_vector1.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
+        PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multimin_test_gradient((gsl_vector const *)arg1,arg2);
@@ -6142,25 +6018,11 @@ static PyObject *_wrap_gsl_multifit_fsolver_set(PyObject *self, PyObject *args, 
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_multifit_function,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 3, NULL);
-        if(_PyVector3 == NULL) goto fail;
-        a_array = _PyVector3;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg3 = (gsl_vector *) &(_vector3.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multifit_fsolver_set(arg1,arg2,arg3);
@@ -6306,25 +6168,11 @@ static PyObject *_wrap_gsl_multifit_fdfsolver_set(PyObject *self, PyObject *args
     if ((SWIG_ConvertPtr(obj1,(void **) &arg2, SWIGTYPE_p_gsl_multifit_function_fdf,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 3, NULL);
-        if(_PyVector3 == NULL) goto fail;
-        a_array = _PyVector3;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg3 = (gsl_vector *) &(_vector3.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multifit_fdfsolver_set(arg1,arg2,arg3);
@@ -6463,48 +6311,20 @@ static PyObject *_wrap_gsl_multifit_test_delta(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOdd:gsl_multifit_test_delta",kwnames,&obj0,&obj1,&arg3,&arg4)) goto fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 1, NULL);
-        if(_PyVector1 == NULL) goto fail;
-        a_array = _PyVector1;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg1 = (gsl_vector *) &(_vector1.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
+        PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 2, NULL);
-        if(_PyVector2 == NULL) goto fail;
-        a_array = _PyVector2;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg2 = (gsl_vector *) &(_vector2.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multifit_test_delta((gsl_vector const *)arg1,(gsl_vector const *)arg2,arg3,arg4);
@@ -6560,25 +6380,11 @@ static PyObject *_wrap_gsl_multifit_test_gradient(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"Od:gsl_multifit_test_gradient",kwnames,&obj0,&arg2)) goto fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 1, NULL);
-        if(_PyVector1 == NULL) goto fail;
-        a_array = _PyVector1;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg1 = (gsl_vector *) &(_vector1.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
+        PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)gsl_multifit_test_gradient((gsl_vector const *)arg1,arg2);
@@ -7509,7 +7315,7 @@ static PyObject *_wrap_gsl_integration_qagp(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOddOO:gsl_integration_qagp",kwnames,&obj0,&obj1,&arg4,&arg5,&obj4,&obj5)) goto fail;
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_function,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     
-    _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 1, -1, 2, NULL);
+    _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
     if (_PyVector2 == NULL)
     goto fail;
     arg2 = (double*)(_PyVector2->data);
@@ -8365,25 +8171,11 @@ static PyObject *_wrap_pygsl_cheb_set_coefficients(PyObject *self, PyObject *arg
     if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_gsl_cheb_series,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 2, NULL);
-        if(_PyVector2 == NULL) goto fail;
-        a_array = _PyVector2;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg2 = (gsl_vector *) &(_vector2.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     result = (int)pygsl_cheb_set_coefficients(arg1,arg2);
@@ -9132,43 +8924,19 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_multifit_linear",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        PyArrayObject * a_array;
-        
-        FUNC_MESS_BEGIN();
-        _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
-        obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
-        a_array = _PyMatrix1;
-        if (a_array == NULL) goto fail;
-        
-        _matrix1  = TYPE_VIEW_ARRAY_gsl_matrix(
-        (BASIS_TYPE_C_gsl_matrix *) a_array->data, 
-        a_array->dimensions[0],
-        a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
     }
     
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 2, NULL);
-        if(_PyVector2 == NULL) goto fail;
-        a_array = _PyVector2;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg2 = (gsl_vector *) &(_vector2.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     {
@@ -9179,25 +8947,23 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
         _work_provide_p_work_provide = (int) arg6->p;
     }
     {
-        PyArrayObject * a_array;
+        int stride;
         
-        int stride_recalc=0;
-        
-        a_array = (PyArrayObject *) PyArray_FromDims(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
-        if(NULL == a_array){
-            return NULL;
+        _PyVector3 = (PyArrayObject *) PyGSL_New_Array(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
+        if(NULL == _PyVector3){
+            goto fail;
         }
-        _PyVector3 = a_array;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
         
-        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector((BASIS_TYPE_C_gsl_vector *) a_array->data, 
-        stride_recalc,
-        a_array->dimensions[0]);
+        if(PyGSL_STRIDE_RECALC(_PyVector3->strides[0], sizeof(BASIS_TYPE(gsl_vector)), &stride) != GSL_SUCCESS)
+        goto fail;
+        
+        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector((BASIS_C_TYPE(gsl_vector) *) _PyVector3->data,
+        stride,
+        _PyVector3->dimensions[0]);
         
         arg3 = (gsl_vector *) &(_vector3.vector);
+        
     }
     {
         PyArrayObject * a_array;
@@ -9205,21 +8971,17 @@ static PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, PyObj
         int stride_recalc=0, dimensions[2];
         dimensions[0] = _work_provide_p_work_provide;
         dimensions[1] = _work_provide_p_work_provide;
-        a_array = (PyArrayObject *) PyArray_FromDims(2, dimensions, PyArray_DOUBLE);
+        a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, PyArray_DOUBLE);
         if(NULL == a_array){
-            return NULL;
+            goto fail;
         }
         _PyMatrix4 = a_array;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_matrix);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_matrix) == 0);
         
-        assert(a_array != NULL);
-        assert(((a_array->flags) & CONTIGUOUS));
-        
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0], sizeof(BASIS_TYPE(gsl_matrix)), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         /* (BASIS_TYPE_gsl_matrix *) */
-        _matrix4  = TYPE_VIEW_ARRAY_gsl_matrix((BASIS_TYPE_C_gsl_matrix *) a_array->data, 
+        _matrix4  = TYPE_VIEW_ARRAY_gsl_matrix((BASIS_C_TYPE(gsl_matrix) *) a_array->data, 
         a_array->dimensions[0], a_array->dimensions[1]);
         
         arg4 = (gsl_matrix *) &(_matrix4.matrix);
@@ -9347,66 +9109,28 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_multifit_wlinear",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        PyArrayObject * a_array;
-        
-        FUNC_MESS_BEGIN();
-        _PyMatrix1 = PyGSL_PyArray_PREPARE_gsl_matrix_view(
-        obj0, TO_PyArray_TYPE_gsl_matrix, 1, -1, -1, 1, NULL);
-        a_array = _PyMatrix1;
-        if (a_array == NULL) goto fail;
-        
-        _matrix1  = TYPE_VIEW_ARRAY_gsl_matrix(
-        (BASIS_TYPE_C_gsl_matrix *) a_array->data, 
-        a_array->dimensions[0],
-        a_array->dimensions[1]);
-        arg1 = &(_matrix1.matrix);
-        DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix1.matrix.data));
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
     }
     
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 2, NULL);
-        if(_PyVector2 == NULL) goto fail;
-        a_array = _PyVector2;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg2 = (gsl_vector *) &(_vector2.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     
     {
-        PyArrayObject * a_array;
-        int stride_recalc=0;
-        
-        FUNC_MESS_BEGIN();
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, 
-        TO_PyArray_TYPE_gsl_vector, 
-        0, -1, 3, NULL);
-        if(_PyVector3 == NULL) goto fail;
-        a_array = _PyVector3;
-        
-        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
-        goto fail;
-        
-        _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
-        (BASIS_TYPE_C_gsl_vector *) a_array->data,
-        stride_recalc,
-        a_array->dimensions[0]);
-        
-        arg3 = (gsl_vector *) &(_vector3.vector);
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
     }
     
     {
@@ -9417,25 +9141,23 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
         _work_provide_p_work_provide = (int) arg7->p;
     }
     {
-        PyArrayObject * a_array;
+        int stride;
         
-        int stride_recalc=0;
-        
-        a_array = (PyArrayObject *) PyArray_FromDims(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
-        if(NULL == a_array){
-            return NULL;
+        _PyVector4 = (PyArrayObject *) PyGSL_New_Array(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
+        if(NULL == _PyVector4){
+            goto fail;
         }
-        _PyVector4 = a_array;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
         
-        _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector((BASIS_TYPE_C_gsl_vector *) a_array->data, 
-        stride_recalc,
-        a_array->dimensions[0]);
+        if(PyGSL_STRIDE_RECALC(_PyVector4->strides[0], sizeof(BASIS_TYPE(gsl_vector)), &stride) != GSL_SUCCESS)
+        goto fail;
+        
+        _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector((BASIS_C_TYPE(gsl_vector) *) _PyVector4->data,
+        stride,
+        _PyVector4->dimensions[0]);
         
         arg4 = (gsl_vector *) &(_vector4.vector);
+        
     }
     {
         PyArrayObject * a_array;
@@ -9443,21 +9165,17 @@ static PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, PyOb
         int stride_recalc=0, dimensions[2];
         dimensions[0] = _work_provide_p_work_provide;
         dimensions[1] = _work_provide_p_work_provide;
-        a_array = (PyArrayObject *) PyArray_FromDims(2, dimensions, PyArray_DOUBLE);
+        a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, PyArray_DOUBLE);
         if(NULL == a_array){
-            return NULL;
+            goto fail;
         }
         _PyMatrix5 = a_array;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_matrix);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_matrix) == 0);
         
-        assert(a_array != NULL);
-        assert(((a_array->flags) & CONTIGUOUS));
-        
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0], sizeof(BASIS_TYPE(gsl_matrix)), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         /* (BASIS_TYPE_gsl_matrix *) */
-        _matrix5  = TYPE_VIEW_ARRAY_gsl_matrix((BASIS_TYPE_C_gsl_matrix *) a_array->data, 
+        _matrix5  = TYPE_VIEW_ARRAY_gsl_matrix((BASIS_C_TYPE(gsl_matrix) *) a_array->data, 
         a_array->dimensions[0], a_array->dimensions[1]);
         
         arg5 = (gsl_matrix *) &(_matrix5.matrix);
@@ -9587,29 +9305,39 @@ static PyObject *_wrap_gsl_fit_linear(PyObject *self, PyObject *args, PyObject *
     arg11 = &temp9;
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fit_linear",kwnames,&obj0,&obj1)) goto fail;
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'x' == 'x' )
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 0, -1, 1, NULL);
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
         else
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 0, _PyVectorLengthx , 1, NULL);
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 1, NULL);
         
         if (_PyVector1 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector1->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg1 = (double *) (_PyVector1->data);
-        arg2 = (size_t) _PyVector1->strides[0]/sizeof(double);
+        arg2 = (size_t) strides;
         _PyVectorLengthx = (size_t) _PyVector1->dimensions[0];
     }
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'y' == 'x' )
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 0, -1, 2, NULL);
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
         else
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 0, _PyVectorLengthx , 2, NULL);
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 2, NULL);
         
         if (_PyVector2 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector2->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg3 = (double *) (_PyVector2->data);
-        arg4 = (size_t) _PyVector2->strides[0]/sizeof(double);
+        arg4 = (size_t) strides;
         _PyVectorLengthy = (size_t) _PyVector2->dimensions[0];
     }
     {
@@ -9715,42 +9443,57 @@ static PyObject *_wrap_gsl_fit_wlinear(PyObject *self, PyObject *args, PyObject 
     arg13 = &temp10;
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_fit_wlinear",kwnames,&obj0,&obj1,&obj2)) goto fail;
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'x' == 'x' )
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 0, -1, 1, NULL);
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
         else
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 0, _PyVectorLengthx , 1, NULL);
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 1, NULL);
         
         if (_PyVector1 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector1->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg1 = (double *) (_PyVector1->data);
-        arg2 = (size_t) _PyVector1->strides[0]/sizeof(double);
+        arg2 = (size_t) strides;
         _PyVectorLengthx = (size_t) _PyVector1->dimensions[0];
     }
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'w' == 'x' )
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 0, -1, 2, NULL);
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
         else
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 0, _PyVectorLengthx , 2, NULL);
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 2, NULL);
         
         if (_PyVector2 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector2->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg3 = (double *) (_PyVector2->data);
-        arg4 = (size_t) _PyVector2->strides[0]/sizeof(double);
+        arg4 = (size_t) strides;
         _PyVectorLengthw = (size_t) _PyVector2->dimensions[0];
     }
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'y' == 'x' )
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, PyArray_DOUBLE, 0, -1, 3, NULL);
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 3, NULL);
         else
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, PyArray_DOUBLE, 0, _PyVectorLengthx , 3, NULL);
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 3, NULL);
         
         if (_PyVector3 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector3->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg5 = (double *) (_PyVector3->data);
-        arg6 = (size_t) _PyVector3->strides[0]/sizeof(double);
+        arg6 = (size_t) strides;
         _PyVectorLengthy = (size_t) _PyVector3->dimensions[0];
     }
     {
@@ -9889,29 +9632,39 @@ static PyObject *_wrap_gsl_fit_mul(PyObject *self, PyObject *args, PyObject *kwa
     arg8 = &temp6;
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_fit_mul",kwnames,&obj0,&obj1)) goto fail;
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'x' == 'x' )
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 0, -1, 1, NULL);
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
         else
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 0, _PyVectorLengthx , 1, NULL);
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 1, NULL);
         
         if (_PyVector1 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector1->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg1 = (double *) (_PyVector1->data);
-        arg2 = (size_t) _PyVector1->strides[0]/sizeof(double);
+        arg2 = (size_t) strides;
         _PyVectorLengthx = (size_t) _PyVector1->dimensions[0];
     }
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'y' == 'x' )
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 0, -1, 2, NULL);
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
         else
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 0, _PyVectorLengthx , 2, NULL);
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 2, NULL);
         
         if (_PyVector2 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector2->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg3 = (double *) (_PyVector2->data);
-        arg4 = (size_t) _PyVector2->strides[0]/sizeof(double);
+        arg4 = (size_t) strides;
         _PyVectorLengthy = (size_t) _PyVector2->dimensions[0];
     }
     {
@@ -9996,42 +9749,57 @@ static PyObject *_wrap_gsl_fit_wmul(PyObject *self, PyObject *args, PyObject *kw
     arg10 = &temp7;
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_fit_wmul",kwnames,&obj0,&obj1,&obj2)) goto fail;
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'x' == 'x' )
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 0, -1, 1, NULL);
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
         else
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, 0, _PyVectorLengthx , 1, NULL);
+        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj0, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 1, NULL);
         
         if (_PyVector1 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector1->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg1 = (double *) (_PyVector1->data);
-        arg2 = (size_t) _PyVector1->strides[0]/sizeof(double);
+        arg2 = (size_t) strides;
         _PyVectorLengthx = (size_t) _PyVector1->dimensions[0];
     }
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'w' == 'x' )
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 0, -1, 2, NULL);
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
         else
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, 0, _PyVectorLengthx , 2, NULL);
+        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj1, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 2, NULL);
         
         if (_PyVector2 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector2->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg3 = (double *) (_PyVector2->data);
-        arg4 = (size_t) _PyVector2->strides[0]/sizeof(double);
+        arg4 = (size_t) strides;
         _PyVectorLengthw = (size_t) _PyVector2->dimensions[0];
     }
     {
-        /* This should be a preprocessor diretive. */
+        int strides;
+        /* This should be a preprocessor directive. */
         if ( 'y' == 'x' )
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, PyArray_DOUBLE, 0, -1, 3, NULL);
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, PyArray_DOUBLE, 
+        PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 3, NULL);
         else
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, PyArray_DOUBLE, 0, _PyVectorLengthx , 3, NULL);
+        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(obj2, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+        _PyVectorLengthx , 3, NULL);
         
         if (_PyVector3 == NULL)
         goto fail;
+        if(PyGSL_STRIDE_RECALC(_PyVector3->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+        goto fail;
         arg5 = (double *) (_PyVector3->data);
-        arg6 = (size_t) _PyVector3->strides[0]/sizeof(double);
+        arg6 = (size_t) strides;
         _PyVectorLengthy = (size_t) _PyVector3->dimensions[0];
     }
     {

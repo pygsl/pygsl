@@ -3,8 +3,13 @@
  * Author: Pierre Schnizer 
  * Date  : December 2002
  * 
- * Changelog: 22. May 2002
+ * Changelog: 22. May 2003
  *            Update to use libpygsl
+ *
+ *            April 2004
+ *              Preperation for numarray:
+ *                   Moved all big code insertions to macros to reduce 
+ *                   the code size
  */
 /*
  * Typemaps to translate python arrays to gsl vectors and matrices. For 
@@ -25,9 +30,11 @@
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 %{
+     typedef unsigned char uchar;
+     typedef long double long_double;
 #include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
-#include <typemaps/convert_block_description.h>
+#include <typemaps/block_conversion_functions.h>
 #include <string.h>
 #include <assert.h>
 %}
@@ -61,26 +68,20 @@
 %}
 %typemap(in) gsl_vector * IN  %{
      {
-   
-	  PyArrayObject * a_array;
-	  int stride_recalc=0;
-
-	  FUNC_MESS_BEGIN();
-	  _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, 
-						TO_PyArray_TYPE_$1_basetype, 
-						0, -1, $argnum, NULL);
-	  if(_PyVector$argnum == NULL) goto fail;
-	  a_array = _PyVector$argnum;
-
-	  if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_$1_basetype), &stride_recalc) != GSL_SUCCESS)
+	  int stride=0;
+	  if(PyGSL_VECTOR_CONVERT($input, $1, _PyVector$argnum, _vector$argnum,
+				  PyGSL_INPUT_ARRAY, $1_basetype, $argnum, &stride) != GSL_SUCCESS){
 	       goto fail;
-	  
-	  _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype(
-                                    (BASIS_TYPE_C_$1_basetype *) a_array->data,
-				    stride_recalc,
-				    a_array->dimensions[0]);
-
-	  $1 = ($basetype *) &(_vector$argnum.vector);
+	  }
+     }
+%}
+%typemap(in) gsl_vector * INOUT  %{
+     {
+	  int stride=0;
+	  if(PyGSL_VECTOR_CONVERT($input, $1, _PyVector$argnum, _vector$argnum,
+				  PyGSL_IO_ARRAY, $1_basetype, $argnum, &stride) != GSL_SUCCESS){
+	       goto fail;
+	  }
      }
 %}
 
@@ -91,81 +92,45 @@
  */
 %typemap(in) gsl_vector * IN_ONLY_SIZE %{
      {
-	  PyArrayObject * a_array;
-
-	  int stride_recalc=0;
-
-	  FUNC_MESS_BEGIN();
-	  _PyVector$argnum = PyGSL_PyArray_generate_gsl_vector_view($input, 
-						TO_PyArray_TYPE_$1_basetype, 
-								    $argnum);
-	  if(_PyVector$argnum == NULL) goto fail;
-	  a_array = _PyVector$argnum;
-	  assert(a_array != NULL);
-	  if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_$1_basetype), &stride_recalc) != GSL_SUCCESS)
+	  int stride, flag;
+	  _vector$argnum.vector.data = NULL;
+	  flag = PyGSL_VECTOR_GENERATE($input, $1, _PyVector$argnum, _vector$argnum,
+					PyGSL_OUTPUT_ARRAY, $1_basetype, $argnum, &stride);
+	  if (flag != GSL_SUCCESS){
 	       goto fail;
-
-	  _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype(
-	                           (BASIS_TYPE_C_$1_basetype *) a_array->data, 
-				   stride_recalc,
-				   a_array->dimensions[0]);
-	  $1 = ($basetype *) &(_vector$argnum.vector);
-
+	  }
      }
 %}
 /* ------------------------------------------------------------------------- */
 
 /*
- * Attention! To allow the intermix of these typemaps that's absolutely 
- * necessary, as freearg is called afterwards and would free the memory 
- * again. That way all can be intermixed without problem. Just think pure
- * input. This here would not be called so freearg has to free the memory.
+ * Attention! To allow the intermix of these typemaps its absolutely 
+ * necessary to set the pointer to NULL, as freearg is called afterwards 
+ * and would free the memory again. That way all can be intermixed without 
+ * problem. Just think pure input. This here would not be called so freearg 
+ * has to free the memory.
  */
 %typemap( argout) gsl_vector * INOUT {
      assert(_PyVector$argnum != NULL);
-
      $result = t_output_helper($result,  PyArray_Return(_PyVector$argnum));
      _PyVector$argnum = NULL;
      FUNC_MESS_END();
 }
 /* ------------------------------------------------------------------------- */
 %typemap( freearg) gsl_vector * {
-  Py_XDECREF(_PyVector$argnum);
-  _PyVector$argnum = NULL;
-  FUNC_MESS_END();
+     Py_XDECREF(_PyVector$argnum);
+     _PyVector$argnum = NULL;
+     FUNC_MESS_END();
 }
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 %typemap(out) gsl_vector_view {
-     PyArrayObject * out = NULL;
-     BASIS_TYPE_$1_basetype tmp; 
-     int i, dimension = -1;
-
-     FUNC_MESS_BEGIN();
-     DEBUG_MESS(4, "Copying vector %p with a size of %d and data at %p *(char * data) %d",
-		&($1.vector), $1.vector.size, $1.vector.data, *((char *)$1.vector.data));
-     dimension = $1.vector.size;
-     DEBUG_MESS(2, "Creating a vector of length %d", dimension);
-     assert(dimension > 0);
-     out = (PyArrayObject *) PyArray_FromDims(1, &dimension, 
-					      TO_PyArray_TYPE_$basetype);
-     if(out == NULL) goto fail;
-     DEBUG_MESS(2, "Size of BasisType = %d, stride = %d", sizeof(tmp), 
-		out->strides[0]);
-     assert(dimension == out->dimensions[0]);
-     FUNC_MESS("Copying vector to PyArray");     
-     /* Should I copy the array now? Increase the reference of a_array ? */
-     for(i=0; i<out->dimensions[0]; i++){
-	  DEBUG_MESS(2, "Writing element %d", i);
-	  tmp = GET_$1_basetype(&($1.vector), i);
-	  DEBUG_MESS(2, "Writing element %p", (void *)&tmp);
-	  ((BASIS_TYPE_$1_basetype *) out->data)[i] = tmp;
-
-	  FUNC_MESS("Element written");
+     PyArrayObject * out = NULL; 
+     $1_basetype vectmp; int tmp;
+     if(PyGSL_VECTORVIEW_COPY(out, $1, $1_basetype, vectmp, tmp) != GSL_SUCCESS){
+	  goto fail;
      }
-
      $result = PyArray_Return(out);
-     FUNC_MESS_END();
 }
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
@@ -181,20 +146,18 @@
 
 %typemap(in) gsl_matrix * IN  %{
      {
-	  PyArrayObject * a_array;
-
-	  FUNC_MESS_BEGIN();
-	  _PyMatrix$argnum = PyGSL_PyArray_PREPARE_gsl_matrix_view(
-	       $input, TO_PyArray_TYPE_$1_basetype, 1, -1, -1, $argnum, NULL);
-	  a_array = _PyMatrix$argnum;
-	  if (a_array == NULL) goto fail;
-	  
-	  _matrix$argnum  = TYPE_VIEW_ARRAY_$basetype(
-	       (BASIS_TYPE_C_$basetype *) a_array->data, 
-	       a_array->dimensions[0],
-	       a_array->dimensions[1]);
-	  $1 = &(_matrix$argnum.matrix);
-	  DEBUG_MESS(2, "Matrix at %p", (void *) (_matrix$argnum.matrix.data));
+	  int stride;
+	  if(PyGSL_MATRIX_CONVERT($input, $1, _PyMatrix$argnum, _matrix$argnum,
+				  PyGSL_INPUT_ARRAY, $1_basetype, $argnum, &stride) != GSL_SUCCESS)
+	       goto fail;	  
+     }
+%}
+%typemap(in) gsl_matrix * INOUT  %{
+     {
+	  int stride;
+	  if(PyGSL_MATRIX_CONVERT($input, $1, _PyMatrix$argnum, _matrix$argnum,
+				  PyGSL_IO_ARRAY, $1_basetype, $argnum, &stride) != GSL_SUCCESS)
+	       goto fail;	  
      }
 %}
 /* ------------------------------------------------------------------------- */
@@ -203,18 +166,9 @@
  * like them to mimic Numeric.ones and the like ...
  */
 %typemap(in) gsl_matrix * IN_ONLY_SIZE  {
-	  PyArrayObject * a_array;
-	  FUNC_MESS_BEGIN();
-	  _PyMatrix$argnum = PyGSL_PyArray_generate_gsl_matrix_view(
-	       $input, TO_PyArray_TYPE_$1_basetype, $argnum);
-	  a_array = _PyMatrix$argnum;
-	  if (a_array == NULL) goto fail;
-	  
-	  _matrix$argnum  = TYPE_VIEW_ARRAY_$basetype(
-	       (BASIS_TYPE_C_$basetype *) a_array->data, 
-	       a_array->dimensions[0],
-	       a_array->dimensions[1]);
-	  $1 = &(_matrix$argnum.matrix);	  
+     int stride;
+     if(PyGSL_MATRIX_GENERATE($input, $1, _PyMatrix$argnum, _matrix$argnum, PyGSL_OUTPUT_ARRAY, $1_basetype, $argnum, &stride) !=GSL_SUCCESS)
+	  goto fail;
 }
 /* ------------------------------------------------------------------------- */
 /*
@@ -237,7 +191,6 @@
 /* ------------------------------------------------------------------------- */
 %typemap(arginit) gsl_vector * INOUT        = gsl_vector * ;
 %typemap(arginit) gsl_vector * IN           = gsl_vector * ;
-%typemap(in)      gsl_vector * INOUT        = gsl_vector * IN;
 %typemap(in)      gsl_vector * IN_SIZE_OUT  = gsl_vector * IN_ONLY_SIZE;
 %typemap(argout)  gsl_vector * IN_SIZE_OUT  = gsl_vector * INOUT;
 %typemap(out)     gsl_vector = gsl_vector_view;
@@ -245,7 +198,6 @@
 /* ------------------------------------------------------------------------- */
 %typemap(arginit) gsl_matrix * INOUT        = gsl_matrix * ;
 %typemap(arginit) gsl_matrix * IN           = gsl_matrix * ;
-%typemap(in)      gsl_matrix * INOUT        = gsl_matrix * IN;
 %typemap(in)      gsl_matrix * IN_SIZE_OUT  = gsl_matrix * IN_ONLY_SIZE;
 %typemap(argout)  gsl_matrix * IN_SIZE_OUT  = gsl_matrix * INOUT;
 %typemap(freearg) gsl_matrix * INOUT        = gsl_matrix *;

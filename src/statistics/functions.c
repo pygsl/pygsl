@@ -39,7 +39,7 @@ statistics_t_A(PyObject *self, PyObject *args, STATMOD_C_TYPE (*pointer)(const S
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, STATMOD_APPEND_PYC_TYPE(PyArray_), 0, -1, 1, NULL);
+    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, STATMOD_APPEND_PYC_TYPE(PyArray_), PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(data == NULL) 
 	return NULL;
 
@@ -72,7 +72,7 @@ statistics_tt_A(PyObject *self, PyObject *args, void (*pointer)(STATMOD_C_TYPE *
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, STATMOD_APPEND_PYC_TYPE(PyArray_), 0, -1, 1, NULL);
+    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, STATMOD_APPEND_PYC_TYPE(PyArray_), PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(data == NULL) 
 	return NULL;
 

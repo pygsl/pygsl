@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import unittest
 import Numeric
-from pygsl import spline, interpolation
+from pygsl import spline, interpolation, errors
 
 class _test_common(unittest.TestCase):
     def setUp(self):
@@ -13,7 +13,7 @@ class _test_common(unittest.TestCase):
         self.interp.init(x,y)
 
     def test_wrong_init(self):
-        self.assertRaises(ValueError, self.interp.init, self.x, self.y1)
+        self.assertRaises(errors.gsl_BadLength, self.interp.init, self.x, self.y1)
         
     def test_name(self):
         self.interp.name()

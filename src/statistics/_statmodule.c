@@ -18,7 +18,7 @@ PyGSL_statistics_d_A(PyObject *self, PyObject *args,
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, 0, -1, 1, NULL);
+    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(data == NULL) 
 	return NULL;
 
@@ -49,7 +49,7 @@ PyGSL_statistics_l_A(PyObject *self, PyObject *args,
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, 0, -1, 1, NULL);
+    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(data == NULL) 
 	return NULL;
 
@@ -79,7 +79,7 @@ PyGSL_statistics_d_Ad(PyObject *self, PyObject *args,
     if(!(PyArg_ParseTuple(args, "Od", &input, &mean))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, 0, -1, 1, NULL);
+    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(data == NULL) 
 	return NULL;
 
@@ -108,7 +108,7 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     if(!(PyArg_ParseTuple(args, "OO", &input1, &input2))) 
 	return NULL;
 
-    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, 0, -1, 1, NULL);
+    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(data1 == NULL) 
 	return NULL;
 
@@ -119,7 +119,7 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     n1 = data1->dimensions[0];
 
 
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, 0, n1, 1, NULL);
+    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
     if(data2 == NULL){
 	 goto fail;
     }
@@ -154,7 +154,7 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
     if(!(PyArg_ParseTuple(args, "OOd", &input1, &input2, &mean))) 
 	return NULL;
 
-    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, 0, -1, 1, NULL);
+    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(data1 == NULL) 
 	return NULL;
 
@@ -164,7 +164,7 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
 
     n1 = data1->dimensions[0];
 
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, 0, n1, 1, NULL);
+    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
     if(data2 == NULL){
 	Py_XDECREF(data1); 
 	return NULL;
@@ -200,7 +200,7 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
     if(!(PyArg_ParseTuple(args, "OOdd", &input1, &input2, &mean1, &mean2))) 
 	return NULL;
 
-    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, 0, -1, 1, NULL);
+    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(data1 == NULL) 
 	return NULL;
 
@@ -210,7 +210,7 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
 
     n1 = data1->dimensions[0];
 
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, 0, n1, 1, NULL);
+    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
     if(data2 == NULL){
 	Py_XDECREF(data1); 
 	return NULL;

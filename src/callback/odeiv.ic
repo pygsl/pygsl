@@ -204,7 +204,7 @@ pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
     params.dimension = dimension;
 
 
-    y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, 1, dimension, 1, NULL);
+    y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 1, NULL);
     if(y0 == NULL) goto fail;
 
 
@@ -217,14 +217,15 @@ pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
     }
 
 
-    dydt_out = (PyArrayObject *)  PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+    dydt_out = (PyArrayObject *)  PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
     if (dydt_out == NULL) goto fail;
 
-    yerr = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+    yerr = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
     if(yerr == NULL) goto fail;
 
 
-    yout = (PyArrayObject *) PyArray_CopyFromObject((PyObject * ) y0, PyArray_DOUBLE, 1, 1);
+    /* yout = (PyArrayObject *) PyGSL_Copy_Array(y0, PyArray_DOUBLE, 1, 1); */
+    yout = (PyArrayObject *) PyGSL_Copy_Array(y0);
     if(yout == NULL) goto fail;
 
 
@@ -366,11 +367,12 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     params.dimension = dimension;
 
 
-    y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, 1, dimension, 1, NULL);
+    y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 1, NULL);
     if(y0 == NULL) goto fail;
 
 
-    yout = (PyArrayObject *)  PyArray_CopyFromObject((PyObject * ) y0, PyArray_DOUBLE, 1, 1);
+    /* yout = (PyArrayObject *)  PyGSL_Copy_Array((PyObject * ) y0, PyArray_DOUBLE, 1, 1); */
+    yout = (PyArrayObject *)  PyGSL_Copy_Array(y0);
     if(yout == NULL) goto fail;
 
 
@@ -489,11 +491,11 @@ pygsl_odeiv_control_hadjust(PyObject *self, PyObject *args)
 
   FUNC_MESS("      SWIG Pointers End");
 
-  y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, 1, dimension,  1, NULL);
+  y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension,  1, NULL);
   if(y0 == NULL)   goto fail;
-  yerr = PyGSL_PyArray_PREPARE_gsl_vector_view(yerr_o, PyArray_DOUBLE, 1, dimension, 2, NULL);
+  yerr = PyGSL_PyArray_PREPARE_gsl_vector_view(yerr_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 2, NULL);
   if(yerr == NULL) goto fail;
-  dydt = PyGSL_PyArray_PREPARE_gsl_vector_view(yerr_o, PyArray_DOUBLE, 1, dimension, 3, NULL);
+  dydt = PyGSL_PyArray_PREPARE_gsl_vector_view(yerr_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 3, NULL);
   if(dydt == NULL) goto fail;
   
   FUNC_MESS("      Array Pointers End");

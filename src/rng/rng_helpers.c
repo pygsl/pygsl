@@ -37,7 +37,7 @@
         return TOPYOBJECT(evaluator(rng->rng RNG_ARGUMENTS));                \
      }                                                                       \
                                                                              \
-     a_array = (PyArrayObject *) PyArray_FromDims(1, &dimension, ARRAY_TYPE);\
+     a_array = (PyArrayObject *) PyGSL_New_Array(1, &dimension, ARRAY_TYPE); \
      									     \
      if(NULL == a_array){						     \
 	FUNC_MESS("FAIL"); return NULL;					     \
@@ -61,7 +61,7 @@
 	  return PyFloat_FromDouble(evaluator(x  RNG_ARGUMENTS));            \
      }									     \
      array_in = PyGSL_PyArray_PREPARE_gsl_vector_view(tmp, ARRAY_TYPE_IN,    \
-						      0, -1, 1, NULL);	     \
+		       PyGSL_NON_CONTIGUOUS |PyGSL_INPUT_ARRAY, -1, 1, NULL);\
      if(array_in == NULL)						     \
 	  goto fail;							     \
      dimension = array_in->dimensions[0];				     \
@@ -728,9 +728,9 @@ PyGSL_rng_ddd_to_dd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_
      }                                                                       
 
      if(dimension == 1){
-	  a_array = (PyArrayObject *) PyArray_FromDims(1, &dims[1], PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], PyArray_DOUBLE);
      } else {
-	  a_array = (PyArrayObject *) PyArray_FromDims(2, dims, PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
      }
 
      if(a_array == NULL){
@@ -791,7 +791,7 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 	  double *data_out;
 
 	  
-	  array_x = PyGSL_PyArray_PREPARE_gsl_vector_view(tmp1, PyArray_DOUBLE, 0, -1, 1, NULL);
+	  array_x = PyGSL_PyArray_PREPARE_gsl_vector_view(tmp1, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
 	  if(array_x == NULL)
 	       goto fail;
 	  dimension = array_x->dimensions[0];
@@ -799,7 +799,7 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 	   * PyGSL_PyArray_PREPARE_gsl_vector_view checks if the input can be converted. 
 	   * Dimension -1 means no check necessary
 	   */
-	  array_y = PyGSL_PyArray_PREPARE_gsl_vector_view(tmp2, PyArray_DOUBLE, 0, dimension, 2, NULL);
+	  array_y = PyGSL_PyArray_PREPARE_gsl_vector_view(tmp2, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 2, NULL);
 	  if(array_y == NULL){
 	       goto fail;
 	  }
@@ -808,7 +808,7 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 	  else
 	       assert(array_y->dimensions[0] == dimension);
 	  
-	  array_out = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+	  array_out = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
 	  if(array_out == NULL)
 	       goto fail;
 
@@ -899,9 +899,9 @@ PyGSL_rng_to_generic_nd(PyGSL_rng *rng, PyObject *args, int type, void *evaluato
 
      /* In case only one item was requested, return a one dimensional array */
      if(dimension == 1){
-	  a_array = (PyArrayObject *) PyArray_FromDims(1, &dims[1], PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], PyArray_DOUBLE);
      } else {
-	  a_array = (PyArrayObject *) PyArray_FromDims(2, dims, PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
      }
      if(a_array == NULL){
 	  FUNC_MESS("FAIL");
@@ -957,7 +957,7 @@ PyGSL_rng_dA_to_dA(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_r
 	  return NULL;
      }
      
-     a_array_in = PyGSL_PyArray_prepare_gsl_vector_view(tmp, PyArray_DOUBLE, 1, -1, 1, NULL);
+     a_array_in = PyGSL_PyArray_prepare_gsl_vector_view(tmp, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
      if(a_array_in == NULL)
 	  goto fail;
 
@@ -969,9 +969,9 @@ PyGSL_rng_dA_to_dA(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_r
 	  goto fail;                                                        
      }                                                                       
      if (dimension == 1){
-	  a_array_out = (PyArrayObject *) PyArray_FromDims(1, &dims[1], PyArray_DOUBLE);
+	  a_array_out = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], PyArray_DOUBLE);
      }else{
-	  a_array_out = (PyArrayObject *) PyArray_FromDims(2, dims, PyArray_DOUBLE);
+	  a_array_out = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
      }
      if(a_array_out == NULL)
 	  goto fail;
@@ -1013,7 +1013,7 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
      if(PyGSL_PYLONG_TO_ULONG(tmp_N, &lN, NULL) != GSL_SUCCESS) goto fail;
      N = lN;
 
-     a_array_in = PyGSL_PyArray_prepare_gsl_vector_view(tmp, PyArray_DOUBLE, 1, -1, 1, NULL);
+     a_array_in = PyGSL_PyArray_prepare_gsl_vector_view(tmp, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
      if(a_array_in == NULL)
 	  goto fail;
 
@@ -1066,13 +1066,13 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
      if(0 == PyArg_ParseTuple(args, "OO", &tmp, &tmp1)){
 	  return NULL;
      }
-     array_p = PyGSL_PyArray_PREPARE_gsl_vector_view(tmp, PyArray_DOUBLE, 0, -1, -1, NULL);
+     array_p = PyGSL_PyArray_PREPARE_gsl_vector_view(tmp, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, -1, NULL);
      if(array_p == NULL)
 	  goto fail;	  
      
      k = array_p->dimensions[0];
      FUNC_MESS("Building Matrix!");
-     array_n = PyGSL_PyArray_prepare_gsl_matrix_view(tmp1, type_3darg, 0, -1, k,  -1, NULL);
+     array_n = PyGSL_PyArray_prepare_gsl_matrix_view(tmp1, type_3darg, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, k,  -1, NULL);
      FUNC_MESS("BUILT!");
      if(array_n == NULL)
 	  goto fail;
@@ -1080,7 +1080,7 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
      dimension = array_n->dimensions[0];
 
      FUNC_MESS("New Array ...");
-     array_out = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     array_out = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
      FUNC_MESS("BUILT New Array");
      if(array_out == NULL)
 	  goto fail;

@@ -32,25 +32,23 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
      /* All done in check as the workspace stores the information about the required size */
 %}
 %typemap(check) gsl_vector * OUT {
-	  PyArrayObject * a_array;
+	  int stride;
 
-	  int stride_recalc=0;
+	  _PyVector$argnum = (PyArrayObject *) PyGSL_New_Array(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
+          if(NULL == _PyVector$argnum){
+               goto fail;
+          }
+	  
+	  
+	  if(PyGSL_STRIDE_RECALC(_PyVector$argnum->strides[0], sizeof(BASIS_TYPE($1_basetype)), &stride) != GSL_SUCCESS)
+	       goto fail;
+                                                                                                                                                
+          _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype((BASIS_C_TYPE($1_basetype) *) _PyVector$argnum->data,
+                                                                stride,
+                                                                _PyVector$argnum->dimensions[0]);
+                                                                                                                                                
+          $1 = ($basetype *) &(_vector$argnum.vector);
 
-	  a_array = (PyArrayObject *) PyArray_FromDims(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
-	  if(NULL == a_array){
-	       return NULL;
-	  }
-	  _PyVector$argnum = a_array;
-
-	  /* Numpy calculates strides in bytes, gsl in basis type */
-	  stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_$1_basetype);
-	  assert(a_array->strides[0] % sizeof(BASIS_TYPE_$1_basetype) == 0);
-
-	  _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype((BASIS_TYPE_C_$1_basetype *) a_array->data, 
-								stride_recalc,
-								a_array->dimensions[0]);
-
-	  $1 = ($basetype *) &(_vector$argnum.vector);
 }
 %typemap( in) gsl_matrix * OUT = gsl_vector * OUT;
 %typemap(check) gsl_matrix * OUT {
@@ -59,21 +57,17 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  int stride_recalc=0, dimensions[2];
 	  dimensions[0] = _work_provide_p_work_provide;
 	  dimensions[1] = _work_provide_p_work_provide;
-	  a_array = (PyArrayObject *) PyArray_FromDims(2, dimensions, PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, PyArray_DOUBLE);
 	  if(NULL == a_array){
-	       return NULL;
+	       goto fail;
 	  }
 	  _PyMatrix$argnum = a_array;
 
-	  /* Numpy calculates strides in bytes, gsl in basis type */
-	  stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_$1_basetype);
-	  assert(a_array->strides[0] % sizeof(BASIS_TYPE_$1_basetype) == 0);
 
-	  assert(a_array != NULL);
-	  assert(((a_array->flags) & CONTIGUOUS));
-
+	  if(PyGSL_STRIDE_RECALC(a_array->strides[0], sizeof(BASIS_TYPE($1_basetype)), &stride_recalc) != GSL_SUCCESS)
+	       goto fail;
 	  /* (BASIS_TYPE_$1_basetype *) */
-	  _matrix$argnum  = TYPE_VIEW_ARRAY_$1_basetype((BASIS_TYPE_C_$1_basetype *) a_array->data, 
+	  _matrix$argnum  = TYPE_VIEW_ARRAY_$1_basetype((BASIS_C_TYPE($1_basetype) *) a_array->data, 
 							a_array->dimensions[0], a_array->dimensions[1]);
 
 	  $1 = ($basetype *) &(_matrix$argnum.matrix);
@@ -105,16 +99,21 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 %}
 
 %typemap(in)  (double * ,  size_t ){
-     /* This should be a preprocessor diretive. */
+     int strides;
+     /* This should be a preprocessor directive. */
      if ( '$1_name' == 'x' )
-	  _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, PyArray_DOUBLE, 0, -1, $argnum, NULL);
+	  _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, PyArray_DOUBLE, 
+								   PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, $argnum, NULL);
      else
-	  _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, PyArray_DOUBLE, 0, _PyVectorLengthx , $argnum, NULL);
+	  _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+								   _PyVectorLengthx , $argnum, NULL);
      
      if (_PyVector$argnum == NULL)
 	  goto fail;
+     if(PyGSL_STRIDE_RECALC(_PyVector$argnum->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
+	  goto fail;
      $1 = (double *) (_PyVector$argnum->data);
-     $2 = (size_t) _PyVector$argnum->strides[0]/sizeof(double);
+     $2 = (size_t) strides;
      _PyVectorLength$1_name = (size_t) _PyVector$argnum->dimensions[0];
 };
 %typemap(argout) (double *, size_t ) {
