@@ -105,6 +105,6 @@ static PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;
         fprintf(stderr, "Could not init pygsl.statistics._stat!\n"); \
         PyGSL_STATISTICS_API = NULL; \
    } \
-   if(!PyGSL_API) fprintf(stderr, "PyGSL_API points to %p in file %s\n", (void *) PyGSL_API, __FILE__);  \
+   DEBUG_MESS(2, "PyGSL_API points to %p and PyGSL_STATISTICS_API points to %p\n", (void *) PyGSL_API, (void *) PyGSL_STATISTICS_API);  \
 }
 #endif /* PYGSL_STATMODULE_H */

@@ -306,9 +306,15 @@ set_api_pointer(void)
     __PyGSL_STATISTICS_API[PyGSL_STATISTICS_d_Add_NUM]  = (void *) PyGSL_statistics_d_Add;
     __PyGSL_STATISTICS_API[PyGSL_STATISTICS_ll_A_NUM]   = (void *) PyGSL_statistics_ll_A;
      PyGSL_STATISTICS_API = __PyGSL_STATISTICS_API;
-     DEBUG_MESS(2, "__PyGSL_STATISTICS_API @ %p\n", (void *) __PyGSL_STATISTiCS_API);
+     DEBUG_MESS(2, "__PyGSL_STATISTICS_API @ %p\n", (void *) __PyGSL_STATISTICS_API);
      FUNC_MESS_END();
 }
+
+static PyMethodDef _statMethods[] = 
+{
+     {	NULL,     NULL} /* Sentinel */
+};
+                                                                                                                                                                         
 
 /* initialization */
 
@@ -316,20 +322,27 @@ DL_EXPORT(void) init_stat(void)
 {
      PyObject *api, *dict, *m;
 
-     FUNC_MESS_BEGIN()
+     FUNC_MESS_BEGIN();
 
-     m = Py_InitModule("_stat", NULL);
+     m = Py_InitModule("_stat", _statMethods);
+     if(m == NULL)
+	  goto fail;
+
+     DEBUG_MESS(2, "Importing Array!", NULL);
      import_array();
+   
+     DEBUG_MESS(2, "Importing pygsl!", NULL);
      init_pygsl();
 
 
-     if(m == NULL)
-	  goto fail;
      dict = PyModule_GetDict(m);
      if(dict == NULL)
 	  goto fail;
 
+   
      set_api_pointer();
+   
+     DEBUG_MESS(2, "PyGSL_STATISTICS_API @ %p\n", (void *) PyGSL_STATISTICS_API);
      api = PyCObject_FromVoidPtr((void *) PyGSL_STATISTICS_API, NULL);
      assert(api);
      if (PyDict_SetItemString(dict, "_PYGSL_STATISTICS_API", api) != 0){
