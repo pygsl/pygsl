@@ -1,8 +1,13 @@
+2002-05-03  Jochen Küpper  <jochen@unc.edu>
+
+	* simanmodule.c: Started implementation of SimAn wrapper.
+
 2002-04-16  Jochen Küpper  <jochen@jochen-kuepper.de>
 
-	* src/diffmodule.c: Implementation of Python wrapper for numerical
+	* diffmodule.c: Implementation of Python wrapper for numerical
 	differentiation functins of GSL.
 
+	
 	* Local Variables:
 	* mode: auto-fill
 	* fill-column: 79

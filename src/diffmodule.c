@@ -60,7 +60,6 @@ static PyObject *diff_backward(PyObject *self, PyObject *args)
 	return result;
 }
 
-	
 
 
 static PyObject *diff_central(PyObject *self, PyObject *args)
