@@ -16,12 +16,12 @@ import interpolation
 
 _acceleration     = interpolation._acceleration
 _common           = interpolation._common
-linear            = interpolation.linear          
-polynomial        = interpolation.polynomial      
-cspline           = interpolation.cspline         
-cspline_periodic  = interpolation.cspline_periodic
-akima             = interpolation.akima           
-akima_periodic    = interpolation.akima_periodic  
+#linear            = interpolation.linear          
+#polynomial        = interpolation.polynomial      
+#cspline           = interpolation.cspline         
+#cspline_periodic  = interpolation.cspline_periodic
+#akima             = interpolation.akima           
+#akima_periodic    = interpolation.akima_periodic  
 
 class _spline(_common):
     _alloc         = gslwrap.gsl_spline_alloc
@@ -51,9 +51,55 @@ class _spline(_common):
         always  assumed  to  be  strictly  ordered;  the  behavior  for  other
         arrangements is not defined.
         """
+        self._xa = xa
         self._init(self._ptr, (xa,ya))
-        self._ptrxy = self._ptr
+        self._xyptr = (self._ptr,)
         self.accel_reset()
+        
+    def name(self):
+        """
+        Returns the name of the interpolation type used
+        """
+        # The spline struct has no name method, thus I use the class name.
+        return self.__class__.__name__
+    
 
-if __name__ == '__main__':
-    run()
+class linear(_spline):
+    """
+    Linear interpolation. 
+    """
+    _type = gslwrap.cvar.gsl_interp_linear
+
+class polynomial(_spline):
+    """    
+    Polynomial   interpolation.   This   method  should   only  be   used  for
+    interpolating  small numbers  of points  because  polynomial interpolation
+    introduces large oscillations, even for well-behaved datasets.  The number
+    of terms in the interpolating polynomial is equal to the number of points.    
+    """
+    _type = gslwrap.cvar.gsl_interp_polynomial
+    
+class cspline(_spline):
+    """
+    Cubic spline with natural boundary conditions.
+    """
+    _type = gslwrap.cvar.gsl_interp_cspline
+    
+class cspline_periodic(_spline):
+    """
+    Cubic spline with periodic boundary conditions
+    """
+    _type = gslwrap.cvar.gsl_interp_cspline_periodic
+    
+class akima(_spline):
+    """
+    Akima spline with natural boundary conditions
+    """
+    _type = gslwrap.cvar.gsl_interp_akima
+    
+class akima_periodic(_spline):
+    """
+    Akima spline with periodic boundary conditions
+    """
+    _type = gslwrap.cvar.gsl_interp_akima_periodic
+
