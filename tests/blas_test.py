@@ -2,6 +2,7 @@
 import unittest
 from gsl_test import *
 from Numeric import *
+from pygsl.errors import gsl_Error
 from pygsl.blas import *
 from pygsl import  _gslwrap
 
@@ -333,5 +334,11 @@ class BlasTestCase(GSLTestCase):
         res = reshape(res, (-1,))
         self.failUnless(arrayIsZero(res)) 
 
+    def testErrorHandler(self):
+        a = arange(10)
+        try:
+            ddot(a,a[:3])
+        except gsl_Error:
+            pass
 if __name__ == '__main__':
     unittest.main()
