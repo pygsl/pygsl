@@ -25,8 +25,8 @@
 
 #include <pygsl/utils.h>
 #include <Python.h>
-/*#include <Numeric/arrayobject.h>*/
-#include <numarray/arrayobject.h>
+#include <Numeric/arrayobject.h>
+/* #include <numarray/arrayobject.h> */
 #include <pygsl/general_helpers.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
