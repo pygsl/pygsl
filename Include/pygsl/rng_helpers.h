@@ -3,6 +3,5 @@
  */
 #include <Python.h>
 #include <gsl/gsl_rng.h>
-#include <pygsl/rng.h>
 gsl_rng *
 PyGSL_gsl_rng_from_pyobject(PyObject * object);
