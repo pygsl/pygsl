@@ -34,6 +34,11 @@ pygsl_init=gsl_Extension("init",
                          gsl_min_version=(1,),
                          python_min_version=(2,1)
                          )
+pygsl_statistics_char=gsl_Extension("statistics.char",
+                                    ['src/statistics/charmodule.c'],
+                                    gsl_min_version=(1,),
+                                    python_min_version=(2,1)
+                                    )
 pygsl_statistics_double=gsl_Extension("statistics.double",
                                       ['src/statistics/doublemodule.c'],
                                       gsl_min_version=(1,),
@@ -49,6 +54,11 @@ pygsl_statistics_long=gsl_Extension("statistics.long",
                                     gsl_min_version=(1,),
                                     python_min_version=(2,1)
                                     )
+pygsl_statistics_int=gsl_Extension("statistics.int",
+                                   ['src/statistics/intmodule.c'],
+                                   gsl_min_version=(1,),
+                                   python_min_version=(2,1)
+                                   )
 pygsl_statistics_short=gsl_Extension("statistics.short",
                                      ['src/statistics/shortmodule.c'],
                                      gsl_min_version=(1,),
@@ -73,10 +83,12 @@ setup (name = "pygsl",
                       pygsl_ieee,
                       pygsl__rng,
                       pygsl_histogram,
+                      pygsl_statistics_char,
                       pygsl_statistics_double,
                       pygsl_statistics_float,
+                      pygsl_statistics_int,
                       pygsl_statistics_long,
-                      pygsl_statistics_short
+                      pygsl_statistics_short,
                       ]
        )
 

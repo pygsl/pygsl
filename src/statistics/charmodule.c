@@ -18,10 +18,10 @@
 
 /* include real functions for different data-types */
 
-#define STATMOD_APPEND_PY_TYPE(X) X ## Int16
-#define STATMOD_APPEND_PYC_TYPE(X) X ## SHORT
-#define STATMOD_FUNC_EXT(X, Y) X ## _short ## Y
-#define STATMOD_C_TYPE short int
+#define STATMOD_APPEND_PY_TYPE(X) X ## Char
+#define STATMOD_APPEND_PYC_TYPE(X) X ## CHAR
+#define STATMOD_FUNC_EXT(X, Y) X ## _char ## Y
+#define STATMOD_C_TYPE char
 #include "functions.c"
 
 
@@ -29,9 +29,9 @@
 
 /* initialization */
 
-DL_EXPORT(void) initshort(void)
+DL_EXPORT(void) initchar(void)
 {
-    Py_InitModule("short", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
+    Py_InitModule("char", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
 #ifdef HAVE_NUMERIC
     import_array();
 #endif
@@ -43,6 +43,7 @@ DL_EXPORT(void) initshort(void)
 #undef STATMOD_FUNC_EXT
 #undef STATMOD_APPEND_PYC_TYPE
 #undef STATMOD_APPEND_PY_TYPE
+
 
 
 /*

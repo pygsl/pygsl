@@ -23,17 +23,7 @@
 #define STATMOD_APPEND_PYC_TYPE(X) X ## FLOAT
 #define STATMOD_FUNC_EXT(X, Y) X ## _float ## Y
 #define STATMOD_C_TYPE float
-#define STATMOD_PY_AS_C PyFloat_AsFloat
-#define STATMOD_PY_FROM_C PyFloat_FromFloat
 #include "functions.c"
-#undef STATMOD_PY_FROM_C
-#undef STATMOD_PY_AS_C
-#undef STATMOD_C_TYPE
-#undef STATMOD_FUNC_EXT
-#undef STATMOD_APPEND_PYC_TYPE
-#undef STATMOD_APPEND_PY_TYPE
-#undef STATMOD_WEIGHTED
-
 
 
 
@@ -44,10 +34,16 @@ DL_EXPORT(void) initfloat(void)
 #ifdef HAVE_NUMERIC
     import_array();
 #endif
-    (void)Py_InitModule("float", StatisticsMethods_FLOAT);
+    (void)Py_InitModule("float", STATMOD_APPEND_PYC_TYPE(StatisticsMethods_));
     return;
 }
 
+
+#undef STATMOD_C_TYPE
+#undef STATMOD_FUNC_EXT
+#undef STATMOD_APPEND_PYC_TYPE
+#undef STATMOD_APPEND_PY_TYPE
+#undef STATMOD_WEIGHTED
 
 
 /*
