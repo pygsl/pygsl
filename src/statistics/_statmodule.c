@@ -331,7 +331,7 @@ DL_EXPORT(void) init_stat(void)
      assert(api);
      if (PyDict_SetItemString(dict, "_PYGSL_STATISTICS_API", api) != 0){
 	  PyErr_SetString(PyExc_ImportError, 
-			  "I could not add  _PYGSL_RNG_API!");
+			  "I could not add  _PYGSL_STATISTICS_API!");
 	  goto fail;
      }
     return;
