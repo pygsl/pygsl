@@ -341,9 +341,10 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 
     FUNC_MESS_BEGIN();
     sys.params = &params;
-    if(! PyArg_ParseTuple(args, "OOOOOdOdOO|i", &step, &control, &evolve,
+    if(!PyArg_ParseTuple(args, "OOOOOdOdOO|i", &step, &control, &evolve,
 			  &func_o, &jac_o, &t, &t_o, &h, &y0_o, &myargs, &nsteps)){
-      return NULL;
+	 line = __LINE__ - 2;
+	 goto fail;
     }
     Py_INCREF(func_o);
     Py_XINCREF(jac_o);
@@ -372,13 +373,14 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     dimension = s -> dimension;
     params.dimension = dimension;
 
-
+    FUNC_MESS("SWIG END");
     y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 1, NULL);
     if(y0 == NULL){
 	line = __LINE__ - 2;
 	 goto fail;
     }
-
+    FUNC_MESS("Y0 END");
+    FUNC_MESS("T BEGIN");
     /* time spots to integrate to ... */
     ts = PyGSL_PyArray_PREPARE_gsl_vector_view(t_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
     if(ts == NULL){
@@ -386,16 +388,22 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
          double v;
 	 /* was not an array, but lets see if it is a float, so lets clear the error .... */
 	 PyErr_Clear();
-         if(PyGSL_PYFLOAT_TO_DOUBLE(t_o, &v, NULL) == GSL_SUCCESS){
-	 } else {
+	 FUNC_MESS("PyErr_Clear END");
+         if(PyGSL_PYFLOAT_TO_DOUBLE(t_o, &v, NULL) != GSL_SUCCESS){
+	    FUNC_MESS("T_O NOT FLOAT");
 	      line = __LINE__ - 1;
-	      goto fail;
-	 }
+	      goto fail;	    
+	 }	 
+         FUNC_MESS("T_0 FLOAT");
          int dim = 1;
          ts = (PyArrayObject *) PyGSL_New_Array(1, &dim, PyArray_DOUBLE);
+	 if(ts == NULL) {
+	      line = __LINE__ - 2;
+	      goto fail;
+	 }
          (*(double *)(ts->data)) = v;
     }
-
+    FUNC_MESS("T END");
     if(PyGSL_STRIDE_RECALC(ts->strides[0], sizeof(double), &stride) != GSL_SUCCESS)
 	 goto fail;
     vts = gsl_vector_view_array_with_stride((double *) ts->data, stride, ts->dimensions[0]);
@@ -405,7 +413,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     dims[0] = ts->dimensions[0];
     yout = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
     if(yout == NULL) goto fail;
-
+    FUNC_MESS("YOUT END");
 
     FUNC_MESS("   Callback Objects BEGIN");
     if(!(PyCallable_Check(func_o))){
@@ -437,11 +445,13 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
      }
 
 
-    if(PyGSL_STRIDE_RECALC(yout->strides[1], sizeof(double), &stride) != GSL_SUCCESS)
+    if(PyGSL_STRIDE_RECALC(yout->strides[1], sizeof(double), &stride) != GSL_SUCCESS){
+	 line = __LINE__ - 1;
 	 goto fail;
-    
+    }
     DEBUG_MESS(2, "Raw Stride of yout was (%d,%d)\n", yout->strides[0], yout->strides[1]); 
     if(stride != 1){
+	 line = __LINE__ - 1;
 	 fprintf(stderr, "Stride of yout was %d\n", stride); 
 	 gsl_error("Yout had a stride different to 1!", __FILE__, __LINE__, GSL_ESANITY);
 	 goto fail;
@@ -452,8 +462,10 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 int direction=0;
 	 if(i == 0){
 	      /* Copy the start vector! */
-	      if(PyGSL_STRIDE_RECALC(y0->strides[0], sizeof(double), &stride) != GSL_SUCCESS)
+	      if(PyGSL_STRIDE_RECALC(y0->strides[0], sizeof(double), &stride) != GSL_SUCCESS){
+		   line = __LINE__ - 1;
 		   goto fail;
+	      }
 	      vy = gsl_vector_view_array_with_stride((double *) y0->data, stride, y0->dimensions[0]);
 	 }else{
 	      /* Copy the last result to the new position, as the data is modified in place */
@@ -462,12 +474,12 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 }
 	 vy1 = gsl_vector_view_array((double *)(yout->data + yout->strides[0] *  i), yout->dimensions[1]);
 	 if(gsl_blas_dcopy(&vy.vector, &vy1.vector) != GSL_SUCCESS){
-	      PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
+	      line = __LINE__ - 1;
 	      goto fail;    
 	 }
 	 t1 = gsl_vector_get(&vts.vector, i);
 	 DEBUG_MESS(2, " Integrating from %f to %f\n Start vector", t, t1);
-	 DEBUG_MESS(3, "                              ");
+	 DEBUG_MESS(3, "                              ", 0); 
 	 /* Integration forward or backward? */
 	 if (t1 >= t)
 	      direction = 0;
@@ -482,7 +494,6 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 		   /* Integrating backward */
 		   if(t <= t1)
 			break;
-
 	      }
 	      DEBUG_MESS(3, "\r %3d t =% 8.6f h = % 8.6f", j, t, h);
 	      r = gsl_odeiv_evolve_apply(e, con, s, &sys, &t, t1, &h,
@@ -499,7 +510,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	      gsl_error("While integrating ode function", __FILE__, __LINE__, GSL_EMAXITER);
 	      goto fail;
 	 }
-	 DEBUG_MESS(3, "    ");
+	 DEBUG_MESS(3, "    ", 0);
     }/* for(i = 0; i < ts->dimensions[0]; i++)  */
 
 
@@ -530,6 +541,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     FUNC_MESS("IN Fail End");   
     return NULL;
 }
+
 /* --------------------------------------------------------------------------- */
 /* control_hadjust needs a few arrays */
 /*

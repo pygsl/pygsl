@@ -133,8 +133,8 @@ PyGSL_siman_efunc(void *xp)
 	assert(xp);	
 	x = (pygsl_siman_t *) xp;
 
-	DEBUG_MESS(2, "Found a pygsl_siman_t at %p and a pygsl_siman_func_t at %p and the callback at %p and x at %p", 
-		   (void *)x, (void *) x->func, (void *)x->func->efunc, (void *) x->x);
+	DEBUG_MESS(2, "Found a pygsl_siman_t at %p and a pygsl_siman_func_t at %p and x at %p", 
+		   (void *)x, (void *) x->func, (void *) x->x);
 
 	assert(x);
 	assert(x->func);
@@ -607,10 +607,9 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 
 	x0 = (void *) &myargs;
 	DEBUG_MESS(2, "x0 @ %p; myargs at %p; myargs_func at %p", x0, (void *) &myargs, (void *) &myargs_func);
-	DEBUG_MESS(2, "Found a pygsl_siman_t at %p and a pygsl_siman_func_t at %p and the callback at %p", 
+	DEBUG_MESS(2, "Found a pygsl_siman_t at %p and a pygsl_siman_func_t at %p", 
 		   (void *) x0, 
-		   (void *) (((pygsl_siman_t *) x0)->func), 
-		   (void *) (((pygsl_siman_t *) x0)->func->efunc));
+		   (void *) (((pygsl_siman_t *) x0)->func));
 
 	if((flag = setjmp(myargs_func.buffer)) == 0){
 		FUNC_MESS("Starting siman");

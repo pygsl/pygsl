@@ -80,6 +80,7 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
      PyObject *object1;
      char *msg="The object returned to the GSL Function could not be converted to float";
 
+     FUNC_MESS_BEGIN();
      object1 = PyNumber_Float(object);
      if(object1 == NULL){
 	 *result = gsl_nan();
@@ -87,17 +88,16 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
 	      info->error_description = msg;
 	      return PyGSL_set_error_string_for_callback(info);
 	 }
+	 DEBUG_MESS(2, "Not from call back treatment, normal error", 0);
 	 GSL_ERROR(msg, GSL_EBADFUNC);
      }
 
      *result   = PyFloat_AsDouble(object1);
-     if(DEBUG>2){
-	  fprintf(stderr, "\t\t%s found a double of %f\n", __FUNCTION__, *result);
-     }
+     DEBUG_MESS(3, "found a double of %f\n", *result);
      Py_DECREF(object1);
 
      PyGSL_INCREASE_float_transform_counter();
-
+     FUNC_MESS_END();
      return GSL_SUCCESS;
 }
 

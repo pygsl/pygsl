@@ -127,7 +127,7 @@ PyGSL_diff_generic(PyObject *self, PyObject *args,
 	     flag = func(&diff_gsl_callback, x, &value, &abserr);	
 #endif
 	}else{
-		DEBUG_MESS(2, "CALLBACK called longjmp!");
+		DEBUG_MESS(2, "CALLBACK called longjmp!", 0);
 	}
 	
 	/* Arguments no longer used */

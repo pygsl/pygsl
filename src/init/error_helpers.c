@@ -106,6 +106,8 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
      PyTraceBack_Here(py_frame);
 
      FUNC_MESS_END();
+     return;
+
  fail:
      FUNC_MESS("Handling failure");
      Py_XDECREF(py_srcfile);
@@ -124,7 +126,7 @@ PyGSL_get_error_object(int gsl_error)
      PyObject *gsl_error_module=NULL, *gsl_error_dict=NULL, *gsl_error_object=NULL;
      char *err_str, *default_err_str="gsl_Error";
 
-     
+     FUNC_MESS_BEGIN();
      gsl_error_module=PyImport_ImportModule((char *) error_module);
      if(!gsl_error_module){
 	  fprintf(stderr, "I could not get module %s!\n", error_module);
@@ -188,6 +190,7 @@ PyGSL_get_error_object(int gsl_error)
      } else {
 	  gsl_error_object=PyDict_GetItemString(gsl_error_dict, err_str);
      }
+     FUNC_MESS_END();
      return gsl_error_object;
 
  fail:
@@ -209,7 +212,7 @@ PyGSL_module_error_handler(const char *reason, /* name of function*/
   PyObject* gsl_error_module;
   PyObject* gsl_error_dict;
 
-
+  FUNC_MESS_BEGIN();
   /*
    * GSL_ENOMEM is special. I am out of memory. No fancy tricks here.
    */
@@ -272,5 +275,6 @@ PyGSL_module_error_handler(const char *reason, /* name of function*/
   Py_XDECREF(gsl_error_object);
   Py_DECREF(gsl_error_dict);
   Py_XDECREF(gsl_error_module);
+  FUNC_MESS_END();
   return;
 }
