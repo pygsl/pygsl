@@ -7,10 +7,10 @@ import string
 import types
 from sys import argv
 
-# steel --gsl_prefix from option list
+# steel --gsl-prefix from option list
 
 gsl_prefix_option=None
-gsl_prefix_option_pattern=re.compile("--gsl_prefix=(.+)")
+gsl_prefix_option_pattern=re.compile("--gsl-prefix=(.+)")
 pos=0
 while pos<len(argv):
 	gsl_prefix_match=gsl_prefix_option_pattern.match(argv[pos])

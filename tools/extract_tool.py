@@ -2,6 +2,60 @@ import re
 import string
 import os.path
 
+class constant_collector:
+    """
+    collect constants from headers
+    """
+    def __init__(self,prefix=None):
+        self.prefix=prefix
+
+    def get_all_constants(self):
+        constants=[]
+        for file_name in ["gsl_const_cgs.h","gsl_const_mks.h","gsl_const_num.h"]:
+            constants.extend(self.get_constants_from_file(file_name))
+        return constants
+
+    def get_constants_from_file(self,include_file):
+        #prepare file names
+        const_include_file_name=os.path.join(self.prefix,"include","gsl",include_file)
+        if not os.path.isfile(const_include_file_name):
+            raise Exception,"could not find const header file %s"%const_include_file_name
+
+        const_include_file=file(const_include_file_name, "r")
+        constants=[]
+        constants_pattern=re.compile("#\s*define\s+\w+\s+\S+")
+        line=const_include_file.readline()
+        while line!="":
+            if constants_pattern.match(line):
+                try:
+                    constants.append(gsl_constant(line))
+                except Exception,message:
+                    print message
+            line=const_include_file.readline()
+
+        const_include_file.close()
+        return constants
+
+class gsl_constant:
+    """
+    keeps constant name and value
+    """
+    def __init__(self, line):
+        constants_pattern=re.compile("#\s*define\s+(?P<name>\w+)\s+(?P<definition>.+?)(?:$|/\*\s*(?P<comment>.*?)\s*\*/)")
+        constants_match=constants_pattern.match(line)
+        if constants_match:
+            self.name=constants_match.group('name')
+            self.definition=constants_match.group('definition')
+            self.comment=constants_match.group('comment')
+        else:
+            raise Exception,"could not parse %s"%line
+
+    def make_cpp_definition(self):
+        if self.comment:
+            return "#define %s %s /* %s */"%(self.name,self.definition,self.comment)
+        else:
+            return "#define %s %s"%(self.name,self.definition)
+
 class prototype_collector:
     """
     collects special function prototypes from headers
@@ -301,7 +355,11 @@ if (int_result!=GSL_SUCCESS) {
 #          size_t type
 
 if __name__ == '__main__':
-    file_prefix="sf"
-    print "creating index and functions to %s*.c"%file_prefix
-    sf_prototypes=prototype_collector("/opt/gsl-1.0")
-    sf_prototypes.make_wrapper_and_index_file(file_prefix)
+    #   file_prefix="sf"
+    #    print "creating index and functions to %s*.c"%file_prefix
+    #    sf_prototypes=prototype_collector("/opt/gsl-1.0")
+    #    sf_prototypes.make_wrapper_and_index_file(file_prefix)
+    gsl_constants=constant_collector("/opt/gsl-1.0")
+    constant_list=gsl_constants.get_all_constants()
+    for c in constant_list:
+        print c.make_cpp_definition()
