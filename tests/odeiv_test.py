@@ -42,11 +42,9 @@ def test_evolve_bsimp():
     t = 0.0
     t1 = 100.0
     y = Numeric.array((1.0, 0.0))
-    file = open("/tmp/out1", "w")
-    sys.stdout = file
     while t<t1:
         t, h, y = evolve.apply(t, t1, h, y)
-        print t, y[0], y[1] 
+
 
 
     file = open("/tmp/out2", "w")
@@ -57,7 +55,7 @@ def test_evolve_bsimp():
     y = (1.0, 0.0)
     while t<t1:
         t, h, y = evolve1.apply(t, t1, h, y)
-        print t, y[0], y[1] 
+
     
 def test_evolve():
     dimension = 2

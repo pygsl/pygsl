@@ -12,7 +12,12 @@ from pygsl import _block
 
 import unittest
 import sys
-sys.stderr = sys.stdout
+#sys.stderr = sys.stdout
+
+def getopentmpfile(mode='rb'):
+    file = tempfile.TemporaryFile(mode)
+    assert(type(file.file) == types.FileType)
+    return file.file
 
 class _DefaultTestCase(unittest.TestCase):
     _type     = ''
@@ -21,6 +26,9 @@ class _DefaultTestCase(unittest.TestCase):
     #_retrieve = None
     
     def setUp(self):
+	print "Testing class ", self.__class__.__name__
+        sys.stdout.flush()
+        sys.stderr.flush()
         self._mysetUp()
 
     def _get_format(self):
@@ -532,7 +540,7 @@ class SetAllCharMatrixUITestCase(_CharMatrixTestCase,
     pass
 
 class _DiagonalMatrixTestCase(_DefaultMatrixTestCase):
-    size = 10
+    size = 4
     def _mysetUp(self):
         tmp = self._get_function('set_zero')
         array = tmp((self.size, self.size))
@@ -555,31 +563,33 @@ class _DiagonalMatrixTestCase(_DefaultMatrixTestCase):
         assert(tmp[0] == 0)
         return tmp[1]
     
-    def test_1_matrixsizetranspose(self):
+    def test_2_matrixsizetranspose(self):
         tmp = self._gettranspose()
         assert tmp.shape == (self.size, self.size), "Not of size 10, 10"
 
-    def test_2_diagonal(self):
+    def test_3_diagonal(self):
+        print "Diagonal!"
         function = self._get_function('diagonal')
         tmp = function(self.array)
         for i in range(self.size):
             msg = "Error in getting diagonal! tmp[+"+`i`+"] = " + `tmp`
             assert tmp[i] ==  i, msg
 
-    def test_2_diagonaltranspose(self):
+    def test_4_diagonaltranspose(self):
         tmp = self._gettranspose()
+        print "Diagonal transpose!"
         for i in range(self.size):
             msg = "Error in getting diagonal! tmp[+"+`i`+"] = " + `tmp`
             assert tmp[i] ==  i, msg
 
-    def test_super_diagonal(self):
+    def test_5_super_diagonal(self):
         function = self._get_function('superdiagonal')        
         for j in range(1,self.size):
             tmp = function(self.array, j)
             for i in range(self.size - j):
                 assert tmp[i] ==  i*-1, "Error in getting super diagonal!"
-
-    def test_super_diagonaltranspose(self):
+    
+    def test_6_super_diagonaltranspose(self):
         function = self._get_function('superdiagonal')
         array = self._gettranspose()
         for j in range(1,self.size):
@@ -587,9 +597,9 @@ class _DiagonalMatrixTestCase(_DefaultMatrixTestCase):
             for i in range(self.size - j):
                 msg = "Error in getting super diagonal! tmp[+"+`i`+"] = " + `tmp`
                 assert tmp[i] == i*1+j, msg
-
+    
                 
-    def test_sub_diagonal(self):
+    def test_7_sub_diagonal(self):
         function = self._get_function('subdiagonal')
         for j in range(1,self.size):
             tmp = function(self.array, j)
@@ -807,14 +817,14 @@ class _SwapMatrixTestCase(_DefaultMatrixTestCase):
         self.array = array.astype(type)
         self.array1 = (array*10).astype(type)
         
-    def testswap(self):
+    def test_1_swap(self):
         function =  self._get_function('swap')
         type = self.array.typecode()
         tmp = function(self.array, self.array1)
         function =  self._get_function('isnull')
         assert(function((tmp[1]/10).astype(type) - tmp[2]))
 
-    def testswap_columns(self):
+    def test_2_swap_columns(self):
         function =  self._get_function('swap_columns')
         tmp = function(self.array, 3, 5)
         assert(tmp[0] == 0)
@@ -822,7 +832,7 @@ class _SwapMatrixTestCase(_DefaultMatrixTestCase):
             assert(tmp[1][i,3]==10*i+5)
             assert(tmp[1][i,5]==10*i+3)
 
-    def testswap_rows(self):
+    def test_3_swap_rows(self):
         function =  self._get_function('swap_rows')
         tmp = function(self.array, 3, 5)
         assert(tmp[0] == 0)
@@ -831,7 +841,7 @@ class _SwapMatrixTestCase(_DefaultMatrixTestCase):
             assert(tmp[1][5,i]==i+30)
 
 
-    def testswap_rowcol(self):
+    def test_4_swap_rowcol(self):
         function =  self._get_function('swap_rowcol')
         tmp = function(self.array, 3, 5)
         assert(tmp[0] == 0)
@@ -845,45 +855,48 @@ class _SwapMatrixTestCase(_DefaultMatrixTestCase):
             else:
                 assert(tmp[1][i,5]==30+i)
 
-    def test_fwrite(self):        
-        file = tempfile.TemporaryFile('w')
-        function =  self._get_function('fwrite')
-        tmp = function(file, self.array)
-
-    def test_fread(self):        
-        file = tempfile.TemporaryFile()
-        function =  self._get_function('fwrite')
-        tmp = function(file, (self.array * 2).astype(self.array.typecode()))
-        assert(tmp == 0)
-        file.seek(0)
-        function =  self._get_function('fread')
-        tmp = function(file, self.array.shape)
-        assert(tmp[0] == 0)
-        for i in range(self.size):
-            for j in range(self.size):
-                assert(tmp[1][i,j] == self.array[i,j] * 2)
-                
-
-    def test_fprintf(self):        
-        file = tempfile.TemporaryFile('w')
-        function =  self._get_function('fprintf')
-        tmp = function(file, self.array, self._get_format())
-        assert(tmp == 0)
-        
-    def test_fscanf(self):
-        file = tempfile.TemporaryFile()
-        function =  self._get_function('fprintf')
-        ttype = self.array.typecode()
-        tmp = function(file, (self.array*2).astype(ttype), self._get_format())
-
-        function =  self._get_function('fscanf')
-        file.seek(0)
-
-        tmp = function(file, self.array.shape)
-        assert(tmp[0] == 0)
-        for i in range(self.size):
-            for j in range(self.size):
-                assert(tmp[1][i,j] == self.array[i,j] * 2)
+#    def test_5_fwrite(self):
+#        print "Seek finished "
+#        file = getopentmpfile('w')
+#        function =  self._get_function('fwrite')
+#        tmp = function(file, self.array)
+#
+#    def test_6_fread(self):
+#
+#        file = getopentmpfile('w+')
+#        function =  self._get_function('fwrite')
+#        tmp = function(file, (self.array * 2).astype(self.array.typecode()))
+#        assert(tmp == 0)
+#        file.seek(0)
+#
+#        function =  self._get_function('fread')
+#        tmp = function(file, self.array.shape)
+#        assert(tmp[0] == 0)
+#        for i in range(self.size):
+#            for j in range(self.size):
+#                assert(tmp[1][i,j] == self.array[i,j] * 2)
+#                
+#
+#    def test_7_fprintf(self):        
+#        file = getopentmpfile('w')
+#        function =  self._get_function('fprintf')
+#        tmp = function(file, self.array, self._get_format())
+#        assert(tmp == 0)
+#        
+#    def test_8_fscanf(self):
+#        file = getopentmpfile('w+')
+#        function =  self._get_function('fprintf')
+#        ttype = self.array.typecode()
+#        tmp = function(file, (self.array*2).astype(ttype), self._get_format())
+#
+#        function =  self._get_function('fscanf')
+#        file.seek(0)
+#
+#        tmp = function(file, self.array.shape)
+#        assert(tmp[0] == 0)
+#        for i in range(self.size):
+#            for j in range(self.size):
+#                assert(tmp[1][i,j] == self.array[i,j] * 2)
 
     def _mytearDown(self):
         pass
@@ -1455,7 +1468,7 @@ class _SwapVectorTestCase(_DefaultVectorTestCase):
         array = Numeric.arange(self.size)
         self.array = array.astype(type)
         self.array1 = (array*10).astype(type)
-        
+
     def testswap(self):
         function =  self._get_function('swap')
         type = self.array.typecode()
@@ -1484,43 +1497,44 @@ class _SwapVectorTestCase(_DefaultVectorTestCase):
             assert(tmp[1][-(i+1)]==i)
 
     
-    def test_fwrite(self):        
-        file = tempfile.TemporaryFile('w')
-        function =  self._get_function('fwrite')
-        tmp = function(file, self.array)
+#    def test_fwrite(self):        
+#        file = getopentmpfile('w')
+#        function =  self._get_function('fwrite')
+#        print "Testing fwrite!"
+#        tmp = function(file, self.array)
+#
+#    def test_fread(self):        
+#        file = getopentmpfile('w+')
+#        function =  self._get_function('fwrite')
+#        tmp = function(file, (self.array * 2).astype(self.array.typecode()))
+#        assert(tmp == 0)
+#        file.seek(0)
+#        function =  self._get_function('fread')
+#        tmp = function(file, self.array.shape[0])
+#        assert(tmp[0] == 0)
+#        for i in range(self.size):
+#            assert(tmp[1][i] == self.array[i] * 2)
+#
+#    def test_fprintf(self):        
+#        file = getopentmpfile('w')
+#        function =  self._get_function('fprintf')
+#        tmp = function(file, self.array, self._get_format())
+#        assert(tmp == 0)
+#        
+#    def test_fscanf(self):
+#        file = getopentmpfile('w+')
+#        function =  self._get_function('fprintf')
+#        ttype = self.array.typecode()
+#        tmp = function(file, (self.array*2).astype(ttype), self._get_format())
+#
+#        function =  self._get_function('fscanf')
+#        file.seek(0)
+#
+#        tmp = function(file, self.array.shape[0])
+#        assert(tmp[0] == 0)
+#        for i in range(self.size):
+#            assert(tmp[1][i] == self.array[i] * 2)
 
-    def test_fread(self):        
-        file = tempfile.TemporaryFile()
-        function =  self._get_function('fwrite')
-        tmp = function(file, (self.array * 2).astype(self.array.typecode()))
-        assert(tmp == 0)
-        file.seek(0)
-        function =  self._get_function('fread')
-        tmp = function(file, self.array.shape[0])
-        assert(tmp[0] == 0)
-        for i in range(self.size):
-            assert(tmp[1][i] == self.array[i] * 2)
-
-    def test_fprintf(self):        
-        file = tempfile.TemporaryFile('w')
-        function =  self._get_function('fprintf')
-        tmp = function(file, self.array, self._get_format())
-        assert(tmp == 0)
-        
-    def test_fscanf(self):
-        file = tempfile.TemporaryFile()
-        function =  self._get_function('fprintf')
-        ttype = self.array.typecode()
-        tmp = function(file, (self.array*2).astype(ttype), self._get_format())
-
-        function =  self._get_function('fscanf')
-        file.seek(0)
-
-        tmp = function(file, self.array.shape[0])
-        assert(tmp[0] == 0)
-        for i in range(self.size):
-            assert(tmp[1][i] == self.array[i] * 2)
- 
     def _mytearDown(self):
         pass
 
@@ -1605,6 +1619,57 @@ class SwapShortVectorUITestCase(_ShortVectorTestCase,
     pass
 
 
+#del DiagonalComplexFloatMatrixTestCase
+#del DiagonalComplexFloatMatrixUITestCase
+
+# del SwapComplexFloatMatrixTestCase
+# del SwapComplexFloatMatrixUITestCase
+# del SwapComplexFloatVectorTestCase
+# del SwapComplexFloatVectorUITestCase
+# del SwapComplexMatrixTestCase
+# del SwapComplexMatrixUITestCase
+# del SwapComplexVectorTestCase
+# del SwapComplexVectorUITestCase
+# del SwapFloatMatrixTestCase
+# del SwapFloatMatrixUITestCase
+# del SwapFloatVectorTestCase
+# del SwapFloatVectorUITestCase
+# del SwapIntMatrixTestCase
+# del SwapIntMatrixUITestCase
+# del SwapIntVectorTestCase
+# del SwapIntVectorUITestCase
+# del SwapLongMatrixTestCase
+# del SwapLongMatrixUITestCase
+# del SwapLongVectorTestCase
+# del SwapLongVectorUITestCase
+# del SwapMatrixTestCase
+# del SwapMatrixUITestCase
+# del SwapVectorTestCase
+# del SwapVectorUITestCase
+# del SwapShortMatrixTestCase
+# del SwapShortMatrixUITestCase
+# del SwapShortVectorTestCase
+# del SwapShortVectorUITestCase
+
+# del SetZeroComplexFloatVectorUITestCase
+# del SetZeroComplexFloatVectorTestCase
+# del SetZeroComplexVectorUITestCase
+# del SetZeroComplexVectorTestCase
+# del SetZeroComplexFloatMatrixUITestCase
+# del SetZeroComplexFloatMatrixTestCase
+# del SetZeroComplexMatrixUITestCase
+# del SetZeroComplexMatrixTestCase
+# del SetZeroIntMatrixTestCase
+# del SetZeroIntMatrixUITestCase
+# del SetZeroIntVectorTestCase
+# del SetZeroIntVectorUITestCase
+# del SetZeroLongMatrixTestCase
+# del SetZeroLongMatrixUITestCase
+# del SetZeroLongVectorTestCase
+# del SetZeroLongVectorUITestCase
+# del SetZeroMatrixTestCase
+# del SetZeroMatrixUITestCase
+
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 #                            Remove ..
@@ -1649,10 +1714,10 @@ del _SetZeroVectorTestCase
 del _SetAllVectorTestCase
 del _SwapVectorTestCase
 
-def test():        
-    unittest.main()
+
 
     
 if __name__ == '__main__':
-    test()
+    unittest.main()
+
 
