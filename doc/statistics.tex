@@ -1,5 +1,7 @@
 \declaremodule{extension}{pygsl.statistics}
 \moduleauthor{Jochen K\"upper}{jochen@jochen-kuepper.de}
+\modulesynopsis{Statistical functions.}
+
 \index{mean}
 \index{standard deviation}
 \index{variance}
@@ -9,6 +11,10 @@
 \index{range}
 \index{min}
 \index{max}
+\index{kurtosis}
+\index{skewness}
+\index{autocorrelation}
+\index{covariance}
 
 This chapter describes the statistical functions in the library.  The basic
 statistical functions include routines to compute the mean, variance and
@@ -19,55 +25,193 @@ quantities in a stable way, without large intermediate values that might
 overflow.
 
 All functions work on any Python sequence (of appropriate data-type), but see
-section \ref{sec:stat-speed-considerations} for advantages and drawbacks of
+section \ref{sec:stat:speed-considerations} for advantages and drawbacks of
 different kinds of input data.
 
 \begin{seealso}
-   For details on the implementation of these functions please consult the
-   \GSL{} reference.
+   For details on the underlying implementation of these functions please
+   consult the \GSL{} reference manual.
 \end{seealso}
 
 
-\section{Organization of the module}
-\label{sec:stat-organization}
 
-The parts of the \gsl{} functions names, providing artificial name spaces, are
-mapped to modules and submodules in \pygsl{}.  That is \code{gsl_stats_mean}
-can be found as \code{pygsl.statistics.mean} and \code{gsl_stats_long_mean} as
-\code{pygsl.statistics.long.mean}.
+\section{Organization of the module}
+\label{sec:stat:organization}
+
+Individual parts of the \gsl{} functions names, providing artificial namespaces
+in C, are mapped to modules and submodules in \pygsl{}.  That is,
+\cfunction{gsl_stats_mean} can be found as \function{pygsl.statistics.mean} and
+\cfunction{gsl_stats_long_mean} as \function{pygsl.statistics.long.mean}.
 
 The functions in the module are available in versions for datasets in the
-standard floating-point and integer types. The generic versions available in
-the \code{pygsl.statistics} module are using the generic \gsl{} \code{double}
-versions.  The submodules use \gsl{} functions according to the submodule name,
-e.g. long for \code{pygsl.statistics.long}.
+standard and \numpy{} floating-point and integer types. The generic versions
+available in the \module{pygsl.statistics} module are using the generic \gsl{}
+\ctype{double} versions.  The submodules use \gsl{} functions according to the
+submodule name, e.g. long for \module{pygsl.statistics.long}.
 
-Currently implemented submodules are \code{pygsl.statistics.double} and
-\code{pygsl.statistics.long}.
+Implemented submodules are \module{char}, \module{uchar}, \module{short},
+\module{int}, \module{long}, \module{float}, and \module{double}. The latter
+one also serves as default and is used whenever you don't expclicitely state a
+different datatype. In most cases it is appropriate to simply use the default
+implementation as it covers the widest range of the real space, offers high
+precision, and as such is simple to use. If you have a sequence of all integer
+values it is straightforward to use \module{pygsl.statistics.long} functions as
+these use an implementation corresponding to Pythons \class{Float}-type. These
+implemented submodules represent all numeric datatypes available in Python
+(\class{Int}, \class{Float}) besides \class{Long Int} which has no
+representation in standard C, as well as all numeric datatypes available in
+\numpy{} that have corresponding implementations in \gsl{} (on 32 bit systems
+these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
+
+
+
+\section{Available functions}
+\label{sec:stat:available-functions}
+
+\subsection{Mean, Standard Deviation, and Variance}
+\label{sec:stat:mean-stand-deva}
+
+\begin{funcdesc}{mean}{x}\index{mean}
+   Arithmetic mean (\emph{sample mean}) of \var{x}:
+   \begin{equation}
+      \hat\mu = \frac{1}{N} \sum x_i
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{variance}{x}\index{variance}
+   Estimated (\emph{sample}) variance of \var{x}:
+   \begin{equation}
+      \hat\sigma^2 = \frac{1}{N-1} \sum (x_i - \hat\mu)^2
+   \end{equation}
+   This function computes the mean via a call to \function{mean}.  If you have
+   already computed the mean then you can pass it directly to
+   \function{variance_m}.
+\end{funcdesc}
+
+\begin{funcdesc}{variance_m}{x, mean}\index{variance}
+   Estimated (\emph{sample}) variance of \var{x} relative to \var{mean}:
+   \begin{equation}
+      \hat\sigma^2 = \frac{1}{N-1} \sum (x_i - mean)^2
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{sd}{x}
+\end{funcdesc}
+\begin{funcdesc}{sd_m}{x, mean}\index{sd}\index{mean}
+   The standard deviation is defined as the square root of the variance of
+   \var{x}.  These functions returns the square root of the respective
+   variance-functions above.
+\end{funcdesc}
+
+\begin{funcdesc}{variance_with_fixed_mean}{x, mean}\index{variance}\index{mean}
+   Compute an unbiased estimate of the variance of \var{x} when the population
+   mean \var{mean} of the underlying distribution is known \emph{a priori}.  In
+   this case the estimator for the variance uses the factor $1/N$ and the
+   sample mean $\hat\mu$ is replaced by the known population mean $\mu$:
+   \begin{equation}
+      \hat\sigma^2 = \frac{1}{N} \sum (x_i - \mu)^2
+   \end{equation}
+\end{funcdesc}
+
+
+\subsection{Mean, Standard Deviation, and Variance}
+\label{sec:stat:mean-stand-deva}
+
+
+\subsection{Absolute deviation}
+\label{sec:stat:absolute-deviation}
+
+
+\subsection{Higher moments (skewness and kurtosis)}
+\label{sec:stat:high-moments-skewn}
+
+
+\subsection{Autocorrelation}
+\label{sec:stat:autocorrelation}
+
+
+\subsection{Covariance}
+\label{sec:stat:covariance}
+
+
+\subsection{Maximum and Minimum values}
+\label{sec:stat:max-min-value}
+
+
+\subsection{Median and Percentiles}
+\label{sec:stat:median-percentiles}
 
 
 
 \section{Speed considerations}
-\label{sec:stat-speed-considerations}
+\label{sec:stat:speed-considerations}
 
 All functions work on any Python sequence type but are optimized for use with
 \NUMPY{} (\numpy{}) arrays. It is strongly suggested that you install NumPy
 (available from \url{http://www.numpy.org}).
 
-If you pass NumPy arrays of the \emph{correct data-type} as input data
-to any of the functions they are passed straight to the C functions
-along with the stride information of the data.
+If you pass NumPy arrays of the \emph{correct data-type} as input data to any
+of the functions they are passed straight to the C functions along with the
+stride information of the data. If you pass generic (non-\numpy{}) Python
+sequences or \numpy{} arrays of the wrong data-type a suntactically suitable
+copy of the data will be created and passed to the function. No precautions
+against data-losses due to downcasts are taken. Esp. when calling functions
+from a module of the smaller datatpes (\module{char}, \module{uchar},
+\module{short}) you have to make sure all your data fits into the C
+representation of the respective C dataype on the machine the program is
+\emph{executed}. \footnote{Of course you also should not pass floating point
+   data to integer modules.}
 
-If you pass generic (non-\numpy{}) Python sequences or \numpy{} arrays of the
-wrong data-type a suitable copy of the data will be created and passed to the
-function.
+In general, when not using \numpy{} you should always use the default
+implementation \module{pygsl.statistics} or the special implementation
+\module{pygsl.statistics.long} in case you are \emph{sure} you have only
+integer values. If your program needs the little speed-up that might be
+possible by doing the calculation on a smaller datatype you should probably not
+write it in plain Python anyway:)
+
+If you have installed \numpy{} you can of course use arrays of all the
+datatypes defined by \numpy{}. In that case you should use the submodule that
+corresponds to the \numpy{} datatype you are using, as only that allows us to
+pass your \numpy{} array straight to the C function. See the \numpy{}
+documentation for details on the available datatypes.
+
+\begin{seealso}
+   If you are still unsure whether you should use \numpy{} take a look at
+   \url{http://www.numpy.org} and download your personal copy.
+\end{seealso}
+
 
 
 \section{Further Reading}
-\label{sec:stat-further-reading}
+\label{sec:stat:further-reading}
 
 See the \gsl{} reference manual for a description of all available functions
 and the calculations they perform.
+
+The standard reference for almost any topic in statistics is the multi-volume
+\emph{Advanced Theory of Statistics} by Kendall and Stuart.  Many statistical
+concepts can be more easily understood by a Bayesian approach.  The book by
+Gelman, Carlin, Stern and Rubin gives a comprehensive coverage of the subject.
+For physicists the Particle Data Group provides useful reviews of Probability
+and Statistics in the "Mathematical Tools" section of its Annual Review of
+Particle Physics.
+   
+\begin{seealso}
+   \seetext{Maurice Kendall, Alan Stuart, and J. Keith Ord: \emph{The Advanced
+         Theory of Statistics} (multiple volumes) reprinted as \emph{Kendall's
+         Advanced Theory of Statistics}.  Wiley, ISBN 047023380X.}
+   
+   \seetext{Andrew Gelman, John B. Carlin, Hal S. Stern, Donald B.  Rubin:
+      \emph{Bayesian Data Analysis}.  Chapman \& Hall, ISBN 0412039915.}
+   
+   \seetext{R.M. Barnett et al: Review of Particle Properties. \emph{Physical
+         Review} \textbf{D54}, 1 (1996).}
+   
+   \seetext{D.E. Groom et al., \emph{The European Physical Journal}
+      \textbf{C15}, 1 (2000) and \emph{2001 off-year partial update for the
+         2002 edition} available on the PDG WWW pages (URL:
+      \url{http://pdg.lbl.gov/}).}
+\end{seealso}
 
 
 %% Local Variables:

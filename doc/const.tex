@@ -167,8 +167,8 @@ These are the provided constants:\nopagebreak
 \label{cha:const-cgs-module}
 
 \begin{verbatim}
-from pygsl.const import mks
-print "a teaspoon contains %g m^3"%mks.teaspoon
+from pygsl.const import cgs
+print "a teaspoon contains %g m^3"%cgs.teaspoon
 \end{verbatim}
 
 You can access the following constants:\nopagebreak
@@ -277,7 +277,7 @@ You can access the following constants:\nopagebreak
 from pygsl.const import *
 # an alternative to
 # from pygsl.const.num import *
-print "fine structure is 1/137 with an error of %g%%"%(abs(1.0/137.0-fine_structure)*100.0)
+print "fine structure is 1/137 with an error of %g%%"%(abs(1.0/137.0/fine_structure-1.0)*100.0)
 \end{verbatim}
 
 Only two constants are available:\nopagebreak

@@ -1,14 +1,14 @@
 \declaremodule{extension}{pygsl.histogram}
 \moduleauthor{Achim G\"adke}{achimgaedke@users.sourceforge.net}
 % for indexing like \refihistogramindex{histogram}{get}
-\newcommand{\refhistogramindex}[2]{\texttt{#2}\index{#2@\texttt{#2} (#1)}}
+\newcommand{\refhistogramindex}[2]{\texttt{#2}\index{#2@\texttt{#2} (in #1)}}
 
 This chapter is about the \class{histogram} and \class{histogram2d} type that
 are contained in \module{pygsl.histogram}.
 
 \section{\protect\class{histogram} --- 1-dimensional histograms}
 
-\index{histogram@\class{histogram} (pygsl.histogram)}
+\index{histogram@\class{histogram} (in pygsl.histogram)}
 This type implements all methods on \ctype{struct gsl_histogram}.
 These are:
 
@@ -62,7 +62,7 @@ reference.
 
 
 \section{\protect\class{histogram2d} --- 2-dimensional histograms}
-\index{histogram2d@\class{histogram2d} (pygsl.histogram)}
+\index{histogram2d@\class{histogram2d} (in pygsl.histogram)}
 
 Most of the methods are the same as of \class{histogram}:
 
