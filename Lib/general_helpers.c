@@ -15,9 +15,10 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 {
      PyObject *name_o = NULL;
      PyObject *callback;
-     char * message = "";
-     char * error_description = "";
-     char * name, msg[1024], *mmesg;
+     const char * message = "";
+     const char * error_description = "";
+     const char * mmesg;
+     char * name, msg[1024];
      char *formatstring = "For the callback %s evaluted  for function %s, an error occured : %s";
 
      FUNC_MESS_BEGIN();    
@@ -36,14 +37,17 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 	  mmesg = message;
      }
      assert(callback != NULL);
-     if (!PyObject_HasAttrString(callback, "__name__")){
+     name_o = PyObject_GetAttrString(callback, "__name__");
+     if (name_o == NULL){
+	  name_o = PyObject_GetAttrString(callback, "func_name");
+     }
+     if (name_o == NULL){
 	 PyErr_SetString(PyExc_ValueError, 
 			 "While I was treating an errornous callback object,"
 			 " I found that it had no attribute '__name__'!");
 	 GSL_ERROR("Could not get the name of the callback!", GSL_EBADFUNC);
 	 goto fail;
      }
-     name_o = PyObject_GetAttrString(callback, "__name__");
      if(!PyString_Check(name_o)){
 	  PyErr_SetString(PyExc_ValueError, 
 			  " For an errornous callback object,"  
