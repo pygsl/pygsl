@@ -27,5 +27,6 @@ setup (name = "pygsl",
        url = "http://pygsl.sourceforge.net",
        ext_package = 'pygsl.testing',
        ext_modules = exts,
+       py_modules = ['pygsl.testing.__init__'],
        libraries  = [libpygsl, ]
        )
