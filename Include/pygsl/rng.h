@@ -48,7 +48,7 @@ static void **PyGSL_API = NULL;
    } else { \
         PyGSL_API = NULL; \
    } \
-   fprintf(stderr, "PyGSL_API points to %p\n", (void *) PyGSL_API); \
+   /* fprintf(stderr, "PyGSL_API points to %p\n", (void *) PyGSL_API); */ \
 }
 #endif  /* PyGSL_RNG_H */
 

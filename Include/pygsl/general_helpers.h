@@ -7,10 +7,18 @@
 
 typedef struct 
 {
-     PyObject * callback;
-     char     * message;
-     char     * error_description;
-     /* For callbacks this argnum is used */
+     /* 
+      * The callback object. It is used to retrieve the 
+      *  name of the object to inform the user which object
+      *  made troubles. 
+      */
+     PyObject * callback;       
+     const char     * message; /* Typically the name of the function */
+     const char     * error_description; /* ?? What is this used for */
+     /* 
+      * For callbacks the number of argument, which is currently converted 
+      *	to some C readable type 
+      */
      int argnum;
 }   
 PyGSL_error_info;
