@@ -294,7 +294,8 @@ static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args)              \
 {                                                                            \
      PyObject *tmp = PyGSL_rng_ ## function (self, args,  gsl_ran_ ## name); \
      if (tmp == NULL){                                                       \
-	  PyGSL_add_traceback(module, __FILE__, "rng." ## #name, __LINE__);  \
+	  /* PyGSL_add_traceback(module, __FILE__, "rng." #name, __LINE__); */\
+	  PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);     \
      }                                                                       \
      return tmp;                                                             \
 }
