@@ -12,22 +12,7 @@ import distutils
 from distutils.core import setup, Extension
 from gsl_Extension import gsl_Extension
 from distutils import sysconfig
-
-# NDEBUG : This macro removes asserts!! Not to be used for debugging!!
-libpygsl = ('pygsl', {'sources' : ['Lib/general_helpers.c',
-                                   'Lib/complex_helpers.c',
-                                   'Lib/block_helpers.c',
-                                   'Lib/function_helpers.c',
-                                   'Lib/error_helpers.c',
-                                   'Lib/rng_helpers.c',
-                                   'Lib/profile.c',
-                                   'Lib/chars.c',
-                                   ],
-                      'include_dirs' : ['Include',
-                                        sysconfig.get_python_inc()],
-                      'shared' : 1,
-                      }
-            )
+from common_objects import libpygsl
 
 exts = []
 exts.append(gsl_Extension("_hankel",
