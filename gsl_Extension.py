@@ -166,4 +166,7 @@ class gsl_Extension(Extension):
 	def get_gsl_libs(self):
 		return self.get_gsl_info('--libs').strip()
 	def get_gsl_version(self):
-		return re.split('\.',self.get_gsl_info('--version').strip())
+                version = self.get_gsl_info('--version').strip()
+                if version[-1] == '+':
+                        version = version[:-1]
+                return re.split('\.',version)

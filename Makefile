@@ -1,6 +1,6 @@
 
 
-PYTHONVER = 2.1
+PYTHONVER = 2.2
 PYTHON = python$(PYTHONVER)
 GSLCONFIG = gsl-config
 
