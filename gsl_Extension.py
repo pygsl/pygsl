@@ -1,3 +1,11 @@
+#
+# author: Achim Gaedke
+# created: May 2001
+# file: pygsl/gsl_extension.py
+# $Id$
+#
+# module for gsl extensions compilation
+
 from distutils.core import setup, Extension
 from distutils.errors import DistutilsExecError
 import os

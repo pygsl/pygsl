@@ -1,8 +1,7 @@
 /*
  * author: Achim Gaedke
- * created: May 2001
- * reimplemented August 2002
- * file: pygsl/src/_rngmodule.c
+ * created reimplementation: August 2002
+ * file: pygsl/src/ngmodule.c
  * $Id$
  */
 

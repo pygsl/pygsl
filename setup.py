@@ -1,4 +1,11 @@
-#!/usr/bin/env python
+#! /usr/bin/env python2
+#
+# author: Achim Gaedke
+# created: May 2001
+# file: pygsl/setup.py
+# $Id$
+#
+# setup script for building and installing pygsl
 
 import sys
 from distutils.core import setup, Extension
@@ -6,7 +13,7 @@ from gsl_Extension import gsl_Extension
 
 pygsl_const=gsl_Extension("const",
 			  ['src/constmodule.c'],
-                          gsl_min_version=(1,'0+'),
+                          gsl_min_version=(1,2),
                           python_min_version=(2,1)
                           )
 pygsl_diff = gsl_Extension("diff",
@@ -77,7 +84,7 @@ pygsl_statistics_short=gsl_Extension("statistics.short",
 
 
 setup (name = "pygsl",
-       version = "0.1",
+       version = "0.1a",
        description = "GNU Scientific Library Interface",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",

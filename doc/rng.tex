@@ -5,6 +5,79 @@ This chapter introduces the random number generator classes provided by \module{
 
 \section{Random Number Generators}
 
+Each random number generator is a derived sperate class, that returns
+a pseudo random number sequence. Methods of the common base class
+provide the transformation to different probability distributions.
+
+Here is the list of children from \class{rng}:
+\newline
+% sed -n "/^class/s/class \([^(]*\).*:/\\\\class{\1},/p" <pygsl/rng.py >derived_rngs
+\class{rng_borosh13},
+\class{rng_coveyou},
+\class{rng_cmrg},
+\class{rng_fishman18},
+\class{rng_fishman20},
+\class{rng_fishman2x},
+\class{rng_gfsr4},
+\class{rng_knuthran},
+\class{rng_knuthran2},
+\class{rng_lecuyer21},
+\class{rng_minstd},
+\class{rng_mrg},
+\class{rng_mt19937},
+\class{rng_mt19937_1999},
+\class{rng_mt19937_1998},
+\class{rng_r250},
+\class{rng_ran0},
+\class{rng_ran1},
+\class{rng_ran2},
+\class{rng_ran3},
+\class{rng_rand},
+\class{rng_rand48},
+\class{rng_random128_bsd},
+\class{rng_random128_glibc2},
+\class{rng_random128_libc5},
+\class{rng_random256_bsd},
+\class{rng_random256_glibc2},
+\class{rng_random256_libc5},
+\class{rng_random32_bsd},
+\class{rng_random32_glibc2},
+\class{rng_random32_libc5},
+\class{rng_random64_bsd},
+\class{rng_random64_glibc2},
+\class{rng_random64_libc5},
+\class{rng_random8_bsd},
+\class{rng_random8_glibc2},
+\class{rng_random8_libc5},
+\class{rng_random_bsd},
+\class{rng_random_glibc2},
+\class{rng_random_libc5},
+\class{rng_randu},
+\class{rng_ranf},
+\class{rng_ranlux},
+\class{rng_ranlux389},
+\class{rng_ranlxd1},
+\class{rng_ranlxd2},
+\class{rng_ranlxs0},
+\class{rng_ranlxs1},
+\class{rng_ranlxs2},
+\class{rng_ranmar},
+\class{rng_slatec},
+\class{rng_taus},
+\class{rng_taus2},
+\class{rng_taus113},
+\class{rng_transputer},
+\class{rng_tt800},
+\class{rng_uni},
+\class{rng_uni32},
+\class{rng_vax},
+\class{rng_waterman14},
+\class{rng_zuf} and
+\class{rng_default}.
+\newline
+\class{rng_default} is determined by the environment variable \envvar{GSL_RNG_TYPE} or defaults to {\tt rng_mt19937}.
+
 \section{Probability Density Functions}
+
 
 \section{Using probability densities with random number generators}

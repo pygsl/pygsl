@@ -14,12 +14,12 @@ More information about it at <a href="http://sources.redhat.com/gsl/">http://sou
 <h2>Status of this interface:</h2>
 We are collecting implementations of parts of gsl.
 So the interface is not complete.
-The version 0.0.5 is a developement snapshot for pygsl-0.1.
+The version pygsl-0.1a is the first step towards pygsl-0.1.
 
 <h2>Requirements:</h2>
 To build the interface, you will need
 <ul>
-<li> <a href="http://sources.redhat.com/gsl">gsl-1.x</a>,</li>
+<li> <a href="http://sources.redhat.com/gsl">gsl-1.2</a> or better,</li>
 <li> <a href="http://www.python.org">python2.2</a> or better and</li>
 <li> <a href="http://numpy.sf.net">NumPy</a>, and</li>
 <li>a c compiler (like gcc).</li>
@@ -41,7 +41,7 @@ You can download it here: <a href="http://pygsl.sourceforge.net/">http://pygsl.s
 <p>Ready....
 
 <h2>Using pygsl</h2>
-<b>Do not test the interface in the distribution root.</b>
+<b>Do test the interface in the distribution root without changing the module path -- use <tt>test.py</tt> instead !</b>
 Due to the existence of the file <tt>pygsl/__init__.py</tt> python will use this source directory as module, instead of the installed code.
 <p>Just write in python
 <br><tt>import pygsl.sf</tt>
@@ -58,7 +58,7 @@ You may set the environment variable <tt>LD_LIBRARY_PATH</tt> to find the gsl sh
 
 <h2>Supported Platforms:</h2>
 <ul>
-<li>Linux (Redhat 7.*/SuSE) with python2.* and gsl-1.* </li>
+<li>Linux (Redhat 7.*/SuSE) with python2.* and gsl-1.2 </li>
 <li>SUN</li>
 </ul>
 
@@ -119,6 +119,7 @@ Implement other parts: (I don't want to do that alone)
 <li>a gsl-interface for python was needed for a project at <a href="http://www.zaik.uni-koeln.de/AFS">center for applied informatics cologne</a>.
 <li>gsl-0.0.3 was released at May 23, 2001</li>
 <li>gsl-0.0.4 was released at January 8, 2002</li>
+<li>gsl-0.1a was released at August 27, 2002</li>
 </ul>
 
 <h2>Thanks:</h2>

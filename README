@@ -1,141 +1,158 @@
-pygsl: GSL interface for python
+
+                        pygsl: GSL interface for python
 
 Status of GSL-Library:
 
-The gsl-library is since version 1.0 stable and for general use. More
-information about it at http://sources.redhat.com/gsl/.
+   The  gsl-library is since version 1.0 stable and for general use. More
+   information about it at [1]http://sources.redhat.com/gsl/.
 
 Status of this interface:
 
-We are collecting implementations of parts of gsl. So the interface is not
-complete. The version 0.0.5 is a developement snapshot for pygsl-0.1.
+   We are collecting implementations of parts of gsl. So the interface is
+   not  complete.  The  version  pygsl-0.1a  is  the  first  step towards
+   pygsl-0.1.
 
 Requirements:
 
-To build the interface, you will need
-
-   * gsl-1.x,
-   * python2.2 or better and
-   * NumPy, and
-   * a c compiler (like gcc).
+   To build the interface, you will need
+     * [2]gsl-1.2 or better,
+     * [3]python2.2 or better and
+     * [4]NumPy, and
+     * a c compiler (like gcc).
 
 Retriving the Interface:
 
-You can download it here: http://pygsl.sourceforge.net
+   You can download it here: [5]http://pygsl.sourceforge.net
 
 Installing GSL interface:
 
-gsl-config must be on your path:
+   gsl-config must be on your path:
 
-gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
-cd pygsl-x.y.z
-#do this with your prefered python version
-#to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl
-python setup.py build
-# change to a id, that is allowed to do installation
-python setup.py install
+   gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
+   cd pygsl-x.y.z
+   #do this with your prefered python version
+   #to     set    the    gsl    location    explicitly    use    setup.py
+   --gsl-prefix=/path/to/gsl
+   python setup.py build
+   # change to a id, that is allowed to do installation
+   python setup.py install
 
-Ready....
+   Ready....
 
 Using pygsl
 
-Do not test the interface in the distribution root. Due to the existence of
-the file pygsl/__init__.py python will use this source directory as module,
-instead of the installed code.
+   Do  test  the  interface in the distribution root without changing the
+   module  path -- use test.py instead ! Due to the existence of the file
+   pygsl/__init__.py  python  will  use  this source directory as module,
+   instead of the installed code.
 
-Just write in python
-import pygsl.sf
-print "%g+/-%g"%pygsl.sf.erf(1)
+   Just write in python
+   import pygsl.sf
+   print "%g+/-%g"%pygsl.sf.erf(1)
 
-or
-import pygsl.rng
-rng=pygsl.rng.gsl_rng()
-print rng.gaussian(1.0)
+   or
+   import pygsl.rng
+   rng=pygsl.rng.gsl_rng()
+   print rng.gaussian(1.0)
 
-You may set the environment variable LD_LIBRARY_PATH to find the gsl shared
-object.
+   You  may  set the environment variable LD_LIBRARY_PATH to find the gsl
+   shared object.
 
 Uninstall GSL interface:
 
-rm -r "python install path"/lib/python"version"/site-packages/pygsl
+   rm -r "python install path"/lib/python"version"/site-packages/pygsl
 
 Supported Platforms:
 
-   * Linux (Redhat 7.*/SuSE) with python2.* and gsl-1.*
-   * SUN
+     * Linux (Redhat 7.*/SuSE) with python2.* and gsl-1.2
+     * SUN
 
 Testing:
 
-the directory test will contain several testsuites, based on python
-unittest.
+   the  directory  test  will contain several testsuites, based on python
+   unittest.
 
 What is implemented:
 
-   * module pygsl.sf: with 200 special functions
-   * module pygsl.const: with 206 often used mathematical and scientific
-     constants
-   * module pygsl.ieee: access to the ieee-arithmetics layer of gsl
-   * module pygsl.rng: provides several random number generators and
-     different probability densities
-   * module pygsl.histogram: histograms and operations on histograms
-   * module pygsl.statistics: some statistics functions for arrays.
+     * module pygsl.sf: with 200 special functions
+     * module   pygsl.const:   with   206  often  used  mathematical  and
+       scientific constants
+     * module pygsl.ieee: access to the ieee-arithmetics layer of gsl
+     * module  pygsl.rng:  provides  several random number generators and
+       different probability densities
+     * module pygsl.histogram: histograms and operations on histograms
+     * module pygsl.statistics: some statistics functions for arrays.
 
-For the exact function volume for a module, please type:
+   For the exact function volume for a module, please type:
 
-import pygsl.sf
-dir(pygsl.sf)
+   import pygsl.sf
+   dir(pygsl.sf)
 
-You can do this with the other modules, too. The naming scheme is the same
-as in gsl.
+   You  can do this with the other modules, too. The naming scheme is the
+   same as in gsl.
 
 Documentation:
 
-There will be a small tutorial, but the function reference can be found at
-the gsl-reference.
+   There  will  be  a  small  tutorial, but the function reference can be
+   found at the gsl-reference.
 
 Support:
 
-Please send mails to the pygsl mailinglist.
+   Please send mails to [6]the pygsl mailinglist.
 
 Developement:
 
-You can browse our cvs tree.
+   You can browse our [7]cvs tree.
 
-Type this to check out the actual version:
-cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login
-Hit return for no password.
-cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co
-pygsl
+   Type this to check out the actual version:
+   cvs      -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl
+   login
+   Hit return for no password.
+   cvs  -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl
+   co pygsl
 
-The script tools/extract_tool.py generates most of the special function
-code.
+   The   script  tools/extract_tool.py  generates  most  of  the  special
+   function code.
 
 ToDo:
 
-Implement other parts: (I don't want to do that alone)
-
-   * Chebyshev-Series
-   * Complex Numbers
-   * Matrix
-   * Lin Algebra
-   * Permutation
-   * Sorting
-   * Statistics
-   * Fitting/Minimization
-   * FFT
-   * Numerical Integration
+   Implement other parts: (I don't want to do that alone)
+     * Chebyshev-Series
+     * Complex Numbers
+     * Matrix
+     * Lin Algebra
+     * Permutation
+     * Sorting
+     * Statistics
+     * Fitting/Minimization
+     * FFT
+     * Numerical Integration
 
 History:
 
-   * a gsl-interface for python was needed for a project at center for
-     applied informatics cologne.
-   * gsl-0.0.3 was released at May 23, 2001
-   * gsl-0.0.4 was released at January 8, 2002
+     * a  gsl-interface  for python was needed for a project at [8]center
+       for applied informatics cologne.
+     * gsl-0.0.3 was released at May 23, 2001
+     * gsl-0.0.4 was released at January 8, 2002
+     * gsl-0.1a was released at August 27, 2002
 
 Thanks:
 
-   * Jochen Küpper for pygsl.statistics functions
+     * [9]Jochen Küpper for pygsl.statistics functions
 
 Maintainer:
 
-AchimGaedke@users.sourceforge.net
+   [10]AchimGaedke@users.sourceforge.net
+
+References
+
+   1. http://sources.redhat.com/gsl/
+   2. http://sources.redhat.com/gsl
+   3. http://www.python.org/
+   4. http://numpy.sf.net/
+   5. http://pygsl.sourceforge.net/
+   6. mailto:pygsl-discuss@lists.sourceforge.net
+   7. http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/
+   8. http://www.zaik.uni-koeln.de/AFS
+   9. mailto:jochen@jochen-kuepper.de
+  10. mailto:AchimGaedke@users.sourceforge.net
