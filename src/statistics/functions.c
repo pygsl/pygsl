@@ -5,113 +5,16 @@
  * $Id$
  *
  * optional usage of Numeric module, available at http://numpy.sourceforge.net
+ * " <- to fix Emacs colouring
  */
 
-
-#if NUMERIC==0
-/** NumPy replacements
- *
- * In case NumPy is not available,
- * provide missing array conversion ala Numeric module
+/*
+ * 27. December 2003. Removed support for non numeric part.
+ * Pierre
  */
 
-typedef struct {
-    int type_num;
-} PyArray_Descr;
-
-typedef  struct {
-    STATMOD_C_TYPE *data;
-    size_t nd;
-    size_t *dimensions;
-    size_t *strides;
-    size_t length;
-    PyArray_Descr *descr;
-} PyArrayObject;
-
-enum PyArray_TYPES { PyArray_CHAR, PyArray_UBYTE, PyArray_SBYTE,
-                     PyArray_SHORT, PyArray_INT, PyArray_LONG,
-                     PyArray_FLOAT, PyArray_DOUBLE, 
-                     PyArray_CFLOAT, PyArray_CDOUBLE,
-                     PyArray_OBJECT,
-                     PyArray_NTYPES, PyArray_NOTYPE};
-
-
-PyArrayObject *
-PyArray_ContiguousFromObject(PyObject* O, int arg1 ,int arg2 ,int arg3) {
-
-    PyArrayObject* my_struct;
-    STATMOD_C_TYPE *c_array;
-    size_t size;
-    size_t pos;
-    Py_INCREF(O);
-
-    if (0==PySequence_Check(O)) {
-	PyErr_SetString(PyExc_TypeError,
-			"sequence type expected");
-	Py_DECREF(O);
-	return NULL;
-    }
-    /* determine size */
-    size=PySequence_Size(O);
-    if (size<0) {
-	PyErr_SetString(PyExc_TypeError,
-			"expected positive size");
-	Py_DECREF(O);
-	return NULL;
-    }
-    /* allocate c array */
-    my_struct=(PyArrayObject*)malloc(sizeof(PyArrayObject)+sizeof(STATMOD_C_TYPE)*size);
-    if (my_struct==NULL) {
-	PyErr_SetString(PyExc_MemoryError,
-			"could not allocate C array");
-	Py_DECREF(O);
-	return NULL;
-    }
-    my_struct->descr = (PyArray_Descr *)malloc(sizeof(PyArray_Descr));
-    if (my_struct->descr == NULL) {
-	PyErr_SetString(PyExc_MemoryError,
-			"could not allocate C array");
-	Py_DECREF(O);
-	return NULL;
-    }
-    my_struct->descr->type_num = -1;
-    c_array=(STATMOD_C_TYPE*)((void*)my_struct+sizeof(PyArrayObject));
-    my_struct->length=size;
-    my_struct->dimensions=&(my_struct->length);
-    my_struct->data=c_array;
-    /* copy values to double field */
-    for(pos=0; pos<size; pos++) {
-	PyObject* pos_value;
-	PyObject* py_value;
-	pos_value=PySequence_GetItem(O,pos);
-	py_value=STATMOD_APPEND_PY_TYPE(PyNumber_)(pos_value);
-	Py_DECREF(pos_value);
-	if (py_value==NULL) {
-	    PyErr_SetString(PyExc_TypeError,
-			    "expect sequence of numbers");    
-	    Py_DECREF(O);
-	    free(my_struct);
-	    return NULL;
-	}
-	c_array[pos]=STATMOD_PY_AS_C(py_value);
-	Py_DECREF(py_value);
-    }
-    Py_DECREF(O);
-    return my_struct;
-}
-
-
-PyTypeObject PyArray_Type = { 
-    PyObject_HEAD_INIT(0)
-    0,                      /*ob_size*/
-    "array",                /*tp_name*/
-    sizeof(PyArrayObject),  /*tp_basicsize*/
-    0,                      /*tp_itemsize*/
-};
-#  define STATMOD_FREE(data) free(data->descr); free(data);
-#else
 #  define STATMOD_FREE(data) Py_DECREF(data);
-#endif /* NUMERIC */
+
 
 
 /** macros of the actual function implementations
