@@ -54,6 +54,7 @@ static PyMethodDef initMethods[] = {
   {NULL,     NULL}        /* Sentinel */
 };
 
+
 static void
 PyGSL_init_api(void)
 {
@@ -92,7 +93,6 @@ PyGSL_init_api(void)
 
      _PyGSL_API[PyGSL_gsl_rng_from_pyobject_NUM                ] = (void *) & PyGSL_gsl_rng_from_pyobject                ;
      _PyGSL_API[PyGSL_function_wrap_helper_NUM                 ] = (void *) & PyGSL_function_wrap_helper                 ;
-
      
 }
 
@@ -102,7 +102,7 @@ DL_EXPORT(void) initinit(void)
 
   m = Py_InitModule("pygsl.init", initMethods);
   import_array();
-  init_pygsl();
+  
   
   if(m == NULL){
        fprintf(stderr, "I could not init pygsl.init!");
@@ -117,6 +117,7 @@ DL_EXPORT(void) initinit(void)
 
   PyGSL_init_api();
   PyGSL_API = _PyGSL_API;
+  PyGSL_SET_ERROR_HANDLER();
 
   api = PyCObject_FromVoidPtr((void *) PyGSL_API, NULL);
   assert(api);
