@@ -20,7 +20,6 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_complex.h>
-#include <Numeric/arrayobject.h>
 #include <stdlib.h>
 #include <assert.h>
 %}

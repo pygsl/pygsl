@@ -25,6 +25,7 @@
 %apply gsl_fsolver   * BUFFER { gsl_root_fsolver   * BUFFER};
 %apply gsl_fdfsolver * BUFFER { gsl_root_fdfsolver * BUFFER};
 
+
 extern const gsl_root_fsolver_type   * gsl_root_fsolver_bisection;
 extern const gsl_root_fsolver_type   * gsl_root_fsolver_brent;
 extern const gsl_root_fsolver_type   * gsl_root_fsolver_falsepos;

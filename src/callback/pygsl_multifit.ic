@@ -2,12 +2,10 @@
 /**
  * Author: Pierre Schnizer
  */   
-#include <Python.h>
-#include <Numeric/arrayobject.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_multifit_nlin.h>
-#include <typemaps/gsl_block_helpers.ic>
+#include <pygsl/block_helpers.h>
 
 PyObject * 
 PyGSL_gsl_multifit_gradient(PyObject *self, PyObject *args)

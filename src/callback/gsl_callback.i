@@ -5,9 +5,10 @@
 %module _callback
 
 %include typemaps.i
+%include constraints.i
 %include gsl_function_typemaps.i
 %include gsl_error_typemap.i
-%typemap (out) int = gsl_error_flag;
+
 
 %include gsl_block_typemaps.i
 
@@ -41,6 +42,15 @@ typedef unsigned int size_t;
 
 %}
 
+
+%immutable;
+/*
+ * Some functions here return int so I have to select the functions which use
+ * the returned integer as an error flag
+ */
+%include gsl_monte.i
+
+%typemap (out) int = gsl_error_flag;
 %include gsl_roots.i
 %include gsl_min.i
 %include gsl_multiroots.i
@@ -50,3 +60,5 @@ typedef unsigned int size_t;
 %include gsl_chebyshev.i
 %include gsl_odeiv.i
 %include gsl_multifit.i
+
+

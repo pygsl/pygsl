@@ -22,6 +22,12 @@
 %apply gsl_fsolver   * BUFFER {gsl_multimin_function     * BUFFER};
 %apply gsl_fdfsolver * BUFFER {gsl_multimin_function_fdf * BUFFER};
 
+/*
+ * This typemap is needed to enable the _x functions to return a numeric array
+ */
+%{
+  typedef gsl_vector gsl_multimin_solver_data;
+%}
 /* add functions to allocate and free the memory stored by gsl_multimin_function */
 %inline %{
   gsl_multimin_function * gsl_multimin_function_init(gsl_multimin_function * STORE)
@@ -44,6 +50,19 @@
        ;
   }
 %}
+%{
+  double  gsl_multimin_fminimizer_f(gsl_multimin_fminimizer * s)
+  {	
+    	return s->fval;
+  }
+%}
+double  
+gsl_multimin_fminimizer_f(gsl_multimin_fminimizer * s);
+
+gsl_multimin_fminimizer *
+gsl_multimin_fminimizer_alloc(const gsl_multimin_fminimizer_type *T,
+                                size_t n);
+
 int 
 gsl_multimin_fminimizer_set (gsl_multimin_fminimizer * s,
                              gsl_multimin_function * BUFFER,
@@ -59,7 +78,8 @@ gsl_multimin_fminimizer_name (const gsl_multimin_fminimizer * s);
 int
 gsl_multimin_fminimizer_iterate(gsl_multimin_fminimizer *s);
 
-gsl_vector * 
+
+gsl_multimin_solver_data *
 gsl_multimin_fminimizer_x (const gsl_multimin_fminimizer * s);
 
 double 
@@ -92,8 +112,10 @@ int
 gsl_multimin_fdfminimizer_restart(gsl_multimin_fdfminimizer * BUFFER);
 int
 gsl_multimin_test_gradient(const gsl_vector * IN,double epsabs);
+int
+gsl_multimin_test_size(double size, double epsabs);
+
 %{
-  typedef gsl_vector gsl_multimin_solver_data;
   double  gsl_multimin_fdfminimizer_f(gsl_multimin_fdfminimizer * s)
   {	
     	return s->f;
@@ -123,7 +145,11 @@ extern const
 gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs;
 
 %inline %{
-	  /* */
+	  /* 
+	   * Try to find what level of GSL I am running. If less than zero, 
+	   * give a NULL. The overlying wrapper must check for NULL and raise 
+           * an approbriate error message.
+	   */
 #if PYGSL_GSL_MAJOR_VERSION < 1
 #error "This wrapper needs at least GSL 1.0"
 #endif 

@@ -2,11 +2,16 @@
 /*
  * Author: Fabian Jakobs
  * Modified by : Pierre Schnizer January 2003
+ *
+ * Changelog: 
+ *   22. May 2003. Changed to use the pygsl library. Warning! Do not import
+ * Numeric/arrayobject.h before pygsl_block_helpers.h.  pygsl_block_helpers.h
+ * defines the PY_ARRAY_UNIQUE_SYMBOL.
  */		 
 %{
+#include <pygsl/block_helpers.h>
 #include <gsl/gsl_interp.h>
 #include <gsl/gsl_spline.h>
-#include <Numeric/arrayobject.h>
 #include <stdio.h>
 %}
 
@@ -109,7 +114,7 @@ gsl_spline_init(gsl_spline * spline, const double xa[], const double ya[], size_
 
 int
 gsl_spline_eval_e(const gsl_spline * spline, double x,
-                  gsl_interp_accel * a, double * y);
+                  gsl_interp_accel * a, double * OUTPUT);
 
 double
 gsl_spline_eval(const gsl_spline * spline, double x, gsl_interp_accel * a);
@@ -118,7 +123,7 @@ int
 gsl_spline_eval_deriv_e(const gsl_spline * spline,
                         double x,
 			gsl_interp_accel * a,
-                        double * OUT);
+                        double * OUTPUT);
 
 double
 gsl_spline_eval_deriv(const gsl_spline * spline,
@@ -129,7 +134,7 @@ int
 gsl_spline_eval_deriv2_e(const gsl_spline * spline,
                          double x,
 			 gsl_interp_accel * a,
-                         double * OUT);
+                         double * OUTPUT);
 
 double
 gsl_spline_eval_deriv2(const gsl_spline * spline,
@@ -140,7 +145,7 @@ int
 gsl_spline_eval_integ_e(const gsl_spline * spline,
                         double a, double b,
 			gsl_interp_accel * acc,
-                        double * OUT);
+                        double * OUTPUT);
 
 double
 gsl_spline_eval_integ(const gsl_spline * spline,

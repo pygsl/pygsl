@@ -5,7 +5,6 @@
 %module _poly
 
 %{
-#include <Numeric/arrayobject.h>
 #include <gsl/gsl_poly.h>
 #include <gsl/gsl_errno.h>
 #include <poly.ic>

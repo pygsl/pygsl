@@ -9,9 +9,8 @@
  * 30.12.2002
  * Added handling of PyErr_Occured.
  */
-#include <Python.h>
-#include <Numeric/arrayobject.h>
-#include <typemaps/gsl_block_helpers.ic>
+#include <pygsl/block_helpers.h>
+#include <pygsl/utils.h>
 #include <gsl/gsl_poly.h>
 /*
 extern double gsl_poly_eval (const double *INSIMPLE, const int simplelen, 

@@ -12,8 +12,6 @@
  *  - Added jmp buffer to PyGSL_odeiv_parameter_pass as 
  *   GSL does not honour the return value of func and jac.
  */
-#include <Python.h>
-#include <Numeric/arrayobject.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -21,10 +19,10 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_errno.h>
-#include <utils/util.h>
-#include <typemaps/pygsl_profile.h>
-#include <typemaps/gsl_general_helpers.ic>
-#include <typemaps/gsl_block_helpers.ic>
+#include <pygsl/utils.h>
+#include <pygsl/profile.h>
+#include <pygsl/general_helpers.h>
+#include <pygsl/block_helpers.h>
 #include <setjmp.h>
 
 typedef struct
@@ -76,7 +74,8 @@ int PyGSL_odeiv_func(double t, const double y[], double f[], void *params)
      }
     info.argnum = 1;
     fv = gsl_vector_view_array(f, dimension);
-    if((flag = PyGSL_copy_pyarray_to_gslvector(&fv.vector, result, dimension, &info)) != GSL_SUCCESS){
+    if((flag = PyGSL_copy_pyarray_to_gslvector(&fv.vector, result, dimension, 
+					       &info)) != GSL_SUCCESS){
 	  goto fail;
      }     
      
@@ -99,7 +98,8 @@ int PyGSL_odeiv_func(double t, const double y[], double f[], void *params)
 
 }
 static
-int PyGSL_odeiv_jac(double t, const double y[], double *dfdy, double dfdt[], void *params)
+int PyGSL_odeiv_jac(double t, const double y[], double *dfdy, double dfdt[], 
+		    void *params)
 {
     int dimension, flag = GSL_FAILURE;
     PyGSL_odeiv_parameter_pass *p;
@@ -165,12 +165,6 @@ int PyGSL_odeiv_jac(double t, const double y[], double *dfdy, double dfdt[], voi
 }
 /*---------------------------------------------------------------------------*/
 /* Wrappers for the evaluation of the system */
-/*
- * int  
- * gsl_odeiv_step_apply(gsl_odeiv_step *, double t, double h, double y[], 
- *                      double yerr[], const double dydt_in[], 
- *                      double dydt_out[], const gsl_odeiv_system * dydt);
- */
 static PyObject *
 pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
 {

@@ -11,7 +11,6 @@
 
 %{
 #include <gsl/gsl_odeiv.h>
-#include <Numeric/arrayobject.h>
 #include <stdlib.h>
 #include <assert.h>
   /* Some functions needed hand coded wrapper. These are in here. */
