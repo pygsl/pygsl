@@ -24,7 +24,7 @@ struct gsl_combination_struct
   gsl_combination_struct(const size_t n, const size_t k) {
     return gsl_combination_calloc(n,k);
   }
-  ~gsl_permutation_struct() {
+  ~gsl_combination_struct() {
     gsl_combination_free(self);
   }
   size_t get_item(const size_t i){
@@ -76,7 +76,6 @@ struct gsl_combination_struct
   PyObject *toarray(){
        PyArrayObject * a_array = NULL;
        long *data;
-       size_t *c_data;
        int size, i;
 
        size = (int) gsl_combination_k(self);

@@ -22,13 +22,13 @@
   ~gls_permutation_struct() {
     gsl_permutation_free(self);
   }
-  int _linear_to_canonical(struct gsl_permutation_struct *q){
+  gsl_error_flag_drop _linear_to_canonical(struct gsl_permutation_struct *q){
        return gsl_permutation_linear_to_canonical(q, self);
   }
-  int _canonical_to_linear(struct gsl_permutation_struct *q){
+  gsl_error_flag_drop _canonical_to_linear(struct gsl_permutation_struct *q){
        return gsl_permutation_canonical_to_linear(q, self);
   }  
-  int _mul(struct gsl_permutation_struct *res, struct gsl_permutation_struct *m2){
+  gsl_error_flag_drop _mul(struct gsl_permutation_struct *res, struct gsl_permutation_struct *m2){
        return gsl_permutation_mul(res, self, m2);
   }
   size_t inversions(){
@@ -41,36 +41,44 @@
        return gsl_permutation_canonical_cycles(self);
   }
   
-  int _inverse(struct gsl_permutation_struct *inv){
+  gsl_error_flag_drop _inverse(struct gsl_permutation_struct *inv){
        return gsl_permutation_inverse(inv, self);
   }
+
   size_t get_item(const size_t i) {
     return gsl_permutation_get(self, i);
   }
-  int swap(const size_t i, const size_t j) {
+
+  gsl_error_flag_drop swap(const size_t i, const size_t j) {
     return gsl_permutation_swap(self, i, j);
   }
+
   size_t size() {
     return gsl_permutation_size(self);
   }
-  int valid () { 
+
+  gsl_error_flag_drop valid () { 
     return gsl_permutation_valid(self);
   }
+
   void reverse() {
     gsl_permutation_reverse(self);
   }
+
   int next() {
     return gsl_permutation_next(self);
   }
+
   int prev() {
     return gsl_permutation_prev(self);
   }
+
   char *printf() {
     /* FIXME this must return a string */
-
     gsl_permutation_fprintf (stdout, self, " %u"); 
     return NULL;
   }
+
   PyObject *tolist(){
        PyObject *a_list = NULL, *a_int;
        long size = 0, i;
