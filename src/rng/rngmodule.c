@@ -20,10 +20,10 @@
 /*
  * All doc strings
  */
+#include "rng_helpers.c"
 #include "rngmodule_docs.h"
 static PyObject *module = NULL;
 
-void * __PyGSL_RNG_API[] = {NULL,};
 
 static void rng_delete(PyGSL_rng *self);
 static PyObject * rng_call(PyGSL_rng *self, PyObject *args);
@@ -542,11 +542,9 @@ set_api_pointer(void)
 {
 
      FUNC_MESS_BEGIN();
-     assert(PyGSL_RNG_ObjectType_NUM < sizeof (__PyGSL_RNG_API));
-     __PyGSL_RNG_API[PyGSL_RNG_ObjectType_NUM] = (void *) &PyGSL_rng_pytype;
-     DEBUG_MESS(2, "__PyGSL_RNG_API   @ %p,  ", (void *) __PyGSL_RNG_API);
+     PyGSL_API[PyGSL_RNG_ObjectType_NUM] = (void *) &PyGSL_rng_pytype;
+     DEBUG_MESS(2, "__PyGSL_RNG_API   @ %p,  ", (void *) PyGSL_API);
      DEBUG_MESS(2, "PyGSL_rng_pytype  @ %p,  ", (void *) &PyGSL_rng_pytype);
-     PyGSL_API = __PyGSL_RNG_API;
      /* fprintf(stderr, "__PyGSL_RNG_API @ %p\n", (void *) __PyGSL_RNG_API); */
      FUNC_MESS_END();
 }
@@ -559,6 +557,9 @@ initrng(void)
 
      m = Py_InitModule("rng", PyGSL_rng_module_functions);
      assert(m);
+     import_array();
+     init_pygsl();
+
      /* create_rng_types(m); */
      module = m;
 
@@ -578,8 +579,6 @@ initrng(void)
      }
 
      PyGSL_rng_pytype.ob_type = &PyType_Type;
-     import_array();
-     init_pygsl();
 
 
      set_api_pointer();
