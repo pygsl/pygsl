@@ -1359,9 +1359,8 @@ static PyObject *_wrap_gsl_linalg_householder_transform(PyObject *self, PyObject
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -1416,9 +1415,8 @@ static PyObject *_wrap_gsl_linalg_complex_householder_transform(PyObject *self, 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -1480,9 +1478,8 @@ static PyObject *_wrap_gsl_linalg_householder_hm(PyObject *self, PyObject *args,
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -1581,9 +1578,8 @@ static PyObject *_wrap_gsl_linalg_householder_mh(PyObject *self, PyObject *args,
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -1682,9 +1678,8 @@ static PyObject *_wrap_gsl_linalg_householder_hv(PyObject *self, PyObject *args,
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -1706,9 +1701,8 @@ static PyObject *_wrap_gsl_linalg_householder_hv(PyObject *self, PyObject *args,
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -1857,9 +1851,8 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hm(PyObject *self, PyObjec
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -1955,9 +1948,8 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hv(PyObject *self, PyObjec
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -1979,9 +1971,8 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hv(PyObject *self, PyObjec
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -2080,9 +2071,8 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2104,9 +2094,8 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2278,9 +2267,8 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2302,9 +2290,8 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2456,9 +2443,8 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_jacobi(PyObject *self, PyObject *arg
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2602,9 +2588,8 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2626,9 +2611,8 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2650,9 +2634,8 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2859,9 +2842,8 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2883,9 +2865,8 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -2996,9 +2977,8 @@ static PyObject *_wrap_gsl_linalg_LU_svx(PyObject *self, PyObject *args, PyObjec
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -3135,9 +3115,8 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -3159,9 +3138,8 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -3183,9 +3161,8 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -3644,9 +3621,8 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -3668,9 +3644,8 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -3761,9 +3736,8 @@ static PyObject *_wrap_gsl_linalg_complex_LU_svx(PyObject *self, PyObject *args,
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -3890,9 +3864,8 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -3914,9 +3887,8 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -3938,9 +3910,8 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -4310,9 +4281,8 @@ static PyObject *_wrap_gsl_linalg_QR_decomp(PyObject *self, PyObject *args, PyOb
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4422,9 +4392,8 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4446,9 +4415,8 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4470,9 +4438,8 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4596,9 +4563,8 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4620,9 +4586,8 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4748,9 +4713,8 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4772,9 +4736,8 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4796,9 +4759,8 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4820,9 +4782,8 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -4980,9 +4941,8 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5004,9 +4964,8 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5130,9 +5089,8 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5154,9 +5112,8 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5264,9 +5221,8 @@ static PyObject *_wrap_gsl_linalg_QR_Rsvx(PyObject *self, PyObject *args, PyObje
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5394,9 +5350,8 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5418,9 +5373,8 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5544,9 +5498,8 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5568,9 +5521,8 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5684,9 +5636,8 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5708,9 +5659,8 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5830,9 +5780,8 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -5992,9 +5941,8 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6016,9 +5964,8 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6137,9 +6084,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6162,9 +6108,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6335,9 +6280,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6360,9 +6304,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
         if(_PyVector7 == NULL) goto fail;
         a_array = _PyVector7;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector7  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6508,9 +6451,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6533,9 +6475,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6557,9 +6498,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6685,9 +6625,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6710,9 +6649,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6853,9 +6791,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -6877,9 +6814,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7006,9 +6942,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7030,9 +6965,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7143,9 +7077,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsvx(PyObject *self, PyObject *args, PyOb
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7276,9 +7209,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7300,9 +7232,8 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7486,9 +7417,8 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7510,9 +7440,8 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7620,9 +7549,8 @@ static PyObject *_wrap_gsl_linalg_cholesky_svx(PyObject *self, PyObject *args, P
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7720,9 +7648,8 @@ static PyObject *_wrap_gsl_linalg_symmtd_decomp(PyObject *self, PyObject *args, 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7838,9 +7765,8 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7880,9 +7806,8 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -7904,9 +7829,8 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8040,9 +7964,8 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8064,9 +7987,8 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8174,9 +8096,8 @@ static PyObject *_wrap_gsl_linalg_hermtd_decomp(PyObject *self, PyObject *args, 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -8282,9 +8203,8 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -8324,9 +8244,8 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8348,9 +8267,8 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8474,9 +8392,8 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8498,9 +8415,8 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8614,9 +8530,8 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8638,9 +8553,8 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8748,9 +8662,8 @@ static PyObject *_wrap_gsl_linalg_HH_svx(PyObject *self, PyObject *args, PyObjec
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8842,9 +8755,8 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8866,9 +8778,8 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8890,9 +8801,8 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -8914,9 +8824,8 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9034,9 +8943,8 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9058,9 +8966,8 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9082,9 +8989,8 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9106,9 +9012,8 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9130,9 +9035,8 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9254,9 +9158,8 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9278,9 +9181,8 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9302,9 +9204,8 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9326,9 +9227,8 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9446,9 +9346,8 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9470,9 +9369,8 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9494,9 +9392,8 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9518,9 +9415,8 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9542,9 +9438,8 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9678,9 +9573,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9702,9 +9596,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9842,9 +9735,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9884,9 +9776,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9926,9 +9817,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -9950,9 +9840,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
         if(_PyVector7 == NULL) goto fail;
         a_array = _PyVector7;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector7  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -10112,9 +10001,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -10136,9 +10024,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -10280,9 +10167,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -10304,9 +10190,8 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -10414,9 +10299,8 @@ static PyObject *_wrap_gsl_linalg_balance_columns(PyObject *self, PyObject *args
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -13538,9 +13422,8 @@ static PyObject *_wrap_gsl_blas_sdsdot(PyObject *self, PyObject *args, PyObject 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -13562,9 +13445,8 @@ static PyObject *_wrap_gsl_blas_sdsdot(PyObject *self, PyObject *args, PyObject 
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -13628,9 +13510,8 @@ static PyObject *_wrap_gsl_blas_dsdot(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -13652,9 +13533,8 @@ static PyObject *_wrap_gsl_blas_dsdot(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -13720,9 +13600,8 @@ static PyObject *_wrap_gsl_blas_sdot(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -13744,9 +13623,8 @@ static PyObject *_wrap_gsl_blas_sdot(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -13810,9 +13688,8 @@ static PyObject *_wrap_gsl_blas_ddot(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -13834,9 +13711,8 @@ static PyObject *_wrap_gsl_blas_ddot(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -13925,9 +13801,8 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -13949,9 +13824,8 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -14021,9 +13895,8 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -14045,9 +13918,8 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -14117,9 +13989,8 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -14141,9 +14012,8 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -14224,9 +14094,8 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -14248,9 +14117,8 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -14320,9 +14188,8 @@ static PyObject *_wrap_gsl_blas_snrm2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -14367,9 +14234,8 @@ static PyObject *_wrap_gsl_blas_sasum(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -14414,9 +14280,8 @@ static PyObject *_wrap_gsl_blas_dnrm2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -14471,9 +14336,8 @@ static PyObject *_wrap_gsl_blas_dasum(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -14528,9 +14392,8 @@ static PyObject *_wrap_gsl_blas_scnrm2(PyObject *self, PyObject *args, PyObject 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -14575,9 +14438,8 @@ static PyObject *_wrap_gsl_blas_scasum(PyObject *self, PyObject *args, PyObject 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -14622,9 +14484,8 @@ static PyObject *_wrap_gsl_blas_dznrm2(PyObject *self, PyObject *args, PyObject 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -14669,9 +14530,8 @@ static PyObject *_wrap_gsl_blas_dzasum(PyObject *self, PyObject *args, PyObject 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -14716,9 +14576,8 @@ static PyObject *_wrap_gsl_blas_isamax(PyObject *self, PyObject *args, PyObject 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -14763,9 +14622,8 @@ static PyObject *_wrap_gsl_blas_idamax(PyObject *self, PyObject *args, PyObject 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -14820,9 +14678,8 @@ static PyObject *_wrap_gsl_blas_icamax(PyObject *self, PyObject *args, PyObject 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -14867,9 +14724,8 @@ static PyObject *_wrap_gsl_blas_izamax(PyObject *self, PyObject *args, PyObject 
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -14920,9 +14776,8 @@ static PyObject *_wrap_gsl_blas_sswap(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -14944,9 +14799,8 @@ static PyObject *_wrap_gsl_blas_sswap(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -15006,9 +14860,8 @@ static PyObject *_wrap_gsl_blas_scopy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -15030,9 +14883,8 @@ static PyObject *_wrap_gsl_blas_scopy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -15093,9 +14945,8 @@ static PyObject *_wrap_gsl_blas_saxpy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -15117,9 +14968,8 @@ static PyObject *_wrap_gsl_blas_saxpy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -15179,9 +15029,8 @@ static PyObject *_wrap_gsl_blas_dswap(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -15203,9 +15052,8 @@ static PyObject *_wrap_gsl_blas_dswap(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -15285,9 +15133,8 @@ static PyObject *_wrap_gsl_blas_dcopy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -15309,9 +15156,8 @@ static PyObject *_wrap_gsl_blas_dcopy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -15392,9 +15238,8 @@ static PyObject *_wrap_gsl_blas_daxpy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -15416,9 +15261,8 @@ static PyObject *_wrap_gsl_blas_daxpy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -15498,9 +15342,8 @@ static PyObject *_wrap_gsl_blas_cswap(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -15522,9 +15365,8 @@ static PyObject *_wrap_gsl_blas_cswap(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -15584,9 +15426,8 @@ static PyObject *_wrap_gsl_blas_ccopy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -15608,9 +15449,8 @@ static PyObject *_wrap_gsl_blas_ccopy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -15678,9 +15518,8 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -15702,9 +15541,8 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -15764,9 +15602,8 @@ static PyObject *_wrap_gsl_blas_zswap(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -15788,9 +15625,8 @@ static PyObject *_wrap_gsl_blas_zswap(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -15850,9 +15686,8 @@ static PyObject *_wrap_gsl_blas_zcopy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -15874,9 +15709,8 @@ static PyObject *_wrap_gsl_blas_zcopy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -15944,9 +15778,8 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -15968,9 +15801,8 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -16109,9 +15941,8 @@ static PyObject *_wrap_gsl_blas_srot(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -16133,9 +15964,8 @@ static PyObject *_wrap_gsl_blas_srot(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -16197,9 +16027,8 @@ static PyObject *_wrap_gsl_blas_srotm(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -16221,9 +16050,8 @@ static PyObject *_wrap_gsl_blas_srotm(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -16363,9 +16191,8 @@ static PyObject *_wrap_gsl_blas_drot(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -16387,9 +16214,8 @@ static PyObject *_wrap_gsl_blas_drot(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -16471,9 +16297,8 @@ static PyObject *_wrap_gsl_blas_drotm(PyObject *self, PyObject *args, PyObject *
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -16495,9 +16320,8 @@ static PyObject *_wrap_gsl_blas_drotm(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -16572,9 +16396,8 @@ static PyObject *_wrap_gsl_blas_sscal(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -16619,9 +16442,8 @@ static PyObject *_wrap_gsl_blas_dscal(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -16683,9 +16505,8 @@ static PyObject *_wrap_gsl_blas_cscal(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -16737,9 +16558,8 @@ static PyObject *_wrap_gsl_blas_zscal(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -16784,9 +16604,8 @@ static PyObject *_wrap_gsl_blas_csscal(PyObject *self, PyObject *args, PyObject 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -16831,9 +16650,8 @@ static PyObject *_wrap_gsl_blas_zdscal(PyObject *self, PyObject *args, PyObject 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -16911,9 +16729,8 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -16935,9 +16752,8 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -17028,9 +16844,8 @@ static PyObject *_wrap_gsl_blas_strmv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -17121,9 +16936,8 @@ static PyObject *_wrap_gsl_blas_strsv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -17220,9 +17034,8 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -17244,9 +17057,8 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -17357,9 +17169,8 @@ static PyObject *_wrap_gsl_blas_dtrmv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -17460,9 +17271,8 @@ static PyObject *_wrap_gsl_blas_dtrsv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -17577,9 +17387,8 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -17607,9 +17416,8 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -17700,9 +17508,8 @@ static PyObject *_wrap_gsl_blas_ctrmv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -17793,9 +17600,8 @@ static PyObject *_wrap_gsl_blas_ctrsv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -17900,9 +17706,8 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -17930,9 +17735,8 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -18023,9 +17827,8 @@ static PyObject *_wrap_gsl_blas_ztrmv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -18116,9 +17919,8 @@ static PyObject *_wrap_gsl_blas_ztrsv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector5 == NULL) goto fail;
         a_array = _PyVector5;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector5  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -18215,9 +18017,8 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -18239,9 +18040,8 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -18318,9 +18118,8 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -18342,9 +18141,8 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -18434,9 +18232,8 @@ static PyObject *_wrap_gsl_blas_ssyr(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -18532,9 +18329,8 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -18556,9 +18352,8 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data,
@@ -18673,9 +18468,8 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -18697,9 +18491,8 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -18796,9 +18589,8 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -18820,9 +18612,8 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -18932,9 +18723,8 @@ static PyObject *_wrap_gsl_blas_dsyr(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -19040,9 +18830,8 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -19064,9 +18853,8 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -19209,9 +18997,8 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19239,9 +19026,8 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19325,9 +19111,8 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19349,9 +19134,8 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19453,9 +19237,8 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19477,9 +19260,8 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19569,9 +19351,8 @@ static PyObject *_wrap_gsl_blas_cher(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19674,9 +19455,8 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19698,9 +19478,8 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex_float);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex_float) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data,
@@ -19823,9 +19602,8 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -19853,9 +19631,8 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
         if(_PyVector6 == NULL) goto fail;
         a_array = _PyVector6;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector6  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -19939,9 +19716,8 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -19963,9 +19739,8 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -20067,9 +19842,8 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -20091,9 +19865,8 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -20183,9 +19956,8 @@ static PyObject *_wrap_gsl_blas_zher(PyObject *self, PyObject *args, PyObject *k
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -20288,9 +20060,8 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector3 == NULL) goto fail;
         a_array = _PyVector3;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector3  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -20312,9 +20083,8 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
         if(_PyVector4 == NULL) goto fail;
         a_array = _PyVector4;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector_complex);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector_complex) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector4  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data,
@@ -24243,9 +24013,8 @@ static PyObject *_wrap_gsl_eigen_symm(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -24539,9 +24308,8 @@ static PyObject *_wrap_gsl_eigen_symmv(PyObject *self, PyObject *args, PyObject 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -24837,9 +24605,8 @@ static PyObject *_wrap_gsl_eigen_herm(PyObject *self, PyObject *args, PyObject *
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -25153,9 +24920,8 @@ static PyObject *_wrap_gsl_eigen_hermv(PyObject *self, PyObject *args, PyObject 
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -25265,9 +25031,8 @@ static PyObject *_wrap_gsl_eigen_symmv_sort(PyObject *self, PyObject *args, PyOb
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -25366,9 +25131,8 @@ static PyObject *_wrap_gsl_eigen_hermv_sort(PyObject *self, PyObject *args, PyOb
         if(_PyVector1 == NULL) goto fail;
         a_array = _PyVector1;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
@@ -25494,9 +25258,8 @@ static PyObject *_wrap_gsl_eigen_jacobi(PyObject *self, PyObject *args, PyObject
         if(_PyVector2 == NULL) goto fail;
         a_array = _PyVector2;
         
-        /* Numpy calculates strides in bytes, gsl in basis type */
-        stride_recalc = a_array->strides[0] / sizeof(BASIS_TYPE_gsl_vector);
-        assert(a_array->strides[0] % sizeof(BASIS_TYPE_gsl_vector) == 0);
+        if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
+        goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data,
