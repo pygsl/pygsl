@@ -29,13 +29,14 @@ typedef int size_t;
 %include gsl_block_typemaps.i
 %include gsl_complex_typemap.i
 
+
 %immutable;
 %include linalg.i 
 %include permutation.i
 %include combination.i
 %include math.i
 %typemap (out) int = gsl_error_flag_drop;
-%include fft.i
+/* %include fft.i *//* now in separate C module */
 %include blas.i
 %include eigen.i
 %include interpolation.i
