@@ -18,7 +18,6 @@
 #include <gsl/gsl_version.h>
 #include <Python.h>
 #define  _PyGSL_API_MODULE 1
-/* #define  PyGSL_IMPORT_API 1  */
 #include <pygsl/intern.h>
 #include <pygsl/error_helpers.h>
 
@@ -40,7 +39,9 @@
 #endif
 /* End */
 
-
+/*
+ * Used as a buffer to generate error messages.
+ */
 static char pygsl_error_str[512];
 
 #include "error_helpers.c"
