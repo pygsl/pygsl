@@ -77,6 +77,8 @@ class gsl_Extension(Extension):
 
             # prepend include directory
             if include_dirs is None: include_dirs=[]
+	    include_dirs.append('Include')
+	    include_dirs.append('.')
             include_dirs[0:0]=[os.path.join(self.gsl_prefix,'include')]
 
             # prepend library directory
@@ -94,8 +96,8 @@ class gsl_Extension(Extension):
             gsl_lib_list=map(only_lib_name,gsl_lib_list)
 
             if libraries is None: libraries=[]
+	    libraries.append('pygsl')
             libraries.extend(gsl_lib_list)
-
 
 	    # test if Numeric module is available
 	    if define_macros is None:
@@ -105,7 +107,10 @@ class gsl_Extension(Extension):
 		    define_macros.append(("NUMERIC",1))
 	    except ImportError:
 		    define_macros.append(("NUMERIC",0))		    
-
+	    if undef_macros == None:
+		    undef_macros = []
+	    if 'NDEBUG' not in undef_macros:
+		    undef_macros.append('NDEBUG')
 	    tmp = map(lambda x: x[0], define_macros)
 	    if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
 		    define_macros.append(("PYGSL_GSL_MAJOR_VERSION", gsl_major_version))
