@@ -10,8 +10,9 @@ SWIG = swig
 SWIGMODULES = callback \
               poly \
               block\
-	      gslwrap
-
+	      gslwrap \
+	      hankel \
+	      sum
 
 SWIG_INCLUDES = -Itypemaps $(GSL_INLUDES)
 SWIGOPTS = -python -keyword -shadow
