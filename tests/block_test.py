@@ -462,9 +462,11 @@ class SetAllComplexMatrixTestCase(_ComplexMatrixTestCase,
 
 class SetAllComplexFloatMatrixTestCase(_ComplexFloatMatrixTestCase,
                                        _DirectAccess,
-                                       SetAllComplexMatrixTestCase,
+                                       _SetAllMatrixTestCase,
                                        ):
-    pass
+    def _mysetUp(self):
+        tmp = self._get_function()
+        self.array = tmp((self.size, self.size), 137+0j)
 
 class SetAllLongMatrixTestCase(_LongMatrixTestCase,
                                _DirectAccess,
@@ -492,15 +494,21 @@ class SetAllFloatMatrixUITestCase(_FloatMatrixTestCase,
 
 class SetAllComplexMatrixUITestCase(_ComplexMatrixTestCase,
                                     _UIAccess,
-                                    SetAllComplexMatrixTestCase,
+                                    _SetAllMatrixTestCase,
                                     ):
-    pass
+    def _mysetUp(self):
+        tmp = self._get_function()
+        self.array = tmp((self.size, self.size), 137+0j)
+        
 
 class SetAllComplexFloatMatrixUITestCase(_ComplexFloatMatrixTestCase,
                                        _UIAccess,
-                                       SetAllComplexMatrixTestCase,
+                                       _SetAllMatrixTestCase,
                                        ):
-    pass
+    def _mysetUp(self):
+        tmp = self._get_function()
+        self.array = tmp((self.size, self.size), 137+0j)
+
 
 class SetAllLongMatrixUITestCase(_LongMatrixTestCase,
                                _UIAccess,
@@ -520,10 +528,7 @@ class SetAllShortMatrixUITestCase(_ShortMatrixTestCase,
                                  ):
     pass
 
-class SetAllCharMatrixTestCase(_CharMatrixTestCase,
-                               _DirectAccess,
-                               _SetAllMatrixTestCase,
-                               ):
+class _MatrixSetup:
     def _mysetUp(self):
         tmp = self._get_function()
         self.array = tmp((self.size, self.size), chr(137))
@@ -532,10 +537,18 @@ class SetAllCharMatrixTestCase(_CharMatrixTestCase,
         for i in range(self.size):
             for j in range(self.size):
                 assert ord(self.array[i,j][0]) == 137, "Of Diagonale not zero!"
+    
+class SetAllCharMatrixTestCase(_CharMatrixTestCase,
+                               _DirectAccess,
+                               _MatrixSetup,
+                               _SetAllMatrixTestCase,
+                               ):
+    pass
 
 class SetAllCharMatrixUITestCase(_CharMatrixTestCase,
                                  _UIAccess,
-                                 SetAllCharMatrixTestCase,
+                                 _MatrixSetup,
+                                 _SetAllMatrixTestCase,
                                 ):
     pass
 
@@ -1095,10 +1108,11 @@ class SetBasisShortVectorUITestCase(_ShortVectorTestCase,
                                        ):
     pass
 
-class SetBasisCharVectorUITestCase(_CharVectorTestCase,
-                                 _UIAccess,
-                                 _SetBasisVectorTestCase,
-                                 ):
+
+class _CharVectorSetup:
+    def _mysetup(self):
+        self.array = tmp(self.size, ord(137))
+        
     def test_2_diagonale(self):
         assert ord(self.array[self.basis][0]) == 1, "Diagonale not one !"
 
@@ -1108,10 +1122,17 @@ class SetBasisCharVectorUITestCase(_CharVectorTestCase,
                 continue                
             assert ord(self.array[i][0]) ==  0, \
                    "Of Diagonale not zero!"
-
+    
+class SetBasisCharVectorUITestCase(_CharVectorTestCase,
+                                   _UIAccess,
+                                   _CharVectorSetup,
+                                   _SetBasisVectorTestCase,
+                                 ):
+    pass
 class SetBasisCharVectorTestCase(_CharVectorTestCase,
                                  _DirectAccess,
-                                 SetBasisCharVectorUITestCase,
+                                 _CharVectorSetup,
+                                 _SetBasisVectorTestCase,
                                  ):
     pass
         
@@ -1262,19 +1283,23 @@ class SetAllFloatVectorTestCase(_FloatVectorTestCase,
                                  ):
     pass
 
-class SetAllComplexVectorTestCase(_ComplexVectorTestCase,
-                                  _DirectAccess,
-                                  _SetAllVectorTestCase,
-                                  ):
+class _ComplexVectorSetup:
     def _mysetUp(self):
         tmp = self._get_function()
         self.array = tmp(self.size, 137+0j)
-
+    
+class SetAllComplexVectorTestCase(_ComplexVectorTestCase,
+                                  _DirectAccess,
+                                  _ComplexVectorSetup,
+                                  _SetAllVectorTestCase,
+                                  ):
+    pass
    
 
 class SetAllComplexFloatVectorTestCase(_ComplexFloatVectorTestCase,
                                        _DirectAccess,
-                                       SetAllComplexVectorTestCase,
+                                       _ComplexVectorSetup,
+                                       _SetAllVectorTestCase,
                                        ):
     pass
 
@@ -1304,13 +1329,15 @@ class SetAllFloatVectorUITestCase(_FloatVectorTestCase,
 
 class SetAllComplexVectorUITestCase(_ComplexVectorTestCase,
                                     _UIAccess,
-                                    SetAllComplexVectorTestCase,
+                                    _ComplexVectorSetup,
+                                    _SetAllVectorTestCase,
                                     ):
     pass
 
 class SetAllComplexFloatVectorUITestCase(_ComplexFloatVectorTestCase,
                                          _UIAccess,
-                                         SetAllComplexVectorTestCase,
+                                         _ComplexVectorSetup,
+                                         _SetAllVectorTestCase,
                                          ):
     pass
 
@@ -1332,21 +1359,17 @@ class SetAllShortVectorUITestCase(_ShortVectorTestCase,
                                   ):
     pass
 
+    
 class SetAllCharVectorTestCase(_CharVectorTestCase,
                                _DirectAccess,
+                               _CharVectorSetup,
                                _SetAllVectorTestCase,
                                ):
-    def _mysetUp(self):
-        tmp = self._get_function()
-        self.array = tmp(self.size, chr(137))
-
-    def test_2_all(self):
-        for i in range(self.size):
-            assert ord(self.array[i][0]) == 137, "Of Diagonale not zero!"
-
+    pass
 class SetAllCharVectorUITestCase(_CharVectorTestCase,
                                  _UIAccess,
-                                 SetAllCharVectorTestCase,
+                                 _CharVectorSetup,
+                                 _SetAllVectorTestCase,
                                 ):
     pass
 
