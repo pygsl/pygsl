@@ -104,7 +104,6 @@
 	  assert(a_array != NULL);
 	  if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_$1_basetype), &stride_recalc) != GSL_SUCCESS)
 	       goto fail;
-	  if(stride_recalc == -1) goto fail;
 
 	  _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype(
 	                           (BASIS_TYPE_C_$1_basetype *) a_array->data, 
@@ -125,7 +124,7 @@
 %typemap( argout) gsl_vector * INOUT {
      assert(_PyVector$argnum != NULL);
 
-     $result = t_output_helper($result,  (PyObject *) _PyVector$argnum);
+     $result = t_output_helper($result,  PyArray_Return(_PyVector$argnum));
      _PyVector$argnum = NULL;
      FUNC_MESS_END();
 }
@@ -165,7 +164,7 @@
 	  FUNC_MESS("Element written");
      }
 
-     $result = (PyObject *) out;
+     $result = PyArray_Return(out);
      FUNC_MESS_END();
 }
 /* ------------------------------------------------------------------------- */
@@ -226,7 +225,7 @@
  */
 %typemap( argout) gsl_matrix * INOUT {
      assert((PyObject *) _PyMatrix$argnum != NULL);
-     $result = t_output_helper($result,  (PyObject *) _PyMatrix$argnum);
+     $result = t_output_helper($result,  PyArray_Return(_PyMatrix$argnum));
      _PyMatrix$argnum = NULL;
      FUNC_MESS_END();
 }
