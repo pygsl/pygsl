@@ -49,5 +49,5 @@ setup (name = "pygsl",
        py_modules = ['pygsl.errors','pygsl.rng'],
        ext_package = 'pygsl',
        ext_modules = [pygsl_sf, pygsl_const, pygsl_ieee, pygsl__rng,
-                      pygsl_statistics, pygsl_init],
+                      pygsl_histogram, pygsl_statistics, pygsl_init],
        )

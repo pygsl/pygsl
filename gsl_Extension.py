@@ -5,6 +5,7 @@ import os.path
 import re
 import string
 import types
+import imp
 from sys import argv,version_info
 
 # steel --gsl-prefix from option list
@@ -85,7 +86,17 @@ class gsl_Extension(Extension):
 
             if libraries is None: libraries=[]
             libraries.extend(gsl_lib_list)
-		
+
+
+	    # test if Numeric module is available
+	    try:
+		    imp.find_module("Numeric")
+		    if define_macros is None:
+			    define_macros=[]
+		    define_macros.append(("HAVE_NUMERIC",None))
+	    except ImportError:
+		    pass
+	    
             Extension.__init__(self, name, sources,
                                include_dirs,
                                define_macros,

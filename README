@@ -8,15 +8,15 @@ information about it at http://sources.redhat.com/gsl/.
 Status of this interface:
 
 We are collecting implementations of parts of gsl. So the interface is not
-complete. The version 0.0.4 is a pre-release for pygsl-0.1 and honors
-changes that came with gsl-1.0.
+complete. The version 0.0.5 is a developement snapshot for pygsl-0.1.
 
 Requirements:
 
 To build the interface, you will need
 
-   * gsl-1.0 or better,
-   * python2.0 or better and
+   * gsl-1.x,
+   * python2.2 or better and
+   * NumPy, and
    * a c compiler (like gcc).
 
 Retriving the Interface:
@@ -39,13 +39,15 @@ Ready....
 
 Using pygsl
 
-Just write
+Do not test the interface in the distribution root. Due to the existence of
+the file pygsl/__init__.py python will use this source directory as module,
+instead of the installed code.
 
+Just write in python
 import pygsl.sf
 print "%g+/-%g"%pygsl.sf.erf(1)
 
 or
-
 import pygsl.rng
 rng=pygsl.rng.gsl_rng()
 print rng.gaussian(1.0)
@@ -70,18 +72,21 @@ unittest.
 What is implemented:
 
    * module pygsl.sf: with 200 special functions
-   * module pygsl.const: with 206 often used mathematical constants
+   * module pygsl.const: with 206 often used mathematical and scientific
+     constants
    * module pygsl.ieee: access to the ieee-arithmetics layer of gsl
    * module pygsl.rng: provides several random number generators and
      different probability densities
+   * module pygsl.histogram: histograms and operations on histograms
+   * module pygsl.statistics: some statistics functions for arrays.
 
-For the exact function volume, please type:
+For the exact function volume for a module, please type:
 
 import pygsl.sf
 dir(pygsl.sf)
 
-You can do this with the other modules too. The naming sceme is the same as
-in gsl.
+You can do this with the other modules, too. The naming scheme is the same
+as in gsl.
 
 Documentation:
 
@@ -126,6 +131,10 @@ History:
      applied informatics cologne.
    * gsl-0.0.3 was released at May 23, 2001
    * gsl-0.0.4 was released at January 8, 2002
+
+Thanks:
+
+   * Jochen Küpper for pygsl.statistics functions
 
 Maintainer:
 
