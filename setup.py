@@ -4,11 +4,16 @@ import sys
 from distutils.core import setup, Extension
 from gsl_Extension import gsl_Extension
 
-pygsl_sf=gsl_Extension("sf",
-		       ['src/sfmodule.c'],
-		       gsl_min_version=(1,),
-                       python_min_version=(2,1)
-                       )
+pygsl_const=gsl_Extension("const",
+			  ['src/constmodule.c'],
+                          gsl_min_version=(1,'0+'),
+                          python_min_version=(2,1)
+                          )
+pygsl_diff = gsl_Extension("diff",
+                           ['src/diffmodule.c'],
+                           gsl_min_version=(1,'0+'),
+                           python_min_version=(2,1)
+                           )
 pygsl_histogram=gsl_Extension("histogram",
                               ['src/histogrammodule.c'],
                               gsl_min_version=(1,'0+'),
@@ -19,21 +24,21 @@ pygsl_ieee=gsl_Extension("ieee",
                          gsl_min_version=(1,),
                          python_min_version=(2,1)
                          )
-pygsl__rng=gsl_Extension("_rng",
-			 ['src/_rngmodule.c'],
-                         gsl_min_version=(1,'0+'),
-                         python_min_version=(2,2)
-                         )
-pygsl_const=gsl_Extension("const",
-			  ['src/constmodule.c'],
-                          gsl_min_version=(1,'0+'),
-                          python_min_version=(2,1)
-                          )
 pygsl_init=gsl_Extension("init",
 			 ['src/initmodule.c'],
                          gsl_min_version=(1,),
                          python_min_version=(2,1)
                          )
+pygsl__rng=gsl_Extension("_rng",
+			 ['src/_rngmodule.c'],
+                         gsl_min_version=(1,'0+'),
+                         python_min_version=(2,2)
+                         )
+pygsl_sf=gsl_Extension("sf",
+		       ['src/sfmodule.c'],
+		       gsl_min_version=(1,),
+                       python_min_version=(2,1)
+                       )
 pygsl_statistics_uchar=gsl_Extension("statistics.uchar",
                                      ['src/statistics/ucharmodule.c'],
                                      gsl_min_version=(1,),
@@ -82,12 +87,13 @@ setup (name = "pygsl",
                      'pygsl.statistics.__init__'
                      ],
        ext_package = 'pygsl',
-       ext_modules = [pygsl_init,
-                      pygsl_sf,
-                      pygsl_const,
-                      pygsl_ieee,
-                      pygsl__rng,
+       ext_modules = [pygsl_const,
+                      pygsl_diff,
                       pygsl_histogram,
+                      pygsl_ieee,
+                      pygsl_init,
+                      pygsl__rng,
+                      pygsl_sf,
                       pygsl_statistics_char,
                       pygsl_statistics_uchar,
                       pygsl_statistics_double,

@@ -1,0 +1,9 @@
+2002-04-16  Jochen Küpper  <jochen@jochen-kuepper.de>
+
+	* src/diffmodule.c: Implementation of Python wrapper for numerical
+	differentiation functins of GSL.
+
+	* Local Variables:
+	* mode: auto-fill
+	* fill-column: 79
+	* End:
