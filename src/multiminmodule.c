@@ -146,7 +146,7 @@ static PyObject* multimin_multimin_set(PyObject *self,
   gsl_steps=gsl_vector_alloc(n);
   for (i=0; i<PySequence_Size(x);i++) {
     PyObject* pyxi=PySequence_GetItem(x,i);
-    PyObject* pystepi=PySequence_GetItem(steps,i);;
+    PyObject* pystepi=PySequence_GetItem(steps,i);
     PyObject* floatxi=PyNumber_Float(pyxi);
     PyObject* floatstepi=PyNumber_Float(pystepi);
     if (floatxi==NULL || floatstepi==NULL) {
