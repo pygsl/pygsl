@@ -106,22 +106,23 @@ PyGSL_add_traceback(PyObject *module, char *filename, char *funcname, int lineno
 }
 
 
+static const char * error_module = "pygsl.errors";
 PyObject * PyGSL_get_error_object(int gsl_error)
 {
      PyObject *gsl_error_module=NULL, *gsl_error_dict=NULL, *gsl_error_object=NULL;
      char *err_str, *default_err_str="gsl_Error";
 
      
-     gsl_error_module=PyImport_ImportModule("pygsl.errors");
+     gsl_error_module=PyImport_ImportModule(error_module);
      if(!gsl_error_module){
 	  fprintf(stderr, "I could not get module pygsl.errors!");
-	  return NULL;
+	  goto fail;
      }
 
      gsl_error_dict=PyModule_GetDict(gsl_error_module);
      if(!gsl_error_dict){
 	  fprintf(stderr, "I could not get the dictionary of the module pygsl.errors!");
-	  return NULL;
+	  goto fail;
      }
 
 
@@ -174,6 +175,10 @@ PyObject * PyGSL_get_error_object(int gsl_error)
 	  gsl_error_object=PyDict_GetItemString(gsl_error_dict, err_str);
      }
      return gsl_error_object;
+
+ fail:
+     Py_XDECREF(gsl_error_module);
+     return NULL;
 }
 /*
  * sets the right exception, but does not return to python!
@@ -233,7 +238,10 @@ void PyGSL_module_error_handler(const char *reason, /* name of function*/
 
   /* error handler for gsl routines, sets exception */
 
-  gsl_error_module=PyImport_ImportModule("pygsl.errors");
+  gsl_error_module=PyImport_ImportModule(error_module);
+  if(gsl_error_module == NULL){
+       fprintf(stderr, "I could not import the module %s\n", error_module);
+  }
   gsl_error_dict=PyModule_GetDict(gsl_error_module);
   Py_INCREF(gsl_error_dict);
 #if 0
@@ -250,6 +258,6 @@ void PyGSL_module_error_handler(const char *reason, /* name of function*/
   }
   Py_XDECREF(gsl_error_object);
   Py_DECREF(gsl_error_dict);
-  Py_DECREF(gsl_error_module);
+  Py_XDECREF(gsl_error_module);
   return;
 }
