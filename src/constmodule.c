@@ -141,6 +141,7 @@ DL_EXPORT(void) initconst(void)
 #ifdef _PYGSL_GSL_HAS_MKS
   PyModule_AddObject(const_module, "mks", mks_module);
 #endif
+   
 #ifdef _PYGSL_GSL_HAS_CGSM
   PyModule_AddObject(const_module, "cgsm", cgsm_module);
 #endif
