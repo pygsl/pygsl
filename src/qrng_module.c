@@ -1,7 +1,6 @@
 #include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
-#include <pygsl/document_helpers.h>
 #include <gsl/gsl_qrng.h>
 #include "qrng_module_defines.h"
 static PyObject *module = NULL;
