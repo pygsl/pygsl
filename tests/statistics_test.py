@@ -6,7 +6,6 @@
 #
 #
 import unittest
-
 from pygsl._numobj import *
 
 from pygsl.statistics import *
@@ -21,6 +20,17 @@ from pygsl.statistics import uchar as uchar
 class statistics_test(unittest.TestCase):
     """Simple tests on statistics functions"""
 
+    def test_wmean(self):        
+        self.failIf(wmean(array([1,1,1]), array([-1.,-3.,1.])) != -1.0)
+        self.failIf(wmean(array([1,1,1]),[1,2,3]) != 2)
+        data = array([1.,2.,3.,4.,5.,6.,7.,8.,9.,10.])
+        weight = ones(data.shape)
+        self.failIf(wmean(weight,data) != 5.5)
+        
+        self.failIf(wmean(weight[::2],data[::2]) != 5.0)
+        self.failIf(wmean(weight[::-1],data[::-1]) != 5.5)
+        self.failIf(wmean(weight[::-2],data[::-2]) != 6.0)
+            
     def test_mean(self):
         self.failIf(mean(array([-1.,-3.,1.])) != -1.0)
         self.failIf(mean([1,2,3]) != 2)
