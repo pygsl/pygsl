@@ -4,8 +4,11 @@ import types
 import tempfile
 import Numeric
 from pygsl import vector
-from pygsl import matrix
+from pygsl import matrix_pierre
+matrix = matrix_pierre
+
 from pygsl import _block
+
 
 import unittest
 import sys
