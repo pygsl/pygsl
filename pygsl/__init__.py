@@ -5,5 +5,5 @@
 
 import pygsl.init
 
-version="0.0.4"
-__all__=['sf','const','ieee','rng','errors','histogram']
+version="0.0.5"
+__all__=['sf','const','ieee','rng','errors','histogram','statistics']
