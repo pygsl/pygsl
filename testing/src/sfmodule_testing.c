@@ -19,9 +19,11 @@
 static PyObject* gsl_module_error;
 static PyObject* module = NULL; /*used by the backtrace*/
 
+
 #if 1
 static void 
 invoke_error_handler(char *filename, char *func_name, int errno, int element);
+
 
 static void 
 invoke_error_handler(char *filename, char *func_name, int errno, int element)

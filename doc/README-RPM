@@ -1,0 +1,28 @@
+RPM INSTRUCTIONS
+
+The easiest thing to do is to install the binary rpm. But this
+only works if the binary rpm was built for a system similar to
+yours. Second easiest thing is to rebuild a binary rpm from
+the source rpm. If all fails, you can try building rpms from
+the source.
+
+1)  How to install a binary RPM:
+        rpm -Uvh packagename.rpm
+    
+2)  How to rebuild the source RPM:
+        rpm --rebuild packagename.src.rpm
+    Then you simply install the binary RPM as in 1) above
+
+3)  How to build source and binary rpms from the source.
+    Using the distutils: 
+        python setup.py  bdist --formats=rpm
+    If all works fine, a tar.gz, a src.rpm and a binary.rpm
+    will be written in the subdirectory "./dist"
+    Finally, you install the binary RPM as in 1) above.
+    
+    Note: you may need to customize the file "setup.cfg",
+    specifically the "requires" tag.
+    
+    Note 2: See also the distutils documentation,
+    http://www.python.org/doc/current/dist/dist.html
+    

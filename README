@@ -67,22 +67,51 @@ Supported Platforms:
 Testing:
 
    The directory test will contain several testsuites, based on python
-   unittest. Change to this directory to run the tests. Currently the
-   blas tests report error. These are failures of the test and not
-   failures of the functions.
+   unittest. Change to this directory to run the tests.
+
+What is implemented (versus gsl1.4):
+
+     * Blas
+     * Chebyshev
+     * Combination
+     * Const
+     * Diff
+     * Eigen
+     * Fit
+     * Ieee
+     * Integrate
+     * Interpolation
+     * Linalg
+     * Math
+     * Minimize
+     * Multifit
+     * Multifit_nlin
+     * Multimin
+     * Multiroots
+     * Odeiv
+     * Permutation
+     * Poly
+     * Qrng
+     * Rng
+     * Roots
+     * Siman
+     * Sf
+     * Spline
+     * Statistics
 
 What is not implemented yet (versus gsl1.4):
 
      * GSL Capabilites not yet wrapped by PyGSL
           + Sorting
           + Fourier Transforms
+          + N-tuples
+     * GSL Capabilites partly implemented
           + Series Acceleration
           + Discrete Hankel Transforms
-          + N-tuples
      * PyGSL related Capabilites
           + Blas Memory handling
 
-   See also TODO file in the distribution.
+   See also the [6]TODO file in the distribution.
 
    For the exact function volume for a module, please type:
 
@@ -100,11 +129,11 @@ Documentation:
 
 Support:
 
-   Please send mails to [6]the pygsl mailinglist.
+   Please send mails to [7]the pygsl mailinglist.
 
 Developement:
 
-   You can browse our [7]cvs tree.
+   You can browse our [8]cvs tree.
 
    Type this to check out the actual version:
    cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl
@@ -122,7 +151,7 @@ ToDo:
 
 History:
 
-     * a gsl-interface for python was needed for a project at [8]center
+     * a gsl-interface for python was needed for a project at [9]center
        for applied informatics cologne.
      * pygsl-0.0.3 was released at May 23, 2001
      * pygsl-0.0.4 was released at January 8, 2002
@@ -132,11 +161,12 @@ History:
 Thanks:
 
      * Fabian Jakobs for blas, linalg and eigen
-     * [9]Jochen Küpper for pygsl.statistics functions
+     * [10]Jochen Küpper for pygsl.statistics functions
+     * Leonardo Milano for rpm build support and test
 
 Maintainers:
 
-   PyGSL is currently maintained by [10]Achim Gaedke and [11]Pierre
+   PyGSL is currently maintained by [11]Achim Gaedke and [12]Pierre
    Schnizer.
 
 References
@@ -146,9 +176,10 @@ References
    3. http://www.python.org/
    4. http://numpy.sf.net/
    5. http://pygsl.sourceforge.net/
-   6. mailto:pygsl-discuss@lists.sourceforge.net
-   7. http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/
-   8. http://www.zaik.uni-koeln.de/AFS
-   9. mailto:jochen@jochen-kuepper.de
-  10. mailto:AchimGaedke@users.sourceforge.net
-  11. mailto:schnizer@users.sourceforge.net
+   6. file://localhost/mnt/redhat/home/schnizer/Devel/PyGSL/pygsl/doc/TODO.html
+   7. mailto:pygsl-discuss@lists.sourceforge.net
+   8. http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/
+   9. http://www.zaik.uni-koeln.de/AFS
+  10. mailto:jochen@jochen-kuepper.de
+  11. mailto:AchimGaedke@users.sourceforge.net
+  12. mailto:schnizer@users.sourceforge.net

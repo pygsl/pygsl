@@ -265,18 +265,18 @@ errortest = gsl_Extension("errortest",
 exts.append(errortest)
 
 if BUILD_TESTING:
-    sf=gsl_Extension("testing.sf",
-                     ['testing/src/sfmodule_testing.c'],
-                     gsl_min_version=(1,),
-                     define_macros = macros,
-                     python_min_version=(2,0)
-                     )
-    exts.append(sf)
-    
+    #sf=gsl_Extension("testing.sf",
+    #                 ['testing/src/sfmodule_testing.c'],
+    #                 gsl_min_version=(1,),
+    #                 define_macros = macros,
+    #                 python_min_version=(2,0)
+    #                 )
+    #exts.append(sf)
+    pass
 
 setup (name = "pygsl",
        #version = "0.2",
-       version = "snapshot-" + string.join(map(str, time.gmtime()[:3]), '-'),
+       version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
        author = "Achim Gaedke",
        author_email = "AchimGaedke@users.sourceforge.net",
