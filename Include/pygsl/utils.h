@@ -1,6 +1,7 @@
 #ifndef PYGSL_UTIL_H
 #define PYGSL_UTIL_H
 
+#include <pygsl/compilers.h>
 /* Uncomment the following block to get DEBUG information */
 /*
 #ifndef DEBUG
