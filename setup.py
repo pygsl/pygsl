@@ -131,6 +131,13 @@ pygsl_diff = gsl_Extension("diff",
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_diff)
+pygsl_fft = gsl_Extension("fft",
+                           ['src/fftmodule.c'],
+                           define_macros = macros,
+                           gsl_min_version=(1,'0+'),
+                           python_min_version=(2,1)
+                           )
+exts.append(pygsl_fft)
 pygsl_deriv = gsl_Extension("deriv",
                            ['src/derivmodule.c'],
                            define_macros = macros,
@@ -150,6 +157,7 @@ try:
                             ['src/rng/rngmodule.c'],
                             #define_macros = [('DEBUG', 10)],
                             gsl_min_version=(1,'0+'),
+                            #define_macros = debug_macros,
                             define_macros = macros,
                             python_min_version=(2,1)
                          )
@@ -337,8 +345,8 @@ py_module_names = ['errors',
                    'math'
                    ]
 setup (name = "pygsl",
-       #version = "0.2.0",
-       version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
+       version = "0.3.0",
+       #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
        long_description = "This project provides a python interface for the GNU scientific library (gsl)",
        license = "GPL",
