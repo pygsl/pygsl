@@ -787,7 +787,6 @@ static PyObject *_wrap_gsl_vector_set_zero(PyObject *self, PyObject *args, PyObj
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data, 
@@ -803,7 +802,7 @@ static PyObject *_wrap_gsl_vector_set_zero(PyObject *self, PyObject *args, PyObj
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -852,7 +851,6 @@ static PyObject *_wrap_gsl_vector_set_all(PyObject *self, PyObject *args, PyObje
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data, 
@@ -868,7 +866,7 @@ static PyObject *_wrap_gsl_vector_set_all(PyObject *self, PyObject *args, PyObje
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -919,7 +917,6 @@ static PyObject *_wrap_gsl_vector_set_basis(PyObject *self, PyObject *args, PyOb
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data, 
@@ -944,7 +941,7 @@ static PyObject *_wrap_gsl_vector_set_basis(PyObject *self, PyObject *args, PyOb
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -1009,7 +1006,6 @@ static PyObject *_wrap_gsl_vector_fread(PyObject *self, PyObject *args, PyObject
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data, 
@@ -1032,7 +1028,7 @@ static PyObject *_wrap_gsl_vector_fread(PyObject *self, PyObject *args, PyObject
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -1176,7 +1172,6 @@ static PyObject *_wrap_gsl_vector_fscanf(PyObject *self, PyObject *args, PyObjec
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector(
         (BASIS_TYPE_C_gsl_vector *) a_array->data, 
@@ -1199,7 +1194,7 @@ static PyObject *_wrap_gsl_vector_fscanf(PyObject *self, PyObject *args, PyObjec
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -1349,7 +1344,7 @@ static PyObject *_wrap_gsl_vector_reverse(PyObject *self, PyObject *args, PyObje
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -1448,14 +1443,14 @@ static PyObject *_wrap_gsl_vector_swap(PyObject *self, PyObject *args, PyObject 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -1543,7 +1538,7 @@ static PyObject *_wrap_gsl_vector_swap_elements(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -2029,7 +2024,7 @@ static PyObject *_wrap_gsl_matrix_set_zero(PyObject *self, PyObject *args, PyObj
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -2082,7 +2077,7 @@ static PyObject *_wrap_gsl_matrix_set_all(PyObject *self, PyObject *args, PyObje
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -2134,7 +2129,7 @@ static PyObject *_wrap_gsl_matrix_set_identity(PyObject *self, PyObject *args, P
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -2210,7 +2205,7 @@ static PyObject *_wrap_gsl_matrix_fread(PyObject *self, PyObject *args, PyObject
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -2360,7 +2355,7 @@ static PyObject *_wrap_gsl_matrix_fscanf(PyObject *self, PyObject *args, PyObjec
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -2523,13 +2518,13 @@ static PyObject *_wrap_gsl_matrix_swap(PyObject *self, PyObject *args, PyObject 
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -2611,7 +2606,7 @@ static PyObject *_wrap_gsl_matrix_swap_rows(PyObject *self, PyObject *args, PyOb
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -2683,7 +2678,7 @@ static PyObject *_wrap_gsl_matrix_swap_columns(PyObject *self, PyObject *args, P
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -2755,7 +2750,7 @@ static PyObject *_wrap_gsl_matrix_swap_rowcol(PyObject *self, PyObject *args, Py
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -2819,7 +2814,7 @@ static PyObject *_wrap_gsl_matrix_transpose(PyObject *self, PyObject *args, PyOb
     }
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -3388,7 +3383,7 @@ static PyObject *_wrap_gsl_matrix_diagonal(PyObject *self, PyObject *args, PyObj
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -3473,7 +3468,7 @@ static PyObject *_wrap_gsl_matrix_subdiagonal(PyObject *self, PyObject *args, Py
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -3558,7 +3553,7 @@ static PyObject *_wrap_gsl_matrix_superdiagonal(PyObject *self, PyObject *args, 
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -3605,7 +3600,6 @@ static PyObject *_wrap_gsl_vector_float_set_zero(PyObject *self, PyObject *args,
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data, 
@@ -3621,7 +3615,7 @@ static PyObject *_wrap_gsl_vector_float_set_zero(PyObject *self, PyObject *args,
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -3660,7 +3654,6 @@ static PyObject *_wrap_gsl_vector_float_set_all(PyObject *self, PyObject *args, 
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data, 
@@ -3676,7 +3669,7 @@ static PyObject *_wrap_gsl_vector_float_set_all(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -3717,7 +3710,6 @@ static PyObject *_wrap_gsl_vector_float_set_basis(PyObject *self, PyObject *args
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data, 
@@ -3735,7 +3727,7 @@ static PyObject *_wrap_gsl_vector_float_set_basis(PyObject *self, PyObject *args
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -3790,7 +3782,6 @@ static PyObject *_wrap_gsl_vector_float_fread(PyObject *self, PyObject *args, Py
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data, 
@@ -3806,7 +3797,7 @@ static PyObject *_wrap_gsl_vector_float_fread(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -3923,7 +3914,6 @@ static PyObject *_wrap_gsl_vector_float_fscanf(PyObject *self, PyObject *args, P
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_float(
         (BASIS_TYPE_C_gsl_vector_float *) a_array->data, 
@@ -3939,7 +3929,7 @@ static PyObject *_wrap_gsl_vector_float_fscanf(PyObject *self, PyObject *args, P
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -4055,7 +4045,7 @@ static PyObject *_wrap_gsl_vector_float_reverse(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -4137,14 +4127,14 @@ static PyObject *_wrap_gsl_vector_float_swap(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -4205,7 +4195,7 @@ static PyObject *_wrap_gsl_vector_float_swap_elements(PyObject *self, PyObject *
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -4611,7 +4601,7 @@ static PyObject *_wrap_gsl_matrix_float_set_zero(PyObject *self, PyObject *args,
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -4664,7 +4654,7 @@ static PyObject *_wrap_gsl_matrix_float_set_all(PyObject *self, PyObject *args, 
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -4716,7 +4706,7 @@ static PyObject *_wrap_gsl_matrix_float_set_identity(PyObject *self, PyObject *a
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -4785,7 +4775,7 @@ static PyObject *_wrap_gsl_matrix_float_fread(PyObject *self, PyObject *args, Py
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -4921,7 +4911,7 @@ static PyObject *_wrap_gsl_matrix_float_fscanf(PyObject *self, PyObject *args, P
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -5070,13 +5060,13 @@ static PyObject *_wrap_gsl_matrix_float_swap(PyObject *self, PyObject *args, PyO
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -5151,7 +5141,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_rows(PyObject *self, PyObject *args
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -5216,7 +5206,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_columns(PyObject *self, PyObject *a
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -5281,7 +5271,7 @@ static PyObject *_wrap_gsl_matrix_float_swap_rowcol(PyObject *self, PyObject *ar
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -5338,7 +5328,7 @@ static PyObject *_wrap_gsl_matrix_float_transpose(PyObject *self, PyObject *args
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -5907,7 +5897,7 @@ static PyObject *_wrap_gsl_matrix_float_diagonal(PyObject *self, PyObject *args,
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -5992,7 +5982,7 @@ static PyObject *_wrap_gsl_matrix_float_subdiagonal(PyObject *self, PyObject *ar
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -6077,7 +6067,7 @@ static PyObject *_wrap_gsl_matrix_float_superdiagonal(PyObject *self, PyObject *
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -6124,7 +6114,6 @@ static PyObject *_wrap_gsl_vector_long_set_zero(PyObject *self, PyObject *args, 
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_long), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_long(
         (BASIS_TYPE_C_gsl_vector_long *) a_array->data, 
@@ -6140,7 +6129,7 @@ static PyObject *_wrap_gsl_vector_long_set_zero(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -6179,7 +6168,6 @@ static PyObject *_wrap_gsl_vector_long_set_all(PyObject *self, PyObject *args, P
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_long), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_long(
         (BASIS_TYPE_C_gsl_vector_long *) a_array->data, 
@@ -6195,7 +6183,7 @@ static PyObject *_wrap_gsl_vector_long_set_all(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -6236,7 +6224,6 @@ static PyObject *_wrap_gsl_vector_long_set_basis(PyObject *self, PyObject *args,
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_long), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_long(
         (BASIS_TYPE_C_gsl_vector_long *) a_array->data, 
@@ -6254,7 +6241,7 @@ static PyObject *_wrap_gsl_vector_long_set_basis(PyObject *self, PyObject *args,
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -6309,7 +6296,6 @@ static PyObject *_wrap_gsl_vector_long_fread(PyObject *self, PyObject *args, PyO
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_long), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_long(
         (BASIS_TYPE_C_gsl_vector_long *) a_array->data, 
@@ -6325,7 +6311,7 @@ static PyObject *_wrap_gsl_vector_long_fread(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -6442,7 +6428,6 @@ static PyObject *_wrap_gsl_vector_long_fscanf(PyObject *self, PyObject *args, Py
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_long), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_long(
         (BASIS_TYPE_C_gsl_vector_long *) a_array->data, 
@@ -6458,7 +6443,7 @@ static PyObject *_wrap_gsl_vector_long_fscanf(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -6574,7 +6559,7 @@ static PyObject *_wrap_gsl_vector_long_reverse(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -6656,14 +6641,14 @@ static PyObject *_wrap_gsl_vector_long_swap(PyObject *self, PyObject *args, PyOb
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -6724,7 +6709,7 @@ static PyObject *_wrap_gsl_vector_long_swap_elements(PyObject *self, PyObject *a
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -7130,7 +7115,7 @@ static PyObject *_wrap_gsl_matrix_long_set_zero(PyObject *self, PyObject *args, 
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -7183,7 +7168,7 @@ static PyObject *_wrap_gsl_matrix_long_set_all(PyObject *self, PyObject *args, P
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -7235,7 +7220,7 @@ static PyObject *_wrap_gsl_matrix_long_set_identity(PyObject *self, PyObject *ar
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -7304,7 +7289,7 @@ static PyObject *_wrap_gsl_matrix_long_fread(PyObject *self, PyObject *args, PyO
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -7440,7 +7425,7 @@ static PyObject *_wrap_gsl_matrix_long_fscanf(PyObject *self, PyObject *args, Py
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -7589,13 +7574,13 @@ static PyObject *_wrap_gsl_matrix_long_swap(PyObject *self, PyObject *args, PyOb
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -7670,7 +7655,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_rows(PyObject *self, PyObject *args,
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -7735,7 +7720,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_columns(PyObject *self, PyObject *ar
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -7800,7 +7785,7 @@ static PyObject *_wrap_gsl_matrix_long_swap_rowcol(PyObject *self, PyObject *arg
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -7857,7 +7842,7 @@ static PyObject *_wrap_gsl_matrix_long_transpose(PyObject *self, PyObject *args,
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -8426,7 +8411,7 @@ static PyObject *_wrap_gsl_matrix_long_diagonal(PyObject *self, PyObject *args, 
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -8511,7 +8496,7 @@ static PyObject *_wrap_gsl_matrix_long_subdiagonal(PyObject *self, PyObject *arg
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -8596,7 +8581,7 @@ static PyObject *_wrap_gsl_matrix_long_superdiagonal(PyObject *self, PyObject *a
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -8643,7 +8628,6 @@ static PyObject *_wrap_gsl_vector_int_set_zero(PyObject *self, PyObject *args, P
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_int), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_int(
         (BASIS_TYPE_C_gsl_vector_int *) a_array->data, 
@@ -8659,7 +8643,7 @@ static PyObject *_wrap_gsl_vector_int_set_zero(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -8698,7 +8682,6 @@ static PyObject *_wrap_gsl_vector_int_set_all(PyObject *self, PyObject *args, Py
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_int), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_int(
         (BASIS_TYPE_C_gsl_vector_int *) a_array->data, 
@@ -8714,7 +8697,7 @@ static PyObject *_wrap_gsl_vector_int_set_all(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -8755,7 +8738,6 @@ static PyObject *_wrap_gsl_vector_int_set_basis(PyObject *self, PyObject *args, 
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_int), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_int(
         (BASIS_TYPE_C_gsl_vector_int *) a_array->data, 
@@ -8773,7 +8755,7 @@ static PyObject *_wrap_gsl_vector_int_set_basis(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -8828,7 +8810,6 @@ static PyObject *_wrap_gsl_vector_int_fread(PyObject *self, PyObject *args, PyOb
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_int), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_int(
         (BASIS_TYPE_C_gsl_vector_int *) a_array->data, 
@@ -8844,7 +8825,7 @@ static PyObject *_wrap_gsl_vector_int_fread(PyObject *self, PyObject *args, PyOb
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -8961,7 +8942,6 @@ static PyObject *_wrap_gsl_vector_int_fscanf(PyObject *self, PyObject *args, PyO
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_int), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_int(
         (BASIS_TYPE_C_gsl_vector_int *) a_array->data, 
@@ -8977,7 +8957,7 @@ static PyObject *_wrap_gsl_vector_int_fscanf(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -9093,7 +9073,7 @@ static PyObject *_wrap_gsl_vector_int_reverse(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -9175,14 +9155,14 @@ static PyObject *_wrap_gsl_vector_int_swap(PyObject *self, PyObject *args, PyObj
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -9243,7 +9223,7 @@ static PyObject *_wrap_gsl_vector_int_swap_elements(PyObject *self, PyObject *ar
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -9649,7 +9629,7 @@ static PyObject *_wrap_gsl_matrix_int_set_zero(PyObject *self, PyObject *args, P
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -9702,7 +9682,7 @@ static PyObject *_wrap_gsl_matrix_int_set_all(PyObject *self, PyObject *args, Py
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -9754,7 +9734,7 @@ static PyObject *_wrap_gsl_matrix_int_set_identity(PyObject *self, PyObject *arg
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -9823,7 +9803,7 @@ static PyObject *_wrap_gsl_matrix_int_fread(PyObject *self, PyObject *args, PyOb
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -9959,7 +9939,7 @@ static PyObject *_wrap_gsl_matrix_int_fscanf(PyObject *self, PyObject *args, PyO
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -10108,13 +10088,13 @@ static PyObject *_wrap_gsl_matrix_int_swap(PyObject *self, PyObject *args, PyObj
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -10189,7 +10169,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_rows(PyObject *self, PyObject *args, 
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -10254,7 +10234,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_columns(PyObject *self, PyObject *arg
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -10319,7 +10299,7 @@ static PyObject *_wrap_gsl_matrix_int_swap_rowcol(PyObject *self, PyObject *args
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -10376,7 +10356,7 @@ static PyObject *_wrap_gsl_matrix_int_transpose(PyObject *self, PyObject *args, 
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -10945,7 +10925,7 @@ static PyObject *_wrap_gsl_matrix_int_diagonal(PyObject *self, PyObject *args, P
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -11030,7 +11010,7 @@ static PyObject *_wrap_gsl_matrix_int_subdiagonal(PyObject *self, PyObject *args
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -11115,7 +11095,7 @@ static PyObject *_wrap_gsl_matrix_int_superdiagonal(PyObject *self, PyObject *ar
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -11162,7 +11142,6 @@ static PyObject *_wrap_gsl_vector_short_set_zero(PyObject *self, PyObject *args,
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_short), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_short(
         (BASIS_TYPE_C_gsl_vector_short *) a_array->data, 
@@ -11178,7 +11157,7 @@ static PyObject *_wrap_gsl_vector_short_set_zero(PyObject *self, PyObject *args,
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -11217,7 +11196,6 @@ static PyObject *_wrap_gsl_vector_short_set_all(PyObject *self, PyObject *args, 
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_short), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_short(
         (BASIS_TYPE_C_gsl_vector_short *) a_array->data, 
@@ -11233,7 +11211,7 @@ static PyObject *_wrap_gsl_vector_short_set_all(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -11274,7 +11252,6 @@ static PyObject *_wrap_gsl_vector_short_set_basis(PyObject *self, PyObject *args
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_short), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_short(
         (BASIS_TYPE_C_gsl_vector_short *) a_array->data, 
@@ -11292,7 +11269,7 @@ static PyObject *_wrap_gsl_vector_short_set_basis(PyObject *self, PyObject *args
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -11347,7 +11324,6 @@ static PyObject *_wrap_gsl_vector_short_fread(PyObject *self, PyObject *args, Py
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_short), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_short(
         (BASIS_TYPE_C_gsl_vector_short *) a_array->data, 
@@ -11363,7 +11339,7 @@ static PyObject *_wrap_gsl_vector_short_fread(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -11480,7 +11456,6 @@ static PyObject *_wrap_gsl_vector_short_fscanf(PyObject *self, PyObject *args, P
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_short), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_short(
         (BASIS_TYPE_C_gsl_vector_short *) a_array->data, 
@@ -11496,7 +11471,7 @@ static PyObject *_wrap_gsl_vector_short_fscanf(PyObject *self, PyObject *args, P
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -11612,7 +11587,7 @@ static PyObject *_wrap_gsl_vector_short_reverse(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -11694,14 +11669,14 @@ static PyObject *_wrap_gsl_vector_short_swap(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -11762,7 +11737,7 @@ static PyObject *_wrap_gsl_vector_short_swap_elements(PyObject *self, PyObject *
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -12168,7 +12143,7 @@ static PyObject *_wrap_gsl_matrix_short_set_zero(PyObject *self, PyObject *args,
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -12221,7 +12196,7 @@ static PyObject *_wrap_gsl_matrix_short_set_all(PyObject *self, PyObject *args, 
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -12273,7 +12248,7 @@ static PyObject *_wrap_gsl_matrix_short_set_identity(PyObject *self, PyObject *a
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -12342,7 +12317,7 @@ static PyObject *_wrap_gsl_matrix_short_fread(PyObject *self, PyObject *args, Py
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -12478,7 +12453,7 @@ static PyObject *_wrap_gsl_matrix_short_fscanf(PyObject *self, PyObject *args, P
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -12627,13 +12602,13 @@ static PyObject *_wrap_gsl_matrix_short_swap(PyObject *self, PyObject *args, PyO
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -12708,7 +12683,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_rows(PyObject *self, PyObject *args
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -12773,7 +12748,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_columns(PyObject *self, PyObject *a
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -12838,7 +12813,7 @@ static PyObject *_wrap_gsl_matrix_short_swap_rowcol(PyObject *self, PyObject *ar
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -12895,7 +12870,7 @@ static PyObject *_wrap_gsl_matrix_short_transpose(PyObject *self, PyObject *args
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -13464,7 +13439,7 @@ static PyObject *_wrap_gsl_matrix_short_diagonal(PyObject *self, PyObject *args,
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -13549,7 +13524,7 @@ static PyObject *_wrap_gsl_matrix_short_subdiagonal(PyObject *self, PyObject *ar
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -13634,7 +13609,7 @@ static PyObject *_wrap_gsl_matrix_short_superdiagonal(PyObject *self, PyObject *
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -13681,7 +13656,6 @@ static PyObject *_wrap_gsl_vector_char_set_zero(PyObject *self, PyObject *args, 
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_char), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_char(
         (BASIS_TYPE_C_gsl_vector_char *) a_array->data, 
@@ -13697,7 +13671,7 @@ static PyObject *_wrap_gsl_vector_char_set_zero(PyObject *self, PyObject *args, 
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -13736,7 +13710,6 @@ static PyObject *_wrap_gsl_vector_char_set_all(PyObject *self, PyObject *args, P
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_char), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_char(
         (BASIS_TYPE_C_gsl_vector_char *) a_array->data, 
@@ -13752,7 +13725,7 @@ static PyObject *_wrap_gsl_vector_char_set_all(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -13793,7 +13766,6 @@ static PyObject *_wrap_gsl_vector_char_set_basis(PyObject *self, PyObject *args,
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_char), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_char(
         (BASIS_TYPE_C_gsl_vector_char *) a_array->data, 
@@ -13811,7 +13783,7 @@ static PyObject *_wrap_gsl_vector_char_set_basis(PyObject *self, PyObject *args,
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -13866,7 +13838,6 @@ static PyObject *_wrap_gsl_vector_char_fread(PyObject *self, PyObject *args, PyO
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_char), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_char(
         (BASIS_TYPE_C_gsl_vector_char *) a_array->data, 
@@ -13882,7 +13853,7 @@ static PyObject *_wrap_gsl_vector_char_fread(PyObject *self, PyObject *args, PyO
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -13999,7 +13970,6 @@ static PyObject *_wrap_gsl_vector_char_fscanf(PyObject *self, PyObject *args, Py
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_char), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_char(
         (BASIS_TYPE_C_gsl_vector_char *) a_array->data, 
@@ -14015,7 +13985,7 @@ static PyObject *_wrap_gsl_vector_char_fscanf(PyObject *self, PyObject *args, Py
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -14131,7 +14101,7 @@ static PyObject *_wrap_gsl_vector_char_reverse(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -14213,14 +14183,14 @@ static PyObject *_wrap_gsl_vector_char_swap(PyObject *self, PyObject *args, PyOb
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -14281,7 +14251,7 @@ static PyObject *_wrap_gsl_vector_char_swap_elements(PyObject *self, PyObject *a
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -14675,7 +14645,7 @@ static PyObject *_wrap_gsl_matrix_char_set_zero(PyObject *self, PyObject *args, 
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -14728,7 +14698,7 @@ static PyObject *_wrap_gsl_matrix_char_set_all(PyObject *self, PyObject *args, P
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -14780,7 +14750,7 @@ static PyObject *_wrap_gsl_matrix_char_set_identity(PyObject *self, PyObject *ar
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -14849,7 +14819,7 @@ static PyObject *_wrap_gsl_matrix_char_fread(PyObject *self, PyObject *args, PyO
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -14985,7 +14955,7 @@ static PyObject *_wrap_gsl_matrix_char_fscanf(PyObject *self, PyObject *args, Py
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -15134,13 +15104,13 @@ static PyObject *_wrap_gsl_matrix_char_swap(PyObject *self, PyObject *args, PyOb
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -15215,7 +15185,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_rows(PyObject *self, PyObject *args,
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -15280,7 +15250,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_columns(PyObject *self, PyObject *ar
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -15345,7 +15315,7 @@ static PyObject *_wrap_gsl_matrix_char_swap_rowcol(PyObject *self, PyObject *arg
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -15402,7 +15372,7 @@ static PyObject *_wrap_gsl_matrix_char_transpose(PyObject *self, PyObject *args,
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -15959,7 +15929,7 @@ static PyObject *_wrap_gsl_matrix_char_diagonal(PyObject *self, PyObject *args, 
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -16044,7 +16014,7 @@ static PyObject *_wrap_gsl_matrix_char_subdiagonal(PyObject *self, PyObject *arg
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -16129,7 +16099,7 @@ static PyObject *_wrap_gsl_matrix_char_superdiagonal(PyObject *self, PyObject *a
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -16176,7 +16146,6 @@ static PyObject *_wrap_gsl_vector_complex_set_zero(PyObject *self, PyObject *arg
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data, 
@@ -16192,7 +16161,7 @@ static PyObject *_wrap_gsl_vector_complex_set_zero(PyObject *self, PyObject *arg
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -16235,7 +16204,6 @@ static PyObject *_wrap_gsl_vector_complex_set_all(PyObject *self, PyObject *args
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data, 
@@ -16257,7 +16225,7 @@ static PyObject *_wrap_gsl_vector_complex_set_all(PyObject *self, PyObject *args
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -16298,7 +16266,6 @@ static PyObject *_wrap_gsl_vector_complex_set_basis(PyObject *self, PyObject *ar
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data, 
@@ -16316,7 +16283,7 @@ static PyObject *_wrap_gsl_vector_complex_set_basis(PyObject *self, PyObject *ar
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -16371,7 +16338,6 @@ static PyObject *_wrap_gsl_vector_complex_fread(PyObject *self, PyObject *args, 
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data, 
@@ -16387,7 +16353,7 @@ static PyObject *_wrap_gsl_vector_complex_fread(PyObject *self, PyObject *args, 
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -16504,7 +16470,6 @@ static PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *self, PyObject *args,
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex(
         (BASIS_TYPE_C_gsl_vector_complex *) a_array->data, 
@@ -16520,7 +16485,7 @@ static PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *self, PyObject *args,
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -16636,7 +16601,7 @@ static PyObject *_wrap_gsl_vector_complex_reverse(PyObject *self, PyObject *args
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -16718,14 +16683,14 @@ static PyObject *_wrap_gsl_vector_complex_swap(PyObject *self, PyObject *args, P
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -16786,7 +16751,7 @@ static PyObject *_wrap_gsl_vector_complex_swap_elements(PyObject *self, PyObject
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -16874,7 +16839,7 @@ static PyObject *_wrap_gsl_matrix_complex_set_zero(PyObject *self, PyObject *arg
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -16937,7 +16902,7 @@ static PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *self, PyObject *args
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -16989,7 +16954,7 @@ static PyObject *_wrap_gsl_matrix_complex_set_identity(PyObject *self, PyObject 
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -17058,7 +17023,7 @@ static PyObject *_wrap_gsl_matrix_complex_fread(PyObject *self, PyObject *args, 
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -17194,7 +17159,7 @@ static PyObject *_wrap_gsl_matrix_complex_fscanf(PyObject *self, PyObject *args,
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -17343,13 +17308,13 @@ static PyObject *_wrap_gsl_matrix_complex_swap(PyObject *self, PyObject *args, P
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -17424,7 +17389,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rows(PyObject *self, PyObject *ar
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -17489,7 +17454,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_columns(PyObject *self, PyObject 
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -17554,7 +17519,7 @@ static PyObject *_wrap_gsl_matrix_complex_swap_rowcol(PyObject *self, PyObject *
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -17611,7 +17576,7 @@ static PyObject *_wrap_gsl_matrix_complex_transpose(PyObject *self, PyObject *ar
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -17744,7 +17709,7 @@ static PyObject *_wrap_gsl_matrix_complex_diagonal(PyObject *self, PyObject *arg
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -17829,7 +17794,7 @@ static PyObject *_wrap_gsl_matrix_complex_subdiagonal(PyObject *self, PyObject *
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -17914,7 +17879,7 @@ static PyObject *_wrap_gsl_matrix_complex_superdiagonal(PyObject *self, PyObject
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -17961,7 +17926,6 @@ static PyObject *_wrap_gsl_vector_complex_float_set_zero(PyObject *self, PyObjec
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data, 
@@ -17977,7 +17941,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_zero(PyObject *self, PyObjec
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -18017,7 +17981,6 @@ static PyObject *_wrap_gsl_vector_complex_float_set_all(PyObject *self, PyObject
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data, 
@@ -18039,7 +18002,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_all(PyObject *self, PyObject
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -18080,7 +18043,6 @@ static PyObject *_wrap_gsl_vector_complex_float_set_basis(PyObject *self, PyObje
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector1  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data, 
@@ -18098,7 +18060,7 @@ static PyObject *_wrap_gsl_vector_complex_float_set_basis(PyObject *self, PyObje
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -18153,7 +18115,6 @@ static PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *self, PyObject *
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data, 
@@ -18169,7 +18130,7 @@ static PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *self, PyObject *
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -18286,7 +18247,6 @@ static PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *self, PyObject 
         assert(a_array != NULL);
         if(PyGSL_STRIDE_RECALC(a_array->strides[0],sizeof(BASIS_TYPE_gsl_vector_complex_float), &stride_recalc) != GSL_SUCCESS)
         goto fail;
-        if(stride_recalc == -1) goto fail;
         
         _vector2  = TYPE_VIEW_ARRAY_STRIDES_gsl_vector_complex_float(
         (BASIS_TYPE_C_gsl_vector_complex_float *) a_array->data, 
@@ -18302,7 +18262,7 @@ static PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *self, PyObject 
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -18418,7 +18378,7 @@ static PyObject *_wrap_gsl_vector_complex_float_reverse(PyObject *self, PyObject
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -18500,14 +18460,14 @@ static PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *self, PyObject *a
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert(_PyVector2 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector2));
         _PyVector2 = NULL;
         FUNC_MESS_END();
     }
@@ -18568,7 +18528,7 @@ static PyObject *_wrap_gsl_vector_complex_float_swap_elements(PyObject *self, Py
     {
         assert(_PyVector1 != NULL);
         
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyVector1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyVector1));
         _PyVector1 = NULL;
         FUNC_MESS_END();
     }
@@ -18656,7 +18616,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_zero(PyObject *self, PyObjec
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -18716,7 +18676,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_all(PyObject *self, PyObject
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -18768,7 +18728,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_set_identity(PyObject *self, PyO
     Py_INCREF(Py_None); resultobj = Py_None;
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -18837,7 +18797,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_fread(PyObject *self, PyObject *
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -18973,7 +18933,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_fscanf(PyObject *self, PyObject 
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -19122,13 +19082,13 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap(PyObject *self, PyObject *a
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
     {
         assert((PyObject *) _PyMatrix2 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix2);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix2));
         _PyMatrix2 = NULL;
         FUNC_MESS_END();
     }
@@ -19203,7 +19163,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rows(PyObject *self, PyObje
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -19268,7 +19228,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_columns(PyObject *self, PyO
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -19333,7 +19293,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_swap_rowcol(PyObject *self, PyOb
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -19390,7 +19350,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_transpose(PyObject *self, PyObje
     resultobj = PyInt_FromLong((long)result);
     {
         assert((PyObject *) _PyMatrix1 != NULL);
-        resultobj = t_output_helper(resultobj,  (PyObject *) _PyMatrix1);
+        resultobj = t_output_helper(resultobj,  PyArray_Return(_PyMatrix1));
         _PyMatrix1 = NULL;
         FUNC_MESS_END();
     }
@@ -19523,7 +19483,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_diagonal(PyObject *self, PyObjec
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -19608,7 +19568,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_subdiagonal(PyObject *self, PyOb
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
@@ -19693,7 +19653,7 @@ static PyObject *_wrap_gsl_matrix_complex_float_superdiagonal(PyObject *self, Py
             FUNC_MESS("Element written");
         }
         
-        resultobj = (PyObject *) out;
+        resultobj = PyArray_Return(out);
         FUNC_MESS_END();
     }
     {
