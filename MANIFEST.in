@@ -1,4 +1,5 @@
 recursive-include src *.c
 recursive-include pygsl *.py
+include gsl_Extension.py
 include README.html
 include README
