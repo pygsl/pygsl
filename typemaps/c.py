@@ -195,65 +195,7 @@ class WriteConversion:
                     print
                 print
             print    
-def run():
-    for j in ("gsl_vector", "gsl_matrix"):
-      #k = ""
-      for k in ("", "_view"):
-        for i in ('test'):  
-            if i == "":
-                tmp = j
-            else:
-                tmp = j+"_"+i            
-            print "#define TO_PyArray_TYPE_%-35s  %s" % (tmp+k, vector_dic[i][0])
-        print " "
-        for i in vector_tuple:
-            if i == "":
-                tmp = j
-            else:
-                tmp = j+"_"+i            
 
-            print "#define TYPE_VIEW_%-35s         %s_view" % (tmp+k, tmp) 
-        print " "
-        for i in vector_tuple:
-            if i == "":
-                tmp = j
-            else:
-                tmp = j+"_"+i            
-            print "#define TYPE_VIEW_ARRAY_%-35s   %s_view_array" % (tmp+k, tmp)
-        print ""    
-        for i in vector_tuple:
-            if i == "":
-                tmp = j
-            else:
-                tmp = j+"_"+i            
-            print "#define TYPE_VIEW_ARRAY_STRIDES_%-35s   %s_view_array_with_stride" % (tmp+k, tmp)
-        print ""    
-        for i in vector_tuple:
-            if i == "":
-                tmp = j
-            else:
-                tmp = j+"_"+i            
-            print "#define BASIS_TYPE_%-35s        %s" % (tmp+k, vector_dic[i][1])
-        print ""    
-        for i in vector_tuple:
-            if i == "":
-                tmp = j
-            else:
-                tmp = j+"_"+i            
-            print "#define BASIS_TYPE_C_%-35s        %s" % (tmp+k, vector_dic[i][2])
-        print ""    
-        for i in vector_tuple:
-            tmp1 = j
-            if tmp1[-5:] == "_view":
-                tmp1 = tmp1[:-5]
-            if i == "":
-                tmp2 = tmp1
-                tmp = j
-            else:
-                tmp2 = tmp1+"_"+i
-                tmp  = j + "_" + i
-            print "#define GET_%-35s                 %s_get" % (tmp+k, tmp2) 
-        print ""      
 if __name__ == '__main__':
     w = WriteConversion()
     w('convert_block_description.h')
