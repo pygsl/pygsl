@@ -303,11 +303,14 @@ void PyGSL_sf_ufunc_pd_uiui__as_uiui_ (char **args, int *dimensions, int *steps,
 }
 
 typedef int PyGSL_sf_ufunc_qi_d_rd_one(double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_d_rd (char **args, int *dimensions, int *steps, void *func){
+void PyGSL_sf_ufunc_qi_d_rd (char **args, int *dimensions, int *steps, void *func){     
 	int i,  is0=steps[0] , os0=steps[1] , os1=steps[2] ;
 	char   *ip0=args[0] , *op0=args[1] , *op1=args[2] ;
+	FUNC_MESS_BEGIN();
+	DEBUG_MESS(3, "n = %d", dimensions[0]);
 	for(i = 0; i<dimensions[0]; i++ ,ip0+=is0 ,op0+=os0 ,op1+=os1 ){
-		{
+	     {
+		  DEBUG_MESS(3, "i = %d\n", i);
 		int flag;
 		gsl_sf_result r0;
 		flag = ((PyGSL_sf_ufunc_qi_d_rd_one *) func)( *((double *)ip0) , &r0 );
@@ -318,8 +321,10 @@ void PyGSL_sf_ufunc_qi_d_rd (char **args, int *dimensions, int *steps, void *fun
 			*(double *) op0 = r0.val;
 			*(double *) op1 = r0.err;
 		}
-		}
+
+	     }
 	}
+	FUNC_MESS_END();
 }
 void PyGSL_sf_ufunc_qi_f_rf_as_d_rd (char **args, int *dimensions, int *steps, void *func){
 	int i,  is0=steps[0] , os0=steps[1] , os1=steps[2] ;

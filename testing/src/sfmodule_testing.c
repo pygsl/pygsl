@@ -19,8 +19,8 @@
 static PyObject* gsl_module_error;
 static PyObject* module = NULL; /*used by the backtrace*/
 
+#define IMPORTALL 1
 
-#if 1
 static void 
 invoke_error_handler(char *filename, char *func_name, int errno, int element);
 
@@ -31,9 +31,9 @@ invoke_error_handler(char *filename, char *func_name, int errno, int element)
      ;
      /* DEBUG_MESS(2, "Got error flag of %d for element number %d", errno, element); */
 }
-#endif
+
 /* I add the evaluate functions types by hand to have an extra check */
-#if 1
+#ifdef IMPORTALL
 #include "sf__arrays.c"
 
 #define SF_ARRAY(name, function)                                           \
@@ -64,7 +64,7 @@ SF_ARRAY(bessel_kl_scaled_array, id_ad);
 #endif
 
 static PyMethodDef sf_functions[] = {
-#if 1
+#ifdef IMPORTALL
      {"bessel_Jn_array", (PyCFunction) sf_bessel_Jn_array, METH_VARARGS, NULL},
      {"bessel_Yn_array", (PyCFunction) sf_bessel_Yn_array, METH_VARARGS, NULL},
      {"bessel_In_array", (PyCFunction) sf_bessel_In_array, METH_VARARGS, NULL},
@@ -79,8 +79,10 @@ static PyMethodDef sf_functions[] = {
      {NULL, NULL, 0}
 };
 
+#ifdef IMPORTALL
 #include "sf__evals.c" 
 #include "sf__data.c"
+#endif
 
 static void * polar_to_rect_data [] = { (void *) gsl_sf_polar_to_rect, (void *) gsl_sf_polar_to_rect};
 static void * rect_to_polar_data [] = { (void *) gsl_sf_rect_to_polar, (void *) gsl_sf_rect_to_polar};
@@ -91,62 +93,88 @@ static char PyGSL_sf_ufunc_qi_dd_D_one_types [] = { PyArray_FLOAT,  PyArray_FLOA
 static char PyGSL_sf_ufunc_qi_D_dd_one_types [] = { PyArray_CFLOAT,  PyArray_FLOAT,  PyArray_FLOAT, 
                                                     PyArray_CDOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
 
-typedef int PyGSL_sf_ufunc_qi_dd_D_one(double, double, double *, double *);
+typedef int PyGSL_sf_ufunc_qi_dd_D_one(double, double, gsl_sf_result *, gsl_sf_result *);
 void  PyGSL_sf_ufunc_qi_dd_D(char **args, int *dimensions, int *steps, void *func)
 {
         int is0=steps[0], is1=steps[1], os0=steps[2];
         char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	double *dop, tmp1, tmp2;
+	double *dop;
 
-
+	gsl_sf_result x, y;
 	int i, tmp;
-	fprintf(stderr, "Function %s dimensions=%d\n", __FUNCTION__, dimensions[0]);
+	FUNC_MESS_BEGIN();
+	DEBUG_MESS(2, "dimensions = %d %d %d", dimensions[0], dimensions[1],dimensions[2]);
+	DEBUG_MESS(2, "steps = %d %d %d", steps[0], steps[1], steps[2]);
+	DEBUG_MESS(2, "args = %p %p %p", args[0], args[1], args[2]);
         for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-	     fprintf(stderr, "i=%d\n", i);
+	     DEBUG_MESS(2, "i = %d", i);
 	    dop = ((double *) op0);
-	    tmp = ((PyGSL_sf_ufunc_qi_dd_D_one *) func)(*((double *)ip0), *((double *)ip1), &tmp1, &tmp2);
-	    dop[0] = tmp1;
-	    dop[1] = tmp2;
+	    tmp = ((PyGSL_sf_ufunc_qi_dd_D_one *) func)(*((double *)ip0), *((double *)ip1), &x, &y);
+	    dop[0] = x.val;
+	    dop[1] = y.val;
         }
-	fprintf(stderr, "End!\n");
+	FUNC_MESS_END();
 }
 void  PyGSL_sf_ufunc_qi_dd_D_as_ff_F(char **args, int *dimensions, int *steps, void *func)
 {
         int i,  is0=steps[0], is1=steps[1], os0=steps[2], tmp;
         char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	double tmp1, tmp2;
-	fprintf(stderr, "Function %s\n", __FUNCTION__);
+	gsl_sf_result x, y;
+
+	FUNC_MESS_BEGIN();
+	DEBUG_MESS(2, "dimensions = %d %d %d", dimensions[0], dimensions[1],dimensions[2]);
+	DEBUG_MESS(2, "steps = %d %d %d", steps[0], steps[1], steps[2]);
+	DEBUG_MESS(2, "args = %p %p %p", args[0], args[1], args[2]);
         for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){	     
-                tmp = ((PyGSL_sf_ufunc_qi_dd_D_one *) func)((double) *((float *)ip0), (double) *((float *)ip1), &tmp1, &tmp2);
-		*((float *)op0) = (float) tmp1;
-		*(((float *)op0)+1) = (float) tmp2;
+	     DEBUG_MESS(2, "i = %d", i);
+	     tmp = ((PyGSL_sf_ufunc_qi_dd_D_one *) func)((double) *((float *)ip0), (double) *((float *)ip1), &x, &y);
+	     *((float *)op0) = (float) x.val;
+	     *(((float *)op0)+1) = (float) y.val;
         }
+	FUNC_MESS_END();
 }
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_D_one_data[] = {PyGSL_sf_ufunc_qi_dd_D_as_ff_F, PyGSL_sf_ufunc_qi_dd_D};
 
-typedef int PyGSL_sf_ufunc_qi_D_dd_one(double, double, double *, double*);
+typedef int PyGSL_sf_ufunc_qi_D_dd_one(double, double, gsl_sf_result *, gsl_sf_result *);
 void  PyGSL_sf_ufunc_qi_D_dd(char **args, int *dimensions, int *steps, void *func)
 {
         int i,  is0=steps[0], os0=steps[1], os1=steps[2], tmp;
         char   *ip0=args[0], *op0=args[1], *op1=args[2];
 	double *dip;
-	fprintf(stderr, "Function %s\n", __FUNCTION__);
+	gsl_sf_result radius, angle;
+
+	FUNC_MESS_BEGIN();
+	DEBUG_MESS(2, "dimensions = %d %d %d", dimensions[0], dimensions[1],dimensions[2]);
+	DEBUG_MESS(2, "steps = %d %d %d", steps[0], steps[1], steps[2]);
+	DEBUG_MESS(2, "args = %p %p %p", args[0], args[1], args[2]);
+	DEBUG_MESS(1, "rect_to_polar %p", (void *)func);
         for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
+	     DEBUG_MESS(2, "i = %d", i);
 	    dip = ((double *) ip0);
-	    tmp = ((PyGSL_sf_ufunc_qi_D_dd_one *) func)(dip[0], dip[1], ((double *)op0), ((double *)op1));
+	    tmp = ((PyGSL_sf_ufunc_qi_D_dd_one *) func)(dip[0], dip[1], &radius, &angle);
+	    *((double *)op0) = radius.val;
+	    *((double *)op1) = angle.val;
         }
+	FUNC_MESS_END();
 }
 void  PyGSL_sf_ufunc_qi_D_dd_as_F_ff(char **args, int *dimensions, int *steps, void *func)
 {
         int i,  is0=steps[0], os0=steps[1],  os1=steps[2], tmp;
         char   *ip0=args[0],  *op0=args[1], *op1=args[2];
 	double tmp2, tmp1;
-	fprintf(stderr, "Function %s\n", __FUNCTION__);
+	gsl_sf_result radius, angle;
+	FUNC_MESS_BEGIN();
+	DEBUG_MESS(2, "dimensions = %d %d %d", dimensions[0], dimensions[1],dimensions[2]);
+	DEBUG_MESS(2, "steps = %d %d %d", steps[0], steps[1], steps[2]);
+	DEBUG_MESS(2, "args = %p %p %p", args[0], args[1], args[2]);
+	DEBUG_MESS(1, "polar_to_rect %p", (void *)func);
         for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
-	     tmp = ((PyGSL_sf_ufunc_qi_D_dd_one *) func)((double) *((float *)ip0), (double) *(((float *)ip0)+1), &tmp1, &tmp2);
-	      *((float *)op0) = (float) tmp1;
-	      *((float *)op1) = (float) tmp2;
+	     tmp = ((PyGSL_sf_ufunc_qi_D_dd_one *) func)((double) *((float *)ip0), (double) *(((float *)ip0)+1), &radius, &angle);
+	     DEBUG_MESS(2, "i = %d", i);
+	      *((float *)op0) = (float) radius.val;
+	      *((float *)op1) = (float) angle.val;
 	}
+	FUNC_MESS_END();
 }
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_D_dd_one_data[] = {PyGSL_sf_ufunc_qi_D_dd_as_F_ff, PyGSL_sf_ufunc_qi_D_dd};
 
@@ -194,10 +222,11 @@ DL_EXPORT(void) initsf(void)
        goto fail;
   }
 
-  PyDict_SetItemString(sf_dict, "PREC_DOUBLE", PyInt_FromLong(GSL_PREC_DOUBLE));
-  PyDict_SetItemString(sf_dict, "PREC_SINGLE", PyInt_FromLong(GSL_PREC_SINGLE));
-  PyDict_SetItemString(sf_dict, "PREC_APPROX", PyInt_FromLong(GSL_PREC_APPROX));
+  PyDict_SetItemString(sf_dict, "PREC_DOUBLE", PyInt_FromLong((long) GSL_PREC_DOUBLE));
+  PyDict_SetItemString(sf_dict, "PREC_SINGLE", PyInt_FromLong((long) GSL_PREC_SINGLE));
+  PyDict_SetItemString(sf_dict, "PREC_APPROX", PyInt_FromLong((long) GSL_PREC_APPROX));
 
+  DEBUG_MESS(1, "polar_to_rect %p", (void *)gsl_sf_polar_to_rect);
   f = PyUFunc_FromFuncAndData(PyGSL_sf_ufunc_qi_dd_D_one_data,
 			      polar_to_rect_data,
 			      PyGSL_sf_ufunc_qi_dd_D_one_types,
@@ -211,6 +240,7 @@ DL_EXPORT(void) initsf(void)
   PyDict_SetItemString(sf_dict, "polar_to_rect", f);
   /* Py_DECREF(f); */
 
+  DEBUG_MESS(1, "rect_to_polar %p", (void *)gsl_sf_rect_to_polar);
   f = PyUFunc_FromFuncAndData(PyGSL_sf_ufunc_qi_D_dd_one_data,
 			      rect_to_polar_data,
 			      PyGSL_sf_ufunc_qi_D_dd_one_types,
@@ -224,8 +254,9 @@ DL_EXPORT(void) initsf(void)
   PyDict_SetItemString(sf_dict, "rect_to_polar", f);
   /* Py_DECREF(f); */
 
- #include "sf__objects.c"
-
+#ifdef IMPORTALL
+#include "sf__objects.c"
+#endif
 
   return;
 
