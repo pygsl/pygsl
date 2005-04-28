@@ -76,11 +76,11 @@ static PyMethodDef transformMethods[] = {
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_backward",            fft_complex_backward,             cb_doc)	
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_inverse",             fft_complex_inverse,              ci_doc)	
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_forward",      fft_complex_radix2_forward,       cf_doc_r2)	
-	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_backward",     fft_complex_radix2_backward,      cb_doc_r2)	
-	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_inverse",      fft_complex_radix2_inverse,       ci_doc_r2)	
-	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_forward",  fft_complex_radix2_dif_forward,   cf_doc_r2_dif)	
-	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_backward", fft_complex_radix2_dif_backward,  cb_doc_r2_dif)	
-	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_inverse",  fft_complex_radix2_dif_inverse,   ci_doc_r2_dif)	
+	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_backward",     fft_complex_radix2_backward,      cb_doc_r2)
+	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_inverse",      fft_complex_radix2_inverse,       ci_doc_r2)
+	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_forward",  fft_complex_radix2_dif_forward,   cf_doc_r2_dif)
+	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_backward", fft_complex_radix2_dif_backward,  cb_doc_r2_dif)
+	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_inverse",  fft_complex_radix2_dif_inverse,   ci_doc_r2_dif)
 	PyGSL_TRANSFORM_FD_FUNCTION("real_transform",              fft_real_transform,               rt_doc)	
 	PyGSL_TRANSFORM_FD_FUNCTION("halfcomplex_transform",       fft_halfcomplex_transform,        hc_doc)
 	PyGSL_TRANSFORM_FD_FUNCTION("halfcomplex_inverse",         fft_halfcomplex_inverse,          hi_doc)
@@ -132,13 +132,14 @@ init_helpers(void)
 
 }
 
-DL_EXPORT(void) inittransform(void)
+DL_EXPORT(void) init_transform(void)
 {
      	PyObject *m = NULL, *dict = NULL, *item = NULL;
 	
+	FUNC_MESS_BEGIN();
 	PyGSL_transform_space_pytype.ob_type = &PyType_Type;
 	PyGSL_wavelet_pytype.ob_type = &PyType_Type;
-	m = Py_InitModule("transform", transformMethods);
+	m = Py_InitModule("_transform", transformMethods);
 	module = m;
 	import_array();
 	init_pygsl();
@@ -160,7 +161,7 @@ DL_EXPORT(void) inittransform(void)
 				"I could not init doc string!");
 		return;
 	}
-
+	FUNC_MESS_END();
 	return;
 }
 

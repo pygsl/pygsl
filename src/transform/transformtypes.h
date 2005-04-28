@@ -151,7 +151,7 @@ struct _pygsl_transform_help_rf_s{
 };
 
 /*
- * The info about the information. Which transform, what input and output
+ * The info about which transform, what input and output
  * arrays and so forth. Used by _pygsl_transform_help_s to inform the transform
  * function about the various properties.
  */

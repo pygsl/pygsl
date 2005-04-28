@@ -339,7 +339,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 			FUNC_MESS("Copying input to output array");
 			/* Check if it is an array of the approbriate size */
 			s = (PyArrayObject *) shadow;
-			if((PyArray_Check(s)) && (s->nd == 1 ) 
+			if((PyArray_Check((PyObject *) s)) && (s->nd == 1) 
 			   && (s->descr->type_num == m->descr->type_num) 
 			   && (s->dimensions[0] == m->dimensions[0])){
 				Py_INCREF(s);
