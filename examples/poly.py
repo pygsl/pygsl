@@ -22,7 +22,7 @@ def polydd():
     ya = Numeric.sin(xa)
     dd = poly.poly_dd(xa, ya)
     dd.eval(0)        
-    tmp, c = dd.taylor(0.0)
+    c = dd.taylor(0.0)
 
 def test_double():
     tmp, r1, r2 = poly.solve_quadratic(1,3,2)
@@ -38,8 +38,9 @@ def test_cubic_complex():
     tmp, r1, r2, r3 = poly.complex_solve_cubic(6,11,6)
 
 def poly_complex():
-    pc = poly.poly_complex(3)
-    tmp, rs = pc.solve((2,3,1))
+    pc = poly.poly_complex(4)
+    rs = pc.solve((3,2,3,1))
+
     
 if __name__ == '__main__':
     test_poly_eval()
