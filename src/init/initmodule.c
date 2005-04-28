@@ -65,7 +65,7 @@ PyGSL_register_debug_flag(int * ptr, const char * module_name)
 	  fprintf(stderr, "Could not create PyCObject for ptr %p to debug flag for module %s\n",
 		  (void * ) ptr, module_name);
 	  return GSL_EFAILED;
-     }
+     }     
      DEBUG_MESS(2, "Registering ptr %p for module %s", (void *) ptr,  module_name);
      if(PyList_Append(debuglist, cobj) != 0){
 	  return GSL_EFAILED;
@@ -173,6 +173,7 @@ PyGSL_init_api(void)
      _PyGSL_API[PyGSL_gsl_rng_from_pyobject_NUM                ] = (void *) & PyGSL_gsl_rng_from_pyobject                ;
      _PyGSL_API[PyGSL_function_wrap_helper_NUM                 ] = (void *) & PyGSL_function_wrap_helper                 ;
      _PyGSL_API[PyGSL_register_debug_flag_NUM                  ] = (void *) & PyGSL_register_debug_flag                  ;
+     _PyGSL_API[PyGSL_vector_or_double_NUM                     ] = (void *) & PyGSL_vector_or_double                     ;
      
 }
 
