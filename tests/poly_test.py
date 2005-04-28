@@ -29,7 +29,7 @@ class TestPolyDD(unittest.TestCase):
         assert(Numeric.absolute(self.dd.eval(Numeric.pi/2)-1)  < _eps)
 
     def test_4_poly_dd(self):    
-        tmp, c = self.dd.taylor(0.0)
+        c = self.dd.taylor(0.0)
 
 class TestQuadratic(unittest.TestCase):
     def test_double(self):
@@ -91,8 +91,7 @@ class TestCubicWorkspace(unittest.TestCase):
 
     def test_poly_workspace(self):
         pc = self.pc
-        tmp, rs = pc.solve((2,3,1))
-        assert(tmp == 0)
+        rs = pc.solve((2,3,1))
         r1 = rs[0]
         r2 = rs[1]
         assert(type(r1) == types.ComplexType)
