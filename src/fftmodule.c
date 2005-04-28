@@ -811,7 +811,7 @@ PyGSL_fft_real(PyObject *self, PyObject *args, transform * transform)
 		return NULL;
 	}
 	
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_DOUBLE, 0, -1, 1, NULL);
+	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_DOUBLE, 0 | PyGSL_IO_ARRAY, -1, 1, NULL);
 	if(a == NULL)
 		return NULL;
 	n = a->dimensions[0];
@@ -968,7 +968,7 @@ PyGSL_complex_fft_(PyObject *self, PyObject *args, transform * transform)
 		return NULL;
 	}
 	
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_CDOUBLE, 0, -1, 1, NULL);
+	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_CDOUBLE,  PyGSL_IO_ARRAY, -1, 1, NULL);
 	if(a == NULL)
 		goto fail;
 
