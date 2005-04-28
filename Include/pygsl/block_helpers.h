@@ -256,6 +256,10 @@ PyGSL_API_EXTERN int
 PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,
 				PyGSL_error_info * info);
 
+PyGSL_API_EXTERN PyArrayObject * 
+PyGSL_vector_or_double(PyObject *src, int flag, long size, int argnum,
+		       PyGSL_error_info * info);
+
 /*
  * PyGSL_copy_gslvector_to_pyarrary :
  *                Generate a new numpy array of approbriate size and copy the
@@ -315,6 +319,9 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
 #define PyGSL_copy_gslmatrix_to_pyarray \
  (*(PyArrayObject * (*)(const gsl_matrix *))                         PyGSL_API[ PyGSL_copy_gslmatrix_to_pyarray_NUM])         
 
+#define  PyGSL_vector_or_double  \
+(*(PyArrayObject * (*)(PyObject *, int,  int, int, PyGSL_error_info *)) \
+                                                                     PyGSL_API[PyGSL_vector_or_double_NUM])
 
 #endif /* _PyGSL_API_MODULE */
 

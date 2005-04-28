@@ -357,6 +357,42 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,  
     return GSL_FAILURE;
 }
 
+static PyArrayObject * 
+PyGSL_vector_or_double(PyObject *src, int flag, long size, int argnum, PyGSL_error_info * info)
+{
+     int line = -1;
+     PyArrayObject * r = NULL;
+
+     FUNC_MESS_BEGIN();
+     r = PyGSL_PyArray_PREPARE_gsl_vector_view(src, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+     if(r == NULL){
+	  /* so try if it is a float ... */
+	  double v;
+	  /* was not an array, but lets see if it is a float, so lets clear the error .... */
+	  PyErr_Clear();
+	  FUNC_MESS("PyErr_Clear END");
+	  if(PyGSL_PYFLOAT_TO_DOUBLE(src, &v, NULL) != GSL_SUCCESS){
+	       FUNC_MESS("=> NOT FLOAT");
+	       line = __LINE__ - 1;
+	       goto fail;	    
+	  }	 
+	  FUNC_MESS("=> FLOAT");
+	  int dim = 1;
+	  r = (PyArrayObject *) PyGSL_New_Array(1, &dim, PyArray_DOUBLE);
+	  if(r == NULL) {
+	       line = __LINE__ - 2;
+	       goto fail;
+	  }
+	  (*(double *)(r->data)) = v;
+     }
+     FUNC_MESS_END();
+     return r;
+ fail:
+     Py_XDECREF(r);
+     FUNC_MESS("Fail");
+     return NULL;
+
+}
 
 #ifdef PyGSL_NUMERIC
 #include "block_helpers_numpy.ic"
