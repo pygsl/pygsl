@@ -6814,6 +6814,2102 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
 }
 
 
+static PyObject *_wrap_gsl_linalg_LQ_decomp(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        (char *) "A",(char *) "tau", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_LQ_decomp",kwnames,&obj0,&obj1)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_decomp(arg1,arg2);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_solve_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "tau",(char *) "b",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LQ_solve_T",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_solve_T((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_svx_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "tau",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LQ_svx_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_svx_T((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_lssolve_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    gsl_vector *arg5 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "tau",(char *) "b",(char *) "x",(char *) "residual", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    
+    PyArrayObject * volatile _PyVector5 = NULL;
+    TYPE_VIEW_gsl_vector _vector5;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_LQ_lssolve_T",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
+        PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_lssolve_T((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4,arg5);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_Lsolve_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "b",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LQ_Lsolve_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_Lsolve_T((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_Lsvx_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_LQ_Lsvx_T",kwnames,&obj0,&obj1)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_Lsvx_T((gsl_matrix const *)arg1,arg2);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_L_solve_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        (char *) "L",(char *) "b",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_L_solve_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_L_solve_T((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_vecQ(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "tau",(char *) "v", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LQ_vecQ",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_vecQ((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_vecQT(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "tau",(char *) "v", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LQ_vecQT",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_vecQT((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_unpack(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_matrix *arg3 = (gsl_matrix *) 0 ;
+    gsl_matrix *arg4 = (gsl_matrix *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "tau",(char *) "Q",(char *) "L", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * _PyMatrix3 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix3;
+    
+    
+    PyArrayObject * _PyMatrix4 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix4;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LQ_unpack",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    result = (int)gsl_linalg_LQ_unpack((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,arg4);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix3);
+        _PyMatrix3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix4);
+        _PyMatrix4 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix3);
+        _PyMatrix3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix4);
+        _PyMatrix4 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_update(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_matrix *arg2 = (gsl_matrix *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    char *kwnames[] = {
+        (char *) "Q",(char *) "R",(char *) "v",(char *) "w", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * _PyMatrix2 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LQ_update",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_update(arg1,arg2,(gsl_vector const *)arg3,arg4);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_LQ_LQsolve(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_matrix *arg2 = (gsl_matrix *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    char *kwnames[] = {
+        (char *) "Q",(char *) "L",(char *) "b",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * _PyMatrix2 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix2;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LQ_LQsolve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_LQ_LQsolve(arg1,arg2,(gsl_vector const *)arg3,arg4);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_PTLQ_decomp(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_permutation *arg3 = (gsl_permutation *) 0 ;
+    int *arg4 = (int *) 0 ;
+    gsl_vector *arg5 = (gsl_vector *) 0 ;
+    int result;
+    int temp4 ;
+    int res4 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    char *kwnames[] = {
+        (char *) "A",(char *) "tau",(char *) "p",(char *) "norm", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector5 = NULL;
+    TYPE_VIEW_gsl_vector _vector5;
+    
+    arg4 = &temp4; res4 = SWIG_NEWOBJ;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_PTLQ_decomp",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_gsl_permutation_struct, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(3)) SWIG_fail;
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg5, _PyVector5, _vector5,
+        PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_PTLQ_decomp(arg1,arg2,arg3,arg4,arg5);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    resultobj = t_output_helper(resultobj, ((res4 == SWIG_NEWOBJ) ?
+    SWIG_From_int((*arg4)) : SWIG_NewPointerObj((void*)(arg4), SWIGTYPE_p_int, 0)));
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_PTLQ_decomp2(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_matrix *arg2 = (gsl_matrix *) 0 ;
+    gsl_matrix *arg3 = (gsl_matrix *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    gsl_permutation *arg5 = (gsl_permutation *) 0 ;
+    int *arg6 = (int *) 0 ;
+    gsl_vector *arg7 = (gsl_vector *) 0 ;
+    int result;
+    int temp6 ;
+    int res6 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    PyObject * obj5 = 0 ;
+    char *kwnames[] = {
+        (char *) "A",(char *) "q",(char *) "r",(char *) "tau",(char *) "p",(char *) "norm", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * _PyMatrix2 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix2;
+    
+    
+    PyArrayObject * _PyMatrix3 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix3;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    
+    PyArrayObject * volatile _PyVector7 = NULL;
+    TYPE_VIEW_gsl_vector _vector7;
+    
+    arg6 = &temp6; res6 = SWIG_NEWOBJ;
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOO:gsl_linalg_PTLQ_decomp2",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    SWIG_Python_ConvertPtr(obj4, (void **)&arg5, SWIGTYPE_p_gsl_permutation_struct, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(5)) SWIG_fail;
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj5, arg7, _PyVector7, _vector7,
+        PyGSL_INPUT_ARRAY, gsl_vector, 7, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_PTLQ_decomp2((gsl_matrix const *)arg1,arg2,arg3,arg4,arg5,arg6,arg7);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    resultobj = t_output_helper(resultobj, ((res6 == SWIG_NEWOBJ) ?
+    SWIG_From_int((*arg6)) : SWIG_NewPointerObj((void*)(arg6), SWIGTYPE_p_int, 0)));
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix3);
+        _PyMatrix3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector7);
+        _PyVector7 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix3);
+        _PyMatrix3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector7);
+        _PyVector7 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_PTLQ_solve_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_permutation *arg3 = (gsl_permutation *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    gsl_vector *arg5 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    char *kwnames[] = {
+        (char *) "QR",(char *) "tau",(char *) "p",(char *) "b",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    
+    PyArrayObject * volatile _PyVector5 = NULL;
+    TYPE_VIEW_gsl_vector _vector5;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_PTLQ_solve_T",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_gsl_permutation_struct, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(3)) SWIG_fail;
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
+        PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_PTLQ_solve_T((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_PTLQ_svx_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    gsl_permutation *arg3 = (gsl_permutation *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "tau",(char *) "p",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_PTLQ_svx_T",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_gsl_permutation_struct, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(3)) SWIG_fail;
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_PTLQ_svx_T((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_permutation const *)arg3,arg4);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_PTLQ_LQsolve_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_matrix *arg2 = (gsl_matrix *) 0 ;
+    gsl_permutation *arg3 = (gsl_permutation *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    gsl_vector *arg5 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    char *kwnames[] = {
+        (char *) "Q",(char *) "L",(char *) "p",(char *) "b",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * _PyMatrix2 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix2;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    
+    PyArrayObject * volatile _PyVector5 = NULL;
+    TYPE_VIEW_gsl_vector _vector5;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_PTLQ_LQsolve_T",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_gsl_permutation_struct, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(3)) SWIG_fail;
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
+        PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_PTLQ_LQsolve_T((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_PTLQ_Lsolve_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "p",(char *) "b",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_PTLQ_Lsolve_T",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_gsl_permutation_struct, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_PTLQ_Lsolve_T((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,(gsl_vector const *)arg3,arg4);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_PTLQ_Lsvx_T(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_permutation *arg2 = (gsl_permutation *) 0 ;
+    gsl_vector *arg3 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    char *kwnames[] = {
+        (char *) "LQ",(char *) "p",(char *) "x", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector3 = NULL;
+    TYPE_VIEW_gsl_vector _vector3;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_PTLQ_Lsvx_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_gsl_permutation_struct, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
+        PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_PTLQ_Lsvx_T((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,arg3);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector3);
+        _PyVector3 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_PTLQ_update(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_matrix *arg2 = (gsl_matrix *) 0 ;
+    gsl_permutation *arg3 = (gsl_permutation *) 0 ;
+    gsl_vector *arg4 = (gsl_vector *) 0 ;
+    gsl_vector *arg5 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    char *kwnames[] = {
+        (char *) "Q",(char *) "L",(char *) "p",(char *) "v",(char *) "w", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * _PyMatrix2 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix2;
+    
+    
+    PyArrayObject * volatile _PyVector4 = NULL;
+    TYPE_VIEW_gsl_vector _vector4;
+    
+    
+    PyArrayObject * volatile _PyVector5 = NULL;
+    TYPE_VIEW_gsl_vector _vector5;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_PTLQ_update",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        int stride;
+        if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_gsl_permutation_struct, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(3)) SWIG_fail;
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
+        PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    
+    {
+        int stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
+        PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_PTLQ_update(arg1,arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyMatrix2);
+        _PyMatrix2 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector4);
+        _PyVector4 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector5);
+        _PyVector5 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
 static PyObject *_wrap_gsl_linalg_cholesky_decomp(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_matrix *arg1 = (gsl_matrix *) 0 ;
@@ -22711,6 +24807,26 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_linalg_QRPT_Rsolve", (PyCFunction) _wrap_gsl_linalg_QRPT_Rsolve, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_QRPT_Rsvx", (PyCFunction) _wrap_gsl_linalg_QRPT_Rsvx, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_QRPT_update", (PyCFunction) _wrap_gsl_linalg_QRPT_update, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_decomp", (PyCFunction) _wrap_gsl_linalg_LQ_decomp, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_solve_T", (PyCFunction) _wrap_gsl_linalg_LQ_solve_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_svx_T", (PyCFunction) _wrap_gsl_linalg_LQ_svx_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_lssolve_T", (PyCFunction) _wrap_gsl_linalg_LQ_lssolve_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_Lsolve_T", (PyCFunction) _wrap_gsl_linalg_LQ_Lsolve_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_Lsvx_T", (PyCFunction) _wrap_gsl_linalg_LQ_Lsvx_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_L_solve_T", (PyCFunction) _wrap_gsl_linalg_L_solve_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_vecQ", (PyCFunction) _wrap_gsl_linalg_LQ_vecQ, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_vecQT", (PyCFunction) _wrap_gsl_linalg_LQ_vecQT, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_unpack", (PyCFunction) _wrap_gsl_linalg_LQ_unpack, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_update", (PyCFunction) _wrap_gsl_linalg_LQ_update, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_LQ_LQsolve", (PyCFunction) _wrap_gsl_linalg_LQ_LQsolve, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_PTLQ_decomp", (PyCFunction) _wrap_gsl_linalg_PTLQ_decomp, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_PTLQ_decomp2", (PyCFunction) _wrap_gsl_linalg_PTLQ_decomp2, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_PTLQ_solve_T", (PyCFunction) _wrap_gsl_linalg_PTLQ_solve_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_PTLQ_svx_T", (PyCFunction) _wrap_gsl_linalg_PTLQ_svx_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_PTLQ_LQsolve_T", (PyCFunction) _wrap_gsl_linalg_PTLQ_LQsolve_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_PTLQ_Lsolve_T", (PyCFunction) _wrap_gsl_linalg_PTLQ_Lsolve_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_PTLQ_Lsvx_T", (PyCFunction) _wrap_gsl_linalg_PTLQ_Lsvx_T, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_PTLQ_update", (PyCFunction) _wrap_gsl_linalg_PTLQ_update, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_cholesky_decomp", (PyCFunction) _wrap_gsl_linalg_cholesky_decomp, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_cholesky_solve", (PyCFunction) _wrap_gsl_linalg_cholesky_solve, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_cholesky_svx", (PyCFunction) _wrap_gsl_linalg_cholesky_svx, METH_VARARGS | METH_KEYWORDS, NULL},
