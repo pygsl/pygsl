@@ -1,3 +1,16 @@
+2005-04-04  Pierre Schnizer <schnizer@sourceforge.net>
+	* input1 was used as second input in functions
+	  PyGSL_statistics_d_AA, PyGSL_statistics_d_AAd, PyGSL_statistics_d_AAdd
+ 	   Fixed.	
+	* removed a tangling goto in PyGSL_statistics_d_AA
+
+2005-1-22  Pierre Schnizer <schnizer@users.sourceforge.net>
+	   * Changed the build process. Will read the last selection
+	   for numarray/Numeric if already made. If not, looks which
+	   one it can import, and this it will use. Preference is 
+	   Numeric. You can make a selection on the command line using
+	   --array-object=Numeric|numarray.
+
 2005-1     Pierre Schnizer <schnizer@users.sourceforge.net>
 	   * Added switchable debug prints for the C modules
 	     Compile the software with debug=1. Then you can 
