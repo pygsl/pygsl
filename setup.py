@@ -11,13 +11,18 @@
 # Use SWIG to generate the approbriate wrapper files. This is only necessary
 # if you modified any interface file as the wrapper files are included in the
 # distribution
-USE_SWIG = 0
+USE_SWIG = 1
 
 # Some modules have been reimplemented. These modules will be installed in
 # pygsl.testing...
 # Set to one if you want them built
 BUILD_TESTING = 0
 
+#
+# If you want to use the PyGSL API in other projects ...
+# Well, I do
+#
+INSTALL_HEADERS = 1
 #------------------------------------------------------------------------------
 # As long as you are not taking part in the development process, I hope that 
 # you do not need to modify anything here.
@@ -27,7 +32,7 @@ BUILD_TESTING = 0
 import sys
 import time
 import string
-
+import glob
 
 import distutils
 from distutils.core import setup, Extension
@@ -50,13 +55,14 @@ def SWIG_Extension(*args, **kws):
     return apply(_SWIG_Extension, args, kws)
 
 
-macros = [('SWIG_COBJECT_TYPES', 1)] #, ('DEBUG', 1)]
-debug_macros = macros #+ [('DEBUG', 10)]
+macros = [('SWIG_COBJECT_TYPES', 1)]
+#macros = macros + [('DEBUG', 1)]
+debug_macros = macros + [('DEBUG', 1)]
 
 pygsl_init=gsl_Extension("init",
 			 ['src/init/initmodule.c'],
                          gsl_min_version=(1,),
-                         define_macros = macros,
+                         define_macros = macros + [('DEBUG', 1)],
                          python_min_version=(2,1)
                          )
 exts.append(pygsl_init)    
@@ -138,6 +144,13 @@ pygsl_fft = gsl_Extension("fft",
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_fft)
+pygsl_transform = gsl_Extension("_transform",
+                           ['src/transform/transformmodule.c'],
+                           define_macros = macros,
+                           gsl_min_version=(1,'0+'),
+                           python_min_version=(2,1)
+                           )
+exts.append(pygsl_transform)
 pygsl_deriv = gsl_Extension("deriv",
                            ['src/derivmodule.c'],
                            define_macros = macros,
@@ -232,6 +245,13 @@ pygsl_sf=gsl_Extension("sf",
                        python_min_version=(2,1)
                        )
 exts.append(pygsl_sf)
+#pygsl_statistics_basis=gsl_Extension("statistics",
+#                                     ['src/statistics/_statmodule.c'],
+#                                     gsl_min_version=(1,),
+#                                     define_macros = macros,
+#                                     python_min_version=(2,1)                                     
+#                                     )
+#exts.append(pygsl_statistics_basis)
 pygsl_statistics_basis=gsl_Extension("statistics._stat",
                                      ['src/statistics/_statmodule.c'],
                                      gsl_min_version=(1,),
@@ -298,13 +318,16 @@ errortest = gsl_Extension("errortest",
 exts.append(errortest)
 
 if BUILD_TESTING:
-    #sf=gsl_Extension("testing.sf",
-    #                 ['testing/src/sfmodule_testing.c'],
-    #                 gsl_min_version=(1,),
-    #                 define_macros = macros,
-    #                 python_min_version=(2,0)
-    #                 )
-    #exts.append(sf)
+    sf=gsl_Extension("testing.sf",
+                     ['testing/src/sfmodule_testing.c'],
+                     gsl_min_version=(1,),
+                     define_macros = macros,
+                     python_min_version=(2,0)
+                     )
+    exts.append(sf)
+    exts.append(gsl_Extension("testing._test",
+			      ['testing/src/testmodule.c'],
+                             ))
     pass
 
 py_module_names = ['errors',
@@ -345,6 +368,7 @@ py_module_names = ['errors',
                    'math'
                    ]
 
+headers = glob.glob("Include/pygsl/*.h")
 extends = ""
 if "bdist" in sys.argv:
     extends = "_" + str(gsl_numobj.nummodule)
@@ -362,8 +386,8 @@ setup (name = "pygsl",
        ext_package = 'pygsl',
        ext_modules = exts,
        #package_dir = {'pygsl': 'pygsl'},
-       libraries  = [libpygsl, ]
-                                    
+       libraries  = [libpygsl, ],
+       headers = headers
        #'].append(('superlu',{'sources':superlu,
                              #              'include_dirs':head}))
        )
