@@ -325,7 +325,8 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     PyObject *y0_o = NULL, *func_o = NULL, *jac_o = NULL, *myargs = NULL;
     PyObject *t_o = NULL;
     PyArrayObject *volatile y0 = NULL, *volatile yout = NULL, *volatile ts = NULL;
-    double t=0,  t1=0, h=0, flag;
+    double t1=0, t2=0, h=0, flag;
+    double t;
 
     gsl_odeiv_step *s=NULL;
     gsl_odeiv_control *con=NULL;
@@ -336,18 +337,19 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     PyGSL_odeiv_parameter_pass params;
     gsl_odeiv_system sys = {PyGSL_odeiv_func, PyGSL_odeiv_jac, 0, NULL};
 
-    int dimension, r=GSL_EFAILED, dims[2], i, j, stride, nsteps=1, line=-1;
+    int dimension, r=GSL_EFAILED, dims[2], i, j, stride, nsteps=1, line=-1, direction;
     PyObject * step = NULL,  * control = NULL, * evolve = NULL;
 
     FUNC_MESS_BEGIN();
     sys.params = &params;
-    if(!PyArg_ParseTuple(args, "OOOOOdOdOO|i", &step, &control, &evolve,
+    if(!PyArg_ParseTuple(args, "OOOOOdOdOO|ii", &step, &control, &evolve,
 			  &func_o, &jac_o, &t, &t_o, &h, &y0_o, &myargs, &nsteps)){
 	 line = __LINE__ - 2;
 	 goto fail;
     }
     Py_INCREF(func_o);
     Py_XINCREF(jac_o);
+
 
     if((SWIG_ConvertPtr(step, (void **) &s, SWIGTYPE_p_gsl_odeiv_step,1)) == -1){
 	line = __LINE__ - 1;
@@ -457,9 +459,21 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 goto fail;
     }
 
-    for(i = 0; i < ts->dimensions[0]; i++){
+    /* Try to find the integration direction */
+    t1 = gsl_vector_get(&vts.vector, 0);
+    /* Integration forward or backward? */
+    if(t == t1){
+	 line = __LINE__ -1;
+	 gsl_error("Zero time interval!", __FILE__, __LINE__, GSL_EINVAL);
+	 goto fail;
+    } else if (t1 >= t) {
+	 direction = 0;
+    } else {
+	 direction = -1;
+    }
+
+    for(i = 0; i < ts->dimensions[0]; ++i){
 	 /* The integration direction does not need to be positive! */
-	 int direction=0;
 	 if(i == 0){
 	      /* Copy the start vector! */
 	      if(PyGSL_STRIDE_RECALC(y0->strides[0], sizeof(double), &stride) != GSL_SUCCESS){
@@ -480,12 +494,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 t1 = gsl_vector_get(&vts.vector, i);
 	 DEBUG_MESS(2, " Integrating from %f to %f\n Start vector", t, t1);
 	 DEBUG_MESS(3, "                              ", 0); 
-	 /* Integration forward or backward? */
-	 if (t1 >= t)
-	      direction = 0;
-	 else 
-	      direction = -1;
-	 for (j = 0; j < nsteps; j++){
+	 for (j = 0; j < nsteps; ++j){
 	      if(direction == 0){
 		   /* Integrating forward */
 		   if(t >= t1)
@@ -495,12 +504,13 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 		   if(t <= t1)
 			break;
 	      }
-	      DEBUG_MESS(3, "\r %3d t =% 8.6f h = % 8.6f", j, t, h);
+	      DEBUG_MESS(3, "\r step %3d -> t = % 8.6e h = % 8.6e", j, t, h);
 	      r = gsl_odeiv_evolve_apply(e, con, s, &sys, &t, t1, &h,
-					 gsl_vector_ptr(&vy1.vector, 0)); 
+					 gsl_vector_ptr(&vy1.vector, 0));
+	      DEBUG_MESS(3, "  stepped to  t = % 8.6e h = % 8.6e", t, h);
 	      if(r == GSL_EINVAL)
-		   fprintf(stderr, "\n %3d t =% 8.6f t1 =% 8.6f,  h = % 8.6f\n", j, t,t1, h);
-	      if (PyGSL_error_flag(r) != GSL_SUCCESS){		   
+		   fprintf(stderr, "\n invalid %3d t =% 8.6e t1 =% 8.6e,  h = % 8.6e\n", j, t,t1, h);
+	      if (PyGSL_ERROR_FLAG(r) != GSL_SUCCESS){		   
 		   PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
 		   goto fail;
 	      }
