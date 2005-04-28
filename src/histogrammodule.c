@@ -10,6 +10,7 @@
 #include <gsl/gsl_histogram.h>
 #include <gsl/gsl_histogram2d.h>
 #include <pygsl/error_helpers.h>
+#include <pygsl/block_helpers.h>
 /*
  *
  * histogram type
@@ -113,42 +114,55 @@ static PyObject* histogram_histogram_increment(PyObject *self,
 				      )
 {
   gsl_histogram * histogram;
-  int result;
+  int result,i;
   double x;
+  PyObject *tmp;
+  PyArrayObject *a=NULL;
 
   histogram=(gsl_histogram*)((histogram_histogramObject*)self)->h;
   if (histogram==NULL) {
     PyErr_SetString(PyExc_RuntimeError, "histogram.increment got a NULL pointer");
     return NULL;
   }
-  if (0==PyArg_ParseTuple(args,"d",&x)) {
+  if (0==PyArg_ParseTuple(args,"O",&tmp)) {
     return NULL;
   }
-  result=gsl_histogram_increment(histogram,x);
-  if (GSL_EDOM==result) {
-    /* warning */
-    PyObject* gsl_error_module;
-    PyObject* gsl_error_dict;
-    PyObject* gsl_domain_warning_object;
-    int warn_result;
-    gsl_error_module=PyImport_ImportModule("pygsl.errors");
-    gsl_error_dict=PyModule_GetDict(gsl_error_module);
-    Py_INCREF(gsl_error_dict);
-    gsl_domain_warning_object=PyDict_GetItemString(gsl_error_dict,"gsl_DomainWarning");
-    Py_INCREF(gsl_domain_warning_object);
-    warn_result=PyErr_Warn(gsl_domain_warning_object,
-			   "value out of histogram range");
-    Py_DECREF(gsl_domain_warning_object);
-    Py_DECREF(gsl_error_dict);
-    Py_DECREF(gsl_error_module);
-    if (warn_result==-1)
-      /* exception is raised by PyErr_Warn */
-      return NULL;
+  a = PyGSL_PyArray_prepare_gsl_vector_view(tmp, PyArray_DOUBLE, PyGSL_INPUT_ARRAY | PyGSL_NON_CONTIGUOUS, -1, 1, NULL);
+  if(a == NULL)
+       return NULL;
+
+  for(i =0; i< a->dimensions[0]; ++i){
+       x = *((double *)(a->data + a->strides[0] * i));
+       result=gsl_histogram_increment(histogram,x);       
+       if (GSL_EDOM==result) {
+	    /* warning */
+	    PyObject* gsl_error_module;
+	    PyObject* gsl_error_dict;
+	    PyObject* gsl_domain_warning_object;
+	    int warn_result;
+	    gsl_error_module=PyImport_ImportModule("pygsl.errors");
+	    gsl_error_dict=PyModule_GetDict(gsl_error_module);
+	    Py_INCREF(gsl_error_dict);
+	    gsl_domain_warning_object=PyDict_GetItemString(gsl_error_dict,"gsl_DomainWarning");
+	    Py_INCREF(gsl_domain_warning_object);
+	    warn_result=PyErr_Warn(gsl_domain_warning_object,
+				   "value out of histogram range");
+	    Py_DECREF(gsl_domain_warning_object);
+	    Py_DECREF(gsl_error_dict);
+	    Py_DECREF(gsl_error_module);
+	    if (warn_result==-1)
+		 /* exception is raised by PyErr_Warn */
+		 goto fail;
+       }
+       else if (GSL_SUCCESS!=result)
+	    goto fail;       
   }
-  else if (GSL_SUCCESS!=result)
-    return NULL;
+
+  Py_DECREF(a);
   Py_INCREF(Py_None);
   return Py_None;
+ fail:
+  Py_XDECREF(a);
 }
 
 /*
