@@ -2,7 +2,7 @@
 {"gravitational_constant",GSL_CONST_CGS_GRAVITATIONAL_CONSTANT,"cm^3 / g s^2"},
 {"plancks_constant_h",GSL_CONST_CGS_PLANCKS_CONSTANT_H,"g cm^2 / s"},
 {"plancks_constant_hbar",GSL_CONST_CGS_PLANCKS_CONSTANT_HBAR,"g cm^2 / s"},
-{"vacuum_permeability",GSL_CONST_CGS_VACUUM_PERMEABILITY,"cm g / A^2 s^2"},
+/*{"vacuum_permeability",GSL_CONST_CGS_VACUUM_PERMEABILITY,"cm g / A^2 s^2"},*/
 {"astronomical_unit",GSL_CONST_CGS_ASTRONOMICAL_UNIT,"cm"},
 {"light_year",GSL_CONST_CGS_LIGHT_YEAR,"cm"},
 {"parsec",GSL_CONST_CGS_PARSEC,"cm"},
@@ -91,7 +91,7 @@
 {"rad",GSL_CONST_CGS_RAD,"cm^2 / s^2"},
 {"solar_mass",GSL_CONST_CGS_SOLAR_MASS,"g"},
 {"bohr_radius",GSL_CONST_CGS_BOHR_RADIUS,"cm"},
-{"vacuum_permittivity",GSL_CONST_CGS_VACUUM_PERMITTIVITY,"A^2 s^4 / g cm^3"},
+/*{"vacuum_permittivity",GSL_CONST_CGS_VACUUM_PERMITTIVITY,"A^2 s^4 / g cm^3"},*/
 {"newton",GSL_CONST_CGS_NEWTON,"cm g / s^2"},
 {"dyne",GSL_CONST_CGS_DYNE,"cm g / s^2"},
 {"joule",GSL_CONST_CGS_JOULE,"g cm^2 / s^2"},

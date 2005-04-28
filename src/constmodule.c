@@ -25,6 +25,12 @@
 #define _PYGSL_GSL_HAS_MKSA 1
 #include <gsl/gsl_const_cgsm.h>
 #include <gsl/gsl_const_mksa.h>
+#if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION > 5)
+#define _PYGSL_GSL_HAS_CGS 1
+#define _PYGSL_GSL_HAS_MKS 1
+#include <gsl/gsl_const_cgs.h>
+#include <gsl/gsl_const_mks.h>
+#endif
 #endif /* (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION < 4) */
 
 
