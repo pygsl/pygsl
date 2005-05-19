@@ -75,11 +75,10 @@ static void **PyGSL_API;
 
 /* Add Debug Number */
 #define PyGSL_register_debug_flag_NUM                  28
-
-/* Pass a double or a single value */
 #define PyGSL_vector_or_double_NUM                     29
+#define PyGSL_warning_NUM                              30
 
-#define PyGSL_NENTRIES_NUM                             30
+#define PyGSL_NENTRIES_NUM                             31
 #ifndef _PyGSL_API_MODULE
 #endif /* _PyGSL_API_MODULE */
 

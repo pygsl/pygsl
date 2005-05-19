@@ -364,7 +364,7 @@ PyGSL_vector_or_double(PyObject *src, int flag, long size, int argnum, PyGSL_err
      PyArrayObject * r = NULL;
 
      FUNC_MESS_BEGIN();
-     r = PyGSL_PyArray_PREPARE_gsl_vector_view(src, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+     r = PyGSL_PyArray_PREPARE_gsl_vector_view(src, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, argnum, NULL);
      if(r == NULL){
 	  /* so try if it is a float ... */
 	  double v;

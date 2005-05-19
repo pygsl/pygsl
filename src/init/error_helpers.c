@@ -5,6 +5,7 @@
 #include <frameobject.h>
 
 static const char  error_module[] = "pygsl.errors";
+static PyObject *gsl_error_dict = NULL;
 
 static int  
 PyGSL_error_flag(long flag)
@@ -120,28 +121,10 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 
 
 
-static PyObject * 
-PyGSL_get_error_object(int gsl_error)
+static const char * 
+PyGSL_get_error_object_name(int gsl_error)
 {
-     PyObject *gsl_error_module=NULL, *gsl_error_dict=NULL, *gsl_error_object=NULL;
-     char *err_str, *default_err_str="gsl_Error";
-
-     FUNC_MESS_BEGIN();
-     gsl_error_module=PyImport_ImportModule((char *) error_module);
-     if(!gsl_error_module){
-	  fprintf(stderr, "I could not get module %s!\n", error_module);
-	  goto fail;
-     }
-
-     gsl_error_dict=PyModule_GetDict(gsl_error_module);
-     if(!gsl_error_dict){
-	  fprintf(stderr, "I could not get the dictionary of the module %s!\n",
-		  error_module);
-	  goto fail;
-     }
-
-
-     err_str = default_err_str;
+     const char *default_err_str="gsl_Error", *err_str;
      switch(gsl_error)
      {
      case GSL_FAILURE : err_str = "gsl_Error";                   break;
@@ -153,7 +136,7 @@ PyGSL_get_error_object(int gsl_error)
      case GSL_EFAILED : err_str = "gsl_GenericError";            break;
      case GSL_EFACTOR : err_str = "gsl_FactorizationError";      break;
      case GSL_ESANITY : err_str = "gsl_SanityCheckError";        break;
-     case GSL_ENOMEM  : PyErr_NoMemory();                        break;
+     case GSL_ENOMEM  : err_str = NULL;                          break;
      case GSL_EBADFUNC: err_str = "gsl_BadFuncError";            break;
      case GSL_ERUNAWAY: err_str = "gsl_RunAwayError";            break;
      case GSL_EMAXITER: err_str = "gsl_MaximumIterationError";   break;
@@ -182,8 +165,97 @@ PyGSL_get_error_object(int gsl_error)
      default:
 	  err_str = default_err_str;
      } /* switch(gsl_errno) */
+     return err_str;
+}
+
+static const char * 
+PyGSL_get_warning_object_name(int gsl_error)
+{
+     const char *default_err_str="gsl_Warning", *err_str;
+     switch(gsl_error)
+     {
+     case GSL_FAILURE : err_str = "gsl_Warning";                   break;
+     case GSL_CONTINUE: err_str = NULL;                            break;
+     case GSL_EDOM    : err_str = "gsl_DomainWarning";             break;
+     case GSL_ERANGE  : err_str = "gsl_RangeWarning";              break;
+     case GSL_EFAULT  : err_str = "gsl_PointerWarning";            break;
+     case GSL_EINVAL  : err_str = "gsl_InvalidArgumentWarning";    break;
+     case GSL_EFAILED : err_str = "gsl_GenericWarning";            break;
+     case GSL_EFACTOR : err_str = "gsl_FactorizationWarning";      break;
+     case GSL_ESANITY : err_str = "gsl_SanityCheckWarning";        break;
+     case GSL_ENOMEM  : err_str = NULL;                            break;
+     case GSL_EBADFUNC: err_str = "gsl_BadFuncWarning";            break;
+     case GSL_ERUNAWAY: err_str = "gsl_RunAwayWarning";            break;
+     case GSL_EMAXITER: err_str = "gsl_MaximumIterationWarning";   break;
+     case GSL_EZERODIV: err_str = "gsl_ZeroDivisionWarning";       break;
+     case GSL_EBADTOL : err_str = "gsl_BadToleranceWarning";       break;
+     case GSL_ETOL    : err_str = "gsl_ToleranceWarning";          break;
+     case GSL_EUNDRFLW: err_str = "gsl_UnderflowWarning";          break;
+     case GSL_EOVRFLW : err_str = "gsl_OverflowWarning";           break;
+     case GSL_ELOSS   : err_str = "gsl_AccuracyLossWarning";       break;
+     case GSL_EROUND  : err_str = "gsl_RoundOffWarning";           break;
+     case GSL_EBADLEN : err_str = "gsl_BadLength";                 break;
+     case GSL_ENOTSQR : err_str = "gsl_MatrixNotSquare";           break;
+     case GSL_ESING   : err_str = "gsl_SingularityWarning";        break;
+     case GSL_EDIVERGE: err_str = "gsl_DivergeWarning";            break;
+     case GSL_EUNSUP  : err_str = "gsl_NoHardwareSupportWarning";  break;
+     case GSL_EUNIMPL : err_str = "gsl_NotImplementedWarning";     break;
+     case GSL_ECACHE  : err_str = "gsl_CacheLimitWarning";         break;
+     case GSL_ETABLE  : err_str = "gsl_TableLimitWarning";         break;
+     case GSL_ENOPROG : err_str = "gsl_NoProgressWarning";         break;
+     case GSL_ENOPROGJ: err_str = "gsl_JacobianEvaluationWarning"; break;
+     case GSL_ETOLF   : err_str = "gsl_ToleranceFWarning";         break;
+     case GSL_ETOLX   : err_str = "gsl_ToleranceXWarning";         break;
+     case GSL_ETOLG   : err_str = "gsl_ToleranceGradientWarning";  break;
+     case GSL_EOF     : err_str = "gsl_EOFWarning";                break;
+     case PyGSL_ESTRIDE : err_str = "pygsl_StrideWarning";	   break; 
+     default:
+	  err_str = default_err_str;
+     } /* switch(gsl_errno) */
+     return err_str;
+}
+
+enum handleflag {
+     HANDLE_ERROR = 0,
+     HANDLE_WARNING
+};
+
+static PyObject * 
+PyGSL_get_object_error_module(int gsl_error, enum handleflag flag)
+{
+     PyObject  *gsl_error_module=NULL, *gsl_error_object=NULL;
+     const char *err_str = NULL;
+
+     FUNC_MESS_BEGIN();
+
+     if(!gsl_error_dict){
+	  gsl_error_module=PyImport_ImportModule((char *) error_module);
+	  if(!gsl_error_module){
+	       fprintf(stderr, "I could not get module %s!\n", error_module);
+	       Py_XDECREF(gsl_error_module);
+	       gsl_error_module = NULL;
+	       return NULL;
+	  }
+	  gsl_error_dict=PyModule_GetDict(gsl_error_module);
+     }
 
 
+     if(!gsl_error_dict){
+	  fprintf(stderr, "I could not get the dictionary of the module %s!\n",
+		  error_module);
+	  goto fail;
+     }
+
+     switch(flag){
+     case HANDLE_ERROR:   
+	  err_str = PyGSL_get_error_object_name(gsl_error); 
+	  break;
+     case HANDLE_WARNING: 
+	  err_str = PyGSL_get_warning_object_name(gsl_error); 
+	  break;
+     default:
+	  fprintf(stderr, "Unknown handle flag %d\n", flag);
+     }
      if (err_str == NULL) {
 	  fprintf(stderr, "Pygsl Internal Error. I got an error number of %d. "
 		  "For this errno no approbriate Exception was found!", gsl_error);
@@ -194,23 +266,24 @@ PyGSL_get_error_object(int gsl_error)
      return gsl_error_object;
 
  fail:
-     Py_XDECREF(gsl_error_module);
      return NULL;
 }
+
+
 /*
- * sets the right exception, but does not return to python!
+ * Warnings return a flag, so one can see if the warning raises an exception
+ *  or not.
  */
-static void 
-PyGSL_module_error_handler(const char *reason, /* name of function*/
-			const char *file, /*from CPP*/
-			int line,   /*from CPP*/
-			int gsl_error) /* real "reason" */
+static int
+PyGSL_internal_error_handler(const char *reason, /* name of function*/
+			     const char *file, /*from CPP*/
+			     int line,   /*from CPP*/
+			     int gsl_error,
+			     enum handleflag flag)			     
 {
   const char* error_explanation;
   char error_text[255];
   PyObject* gsl_error_object;
-  PyObject* gsl_error_module;
-  PyObject* gsl_error_dict;
 
   FUNC_MESS_BEGIN();
   /*
@@ -218,7 +291,7 @@ PyGSL_module_error_handler(const char *reason, /* name of function*/
    */
   if (GSL_ENOMEM == gsl_error){
        PyErr_NoMemory();
-       return;
+       return -1;
   }
 
   error_explanation = gsl_strerror(gsl_error);
@@ -250,31 +323,52 @@ PyGSL_module_error_handler(const char *reason, /* name of function*/
   /* ToDo: Send message only if debug mode enabled */
   if (PyErr_Occurred()) {
     fprintf(stderr,"Another error occured: %s\n",error_text);
-    return;
+    return -1;
   }
 
 
   /* error handler for gsl routines, sets exception */
+  gsl_error_object=PyGSL_get_object_error_module(gsl_error, flag);
 
-  gsl_error_module=PyImport_ImportModule((char *) error_module);
-  if(gsl_error_module == NULL){
-       fprintf(stderr, "I could not import the module %s\n", error_module);
-  }
-  gsl_error_dict=PyModule_GetDict(gsl_error_module);
-  Py_INCREF(gsl_error_dict);
-  gsl_error_object=PyGSL_get_error_object(gsl_error);
-
-  if(gsl_error_object) {
-       Py_INCREF(gsl_error_object);
-       PyErr_SetObject(gsl_error_object,
-		       PyString_FromString(error_text));
-  } else {
+  if(!gsl_error_object){
        fprintf(stderr, "%s. In Function %s. I could not get object gsl_Error!\n", 
 	       error_module, __FUNCTION__);
+       return -1;
   }
-  Py_XDECREF(gsl_error_object);
-  Py_DECREF(gsl_error_dict);
-  Py_XDECREF(gsl_error_module);
-  FUNC_MESS_END();
-  return;
+  
+  Py_INCREF(gsl_error_object);  
+
+  switch(flag){
+  case HANDLE_ERROR:   
+       PyErr_SetObject(gsl_error_object, PyString_FromString(error_text)); 
+       return -1;
+       break;
+  case HANDLE_WARNING:
+       return PyErr_Warn(gsl_error_object, error_text); 
+       break;
+  default:
+       fprintf(stderr, "Unknown handle %d\n", flag);
+  }
+  FUNC_MESS("Should not end here!");
+  return -1;
+}
+/*
+ * sets the right exception, but does not return to python!
+ */
+static void 
+PyGSL_module_error_handler(const char *reason, /* name of function*/
+			   const char *file, /*from CPP*/
+			   int line,   /*from CPP*/
+			   int gsl_error) /* real "reason" */
+{
+     PyGSL_internal_error_handler(reason, file, line,  gsl_error, HANDLE_ERROR);
+}
+
+static int
+PyGSL_warning(const char *reason, /* name of function*/
+	      const char *file, /*from CPP*/
+	      int line,   /*from CPP*/
+	      int gsl_error) /* real "reason" */
+{
+     return PyGSL_internal_error_handler(reason, file, line,  gsl_error, HANDLE_WARNING);
 }

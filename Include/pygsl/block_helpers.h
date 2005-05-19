@@ -106,7 +106,8 @@ PyGSL_stride_recalc(int strides, int basis_type_size, int * stride_recalc);
  * Input : 
  *         object              : a general python object
  *         array_type          : the required C type for the array
- *         contiguous          : 1 the array must be contigous,
+ *         contiguous          : 2 copy the original array
+ *                               1 the array must be contigous,
  *                               0 discontigous ones are acceptable.
  *         size                : length of the vector, or -1 if no check 
  *                               needed.
@@ -142,7 +143,8 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
  * Input : 
  *         PyObject            : a general python object
  *         array_type          : the required C type for the array
- *         contiguous          : 1 the array must be contigous,
+ *         contiguous          : 2 make a copy of that array!
+ *                               1 the array must be contigous,
  *                               0 discontigous ones are acceptable.
  *         size1               : number of elements in the first dimension, or
  *                                -1 if no check needed.

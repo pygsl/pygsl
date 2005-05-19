@@ -66,12 +66,16 @@ PyGSL_error_flag_to_pyint(long flag);
 PyGSL_API_EXTERN void 
 PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname, int lineno);
 
+PyGSL_API_EXTERN int
+PyGSL_warning(const char *, const char*, int, int);
 
 #ifndef _PyGSL_API_MODULE
 /* Section for modules importing the functions */
-#define PyGSL_error_flag           (*(int (*)(long))                                          PyGSL_API[PyGSL_error_flag_NUM])
+#define PyGSL_error_flag           (*(int (*)(long))                                         PyGSL_API[PyGSL_error_flag_NUM])
 #define PyGSL_error_flag_to_pyint  (*(PyObject * (*)(long))                                  PyGSL_API[PyGSL_error_flag_to_pyint_NUM])
-#define PyGSL_add_traceback        (*(void (*)(PyObject *, const char *, const char *, int))  PyGSL_API[PyGSL_add_traceback_NUM])      
+#define PyGSL_add_traceback        (*(void (*)(PyObject *, const char *, const char *, int)) PyGSL_API[PyGSL_add_traceback_NUM])      
+#define PyGSL_warning              (*(int (*)(const char *, const char *, int, int))         PyGSL_API[PyGSL_warning_NUM])
+
 #endif /* _PyGSL_API_MODULE */
 
 #define PyGSL_ERROR_FLAG(flag)                                              \

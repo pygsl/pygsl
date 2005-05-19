@@ -70,10 +70,10 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
      if(NULL == a_array)
 	  goto fail;
 
-     
-     if(PyGSL_PyArray_Check(a_array, array_type, flag,  1, &size, argnum, info) != GSL_SUCCESS)
-	  goto fail;
-     
+     if(PyGSL_DEBUG_LEVEL() > 1){
+	  if(PyGSL_PyArray_Check(a_array, array_type, flag,  1, &size, argnum, info) != GSL_SUCCESS)
+	       goto fail;
+     }
      FUNC_MESS_END();
      return a_array;
  fail:
@@ -100,10 +100,10 @@ PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
 
      dimensions[0] = size1;
      dimensions[1] = size2;
-
-     if(PyGSL_PyArray_Check(a_array, array_type, flag,  2, dimensions, argnum, info) != GSL_SUCCESS)
-	  goto fail;
-     
+     if(PyGSL_DEBUG_LEVEL() > 1){
+	  if(PyGSL_PyArray_Check(a_array, array_type, flag,  2, dimensions, argnum, info) != GSL_SUCCESS)
+	       goto fail;
+     }
      FUNC_MESS_END();
      return a_array;
  fail:
