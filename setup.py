@@ -201,11 +201,8 @@ try:
                               python_min_version=(2,1)
                               )
                 )
-
-
-
     pygsl_histogram=gsl_Extension("histogram",
-                                  ['src/histogrammodule.c'],
+                                  ['src/histogram/histogrammodule.c'],
                                   define_macros = macros,
                                   gsl_min_version=(1,'0+'),
                                   python_min_version=(2,2)
