@@ -1,0 +1,271 @@
+/* -*- C -*- */
+/*
+ * Functions which are the same for both. The prepocessor "generates" the code
+ * for the derived classes.
+ */
+#ifndef _HISTOGRAM_COMMON_IC_
+#define _HISTOGRAM_COMMON_IC_ 1
+/*
+ * THis file is included twice.
+ */
+#endif /* _HISTOGRAM_COMMON_IC_  */
+
+static PyObject* 
+FUNCNAME(file)(PyObject *self, PyObject *arg, hist_file fptr) 
+{
+  HISTTYPE * histogram;
+  FILE*  stream;
+
+  FUNC_MESS_BEGIN();
+  if((histogram = PyGSL_HIST_TYPE_GET(self)) == NULL)
+       return NULL;
+
+  /* get file from argument */
+  if (arg==NULL || !PyFile_Check(arg)) {
+    PyErr_SetString(PyExc_TypeError, "histogram.read requires file type");
+    return NULL;
+  }
+
+  stream=PyFile_AsFile(arg);
+  if (PyGSL_ERROR_FLAG(fptr(stream,(void*)histogram)) != GSL_SUCCESS)
+    return NULL;
+  
+  Py_INCREF(Py_None);
+  FUNC_MESS_END();
+  return Py_None;
+}
+
+
+static PyObject *
+FUNCNAME(op)(PyObject *self, PyObject * arg, hist_op fptr)
+{
+     void* histogram;
+     const void * histogram2;
+
+     FUNC_MESS_BEGIN();
+     if((histogram = (void *) PyGSL_HIST_TYPE_GET(self)) == NULL)
+	  return NULL;
+
+     if ((histogram2 = (const void *) PyGSL_HIST_TYPE_ARG_GET(arg)) == NULL) {
+	  return NULL;
+     }
+     DEBUG_MESS(3, "histogram = %p, histogram2 = %p", histogram, histogram2);
+     if(PyGSL_ERROR_FLAG(fptr(histogram,  histogram2)) != GSL_SUCCESS)
+	  return NULL;     
+
+     /* Py_INCREF(Py_None); */
+     FUNC_MESS_END();
+     return Py_None;    
+}
+
+static PyObject* 
+FUNCNAME(printf)(PyObject *self, PyObject *arg) 
+{
+  HISTTYPE* histogram;
+  PyObject* the_file;
+  FILE*  stream=NULL;
+  char* range_format=NULL;
+  char* bin_format=NULL;
+  int result;
+
+  if((histogram = PyGSL_HIST_TYPE_GET(self)) == NULL)
+       return NULL;
+
+
+  if (0==PyArg_ParseTuple(arg,"O!|ss",&PyFile_Type,&the_file,&range_format,&bin_format)) {
+    return NULL;
+  }
+
+  if (range_format==NULL)
+    range_format="%g";
+  if (bin_format==NULL)
+    bin_format="%g";
+
+  stream=PyFile_AsFile(the_file);
+  result=GSLNAME(fprintf)(stream,histogram,range_format,bin_format);
+
+  if (PyGSL_ERROR_FLAG(result) != GSL_SUCCESS) {
+    return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+static PyObject* 
+FUNCNAME(scale)(PyObject *self, PyObject *arg) 
+{
+  HISTTYPE* histogram;
+  double offset;
+
+  if ((histogram = PyGSL_HIST_TYPE_GET(self))==NULL) {
+       return NULL;
+  }
+
+  if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &offset, NULL) != GSL_SUCCESS)
+       return NULL;
+  /* get offset */
+  if (PyGSL_ERROR_FLAG(GSLNAME(scale)(histogram, offset)) != GSL_SUCCESS)
+    return NULL;
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+static PyObject* 
+FUNCNAME(clone)(PyObject *self) 
+{
+
+  HISTTYPE* histogram;
+  HISTTYPE* clone;
+  PyObject* return_object;
+
+  if((histogram = PyGSL_HIST_TYPE_GET(self)) == NULL)
+       return NULL;
+  
+
+  clone=GSLNAME(clone)(histogram);
+  if (clone==NULL)
+    return NULL;
+
+  return_object=PyType_GenericAlloc(&PyGSLHISTTYPE,1);
+  if (return_object==NULL) {
+    GSLNAME(free)(clone);
+    return NULL;
+  }
+  PyGSL_HIST_TYPE_CAST(return_object)=clone;
+  return return_object;
+}
+
+static PyObject* 
+FUNCNAME(shift)(PyObject *self, PyObject *arg) 
+{
+  HISTTYPE* histogram;
+  double offset;
+
+  if ((histogram = PyGSL_HIST_TYPE_GET(self))==NULL) {
+       return NULL;
+  }
+
+  if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &offset, NULL) != GSL_SUCCESS)
+       return NULL;
+  /* get offset */
+  if (PyGSL_ERROR_FLAG(GSLNAME(shift)(histogram, offset)) != GSL_SUCCESS)
+    return NULL;
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+
+
+static PyObject* 
+FUNCNAME(equal_bins_p)(PyObject *self, PyObject *arg) 
+{
+  HISTTYPE * histogram, * histogram2;
+  int result;
+
+  if ((histogram = PyGSL_HIST_TYPE_GET(self))==NULL) {
+       return NULL;
+  }
+
+  if ((histogram2 = PyGSL_HIST_TYPE_ARG_GET(arg))==NULL) {
+       return NULL;
+  }
+
+  result=GSLNAME(equal_bins_p)(histogram,histogram2);
+  return PyInt_FromLong(result);
+}
+
+static void
+FUNCNAME(dealloc)(PyObject* self)
+{
+  HISTTYPE* histogram;
+  FUNC_MESS_BEGIN();
+  if((histogram = PyGSL_HIST_TYPE_GET(self)) != NULL){
+       GSLNAME(free)(histogram);
+       PyGSL_HIST_TYPE_CAST(self) = NULL;
+  }
+  self->ob_type->tp_free(self);
+  FUNC_MESS_END();
+}
+
+static int
+FUNCNAME(clear)(PyObject *self)
+{
+  HISTTYPE* histogram;
+  if ((histogram = PyGSL_HIST_TYPE_GET(self))==NULL) {
+       return -1;
+  }
+  GSLNAME(reset)(histogram);
+  return 0;
+}
+static PyObject* 
+FUNCNAME(reset)(PyObject *self)
+{
+     if(FUNCNAME(clear)(self) == 0){
+	  Py_INCREF(Py_None);
+	  return Py_None;
+     }
+     return NULL;
+}
+
+static PyObject*
+FUNCNAME(getattr)(PyObject* obj, char *name)
+{
+  return Py_FindMethod(FUNCNAME(methods), obj, name);
+}
+
+
+static PyMethodDef FUNCNAME(methods)[] = {
+  {(char *)cc_alloc	        ,(PyCFunction)FUNCNAME(alloc),              METH_VARARGS, (char *)doc_alloc	        }, 
+  {(char *)cc_set_ranges_uniform,(PyCFunction)FUNCNAME(set_ranges_uniform), METH_VARARGS, (char *)doc_set_ranges_uniform},
+  {(char *)cc_reset	        ,(PyCFunction)FUNCNAME(reset),              METH_NOARGS,  (char *)doc_reset	        }, 
+  {(char *)cc_increment	        ,(PyCFunction)FUNCNAME(increment),          METH_VARARGS, (char *)doc_increment	        }, 
+  {(char *)cc_accumulate	,(PyCFunction)FUNCNAME(accumulate),         METH_VARARGS, (char *)doc_accumulate	},
+#ifdef HISTOGRAM2D
+  {(char *)cc_xmax		,(PyCFunction)FUNCNAME(xmax),               METH_NOARGS,  (char *)doc_xmax	        },	
+  {(char *)cc_xmin		,(PyCFunction)FUNCNAME(xmin),               METH_NOARGS,  (char *)doc_xmin	        },	
+  {(char *)cc_ymax		,(PyCFunction)FUNCNAME(ymax),               METH_NOARGS,  (char *)doc_ymax	        },	
+  {(char *)cc_ymin		,(PyCFunction)FUNCNAME(ymin),               METH_NOARGS,  (char *)doc_ymin	        },	
+  {(char *)cc_nx		,(PyCFunction)FUNCNAME(nx),                 METH_NOARGS,  (char *)doc_nx		},
+  {(char *)cc_ny		,(PyCFunction)FUNCNAME(ny),                 METH_NOARGS,  (char *)doc_ny		},
+  {(char *)cc_get_xrange	,(PyCFunction)FUNCNAME(get_xrange),         METH_VARARGS, (char *)doc_get_xrange	},
+  {(char *)cc_get_yrange	,(PyCFunction)FUNCNAME(get_yrange),         METH_VARARGS, (char *)doc_get_yrange	},
+  {(char *)cc_xmean	        ,(PyCFunction)FUNCNAME(xmean),              METH_NOARGS,  (char *)doc_xmean	        }, 
+  {(char *)cc_xsigma	        ,(PyCFunction)FUNCNAME(xsigma),             METH_NOARGS,  (char *)doc_xsigma	        }, 
+  {(char *)cc_ymean	        ,(PyCFunction)FUNCNAME(ymean),              METH_NOARGS,  (char *)doc_ymean	        }, 
+  {(char *)cc_ysigma	        ,(PyCFunction)FUNCNAME(ysigma),             METH_NOARGS,  (char *)doc_ysigma	        }, 
+  {(char *)cc_cov		,(PyCFunction)FUNCNAME(cov),                METH_NOARGS,  (char *)doc_cov	        },
+#else
+  {(char *)cc_max		,(PyCFunction)FUNCNAME(max),                METH_NOARGS,  (char *)doc_max	        },	
+  {(char *)cc_min		,(PyCFunction)FUNCNAME(min),                METH_NOARGS,  (char *)doc_min	        },	
+  {(char *)cc_bins		,(PyCFunction)FUNCNAME(bins),               METH_NOARGS,  (char *)doc_bins		},
+  {(char *)cc_get_range	        ,(PyCFunction)FUNCNAME(get_range),          METH_VARARGS, (char *)doc_get_range	        },
+  {(char *)cc_mean	        ,(PyCFunction)FUNCNAME(mean),               METH_NOARGS,  (char *)doc_mean	        }, 
+  {(char *)cc_sigma	        ,(PyCFunction)FUNCNAME(sigma),              METH_NOARGS,  (char *)doc_sigma	        }, 
+#endif
+  {(char *)cc_get		,(PyCFunction)FUNCNAME(get),                METH_VARARGS, (char *)doc_get	        },	
+  {(char *)cc_find		,(PyCFunction)FUNCNAME(find),               METH_VARARGS, (char *)doc_find	        },	
+  {(char *)cc_max_val	        ,(PyCFunction)FUNCNAME(max_val),            METH_NOARGS,  (char *)doc_max_val	        }, 
+  {(char *)cc_max_bin	        ,(PyCFunction)FUNCNAME(max_bin),            METH_NOARGS,  (char *)doc_max_bin	        }, 
+  {(char *)cc_min_val	        ,(PyCFunction)FUNCNAME(min_val),            METH_NOARGS,  (char *)doc_min_val	        }, 
+  {(char *)cc_min_bin	        ,(PyCFunction)FUNCNAME(min_bin),            METH_NOARGS,  (char *)doc_min_bin	        }, 
+  {(char *)cc_sum		,(PyCFunction)FUNCNAME(sum),                METH_NOARGS,  (char *)doc_sum	        },	
+  {(char *)cc_set_ranges	,(PyCFunction)FUNCNAME(set_ranges),         METH_VARARGS, (char *)doc_set_ranges        },
+  {(char *)cc_shift	        ,(PyCFunction)FUNCNAME(shift),              METH_O,	  (char *)doc_shift	        }, 
+  {(char *)cc_scale	        ,(PyCFunction)FUNCNAME(scale),              METH_O,	  (char *)doc_scale	        }, 
+  {(char *)cc_equal_bins_p	,(PyCFunction)FUNCNAME(equal_bins_p),       METH_O,	  (char *)doc_equal_bins_p      },	
+  {(char *)cc_add		,(PyCFunction)FUNCNAME(add),                METH_O,	  (char *)doc_add	        },	
+  {(char *)cc_sub		,(PyCFunction)FUNCNAME(sub),                METH_O,	  (char *)doc_sub	        },	
+  {(char *)cc_mul		,(PyCFunction)FUNCNAME(mul),                METH_O,	  (char *)doc_mul	        },	
+  {(char *)cc_div		,(PyCFunction)FUNCNAME(div),                METH_O,	  (char *)doc_div	        },	
+  {(char *)cc_clone	        ,(PyCFunction)FUNCNAME(clone),              METH_NOARGS,  (char *)doc_clone	        }, 
+  {(char *)cc_copy		,(PyCFunction)FUNCNAME(memcpy),             METH_O,	  (char *)doc_copy	        },	
+  {(char *)cc_read		,(PyCFunction)FUNCNAME(fread),              METH_O,	  (char *)doc_read	        },	
+  {(char *)cc_write	        ,(PyCFunction)FUNCNAME(fwrite),             METH_O,	  (char *)doc_write	        }, 
+  {(char *)cc_scanf	        ,(PyCFunction)FUNCNAME(fscanf),             METH_O,	  (char *)doc_scanf	        }, 
+  {(char *)cc_printf            ,(PyCFunction)FUNCNAME(printf),             METH_VARARGS, (char *)doc_printf            }, 
+  {(char *)cc_plot_data         ,(PyCFunction)FUNCNAME(plot_data),          METH_VARARGS, (char *)doc_plot_data         }, 
+  {NULL, NULL, 0, NULL} /* sentinel */
+};
+
+#undef GSLNAME
+#undef FUNCNAME

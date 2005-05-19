@@ -1,0 +1,517 @@
+/* -*- C -*- */
+static PyObject* 
+histogram_histogram_alloc(PyObject *self, PyObject *args)
+{
+  gsl_histogram* histogram;
+  long int n;
+
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return NULL;
+
+  /* get size */
+  if (0==PyArg_ParseTuple(args,"l",&n))
+      return NULL;
+
+  if (n<=0) {
+    gsl_error ("histogram length n must be positive integer",
+               filename, __LINE__, GSL_EDOM );
+    return NULL;
+  }
+
+  /* free existing histogram */
+  if(histogram)
+       gsl_histogram_free(histogram);
+
+  histogram=gsl_histogram_alloc(n);
+  /* if this fails, the pointer should be NULL, although this object is useless now */
+  PyGSL_HIST_CAST(self) = histogram;
+  if (histogram==NULL){
+       PyErr_NoMemory();
+       return NULL;
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+static PyObject* 
+histogram_histogram_set_ranges_uniform(PyObject *self, PyObject *args)
+{
+  gsl_histogram * histogram;
+  double xmin;
+  double xmax;
+
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return NULL;
+
+  if (0==PyArg_ParseTuple(args,"dd",&xmin,&xmax)) {
+       return NULL;
+  }
+  DEBUG_MESS(4, "xmin = %f, xmax = %f", xmin, xmax);
+  if (PyGSL_ERROR_FLAG(gsl_histogram_set_ranges_uniform(histogram,xmin,xmax)) != GSL_SUCCESS)
+    return NULL;
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+
+static PyObject* 
+histogram_histogram_increment(PyObject *self, PyObject *args)
+{
+  gsl_histogram * histogram;
+  PyObject *x_o;
+  PyArrayObject *a=NULL;
+  int result, i;
+  double x;
+
+  FUNC_MESS_BEGIN();
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return NULL;
+
+  if (0==PyArg_ParseTuple(args,"O",&x_o)) {
+    return NULL;
+  }
+
+  if((a = PyGSL_vector_or_double(x_o, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL)) == NULL)
+       goto fail;
+
+  for(i = 0; i <a->dimensions[0]; ++i){
+       x = *((double *) (a->data + a->strides[0] * i));
+       DEBUG_MESS(3, "x[%d] = %e", i, x);
+       result=gsl_histogram_increment(histogram, x);
+       if(PyGSL_HIST_EDOM_WARN(result) != GSL_SUCCESS)
+	    goto fail;
+  }
+  Py_DECREF(a);
+  Py_INCREF(Py_None);
+  FUNC_MESS_END();
+  return Py_None;
+
+ fail:
+  Py_XDECREF(a);
+  return NULL;
+}
+
+static PyObject* 
+histogram_histogram_accumulate(PyObject *self, PyObject *args)
+{
+  gsl_histogram * histogram;
+  PyObject *x_o, *w_o;
+  PyArrayObject *x_a=NULL,*w_a=NULL;
+  int result, dimension, i;
+  double x,w;
+
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return NULL;
+
+  if (0==PyArg_ParseTuple(args,"OO",&x_o,&w_o)) {
+    return NULL;
+  }
+
+  if((x_a= PyGSL_vector_or_double(x_o, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL)) == NULL)
+       goto fail;
+  dimension = x_a->dimensions[0];
+  if((w_a= PyGSL_vector_or_double(w_o, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, dimension, NULL)) == NULL)
+       goto fail;
+
+  for(i = 0; i <dimension; ++i){
+       x = *((double *) (x_a->data + x_a->strides[0] * i));
+       w = *((double *) (w_a->data + w_a->strides[0] * i));
+       result=gsl_histogram_accumulate(histogram,x,w);
+       if(PyGSL_HIST_EDOM_WARN(result) != GSL_SUCCESS)
+	    goto fail;
+  }
+  Py_DECREF(x_a);
+  Py_DECREF(w_a);
+  Py_INCREF(Py_None);
+  return Py_None;
+ fail:
+  Py_XDECREF(x_a);
+  Py_XDECREF(w_a);
+  return NULL;
+}
+
+
+#define PyGSL_TYPE_FROM_HIST(funcname, conversion) \
+static PyObject* histogram_histogram_ ## funcname (PyObject *self) \
+{ \
+  void* histogram; \
+  if((histogram = (void *)PyGSL_HIST_GET(self)) == NULL) \
+       return NULL; \
+  return conversion(gsl_histogram_ ## funcname(histogram)); \
+}
+
+#define PyGSL_FLOAT_FROM_HIST(funcname) PyGSL_TYPE_FROM_HIST(funcname, PyFloat_FromDouble)
+#define PyGSL_LONG_FROM_HIST(funcname)  PyGSL_TYPE_FROM_HIST(funcname, PyLong_FromLong)
+#define PyGSL_ULONG_FROM_HIST(funcname) PyGSL_TYPE_FROM_HIST(funcname, PyLong_FromUnsignedLong)
+
+PyGSL_FLOAT_FROM_HIST(max)
+PyGSL_FLOAT_FROM_HIST(min)
+PyGSL_LONG_FROM_HIST(bins)
+PyGSL_FLOAT_FROM_HIST(max_val)
+PyGSL_FLOAT_FROM_HIST(min_val)
+PyGSL_ULONG_FROM_HIST(max_bin)
+PyGSL_ULONG_FROM_HIST(min_bin)
+PyGSL_FLOAT_FROM_HIST(mean)
+PyGSL_FLOAT_FROM_HIST(sigma)
+PyGSL_FLOAT_FROM_HIST(sum)
+
+static PyObject* 
+histogram_histogram_get(PyObject *self, PyObject *args)
+{
+  gsl_histogram* histogram;
+  long int n;
+
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return NULL;
+
+
+  /* get index */  
+  if (0==PyArg_ParseTuple(args,"l",&n))
+      return NULL;
+  if (n<0 || n>=histogram->n) {
+    GSL_ERROR_NULL("index lies outside valid range of 0 .. n - 1", GSL_EDOM);
+    return NULL;
+  }
+  return PyFloat_FromDouble(gsl_histogram_get(histogram,n));
+}
+
+
+static PyObject* 
+histogram_histogram_get_range(PyObject *self, PyObject *args)
+{
+  gsl_histogram* histogram;
+  long int n;
+  double lower;
+  double upper;
+
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return NULL;
+
+
+  /* get index */
+  if (0==PyArg_ParseTuple(args,"l",&n))
+    return NULL;
+  if (n<0 || n>=histogram->n) {
+    gsl_error ("index lies outside valid range of 0 .. n - 1",
+	       filename, __LINE__, GSL_EDOM );
+    return NULL;
+  }
+  if (PyGSL_ERROR_FLAG(gsl_histogram_get_range(histogram,n,&lower,&upper)) != GSL_SUCCESS)
+    return NULL;
+  return Py_BuildValue("(dd)",lower,upper);
+}
+
+
+static PyObject* 
+histogram_histogram_find(PyObject *self, PyObject *args)
+{
+  gsl_histogram* histogram;
+  double value;
+  size_t index;
+
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return NULL;
+
+  /* get index */
+  if (0==PyArg_ParseTuple(args,"d",&value))
+      return NULL;
+  if (PyGSL_ERROR_FLAG(gsl_histogram_find(histogram, value, &index)) != GSL_SUCCESS)
+    return NULL;
+  return PyLong_FromUnsignedLong(index);
+}
+
+
+static PyObject* 
+histogram_histogram_set_ranges(PyObject *self, PyObject *ranges) 
+{
+     PyObject *tmp;
+     PyArrayObject *a_ranges=NULL;
+     gsl_histogram * histogram;
+     int gsl_result;
+
+     FUNC_MESS_BEGIN();
+     /* get gsl_histogram struct */
+     if((histogram = PyGSL_HIST_GET(self)) == NULL)
+	  goto fail;
+  
+     if(0==PyArg_ParseTuple(ranges, "O", &tmp))
+	  return NULL;
+     
+     a_ranges = PyGSL_PyArray_prepare_gsl_vector_view(tmp, PyArray_DOUBLE, PyGSL_INPUT_ARRAY| PyGSL_CONTIGUOUS, -1, 1, NULL); 
+     if(a_ranges == NULL)
+	  goto fail;
+
+     /* set ranges to gsl_histogram structure */
+     gsl_result=gsl_histogram_set_ranges(histogram, (double *)a_ranges->data, a_ranges->dimensions[0]);
+     Py_DECREF(a_ranges);
+     a_ranges = NULL;
+     if (PyGSL_ERROR_FLAG(gsl_result) != GSL_SUCCESS)
+	  goto fail;
+     Py_INCREF(Py_None);
+     FUNC_MESS_END();
+     return Py_None;
+
+ fail:
+     Py_XDECREF(a_ranges);
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);
+     return NULL;
+}
+
+
+static PyObject* 
+histogram_histogram_plot_data(PyObject *self, PyObject *args)
+{
+     gsl_histogram *histogram;
+     PyArrayObject *x_a = NULL, *y_a = NULL;
+     int n, i, dim[2];
+     double *data;
+     FUNC_MESS_BEGIN();
+     if((histogram = PyGSL_HIST_GET(self)) == NULL)
+	  goto fail;
+
+
+     n = gsl_histogram_bins(histogram);
+     DEBUG_MESS(3, "n = %d", n);
+     assert(n>0);
+     dim[0] = n;
+     dim[1] = 2;
+     x_a = PyGSL_New_Array(2, dim, PyArray_DOUBLE);
+     DEBUG_MESS(3, "x_a = %p", (void *) x_a);
+     y_a = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+     DEBUG_MESS(3, "y_a = %p", (void *) y_a);
+     if(x_a == NULL || y_a == NULL)
+	  goto fail;
+
+     data = (double *) x_a->data;
+     for(i = 0; i < n; ++i){
+	  gsl_histogram_get_range(histogram, i, &data[2*i], &data[2*i+1]);
+	  ((double *) (y_a->data))[i] = gsl_histogram_get(histogram, i);
+     }
+     FUNC_MESS_END();
+     return  Py_BuildValue("(OO)", x_a, y_a);
+ fail:
+     Py_XDECREF(x_a);
+     Py_XDECREF(y_a);
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);
+     return NULL;
+}
+
+
+#define HIST_OP(op_name) \
+static PyObject * \
+histogram_histogram_ ## op_name (PyObject *self, PyObject * arg) \
+{ \
+  return  histogram_histogram_op(self, arg, (hist_op) gsl_histogram_ ## op_name); \
+}
+HIST_OP(add)
+HIST_OP(sub)
+HIST_OP(mul)
+HIST_OP(div)
+HIST_OP(memcpy)
+
+
+
+#define HIST_FILE(op_name) \
+static PyObject * \
+histogram_histogram_ ## op_name (PyObject *self, PyObject * arg) \
+{ \
+  return  histogram_histogram_file(self, arg, (hist_file) gsl_histogram_ ## op_name); \
+}
+HIST_FILE(fread)
+HIST_FILE(fwrite)
+HIST_FILE(fscanf)
+
+
+
+
+/*
+  method table
+*/
+#if 0
+static PyMethodDef histogram_histogram_methods[] = {
+  {"alloc",(PyCFunction)histogram_histogram_alloc,METH_VARARGS,"allocate necessary space"},
+  {"set_ranges_uniform", (PyCFunction)histogram_histogram_set_ranges_uniform, METH_VARARGS,"set the ranges to uniform distance"},
+  {"reset",(PyCFunction)histogram_histogram_reset,METH_NOARGS,"sets all bin values to 0"},
+  {"increment",(PyCFunction)histogram_histogram_increment,METH_VARARGS,"increments corresponding bin"},
+  {"accumulate",(PyCFunction)histogram_histogram_accumulate,METH_VARARGS,"adds the weight to corresponding bin"},
+  {"max",(PyCFunction)histogram_histogram_max,METH_NOARGS,"returns upper range"},
+  {"min",(PyCFunction)histogram_histogram_min,METH_NOARGS,"returns lower range"},
+  {"bins",(PyCFunction)histogram_histogram_bins,METH_NOARGS,"returns number of bins"},
+  {"get",(PyCFunction)histogram_histogram_get,METH_VARARGS,"gets value of indexed bin"},
+  {"get_range",(PyCFunction)histogram_histogram_get_range,METH_VARARGS,"gets upper and lower range of indexed bin"},
+  {"find",(PyCFunction)histogram_histogram_find,METH_VARARGS,"finds index of corresponding bin"},
+  {"max_val",(PyCFunction)histogram_histogram_max_val,METH_NOARGS,"returns maximal bin value"},
+  {"max_bin",(PyCFunction)histogram_histogram_max_bin,METH_NOARGS,"returns bin index with maximal value"},
+  {"min_val",(PyCFunction)histogram_histogram_min_val,METH_NOARGS,"returns minimal bin value"},
+  {"min_bin",(PyCFunction)histogram_histogram_min_bin,METH_NOARGS,"returns bin index with minimal value"},
+  {"mean",(PyCFunction)histogram_histogram_mean,METH_NOARGS,"returns mean of histogram"},
+  {"sigma",(PyCFunction)histogram_histogram_sigma,METH_NOARGS,"returns std deviation of histogram"},
+  {"sum",(PyCFunction)histogram_histogram_sum,METH_NOARGS,"returns sum of bin values"},
+  {"set_ranges",(PyCFunction)histogram_histogram_set_ranges,METH_O,"sets range according given sequence"},
+  {"shift",(PyCFunction)histogram_histogram_shift,METH_O,"shifts the contents of the bins by the given offset"},
+  {"scale",(PyCFunction)histogram_histogram_scale,METH_O,"multiplies the contents of the bins by the given scale"},
+  {"equal_bins_p",(PyCFunction)histogram_histogram_equal_bins_p,METH_O,"true if the all of the individual bin ranges are identical"},
+  {"add",(PyCFunction)histogram_histogram_add,METH_O,"adds the contents of the bins"},
+  {"sub",(PyCFunction)histogram_histogram_sub,METH_O,"substracts the contents of the bins"},
+  {"mul",(PyCFunction)histogram_histogram_mul,METH_O,"multiplicates the contents of the bins"},
+  {"div",(PyCFunction)histogram_histogram_div,METH_O,"divides the contents of the bins"},
+  {"clone",(PyCFunction)histogram_histogram_clone,METH_NOARGS,"returns a new copy of this histogram"},
+  {"copy",(PyCFunction)histogram_histogram_memcpy,METH_O,"copies the given histogram to myself"},
+  {"read",(PyCFunction)histogram_histogram_fread,METH_O,"reads histogram binary data from file"},
+  {"write",(PyCFunction)histogram_histogram_fwrite,METH_O,"writes histogram binary data to file"},
+  {"scanf",(PyCFunction)histogram_histogram_fscanf,METH_O,"reads histogram data from file using scanf"},
+  {"printf",(PyCFunction)histogram_histogram_printf,METH_VARARGS,"writes histogram data to file using printf"},
+  {NULL, NULL, 0, NULL}           /* sentinel */
+};
+#endif
+/*
+  methods for map protocol
+ */
+
+static int 
+histogram_histogram_mp_length(PyObject *self)
+{
+  gsl_histogram* histogram;
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return -1;
+
+  return gsl_histogram_bins(histogram);
+}
+
+static PyObject* 
+histogram_histogram_mp_subscript(PyObject *self, PyObject *key)
+{
+  gsl_histogram* histogram;
+  long int k;
+  PyObject* my_key;
+
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return NULL;
+
+
+  /* get key */
+  my_key=PyNumber_Long(key);
+  if (my_key==NULL) return NULL;
+  k=PyInt_AsLong(my_key);
+  if (k<0 || k>=histogram->n) {
+    gsl_error ("index lies outside valid range of 0 .. n - 1",
+	       filename, __LINE__, GSL_EDOM );
+    return NULL;
+  }
+  Py_DECREF(my_key);
+  return PyFloat_FromDouble(gsl_histogram_get(histogram,k));
+}
+
+
+static int
+histogram_histogram_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *value) {
+  gsl_histogram* histogram;
+  PyObject* my_key;
+  PyObject* my_value;
+  double v;
+  size_t k;
+  /* get histogram struct */
+
+  if((histogram = PyGSL_HIST_GET(self)) == NULL)
+       return -1;
+
+
+  /* get key */
+  my_key=PyNumber_Long(key);
+  if (my_key==NULL) return -1;
+  k=PyInt_AsLong(my_key);
+  if (k<0 || k>=histogram->n) {
+    gsl_error ("index lies outside valid range of 0 .. n - 1",
+	       filename, __LINE__, GSL_EDOM);
+    return -1;
+  }
+  Py_DECREF(my_key);
+
+  /* get value */
+  if (value == NULL)
+    v=0;
+  else {
+    my_value=PyNumber_Float(value);
+    if (my_value==NULL) return -1;
+    v=PyFloat_AsDouble(value);
+    Py_DECREF(my_value);
+  }
+
+  histogram->bin[k]=v;
+  return 0;
+}
+
+
+/*
+  typedef struct {
+        inquiry mp_length;
+        binaryfunc mp_subscript;
+        objobjargproc mp_ass_subscript;
+  } PyMappingMethods;
+ */
+
+static PyMappingMethods histogram_histogram_as_mapping = {
+  (inquiry)histogram_histogram_mp_length, /* inquiry mp_length */
+  (binaryfunc)histogram_histogram_mp_subscript, /* binaryfunc mp_subscript */
+  (objobjargproc)histogram_histogram_mp_ass_subscript/* objobjargproc mp_ass_subscript */
+};
+
+
+/* initialisation and finalisation functions */
+
+
+
+static int 
+histogram_histogram_init(PyObject *self, PyObject *args, PyObject *kwds)
+{
+
+  PyObject* orig_histogram;
+  long int n;
+  
+  static char *kwlist1[] = {"histogram",NULL};
+  static char *kwlist2[] = {"bins",NULL};
+
+  /* initialise histogram pointer */
+  PyGSL_HIST_CAST(self) = NULL;
+
+
+  /* test two call alternatives: */
+  if (PyArg_ParseTupleAndKeywords(args, kwds,"O!",kwlist1,&histogram_histogramType,&orig_histogram)) {
+    gsl_histogram* histogram, *histogram2;
+    if((histogram2=PyGSL_HIST_GET(orig_histogram)) == NULL)
+	 return -1;
+    histogram=gsl_histogram_clone(histogram2);
+    if (histogram==NULL)
+      return -1;
+    PyGSL_HIST_CAST(self)=histogram;
+    return 0;
+  }
+  else {
+    /* reset exception */
+    PyErr_Clear();
+  }
+  if (PyArg_ParseTupleAndKeywords(args, kwds,"l",kwlist2,&n)) {
+    gsl_histogram* histogram;
+    if (n<=0) {
+      gsl_error ("histogram length n must be positive",
+		 filename, __LINE__, GSL_EDOM);
+      return -1;
+    }
+    histogram=gsl_histogram_alloc(n);
+    if (histogram==NULL)
+      return -1;
+    gsl_histogram_reset(histogram);
+    PyGSL_HIST_CAST(self)=histogram;
+    return 0;
+    
+  }
+  else {
+    /* set own error message */
+    PyErr_Clear();
+    PyErr_SetString(PyExc_TypeError, "histogram.init requires pygsl.histogram.histogram object or long int argument");
+    return -1;
+  }
+}
+
+
+
