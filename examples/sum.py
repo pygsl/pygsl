@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl.sum as sum
 print sum
 N = 20

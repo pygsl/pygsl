@@ -6,7 +6,7 @@ The function run_fsolver shows how to use the fsolvers (e.g. brent) and the
 function run_fdfsolver explains the usage of the fdfsolvers (e.g. newton).
 """
 from pygsl import  roots
-import Numeric
+import pygsl._numobj as Numeric
 
 def quadratic(x, params):
     a = params[0]

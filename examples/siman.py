@@ -6,7 +6,7 @@ The pythonic version of the simple example from the gsl reference document.
 """
 # Author: Pierre Schnizer
 # Date  : December 2003
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl.siman as siman
 import pygsl.rng   as rng
 

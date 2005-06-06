@@ -1,5 +1,5 @@
-import Numeric
 import pygsl
+import pygsl._numobj as Numeric
 import pygsl.rng
 import pygsl.multifit
 
@@ -34,13 +34,13 @@ def generate_data():
 if __name__ == '__main__':
     x, y, sigma = generate_data()
     c, cov , chisq = calculate(x, y, sigma)
-    import Gnuplot
-    g = Gnuplot.Gnuplot()
-    xref = Numeric.arange(100) / 50.
-    yref = c[0] + c[1] * xref + c[2] * xref **2
-    t1 = Gnuplot.Data(x,y, with='points')
-    t2 = Gnuplot.Data(xref, yref, with='line')
-    g.plot(t1,t2)
-    print "Press return !"
-    raw_input()
+    #import Gnuplot
+    #g = Gnuplot.Gnuplot()
+    #xref = Numeric.arange(100) / 50.
+    #yref = c[0] + c[1] * xref + c[2] * xref **2
+    #t1 = Gnuplot.Data(x,y, with='points')
+    #t2 = Gnuplot.Data(xref, yref, with='line')
+    #g.plot(t1,t2)
+    #print "Press return !"
+    #raw_input()
 

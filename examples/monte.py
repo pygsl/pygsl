@@ -18,7 +18,7 @@ import exceptions
 import sys
 sys.stdout = sys.stderr
 
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl
 import pygsl.rng
 import pygsl.monte as monte

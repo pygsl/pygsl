@@ -2,7 +2,7 @@
 """
 The pythonic version of the qrng example found in the gsl reference document.
 """
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl.qrng as qrng
 
 def run():

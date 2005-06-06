@@ -5,7 +5,7 @@ The python equivalent of the C example found in the GSL Reference document.
 The function run_fsolver shows how to use the fsolvers (e.g. dnewton) and the
 function run_fdfsolver explains the usage of the fdfsolvers (e.g. gnewton).
 """
-import Numeric
+import pygsl._numobj as Numeric
 from pygsl  import multiroots
 import copy
 

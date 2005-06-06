@@ -8,7 +8,7 @@ the output.
 
 """
 import sys
-import Numeric
+import pygsl._numobj as Numeric
 import pygsl
 import time
 from pygsl import odeiv
