@@ -2,6 +2,7 @@ recursive-include src *.c
 recursive-include src *.ic
 recursive-include src *.i
 recursive-include src *.h
+exclude src fftmodule.c
 recursive-include typemaps *.py
 recursive-include typemaps *.h
 #recursive-include typemaps *.ic
@@ -11,10 +12,9 @@ recursive-include pygsl *.py
 exclude pygsl/_numobj.py
 exclude pygsl/_mlab.py
 recursive-include tests *.py
-recursive-include doc *.tex
-recursive-include doc *.html
+#recursive-include doc *.tex
+#recursive-include doc *.html
 recursive-include Include *.h
-recursive-include Lib *.c
 recursive-include examples *.py
 recursive-include testing/src *.c
 recursive-include testing/src *.h
