@@ -8,6 +8,8 @@ import tempfile
 import os
 import os.path
 
+
+pygsl.set_debug_level(0)
 class histogram_tests(unittest.TestCase):
     """
     gsl_histogram tests
@@ -50,7 +52,7 @@ class histogram_tests(unittest.TestCase):
                                 category=pygsl.errors.gsl_DomainWarning)
         try:
             hist.increment(22)
-        except pygsl.errors.gsl_Warning:
+        except pygsl.errors.gsl_DomainWarning:
             exception_seen=1
         self.failIf(exception_seen==0)
         # no warning/exception should occur
@@ -70,13 +72,13 @@ class histogram_tests(unittest.TestCase):
         exception_seen=0
         try:
             hist.set_ranges((1,2))
-        except exceptions.TypeError:
+        except pygsl.errors.gsl_InvalidArgumentError:
             exception_seen=1
         self.failIf(exception_seen==0)
         exception_seen=0
         try:
             hist.set_ranges((1,2,"bla"))
-        except exceptions.TypeError:
+        except exceptions.Exception:
             exception_seen=1
         self.failIf(exception_seen==0)
 
