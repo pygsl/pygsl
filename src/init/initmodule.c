@@ -44,7 +44,7 @@
  * Used as a buffer to generate error messages.
  */
 static char pygsl_error_str[512];
-
+#include "profile.c"
 #include "error_helpers.c"
 #include "general_helpers.c"
 #include "complex_helpers.c"
@@ -94,6 +94,7 @@ PyGSL_set_debug_level(PyObject *self, PyObject *args)
 
      pygsl_debug_level = tmp;
      max = PySequence_Size(debuglist);
+     DEBUG_MESS(3, "Setting debug level to %d for %d modules", pygsl_debug_level, max);
      for(i = 0; i < max; ++i){
 	  if((o = PySequence_GetItem(debuglist, i)) == NULL){
 	       fprintf(stderr, "In file %s at line %d; Could not get element %d\n", 
@@ -108,7 +109,7 @@ PyGSL_set_debug_level(PyObject *self, PyObject *args)
      FUNC_MESS_END();
      return Py_None;
 #else 
-     GSL_ERROR_VAL("PyGSL was not compiled with DEBUG = 1; Can not set DEBUG level!", GSL_EUNIMPL, NULL);
+     GSL_ERROR_NULL("PyGSL was not compiled with DEBUG = 1; Can not set DEBUG level!", GSL_EUNIMPL);
 #endif 
 }
 
@@ -125,10 +126,15 @@ PyGSL_get_debug_level(PyObject *self, PyObject *args)
 }
 
 static void * _PyGSL_API[PyGSL_NENTRIES_NUM];
+
 static PyMethodDef initMethods[] = {
      {"get_debug_level", PyGSL_get_debug_level, METH_NOARGS, NULL},
      {"set_debug_level", PyGSL_set_debug_level, METH_VARARGS, NULL},
-     {NULL,     NULL}        /* Sentinel */
+     {"vector_transform_counter",  PyGSL_get_vector_transform_counter ,METH_NOARGS, NULL},
+     {"matrix_transform_counter",  PyGSL_get_matrix_transform_counter ,METH_NOARGS, NULL},
+     {"complex_transform_counter", PyGSL_get_complex_transform_counter,METH_NOARGS, NULL},
+     {"float_transform_counter",   PyGSL_get_float_transform_counter  ,METH_NOARGS, NULL},
+     {NULL,     NULL, 0, NULL}        /* Sentinel */
 };
 
 
