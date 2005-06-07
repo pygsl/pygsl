@@ -320,9 +320,9 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
    */
 
   /* test, if exception is already set */
-  /* ToDo: Send message only if debug mode enabled */
   if (PyErr_Occurred()) {
-    fprintf(stderr,"Another error occured: %s\n",error_text);
+       if(PyGSL_DEBUG_LEVEL() > 0)
+	    fprintf(stderr, "Another error occured: %s\n",error_text);
     return -1;
   }
 
@@ -361,7 +361,9 @@ PyGSL_module_error_handler(const char *reason, /* name of function*/
 			   int line,   /*from CPP*/
 			   int gsl_error) /* real "reason" */
 {
+     FUNC_MESS_BEGIN();
      PyGSL_internal_error_handler(reason, file, line,  gsl_error, HANDLE_ERROR);
+     FUNC_MESS_END();
 }
 
 static int
@@ -370,5 +372,9 @@ PyGSL_warning(const char *reason, /* name of function*/
 	      int line,   /*from CPP*/
 	      int gsl_error) /* real "reason" */
 {
-     return PyGSL_internal_error_handler(reason, file, line,  gsl_error, HANDLE_WARNING);
+     int tmp;
+     FUNC_MESS_BEGIN();
+     tmp =  PyGSL_internal_error_handler(reason, file, line,  gsl_error, HANDLE_WARNING);
+     FUNC_MESS_END();
+     return tmp;
 }
