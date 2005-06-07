@@ -2,6 +2,7 @@
 # Author : Pierre Schnizer 
 import types
 import tempfile
+import pygsl
 import pygsl._numobj as nummodule
 from pygsl import vector
 from pygsl import matrix_pierre
