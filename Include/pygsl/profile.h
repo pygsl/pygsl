@@ -13,9 +13,12 @@
 #include <pygsl/utils.h>
 #include <pygsl/intern.h>
 
+
 #define PYGSL_PROFILE_INPUT 1
+
 #ifdef PYGSL_PROFILE_INPUT
 
+#if 0
 /*
   One dimensional Python array can be directly passed to
   vectors. If not a function will be invoked. If it has 
@@ -51,7 +54,7 @@ extern  int pygsl_profile_complex_transform_counter;
  * 
  */
 extern int pygsl_profile_float_transform_counter;
-
+#endif
 #define PyGSL_INCREASE_vector_transform_counter()      \
                 pygsl_profile_vector_transform_counter++
 
