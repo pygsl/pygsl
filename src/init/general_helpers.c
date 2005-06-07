@@ -88,7 +88,7 @@ PyGSL_pyfloat_to_double(PyObject *object, double *result, PyGSL_error_info *info
 	      info->error_description = msg;
 	      return PyGSL_set_error_string_for_callback(info);
 	 }
-	 DEBUG_MESS(2, "Not from call back treatment, normal error", 0);
+	 DEBUG_MESS(2, "Not from call back treatment, normal error. info = %p", info);
 	 GSL_ERROR(msg, GSL_EBADFUNC);
      }
 
