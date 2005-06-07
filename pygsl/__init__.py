@@ -72,21 +72,28 @@ run_gsl_version = pygsl.init.run_gsl_version
 # The compile date
 compile_date = pygsl.init.compile_date
 
-version="0.3.1"
+version="0.3.2"
 __all__=['blas', 'chebyshev', 'combination', 'const', 'diff', 'eigen', 'fit', 'fft',
          'ieee', 'integrate', 'interpolation','linalg', 'math', 'minimize',
          'monte', 'multifit', 'multifit_nlin', 'multimin', 'multiroots',
          'odeiv', 'permutation', 'poly', 'qrng', 'rng', 'roots', 'siman', 'sf',
          'spline', 'statistics']
 
-if compiled_gsl_version != run_gsl_version:
-    txt = """WARNING: This pygsl module was compiled for GSL version %s but it
-is used with version %s!"""
-    raise Warning,  txt % (compiled_gsl_version, run_gsl_version)
 
 
 import pygsl._numobj
 import pygsl._mlab
+def set_debug_level(level):
+    """
+    Allow to set the debug level if implemented in the init function.
+
+    Silently ignore it if it does not exist
+    """
+    try:
+        pygsl.init.set_debug_level(level)
+    except pygsl.errors.gsl_NotImplementedError:
+        print "Switchable debug information was not compiled in!"
+    
 def import_all():
     """
     PyGSL does not import all modules on statup. If you need it
@@ -98,3 +105,8 @@ def import_all():
             __import__(name, globals(), locals(), [])
         except ImportError:
             print "Import of %s failed!" % (name,)
+
+if compiled_gsl_version != run_gsl_version:
+    txt = """This pygsl module was compiled for GSL version %s but it
+is used with version %s!"""
+    raise Warning,  txt % (compiled_gsl_version, run_gsl_version)
