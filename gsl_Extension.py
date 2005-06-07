@@ -196,7 +196,7 @@ class gsl_Extension(Extension):
             gsl_lib_list=map(only_lib_name,gsl_lib_list)
 
             if libraries is None: libraries=[]
-	    libraries.append('pygsl')
+	    #libraries.append('pygsl')
             libraries.extend(gsl_lib_list)
 
 	    # test if Numeric module is available
