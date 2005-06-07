@@ -66,7 +66,7 @@ statistics_tt_A(PyObject *self, PyObject *args, void (*pointer)(STATMOD_C_TYPE *
     PyObject *input = NULL, *r; 
     PyArrayObject *data; 
     STATMOD_C_TYPE result1, result2;
-    size_t stride=1, n; 
+    long stride=1, n; 
     int flag;
 
     if(!(PyArg_ParseTuple(args, "O", &input))) 

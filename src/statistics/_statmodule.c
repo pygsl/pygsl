@@ -12,7 +12,7 @@ PyGSL_statistics_d_A(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     double result;
-    int stride=1, n; 
+    long stride=1, n; 
     
     FUNC_MESS_BEGIN();
     if(!(PyArg_ParseTuple(args, "O", &input))) 
@@ -23,7 +23,7 @@ PyGSL_statistics_d_A(PyObject *self, PyObject *args,
 	return NULL;
 
     
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, &stride) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, (int *) &stride) != GSL_SUCCESS){
 	 Py_XDECREF(data); 
 	 return NULL;
     }
@@ -44,7 +44,7 @@ PyGSL_statistics_l_A(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     long result;
-    int stride=1, n; 
+    long stride=1, n; 
     
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
@@ -53,7 +53,7 @@ PyGSL_statistics_l_A(PyObject *self, PyObject *args,
     if(data == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, &stride) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, (int *) &stride) != GSL_SUCCESS){
 	 Py_XDECREF(data); 
 	 return NULL;
     }
@@ -74,7 +74,7 @@ PyGSL_statistics_d_Ad(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     double result, mean;
-    size_t stride=1, n; 
+    long stride=1, n; 
     
     if(!(PyArg_ParseTuple(args, "Od", &input, &mean))) 
 	return NULL;
@@ -83,7 +83,7 @@ PyGSL_statistics_d_Ad(PyObject *self, PyObject *args,
     if(data == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, &stride) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size,  (int *) &stride) != GSL_SUCCESS){
 	 Py_XDECREF(data); 
 	 return NULL;
     }
@@ -103,7 +103,7 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     PyObject *input1 = NULL, *input2 = NULL;
     PyArrayObject *data1=NULL, *data2=NULL;
     double result;
-    int stride1=1, stride2=1, n1;
+    long stride1=1, stride2=1, n1;
 
     FUNC_MESS_BEGIN();
     if(!(PyArg_ParseTuple(args, "OO", &input1, &input2))) 
@@ -113,7 +113,7 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     if(data1 == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size, &stride1) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size,  (int *) &stride1) != GSL_SUCCESS){
 	 goto fail;
     }
 
@@ -125,7 +125,7 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
 	 goto fail;
     }
 
-    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, &stride2) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, (int *) &stride2) != GSL_SUCCESS){
 	 goto fail;
     }    
     DEBUG_MESS(3, "basis_type_size %d\t stride1 %ld\t stride2 %ld", basis_type_size, (long) stride1, (long) stride2);
@@ -152,8 +152,8 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
     PyObject *input1 = NULL, *input2 = NULL;
     PyArrayObject *data1=NULL, *data2=NULL;
     double result, mean;
-    size_t stride1=1, stride2=1;
-    size_t n1;
+    long stride1=1, stride2=1;
+    long n1;
  
     if(!(PyArg_ParseTuple(args, "OOd", &input1, &input2, &mean))) 
 	return NULL;
@@ -162,7 +162,7 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
     if(data1 == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size, &stride1) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size,(int *) &stride1) != GSL_SUCCESS){
 	 goto fail;
     }
 
@@ -174,7 +174,7 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
 	return NULL;
     }
 
-    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, &stride2) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size,(int *) &stride2) != GSL_SUCCESS){
 	 goto fail;
     }
 
@@ -198,8 +198,8 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
     PyObject *input1 = NULL, *input2 = NULL;
     PyArrayObject *data1=NULL, *data2=NULL;
     double result, mean1, mean2;
-    size_t stride1=1, stride2=1;
-    size_t n1;
+    long stride1=1, stride2=1;
+    long n1;
  
     if(!(PyArg_ParseTuple(args, "OOdd", &input1, &input2, &mean1, &mean2))) 
 	return NULL;
@@ -208,7 +208,7 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
     if(data1 == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size, &stride1) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size, (int *) &stride1) != GSL_SUCCESS){
 	 goto fail;
     }
 
@@ -220,7 +220,7 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
 	return NULL;
     }
 
-    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, &stride2) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, (int *) &stride2) != GSL_SUCCESS){
 	 goto fail;
     }
 
@@ -244,7 +244,7 @@ PyGSL_statistics_d_Add(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     double result, mean1, mean2;
-    size_t stride=1, n; 
+    long stride=1, n; 
     
     if(!(PyArg_ParseTuple(args, "Odd", &input, &mean1, &mean2))) 
 	return NULL;
@@ -253,7 +253,7 @@ PyGSL_statistics_d_Add(PyObject *self, PyObject *args,
     if(data == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, &stride) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, (int *) &stride) != GSL_SUCCESS){
 	 Py_XDECREF(data); 
 	 return NULL;
     }
@@ -274,7 +274,7 @@ PyGSL_statistics_ll_A(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     size_t result1, result2;
-    size_t stride=1, n; 
+    long stride=1, n; 
     
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
@@ -283,7 +283,7 @@ PyGSL_statistics_ll_A(PyObject *self, PyObject *args,
     if(data == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, &stride) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, (int *) &stride) != GSL_SUCCESS){
 	 Py_XDECREF(data); 
 	 return NULL;
     }
