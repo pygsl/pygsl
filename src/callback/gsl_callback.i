@@ -14,6 +14,7 @@
 %{
 #include <pygsl/error_helpers.h>
 #include "function_helpers.c"
+#include "chars.c"   
 %}
 
 typedef unsigned int size_t;
