@@ -22,7 +22,7 @@ BUILD_TESTING = 0
 # If you want to use the PyGSL API in other projects ...
 # Well, I do
 #
-INSTALL_HEADERS = 1
+INSTALL_HEADERS = 0
 #------------------------------------------------------------------------------
 # As long as you are not taking part in the development process, I hope that 
 # you do not need to modify anything here.
@@ -41,7 +41,7 @@ from swig_extension import SWIG_Extension as _SWIG_Extension
 from swig_extension import SWIG_Extension_Nop as _SWIG_Extension_Nop
 import gsl_numobj
 from distutils import sysconfig
-from common_objects import libpygsl
+#from common_objects import libpygsl
 
 
 if USE_SWIG == 0:
@@ -56,7 +56,7 @@ def SWIG_Extension(*args, **kws):
 
 
 macros = [('SWIG_COBJECT_TYPES', 1)]
-#macros = macros + [('DEBUG', 1)]
+macros = macros #+ [('DEBUG', 1)]
 debug_macros = macros + [('DEBUG', 1)]
 
 pygsl_init=gsl_Extension("init",
@@ -137,20 +137,6 @@ pygsl_diff = gsl_Extension("diff",
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_diff)
-pygsl_fft = gsl_Extension("fft",
-                           ['src/fftmodule.c'],
-                           define_macros = macros,
-                           gsl_min_version=(1,'0+'),
-                           python_min_version=(2,1)
-                           )
-exts.append(pygsl_fft)
-pygsl_transform = gsl_Extension("_transform",
-                           ['src/transform/transformmodule.c'],
-                           define_macros = macros,
-                           gsl_min_version=(1,'0+'),
-                           python_min_version=(2,1)
-                           )
-exts.append(pygsl_transform)
 pygsl_deriv = gsl_Extension("deriv",
                            ['src/derivmodule.c'],
                            define_macros = macros,
@@ -158,19 +144,24 @@ pygsl_deriv = gsl_Extension("deriv",
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_deriv)
-pygsl_fft = gsl_Extension("fft",
-                           ['src/fftmodule.c'],
+pygsl_transform = gsl_Extension("_transform",
+                           ['src/transform/transformmodule.c'],
                            define_macros = macros,
                            gsl_min_version=(1,'0+'),
                            python_min_version=(2,1)
                            )
-exts.append(pygsl_diff)
+exts.append(pygsl_transform)
+#pygsl_fft = gsl_Extension("fft",
+#                           ['src/fftmodule.c'],
+#                           define_macros = macros,
+#                           gsl_min_version=(1,'0+'),
+#                           python_min_version=(2,1)
+#                           )
+#exts.append(pygsl_fft)
 try:
     pygsl_rng=gsl_Extension("rng",
                             ['src/rng/rngmodule.c'],
-                            #define_macros = [('DEBUG', 10)],
                             gsl_min_version=(1,'0+'),
-                            #define_macros = debug_macros,
                             define_macros = macros,
                             python_min_version=(2,1)
                          )
@@ -228,7 +219,6 @@ except distutils.errors.DistutilsExecError:
 
 pygsl_qrng=gsl_Extension("_qrng",
                          ['src/qrng_module.c'],
-                         #define_macros = [('DEBUG', 10)],
                          gsl_min_version=(1,'0+'),
                          define_macros = macros,
                          python_min_version=(2,1)
@@ -340,6 +330,7 @@ py_module_names = ['errors',
                    'chebyshev',
                    'combination',
                    'eigen',
+                   'fft',
                    'fit',
                    'gsl_function',
                    'gslwrap',
@@ -371,7 +362,7 @@ if "bdist" in sys.argv:
     extends = "_" + str(gsl_numobj.nummodule)
     
 setup (name = "pygsl",
-       version = "0.3.1" + extends,
+       version = "0.3.2" + extends,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
        long_description = "This project provides a python interface for the GNU scientific library (gsl)",
@@ -383,10 +374,8 @@ setup (name = "pygsl",
        ext_package = 'pygsl',
        ext_modules = exts,
        #package_dir = {'pygsl': 'pygsl'},
-       libraries  = [libpygsl, ],
+       #libraries  = [libpygsl, ],
        headers = headers
-       #'].append(('superlu',{'sources':superlu,
-                             #              'include_dirs':head}))
        )
 
 
