@@ -135,7 +135,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	     goto fail;
 	}
 	m = PyGSL_PyArray_prepare_gsl_matrix_view(data, input_array_type, 2,
-						  -1, -1, 1, NULL);
+						  -1, -1, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, NULL);
 	if(m == NULL)
 	     goto fail;
 
@@ -365,7 +365,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			call_n = PyGSL_guess_halfcomplex_length(a, length, eps, datatype);
 			return_n = call_n;
 			if(((r = (PyArrayObject *) PyGSL_New_Array(1, &return_n, output_array_type)) == NULL) ||
-			   (PyGSL_ERROR_FLAG(PyGSL_copy_halfcomplex_to_real(r, a, eps, datatype) != GSL_SUCCESS))){
+			   (PyGSL_ERROR_FLAG(PyGSL_copy_halfcomplex_to_real(r, a, eps, datatype)) != GSL_SUCCESS)){
 				line = __LINE__ - 2;
 				goto fail;
 			}
