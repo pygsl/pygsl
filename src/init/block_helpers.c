@@ -56,6 +56,7 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
      int i;
      int error_flag = GSL_ESANITY, line = -1;
 
+     FUNC_MESS_BEGIN();
      if(!PyArray_Check((PyObject *) a_array)){
 	  gsl_error("Did not recieve an array!", filename, __LINE__, GSL_ESANITY);
 	  line = __LINE__ - 2;
@@ -71,6 +72,7 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
      }
 
      if (a_array->nd !=  nd){
+	  DEBUG_MESS(3, "array->nd = %d\t nd = %d", a_array->nd, nd);
 	  line = __LINE__ - 1;
 	  sprintf(pygsl_error_str, "I could not convert argument number % 3d."
 		  " I expected a %s, but got an array of % 3d dimensions!\n", argnum, 
@@ -131,12 +133,13 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 	  DEBUG_MESS(2, "\t\t Can deal with discontiguous arrays! %d", 0);
      } else {
 	  if(!(((PyArrayObject *) (a_array))->flags & CONTIGUOUS )){
-	       gsl_error("The array is not contingous as requested!", filename, __LINE__, GSL_ESANITY);
+	       gsl_error("The array is not contiguous as requested!", filename, __LINE__, GSL_ESANITY);
 	       error_flag = GSL_ESANITY;
 	       line = __LINE__ - 3;
 	       goto fail;
 	  }
      }
+     FUNC_MESS_END();
      return GSL_SUCCESS;    
 
  fail:
@@ -391,7 +394,6 @@ PyGSL_vector_or_double(PyObject *src, int flag, long size, int argnum, PyGSL_err
      Py_XDECREF(r);
      FUNC_MESS("Fail");
      return NULL;
-
 }
 
 #ifdef PyGSL_NUMERIC
