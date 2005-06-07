@@ -118,7 +118,7 @@ PyGSL_register_debug_flag(int *, const char * module_name);
 #endif  /* _PyGSL_API_MODULE */
 
 #if DEBUG == 1 
-static int pygsl_debug_level = 1;
+static int pygsl_debug_level = 0;
 #define PyGSL_DEBUG_LEVEL() (pygsl_debug_level)
 #define PyGSL_init_debug()  (PyGSL_register_debug_flag(&pygsl_debug_level, __FILE__))
 #else /*  DEBUG == 1 */
