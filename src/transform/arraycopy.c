@@ -212,7 +212,8 @@ _PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args, enum pygsl_
 	if(!PyArg_ParseTuple(args, "O",&a_o))
 		return NULL;
 
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(a_o, PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_DOUBLE, PyArray_FLOAT), 0, -1, 1, NULL);
+	a = PyGSL_PyArray_PREPARE_gsl_vector_view(a_o, PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_DOUBLE, PyArray_FLOAT), 
+						  PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
 	if(a == NULL)
 		goto fail;
 	n = a->dimensions[0];
@@ -350,7 +351,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 				line = __LINE__ -7;
 				goto fail;
 			}
-			if(PyGSL_ERROR_FLAG(PyGSL_copy_array_to_array(s, m, mode) != GSL_SUCCESS)){
+			if(PyGSL_ERROR_FLAG(PyGSL_copy_array_to_array(s, m, mode)) != GSL_SUCCESS){
 				line = __LINE__ -1;
 				goto fail;			
 			}
@@ -406,15 +407,15 @@ PyGSL_Check_Array_Length(PyArrayObject *a, int call_n, int datamode, int n_type)
 {
 	int n_check = a->dimensions[0];
 
-#if DEBUG > 1
+	if (PyGSL_DEBUG_LEVEL()> 1)
 	{
 	     int i;
 	     DEBUG_MESS(4, "Array nd = %d", a->nd);
-	     for(i = 0; i < nd; ++i){
+	     for(i = 0; i < a->nd; ++i){
 		  DEBUG_MESS(5, "Array nd = %d", a->dimensions[i]);
 	     }
 	}
-#endif 
+
 	DEBUG_MESS(3, "Call Length %d, Array Length %d n_type %d", call_n, n_check, n_type);
 	if(call_n > n_check * n_type)
 		GSL_ERROR("Array size was not big enough!", GSL_ESANITY);
