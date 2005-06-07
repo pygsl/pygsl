@@ -51,7 +51,7 @@ diff_callback(double x, void *p)
 	assert(pargs->callback);
 	assert(pargs->args);
 	flag = PyGSL_function_wrap_helper(x, &value, NULL, pargs->callback,
-					  pargs->args, __FUNCTION__);
+					  pargs->args, (char *)__FUNCTION__);
 
 	if(GSL_SUCCESS != flag){
 		longjmp(pargs->buffer, flag);
