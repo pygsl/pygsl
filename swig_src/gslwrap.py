@@ -142,6 +142,46 @@ gsl_linalg_QRPT_Rsvx = _gslwrap.gsl_linalg_QRPT_Rsvx
 
 gsl_linalg_QRPT_update = _gslwrap.gsl_linalg_QRPT_update
 
+gsl_linalg_LQ_decomp = _gslwrap.gsl_linalg_LQ_decomp
+
+gsl_linalg_LQ_solve_T = _gslwrap.gsl_linalg_LQ_solve_T
+
+gsl_linalg_LQ_svx_T = _gslwrap.gsl_linalg_LQ_svx_T
+
+gsl_linalg_LQ_lssolve_T = _gslwrap.gsl_linalg_LQ_lssolve_T
+
+gsl_linalg_LQ_Lsolve_T = _gslwrap.gsl_linalg_LQ_Lsolve_T
+
+gsl_linalg_LQ_Lsvx_T = _gslwrap.gsl_linalg_LQ_Lsvx_T
+
+gsl_linalg_L_solve_T = _gslwrap.gsl_linalg_L_solve_T
+
+gsl_linalg_LQ_vecQ = _gslwrap.gsl_linalg_LQ_vecQ
+
+gsl_linalg_LQ_vecQT = _gslwrap.gsl_linalg_LQ_vecQT
+
+gsl_linalg_LQ_unpack = _gslwrap.gsl_linalg_LQ_unpack
+
+gsl_linalg_LQ_update = _gslwrap.gsl_linalg_LQ_update
+
+gsl_linalg_LQ_LQsolve = _gslwrap.gsl_linalg_LQ_LQsolve
+
+gsl_linalg_PTLQ_decomp = _gslwrap.gsl_linalg_PTLQ_decomp
+
+gsl_linalg_PTLQ_decomp2 = _gslwrap.gsl_linalg_PTLQ_decomp2
+
+gsl_linalg_PTLQ_solve_T = _gslwrap.gsl_linalg_PTLQ_solve_T
+
+gsl_linalg_PTLQ_svx_T = _gslwrap.gsl_linalg_PTLQ_svx_T
+
+gsl_linalg_PTLQ_LQsolve_T = _gslwrap.gsl_linalg_PTLQ_LQsolve_T
+
+gsl_linalg_PTLQ_Lsolve_T = _gslwrap.gsl_linalg_PTLQ_Lsolve_T
+
+gsl_linalg_PTLQ_Lsvx_T = _gslwrap.gsl_linalg_PTLQ_Lsvx_T
+
+gsl_linalg_PTLQ_update = _gslwrap.gsl_linalg_PTLQ_update
+
 gsl_linalg_cholesky_decomp = _gslwrap.gsl_linalg_cholesky_decomp
 
 gsl_linalg_cholesky_solve = _gslwrap.gsl_linalg_cholesky_solve
