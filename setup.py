@@ -80,9 +80,7 @@ exts.append(SWIG_Extension("hankel",
 #exts.append(gsl_Extension("_sum",
 #                          ["swig_src/sum_wrap.c"],
 #                          gsl_min_version=(1,0),
-#                          define_macros = [('SWIG_COBJECT_TYPES', 1),
-#                                           #('DEBUG' ,'2'),
-#                                           ],
+#                          define_macros = macros,
 #                          python_min_version=(2,0),
 #                          )
 #            )
@@ -117,7 +115,7 @@ exts.append(SWIG_Extension("_block",
 
 pygsl_siman=gsl_Extension("_siman",
                           ['src/simanmodule.c'],
-                          define_macros = macros, # + [("DEBUG", 10)],
+                          define_macros = macros,
                           gsl_min_version=(1,2),
                           python_min_version=(2,1)
                           )
@@ -151,13 +149,6 @@ pygsl_transform = gsl_Extension("_transform",
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_transform)
-#pygsl_fft = gsl_Extension("fft",
-#                           ['src/fftmodule.c'],
-#                           define_macros = macros,
-#                           gsl_min_version=(1,'0+'),
-#                           python_min_version=(2,1)
-#                           )
-#exts.append(pygsl_fft)
 try:
     pygsl_rng=gsl_Extension("rng",
                             ['src/rng/rngmodule.c'],
@@ -232,13 +223,6 @@ pygsl_sf=gsl_Extension("sf",
                        python_min_version=(2,1)
                        )
 exts.append(pygsl_sf)
-#pygsl_statistics_basis=gsl_Extension("statistics",
-#                                     ['src/statistics/_statmodule.c'],
-#                                     gsl_min_version=(1,),
-#                                     define_macros = macros,
-#                                     python_min_version=(2,1)                                     
-#                                     )
-#exts.append(pygsl_statistics_basis)
 pygsl_statistics_basis=gsl_Extension("statistics._stat",
                                      ['src/statistics/_statmodule.c'],
                                      gsl_min_version=(1,),
@@ -356,7 +340,10 @@ py_module_names = ['errors',
                    'math'
                    ]
 
-headers = glob.glob("Include/pygsl/*.h")
+headers = None
+if INSTALL_HEADERS == 1:
+    headers = glob.glob("Include/pygsl/*.h")
+    
 extends = ""
 if "bdist" in sys.argv:
     extends = "_" + str(gsl_numobj.nummodule)
@@ -373,8 +360,6 @@ setup (name = "pygsl",
        py_modules = map(lambda x : 'pygsl.' + x, py_module_names),
        ext_package = 'pygsl',
        ext_modules = exts,
-       #package_dir = {'pygsl': 'pygsl'},
-       #libraries  = [libpygsl, ],
        headers = headers
        )
 
