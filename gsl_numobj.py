@@ -95,7 +95,6 @@ def switchpreference(array_preference):
 
 	elif use_numarray == 1:    
 		#print "Using nummarray as array Package"
-		print "WARNING: Only use if you want to participate in the porting!!"
 		use_numeric = 0
 		nummodule = "numarray"
 	else:
