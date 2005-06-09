@@ -1,0 +1,103 @@
+\section{Status}
+
+\paragraph*{Status of GSL-Library}
+The gsl-library is since version 1.0 stable and for general use.
+More information about it at \url{http://sources.redhat.com/gsl/}.
+
+\paragraph*{Status of this interface}
+Nearly all modules are wrapped. The sum and hankel modules have been
+wrapped. But noone responded to the request of support (providing an example,
+test the code for proper functioning)
+The code is quite stable now XXX 
+
+\paragraph*{Retriving the Interface}
+You can download it here: \url{http://sourceforge.net/projects/pygsl}
+
+\section{Requirements}
+
+To build the interface, you will need
+\begin{itemize}
+\item \ulink{gsl-1.x}{http://sources.redhat.com/gsl},
+\item \ulink{python2.2}{http://www.python.org} or better,
+\item \ulink{NumPy or numarray}{http://numpy.sf.net}, and
+\item a c compiler (like \ulink{gcc}{http://gcc.gnu.org}).
+\end{itemize}
+
+Supported Platforms are:
+\begin{itemize}
+\item Linux (Redhat/Debian/SuSE) with python2.* and gsl-1.*
+\item SUN
+\item Cygwin
+\item Win32
+\item MacOS X
+\end{itemize}
+
+\section{Installing GSL interface}
+
+\program{gsl-config} must be on your path:\nopagebreak
+\begin{verbatim}
+# unpack the source distribution
+gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
+cd pygsl-x.y.z
+# do this with your prefered python version
+# to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl
+python setup.py build
+# change to an user id, that is allowed to do installation
+python setup.py install
+\end{verbatim}
+Ready....
+
+{\bf Do not test the interface in the distribution root or in the directories \file{src} or \file{pygsl}.}
+
+\paragraph*{Uninstall GSL interface}
+\code{rm -r }"python install path"\code{/lib/python}"version"\code{/site-packages/pygsl}
+
+\paragraph*{Testing}
+the directory \file{tests} will contains several testsuites, based on python \module{unittest}.
+The script \file{run_test.py} in this directory will run one after the other.
+
+\paragraph*{Support}
+Please send mails to our mailinglist at \email{pygsl-discuss@lists.sourceforge.net}.
+
+\paragraph*{Developement}
+You can browse our cvs tree at \url{http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/}.
+\\
+Type this to check out the actual version:
+\begin{verbatim}
+cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login
+#Hit return for no password.
+cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co pygsl
+\end{verbatim}
+The script \program{tools/extract_tool.py} generates most of the special function code.
+
+\paragraph*{ToDo}
+Implement other parts:
+
+
+\paragraph*{History}
+\begin{itemize}
+\item a gsl-interface for python was needed for a project at
+\ulink{Center for Applied Informatics Cologne}{http://www.zaik.uni-koeln.de/AFS}.
+\item \file{gsl-0.0.3} was released at May 23, 2001
+\item \file{gsl-0.0.4} was released at January 8, 2002
+\item \file{gsl-0.0.5} is growing since January, 2002
+\item \file{gsl-0.2.0} was released at 
+\item \file{gsl-0.3.0} was released at 
+\item \file{gsl-0.3.1} was released at 
+\item \file{gsl-0.3.2} was released at 
+\end{itemize}
+
+\paragraph*{Thanks}
+Jochen K\"upper (\email{jochen@jochen-kuepper.de}) for \module{pygsl.statistics} part\\
+Fabian Jakobs for \module{pygsl.blas}\module{pygsl.eigen}
+\module{pygsl.linalg} \module{pygsl.permutation}\\ 
+Leonardo Milano for rpm build\\
+Eric Gurrola and  Peter Stoltz for testing and supporting the port of pygsl to
+the MAC\\
+Sebastien Maret for supporting the Fink \url{http://fink.sourceforge.net} port of
+pygsl.
+
+
+\paragraph*{Maintainers}
+Achim G\"adke (\email{AchimGaedke@users.sourceforge.net}),
+Pierre Schnizer (\email{schnizer@users.sourceforge.net})

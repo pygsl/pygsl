@@ -1,0 +1,533 @@
+\chapter[\protect\module{pygsl.statistics} --- Statistics
+functions]{\protect\module{pygsl.statistics} \\ Statistics functions}
+\label{cha:statistics-module}
+
+\declaremodule{extension}{pygsl.statistics}
+\moduleauthor{Pierre Schnizer}{schnizer@users.sourceforge.net}
+\moduleauthor{Original Author: Jochen K\"upper}{jochen@jochen-kuepper.de}
+\modulesynopsis{Statistical functions.}
+
+\index{mean}
+\index{standard deviation}
+\index{variance}
+\index{estimated standard deviation}
+\index{estimated variance}
+\index{t-test}
+\index{range}
+\index{min}
+\index{max}
+\index{kurtosis}
+\index{skewness}
+\index{autocorrelation}
+\index{covariance}
+
+\begin{quote}
+   This chapter describes the statistical functions in the library.  The basic
+   statistical functions include routines to compute the mean, variance and
+   standard deviation. More advanced functions allow you to calculate absolute
+   deviations, skewness, and kurtosis as well as the median and arbitrary
+   percentiles.
+\end{quote}
+
+The algorithms provided here use recurrence relations to compute average
+quantities in a stable way, without large intermediate values that might
+overflow.  All functions work on any Python sequence (of appropriate
+data-type), but see section \ref{sec:stat:speed-considerations} for advantages
+and drawbacks of different kinds of input data.
+
+\begin{seealso}
+   For details on the underlying implementation of these functions please
+   consult the \GSL{} reference manual.
+\end{seealso}
+
+
+
+\section{Organization of the module}
+\label{sec:stat:organization}
+
+Individual parts of the \gsl{} functions names, providing artificial namespaces
+in C, are mapped to modules and submodules in \pygsl{}.  That is,
+\cfunction{gsl_stats_mean} can be found as \function{pygsl.statistics.mean} and
+\cfunction{gsl_stats_long_mean} as \function{pygsl.statistics.long.mean}.
+
+The functions in the module are available in versions for datasets in the
+standard and \numpy{} floating-point and integer types. The generic versions
+available in the \module{pygsl.statistics} module are using the generic \gsl{}
+\ctype{double} versions.  The submodules use \gsl{} functions according to the
+submodule name, e.g. long for \module{pygsl.statistics.long}.
+
+Implemented submodules are \module{char}, \module{uchar}, \module{short},
+\module{int}, \module{long}, \module{float}, and \module{double}. The latter
+one also serves as default and is used whenever you don't expclicitely state a
+different datatype. In most cases it is appropriate to simply use the default
+implementation as it covers the widest range of the real space, offers high
+precision, and as such is simple to use. If you have a sequence of all integer
+values it is straightforward to use \module{pygsl.statistics.long} functions as
+these use an implementation corresponding to Pythons \class{Float}-type. These
+implemented submodules represent all numeric datatypes available in Python
+(\class{Int}, \class{Float}) besides \class{Long Int} which has no
+representation in standard C, as well as all numeric datatypes available in
+\numpy{} that have corresponding implementations in \gsl{} (on 32 bit systems
+these are: Character, UnsigendInt8, Int16, Int32, Int, Float32, Float).
+
+
+
+\section{Available functions}
+\label{sec:stat:available-functions}
+
+\subsection{Mean, Standard Deviation, and Variance}
+\label{sec:stat:mean-stddev-var}
+
+\begin{funcdesc}{mean}{x}\index{mean}
+   Arithmetic mean (\emph{sample mean}) of \var{x}:
+   \begin{equation}
+      \hat\mu = \frac{1}{N} \sum x_i
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{variance}{x}\index{variance}
+   Estimated (\emph{sample}) variance of \var{x}:
+   \begin{equation}
+      \hat\sigma^2 = \frac{1}{N-1} \sum (x_i - \hat\mu)^2
+   \end{equation}
+   This function computes the mean via a call to \function{mean}.  If you have
+   already computed the mean then you can pass it directly to
+   \function{variance_m}.
+\end{funcdesc}
+
+\begin{funcdesc}{variance_m}{x, mean}\index{variance}
+   Estimated (\emph{sample}) variance of \var{x} relative to \var{mean}:
+   \begin{equation}
+      \hat\sigma^2 = \frac{1}{N-1} \sum (x_i - mean)^2
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{sd}{x}
+\end{funcdesc}
+\begin{funcdesc}{sd_m}{x, mean}\index{sd}\index{mean}
+   The standard deviation is defined as the square root of the variance of
+   \var{x}.  These functions returns the square root of the respective
+   variance-functions above.
+\end{funcdesc}
+
+\begin{funcdesc}{variance_with_fixed_mean}{x, mean}\index{variance}\index{mean}
+   Compute an unbiased estimate of the variance of \var{x} when the population
+   mean \var{mean} of the underlying distribution is known \emph{a priori}.  In
+   this case the estimator for the variance uses the factor $1/N$ and the
+   sample mean $\hat\mu$ is replaced by the known population mean $\mu$:
+   \begin{equation}
+      \hat\sigma^2 = \frac{1}{N} \sum (x_i - \mu)^2
+   \end{equation}
+\end{funcdesc}
+
+
+\subsection{Absolute deviation}
+\label{sec:stat:absolute-deviation}
+
+\begin{funcdesc}{absdev}{data}
+   Compute the absolute deviation from the mean of \var{data} The absolute
+   deviation from the mean is defined as
+   \begin{equation}
+      absdev  = (1/N) \sum |x_i - \hat\mu|
+   \end{equation}
+   where $x_i$ are the elements of the dataset \var{data}.  The absolute
+   deviation from the mean provides a more robust measure of the width of a
+   distribution than the variance.  This function computes the mean of
+   \var{data} via a call to \function{mean}.
+\end{funcdesc}
+
+\begin{funcdesc}{absdev_m}{data, mean}
+   Compute the absolute deviation of the dataset \var{data} relative to the
+   given value of \var{mean}
+   \begin{equation}
+      absdev  = (1/N) \sum |x_i - mean|
+   \end{equation}
+   This function is useful if you have already computed the mean of \var{data}
+   (and want to avoid recomputing it), or wish to calculate the absolute
+   deviation relative to another value (such as zero, or the median).
+\end{funcdesc}
+
+
+\subsection{Higher moments (skewness and kurtosis)}
+\label{sec:stat:higher-moments}
+
+\begin{funcdesc}{skew}{data}
+   Compute the skewness of \var{data}.  The skewness is defined as
+   \begin{equation}
+      skew = (1/N) \sum ((x_i - \hat\mu)/\hat\sigma)^3
+   \end{equation}
+   where $x_i$ are the elements of the dataset \var{data}.  The skewness
+   measures the asymmetry of the tails of a distribution.
+   
+   The function computes the mean and estimated standard deviation of
+   \var{data} via calls to \function{mean} and \function{sd}.
+\end{funcdesc}
+
+
+\begin{funcdesc}{skew_m_sd}{data, mean, sd}
+   Compute the skewness of the dataset \var{data} using the given values of the
+   mean \var{mean} and standard deviation var{sd}
+   \begin{equation}
+      skew = (1/N) \sum ((x_i - mean)/sd)^3
+   \end{equation}
+   These functions are useful if you have already computed the mean and
+   standard deviation of \var{data} and want to avoid recomputing them.
+\end{funcdesc}
+
+
+\begin{funcdesc}{kurtosis}{data}
+   Compute the kurtosis of \var{data}.  The kurtosis is defined as
+   \begin{equation}
+      kurtosis = ((1/N) \sum ((x_i - \hat\mu)/\hat\sigma)^4) - 3
+   \end{equation}
+   The kurtosis measures how sharply peaked a distribution is, relative to its
+   width.  The kurtosis is normalized to zero for a gaussian distribution.
+\end{funcdesc}
+
+
+\begin{funcdesc}{kurtosis_m_sd}{data, mean, sd}
+   This function computes the kurtosis of the dataset \var{data} using the
+   given values of the mean \var{mean} and standard deviation \var{sd}
+   \begin{equation}
+      kurtosis = ((1/N) \sum ((x_i - mean)/sd)^4) - 3
+   \end{equation}
+   This function is useful if you have already computed the mean and standard
+   deviation of \var{data} and want to avoid recomputing them.
+\end{funcdesc}
+
+
+
+\subsection{Autocorrelation}
+\label{sec:stat:autocorrelation}
+
+\begin{funcdesc}{lag1_autocorrelation}{x}
+   Computes the lag-1 autocorrelation of the dataset \var{x}
+   \begin{equation}
+      a_1 = \frac{\sum^{n}_{i = 1} (x_{i} - \hat\mu) (x_{i-1} - \hat\mu)}{
+         \sum^{n}_{i = 1} (x_{i} - \hat\mu) (x_{i} - \hat\mu)}
+   \end{equation}
+ \end{funcdesc}
+
+\begin{funcdesc}{lag1_autocorrelation_m}{x, mean}
+   Computes the lag-1 autocorrelation of the dataset \var{x} using the given
+   value of the mean \var{mean}.
+   \begin{equation}
+      a_1 = \frac{\sum_{i = 1}^{n} (x_{i} - \var{mean}) (x_{i-1} - \var{mean})}{
+         \sum^{n}_{i = 1} (x_{i} - \var{mean}) (x_{i} - \var{mean})}
+   \end{equation}
+\end{funcdesc}
+
+
+
+\subsection{Covariance}
+\label{sec:stat:covariance}
+
+\begin{funcdesc}{covariance}{x, y}
+   Computes the covariance of the datasets \var{x} and \var{y} which must be of
+   same length.
+   \begin{equation}
+      c = \frac{1}{n-1} \sum^{n}_{i=1} (x_i - \hat x) (y_i - \hat y)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{lag1_autocorrelation_m}{x, y, mean\_x, mean\_y}
+   Computes the covariance of the datasets \var{x} and \var{y} using the given
+   values of the means \var{mean\_x} and \var{mean\_y}. The datasets \var{x}
+   and \var{y} must be of equal length.
+   \begin{equation}
+      c = \frac{1}{n-1} \sum^{n}_{i=1} (x_i - \var{mean\_x}) (y_i -
+      \var{mean\_y})
+   \end{equation}
+\end{funcdesc}
+
+
+
+
+\subsection{Maximum and Minimum values}
+\label{sec:stat:max-min-value}
+
+
+\begin{funcdesc}{max}{data}
+   This function returns the maximum value in \var{data}.  The maximum value is
+   defined as the value of the element $x_i$ which satisfies $x_i \ge x_j$ for
+   all $j$.
+   
+   If you want instead to find the element with the largest absolute magnitude
+   you will need to apply `fabs' or `abs' to your data before calling this
+   function.
+\end{funcdesc}
+
+\begin{funcdesc}{min}{data}
+   This function returns the minimum value in \var{data}. The maximum value is
+   defined as the value of the element $x_i$ which satisfies $x_i \le x_j$ for
+   all $j$.
+   
+   If you want instead to find the element with the smallest absolute magnitude
+   you will need to apply `fabs' or `abs' to your data before calling this
+   function.
+\end{funcdesc}
+
+\begin{funcdesc}{minmax}{data}
+   This function returns both the minimum and maximum values of \var{data},
+   determined in a single pass.
+\end{funcdesc}
+
+\begin{funcdesc}{max_index}{data}
+   This function returns the index of the maximum value in \var{data}.  The
+   maximum value is defined as the value of the element $x_i$ which satisfies
+   $x_i \ge x_j$ for all $j$.  When there are several equal maximum elements
+   then the first one is chosen.
+\end{funcdesc}
+
+\begin{funcdesc}{min_index}{data}
+   This function returns the index of the minimum value in \var{data}.  The
+   minimum value is defined as the value of the element $x_i$ which satisfies
+   $x_i \le x_j$ for all $j$.  When there are several equal minimum elements
+   then the first one is chosen.
+\end{funcdesc}
+
+\begin{funcdesc}{minmax_index}{data}
+   This function returns the indexes of the minimum and maximum values of
+   \var{data}, determined in a single pass.
+\end{funcdesc}
+
+
+
+\subsection{Median and Percentiles}
+\label{sec:stat:median-percentiles}
+
+The median and percentile functions described in this section operate on sorted
+data.  For convenience we use "quantiles", measured on a scale of 0 to 1,
+instead of percentiles (which use a scale of 0 to 100).
+
+\begin{funcdesc}{median_from_sorted_data}{data}
+   This function returns the median value of \var{data}.  The elements of the
+   array must be in ascending numerical order.  There are no checks to see
+   whether the data are sorted, so the function \function{sort} should always
+   be used first.
+   
+   When the dataset has an odd number of elements the median is the value of
+   element (n-1)/2.  When the dataset has an even number of elements the median
+   is the mean of the two nearest middle values, elements (n-1)/2 and n/2.
+   Since the algorithm for computing the median involves interpolation this
+   function always returns a floating-point number, even for integer data
+   types.
+\end{funcdesc}
+
+\begin{funcdesc}{quantile_from_sorted_data}{data, F}
+   This function returns a quantile value of \var{data}.  The elements of the
+   array must be in ascending numerical order.  The quantile is determined by
+   the \var{F}, a fraction between 0 and 1.  For example, to compute the value
+   of the 75th percentile \var{F} should have the value 0.75.
+   
+   There are no checks to see whether the data are sorted, so the function
+   \function{sort} should always be used first.
+   
+   The quantile is found by interpolation, using the formula
+   \begin{equation}
+      quantile = (1 - \delta) x_i + \delta x_{i+1}
+   \end{equation}
+   where $i$ is $floor((n - 1)f)$ and $\delta$ is $(n-1)f - i$.
+   
+   Thus the minimum value of the array (\var{data[0]}) is given by \var{F}
+   equal to zero, the maximum value (\var{data[-1]}) is given by \var{F} equal
+   to one and the median value is given by \var{F} equal to 0.5.  Since the
+   algorithm for computing quantiles involves interpolation this function
+   always returns a floating-point number, even for integer data types.
+\end{funcdesc}
+
+
+\subsection{Weighted Samples}
+\label{sec:weighted-samples}
+
+The functions described in this section allow the computation of statistics for
+weighted samples.  The functions accept an array of samples, $x_i$, with
+associated weights, $w_i$.  Each sample $x_i$ is considered as having been
+drawn from a Gaussian distribution with variance $\sigma_i^2$.  The sample
+weight $w_i$ is defined as the reciprocal of this variance, $w_i =
+1/\sigma_i^2$.  Setting a weight to zero corresponds to removing a sample from
+a dataset.
+
+\begin{funcdesc}{wmean}{w, data}
+   This function returns the weighted mean of the dataset \var{data} using the
+   set of weights \var{w}.  The weighted mean is defined as
+   \begin{equation}
+      \hat\mu = (\sum w_i x_i) / (\sum w_i)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wvariance }{w, data}
+   This function returns the estimated variance of the dataset \var{data},
+   using the set of weights \var{w}.  The estimated variance of a weighted
+   dataset is defined as
+   \begin{equation}
+      \hat\sigma^2 = ((\sum w_i)/((\sum w_i)^2 - \sum (w_i^2))) \sum w_i (x_i - \hat\mu)^2
+   \end{equation}
+   Note that this expression reduces to an unweighted variance with the
+   familiar $1/(N-1)$ factor when there are $N$ equal non-zero weights.
+\end{funcdesc}
+
+\begin{funcdesc}{wvariance_m}{w, data, wmean}
+   This function returns the estimated variance of the weighted dataset
+   \var{data} using the given weighted mean \var{wmean}.
+\end{funcdesc}
+
+\begin{funcdesc}{wsd}{w, data}
+   The standard deviation is defined as the square root of the variance.  This
+   function returns the square root of the corresponding variance function
+   \function{wvariance} above.
+\end{funcdesc}
+
+\begin{funcdesc}{wsd_m}{w, data, wmean}
+   This function returns the square root of the corresponding variance function
+   \function{wvariance_m} above.
+\end{funcdesc}
+
+\begin{funcdesc}{wvariance_with_fixed_mean}{w, data, mean}
+   This function computes an unbiased estimate of the variance of weighted
+   dataset \var{data} when the population mean \var{mean} of the underlying
+   distribution is known _a priori_.  In this case the estimator for the
+   variance replaces the sample mean $\hat\mu$ by the known population mean
+   $\mu$,
+   \begin{equation}
+      \hat\sigma^2 = (\sum w_i (x_i - \mu)^2) / (\sum w_i)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wsd_with_fixed_mean}{w, data, mean}
+   The standard deviation is defined as the square root of the variance.  This
+   function returns the square root of the corresponding variance function
+   above.
+\end{funcdesc}
+
+\begin{funcdesc}{wabsdev}{w, data}
+   This function computes the weighted absolute deviation from the weighted
+   mean of \var{data}.  The absolute deviation from the mean is defined as
+   \begin{equation}
+      absdev = (\sum w_i |x_i - \hat\mu|) / (\sum w_i)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wabsdev_m}{w, data, wmean}
+   This function computes the absolute deviation of the weighted dataset DATA
+   about the given weighted mean WMEAN.
+\end{funcdesc}
+
+\begin{funcdesc}{wskew}{w, data}
+   This function computes the weighted skewness of the dataset DATA.
+   \begin{equation}
+      skew = (\sum w_i ((x_i - xbar)/\sigma)^3) / (\sum w_i)
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wskew_m_sd}{w, data, mean, wsd}
+   This function computes the weighted skewness of the dataset \var{data} using
+   the given values of the weighted mean and weighted standard deviation,
+   \var{wmean} and \var{wsd}.
+\end{funcdesc}
+
+\begin{funcdesc}{wkurtosis}{w, data}
+   This function computes the weighted kurtosis of the dataset \var{data}. The
+   kurtosis is defined as 
+   \begin{equation}
+      kurtosis = ((\sum w_i ((x_i - xbar)/sigma)^4) / (\sum w_i)) - 3
+   \end{equation}
+\end{funcdesc}
+
+\begin{funcdesc}{wkurtosis_m_sd}{w, data, mean, wsd}
+   This function computes the weighted kurtosis of the dataset \var{data} using
+   the given values of the weighted mean and weighted standard deviation,
+   \var{wmean} and \var{wsd}.
+\end{funcdesc}
+
+
+
+\section{Speed considerations}
+\label{sec:stat:speed-considerations}
+
+All functions work on any Python sequence type but are optimized for use with
+\NUMPY{} (\numpy{}) arrays. It is strongly suggested that you install NumPy
+(available from \url{http://www.numpy.org}).
+
+If you pass NumPy arrays of the \emph{correct data-type} as input data to any
+of the functions they are passed straight to the C functions along with the
+stride information of the data. If you pass generic (non-\numpy{}) Python
+sequences or \numpy{} arrays of the wrong data-type a suntactically suitable
+copy of the data will be created and passed to the function. No precautions
+against data-losses due to downcasts are taken. Esp. when calling functions
+from a module of the smaller datatpes (\module{char}, \module{uchar},
+\module{short}) you have to make sure all your data fits into the C
+representation of the respective C dataype on the machine the program is
+\emph{executed}. \footnote{Of course you should not pass floating point data to
+   integer modules either.}
+
+In general, when not using \numpy{} you should always use the default
+implementation \module{pygsl.statistics} or the special implementation
+\module{pygsl.statistics.long} in case you are \emph{sure} you have only
+integer values. If your program needs the little speed-up that might be
+possible by doing the calculation on a smaller datatype you should probably not
+write it in plain Python anyway:)
+
+If you have installed \numpy{} you can of course use arrays of all the
+datatypes defined by \numpy{}. In that case you should use the submodule that
+corresponds to the \numpy{} datatype you are using, as only that allows us to
+pass your \numpy{} array straight to the C function. See the \numpy{}
+documentation for details on the available datatypes.
+
+\begin{seealso}
+   If you are still unsure whether you should use \numpy{} take a look at
+   \url{http://www.numpy.org} and download your personal copy.
+\end{seealso}
+
+
+
+\section{Further Reading}
+\label{sec:stat:further-reading}
+
+See the \gsl{} reference manual for a description of all available functions
+and the calculations they perform.
+
+The standard reference for almost any topic in statistics is the multi-volume
+\emph{Advanced Theory of Statistics} by Kendall and Stuart.  Many statistical
+concepts can be more easily understood by a Bayesian approach.  The book by
+Gelman, Carlin, Stern and Rubin gives a comprehensive coverage of the subject.
+For physicists the Particle Data Group provides useful reviews of Probability
+and Statistics in the "Mathematical Tools" section of its Annual Review of
+Particle Physics.
+   
+\begin{seealso}
+   \seetext{Maurice Kendall, Alan Stuart, and J.\ Keith Ord: \emph{The Advanced
+         Theory of Statistics} (multiple volumes) reprinted as \emph{Kendall's
+         Advanced Theory of Statistics}.  Wiley, ISBN 047023380X.}
+   
+   \seetext{Andrew Gelman, John B.\ Carlin, Hal S.\ Stern, Donald B.\ Rubin:
+      \emph{Bayesian Data Analysis}.  Chapman \& Hall, ISBN 0412039915.}
+   
+   \seetext{R.M.\ Barnett et al: Review of Particle Properties. \emph{Physical
+         Review} \textbf{D54}, 1 (1996).}
+   
+   \seetext{D.E.\ Groom et al., \emph{The European Physical Journal}
+      \textbf{C15}, 1 (2000) and \emph{2001 off-year partial update for the
+         2002 edition} available on the PDG WWW pages (URL:
+      \url{http://pdg.lbl.gov/}).}
+   
+   \seetext{Siegmund Brandt: \emph{Datenanalyse}, 4th ed. 1999, Spektrum,
+      Heidelberg, ISBN 3827401585.}  
+   
+   \seetext{Siegmund Brandt: \emph{Data Analysis}. 3rd ed. 1998, Springer,
+      Berlin, ISBN 0387984984.}
+\end{seealso}
+
+
+%% Local Variables:
+%% mode: LaTeX
+%% mode: auto-fill
+%% fill-column: 79
+%% indent-tabs-mode: nil
+%% ispell-dictionary: "american"
+%% reftex-fref-is-default: nil
+%% TeX-auto-save: t
+%% TeX-command-default: "pdfeLaTeX"
+%% TeX-master: "pygsl"
+%% TeX-parse-self: t
+%% End:

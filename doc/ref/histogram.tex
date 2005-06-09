@@ -1,0 +1,286 @@
+\declaremodule{extension}{pygsl.histogram}
+\moduleauthor{Achim G\"adke}{achimgaedke@users.sourceforge.net}
+
+This chapter is about the \class{histogram} and \class{histogram2d} type that
+are contained in \module{pygsl.histogram}.
+
+\section{\protect\class{histogram} --- 1-dimensional histograms}
+
+\begin{classdesc}{histogram}{\texttt{long} size \code{|} \class{histogram} h}
+This type implements all methods on \ctype{struct gsl_histogram}.
+\end{classdesc}
+
+\begin{methoddesc}{alloc}{\texttt{long} length}
+allocate necessary space, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{set_ranges_uniform}{\texttt{float} upper, \texttt{float} lower}
+set the ranges to uniform distance, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{reset}{}
+sets all bin values to 0, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{increment}{\texttt{float} x}
+increments corresponding bin, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{accumulate}{\texttt{float} x, \texttt{float} weight}
+adds the weight to corresponding bin, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{max}{}
+returns upper range, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{min}{}
+returns lower range, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{bins}{}
+returns number of bins, \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{get}{\texttt{long} n}
+gets value of indexed bin, \hfill returns \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{get_range}{\texttt{long} n}
+gets upper and lower range of indexed bin, \hfill returns \texttt{(float,float)}
+\end{methoddesc}
+\begin{methoddesc}{find}{\texttt{float} x}
+finds index of corresponding bin, \hfill returns \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{max_val}{}
+returns maximal bin value, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{max_bin}{}
+returns bin index with maximal value, \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{min_val}{}
+returns minimal bin value, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{min_bin}{}
+returns bin index with minimal value, \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{mean}{}
+returns mean of histogram, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{sigma}{}
+returns std deviation of histogram, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{sum}{}
+returns sum of bin values, \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{set_ranges}{\texttt{sequence} ranges}
+sets range according given sequence, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{shift}{\texttt{float} offset}
+shifts the contents of the bins by the given offset, \hfill returns
+\texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{scale}{\texttt{float} scale}
+multiplies the contents of the bins by the given scale, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{equal_bins_p}{}
+true if the all of the individual bin ranges are identical, \hfill returns \texttt{int}
+\end{methoddesc}
+\begin{methoddesc}{add}{\texttt{histogram} h}
+adds the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{sub}{\texttt{histogram} h}
+substracts the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{mul}{\texttt{histogram} h}
+multiplicates the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{div}{\texttt{histogram} h}
+divides the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{clone}{\texttt{histogram} h}
+returns a new copy of this histogram, \hfill returns new \texttt{histogram}
+\end{methoddesc}
+\begin{methoddesc}{copy}{\texttt{histogram} h}
+copies the given histogram to myself, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{read}{\texttt{file} input}
+reads histogram binary data from file, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{write}{\texttt{file} output}
+writes histogram binary data to file, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{scanf}{\texttt{file} input}
+reads histogram data from file using scanf, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{printf}{\texttt{file} output}
+writes histogram data to file using printf, \hfill returns \texttt{None}
+\end{methoddesc}
+
+
+Some mapping operations are supported, too:\nopagebreak
+\begin{tableii}{l|l}{texttt}{Mapping syntax}{Effect}
+\lineii{histogram[index]}{returns the value of the indexed bin}
+\lineii{histogram[index]=value}{sets the value of the indexed bin}
+\lineii{len(histogram)}{returns the length of the histogram}
+\end{tableii}
+
+\begin{seealso}
+For the special meaning and details please consult the GNU Scientific Library
+reference.
+\end{seealso}
+
+
+\section{\protect\class{histogram2d} --- 2-dimensional histograms}
+
+\begin{classdesc}{histogram2d}{\texttt{long} size x, \texttt{long} size y
+                               \code{|} \class{histogram2d} h}
+This class holds a 2d array and 2 sets of ranges for x and y coordinates for a
+two paramter statistical event. It can be constructed by size parameters or
+as a copy from another histogram. Most of the methods are the same as of
+\class{histogram}.
+\end{classdesc}
+
+\begin{methoddesc}{set_ranges_uniform}{\texttt{float} xmin, \texttt{float} xmax,
+                                       \texttt{float} ymin, \texttt{float} ymax}
+set the ranges to uniform distance, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{alloc}{\texttt{long} nx, \texttt{long} ny}
+allocate necessary space, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{reset}{}
+sets all bin values to 0, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{increment}{\texttt{float} x, \texttt{float} y}
+increments corresponding bin, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{accumulate}{\texttt{float} x, \texttt{float} y,
+                               \texttt{float} weight}
+adds the weight to corresponding bin, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{xmax}{}
+returns upper x range \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{xmin}{}
+returns lower x range \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{ymax}{}
+returns upper y range \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{ymin}{}
+returns lower y range \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{nx}{}
+returns number of x bins \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{ny}{}
+returns number of y bins \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{get}{\texttt{long} i, \texttt{long} j}
+gets value of indexed bin,\hfill returns \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{get_xrange}{\texttt{long} i}
+gets upper and lower x range of indexed bin,
+\hfill returns \texttt{(float \textrm{lower}, float \textrm{upper})}
+\end{methoddesc}
+\begin{methoddesc}{get_yrange}{\texttt{long} j}
+gets upper and lower y range of indexed bin,
+\hfill returns \texttt{(float \textrm{lower}, float \textrm{upper})}
+\end{methoddesc}
+\begin{methoddesc}{find}{\texttt{float} x, \texttt{float} y}
+finds index pair of corresponding value pair,
+\hfill returns (\texttt{long},\texttt{long})
+\end{methoddesc}
+\begin{methoddesc}{max_val}{}
+returns maximal bin value \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{max_bin}{}
+returns bin index with maximal value \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{min_val}{}
+returns minimal bin value \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{min_bin}{}
+returns bin index with minimal value \hfill as \texttt{long}
+\end{methoddesc}
+\begin{methoddesc}{sum}{}
+returns sum of bin values \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{xmean}{}
+returns x mean of histogram \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{xsigma}{}
+returns x std deviation of histogram \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{ymean}{}
+returns y mean of histogram \hfill as\texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{ysigma}{}
+returns y std deviation of histogram \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{cov}{}
+returns covariance of histogram \hfill as \texttt{float}
+\end{methoddesc}
+\begin{methoddesc}{set_ranges}{sequence xranges, sequence yranges}
+set the ranges according to given sequences, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{shift}{\texttt{float} offset}
+shifts the contents of the bins by the given offset, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{scale}{\texttt{float} scale}
+multiplies the contents of the bins by the given scale, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{equal_bins_p}{}
+true if the all of the individual bin ranges are identical, \hfill returns \texttt{int}
+\end{methoddesc}
+\begin{methoddesc}{add}{\class{histogram2d} h}
+adds the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{sub}{\class{histogram2d} h}
+substracts the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{mul}{\class{histogram2d} h}
+multiplicates the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{div}{\class{histogram2d} h}
+divides the contents of the bins, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{clone}{}
+returns a copy instance of \hfill\class{histogram2d}
+\end{methoddesc}
+\begin{methoddesc}{copy}{\class{histogram2d} h}
+copies the given histogram to myself, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{read}{file input}
+reads histogram binary data from file, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{writew}{file output}
+writes histogram binary data to file, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{scanf}{file input}
+reads histogram data from file using scanf, \hfill returns \texttt{None}
+\end{methoddesc}
+\begin{methoddesc}{printf}{file input}
+writes histogram data to file using printf, \hfill returns \texttt{None}
+\end{methoddesc}
+
+Some mapping operations are supported, too:\nopagebreak
+\begin{tableii}{l|l}{code}{Mapping syntax}{Effect}
+\lineii{histogram[x\_index,y\_index]}{returns the value of the indexed bin}
+\lineii{histogram[x\_index,y\_index]=value}{sets the value of the indexed bin}
+\lineii{len(histogram)}{returns the size of the histogram, i.e nx$\times$ny}
+\end{tableii}
+
+
+\begin{seealso}
+For the special meaning and details please consult the GNU Scientific Library
+reference.
+\end{seealso}
+
+\section{\protect\class{histogram_pdf} and \protect\class{histogram2d_pdf}}
+
+To be implemented\dots
+
+%% Local Variables:
+%% mode: LaTeX
+%% mode: auto-fill
+%% fill-column: 90
+%% indent-tabs-mode: nil
+%% ispell-dictionary: "american"
+%% reftex-fref-is-default: nil
+%% TeX-auto-save: t
+%% TeX-command-default: "pdfeLaTeX"
+%% TeX-master: "pygsl"
+%% TeX-parse-self: t
+%% End:

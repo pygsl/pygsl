@@ -1,0 +1,302 @@
+\declaremodule{extension}{pygsl.const} 
+\moduleauthor{Achim  G\"adke}{achimgaedke@users.sourceforge.net}
+
+In this module some usefull constants are defined.  There are four groups of
+constants:
+
+\begin{itemize}
+\item mathematical,
+\item physical in mks unit system,
+\item physical in cgs unit system and
+\item physical number constants (e.g. fine structure)
+\end{itemize}
+
+The other modules are created during the initialisation of
+\module{pygsl.const}.  For convenience the mathematical, physical mks
+constants and number constants also are available in the namespace of
+\module{pygsl.const}.  If the used GSL version is before gsl1.4, see
+\begin{verbatim}
+pygsl.compiled_gsl_version
+\end{verbatim}
+than the module names are cgs and mks. Form gsl1.5 these modules have been
+renamed to cgsm and mksa. So to use cgs constants one has to write
+\begin{verbatim}
+import pygsl.const
+import pygsl.const.cgs
+print pygsl.const.cgs.speed_of_light/pygsl.const.speed_of_light
+\end{verbatim}
+for gsl $<$ 1.5 and
+\begin{verbatim}
+import pygsl.const
+import pygsl.const.cgsm
+print pygsl.const.cgsm.speed_of_light/pygsl.const.speed_of_light
+\end{verbatim}.
+Of course the result is \constant{100.0}.
+Short examples are given at top of each section.
+
+\begin{seealso}
+  The actual values are taken form the \gsl{} headers.  The \GSL{} reference
+  provides a more detailed description of these constants.
+\end{seealso}
+
+\section[\protect\module{pygsl.const.m} --- Mathematical constants]
+{\protect\module{pygsl.const.m} \\ Mathematical constants} 
+\label{cha:const-math-module}
+
+\begin{verbatim}
+from pygsl.const.m import *
+print sqrt2*sqrt2
+\end{verbatim}\\
+Prints \constant{2.0}.\\
+ Here comes the list:\nopagebreak
+\begin{longtableiii}{l|l|l}{constant}{Name}{\gsl{} Name}{value}
+\lineiii{e}{\protect\constant{M\_E}}{e}
+\lineiii{log2e}{\constant{M\_LOG2E}}{$\log_2 e$}
+\lineiii{log10e}{\constant{M\_LOG10E}}{$\log_{10} e$}
+\lineiii{sqrt2}{\constant{M\_SQRT2}}{$\sqrt{2}$}
+\lineiii{sqrt1\_2}{\constant{M\_SQRT1\_2}}{$\sqrt{1/2}$}
+\lineiii{sqrt3}{\constant{M\_SQRT3}}{$\sqrt{3}$}
+\lineiii{pi}{\constant{M\_PI}}{$\pi$}
+\lineiii{pi\_2}{\constant{M\_PI\_2}}{$\pi/2$}
+\lineiii{pi\_4}{\constant{M\_PI\_4}}{$\pi/4$}
+\lineiii{sqrtpi}{\constant{M\_SQRTPI}}{$\sqrt{\pi}$}
+\lineiii{2\_sqrtpi}{\constant{M\_2\_SQRTPI}}{$2/\sqrt{\pi}$}
+\lineiii{1\_pi}{\constant{M\_1\_PI}}{$1/\pi$}
+\lineiii{2\_pi}{\constant{M\_2\_PI}}{$2/\pi$}
+\lineiii{ln10}{\constant{M\_LN10}}{$\ln 10$}
+\lineiii{ln2}{\constant{M\_LN2}}{$\ln 2$}
+\lineiii{lnpi}{\constant{M\_LNPI}}{$\ln{\pi}$}
+\lineiii{euler}{\constant{M\_EULER}}{Euler constant}
+\end{longtableiii}
+
+\section[\protect\module{pygsl.const.mksa} --- Scientific constants in mksa units]
+{\protect\module{pygsl.const.mksa} \\ Scientific constants in mksa units} 
+\label{cha:const-mks-module}
+
+\begin{verbatim}
+from pygsl.const import cgsm
+print "a teaspoon contains %g m^3"%mks.teaspoon
+\end{verbatim}
+
+These are the provided constants:\nopagebreak
+\begin{longtableiii}{l|l|l}{constant}{Name}{gsl Name}{unit}
+\lineiii{speed\_of\_light}{\constant{GSL\_CONST\_MKSA\_SPEED\_OF\_LIGHT}}{m / s}
+\lineiii{gravitational\_constant}{\constant{GSL\_CONST\_MKSA\_GRAVITATIONAL\_CONSTANT}}{m\^{}3 / kg s\^{}2}
+\lineiii{plancks\_constant\_h}{\constant{GSL\_CONST\_MKSA\_PLANCKS\_CONSTANT\_H}}{kg m\^{}2 / s}
+\lineiii{plancks\_constant\_hbar}{\constant{GSL\_CONST\_MKSA\_PLANCKS\_CONSTANT\_HBAR}}{kg m\^{}2 / s}
+\lineiii{vacuum\_permeability}{\constant{GSL\_CONST\_MKSA\_VACUUM\_PERMEABILITY}}{kg m / A\^{}2 s\^{}2}
+\lineiii{astronomical\_unit}{\constant{GSL\_CONST\_MKSA\_ASTRONOMICAL\_UNIT}}{m}
+\lineiii{light\_year}{\constant{GSL\_CONST\_MKSA\_LIGHT\_YEAR}}{m}
+\lineiii{parsec}{\constant{GSL\_CONST\_MKSA\_PARSEC}}{m}
+\lineiii{grav\_accel}{\constant{GSL\_CONST\_MKSA\_GRAV\_ACCEL}}{m / s\^{}2}
+\lineiii{electron\_volt}{\constant{GSL\_CONST\_MKSA\_ELECTRON\_VOLT}}{kg m\^{}2 / s\^{}2}
+\lineiii{mass\_electron}{\constant{GSL\_CONST\_MKSA\_MASS\_ELECTRON}}{kg}
+\lineiii{mass\_muon}{\constant{GSL\_CONST\_MKSA\_MASS\_MUON}}{kg}
+\lineiii{mass\_proton}{\constant{GSL\_CONST\_MKSA\_MASS\_PROTON}}{kg}
+\lineiii{mass\_neutron}{\constant{GSL\_CONST\_MKSA\_MASS\_NEUTRON}}{kg}
+\lineiii{rydberg}{\constant{GSL\_CONST\_MKSA\_RYDBERG}}{kg m\^{}2 / s\^{}2}
+\lineiii{boltzmann}{\constant{GSL\_CONST\_MKSA\_BOLTZMANN}}{kg m\^{}2 / K s\^{}2}
+\lineiii{bohr\_magneton}{\constant{GSL\_CONST\_MKSA\_BOHR\_MAGNETON}}{A m\^{}2}
+\lineiii{nuclear\_magneton}{\constant{GSL\_CONST\_MKSA\_NUCLEAR\_MAGNETON}}{A m\^{}2}
+\lineiii{electron\_magnetic\_moment}{\constant{GSL\_CONST\_MKSA\_ELECTRON\_MAGNETIC\_MOMENT}}{A m\^{}2}
+\lineiii{proton\_magnetic\_moment}{\constant{GSL\_CONST\_MKSA\_PROTON\_MAGNETIC\_MOMENT}}{A m\^{}2}
+\lineiii{molar\_gas}{\constant{GSL\_CONST\_MKSA\_MOLAR\_GAS}}{kg m\^{}2 / K mol s\^{}2}
+\lineiii{standard\_gas\_volume}{\constant{GSL\_CONST\_MKSA\_STANDARD\_GAS\_VOLUME}}{m\^{}3 / mol}
+\lineiii{minute}{\constant{GSL\_CONST\_MKSA\_MINUTE}}{s}
+\lineiii{hour}{\constant{GSL\_CONST\_MKSA\_HOUR}}{s}
+\lineiii{day}{\constant{GSL\_CONST\_MKSA\_DAY}}{s}
+\lineiii{week}{\constant{GSL\_CONST\_MKSA\_WEEK}}{s}
+\lineiii{inch}{\constant{GSL\_CONST\_MKSA\_INCH}}{m}
+\lineiii{foot}{\constant{GSL\_CONST\_MKSA\_FOOT}}{m}
+\lineiii{yard}{\constant{GSL\_CONST\_MKSA\_YARD}}{m}
+\lineiii{mile}{\constant{GSL\_CONST\_MKSA\_MILE}}{m}
+\lineiii{nautical\_mile}{\constant{GSL\_CONST\_MKSA\_NAUTICAL\_MILE}}{m}
+\lineiii{fathom}{\constant{GSL\_CONST\_MKSA\_FATHOM}}{m}
+\lineiii{mil}{\constant{GSL\_CONST\_MKSA\_MIL}}{m}
+\lineiii{point}{\constant{GSL\_CONST\_MKSA\_POINT}}{m}
+\lineiii{texpoint}{\constant{GSL\_CONST\_MKSA\_TEXPOINT}}{m}
+\lineiii{micron}{\constant{GSL\_CONST\_MKSA\_MICRON}}{m}
+\lineiii{angstrom}{\constant{GSL\_CONST\_MKSA\_ANGSTROM}}{m}
+\lineiii{hectare}{\constant{GSL\_CONST\_MKSA\_HECTARE}}{m\^{}2}
+\lineiii{acre}{\constant{GSL\_CONST\_MKSA\_ACRE}}{m\^{}2}
+\lineiii{barn}{\constant{GSL\_CONST\_MKSA\_BARN}}{m\^{}2}
+\lineiii{liter}{\constant{GSL\_CONST\_MKSA\_LITER}}{m\^{}3}
+\lineiii{us\_gallon}{\constant{GSL\_CONST\_MKSA\_US\_GALLON}}{m\^{}3}
+\lineiii{quart}{\constant{GSL\_CONST\_MKSA\_QUART}}{m\^{}3}
+\lineiii{pint}{\constant{GSL\_CONST\_MKSA\_PINT}}{m\^{}3}
+\lineiii{cup}{\constant{GSL\_CONST\_MKSA\_CUP}}{m\^{}3}
+\lineiii{fluid\_ounce}{\constant{GSL\_CONST\_MKSA\_FLUID\_OUNCE}}{m\^{}3}
+\lineiii{tablespoon}{\constant{GSL\_CONST\_MKSA\_TABLESPOON}}{m\^{}3}
+\lineiii{teaspoon}{\constant{GSL\_CONST\_MKSA\_TEASPOON}}{m\^{}3}
+\lineiii{canadian\_gallon}{\constant{GSL\_CONST\_MKSA\_CANADIAN\_GALLON}}{m\^{}3}
+\lineiii{uk\_gallon}{\constant{GSL\_CONST\_MKSA\_UK\_GALLON}}{m\^{}3}
+\lineiii{miles\_per\_hour}{\constant{GSL\_CONST\_MKSA\_MILES\_PER\_HOUR}}{m / s}
+\lineiii{kilometers\_per\_hour}{\constant{GSL\_CONST\_MKSA\_KILOMETERS\_PER\_HOUR}}{m / s}
+\lineiii{knot}{\constant{GSL\_CONST\_MKSA\_KNOT}}{m / s}
+\lineiii{pound\_mass}{\constant{GSL\_CONST\_MKSA\_POUND\_MASS}}{kg}
+\lineiii{ounce\_mass}{\constant{GSL\_CONST\_MKSA\_OUNCE\_MASS}}{kg}
+\lineiii{ton}{\constant{GSL\_CONST\_MKSA\_TON}}{kg}
+\lineiii{metric\_ton}{\constant{GSL\_CONST\_MKSA\_METRIC\_TON}}{kg}
+\lineiii{uk\_ton}{\constant{GSL\_CONST\_MKSA\_UK\_TON}}{kg}
+\lineiii{troy\_ounce}{\constant{GSL\_CONST\_MKSA\_TROY\_OUNCE}}{kg}
+\lineiii{carat}{\constant{GSL\_CONST\_MKSA\_CARAT}}{kg}
+\lineiii{unified\_atomic\_mass}{\constant{GSL\_CONST\_MKSA\_UNIFIED\_ATOMIC\_MASS}}{kg}
+\lineiii{gram\_force}{\constant{GSL\_CONST\_MKSA\_GRAM\_FORCE}}{kg m / s\^{}2}
+\lineiii{pound\_force}{\constant{GSL\_CONST\_MKSA\_POUND\_FORCE}}{kg m / s\^{}2}
+\lineiii{kilopound\_force}{\constant{GSL\_CONST\_MKSA\_KILOPOUND\_FORCE}}{kg m / s\^{}2}
+\lineiii{poundal}{\constant{GSL\_CONST\_MKSA\_POUNDAL}}{kg m / s\^{}2}
+\lineiii{calorie}{\constant{GSL\_CONST\_MKSA\_CALORIE}}{kg m\^{}2 / s\^{}2}
+\lineiii{btu}{\constant{GSL\_CONST\_MKSA\_BTU}}{kg m\^{}2 / s\^{}2}
+\lineiii{therm}{\constant{GSL\_CONST\_MKSA\_THERM}}{kg m\^{}2 / s\^{}2}
+\lineiii{horsepower}{\constant{GSL\_CONST\_MKSA\_HORSEPOWER}}{kg m\^{}2 / s\^{}3}
+\lineiii{bar}{\constant{GSL\_CONST\_MKSA\_BAR}}{kg / m s\^{}2}
+\lineiii{std\_atmosphere}{\constant{GSL\_CONST\_MKSA\_STD\_ATMOSPHERE}}{kg / m s\^{}2}
+\lineiii{torr}{\constant{GSL\_CONST\_MKSA\_TORR}}{kg / m s\^{}2}
+\lineiii{meter\_of\_mercury}{\constant{GSL\_CONST\_MKSA\_METER\_OF\_MERCURY}}{kg / m s\^{}2}
+\lineiii{inch\_of\_mercury}{\constant{GSL\_CONST\_MKSA\_INCH\_OF\_MERCURY}}{kg / m s\^{}2}
+\lineiii{inch\_of\_water}{\constant{GSL\_CONST\_MKSA\_INCH\_OF\_WATER}}{kg / m s\^{}2}
+\lineiii{psi}{\constant{GSL\_CONST\_MKSA\_PSI}}{kg / m s\^{}2}
+\lineiii{poise}{\constant{GSL\_CONST\_MKSA\_POISE}}{kg / m / s}
+\lineiii{stokes}{\constant{GSL\_CONST\_MKSA\_STOKES}}{m\^{}2 / s}
+\lineiii{faraday}{\constant{GSL\_CONST\_MKSA\_FARADAY}}{A s / mol}
+\lineiii{electron\_charge}{\constant{GSL\_CONST\_MKSA\_ELECTRON\_CHARGE}}{A s}
+\lineiii{gauss}{\constant{GSL\_CONST\_MKSA\_GAUSS}}{kg / A s\^{}2}
+\lineiii{stilb}{\constant{GSL\_CONST\_MKSA\_STILB}}{cd / m\^{}2}
+\lineiii{lumen}{\constant{GSL\_CONST\_MKSA\_LUMEN}}{cd sr}
+\lineiii{lux}{\constant{GSL\_CONST\_MKSA\_LUX}}{cd sr / m\^{}2}
+\lineiii{phot}{\constant{GSL\_CONST\_MKSA\_PHOT}}{cd sr / m\^{}2}
+\lineiii{footcandle}{\constant{GSL\_CONST\_MKSA\_FOOTCANDLE}}{cd sr / m\^{}2}
+\lineiii{lambert}{\constant{GSL\_CONST\_MKSA\_LAMBERT}}{cd sr / m\^{}2}
+\lineiii{footlambert}{\constant{GSL\_CONST\_MKSA\_FOOTLAMBERT}}{cd sr / m\^{}2}
+\lineiii{curie}{\constant{GSL\_CONST\_MKSA\_CURIE}}{1 / s}
+\lineiii{roentgen}{\constant{GSL\_CONST\_MKSA\_ROENTGEN}}{A s / kg}
+\lineiii{rad}{\constant{GSL\_CONST\_MKSA\_RAD}}{m\^{}2 / s\^{}2}
+\lineiii{solar\_mass}{\constant{GSL\_CONST\_MKSA\_SOLAR\_MASS}}{kg}
+\lineiii{bohr\_radius}{\constant{GSL\_CONST\_MKSA\_BOHR\_RADIUS}}{m}
+\lineiii{vacuum\_permittivity}{\constant{GSL\_CONST\_MKSA\_VACUUM\_PERMITTIVITY}}{A\^{}2 s\^{}4 / kg m\^{}3}
+\end{longtableiii}
+
+\section[\protect\module{pygsl.const.cgsm} --- Scientific constants in cgsm units]
+{\protect\module{pygsl.const.cgsm} \\ Scientific constants in cgsm units} 
+\label{cha:const-cgs-module}
+
+\begin{verbatim}
+from pygsl.const import cgsm
+print "a teaspoon contains %g ml"%cgs.teaspoon
+\end{verbatim}
+
+You can access the following constants:\nopagebreak
+\begin{longtableiii}{l|l|l}{constant}{Name}{gsl Name}{unit or value}
+\lineiii{speed\_of\_light}{\constant{GSL\_CONST\_CGSM\_SPEED\_OF\_LIGHT}}{cm / s}
+\lineiii{gravitational\_constant}{\constant{GSL\_CONST\_CGSM\_GRAVITATIONAL\_CONSTANT}}{cm\^{}3 / g s\^{} 2}
+\lineiii{plancks\_constant\_h}{\constant{GSL\_CONST\_CGSM\_PLANCKS\_CONSTANT\_H}}{g cm\^{}2 / s}
+\lineiii{plancks\_constant\_hbar}{\constant{GSL\_CONST\_CGSM\_PLANCKS\_CONSTANT\_HBAR}}{g cm\^{}2 / s}
+\lineiii{vacuum\_permeability}{\constant{GSL\_CONST\_CGSM\_VACUUM\_PERMEABILITY}}{cm g / A\^{}2 s\^{}2}
+\lineiii{astronomical\_unit}{\constant{GSL\_CONST\_CGSM\_ASTRONOMICAL\_UNIT}}{cm}
+\lineiii{light\_year}{\constant{GSL\_CONST\_CGSM\_LIGHT\_YEAR}}{cm}
+\lineiii{parsec}{\constant{GSL\_CONST\_CGSM\_PARSEC}}{cm}
+\lineiii{grav\_accel}{\constant{GSL\_CONST\_CGSM\_GRAV\_ACCEL}}{cm / s\^{}2}
+\lineiii{electron\_volt}{\constant{GSL\_CONST\_CGSM\_ELECTRON\_VOLT}}{g cm\^{}2 / s\^{}2}
+\lineiii{mass\_electron}{\constant{GSL\_CONST\_CGSM\_MASS\_ELECTRON}}{g}
+\lineiii{mass\_muon}{\constant{GSL\_CONST\_CGSM\_MASS\_MUON}}{g}
+\lineiii{mass\_proton}{\constant{GSL\_CONST\_CGSM\_MASS\_PROTON}}{g}
+\lineiii{mass\_neutron}{\constant{GSL\_CONST\_CGSM\_MASS\_NEUTRON}}{g}
+\lineiii{rydberg}{\constant{GSL\_CONST\_CGSM\_RYDBERG}}{g cm\^{}2 / s\^{}2}
+\lineiii{boltzmann}{\constant{GSL\_CONST\_CGSM\_BOLTZMANN}}{g cm\^{}2 / K s\^{}2}
+\lineiii{bohr\_magneton}{\constant{GSL\_CONST\_CGSM\_BOHR\_MAGNETON}}{A cm\^{}2}
+\lineiii{nuclear\_magneton}{\constant{GSL\_CONST\_CGSM\_NUCLEAR\_MAGNETON}}{A cm\^{}2}
+\lineiii{electron\_magnetic\_moment}{\constant{GSL\_CONST\_CGSM\_ELECTRON\_MAGNETIC\_MOMENT}}{A cm\^{}2}
+\lineiii{proton\_magnetic\_moment}{\constant{GSL\_CONST\_CGSM\_PROTON\_MAGNETIC\_MOMENT}}{A cm\^{}2}
+\lineiii{molar\_gas}{\constant{GSL\_CONST\_CGSM\_MOLAR\_GAS}}{g cm\^{}2 / K mol s\^{}2}
+\lineiii{standard\_gas\_volume}{\constant{GSL\_CONST\_CGSM\_STANDARD\_GAS\_VOLUME}}{cm\^{}3 / mol}
+\lineiii{minute}{\constant{GSL\_CONST\_CGSM\_MINUTE}}{s}
+\lineiii{hour}{\constant{GSL\_CONST\_CGSM\_HOUR}}{s}
+\lineiii{day}{\constant{GSL\_CONST\_CGSM\_DAY}}{s}
+\lineiii{week}{\constant{GSL\_CONST\_CGSM\_WEEK}}{s}
+\lineiii{inch}{\constant{GSL\_CONST\_CGSM\_INCH}}{cm}
+\lineiii{foot}{\constant{GSL\_CONST\_CGSM\_FOOT}}{cm}
+\lineiii{yard}{\constant{GSL\_CONST\_CGSM\_YARD}}{cm}
+\lineiii{mile}{\constant{GSL\_CONST\_CGSM\_MILE}}{cm}
+\lineiii{nautical\_mile}{\constant{GSL\_CONST\_CGSM\_NAUTICAL\_MILE}}{cm}
+\lineiii{fathom}{\constant{GSL\_CONST\_CGSM\_FATHOM}}{cm}
+\lineiii{mil}{\constant{GSL\_CONST\_CGSM\_MIL}}{cm}
+\lineiii{point}{\constant{GSL\_CONST\_CGSM\_POINT}}{cm}
+\lineiii{texpoint}{\constant{GSL\_CONST\_CGSM\_TEXPOINT}}{cm}
+\lineiii{micron}{\constant{GSL\_CONST\_CGSM\_MICRON}}{cm}
+\lineiii{angstrom}{\constant{GSL\_CONST\_CGSM\_ANGSTROM}}{cm}
+\lineiii{hectare}{\constant{GSL\_CONST\_CGSM\_HECTARE}}{cm\^{}2}
+\lineiii{acre}{\constant{GSL\_CONST\_CGSM\_ACRE}}{cm\^{}2}
+\lineiii{barn}{\constant{GSL\_CONST\_CGSM\_BARN}}{cm\^{}2}
+\lineiii{liter}{\constant{GSL\_CONST\_CGSM\_LITER}}{cm\^{}3}
+\lineiii{us\_gallon}{\constant{GSL\_CONST\_CGSM\_US\_GALLON}}{cm\^{}3}
+\lineiii{quart}{\constant{GSL\_CONST\_CGSM\_QUART}}{cm\^{}3}
+\lineiii{pint}{\constant{GSL\_CONST\_CGSM\_PINT}}{cm\^{}3}
+\lineiii{cup}{\constant{GSL\_CONST\_CGSM\_CUP}}{cm\^{}3}
+\lineiii{fluid\_ounce}{\constant{GSL\_CONST\_CGSM\_FLUID\_OUNCE}}{cm\^{}3}
+\lineiii{tablespoon}{\constant{GSL\_CONST\_CGSM\_TABLESPOON}}{cm\^{}3}
+\lineiii{teaspoon}{\constant{GSL\_CONST\_CGSM\_TEASPOON}}{cm\^{}3}
+\lineiii{canadian\_gallon}{\constant{GSL\_CONST\_CGSM\_CANADIAN\_GALLON}}{cm\^{}3}
+\lineiii{uk\_gallon}{\constant{GSL\_CONST\_CGSM\_UK\_GALLON}}{cm\^{}3}
+\lineiii{miles\_per\_hour}{\constant{GSL\_CONST\_CGSM\_MILES\_PER\_HOUR}}{cm / s}
+\lineiii{kilometers\_per\_hour}{\constant{GSL\_CONST\_CGSM\_KILOMETERS\_PER\_HOUR}}{cm / s}
+\lineiii{knot}{\constant{GSL\_CONST\_CGSM\_KNOT}}{cm / s}
+\lineiii{pound\_mass}{\constant{GSL\_CONST\_CGSM\_POUND\_MASS}}{g}
+\lineiii{ounce\_mass}{\constant{GSL\_CONST\_CGSM\_OUNCE\_MASS}}{g}
+\lineiii{ton}{\constant{GSL\_CONST\_CGSM\_TON}}{g}
+\lineiii{metric\_ton}{\constant{GSL\_CONST\_CGSM\_METRIC\_TON}}{g}
+\lineiii{uk\_ton}{\constant{GSL\_CONST\_CGSM\_UK\_TON}}{g}
+\lineiii{troy\_ounce}{\constant{GSL\_CONST\_CGSM\_TROY\_OUNCE}}{g}
+\lineiii{carat}{\constant{GSL\_CONST\_CGSM\_CARAT}}{g}
+\lineiii{unified\_atomic\_mass}{\constant{GSL\_CONST\_CGSM\_UNIFIED\_ATOMIC\_MASS}}{g}
+\lineiii{gram\_force}{\constant{GSL\_CONST\_CGSM\_GRAM\_FORCE}}{cm g / s\^{}2}
+\lineiii{pound\_force}{\constant{GSL\_CONST\_CGSM\_POUND\_FORCE}}{cm g / s\^{}2}
+\lineiii{kilopound\_force}{\constant{GSL\_CONST\_CGSM\_KILOPOUND\_FORCE}}{cm g / s\^{}2}
+\lineiii{poundal}{\constant{GSL\_CONST\_CGSM\_POUNDAL}}{cm g / s\^{}2}
+\lineiii{calorie}{\constant{GSL\_CONST\_CGSM\_CALORIE}}{g cm\^{}2 / s\^{}2}
+\lineiii{btu}{\constant{GSL\_CONST\_CGSM\_BTU}}{g cm\^{}2 / s\^{}2}
+\lineiii{therm}{\constant{GSL\_CONST\_CGSM\_THERM}}{g cm\^{}2 / s\^{}2}
+\lineiii{horsepower}{\constant{GSL\_CONST\_CGSM\_HORSEPOWER}}{g cm\^{}2 / s\^{}3}
+\lineiii{bar}{\constant{GSL\_CONST\_CGSM\_BAR}}{g / cm s\^{}2}
+\lineiii{std\_atmosphere}{\constant{GSL\_CONST\_CGSM\_STD\_ATMOSPHERE}}{g / cm s\^{}2}
+\lineiii{torr}{\constant{GSL\_CONST\_CGSM\_TORR}}{g / cm s\^{}2}
+\lineiii{meter\_of\_mercury}{\constant{GSL\_CONST\_CGSM\_METER\_OF\_MERCURY}}{g / cm s\^{}2}
+\lineiii{inch\_of\_mercury}{\constant{GSL\_CONST\_CGSM\_INCH\_OF\_MERCURY}}{g / cm s\^{}2}
+\lineiii{inch\_of\_water}{\constant{GSL\_CONST\_CGSM\_INCH\_OF\_WATER}}{g / cm s\^{}2}
+\lineiii{psi}{\constant{GSL\_CONST\_CGSM\_PSI}}{g / cm s\^{}2}
+\lineiii{poise}{\constant{GSL\_CONST\_CGSM\_POISE}}{g / cm s}
+\lineiii{stokes}{\constant{GSL\_CONST\_CGSM\_STOKES}}{cm\^{}2 / s}
+\lineiii{faraday}{\constant{GSL\_CONST\_CGSM\_FARADAY}}{A s / mol}
+\lineiii{electron\_charge}{\constant{GSL\_CONST\_CGSM\_ELECTRON\_CHARGE}}{A s}
+\lineiii{gauss}{\constant{GSL\_CONST\_CGSM\_GAUSS}}{g / A s\^{}2}
+\lineiii{stilb}{\constant{GSL\_CONST\_CGSM\_STILB}}{cd / cm\^{}2}
+\lineiii{lumen}{\constant{GSL\_CONST\_CGSM\_LUMEN}}{cd sr}
+\lineiii{lux}{\constant{GSL\_CONST\_CGSM\_LUX}}{cd sr / cm\^{}2}
+\lineiii{phot}{\constant{GSL\_CONST\_CGSM\_PHOT}}{cd sr / cm\^{}2}
+\lineiii{footcandle}{\constant{GSL\_CONST\_CGSM\_FOOTCANDLE}}{cd sr / cm\^{}2}
+\lineiii{lambert}{\constant{GSL\_CONST\_CGSM\_LAMBERT}}{cd sr / cm\^{}2}
+\lineiii{footlambert}{\constant{GSL\_CONST\_CGSM\_FOOTLAMBERT}}{cd sr / cm\^{}2}
+\lineiii{curie}{\constant{GSL\_CONST\_CGSM\_CURIE}}{1 / s}
+\lineiii{roentgen}{\constant{GSL\_CONST\_CGSM\_ROENTGEN}}{A s / g}
+\lineiii{rad}{\constant{GSL\_CONST\_CGSM\_RAD}}{cm\^{}2 / s\^{}2}
+\lineiii{solar\_mass}{\constant{GSL\_CONST\_CGSM\_SOLAR\_MASS}}{g}
+\lineiii{bohr\_radius}{\constant{GSL\_CONST\_CGSM\_BOHR\_RADIUS}}{cm}
+\lineiii{vacuum\_permittivity}{\constant{GSL\_CONST\_CGSM\_VACUUM\_PERMITTIVITY}}{A\^{}2 s\^{}4 / g cm\^{}3}
+\end{longtableiii}
+
+\section[\protect\module{pygsl.const.num} --- Scientific number constants]
+{\protect\module{pygsl.const.num} \\ Scientific number constants} 
+\label{cha:const-num-module}
+
+\begin{verbatim}
+from pygsl.const import *
+# an alternative to
+# from pygsl.const.num import *
+print "fine structure is 1/137 with an error of %g%%"%(abs(1.0/137.0/fine_structure-1.0)*100.0)
+\end{verbatim}
+
+Only two constants are available:\nopagebreak
+\begin{longtableiii}{l|l|l}{constant}{Name}{gsl Name}{unit}
+\lineiii{fine\_structure}{\constant{GSL\_CONST\_NUM\_FINE\_STRUCTURE}}{1}
+\lineiii{avogadro}{\constant{GSL\_CONST\_NUM\_AVOGADRO}}{1 / mol}
+\end{longtableiii}
+

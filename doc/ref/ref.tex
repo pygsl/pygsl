@@ -1,0 +1,205 @@
+% Complete documentation on the extended LaTeX markup used for Python
+% documentation is available in ``Documenting Python'', which is part
+% of the standard documentation for Python.  It may be found online
+% at:
+%
+%     http://www.python.org/doc/current/doc/doc.html
+
+\documentclass[hyperref]{manual}
+
+% latex2html doesn't know [T1]{fontenc}, so we cannot use that:(
+\usepackage{amsmath}
+\usepackage[latin1]{inputenc}
+\usepackage{textcomp}
+
+
+% this version does not reset module names at section level
+%begin{latexonly}
+\makeatletter
+\let\py@OldOldChapter=\chapter
+\renewcommand{\chapter}{\py@reset%
+                        \py@OldOldChapter}
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+   {-3.5ex \@plus -1ex \@minus -.2ex}%
+   {2.3ex \@plus.2ex}%
+   {\reset@font\Large\py@HeaderFamily}}
+\makeatother
+%end{latexonly}
+
+
+% some convenience declarations
+\newcommand{\gsl}{GSL}
+\newcommand{\GSL}{GNU Scientific Library}
+\newcommand{\numpy}{NumPy}
+\newcommand{\NUMPY}{Numerical Python}
+\newcommand{\pygsl}{PyGSL}
+\newcommand{\PYGSL}{PyGSL: Python wrapper of the GNU Scientific Library}
+
+
+\title{PyGSL Reference Manual}
+
+\ifhtml
+\author{%
+   \ulink{Achim G\"adke}{mailto:achimgaedke@users.sourceforge.net}\\
+   Center for Applied Informatics, Cologne \\
+   \ulink{Jochen K\"upper}{mailto:jochen@jochen-kuepper.de}\\
+   Fritz-Haber-Institut der MPG, Berlin
+   \ulink{Sebastien Maret}{mailto:schnizer@users.sourceforge.net}\\
+   Gesellschaft für Schwerionenforschung Darmstadt.
+   \ulink{Pierre Schnizer}{mailto:schnizer@users.sourceforge.net}\\
+   Gesellschaft für Schwerionenforschung, Darmstadt.
+}%
+\else
+%begin{latexonly}
+%% pdfelatex (TeXLive 7) doesn't handle \footnotemark in here...
+\author{Achim G\"adke \\ Jochen K\"upper \\ Sebastien Maret \\ Pierre Schnizer}
+% Please at least include a long-lived email address!
+\authoraddress{
+   Center for Applied Informatics, Cologne \\
+   \email{achimgaedke@users.sourceforge.net} \\[2mm]
+   Fritz-Haber-Institut der MPG, Berlin \\
+   \email{jochen@jochen-kuepper.de} \\
+      Gesellschaft für Schwerionenforschung, Darmstadt\\
+   \email{schnizer@users.sourceforge.net}\\
+}
+%end{latexonly}
+\fi
+
+\date{January, 2005}            % update before release!
+                                % Use an explicit date so that reformatting
+                                % doesn't cause a new date to be used.  Setting
+                                % the date to \today can be used during draft
+                                % stages to make it easier to handle versions.
+\release{0.2}                   % release version; this is used to define the
+\setshortversion{0.2}           % \version macro
+\makeindex                      % tell \index to actually write the .idx file
+
+
+\begin{document}
+
+\maketitle
+
+% This makes the contents more accessible from the front page of the HTML.
+\ifhtml
+\chapter*{Front Matter}
+\label{front}
+\fi
+
+\input{copyright}
+
+\begin{abstract}
+   \noindent
+   pygsl grants python users access to the GNU scientific library.  The latest
+   version can be found at the project homepage, \url{http://pygsl.sf.net}.
+
+   \textbf{Implemented features:} \\
+   \begin{tabular}{ll}
+     \module{pygsl.blas}                & basic linear algebra system\\
+     \module{pygsl.chebyshev}           & chebyshev approximations\\
+     \module{pygsl.combination}         & combinations  \\
+     \module{pygsl.const}               & $>200$ often used mathematical and
+                                          scientific constants. \\
+     \module{pygsl.diff}                & (Deprecated. Use pygsl.deriv instead). \\
+     \module{pygsl.deriv}               & Numerical differentiation. \\
+     \module{pygsl.eigen}               &\\
+     \module{pygsl.fit}                 &\\
+     \module{pygsl.histogram}          & 1d and 2d histograms and operations
+                                          on histograms. \\
+     \module{pygsl.ieee}                & Access to the ieee-arithmetics layer
+                                          of gsl. \\ 
+     \module{pygsl.integrate}           &\\
+     \module{pygsl.interpolation}       &\\ 
+     \module{pygsl.linalg}              &\\
+     \module{pygsl.math}                &\\
+     \module{pygsl.monte}               &\\
+     \module{pygsl.minimize}            &\\
+     \module{pygsl.multifit}            &\\
+     \module{pygsl.multifit_nlin}       &\\    
+     \module{pygsl.multimin}            &\\
+     \module{pygsl.multiroots}          &\\ 
+     \module{pygsl.odeiv}               &\\
+     \module{pygsl.permutation}         &\\  
+     \module{pygsl.poly}                &\\
+     \module{pygsl.qrng}                &\\
+     \module{pygsl.rng}                 & random number generators and probability densities. \\
+     \module{pygsl.roots}               &\\
+     \module{pygsl.siman}               &Simulated anealing\\
+     \module{pygsl.sf}                  & $>200$ special functions. \\
+     \module{pygsl.statistics}          & Statistical functions. \\
+\end{tabular}
+
+\end{abstract}
+
+
+\tableofcontents
+
+
+\chapter{System Requirements, Installation}
+\label{cha:system-req-installation}
+\input{install}
+
+\paragraph*{Acknowledgment}
+\label{sec:acknowledgment}
+Parts of this this manual are based on the \GSL{} reference manual.
+
+
+\chapter[\protect\module{pygsl.const} --- Mathematical and scientific
+constants]{\protect\module{pygsl.const} \\ Mathematical and scientific
+constants} 
+\label{cha:const-module}
+\input{const}
+\input{chebyshev}
+\input{differentiation}
+
+\chapter[\protect\module{pygsl.histogram} --- Histogram Types]
+{\protect\module{pygsl.histogram} \\ Histogram Types}
+\label{cha:histogram-module}
+\input{histogram}
+
+\chapter[\protect\module{pygsl.rng} --- Random Number Generators]
+{\protect\module{pygsl.rng} \\ Random Number Generators}
+\label{cha:rng-module}
+\input{rng}
+
+\chapter[\protect\module{pygsl.sf} --- Special Functions]
+{\protect\module{pygsl.sf} \\ Special Functions}
+\label{cha:sf-module}
+\input{sf}
+\input{statistics}
+
+\input{testing}
+
+\appendix
+
+\chapter[\protect\module{pygsl.ieee} --- Floating Point Unit Support]
+{\protect\module{pygsl.ieee} \\ Floating Point Unit Support}
+\label{cha:ieee-module}
+\input{ieee}
+
+\chapter[\protect\module{pygsl.init} --- Library initialisation]
+{\protect\module{pygsl.init} \\ Library initialisation}
+\label{cha:library-initialisation}
+\input{init}
+
+\chapter[\protect\module{pygsl.errors} --- Error and warning classes]
+{\protect\module{pygsl.errors} \\ Error and warning classes} 
+\label{cha:error-module}
+\input{errors}
+
+\input{freedoc}
+\input{ref.ind}                    % Index
+
+\end{document}
+
+
+%% Local Variables:
+%% mode: LaTeX
+%% mode: auto-fill
+%% fill-column: 79
+%% indent-tabs-mode: nil
+%% ispell-dictionary: "american"
+%% reftex-fref-is-default: nil
+%% TeX-auto-save: t
+%% TeX-command-default: "pdfeLaTeX"
+%% TeX-parse-self: t
+%% End:

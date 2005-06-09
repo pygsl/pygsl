@@ -1,0 +1,196 @@
+\declaremodule{standard}{pygsl.errors}
+\moduleauthor{Pierre Schnizer}{schnizer@users.sourceforge.net}
+\moduleauthor{Original Author: Achim G\"adke}{achimgaedke@users.sourceforge.net}
+
+This chapter provides information about the \exception{gsl_Error} exception class that comes with this module.
+
+\section{Exception Classes}
+
+
+\begin{excclassdesc} {gsl_Error}{}
+derived from \exception{Exception}, can be constructed with any object as parameter.
+It is baseclass to all other \gsl{} Exceptions
+\end{excclassdesc}
+These classes are translations of the \file{<gsl/gsl_errno.h>} to python
+exceptions.
+
+
+\begin{excclassdesc}{gsl_ArithmeticError}{}
+derived from \exception{gsl_Error} and \exception{exceptions.ArithmeticError},
+base of all common arithmetic exceptions
+\end{excclassdesc}
+
+\begin{excclassdesc}{gsl_OverflowError}{}
+derived from \exception{gsl_Error} and \exception{exceptions.OverflowError}
+\end{excclassdesc}
+
+\begin{excclassdesc}{gsl_ZeroDivisionError}{}
+derived from \exception{gsl_Error} and \exception{exceptions.ZeroDivisionError}
+\end{excclassdesc}
+
+\begin{excclassdesc}{gsl_FloatingPointError}{}
+derived from \exception{gsl_Error} and \exception{exceptions.FloatingPointError}
+\end{excclassdesc}
+
+\begin{excclassdesc}{gsl_ArithmeticError}{}
+is derived from  \exception{gsl_Error} and from  \exception{ArithmeticError} .
+This exception is the    base of all common arithmetic exceptions.
+\end{excclassdesc}
+
+\begin{excclassdesc}{gsl_AccuracyLossError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if the failed to reach the specified tolerance.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_BadFuncError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if problem with a user-supplied function occur.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_BadLength}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if  matrix or  vector lengths are not conformant.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_BadToleranceError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if user specified an tolerance which can not be reached.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_CacheLimitError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if the    cache limit is exceeded.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_DivergeError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if an   integral or series is divergent.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_DomainError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if    domain errors occure. e.g. sqrt(-1).
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_EOFError}{}
+is derived from  \exception{gsl_Error} and from  \exception{EOFError} .
+This exception is raised if 
+    end of file
+     .
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_FactorizationError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if     factorization failed.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_FloatingPointError}{}
+is derived from  \exception{gsl_Error} and from  \exception{FloatingPointError} .
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_GenericError}{}
+is derived from  \exception{gsl_Error} .
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_InvalidArgumentError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if an invalid argument is supplied by the user.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_JacobianEvaluationError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if jacobian evaluations are not improving the solution.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_MatrixNotSquare}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if the given matrix is not square.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_MaximumIterationError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if    the maximum number  of iterations is exceeded.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_NoHardwareSupportError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if the requested feature is not supported by the hardware.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_NoProgressError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if the  iteration is not making progress towards solution.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_NotImplementedError}{}
+is derived from  \exception{gsl_Error} and from  \exception{NotImplementedError} .
+This exception is raised if  a requested feature is not (yet) implemented .
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_OverflowError}{}
+is derived from  \exception{gsl_Error} and from  \exception{OverflowError} .
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_PointerError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if an invalid pointer is found by the C wrapper code
+or by the GSL library.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_RangeError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if     output would be out or range, e.g. exp(1e100)
+     .
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_RoundOffError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if  arithmetic failed because of roundoff error.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_RunAwayError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if   iterative process is out of control.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_SanityCheckError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if a sanity check failed - shouldn't happen.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_SingularityError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if  an   apparent singularity is detected.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_TableLimitError}{}
+is derived from  \exception{gsl_Error} .
+This exception is raised if the table limit is exceeded.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_ToleranceError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if  the alghorithm failed to reach the specified tolerance.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_ToleranceFError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if  the alghorithm cannot reach the specified
+tolerance in F (typically the variation of the evaluated function).
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_ToleranceGradientError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if  cannot reach the specified tolerance for the gradient.
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_ToleranceXError}{}
+is derived from  \exception{gsl_ArithmeticError} .
+This exception is raised if cannot reach the specified tolerance in X
+(typically a search result).
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_UnderflowError}{}
+is derived from  \exception{gsl_Error} and from  \exception{OverflowError} .
+\end{excclassdesc}
+\begin{excclassdesc}{gsl_ZeroDivisionError}{}
+is derived from  \exception{gsl_Error} and from  \exception{ZeroDivisionError} .
+\end{excclassdesc}
+
+All the above errors are just translations of the errno to python exceptions.
+
+The following two are specific to pygsl:
+\begin{excclassdesc}{pygsl.errors.pygsl_NotImplementedError}{}
+is derived from  \exception{gsl_Error} and from  \exception{NotImplementedError} .
+This exception is raised if a feature is requested but not
+implemented. Currently only used if a module requests the debugging enviroment
+of the init module, but the init module was not compiled with \code{\#define DEBUG=1}
+\end{excclassdesc}
+\begin{excclassdesc}{pygsl.errors.pygsl_StrideError}{}
+is derived from  \exception{gsl_SanityCheckError} .
+GSL uses as strides multiples of the basis type; for a vector or doubles, one
+means from one double to the next. Numpy or numarray count the stride in
+multiples of the size of a char. Therefore the stride has to be recalculated
+before the approbriate \gsl{} function can be called. If that fails this
+exception is raised.
+\end{excclassdesc}
+
+\section{Warning Classes}
+
+\begin{excclassdesc} {gsl_Warning}{}
+The dedicated warning class for \gsl{} has \exception{Warning} as base class.
+\end{excclassdesc}
+
+\begin{excclassdesc}{gsl_DomainWarning}{}
+derived from \exception{gsl_Warning}, used by some \module{pygsl.histogram} functions
+\end{excclassdesc}

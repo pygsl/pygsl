@@ -1,0 +1,114 @@
+\chapter[\protect\module{pygsl.chebyshev} ---  Modules in Testing]
+{\protect\module{pygsl.chebyshev} \\ Modules in Testing}
+\label{cha:statistics-module}
+
+\declaremodule{standard}{pygsl.chebyshev}
+\moduleauthor{Pierre Schnizer}{schnizer@users.sourceforge.net}
+
+\begin{classdesc}{cheb_series}{}
+  This base class can be instantiated by its name
+\end{classdesc}
+\begin{verbatim}
+import pygsl.chebyshev
+s=pygsl.chebyshev.cheb_series()
+\end{verbatim}
+
+\begin{methoddesc}{__init__}{n}\index{__init__}
+            n ... number of coefficients        
+\end{methoddesc}
+\begin{methoddesc}{init}{f, a, b}\index{init}
+        This function computes the Chebyshev approximation for the
+        function F over the range (a,b) to the previously specified order.
+        The computation of the Chebyshev approximation is an O($n^2$)
+        process, and requires n function evaluations.
+
+            f ... a gsl_function
+            a ... lower limit
+            b ... upper limit
+        
+\end{methoddesc}
+\begin{methoddesc}{eval}{x}\index{eval}
+        This function evaluates the Chebyshev series at a given point X.
+\end{methoddesc}
+\begin{methoddesc}{eval_err}{x}\index{eval_err}
+         This function computes the Chebyshev series  at a given point X,
+         estimating both the series RESULT and its absolute error ABSERR.
+         The error estimate is made from the first neglected term in the
+         series.
+\end{methoddesc}
+\begin{methoddesc}{eval_n}{n, x}\index{eval_n}
+         This function evaluates the Chebyshev series at a given point
+         x, to (at most) the given order n
+\end{methoddesc}
+\begin{methoddesc}{eval_n_err}{n, x}\index{eval_n_err}
+        This function evaluates a Chebyshev series at a given point X,
+        estimating both the series RESULT and its absolute error ABSERR,
+        to (at most) the given order ORDER.  The error estimate is made
+        from the first neglected term in the series.
+\end{methoddesc}
+
+\begin{methoddesc}{calc_deriv}{}\index{calc_deriv}
+        This method computes the derivative of the series CS. It returns
+        a new instance of the cheb_series class.
+\end{methoddesc}
+\begin{methoddesc}{calc_integ}{}\index{calc_integ}
+        This method computes the integral of the series CS. It returns
+        a new instance of the cheb_series class.
+\end{methoddesc}
+\begin{methoddesc}{get_a}{}\index{get_a}
+        Get the lower boundary of the current representation       
+\end{methoddesc}
+\begin{methoddesc}{get_b}{}\index{get_b}
+        Get the upper boundary of the current representation        
+\end{methoddesc}
+\begin{methoddesc}{get_coefficients}{}\index{get_coefficients}
+        Get the chebyshev coefficients.         
+\end{methoddesc}
+\begin{methoddesc}{get_f}{}\index{get_f}
+        Get the value f (what is it ?) The documentation does not tell anything
+        about it.        
+\end{methoddesc}
+\begin{methoddesc}{get_order_sp}{}\index{get_order_sp}
+        Get the value f (what is it ?) The documentation does not tell anything
+        about it.        
+\end{methoddesc}
+\begin{methoddesc}{set_a}{}\index{set_a}
+        Set the lower boundary of the current representation        
+\end{methoddesc}
+\begin{methoddesc}{set_b}{}\index{set_b}
+        Set the upper boundary of the current         
+\end{methoddesc}
+\begin{methoddesc}{set_coefficients}{}\index{set_coefficients}
+        Sets the chebyshev coefficients. 
+\end{methoddesc}
+\begin{methoddesc}{set_f}{f}\index{set_f}
+        Set the value f (what is it ?)        
+\end{methoddesc}
+\begin{methoddesc}{set_order_sp}{...}\index{set_order_sp}
+        Set the value f (what is it ?)        
+\end{methoddesc}
+
+
+\begin{funcdesc}{gsl_function}{f, params}\index{gsl_function}
+
+    This class defines the callbacks known as gsl_function to
+    gsl.
+
+    e.g to supply the function f:
+    
+    def f(x, params):
+        a = params[0]
+        b = parmas[1]
+        c = params[3]
+        return a * x ** 2 + b * x + c
+
+    to some solver, use
+
+    function = gsl_function(f, params)
+    
+\end{funcdesc}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "ref"
+%%% End: 
