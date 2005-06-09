@@ -44,7 +44,8 @@ ADDRESS		= ""
 # Send comments to the <a href=\"mailto:$(MAILINGLIST)\">PyGSL community</a>."
 OPTIONS 	= --address=$(ADDRESS) --split=4
 
-WEBDIR		= shell.sourceforge.net:/home/groups/p/py/pygsl/htdocs/reference
+WEBDIR		= shell.sourceforge.net:/home/groups/p/py/pygsl/htdocs/reference/pygsl/
+RSYNC = rsync
 
 # PyGSL reference manual source files
 
@@ -94,6 +95,8 @@ paper-$(PAPER)/ref.pdf: $(REFFILES)
 # Targets to convert the manuals to HTML using Nikos Drakos' LaTeX to
 # HTML converter.  For more info on this program, see
 # <URL:http://cbl.leeds.ac.uk/nikos/tex2html/doc/latex2html/latex2html.html>.
+web : html
+	 $(RSYNC) --exclude '*.pl' -e ssh -avz html/ref/ $(WEBDIR)
 
 html: $(ALLHTMLFILES) $(HTMLCSSFILES)
 
