@@ -1,79 +1,111 @@
-# Makefile for pygsl manual
+# Makefile for PyGSL documentation
 #
-# Copyright (C) 2002,2003 Jochen Küpper
+# Copyright (c) 2002-2005 Jochen Küpper
+# Copyright (c) 20005 Sebastien Maret
 
+# You could set this to a4:
 
-# some programs, might need adjustment
-GZIP		= gzip -9f
-MKHOWTO		= python2 ./mkhowto --a4 
+PAPER = a4
 
+PYTHON = python
+DVIPS = dvips -N0 -t $(PAPER)
+
+PWD = $(shell pwd)
+TEXINPUTS = $(PWD)/commontex:
+
+MKHOWTO = TEXINPUTS=$(TEXINPUTS) $(PYTHON) $(PWD)/tools/mkhowto
+#MKHTML = $(MKHOWTO) --html --about html/stdabout.dat \
+#	--iconserver ../icons --favicon ../icons/pyfav.png \
+#	--address $(PYTHONDOCS) --up-link ../index.html \
+#	--up-title "Python Documentation Index" \
+#	--global-module-index "../modindex.html" --dvips-safe
+MKHTML = $(MKHOWTO) --html --about html/stdabout.dat \
+	--iconserver ../icons --favicon --dvips-safe
+
+MKDVI = $(MKHOWTO) --paper=$(PAPER) --dvi
+MKPDF =	$(MKHOWTO) --paper=$(PAPER) --pdf
+MKPS= $(MKHOWTO) --paper=$(PAPER) --ps
+
+DVIFILES = paper-$(PAPER)/ref.dvi
+PDFFILES = paper-$(PAPER)/ref.pdf
+PSFILES = paper-$(PAPER)/ref.ps
+
+INDEXFILES = html/ref/ref.html
+
+HTMLCSSFILES = html/ref/ref.css
+
+ALLHTMLFILES=$(INDEXFILES)
+
+ALLCSSFILES=$(HTMLCSSFILES)
 
 # some information for generated html
 MAILINGLIST	= pygsl@lists.sourceforge.net
-ADDRESS		= "Send comments to the <a href=\"mailto:$(MAILINGLIST)\">PyGSL community</a>."
+ADDRESS		= ""
+# Send comments to the <a href=\"mailto:$(MAILINGLIST)\">PyGSL community</a>."
 OPTIONS 	= --address=$(ADDRESS) --split=4
 
-WEBDIR		= kuepper@shell.sourceforge.net:/home/groups/p/py/pygsl/htdocs/reference
+WEBDIR		= shell.sourceforge.net:/home/groups/p/py/pygsl/htdocs/reference
 
+# PyGSL reference manual source files
 
-# LaTeX source files
-SOURCES		= const.tex \
-		copyright.tex \
-		differentiation.tex \
-		errors.tex \
-		freedoc.tex \
-		histogram.tex \
-		ieee.tex \
-		init.tex \
-		install.tex \
-		pygsl.tex \
-		rng.tex \
-		sf.tex \
-		statistics.tex
+REFFILES = ref/const.tex \
+	ref/copyright.tex \
+	ref/differentiation.tex \
+	ref/errors.tex \
+	ref/freedoc.tex \
+	ref/histogram.tex \
+	ref/ieee.tex \
+	ref/init.tex \
+	ref/install.tex \
+	ref/ref.tex \
+	ref/rng.tex \
+	ref/sf.tex \
+	ref/statistics.tex
 
+# These must be declared phony since there
+# are directories with matching names:
 
-# entry points
+.PHONY: ref html
 
-default:	pdf html # need something to generate a current index before html, PDF seems most useful
+# Main target
 
-# some targets (noteably ps) remove the dvi, so make that last
-all:		pdf html ps text dvi
+default: html
+all: html dvi ps pdf
 
-dvi:		pygsl.dvi
+dvi: $(DVIFILES)
+pdf: $(PDFFILES)
+ps: $(PSFILES)
 
-html:		pygsl/pygsl.html
+# Rules to build PostScript and PDF formats
 
-pdf:		pygsl.pdf
+.SUFFIXES: .dvi .ps
 
-ps:		pygsl.ps.gz
+.dvi.ps:
+	$(DVIPS) -o $@ $<
 
-text:		pygsl.txt.gz
+# PyGSL Reference Manual
 
+paper-$(PAPER)/ref.dvi: $(REFFILES)
+	cd paper-$(PAPER) && $(MKDVI) ../ref/ref.tex
 
-web:		all
-		@scp -r icons pygsl pygsl.dvi pygsl.pdf pygsl.ps.gz pygsl.txt.gz $(WEBDIR)
+paper-$(PAPER)/ref.pdf: $(REFFILES)
+	cd paper-$(PAPER) && $(MKPDF) ../ref/ref.tex
 
+# Targets to convert the manuals to HTML using Nikos Drakos' LaTeX to
+# HTML converter.  For more info on this program, see
+# <URL:http://cbl.leeds.ac.uk/nikos/tex2html/doc/latex2html/latex2html.html>.
 
-# some real targets
+html: $(ALLHTMLFILES) $(HTMLCSSFILES)
 
-mkhowto:
-		echo "You need to create a link to mkhowto,"
-		echo "see the README for details."
+$(ALLCSSFILES): html/style.css
+	cp $< $@
 
-pygsl/pygsl.html:	Makefile mkhowto $(SOURCES)
-		$(MKHOWTO) --html $(OPTIONS) pygsl.tex
+ref: html/ref/ref.html html/ref/ref.css
+html/ref/ref.html: $(REFFILES)
+	$(MKHTML) --dir html/ref ref/ref.tex
 
-pygsl.dvi:	Makefile mkhowto $(SOURCES)
-		$(MKHOWTO) --dvi $(OPTIONS) pygsl.tex
+# Housekeeping target
 
-pygsl.pdf:	Makefile mkhowto $(SOURCES)
-		$(MKHOWTO) --pdf $(OPTIONS) pygsl.tex
-
-pygsl.ps.gz:	Makefile mkhowto $(SOURCES)
-		$(MKHOWTO) --ps $(OPTIONS) pygsl.tex
-		$(GZIP) pygsl.ps
-
-pygsl.txt.gz:	Makefile mkhowto $(SOURCES)
-		$(MKHOWTO) --text $(OPTIONS) pygsl.tex
-		$(GZIP) pygsl.txt
-
+clean:
+	rm -f $(DVIFILES) $(PSFILES) $(PDFFILES)
+	rm -rf html/ref/
