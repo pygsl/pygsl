@@ -1,0 +1,40 @@
+PyGSL documentation
+-------------------
+
+This directory contains the LaTeX sources of the PyGSL
+documentation. The documentation can be built in different formats:
+HTML, PDF and PostScript.
+
+In order to build the documentation, you will need a LaTeX
+distribution (e.g. TeTeX), and LaTeX2HTML.
+
+Several tools, which are part of the Python sources, are needed to
+build the documentation. Therefore, you also need to have the Python
+sources. The mklinks script can be used to create symbolic links to
+these tools. It is called with the path of the Python's sources Doc
+directory, e.g.:
+
+   ./mklinks ~/Python-2.4.1/Doc
+      
+Once the symbolics links are created, the Makefile can be used to
+build the documentation. By default, it will build the documentation
+in HTML format.
+
+To build the documentation is PDF format, type:
+
+   make pdf
+
+The default paper format is A4. If you want to build a PDF in US
+letter format instead, type:
+
+   make PAPER=letter pdf
+
+To build a A4 PostScript, type:
+
+   make ps
+
+or, for a US letter PostScript:
+
+   make PAPER=letter ps
+
+	
