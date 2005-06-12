@@ -1,9 +1,9 @@
 # Makefile for PyGSL documentation
 #
 # Copyright (c) 2002-2005 Jochen Küpper
-# Copyright (c) 20005 Sebastien Maret
+# Copyright (c) 2005 Sebastien Maret
 
-# You could set this to a4:
+# You could set this to letter:
 
 PAPER = a4
 
@@ -13,12 +13,7 @@ DVIPS = dvips -N0 -t $(PAPER)
 PWD = $(shell pwd)
 TEXINPUTS = $(PWD)/commontex:
 
-MKHOWTO = TEXINPUTS=$(TEXINPUTS) $(PYTHON) $(PWD)/tools/mkhowto
-#MKHTML = $(MKHOWTO) --html --about html/stdabout.dat \
-#	--iconserver ../icons --favicon ../icons/pyfav.png \
-#	--address $(PYTHONDOCS) --up-link ../index.html \
-#	--up-title "Python Documentation Index" \
-#	--global-module-index "../modindex.html" --dvips-safe
+MKHOWTO = TEXINPUTS=$(TEXINPUTS) $(PYTHON) $(PWD)/mkhowto
 MKHTML = $(MKHOWTO) --html --about html/stdabout.dat \
 	--iconserver ../icons --favicon --dvips-safe
 
@@ -111,4 +106,5 @@ html/ref/ref.html: $(REFFILES)
 
 clean:
 	rm -f $(DVIFILES) $(PSFILES) $(PDFFILES)
-	rm -rf html/ref/
+	rm -rf html/ref
+	rm -f checkargs.pm html2texi.pl icons mkhowto mkinfo py2texi.el

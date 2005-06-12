@@ -1,9 +1,58 @@
-#! /bin/sh
-rm -f checkargs.pm html2texi.pl icons mkhowto mkinfo
+#!/bin/sh -e
 
-ln -s $1/dist/src/Doc/html/icons icons
-ln -s $1/dist/src/Doc/tools/checkargs.pm checkargs.pm
-ln -s $1/dist/src/Doc/tools/html2texi.pl html2texi.pl
-ln -s $1/dist/src/Doc/tools/mkhowto mkhowto
-ln -s $1/dist/src/Doc/tools/mkinfo mkinfo
-ln -s $1/dist/src/Doc/tools/py2texi.el py2texi.el
+# Create symbolics links to the tools needed to build the
+# documentation
+
+if [ $# -ne 1 ]; then
+    echo "Usage: mklink [directory]"
+    echo "where directory is the path of the Doc directory in the" 
+    echo "Python's source. See the README file for details."
+    exit 1
+fi
+
+rm -f checkargs.pm html2texi.pl icons mkhowto mkinfo py2texi.el
+
+if [ -e "$1/html/icons" ]; then 
+    ln -s $1/html/icons icons
+else 
+    echo "$1/html/icons not found."
+    exit 1
+fi
+
+if [ -e "$1/html/icons" ]; then 
+    ln -s $1/tools/checkargs.pm checkargs.pm
+else 
+    echo "$1/tools/checkargs.pm not found."
+    exit 1
+fi
+
+if [ -e "$1/html/icons" ]; then 
+    ln -s $1/tools/html2texi.pl html2texi.pl
+else 
+    echo "$1/tools/html2texi.pl not found."
+    exit 1
+fi
+
+if [ -e "$1/html/icons" ]; then 
+    ln -s $1/tools/mkhowto mkhowto
+else 
+    echo "$1/tools/mkhowto not found."
+    exit 1
+fi
+
+if [ -e "$1/html/icons" ]; then 
+    ln -s $1/tools/mkinfo mkinfo
+else 
+    echo "$1/tools/mkinfo not found."
+    exit 1
+fi
+
+if [ -e "$1/html/icons" ]; then 
+    ln -s $1/tools/py2texi.el py2texi.el
+else 
+    echo "$1/tools/mkinfo not found."
+    exit 1
+fi
+
+exit 0
+
