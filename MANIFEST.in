@@ -36,3 +36,5 @@ include setup_testing.py
 include setup.cfg
 include MANIFEST.in
 include MANIFEST
+include COPYING
+
