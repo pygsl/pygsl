@@ -14,6 +14,7 @@
          -- diff
          -- eigen
          -- fit
+         -- histogram
          -- ieee
          -- integrate
          -- interpolation
@@ -73,11 +74,11 @@ run_gsl_version = pygsl.init.run_gsl_version
 compile_date = pygsl.init.compile_date
 
 version="0.3.2"
-__all__=['blas', 'chebyshev', 'combination', 'const', 'diff', 'eigen', 'fit', 'fft',
-         'ieee', 'integrate', 'interpolation','linalg', 'math', 'minimize',
-         'monte', 'multifit', 'multifit_nlin', 'multimin', 'multiroots',
-         'odeiv', 'permutation', 'poly', 'qrng', 'rng', 'roots', 'siman', 'sf',
-         'spline', 'statistics']
+__all__=['blas', 'chebyshev', 'combination', 'const', 'diff', 'eigen', 'fit',
+         'fft', 'histogram','ieee', 'integrate', 'interpolation','linalg',
+         'math', 'minimize', 'monte', 'multifit', 'multifit_nlin', 'multimin',
+         'multiroots','odeiv', 'permutation', 'poly', 'qrng', 'rng', 'roots',
+         'siman', 'sf', 'spline', 'statistics']
 
 
 
