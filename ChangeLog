@@ -1,3 +1,6 @@
+2005-06-01  Pierre Schnizer <schnizer@sourceforge.net>
+	* Fixed an off by one error in the siman module
+	
 2005-04-04  Pierre Schnizer <schnizer@sourceforge.net>
 	* input1 was used as second input in functions
 	  PyGSL_statistics_d_AA, PyGSL_statistics_d_AAd, PyGSL_statistics_d_AAdd
