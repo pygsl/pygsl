@@ -215,7 +215,7 @@ def QR_solve(QR, tau, b):
     return x
 
 
-def QR_lssovle(QR, tau, b):
+def QR_lssolve(QR, tau, b):
     """
     returns (x, residual)
     
