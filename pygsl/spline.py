@@ -63,6 +63,17 @@ class _spline(_common):
         # The spline struct has no name method, thus I use the class name.
         return self.__class__.__name__
     
+    def GetSplineCObject(self):
+        """
+        Useful when using GSL in C code.
+        """
+        return self._ptr.tocobject()
+
+    def GetAccelCObject(self):
+        """
+        Useful when using GSL in C code.
+        """
+        return self._accel.tocobject()
 
 class linear(_spline):
     """

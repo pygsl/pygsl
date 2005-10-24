@@ -13,7 +13,35 @@
 #include <gsl/gsl_interp.h>
 #include <gsl/gsl_spline.h>
 #include <stdio.h>
+
+static const char pygsl_spline_des[] = "gsl_spline";
+static const char pygsl_accel_des[] = "gsl_accel";
 %}
+
+typedef struct
+{
+     %immutable;     
+}gsl_interp_accel;
+
+typedef struct 
+{
+     %immutable;     
+/*  size_t n;
+  size_t k;
+  size_t *data; */
+}gsl_spline;
+
+%extend gsl_spline{
+  PyObject *tocobject(){
+       return PyCObject_FromVoidPtrAndDesc((void* ) self, (void *) pygsl_spline_des, NULL);
+  }
+}
+
+%extend gsl_interp_accel{
+  PyObject *tocobject(){
+       return PyCObject_FromVoidPtrAndDesc((void* ) self, (void *) pygsl_accel_des, NULL);
+  }
+}
 
 %typemap(arginit) (const double *, const double *, size_t ) %{
      PyArrayObject *_PyVector_1$argnum = NULL;
@@ -155,6 +183,9 @@ gsl_spline_eval_integ(const gsl_spline * spline,
 void
 gsl_spline_free(gsl_spline * spline);
 
+%{
+
+%};
 
 
 /* available types */
