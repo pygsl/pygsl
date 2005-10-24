@@ -16,13 +16,13 @@ USE_SWIG = 1
 # Some modules have been reimplemented. These modules will be installed in
 # pygsl.testing...
 # Set to one if you want them built
-BUILD_TESTING = 0
+BUILD_TESTING = 1
 
 #
 # If you want to use the PyGSL API in other projects ...
 # Well, I do
 #
-INSTALL_HEADERS = 0
+INSTALL_HEADERS = 1
 #------------------------------------------------------------------------------
 # As long as you are not taking part in the development process, I hope that 
 # you do not need to modify anything here.
@@ -56,7 +56,7 @@ def SWIG_Extension(*args, **kws):
 
 
 macros = [('SWIG_COBJECT_TYPES', 1)]
-macros = macros #+ [('DEBUG', 1)]
+macros = macros + [('DEBUG', 1)]
 debug_macros = macros + [('DEBUG', 1)]
 
 pygsl_init=gsl_Extension("init",
@@ -227,7 +227,7 @@ pygsl_statistics_basis=gsl_Extension("statistics._stat",
                                      ['src/statistics/_statmodule.c'],
                                      gsl_min_version=(1,),
                                      define_macros = macros,
-                                     python_min_version=(2,1)                                     
+                                     python_min_version=(2,1)
                                      )
 exts.append(pygsl_statistics_basis)
 pygsl_statistics_uchar=gsl_Extension("statistics.uchar",
@@ -290,15 +290,26 @@ exts.append(errortest)
 
 if BUILD_TESTING:
     sf=gsl_Extension("testing.sf",
-                     ['testing/src/sfmodule_testing.c'],
+                     ['testing/src/sf/sfmodule_testing.c'],
                      gsl_min_version=(1,),
                      define_macros = macros,
                      python_min_version=(2,0)
                      )
-    exts.append(sf)
-    exts.append(gsl_Extension("testing._test",
-			      ['testing/src/testmodule.c'],
-                             ))
+    #exts.append(sf)
+    solver=gsl_Extension("testing.solver",
+                         ['testing/src/solvers/solvermodule.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros + [("ONEFILE", 1)],
+                         python_min_version=(2,0)
+                     )
+    exts.append(solver)
+    cheb=gsl_Extension("testing.chebyshev",
+                         ['testing/src/solvers/chebyshev.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros + [("ONEFILE", 1)],
+                         python_min_version=(2,0)
+                     )
+    exts.append(cheb)
     pass
 
 py_module_names = ['errors',
