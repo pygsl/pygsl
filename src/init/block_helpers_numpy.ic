@@ -51,6 +51,9 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
      PyGSL_INCREASE_vector_transform_counter();
      return a_array;
  fail:
+     FUNC_MESS("Fail");
+     DEBUG_MESS(3, "Requested array type %d", array_type);
+     DEBUG_MESS(3, "Common types double %d, complex double %d, long %d", PyArray_DOUBLE, PyArray_CDOUBLE, PyArray_LONG);
      PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
      Py_XDECREF(a_array);
      return NULL;
