@@ -24,16 +24,16 @@
        :                                                            \
          0  
 
-#define DEBUG_MESS(level, mess, ...)                                 \
+#define DEBUG_MESS(level, mess, args...)                                 \
      ((PyGSL_DEBUG_LEVEL()) > level)  ?                              \
 fprintf(stderr,                                                      \
 	"In Function %s from File %s at line %d "  mess      "\n" ,  \
-        __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__)               \
+        __FUNCTION__, __FILE__, __LINE__, args)               \
 : \
       0 
 #else /* DEBUG > 0 */
 #define FUNC_MESS(mess)
-#define DEBUG_MESS(level, mess,  ...)
+#define DEBUG_MESS(level, mess,  args...)
 #endif /* DEBUG */
 
 #define FUNC_MESS_BEGIN() FUNC_MESS("BEGIN")
