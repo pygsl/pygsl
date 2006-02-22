@@ -47,3 +47,39 @@ import pygsl.rng
 my_rng=gsl_rng()
 print my_rng.name()
 \end{verbatim}
+
+\section{Debugging adding infrastructure}
+
+If you look into the  file ``setup.py'', you will spot
+\begin{verbatim}
+macros = macros + [('DEBUG', 1)]
+\end{verbatim}
+
+This will define DEBUG=1 for the preprocessor.
+
+PyGSL comes with the following macros, which are shallow warppers around
+ fprintf (see also Include/pygsl/intern.h Lines 120-127 and
+Include/pygsl/utils.h)
+
+\cfunction{FUNC_MESS_BEGIN()}
+\cfunction{FUNC_MESS_END()}
+\cfunction{DEBUG_MESS(level, mess, ...)}
+
+All these use PyGSL_DEBUG_LEVEL() to see if the status should be printed. This goes
+back  either to a value defined at compile time, if set to bigger than 0.
+If DEBUG is not defined at compile time, all this information will be
+left out.
+
+DEBUG=1 is special. In this case, PyGSL_DEBUG_LEVEL() is a static
+defined variable. Depending on the value of this variable (which is
+unique to each module implemented in C) the above mentioned macros will
+print out the information.
+
+The memory location of this variable is registered by init_pygsl() (see
+also Include/pygsl/intern.h Lines 135--) via PyGSL_init_debug()
+to PyGSL_register_debug_flag which is implemented in
+src/init/initmodule.c. This keeps a Python lists of CObjects which hold
+pointers to the memory locations of the variables pygsl_debug_level.
+
+If one calls pygsl.init.set_debug_level(level), it will set the values
+of all these variables and one can see the aforementioned prints.

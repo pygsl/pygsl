@@ -27,6 +27,7 @@ from distutils.errors import DistutilsModuleError
 packagedir = os.path.dirname(os.path.abspath(__file__))
 includedir = os.path.join(packagedir, "Include", "pygsl")
 pygsldir   = os.path.join(packagedir, "pygsl")
+
 def extractpattern():
 	"""
 	Try to find if the array object was specified at the command line
@@ -52,8 +53,16 @@ def switchpreference(array_preference):
 	"""
 	have_numeric = 0
 	have_numarray = 0
+	have_numpy = 0
 	use_numeric = 0
 	use_numarray = 0
+	use_numpy = 0
+	try:
+		import numpy
+		have_numpy = 1
+	except ImportError:
+		pass
+	
 	try:
 		import Numeric
 		have_numeric = 1
@@ -68,6 +77,12 @@ def switchpreference(array_preference):
 
 	#array_preference = 'numarray'
 	if array_preference != None:
+	    if array_preference == 'numpy':
+		if have_numpy == 1:
+		    use_numpy = 1
+	        else:
+		    print "Did not find the Numeric module you asked for"            
+
 	    if array_preference == 'Numeric':
 		if have_numeric == 1:
 		    use_numeric = 1
@@ -87,18 +102,24 @@ def switchpreference(array_preference):
 		use_numarray = 1
 	    else:
 		raise  DistutilsModuleError, "I need either Numeric or nummarray!"
-
-	if use_numeric == 1:
+	if use_numpy == 1:
+		use_numeric = 0
+		use_numarray = 0
+		nummodule = "numpy"
+		
+	elif use_numeric == 1:
 		#print "Using Numeric as array Package"
+		use_numpy = 0
 		use_numarray = 0
 		nummodule = "Numeric"
 
 	elif use_numarray == 1:    
 		#print "Using nummarray as array Package"
 		use_numeric = 0
+		use_numpy = 0
 		nummodule = "numarray"
 	else:
-		raise  DistutilsModuleError, "I need either Numeric or nummarray!"
+		raise  DistutilsModuleError, "I need either numpy, Numeric or nummarray!"
 	return nummodule
 
 def writenumobj(nummodule):
@@ -131,12 +152,14 @@ def writenumobj(nummodule):
 	file.write('"""\n')
 	file.write(warnmsg)
 	file.write('"""\n')
-	if nummodule == "Numeric":
+	if  nummodule == "numpy":
+		file.write('from numpy.lib.mlab import *\n')
+	elif nummodule == "Numeric":
 		file.write('from MLab import *\n')
 	elif nummodule == "numarray":
 		file.write('from numarray.linear_algebra.mlab import *\n')
 	else:
-		raise ValueError, "Unknown array object ", nummodule
+		raise ValueError, ("Unknown array object %s" % nummodule)
 	file.close()
 	del file
 

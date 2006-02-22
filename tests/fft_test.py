@@ -8,7 +8,7 @@ import pygsl._numobj as Numeric
 import pygsl._mlab as MLab
 from pygsl.math import fcmp
 
-
+from array_object_functions import get_type_code
 _eps = 1e-8
 
 class _ffttest(unittest.TestCase):
@@ -137,7 +137,7 @@ class DoubleType:
 class FloatType:
     _eps = 1e-4
     def convert(self, y):
-        if y.typecode() in  Numeric.typecodes['Float']:
+        if get_type_code(y) in  Numeric.typecodes['Float']:
             return y.astype(Numeric.Float32)
         elif y.typecode() in  Numeric.typecodes['Complex']:
             return y.astype(Numeric.Complex32)

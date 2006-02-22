@@ -1352,6 +1352,66 @@ def gsl_eigen_jacobi(*args, **kwargs):
 def gsl_eigen_invert_jacobi(*args, **kwargs):
     """gsl_eigen_invert_jacobi(gsl_matrix matrix, gsl_matrix ainv, unsigned int max_rot) -> int"""
     return _gslwrap.gsl_eigen_invert_jacobi(*args, **kwargs)
+class gsl_interp_accel(_object):
+    """Proxy of C gsl_interp_accel struct"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_interp_accel, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, gsl_interp_accel, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C gsl_interp_accel instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def tocobject(*args, **kwargs): 
+        """tocobject(self) -> PyObject"""
+        return _gslwrap.gsl_interp_accel_tocobject(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        """__init__(self) -> gsl_interp_accel"""
+        _swig_setattr(self, gsl_interp_accel, 'this', _gslwrap.new_gsl_interp_accel(*args, **kwargs))
+        _swig_setattr(self, gsl_interp_accel, 'thisown', 1)
+    def __del__(self, destroy=_gslwrap.delete_gsl_interp_accel):
+        """__del__(self)"""
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class gsl_interp_accelPtr(gsl_interp_accel):
+    def __init__(self, this):
+        _swig_setattr(self, gsl_interp_accel, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_interp_accel, 'thisown', 0)
+        _swig_setattr(self, gsl_interp_accel,self.__class__,gsl_interp_accel)
+_gslwrap.gsl_interp_accel_swigregister(gsl_interp_accelPtr)
+
+class gsl_spline(_object):
+    """Proxy of C gsl_spline struct"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, gsl_spline, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, gsl_spline, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C gsl_spline instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def tocobject(*args, **kwargs): 
+        """tocobject(self) -> PyObject"""
+        return _gslwrap.gsl_spline_tocobject(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        """__init__(self) -> gsl_spline"""
+        _swig_setattr(self, gsl_spline, 'this', _gslwrap.new_gsl_spline(*args, **kwargs))
+        _swig_setattr(self, gsl_spline, 'thisown', 1)
+    def __del__(self, destroy=_gslwrap.delete_gsl_spline):
+        """__del__(self)"""
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class gsl_splinePtr(gsl_spline):
+    def __init__(self, this):
+        _swig_setattr(self, gsl_spline, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, gsl_spline, 'thisown', 0)
+        _swig_setattr(self, gsl_spline,self.__class__,gsl_spline)
+_gslwrap.gsl_spline_swigregister(gsl_splinePtr)
+
 
 def gsl_spline_alloc(*args, **kwargs):
     """gsl_spline_alloc(gsl_interp_type T, size_t n) -> gsl_spline"""

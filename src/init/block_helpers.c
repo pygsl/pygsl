@@ -396,13 +396,15 @@ PyGSL_vector_or_double(PyObject *src, int flag, long size, int argnum, PyGSL_err
      return NULL;
 }
 
-#ifdef PyGSL_NUMERIC
+#ifdef PyGSL_NUMPY
 #include "block_helpers_numpy.ic"
 #endif
-
+#ifdef PyGSL_NUMERIC
+#include "block_helpers_numeric.ic"
+#endif
 #ifdef PyGSL_NUMARRAY
 #include "block_helpers_numarray.ic"
 #endif
-#if (!defined  PyGSL_NUMERIC) && (! defined PyGSL_NUMARRAY)
-#error "Neither numarray nor numeric is defined!"
+#if (!defined PyGSL_NUMPY) && (!defined  PyGSL_NUMERIC) && (! defined PyGSL_NUMARRAY)
+#error "Neither numpy nor numarray nor numeric is defined!"
 #endif

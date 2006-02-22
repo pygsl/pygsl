@@ -90,7 +90,9 @@ class _gsl_Location_gsl_config(_gsl_Location):
 			
 		self.prefix = self.get_gsl_info('--prefix').strip()
 		self.cflags = self.get_gsl_info('--cflags').strip()
-		self.libs   = self.get_gsl_info('--libs').strip()
+		libflag = "--libs-without-cblas"
+		#libflag = "--libs"
+		self.libs   = self.get_gsl_info(libflag).strip()
                 self.version = self._split_version(self.get_gsl_info('--version').strip())[:2]
 		
 		# I am running on swig. I suppose that swig is in the path
@@ -184,7 +186,8 @@ class gsl_Extension(Extension):
             # prepend library directory
             if library_dirs is None: library_dirs=[]
             library_dirs[0:0] = [os.path.join(self.gsl_prefix,'lib')]
-
+	    library_dirs = ["/usr/lib/atlas/sse2/", "/usr/lib/sse2/"] + library_dirs 
+	    
             # prepare lib list
             # split optionlist and strip blanks from each option
             gsl_lib_list=map(string.strip,self.get_gsl_libs().split())
@@ -198,7 +201,7 @@ class gsl_Extension(Extension):
             if libraries is None: libraries=[]
 	    #libraries.append('pygsl')
             libraries.extend(gsl_lib_list)
-
+	    libraries = libraries[:-1] + ["cblas"] + [libraries[-1]]
 	    # test if Numeric module is available
 	    if define_macros is None:
 		    define_macros=[]
@@ -209,9 +212,10 @@ class gsl_Extension(Extension):
 		    define_macros = define_macros + [("NUMERIC",0), ]
 	    if undef_macros == None:
 		    undef_macros = []
-	    if 'NDEBUG' not in undef_macros:
-                undef_macros.append('NDEBUG')
+	    #if 'NDEBUG' not in undef_macros:
+            #    undef_macros.append('NDEBUG')
 	    tmp = map(lambda x: x[0], define_macros)
+	    
 	    if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
 		    define_macros = define_macros + [("PYGSL_GSL_MAJOR_VERSION", gsl_major_version),]
 	    if "PYGSL_GSL_MINOR_VERSION" not in tmp:

@@ -34,6 +34,14 @@ import time
 import string
 import glob
 
+# Add the gsldist path
+import os
+gsldist_path = os.path.join(os.path.dirname("__name__"), "gsl_dist")
+# Make sure that we use the new one ...
+sys.path.insert(0, gsldist_path)
+
+import gsl_numobj
+
 import distutils
 from distutils.core import setup, Extension
 from gsl_Extension import gsl_Extension
@@ -63,7 +71,7 @@ pygsl_init=gsl_Extension("init",
 			 ['src/init/initmodule.c'],
                          gsl_min_version=(1,),
                          define_macros = macros + [('DEBUG', 1)],
-                         python_min_version=(2,1)
+                         python_min_version=(2,1),
                          )
 exts.append(pygsl_init)    
 
@@ -309,7 +317,7 @@ if BUILD_TESTING:
                          define_macros = macros + [("ONEFILE", 1)],
                          python_min_version=(2,0)
                      )
-    exts.append(cheb)
+    #exts.append(cheb)
     pass
 
 py_module_names = ['errors',
@@ -351,14 +359,19 @@ py_module_names = ['errors',
                    'math'
                    ]
 
+gsldist = []
 headers = None
 if INSTALL_HEADERS == 1:
     headers = glob.glob("Include/pygsl/*.h")
+    gsldist = map(lambda x: 'gsl_dist.' + os.path.basename(x)[:-3], glob.glob("gsl_dist/*.py"))
+    print gsldist
+
+py_modules = map(lambda x : 'pygsl.' + x, py_module_names) + gsldist 
     
 extends = ""
 if "bdist" in sys.argv:
     extends = "_" + str(gsl_numobj.nummodule)
-    
+
 setup (name = "pygsl",
        version = "0.3.2" + extends,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
@@ -367,8 +380,9 @@ setup (name = "pygsl",
        license = "GPL",
        author = "Achim Gaedke, Pierre Schnizer",
        author_email = "AchimGaedke@users.sourceforge.net, schnizer@users.sourceforge.net",
-       url = "http://pygsl.sourceforge.net",
-       py_modules = map(lambda x : 'pygsl.' + x, py_module_names),
+       url = "http://pygsl.sourceforge.net",       
+       package_dir = {'pygsl' : 'pygsl', 'pygsl.gsl_dist' : 'gsl_dist'},
+       packages = ['pygsl', 'pygsl.testing', 'pygsl.statistics', 'pygsl.gsl_dist'],
        ext_package = 'pygsl',
        ext_modules = exts,
        headers = headers

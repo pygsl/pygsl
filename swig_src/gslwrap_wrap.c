@@ -2037,6 +2037,18 @@ SWIG_Check_unsigned_SS_int(PyObject* obj)
 #include <gsl/gsl_spline.h>
 #include <stdio.h>
 
+static const char pygsl_spline_des[] = "gsl_spline";
+static const char pygsl_accel_des[] = "gsl_accel";
+
+static PyObject *gsl_interp_accel_tocobject(gsl_interp_accel *self){
+       return PyCObject_FromVoidPtrAndDesc((void* ) self, (void *) pygsl_accel_des, NULL);
+  }
+static PyObject *gsl_spline_tocobject(gsl_spline *self){
+       return PyCObject_FromVoidPtrAndDesc((void* ) self, (void *) pygsl_spline_des, NULL);
+  }
+
+
+
 extern gsl_interp_type const *gsl_interp_linear;
 extern gsl_interp_type const *gsl_interp_polynomial;
 extern gsl_interp_type const *gsl_interp_cspline;
@@ -23234,6 +23246,136 @@ static PyObject *_wrap_gsl_eigen_invert_jacobi(PyObject *self, PyObject *args, P
 }
 
 
+static PyObject *_wrap_gsl_interp_accel_tocobject(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_accel *arg1 = (gsl_interp_accel *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        (char *) "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_interp_accel_tocobject",kwnames,&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (PyObject *)gsl_interp_accel_tocobject(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_gsl_interp_accel(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_accel *result;
+    char *kwnames[] = {
+        NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":new_gsl_interp_accel",kwnames)) goto fail;
+    result = (gsl_interp_accel *)(gsl_interp_accel *) calloc(1, sizeof(gsl_interp_accel));
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_gsl_interp_accel, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_delete_gsl_interp_accel(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_interp_accel *arg1 = (gsl_interp_accel *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        (char *) "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:delete_gsl_interp_accel",kwnames,&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    free((char *) arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject * gsl_interp_accel_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_gsl_interp_accel, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
+static PyObject *_wrap_gsl_spline_tocobject(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        (char *) "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_spline_tocobject",kwnames,&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_gsl_spline, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (PyObject *)gsl_spline_tocobject(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_new_gsl_spline(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *result;
+    char *kwnames[] = {
+        NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)":new_gsl_spline",kwnames)) goto fail;
+    result = (gsl_spline *)(gsl_spline *) calloc(1, sizeof(gsl_spline));
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_gsl_spline, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_delete_gsl_spline(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_spline *arg1 = (gsl_spline *) 0 ;
+    PyObject * obj0 = 0 ;
+    char *kwnames[] = {
+        (char *) "self", NULL 
+    };
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:delete_gsl_spline",kwnames,&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_gsl_spline, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    free((char *) arg1);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject * gsl_spline_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_gsl_spline, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_gsl_spline_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *resultobj;
     gsl_interp_type *arg1 = (gsl_interp_type *) 0 ;
@@ -25079,6 +25221,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_eigen_hermv_sort", (PyCFunction) _wrap_gsl_eigen_hermv_sort, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_eigen_jacobi", (PyCFunction) _wrap_gsl_eigen_jacobi, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_eigen_invert_jacobi", (PyCFunction) _wrap_gsl_eigen_invert_jacobi, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_interp_accel_tocobject", (PyCFunction) _wrap_gsl_interp_accel_tocobject, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"new_gsl_interp_accel", (PyCFunction) _wrap_new_gsl_interp_accel, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"delete_gsl_interp_accel", (PyCFunction) _wrap_delete_gsl_interp_accel, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_interp_accel_swigregister", gsl_interp_accel_swigregister, METH_VARARGS, NULL},
+	 { (char *)"gsl_spline_tocobject", (PyCFunction) _wrap_gsl_spline_tocobject, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"new_gsl_spline", (PyCFunction) _wrap_new_gsl_spline, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"delete_gsl_spline", (PyCFunction) _wrap_delete_gsl_spline, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_spline_swigregister", gsl_spline_swigregister, METH_VARARGS, NULL},
 	 { (char *)"gsl_spline_alloc", (PyCFunction) _wrap_gsl_spline_alloc, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_spline_init", (PyCFunction) _wrap_gsl_spline_init, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_spline_eval_e", (PyCFunction) _wrap_gsl_spline_eval_e, METH_VARARGS | METH_KEYWORDS, NULL},

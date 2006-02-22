@@ -76,9 +76,21 @@ static void **PyGSL_API;
 /* Add Debug Number */
 #define PyGSL_register_debug_flag_NUM                  28
 #define PyGSL_vector_or_double_NUM                     29
+/* Raise a warning instead of an error */
 #define PyGSL_warning_NUM                              30
 
-#define PyGSL_NENTRIES_NUM                             31
+#define PyGSL_solver_ret_int_NUM                       31
+#define PyGSL_solver_ret_double_NUM                    32
+#define PyGSL_solver_ret_size_t_NUM                    33
+#define PyGSL_solver_ret_vec_NUM                       34
+#define PyGSL_solver_n_init_NUM                        35
+#define PyGSL_Callable_Check_NUM                       36
+
+#define PyGSL_function_wrap_OnOn_On_NUM                37
+#define PyGSL_function_wrap_On_O_NUM                   38
+#define PyGSL_function_wrap_Op_On_NUM                  39
+
+#define PyGSL_NENTRIES_NUM                             40
 #ifndef _PyGSL_API_MODULE
 #endif /* _PyGSL_API_MODULE */
 

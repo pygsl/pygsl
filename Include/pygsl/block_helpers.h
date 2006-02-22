@@ -32,14 +32,17 @@
 #include <pygsl/general_helpers.h>
 
 #include <pygsl/arrayobject.h>
+#ifdef PyGSL_NUMPY
+#include <numpy/arrayobject.h>
+#endif
 #ifdef PyGSL_NUMERIC
 #include <Numeric/arrayobject.h>
 #endif
 #ifdef PyGSL_NUMARRAY
 #include <numarray/libnumarray.h>
 #endif
-#if (!defined  PyGSL_NUMERIC) && (! defined PyGSL_NUMARRAY)
-#error "Neither numarray nor numeric is defined!"
+#if (!defined PyGSL_NUMPY) && (!defined  PyGSL_NUMERIC) && (!defined PyGSL_NUMARRAY)
+#error "Neither numpy nor numarray nor Numeric is defined!"
 #endif
 
 
@@ -334,8 +337,12 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
          : \
            PyGSL_stride_recalc(strides, basis_type_size, stride_recalc)
 
-#ifdef PyGSL_NUMERIC
+#ifdef PyGSL_NUMPY
 #include <pygsl/block_helpers_numpy.h>
+#endif
+
+#ifdef PyGSL_NUMERIC
+#include <pygsl/block_helpers_numeric.h>
 #endif
 
 #ifdef PyGSL_NUMARRAY
