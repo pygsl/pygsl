@@ -1,7 +1,7 @@
 #
 # author: Achim Gaedke
 # created: May 2001
-# file: pygsl/gsl_extension.py
+# file: pygsl/gsl_dist/gsl_extension.py
 # $Id$
 #
 # module for gsl extensions compilation
