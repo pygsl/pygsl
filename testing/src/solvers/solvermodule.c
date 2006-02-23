@@ -1,7 +1,17 @@
-#include "solver.h"
-#include "solver_doc.ic"
+#include <pygsl/general_helpers.h>
+#include <pygsl/block_helpers.h>
+#include <pygsl/function_helpers.h>
+#include <setjmp.h>
+#include <gsl/gsl_math.h>
 #include <pygsl/error_helpers.h>
 #include <strings.h>
+#include "solver_intern.h"
+#include "solver_doc.ic"
+
+
+PyObject * module = NULL;
+const char *filename = __FILE__;
+
 
 static int *
 PyGSL_solver_set_called(PyGSL_solver *self)
@@ -150,7 +160,7 @@ static PyTypeObject PyGSL_solver_pytype = {
   (char *) PyGSL_solver_type_doc		/* tp_doc */
 };
 
-PyGSL_SOLVER_STATIC PyGSL_solver* 
+static PyGSL_solver*
 _PyGSL_solver_init(const struct _SolverMethods *methods, const struct _GSLMethods* raw_methods) 
 {
      PyGSL_solver *solver_o=NULL;
@@ -192,7 +202,7 @@ _PyGSL_solver_init(const struct _SolverMethods *methods, const struct _GSLMethod
 
 
 static PyObject *
-_PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct * alloc, int nd)
+PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct * alloc, int nd)
 {
      PyGSL_solver *solver_o=NULL;
      int n1=1, n2=1;
@@ -211,6 +221,9 @@ _PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct 
      case 0: flag = 1; break;
      case 1: flag = PyArg_ParseTuple(args,"i", &n1); break;
      case 2: flag = PyArg_ParseTuple(args,"ii", &n1, &n2); break;
+     case 3:
+	  /* odeiv */
+	  break;
      default:
 	  gsl_error("Only 1 or two for number of problem_dimensions implemented!",
 		    __FILE__, __LINE__, GSL_ESANITY);
@@ -243,6 +256,9 @@ _PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct 
 	       DEBUG_MESS(3, "Allocating solver with N=%d, p=%d", n1, n2);
 	       solver_o->solver =  (void *) ((void_anp_t) tmp)(alloc->type, n1, n2); 
 	       break;
+	  case 3:
+	       /* odeiv handles that itself */
+	       break;
 	  default:
 	       gsl_error("Only 0,1 or 2 for number of problem_dimensions implemented!",
 			 __FILE__, __LINE__, GSL_ESANITY);
@@ -258,7 +274,7 @@ _PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct 
 	       line = __LINE__ - 1;
 	       goto fail;
 	  }
-	  break;
+	  break;	  
      default:
 	  ;
      }
@@ -283,19 +299,20 @@ _PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct 
      return NULL;
 }
 
+#if 0
 static PyObject *
 _PyGSL_solver_np_init(PyObject *self, PyObject *args, const solver_alloc_struct * alloc)
 {
     FUNC_MESS_BEGIN();     
-    return _PyGSL_solver_dn_init(self, args, alloc, 2);
+    return PyGSL_solver_dn_init(self, args, alloc, 2);
     FUNC_MESS_END();
 }
 
 static PyObject *
-_PyGSL_solver_n_init(PyObject *self, PyObject *args, const solver_alloc_struct * alloc)
+PyGSL_solver_n_init(PyObject *self, PyObject *args, const solver_alloc_struct * alloc)
 {
      FUNC_MESS_BEGIN();
-     return _PyGSL_solver_dn_init(self, args, alloc, 1);
+     return PyGSL_solver_dn_init(self, args, alloc, 1);
      FUNC_MESS_END();
 }
 
@@ -303,10 +320,11 @@ static PyObject *
 _PyGSL_solver_1_init(PyObject *self, PyObject *args, const solver_alloc_struct * alloc)
 {
      FUNC_MESS_BEGIN();
-     return _PyGSL_solver_dn_init(self, args, alloc, 0);
+     return PyGSL_solver_dn_init(self, args, alloc, 0);
      FUNC_MESS_END();
 }
 
+#endif
 static double
 PyGSL_gsl_function(double x, void * params)
 {
@@ -382,7 +400,7 @@ PyGSL_gsl_function_fdf(double x, void * params,  double *f, double *df)
 }
 
 static PyObject* 
-_PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw, 
+PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw, 
 		    void *fptr, int isfdf) 
 {
 
@@ -448,7 +466,7 @@ _PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      DEBUG_MESS(3, "Everything allocated args = %p", args);
      /* add new function  and parameters */
 
-     if(_PyGSL_solver_func_set(self, args, f, df, fdf) != GSL_SUCCESS)
+     if(PyGSL_solver_func_set(self, args, f, df, fdf) != GSL_SUCCESS)
 	  goto fail;
      
      /* initialize the function struct */
@@ -497,8 +515,8 @@ _PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      
 }
 
-PyObject *
-_PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw, 
+PyGSL_API_EXTERN PyObject *
+PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw, 
 		    const struct pygsl_solver_n_set * info)
 {
      int n, flag=GSL_EFAILED;
@@ -551,7 +569,7 @@ _PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
 	  c_sys=info->c_sys;
      }
 
-     if(_PyGSL_solver_func_set(self, args, f, df, fdf) != GSL_SUCCESS){
+     if(PyGSL_solver_func_set(self, args, f, df, fdf) != GSL_SUCCESS){
 	  line = __LINE__ - 1;
 	  goto fail;
      }
@@ -583,6 +601,18 @@ _PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      return NULL;
      
 }
+
+static PyObject* 
+PyGSL_solver_ret_size_t(PyGSL_solver *self, PyObject *args, 
+			size_t_m_t func)
+{
+     size_t result;
+     FUNC_MESS_BEGIN();
+     assert(PyGSL_solver_check(self));     
+     result=func(self->solver);
+     FUNC_MESS_END();
+     return (PyObject *) PyLong_FromLong((long)result);
+} 
 
 static PyObject* 
 PyGSL_solver_ret_int(PyGSL_solver *self, PyObject *args, 
@@ -626,7 +656,7 @@ PyGSL_solver_ret_vec(PyGSL_solver *self, PyObject *args,
  * evaluates a C function taking an vector and a double as input and returning a status.
  */
 static PyObject*
-_PyGSL_solver_i_vd(PyObject * self, PyObject *args, int_f_vd_t func)
+PyGSL_solver_vd_i(PyObject * self, PyObject *args, int_f_vd_t func)
 {
      PyObject *g=NULL;
      PyArrayObject *ga=NULL;
@@ -657,7 +687,7 @@ _PyGSL_solver_i_vd(PyObject * self, PyObject *args, int_f_vd_t func)
 }
 
 static PyObject *
-_PyGSL_solver_i_vvdd(PyObject * self, PyObject * args, int_f_vvdd_t func)
+PyGSL_solver_vvdd_i(PyObject * self, PyObject * args, int_f_vvdd_t func)
 {
      int flag;
      int line = -1;
@@ -709,7 +739,7 @@ _PyGSL_solver_i_vvdd(PyObject * self, PyObject * args, int_f_vvdd_t func)
      return NULL;
 }
 
-PyGSL_SOLVER_STATIC int
+PyGSL_API_EXTERN int
 PyGSL_Callable_Check(PyObject *f, const char * myname)
 {
      FUNC_MESS_BEGIN();
@@ -722,8 +752,8 @@ PyGSL_Callable_Check(PyObject *f, const char * myname)
      return GSL_SUCCESS;
 }
 
-PyGSL_SOLVER_STATIC int
-_PyGSL_solver_func_set(PyGSL_solver *self, PyObject *args, PyObject *f,
+PyGSL_API_EXTERN int
+PyGSL_solver_func_set(PyGSL_solver *self, PyObject *args, PyObject *f,
 		       PyObject *df, PyObject *fdf)
 {
      int flag = GSL_EFAILED;
@@ -760,89 +790,64 @@ _PyGSL_solver_func_set(PyGSL_solver *self, PyObject *args, PyObject *f,
 }
 
 #ifdef ONEFILE
+
 #include "chars.c"
+#include "function_helpers2.c"
+/* 
+
 #include "function_helpers.c"
-#include "odeiv.c"
 #include "integrate.c"
+#include "odeiv.c"
 #include "roots.c"
 #include "minimize.c"
 #include "multifit_nlin.c"
-#include "multimin.c"
+#include "multimin.c" 
 #include "multiroot.c"
+*/
 #endif /* ONEFILE */
 
 static PyMethodDef solverMethods[] = {
-     /* multimin inits */
-     {"nmsimplex",        PyGSL_multimin_init_nmsimplex,        METH_VARARGS, (char *)nmsimplex_doc       },
-     {"steepest_descent", PyGSL_multimin_init_steepest_descent, METH_VARARGS, (char *)steepest_descent_doc},
-     {"vector_bfgs",      PyGSL_multimin_init_vector_bfgs,      METH_VARARGS, (char *)vector_bfgs_doc     },
-     {"conjugate_pr",     PyGSL_multimin_init_conjugate_pr,     METH_VARARGS, (char *)conjugate_pr_doc    },
-     {"conjugate_fr",     PyGSL_multimin_init_conjugate_fr,     METH_VARARGS, (char *)conjugate_fr_doc    },
-     {"test_size",        PyGSL_multimin_test_size,             METH_VARARGS, (char *)test_size_doc       },
-     {"test_gradient",    PyGSL_multimin_test_gradient,         METH_VARARGS, (char *)test_gradient_doc   },
-     /* multimin funcs */
-     {"test_size",        PyGSL_multimin_test_size,             METH_VARARGS, (char *)test_size_doc       },
-     {"test_gradient",    PyGSL_multimin_test_gradient,         METH_VARARGS, (char *)test_gradient_doc   },
-     /* mutliroot solvers */
-     {"dnewton" ,      PyGSL_multiroot_init_dnewton,  METH_VARARGS, NULL},   
-     {"broyden" ,      PyGSL_multiroot_init_broyden,  METH_VARARGS, NULL},
-     {"hybrid"  ,      PyGSL_multiroot_init_hybrid ,  METH_VARARGS, NULL},
-     {"hybrids" ,      PyGSL_multiroot_init_hybrids,  METH_VARARGS, NULL},
-     {"newton"  ,      PyGSL_multiroot_init_newton ,  METH_VARARGS, NULL},
-     {"gnewton" ,      PyGSL_multiroot_init_gnewton,  METH_VARARGS, NULL},
-     {"hybridj" ,      PyGSL_multiroot_init_hybridj,  METH_VARARGS, NULL},
-     {"hybridsj",      PyGSL_multiroot_init_hybridsj, METH_VARARGS, NULL},
-     /* mutliroot funcs */
-     {"test_delta",    PyGSL_multiroot_test_delta,     METH_VARARGS, NULL},
-     {"test_residual", PyGSL_multiroot_test_residual,  METH_VARARGS, NULL},
-     /* multifit solvers */
-     {"lmder",          PyGSL_multifit_init_lmder,  METH_VARARGS, NULL},
-     {"lmsder",          PyGSL_multifit_init_lmsder,  METH_VARARGS, NULL},
-     /* multifit funcs */
-     {"fit_test_delta",    PyGSL_multifit_test_delta,     METH_VARARGS, NULL},
-     {"fit_test_gradient", PyGSL_multifit_test_gradient,  METH_VARARGS, NULL},
-     {"gradient",          PyGSL_multifit_gradient,  METH_VARARGS, NULL},
-     {"covar",             PyGSL_multifit_covar,  METH_VARARGS, NULL},
-     /* min methods */
-     {"test_interval",   PyGSL_min_test_interval, METH_VARARGS, (char *)min_test_delta_doc}, 
-     {"brent",        PyGSL_min_init_brent, METH_NOARGS, (char *)min_init_brent_doc}, 
-     {"goldensection",PyGSL_min_init_goldensection, METH_NOARGS, (char *)min_init_goldensection_doc}, 
-     /* root solver methods */
-     {"bisection",  PyGSL_root_init_bisection, METH_NOARGS, NULL},
-     {"falsepos",  PyGSL_root_init_falsepos, METH_NOARGS, NULL},
-     {"rbrent",  PyGSL_root_init_brent, METH_NOARGS, NULL},
-     {"rnewton",  PyGSL_root_init_newton, METH_NOARGS, NULL},
-     {"secant",  PyGSL_root_init_secant, METH_NOARGS, NULL},
-     {"steffenson",  PyGSL_root_init_steffenson, METH_NOARGS, NULL},
-     {"rtest_delta",  PyGSL_root_test_delta, METH_VARARGS, NULL},
-     {"rtest_interval",  PyGSL_root_test_interval, METH_VARARGS, NULL},
      /* odeiv */
-     {"step_rk2",    (PyCFunction)PyGSL_odeiv_step_init_rk2,    METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rk4",    (PyCFunction)PyGSL_odeiv_step_init_rk4,    METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rkf45",  (PyCFunction)PyGSL_odeiv_step_init_rkf45,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rkck",   (PyCFunction)PyGSL_odeiv_step_init_rkck,   METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rk8pd",  (PyCFunction)PyGSL_odeiv_step_init_rk8pd,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rk2imp", (PyCFunction)PyGSL_odeiv_step_init_rk2imp, METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rk4imp", (PyCFunction)PyGSL_odeiv_step_init_rk4imp, METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_bsimp",  (PyCFunction)PyGSL_odeiv_step_init_bsimp,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_gear1",  (PyCFunction)PyGSL_odeiv_step_init_gear1,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_gear2",  (PyCFunction)PyGSL_odeiv_step_init_gear2,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"control_standard_new", PyGSL_odeiv_control_init_standard_new, METH_VARARGS, NULL},
-     {"control_y_new",        PyGSL_odeiv_control_init_y_new,        METH_VARARGS, NULL},
-     {"control_yp_new",       PyGSL_odeiv_control_init_yp_new,       METH_VARARGS, NULL},
-     {"evolve", PyGSL_odeiv_evolve_init, METH_VARARGS, NULL},
      {NULL, NULL, 0, NULL}
 };
+
+void
+init_api(void)
+{
+     FUNC_MESS_BEGIN();    
+     PyGSL_API[PyGSL_solver_type_NUM          ] = (void *) &PyGSL_solver_pytype    ;
+     PyGSL_API[PyGSL_solver_ret_int_NUM       ] = (void *) &PyGSL_solver_ret_int    ;
+     PyGSL_API[PyGSL_solver_ret_double_NUM    ] = (void *) &PyGSL_solver_ret_double ;
+     PyGSL_API[PyGSL_solver_ret_size_t_NUM    ] = (void *) &PyGSL_solver_ret_size_t ;
+     PyGSL_API[PyGSL_solver_ret_vec_NUM       ] = (void *) &PyGSL_solver_ret_vec    ;
+     PyGSL_API[PyGSL_solver_dn_init_NUM       ] = (void *) &PyGSL_solver_dn_init    ;
+     PyGSL_API[PyGSL_solver_vd_i_NUM          ] = (void *) &PyGSL_solver_vd_i       ;
+     PyGSL_API[PyGSL_solver_vvdd_i_NUM        ] = (void *) &PyGSL_solver_vvdd_i     ;
+     PyGSL_API[PyGSL_Callable_Check_NUM       ] = (void *) &PyGSL_Callable_Check    ;
+     PyGSL_API[PyGSL_solver_func_set_NUM      ] = (void *) &PyGSL_solver_func_set   ;
+     PyGSL_API[PyGSL_function_wrap_OnOn_On_NUM] = (void *) &PyGSL_function_wrap_OnOn_On;
+     PyGSL_API[PyGSL_function_wrap_On_O_NUM   ] = (void *) &PyGSL_function_wrap_On_O;
+     PyGSL_API[PyGSL_function_wrap_Op_On_NUM  ] = (void *) &PyGSL_function_wrap_Op_On;
+     PyGSL_API[PyGSL_solver_n_set_NUM         ] = (void *) &PyGSL_solver_n_set      ;
+     PyGSL_API[PyGSL_solver_set_f_NUM         ] = (void *) &PyGSL_solver_set_f      ;
+     FUNC_MESS_END();
+}
 
 void
 initsolver(void)
 {
   PyObject* m, *dict, *item;
+
+  FUNC_MESS_BEGIN();
   m=Py_InitModule("solver", solverMethods);
   import_array();
   init_pygsl();
+
+
   /* init multimin type */
   PyGSL_solver_pytype.ob_type  = &PyType_Type;
+
+  init_api();
 
 
   module = m;
@@ -863,8 +868,10 @@ initsolver(void)
 		       "I could not init doc string!");
        goto fail;
   }
+  FUNC_MESS_END();
 
  fail:
+  FUNC_MESS("FAIL");
   return;
 
 }

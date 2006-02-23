@@ -4,14 +4,13 @@
  * file: pygsl/src/multiminmodule.c
  * $Id$
  */
-#include <setjmp.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/function_helpers.h>
+#include <pygsl/solver.h>
 
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_multimin.h>
-#include "solver.h"
 #include "multiminmodule_doc.h"
 
 const struct _GSLMethods 
@@ -26,13 +25,16 @@ multimin_fdf = {(void_m_t) gsl_multimin_fdfminimizer_free,
 		(name_m_t) gsl_multimin_fdfminimizer_name, 
 		(int_m_t)  gsl_multimin_fdfminimizer_iterate};
 
+static const char multimin_f_type_name[] = "F-MultiMinimizer";
+static const char multimin_fdf_type_name[] = "FdF-MultiMinimizer";
+
+const char  * filename = __FILE__;
+PyObject *module = NULL;
+
 /* 
  * I have two different types to minimize and I am too lazy to implement the same
  * twice. Therefore I use unions and add a flag to the minimizer for the type
  */
-
-
-
 
 /* The Callbacks */
 double 
@@ -84,6 +86,7 @@ PyGSL_multimin_function_df(const gsl_vector* x, void* params, gsl_vector *df)
      }
      FUNC_MESS_END();
 } 
+
 void 
 PyGSL_multimin_function_fdf(const gsl_vector* x, void* params, double *f, gsl_vector *df)
 {
@@ -177,7 +180,7 @@ PyGSL_multimin_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
      DEBUG_MESS(3, "Everything allocated args = %p", args);
      /* add new function  and parameters */
 
-     if(_PyGSL_solver_func_set(self, args, func, NULL, NULL) != GSL_SUCCESS)
+     if(PyGSL_solver_func_set(self, args, func, NULL, NULL) != GSL_SUCCESS)
 	  goto fail;
      
      /* initialize the function struct */
@@ -266,7 +269,7 @@ PyGSL_multimin_set_fdf(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	       goto fail;
 	  }
      }
-     if(_PyGSL_solver_func_set(self, args, f, df, fdf) != GSL_SUCCESS)
+     if(PyGSL_solver_func_set(self, args, f, df, fdf) != GSL_SUCCESS)
 	  goto fail;
      
      /* initialize the function struct */
@@ -413,7 +416,7 @@ PyGSL_multimin_f_init(PyObject *self, PyObject *args,
      solver_alloc_struct s = {type, (void_an_t) gsl_multimin_fminimizer_alloc,
 			      multimin_f_type_name, &multimin_solver_f, &multimin_f};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_n_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 1);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -427,7 +430,7 @@ PyGSL_multimin_fdf_init(PyObject *self, PyObject *args,
      solver_alloc_struct s = {type, (void_an_t) gsl_multimin_fdfminimizer_alloc,
 			      multimin_fdf_type_name, &multimin_solver_fdf, &multimin_fdf};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_n_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 1);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -482,8 +485,56 @@ PyGSL_multimin_test_size(PyObject * self, PyObject *args)
 static PyObject*
 PyGSL_multimin_test_gradient(PyObject * self, PyObject *args)
 {
-     return _PyGSL_solver_i_vd(self, args, gsl_multimin_test_gradient);     
+     return PyGSL_solver_vd_i (self, args, gsl_multimin_test_gradient);     
 }
 
 
+static PyMethodDef mMethods[] = {
+     /* solvers */
+     {"nmsimplex",        PyGSL_multimin_init_nmsimplex,        METH_VARARGS, (char *)nmsimplex_doc       },
+     {"steepest_descent", PyGSL_multimin_init_steepest_descent, METH_VARARGS, (char *)steepest_descent_doc},
+     {"vector_bfgs",      PyGSL_multimin_init_vector_bfgs,      METH_VARARGS, (char *)vector_bfgs_doc     },
+     {"conjugate_pr",     PyGSL_multimin_init_conjugate_pr,     METH_VARARGS, (char *)conjugate_pr_doc    },
+     {"conjugate_fr",     PyGSL_multimin_init_conjugate_fr,     METH_VARARGS, (char *)conjugate_fr_doc    },
+     /* multimin funcs */
+     {"test_size",        PyGSL_multimin_test_size,             METH_VARARGS, (char *)test_size_doc       },
+     {"test_gradient",    PyGSL_multimin_test_gradient,         METH_VARARGS, (char *)test_gradient_doc   },
+     {NULL, NULL, 0, NULL}
+};
 
+void
+initmultimin(void)
+{
+     PyObject* m, *dict, *item;
+     FUNC_MESS_BEGIN();
+
+     assert(PyGSL_API);
+     m=Py_InitModule("multimin", mMethods);
+     module = m;
+     assert(m);
+     dict = PyModule_GetDict(m);
+     if(!dict)
+	  goto fail;
+
+     import_array();
+     init_pygsl()
+     import_pygsl_solver();
+
+
+     if (!(item = PyString_FromString((char*)PyGSL_multimin_module_doc))){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not generate module doc string!");
+	  goto fail;
+     }
+     if (PyDict_SetItemString(dict, "__doc__", item) != 0){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not init doc string!");
+	  goto fail;
+     }
+     
+     FUNC_MESS_END();
+
+ fail:
+     FUNC_MESS("FAIL");
+     return;
+}

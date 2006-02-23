@@ -1,4 +1,15 @@
+#include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
+#include <pygsl/function_helpers.h>
+#include <pygsl/solver.h>
+
 #include <gsl/gsl_multifit_nlin.h>
+
+const char  * filename = __FILE__;
+PyObject *module = NULL;
+static const char multifit_f_type_name[] = "F-MultiFitSolver";
+static const char multifit_fdf_type_name[] = "FdF-MultiFitSolver";
+
 const struct _GSLMethods 
 multifit_f   = { (void_m_t) gsl_multifit_fsolver_free,   
 		/* gsl_multifit_fsolver_restart */  (void_m_t) NULL,
@@ -43,7 +54,6 @@ PyObject *
 PyGSL_multifit_fdfsolver_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 {
 
-     int flag;
      gsl_multifit_function_fdf * c_sys;
      struct pygsl_solver_n_set info = {1, NULL, (set_m_t)gsl_multifit_fdfsolver_set};
      PyObject * tmp;
@@ -63,7 +73,7 @@ PyGSL_multifit_fdfsolver_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
      }else{
 	  info.c_sys = self->c_sys;
      }
-     tmp =  _PyGSL_solver_n_set(self, pyargs, kw, &info);     
+     tmp =  PyGSL_solver_n_set(self, pyargs, kw, &info);     
      if(tmp == NULL){
 	  PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__ - 2);
      }
@@ -168,7 +178,7 @@ PyGSL_multifit_f_init(PyObject *self, PyObject *args,
 			      multifit_f_type_name, &multifit_solver_f,
 			      &multifit_f};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_np_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 2);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -182,7 +192,7 @@ PyGSL_multifit_fdf_init(PyObject *self, PyObject *args,
      solver_alloc_struct s = {type, (void_an_t) gsl_multifit_fdfsolver_alloc,
 			      multifit_fdf_type_name, &multifit_solver_fdf, &multifit_fdf};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_np_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 2);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -298,11 +308,61 @@ PyGSL_multifit_covar(PyObject *self, PyObject *args)
 static PyObject *
 PyGSL_multifit_test_delta(PyObject * self, PyObject * args)
 {
-     return _PyGSL_solver_i_vvdd(self, args, gsl_multifit_test_delta);     
+     return PyGSL_solver_vvdd_i(self, args, gsl_multifit_test_delta);     
 }
 
 static PyObject *
 PyGSL_multifit_test_gradient(PyObject * self, PyObject * args)
 {
-     return _PyGSL_solver_i_vd(self, args, gsl_multifit_test_gradient);     
+     return PyGSL_solver_vd_i(self, args, gsl_multifit_test_gradient);     
+}
+
+static PyMethodDef mMethods[] = {
+     /* multifit solvers */
+     {"lmder",          PyGSL_multifit_init_lmder,  METH_VARARGS, NULL},
+     {"lmsder",          PyGSL_multifit_init_lmsder,  METH_VARARGS, NULL},
+     /* multifit funcs */
+     {"fit_test_delta",    PyGSL_multifit_test_delta,     METH_VARARGS, NULL},
+     {"fit_test_gradient", PyGSL_multifit_test_gradient,  METH_VARARGS, NULL},
+     {"gradient",          PyGSL_multifit_gradient,  METH_VARARGS, NULL},
+     {"covar",             PyGSL_multifit_covar,  METH_VARARGS, NULL},
+     {NULL, NULL, 0, NULL}
+};
+
+static const char PyGSL_multifit_nlin_module_doc[] = "XXX Missing \n";
+void
+initmultifit_nlin(void)
+{
+     PyObject* m, *dict, *item;
+     FUNC_MESS_BEGIN();
+
+     assert(PyGSL_API);
+     m=Py_InitModule("multifin_nlin", mMethods);
+     module = m;
+     assert(m);
+     dict = PyModule_GetDict(m);
+     if(!dict)
+	  goto fail;
+
+     import_array();
+     init_pygsl()
+     import_pygsl_solver();
+
+
+     if (!(item = PyString_FromString((char*)PyGSL_multifit_nlin_module_doc))){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not generate module doc string!");
+	  goto fail;
+     }
+     if (PyDict_SetItemString(dict, "__doc__", item) != 0){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not init doc string!");
+	  goto fail;
+     }
+     
+     FUNC_MESS_END();
+
+ fail:
+     FUNC_MESS("FAIL");
+     return;
 }

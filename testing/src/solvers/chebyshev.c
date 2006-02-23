@@ -7,5 +7,5 @@ chebyshev_f   = { (void_m_t) gsl_cheb_free,
 static int
 PyGSL_cheb_init(PyGSL_Solver *self, PyObject *args, PyObject *kw)
 {
-     
+     ;
 }

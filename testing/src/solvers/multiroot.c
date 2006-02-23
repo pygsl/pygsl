@@ -1,3 +1,11 @@
+#include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
+#include <pygsl/function_helpers.h>
+#include <pygsl/solver.h>
+
+#include <gsl/gsl_errno.h>
+#include <gsl/gsl_multimin.h>
+
 const struct _GSLMethods 
 multiroot_f   = { (void_m_t) gsl_multiroot_fsolver_free,   
 		/* gsl_multiroot_fsolver_restart */  (void_m_t) NULL,
@@ -9,6 +17,10 @@ multiroot_fdf = {(void_m_t) gsl_multiroot_fdfsolver_free,
 		 /* gsl_multiroot_fdfsolver_restart (void_m_t) */ NULL,
 		(name_m_t) gsl_multiroot_fdfsolver_name, 
 		(int_m_t)  gsl_multiroot_fdfsolver_iterate};
+
+static const char multiroot_f_type_name[] = "F-MultiRootSolver";
+static const char multiroot_fdf_type_name[] = "FdF-MultiRootSolver";
+static PyObject * module = NULL;
 
 /* accessor methods */
 #define _SOLVER_METH(solver, name) \
@@ -131,7 +143,7 @@ PyGSL_multiroot_fsolver_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
      }else{
 	  info.c_sys = self->c_sys;
      }
-     tmp =  _PyGSL_solver_n_set(self, pyargs, kw, &info);
+     tmp =  PyGSL_solver_n_set(self, pyargs, kw, &info);
      FUNC_MESS_END();
      return tmp;
 }
@@ -158,7 +170,7 @@ PyGSL_multiroot_fdfsolver_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw
      }else{
 	  info.c_sys = self->c_sys;
      }
-     tmp = _PyGSL_solver_n_set(self, pyargs, kw, &info);     
+     tmp = PyGSL_solver_n_set(self, pyargs, kw, &info);     
      FUNC_MESS_END();
      return tmp;
 }
@@ -198,7 +210,7 @@ PyGSL_multiroot_f_init(PyObject *self, PyObject *args,
      solver_alloc_struct s = {type, (void_an_t) gsl_multiroot_fsolver_alloc,
 			      multiroot_f_type_name, &multiroot_solver_f, &multiroot_f};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_n_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 1);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -212,7 +224,7 @@ PyGSL_multiroot_fdf_init(PyObject *self, PyObject *args,
      solver_alloc_struct s = {type, (void_an_t) gsl_multiroot_fdfsolver_alloc,
 			      multiroot_fdf_type_name, &multiroot_solver_fdf, &multiroot_fdf};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_n_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 1);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -256,12 +268,68 @@ AMROOTS_FDF(hybridsj)
 static PyObject *
 PyGSL_multiroot_test_delta(PyObject * self, PyObject * args)
 {
-     return _PyGSL_solver_i_vvdd(self, args, gsl_multiroot_test_delta);     
+     return PyGSL_solver_vvdd_i(self, args, gsl_multiroot_test_delta);     
 }
 
 static PyObject *
 PyGSL_multiroot_test_residual(PyObject * self, PyObject * args)
 {
-     return _PyGSL_solver_i_vd(self, args, gsl_multiroot_test_residual);     
+     return PyGSL_solver_vd_i(self, args, gsl_multiroot_test_residual);     
+}
+
+
+
+static PyMethodDef mMethods[] = {
+     /* solvers */
+     {"dnewton" ,      PyGSL_multiroot_init_dnewton,  METH_VARARGS, NULL},   
+     {"broyden" ,      PyGSL_multiroot_init_broyden,  METH_VARARGS, NULL},
+     {"hybrid"  ,      PyGSL_multiroot_init_hybrid ,  METH_VARARGS, NULL},
+     {"hybrids" ,      PyGSL_multiroot_init_hybrids,  METH_VARARGS, NULL},
+     {"newton"  ,      PyGSL_multiroot_init_newton ,  METH_VARARGS, NULL},
+     {"gnewton" ,      PyGSL_multiroot_init_gnewton,  METH_VARARGS, NULL},
+     {"hybridj" ,      PyGSL_multiroot_init_hybridj,  METH_VARARGS, NULL},
+     {"hybridsj",      PyGSL_multiroot_init_hybridsj, METH_VARARGS, NULL},
+     /* mutliroot funcs */
+     {"test_delta",    PyGSL_multiroot_test_delta,     METH_VARARGS, NULL},
+     {"test_residual", PyGSL_multiroot_test_residual,  METH_VARARGS, NULL},
+     {NULL, NULL, 0, NULL}
+};
+
+static const char PyGSL_multiroot_module_doc[] = "XXX Missing\n";
+void
+initmultiroot(void)
+{
+     PyObject* m, *dict, *item;
+     FUNC_MESS_BEGIN();
+
+     assert(PyGSL_API);
+     m=Py_InitModule("multiroot", mMethods);
+     module = m;
+     assert(m);
+     dict = PyModule_GetDict(m);
+     if(!dict)
+	  goto fail;
+
+     import_array();
+     init_pygsl()
+     import_pygsl_solver();
+
+
+     if (!(item = PyString_FromString((char*)PyGSL_multiroot_module_doc))){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not generate module doc string!");
+	  goto fail;
+     }
+     if (PyDict_SetItemString(dict, "__doc__", item) != 0){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not init doc string!");
+	  goto fail;
+     }
+     
+     FUNC_MESS_END();
+
+ fail:
+     FUNC_MESS("FAIL");
+     return;
 }
 

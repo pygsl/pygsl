@@ -1,4 +1,9 @@
+#include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
+#include <pygsl/function_helpers.h>
+#include <pygsl/solver.h>
 #include <gsl/gsl_roots.h>
+
 const struct _GSLMethods 
 root_f   = { (void_m_t) gsl_root_fsolver_free,   
 	    /* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
@@ -9,6 +14,17 @@ root_fdf   = { (void_m_t) gsl_root_fdfsolver_free,
 	    (name_m_t) gsl_root_fdfsolver_name,   
 	    (int_m_t) gsl_root_fdfsolver_iterate};
 
+const char  * filename = __FILE__;
+PyObject *module = NULL;
+
+static const char root_f_type_name[] = "F-RootSolver";
+static const char root_fdf_type_name[] = "FdF-RootSolver";
+static const char root_f_root_doc[] = "";
+static const char root_set_f_doc[] = "";
+static const char root_set_fdf_doc[] = "";
+static const char root_fdf_root_doc[] = "";
+static const char root_x_lower_doc  [] = "";
+static const char root_x_upper_doc  [] = ""; 
 
 static PyObject* 
 PyGSL_root_f_root(PyGSL_solver *self, PyObject *args) 
@@ -47,13 +63,13 @@ PyGSL_root_solver_test_interval(PyGSL_solver * self, PyObject *args)
 static PyObject* 
 PyGSL_root_set_f(PyGSL_solver *self, PyObject *args, PyObject *kw) 
 {
-     return _PyGSL_solver_set_f(self, args, kw, (void *)gsl_root_fsolver_set, 0); 
+     return PyGSL_solver_set_f(self, args, kw, (void *)gsl_root_fsolver_set, 0); 
 }
 
 static PyObject* 
 PyGSL_root_set_fdf(PyGSL_solver *self, PyObject *args, PyObject *kw) 
 {
-     return _PyGSL_solver_set_f(self, args, kw,  (void *)gsl_root_fdfsolver_set, 1); 
+     return PyGSL_solver_set_f(self, args, kw,  (void *)gsl_root_fdfsolver_set, 1); 
 }
 
 static PyMethodDef PyGSL_root_fmethods[] = {     
@@ -82,7 +98,7 @@ PyGSL_root_f_init(PyObject *self, PyObject *args,
      solver_alloc_struct s = {type, (void_an_t) gsl_root_fsolver_alloc,
 			      root_f_type_name, &root_solver_f, &root_f};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_1_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 0);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -96,7 +112,7 @@ PyGSL_root_fdf_init(PyObject *self, PyObject *args,
      solver_alloc_struct s = {type, (void_an_t) gsl_root_fdfsolver_alloc,
 			      root_fdf_type_name, &root_solver_fdf, &root_fdf};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_1_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 0);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -149,4 +165,57 @@ PyGSL_root_test_interval(PyObject * self, PyObject *args)
      if(!PyArg_ParseTuple(args, "dddd", &x_lower, &x_upper, &epsabs, &epsrel))
 	  return NULL;
      return PyInt_FromLong(gsl_root_test_interval(x_lower, x_upper, epsabs, epsrel));
+}
+
+static const char PyGSL_roots_module_doc [] = "XXX Missing ";
+static PyMethodDef mMethods[] = {
+     /* solver */
+     {"bisection",  PyGSL_root_init_bisection, METH_NOARGS, NULL},
+     {"falsepos",  PyGSL_root_init_falsepos, METH_NOARGS, NULL},
+     {"brent",  PyGSL_root_init_brent, METH_NOARGS, NULL},
+     {"newton",  PyGSL_root_init_newton, METH_NOARGS, NULL},
+     {"secant",  PyGSL_root_init_secant, METH_NOARGS, NULL},
+     {"steffenson",  PyGSL_root_init_steffenson, METH_NOARGS, NULL},
+     /* functions */
+     {"test_delta",  PyGSL_root_test_delta, METH_VARARGS, NULL},
+     {"test_interval",  PyGSL_root_test_interval, METH_VARARGS, NULL},
+     {NULL, NULL, 0, NULL}
+};
+
+void
+initroots(void)
+{
+     PyObject* m, *dict, *item;
+     FUNC_MESS_BEGIN();
+
+     m=Py_InitModule("roots", mMethods);
+     module = m;
+     assert(m);
+     dict = PyModule_GetDict(m);
+     if(!dict)
+	  goto fail;
+
+     import_array();
+     init_pygsl()
+     import_pygsl_solver();
+     assert(PyGSL_API);
+
+
+     if (!(item = PyString_FromString((char*)PyGSL_roots_module_doc))){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not generate module doc string!");
+	  goto fail;
+     }
+
+     if (PyDict_SetItemString(dict, "__doc__", item) != 0){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not init doc string!");
+	  goto fail;
+     }
+     
+     FUNC_MESS_END();
+
+ fail:
+     FUNC_MESS("FAIL");
+     return;
 }

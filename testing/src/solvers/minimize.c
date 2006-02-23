@@ -1,4 +1,24 @@
+#include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
+#include <pygsl/function_helpers.h>
+#include <pygsl/solver.h>
 #include <gsl/gsl_min.h>
+
+static const char min_f_type_name[] = "F-Minimizer";
+static const char min_x_minimum_doc[]= ""; 	
+static const char min_x_lower_doc[]= ""; 	
+static const char min_x_upper_doc[]= ""; 	
+static const char min_f_minimum_doc[]= ""; 	
+static const char min_f_lower_doc[]= ""; 	
+static const char min_f_upper_doc[]= ""; 	
+static const char min_test_delta_doc[]= ""; 
+static const char min_set_f_doc[]= "";
+ 
+static const char min_init_brent_doc[]= ""; 
+static const char min_init_goldensection_doc[]= ""; 
+
+const char  * filename = __FILE__;
+PyObject *module = NULL;
 
 static PyObject* 
 PyGSL_min_f_minimum(PyGSL_solver *self, PyObject *args) 
@@ -50,7 +70,7 @@ PyGSL_min_solver_test_interval(PyGSL_solver * self, PyObject *args)
 static PyObject* 
 PyGSL_min_set_f(PyGSL_solver *self, PyObject *args, PyObject *kw) 
 {
-     return _PyGSL_solver_set_f(self, args, kw,  (void *)gsl_min_fminimizer_set, 0); 
+     return PyGSL_solver_set_f(self, args, kw,  (void *)gsl_min_fminimizer_set, 0); 
 }
 
 static PyMethodDef PyGSL_min_fmethods[] = {     
@@ -83,7 +103,7 @@ PyGSL_min_f_init(PyObject *self, PyObject *args,
      solver_alloc_struct s = {type, (void_an_t) gsl_min_fminimizer_alloc,
 			      min_f_type_name, &min_solver_f, &min_f};
      FUNC_MESS_BEGIN();     
-     tmp = _PyGSL_solver_1_init(self, args, &s);
+     tmp = PyGSL_solver_dn_init(self, args, &s, 0);
      FUNC_MESS_END();     
      return tmp;
 }
@@ -110,4 +130,50 @@ PyGSL_min_test_interval(PyObject * self, PyObject *args)
      if(!PyArg_ParseTuple(args, "dddd", &x_lower, &x_upper, &epsabs, &epsrel))
 	  return NULL;
      return PyInt_FromLong(gsl_min_test_interval(x_lower, x_upper, epsabs, epsrel));
+}
+
+static const char PyGSL_minimize_module_doc [] = "XXX Missing ";
+static PyMethodDef mMethods[] = {
+     /* solvers */
+     {"brent",        PyGSL_min_init_brent, METH_NOARGS, (char *)min_init_brent_doc}, 
+     {"goldensection",PyGSL_min_init_goldensection, METH_NOARGS, (char *)min_init_goldensection_doc}, 
+     /* min methods */
+     {"test_interval",   PyGSL_min_test_interval, METH_VARARGS, (char *)min_test_delta_doc},
+     {NULL, NULL, 0, NULL}
+};
+
+void
+initminimize(void)
+{
+     PyObject* m, *dict, *item;
+     FUNC_MESS_BEGIN();
+
+     m=Py_InitModule("minimize", mMethods);
+     import_array();
+     import_pygsl_solver();
+     assert(PyGSL_API);
+
+     module = m;
+     assert(m);
+     dict = PyModule_GetDict(m);
+     if(!dict)
+	  goto fail;
+
+     if (!(item = PyString_FromString((char*)PyGSL_minimize_module_doc))){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not generate module doc string!");
+	  goto fail;
+     }
+
+     if (PyDict_SetItemString(dict, "__doc__", item) != 0){
+	  PyErr_SetString(PyExc_ImportError, 
+			  "I could not init doc string!");
+	  goto fail;
+     }
+     
+     FUNC_MESS_END();
+
+ fail:
+     FUNC_MESS("FAIL");
+     return;
 }
