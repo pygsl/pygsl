@@ -132,7 +132,8 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
      if ((flag &  PyGSL_CONTIGUOUS) == 0){
 	  DEBUG_MESS(2, "\t\t Can deal with discontiguous arrays! %d", 0);
      } else {
-	  if(!(((PyArrayObject *) (a_array))->flags & CONTIGUOUS )){
+	  if(!(((PyArrayObject *) (a_array))->flags & CONTIGUOUS)){
+	       DEBUG_MESS(3, "array->flags %d requested flags %d", ((PyArrayObject *) (a_array))->flags, flag);
 	       gsl_error("The array is not contiguous as requested!", filename, __LINE__, GSL_ESANITY);
 	       error_flag = GSL_ESANITY;
 	       line = __LINE__ - 3;

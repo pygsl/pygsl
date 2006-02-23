@@ -35,18 +35,17 @@ static PyArrayObject *
 PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
 {
      PyArrayObject * a_array = NULL;
-     int contiguous = 1;
+     int contiguous = CONTIGUOUS;
      int line = -1;
-     int requires=-1;
+     int requires;
 
      FUNC_MESS_BEGIN();
-     contiguous = flag & PyGSL_CONTIGUOUS;
-
-     if (flag & PyGSL_INPUT_ARRAY){
-	  ;
-     } else if (flag & PyGSL_OUTPUT_ARRAY){
+     
+     if ( (flag & PyGSL_INPUT_ARRAY) ==  PyGSL_INPUT_ARRAY){
+	  requires = 0;
+     } else if ( (flag & PyGSL_OUTPUT_ARRAY) == PyGSL_OUTPUT_ARRAY){
 	  requires = WRITEABLE;
-     } else if(flag & PyGSL_IO_ARRAY){
+     } else if( (flag & PyGSL_IO_ARRAY) == PyGSL_IO_ARRAY){
 	  requires = WRITEABLE;
      } else {
 	  line =  __LINE__;
@@ -54,11 +53,16 @@ PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
 		    filename, line, GSL_ESANITY);
 	  goto fail;
      }
-     requires |= NOTSWAPPED |  ALIGNED | contiguous;	  
-     a_array = (PyArrayObject * ) PyArray_FromAny(src, PyArray_DescrFromType(array_type), nd, nd, requires, NULL);
-     if(a_array == NULL)
-	  goto fail;
 
+     contiguous = (flag & PyGSL_CONTIGUOUS) * CONTIGUOUS;
+
+     requires |= NOTSWAPPED |  ALIGNED | contiguous;
+     DEBUG_MESS(3, "requesting flags %d", requires);
+     a_array = (PyArrayObject * ) PyArray_FromAny(src, PyArray_DescrFromType(array_type), nd, nd, requires, NULL);
+     if(a_array == NULL){
+	  goto fail;
+	  line = __LINE__ - 1;
+     }
      FUNC_MESS_END();
 
      return a_array;          
