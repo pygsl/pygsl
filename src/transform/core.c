@@ -316,7 +316,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	DEBUG_MESS(3, "Double?Float %d IN Array Type = %d OUT Array Type = %d", datatype, input_array_type, output_array_type);
 	DEBUG_MESS(3, "n_type = %d sizeofbasis = %d", n_type, sizeoftype);
 	{
-		const int io_type = ((ret == NULL) ? PyGSL_INPUT_ARRAY: PyGSL_IO_ARRAY) | PyGSL_NON_CONTIGUOUS;
+		const int io_type = ((ret == NULL) ? PyGSL_INPUT_ARRAY : PyGSL_IO_ARRAY) | PyGSL_NON_CONTIGUOUS;
 		if((a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, input_array_type, io_type, -1, 1, NULL)) == NULL){
 			line = __LINE__ - 1;
 			goto fail;

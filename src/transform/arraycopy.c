@@ -1,3 +1,28 @@
+static int
+PyGSL_debug_mess_array(PyArrayObject * a, const char * name)
+{
+     int mode, i;
+     float *fv;
+     double *dv;
+     char * av;
+
+     mode = a->descr->type_num;
+     for(i=0; i<a->dimensions[0]; ++i){
+	  av   = (a->data + a->strides[0] *  (i));
+	  switch(mode){
+	  case PyArray_CDOUBLE:
+	       dv = (double *) av;
+	       fprintf(stderr, "%s [%d] = %e + %e j\n", name, i, dv[0], dv[1]);
+	       break;
+	  case PyArray_CFLOAT:
+	       fv = (float *) av;
+	       fprintf(stderr, "%s [%d] = %e + %e j\n", name, i, fv[0], fv[1]);
+	       break;
+	  }
+     }
+     return GSL_SUCCESS;
+}
+
 /* 
  * Copies real data to complex in the special way that it will be passed to the
  * transform with an offset of one! 
@@ -18,13 +43,19 @@ PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src, enum pygsl_tr
 	assert(dst);
 	assert(src->descr->type_num == PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_DOUBLE, PyArray_FLOAT));
 	assert(dst->descr->type_num == PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_CDOUBLE, PyArray_CFLOAT));
+
+	/* Iterate over the source array and copy to the destination array. */
 	for(i = 0; i < n; ++i){
 		srcv   = (src->data + src->strides[0] *  (i));
 		n_2 = (i+1)/2;
-		modulo = (i+1)%2;
-		if(n_2 >= n_check)
-			GSL_ERROR("Complex array too small!", GSL_ESANITY);	
+
+		/* complex array, only iterate every second */
 		dstv  = (dst->data + dst->strides[0] *  (n_2));
+		modulo = (i+1)%2;
+
+		if(n_2 >= n_check)
+			GSL_ERROR("Complex array too small!", GSL_ESANITY);
+
 		if(mode == MODE_DOUBLE){
 			srcd = (double *) srcv;
 			dstd = (double *) dstv;
@@ -38,7 +69,27 @@ PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src, enum pygsl_tr
 		}
 	}
 	FUNC_MESS_END();
-	/* XXX Sometimes the last value must be set to zero ... */
+	DEBUG_MESS(3, "Last modulo was %d", modulo);
+
+	/* odd length, last was set ... */
+	modulo = (n)%2;
+	if(modulo == 1)
+	     return GSL_SUCCESS;
+
+	/* even length, last must be set ... */	     
+	DEBUG_MESS(4, "Setting the last to zero n=%d", n);
+	dstv  = (dst->data + dst->strides[0] *  (n/2));
+	switch(mode){
+	     case MODE_DOUBLE:
+		  dstd = (double *) dstv;
+		  dstd[1] = 0.0;
+		  break;
+	     case MODE_FLOAT:
+		  dstf = (float *) dstv;
+		  dstf[1] = 0.0;
+		  break;
+	}
+		  
 	return GSL_SUCCESS;
 	
 }
@@ -178,17 +229,23 @@ PyGSL_fft_halfcomplex_unpack(PyArrayObject *a, int n_orig,  enum pygsl_transform
 		d[0] = d[1];
 		d[1] = 0.0;
 		/* Set the last imaginary to zero for even length as it ought to be */
-		if(n_orig%2)
+		if(n_orig%2){
+		     DEBUG_MESS(3, "Setting %d to zero", n_orig);
 			d[n_orig] = 0.0; 
+		}
 	}else{
 		f = (float *) a->data;
 		f[0] = f[1];
 		f[1] = 0.0;
 		/* Set the last imaginary to zero for even length as it ought to be */
-		if(n_orig%2)
-			f[n_orig] = 0.0; 
+		if(n_orig%2){
+		     DEBUG_MESS(3, "Setting %d to zero", n_orig);
+		     f[n_orig] = 0.0;
+		}
 
 	}
+	if(PyGSL_DEBUG_LEVEL() > 5)
+	     PyGSL_debug_mess_array(a, "unpacked array");	
 	FUNC_MESS_END();
 	return GSL_SUCCESS;
 }
@@ -412,7 +469,7 @@ PyGSL_Check_Array_Length(PyArrayObject *a, int call_n, int datamode, int n_type)
 	     int i;
 	     DEBUG_MESS(4, "Array nd = %d", a->nd);
 	     for(i = 0; i < a->nd; ++i){
-		  DEBUG_MESS(5, "Array nd = %d", a->dimensions[i]);
+		  DEBUG_MESS(5, "Array dim[i] = %d", a->dimensions[i]);
 	     }
 	}
 
@@ -421,6 +478,7 @@ PyGSL_Check_Array_Length(PyArrayObject *a, int call_n, int datamode, int n_type)
 		GSL_ERROR("Array size was not big enough!", GSL_ESANITY);
 
 
+	DEBUG_MESS(3, "Check array type %d", a->descr->type_num);
 	switch(datamode){
 	case MODE_DOUBLE:		
 		if(a->descr->type_num != PyArray_CDOUBLE &&  a->descr->type_num != PyArray_DOUBLE)
