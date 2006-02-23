@@ -1,10 +1,10 @@
 #ifndef PyGSL_ERROR_HELPER_H
 #define PyGSL_ERROR_HELPER_H 1
+#include <Python.h>
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
-#include <Python.h>
 #include <gsl/gsl_errno.h>
-#include <pygsl/pygsl_errorno.h>
+#include <pygsl/errorno.h>
 
 
 /*

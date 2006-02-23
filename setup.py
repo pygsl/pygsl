@@ -67,6 +67,14 @@ macros = [('SWIG_COBJECT_TYPES', 1)]
 macros = macros + [('DEBUG', 1)]
 debug_macros = macros + [('DEBUG', 1)]
 
+pygsl_init=gsl_Extension("errorno",
+			 ['src/init/errorno.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros + [('DEBUG', 1)],
+                         python_min_version=(2,1),
+                         )
+exts.append(pygsl_init)    
+
 pygsl_init=gsl_Extension("init",
 			 ['src/init/initmodule.c'],
                          gsl_min_version=(1,),
