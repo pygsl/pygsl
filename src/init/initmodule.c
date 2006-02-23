@@ -134,6 +134,8 @@ static PyMethodDef initMethods[] = {
      {"matrix_transform_counter",  PyGSL_get_matrix_transform_counter ,METH_NOARGS, NULL},
      {"complex_transform_counter", PyGSL_get_complex_transform_counter,METH_NOARGS, NULL},
      {"float_transform_counter",   PyGSL_get_float_transform_counter  ,METH_NOARGS, NULL},
+     {"register_exceptions",       PyGSL_register_exceptions,          METH_VARARGS,NULL},
+     {"register_warnings",         PyGSL_register_warnings,            METH_VARARGS,NULL},
      {NULL,     NULL, 0, NULL}        /* Sentinel */
 };
 
@@ -204,6 +206,10 @@ DL_EXPORT(void) initinit(void)
   }
 
   PyGSL_init_api();
+  
+  if(PyGSL_init_errno() != 0){ 
+       PyErr_SetString(PyExc_ImportError, "Failed to init errno handling!");
+  }
   PyGSL_API = _PyGSL_API;
   PyGSL_SET_ERROR_HANDLER();
 

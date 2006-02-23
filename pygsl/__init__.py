@@ -60,7 +60,9 @@ finally:
 # Central Module used by C callbacks. So a good idea to import it here to be
 # sure that  it exists from the very beginning!
 import pygsl.errors
-
+# And register all the errors
+pygsl.init.register_exceptions(*(pygsl.errors.get_exceptions()))
+pygsl.init.register_warnings(*(pygsl.errors.get_warnings()))
 
 from exceptions import Warning
 
@@ -82,8 +84,27 @@ __all__=['blas', 'chebyshev', 'combination', 'const', 'deriv', 'eigen', 'fit',
 
 
 
-import pygsl._numobj
-import pygsl._mlab
+import _numobj
+import errno
+
+get_typecode_numpy = lambda x: x.dtype.char
+get_typecode_default = lambda x: x.typecode()
+    
+if _numobj.nummodule == "numpy":
+    get_typecode = get_typecode_numpy
+else:
+    get_typecode = get_typecode_default
+
+    
+def array_typed_copy(array, code = None):
+    """
+    Return a new copy for the array
+    """
+    if code == None:
+        code = get_typecode(array)
+    return array.astype(code)
+    
+#import pygsl._mlab
 def set_debug_level(level):
     """
     Allow to set the debug level if implemented in the init function.
@@ -106,6 +127,24 @@ def import_all():
             __import__(name, globals(), locals(), [])
         except ImportError:
             print "Import of %s failed!" % (name,)
+
+def _zeros_default(dimensions, array):
+    """
+    Generate zeros of the same type as the array
+    """
+    return _zeros(dimensions, array.typecode())
+
+def _zeros_numpy(dimensions, array):
+    """
+    Generate zeros of the same type as the array
+    """
+    return _zeros(dimensions, array.dtype)
+
+if pygsl._numobj.nummodule == "numpy":
+    zeros = _zeros_numpy
+else:
+    zeros = _zeros_default
+_zeros = pygsl._numobj.zeros
 
 if compiled_gsl_version != run_gsl_version:
     txt = """This pygsl module was compiled for GSL version %s but it

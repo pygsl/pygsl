@@ -4,8 +4,6 @@
 #include <compile.h>
 #include <frameobject.h>
 
-static const char  error_module[] = "pygsl.errors";
-static PyObject *gsl_error_dict = NULL;
 
 static int  
 PyGSL_error_flag(long flag)
@@ -120,154 +118,153 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 }
 
 
+#define ERRNO_MAX 32
+static PyObject * errno_accel[ERRNO_MAX];
+static PyObject * error_dict = NULL;
+static PyObject * warning_dict = NULL;
+static PyObject * unknown_error = NULL;
 
-static const char * 
-PyGSL_get_error_object_name(int gsl_error)
+static int
+PyGSL_register_accel_err_object(PyObject * err_ob, long test_errno)
 {
-     const char *default_err_str="gsl_Error", *err_str;
-     switch(gsl_error)
-     {
-     case GSL_FAILURE : err_str = "gsl_Error";                   break;
-     case GSL_CONTINUE: err_str = NULL;                          break;
-     case GSL_EDOM    : err_str = "gsl_DomainError";             break;
-     case GSL_ERANGE  : err_str = "gsl_RangeError";              break;
-     case GSL_EFAULT  : err_str = "gsl_PointerError";            break;
-     case GSL_EINVAL  : err_str = "gsl_InvalidArgumentError";    break;
-     case GSL_EFAILED : err_str = "gsl_GenericError";            break;
-     case GSL_EFACTOR : err_str = "gsl_FactorizationError";      break;
-     case GSL_ESANITY : err_str = "gsl_SanityCheckError";        break;
-     case GSL_ENOMEM  : err_str = NULL;                          break;
-     case GSL_EBADFUNC: err_str = "gsl_BadFuncError";            break;
-     case GSL_ERUNAWAY: err_str = "gsl_RunAwayError";            break;
-     case GSL_EMAXITER: err_str = "gsl_MaximumIterationError";   break;
-     case GSL_EZERODIV: err_str = "gsl_ZeroDivisionError";       break;
-     case GSL_EBADTOL : err_str = "gsl_BadToleranceError";       break;
-     case GSL_ETOL    : err_str = "gsl_ToleranceError";          break;
-     case GSL_EUNDRFLW: err_str = "gsl_UnderflowError";          break;
-     case GSL_EOVRFLW : err_str = "gsl_OverflowError";           break;
-     case GSL_ELOSS   : err_str = "gsl_AccuracyLossError";       break;
-     case GSL_EROUND  : err_str = "gsl_RoundOffError";           break;
-     case GSL_EBADLEN : err_str = "gsl_BadLength";               break;
-     case GSL_ENOTSQR : err_str = "gsl_MatrixNotSquare";         break;
-     case GSL_ESING   : err_str = "gsl_SingularityError";        break;
-     case GSL_EDIVERGE: err_str = "gsl_DivergeError";            break;
-     case GSL_EUNSUP  : err_str = "gsl_NoHardwareSupportError";  break;
-     case GSL_EUNIMPL : err_str = "gsl_NotImplementedError";     break;
-     case GSL_ECACHE  : err_str = "gsl_CacheLimitError";         break;
-     case GSL_ETABLE  : err_str = "gsl_TableLimitError";         break;
-     case GSL_ENOPROG : err_str = "gsl_NoProgressError";         break;
-     case GSL_ENOPROGJ: err_str = "gsl_JacobianEvaluationError"; break;
-     case GSL_ETOLF   : err_str = "gsl_ToleranceFError";         break;
-     case GSL_ETOLX   : err_str = "gsl_ToleranceXError";         break;
-     case GSL_ETOLG   : err_str = "gsl_ToleranceGradientError";  break;
-     case GSL_EOF     : err_str = "gsl_EOFError";                break;
-     case PyGSL_ESTRIDE : err_str = "pygsl_StrideError";	 break; 
-     default:
-	  err_str = default_err_str;
-     } /* switch(gsl_errno) */
-     return err_str;
+     assert(err_ob);
+     if(errno_accel[test_errno] != NULL){
+	  return -2;
+     }
+     Py_INCREF(err_ob);
+     errno_accel[test_errno] = err_ob;
+     return 0;
 }
 
-static const char * 
-PyGSL_get_warning_object_name(int gsl_error)
+/**/
+static int
+_PyGSL_register_err_object(PyObject *dict, PyObject * err_ob, PyObject *the_errno)
 {
-     const char *default_err_str="gsl_Warning", *err_str;
-     switch(gsl_error)
-     {
-     case GSL_FAILURE : err_str = "gsl_Warning";                   break;
-     case GSL_CONTINUE: err_str = NULL;                            break;
-     case GSL_EDOM    : err_str = "gsl_DomainWarning";             break;
-     case GSL_ERANGE  : err_str = "gsl_RangeWarning";              break;
-     case GSL_EFAULT  : err_str = "gsl_PointerWarning";            break;
-     case GSL_EINVAL  : err_str = "gsl_InvalidArgumentWarning";    break;
-     case GSL_EFAILED : err_str = "gsl_GenericWarning";            break;
-     case GSL_EFACTOR : err_str = "gsl_FactorizationWarning";      break;
-     case GSL_ESANITY : err_str = "gsl_SanityCheckWarning";        break;
-     case GSL_ENOMEM  : err_str = NULL;                            break;
-     case GSL_EBADFUNC: err_str = "gsl_BadFuncWarning";            break;
-     case GSL_ERUNAWAY: err_str = "gsl_RunAwayWarning";            break;
-     case GSL_EMAXITER: err_str = "gsl_MaximumIterationWarning";   break;
-     case GSL_EZERODIV: err_str = "gsl_ZeroDivisionWarning";       break;
-     case GSL_EBADTOL : err_str = "gsl_BadToleranceWarning";       break;
-     case GSL_ETOL    : err_str = "gsl_ToleranceWarning";          break;
-     case GSL_EUNDRFLW: err_str = "gsl_UnderflowWarning";          break;
-     case GSL_EOVRFLW : err_str = "gsl_OverflowWarning";           break;
-     case GSL_ELOSS   : err_str = "gsl_AccuracyLossWarning";       break;
-     case GSL_EROUND  : err_str = "gsl_RoundOffWarning";           break;
-     case GSL_EBADLEN : err_str = "gsl_BadLength";                 break;
-     case GSL_ENOTSQR : err_str = "gsl_MatrixNotSquare";           break;
-     case GSL_ESING   : err_str = "gsl_SingularityWarning";        break;
-     case GSL_EDIVERGE: err_str = "gsl_DivergeWarning";            break;
-     case GSL_EUNSUP  : err_str = "gsl_NoHardwareSupportWarning";  break;
-     case GSL_EUNIMPL : err_str = "gsl_NotImplementedWarning";     break;
-     case GSL_ECACHE  : err_str = "gsl_CacheLimitWarning";         break;
-     case GSL_ETABLE  : err_str = "gsl_TableLimitWarning";         break;
-     case GSL_ENOPROG : err_str = "gsl_NoProgressWarning";         break;
-     case GSL_ENOPROGJ: err_str = "gsl_JacobianEvaluationWarning"; break;
-     case GSL_ETOLF   : err_str = "gsl_ToleranceFWarning";         break;
-     case GSL_ETOLX   : err_str = "gsl_ToleranceXWarning";         break;
-     case GSL_ETOLG   : err_str = "gsl_ToleranceGradientWarning";  break;
-     case GSL_EOF     : err_str = "gsl_EOFWarning";                break;
-     case PyGSL_ESTRIDE : err_str = "pygsl_StrideWarning";	   break; 
-     default:
-	  err_str = default_err_str;
-     } /* switch(gsl_errno) */
-     return err_str;
+     PyObject *test;
+     assert(error_dict);
+     test = PyDict_GetItem(dict, the_errno);
+     if(test != NULL)
+	  return -2;
+
+     Py_INCREF(err_ob);
+     PyDict_SetItem(dict, the_errno, err_ob);
+     return 0;
+}
+
+static int
+_PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
+{
+     PyObject *tmp, *name;
+     long test_errno;
+     int flag; 
+     char * c_name;
+     assert(err_ob);
+     tmp = PyObject_GetAttrString(err_ob, "errno");
+     if(tmp == NULL){
+	  name = PyObject_GetAttrString(err_ob, "__name__");
+
+	  if(name == NULL) 
+	       c_name = "unknown name";
+	  else if (!PyString_Check(name))
+	       c_name = "name not str object!";	       
+	  else	       
+	       c_name = PyString_AsString (name);
+
+	  fprintf(stderr, "failed to get errno from err_ob '%s' @ %p\n",
+		  c_name, (void *) err_ob);
+	  return -1;
+     }
+     
+     if(!PyInt_CheckExact(tmp)){
+	  fprintf(stderr, "errno %p from err_ob %p was not an exact int!\n", (void *) tmp, (void *) err_ob);
+	  return -1;
+     }
+
+     test_errno = PyInt_AsLong(tmp);
+     if((dict == error_dict) && (test_errno < ERRNO_MAX)){
+	  flag = PyGSL_register_accel_err_object(err_ob, test_errno);
+     }else{
+	  flag = _PyGSL_register_err_object(dict, err_ob, tmp);	  
+     }	       
+     if(flag != 0)
+	  fprintf(stderr, "Failed to register err_ob %p with errno %ld.\n" 
+		  "\tAlready registered?\n", err_ob, test_errno);
+     return flag;
+}
+
+static PyObject*
+PyGSL_register_error_objs(PyObject *self, PyObject *args, PyObject *dict, int errno_max)
+{
+     int flag, i, len;
+     PyObject *tmp;
+     
+     if(!PySequence_Check(args))
+	  return NULL;
+
+     len = PySequence_Size(args);
+     for(i = 0; i < len; ++i){
+	  tmp = PySequence_GetItem(args, i);
+	  flag = _PyGSL_register_error(dict, errno_max, tmp);
+	  if(flag != 0){
+	       fprintf(stderr, "Failed to register error object %d\n", i);
+	       PyErr_SetString(PyExc_ValueError, "Failed to register exceptions!");
+	  }
+     }
+     
+     Py_INCREF(Py_None);
+     return Py_None;
+
+}
+static PyObject*
+PyGSL_register_warnings(PyObject *self, PyObject *args)
+{
+     return PyGSL_register_error_objs(self, args, warning_dict, 0);    
+}
+
+static PyObject*
+PyGSL_register_exceptions(PyObject *self, PyObject *args)
+{
+     return PyGSL_register_error_objs(self, args, error_dict, ERRNO_MAX);
+
+}
+
+static PyObject *
+PyGSL_get_error_object(int the_errno, PyObject ** accel, int accel_max, PyObject *dict)
+{
+     PyObject *tmp;
+     assert(the_errno >= 0);
+     if (the_errno < accel_max)
+	  tmp = accel[the_errno];
+     else
+	  tmp =  PyDict_GetItem(dict, PyInt_FromLong(the_errno));
+     if(tmp == NULL)
+	  return unknown_error;
+     return tmp;
+}
+
+static int 
+PyGSL_init_errno(void)
+{
+     int i;
+     for(i = 0; i< ERRNO_MAX; ++i){
+	  errno_accel[i] = NULL;
+     }
+     error_dict = PyDict_New();
+     if (error_dict == NULL)
+	  return -1;
+
+     warning_dict = PyDict_New();
+     if (warning_dict == NULL)
+	  return -1;
+
+     unknown_error = PyExc_ValueError;
+     return 0;
 }
 
 enum handleflag {
      HANDLE_ERROR = 0,
      HANDLE_WARNING
 };
-
-static PyObject * 
-PyGSL_get_object_error_module(int gsl_error, enum handleflag flag)
-{
-     PyObject  *gsl_error_module=NULL, *gsl_error_object=NULL;
-     const char *err_str = NULL;
-
-     FUNC_MESS_BEGIN();
-
-     if(!gsl_error_dict){
-	  gsl_error_module=PyImport_ImportModule((char *) error_module);
-	  if(!gsl_error_module){
-	       fprintf(stderr, "I could not get module %s!\n", error_module);
-	       Py_XDECREF(gsl_error_module);
-	       gsl_error_module = NULL;
-	       return NULL;
-	  }
-	  gsl_error_dict=PyModule_GetDict(gsl_error_module);
-     }
-
-
-     if(!gsl_error_dict){
-	  fprintf(stderr, "I could not get the dictionary of the module %s!\n",
-		  error_module);
-	  goto fail;
-     }
-
-     switch(flag){
-     case HANDLE_ERROR:   
-	  err_str = PyGSL_get_error_object_name(gsl_error); 
-	  break;
-     case HANDLE_WARNING: 
-	  err_str = PyGSL_get_warning_object_name(gsl_error); 
-	  break;
-     default:
-	  fprintf(stderr, "Unknown handle flag %d\n", flag);
-     }
-     if (err_str == NULL) {
-	  fprintf(stderr, "Pygsl Internal Error. I got an error number of %d. "
-		  "For this errno no approbriate Exception was found!", gsl_error);
-     } else {
-	  gsl_error_object=PyDict_GetItemString(gsl_error_dict, err_str);
-     }
-     FUNC_MESS_END();
-     return gsl_error_object;
-
- fail:
-     return NULL;
-}
 
 
 /*
@@ -294,26 +291,6 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
        return -1;
   }
 
-  error_explanation = gsl_strerror(gsl_error);
-  if (error_explanation==NULL)
-    if (reason==NULL)
-      snprintf(error_text,sizeof(error_text),
-	       "unknown error %d, no reason given",
-	       gsl_error);
-    else
-      snprintf(error_text,sizeof(error_text),
-	       "unknown error %d: %s",
-	       gsl_error,reason);
-  else
-    if (reason==NULL)
-      snprintf(error_text,sizeof(error_text),
-	       "%s",
-	       error_explanation);
-    else
-      snprintf(error_text,sizeof(error_text),
-	       "%s: %s",
-	       error_explanation,reason);
-
   /*
    * some functions call error handler more than once before returning 
    *  report only the first (most specific) error 
@@ -326,24 +303,37 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
     return -1;
   }
 
-
-  /* error handler for gsl routines, sets exception */
-  gsl_error_object=PyGSL_get_object_error_module(gsl_error, flag);
-
-  if(!gsl_error_object){
-       fprintf(stderr, "%s. In Function %s. I could not get object gsl_Error!\n", 
-	       error_module, __FUNCTION__);
-       return -1;
+  /*
+   * Find the approbriate error
+   */
+  error_explanation = gsl_strerror(gsl_error);
+  if (reason==NULL){
+       reason = "no reason given!";
   }
-  
-  Py_INCREF(gsl_error_object);  
+
+  if (error_explanation==NULL){
+      snprintf(error_text,sizeof(error_text),
+	       "unknown error %d: %s",
+	       gsl_error, reason);
+  }else{
+      snprintf(error_text,sizeof(error_text),
+	       "%s: %s",
+	       error_explanation,reason);
+  }
+
 
   switch(flag){
   case HANDLE_ERROR:   
+       assert(gsl_error > 0);
+       gsl_error_object = PyGSL_get_error_object(gsl_error, errno_accel, ERRNO_MAX, error_dict);
+       Py_INCREF(gsl_error_object);  
        PyErr_SetObject(gsl_error_object, PyString_FromString(error_text)); 
        return -1;
        break;
   case HANDLE_WARNING:
+       assert(gsl_error > 0);
+       gsl_error_object = PyGSL_get_error_object(gsl_error, NULL, 0, warning_dict);
+       Py_INCREF(gsl_error_object);  
        return PyErr_Warn(gsl_error_object, error_text); 
        break;
   default:
