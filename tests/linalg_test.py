@@ -51,7 +51,7 @@ class LinalgTestCase(GSLTestCase):
     def testLU_lndet(self):
         (lu, p, s) = LU_decomp(self.m1_4)
         lndet = LU_lndet(lu)
-        result = fpcompare(lndet, math.log(15.744), 3)
+        result = fpcompare(lndet, Numeric.log(15.744), 3)
         self.failUnless(result)
         
     def testLU_sgndet(self):
@@ -133,7 +133,7 @@ class LinalgTestCase(GSLTestCase):
         A = array([[1,2],[1,3],[3,4],[2,5]], Float)
         b = array([1,1,1,1], Float)
         (qr,tau) = QR_decomp(A)
-        (x, res) = QR_lssovle(qr, tau, b)
+        (x, res) = QR_lssolve(qr, tau, b)
         assert(Numeric.absolute(x[0]) < 1e-7)
         assert(Numeric.absolute(x[1] - 0.25925) < 1e-4)        
         res2 = arrayCompare(res, [0.48148, 0.2222, -0.037037037, -0.296296], 4)

@@ -10,15 +10,14 @@ available for finding the roots of general polynomials with real coefficients
 
 All the doc strings were taken form the gsl reference document.
 """
-
+import pygsl
 import pygsl._numobj as Numeric
 import _poly
 
-#GSL_SUCCESS = pygsl.errors.GSL_SUCCESS
-#GSL_FAILURE = pygsl.errors.GSL_FAILURE
+get_typecode = pygsl.get_typecode
 
-GSL_SUCCESS = 0
-GSL_FAILURE = -1
+GSL_SUCCESS = pygsl.errno.GSL_SUCCESS
+GSL_FAILURE = pygsl.errno.GSL_FAILURE
 
 
 def poly_eval(*args):
@@ -79,7 +78,7 @@ class poly_dd:
         input : xp
              xp ... point to expand about
         """
-        w = Numeric.zeros(self.dd.shape, self.dd.typecode())
+        w = Numeric.zeros(self.dd.shape, get_typecode(self.dd))
         return _poly.gsl_poly_dd_taylor(xp, self.dd, self.xa, w)
     
 class poly_complex:

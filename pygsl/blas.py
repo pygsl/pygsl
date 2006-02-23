@@ -2,18 +2,27 @@
 r"""
 BLAS - Basic Linear Algebra Subprograms
 
-GSL provides dense vector and matrix objects, based on the relevant built-in types. The library provides an interface to the BLAS operations which apply to these objects.
+GSL provides dense vector and matrix objects, based on the relevant built-in
+types. The library provides an interface to the BLAS operations which apply to
+these objects.
 
 PyGSL only provides the functions working on "native" Python datatypes, i.e.
 double and complex_double.
 
-Functions with the postfix "_cr" are functions that support call by reference. This is faster than the original version but may confuse real Python programmers. Use this, if speed matters!!
+Functions with the postfix "_cr" are functions that support call by reference.
+This is faster than the original version but may confuse real Python
+programmers. Use this, if speed matters!!
 
-Functions that are naturally done using NumPy functions are left out here.
+Functions that are naturally done using functions of the underlying numerical
+package are left out here.
 """
 
 import _gslwrap
 import pygsl._numobj as Numeric
+import copy
+from pygsl import array_typed_copy, get_typecode
+Float = Numeric.Float
+Complex = Numeric.Complex
 #
 # constants
 #
@@ -116,7 +125,7 @@ def daxpy(alpha, x, y):
     """
     This function computes the sum y = \alpha x + y for the vectors x and y.
     """
-    yn = y.astype(Numeric.Float)
+    yn = array_typed_copy(y, Float)
     _gslwrap.gsl_blas_daxpy(alpha, x, yn)
     return yn
 
@@ -132,7 +141,7 @@ def zaxpy(alpha, x, y):
     """
     This function computes the sum y = \alpha x + y for the vectors x and y.
     """
-    yn = y.astype(Numeric.Complex)
+    yn = array_typed_copy(y, Numeric.Complex)
     _gslwrap.gsl_blas_zaxpy(alpha, x, yn)
     return yn
 
@@ -149,8 +158,8 @@ def drot(x, y, c, s):
     This function applies a Givens rotation (x', y') = (c x + s y, -s x + c y)
     to the vectors x, y.
     """
-    xn = x.astype(Numeric.Float)
-    yn = y.astype(Numeric.Float)
+    xn = array_typed_copy(x, Numeric.Float)
+    yn = array_typed_copy(y, Numeric.Float)
     _gslwrap.gsl_blas_drot(xn, yn, c, s)
     return (xn, yn)
 
@@ -173,7 +182,7 @@ def dgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
     sum y = \alpha op(A) x + \beta y, where op(A) = A, A^T, A^H for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
-    yn = y.astype(y.typecode())
+    yn = array_typed_copy(y, Numeric.Float)
     _gslwrap.gsl_blas_dgemv(TransA, alpha, a, x, beta, yn)
     return yn
     
@@ -184,7 +193,7 @@ def zgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
     sum y = \alpha op(A) x + \beta y, where op(A) = A, A^T, A^H for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
-    yn = y.astype(Numeric.Complex)
+    yn = array_typed_copy(y, Numeric.Complex)
     _gslwrap.gsl_blas_zgemv(TransA, alpha, a, x, beta, yn)
     return yn
 
@@ -206,7 +215,8 @@ def dtrmv(A,
     the matrix is used, but if Diag is CblasUnit then the diagonal
     elements of the matrix A are taken as unity and are not referenced. 
     """
-    xn = x.astype(x.typecode())
+    xn = array_typed_copy(x, Numeric.Float)
+
     _gslwrap.gsl_blas_dtrmv(Uplo, TransA, Diag, A, xn)
     return xn
     
@@ -228,7 +238,7 @@ def ztrmv(A,
     the matrix is used, but if Diag is CblasUnit then the diagonal
     elements of the matrix A are taken as unity and are not referenced. 
     """
-    xn = x.astype(x.typecode())
+    xn = array_typed_copy(x)
     _gslwrap.gsl_blas_ztrmv(Uplo, TransA, Diag, A, xn)
     return xn
 
@@ -249,7 +259,7 @@ def dtrsv(A,
     is CblasUnit then the diagonal elements of the matrix A are taken
     as unity and are not referenced. 
     """
-    xn = x.astype(x.typecode())
+    xn = array_typed_copy(x)
     _gslwrap.gsl_blas_dtrsv(Uplo, TransA, Diag, A, xn)
     return xn
     
@@ -270,7 +280,7 @@ def ztrsv(A,
     is CblasUnit then the diagonal elements of the matrix A are taken
     as unity and are not referenced. 
     """
-    xn = x.astype(x.typecode())
+    xn = array_typed_copy(x)
     _gslwrap.gsl_blas_ztrsv(Uplo, TransA, Diag, A, xn)
     return xn
 
@@ -286,7 +296,7 @@ def dsymv(alpha, A, X, beta, Y, Uplo=CblasLower):
     of A are used, and when Uplo is CblasLower then the lower triangle
     and diagonal of A are used. 
     """
-    yn = Y.astype(A.typecode())
+    yn = array_typed_copy(Y, Numeric.Float)
     _gslwrap.gsl_blas_dsymv(Uplo, alpha, A, X, beta, yn)
     return yn
 
@@ -303,7 +313,7 @@ def zhemv(alpha, A, X, beta, Y, Uplo=CblasLower):
     and diagonal of A are used. The imaginary elements of the diagonal
     are automatically assumed to be zero and are not referenced. 
     """
-    yn = Y.astype(A.typecode())
+    yn = array_typed_copy(Y, get_typecode(A))
     _gslwrap.gsl_blas_zhemv(Uplo, alpha, A, X, beta, yn)
     return yn
 
@@ -315,7 +325,7 @@ def dger(alpha, X, Y, A):
     This function computes the rank-1 update A' = \alpha x y^T + A of
     the matrix A. 
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)
     _gslwrap.gsl_blas_dger(alpha, X, Y, an)
     return an
 
@@ -327,7 +337,7 @@ def zgeru(alpha, X, Y, A):
     This function computes the rank-1 update A' = \alpha x y^T + A of
     the matrix A. 
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)
     _gslwrap.gsl_blas_zgeru(alpha, X, Y, an)
     return an
 
@@ -339,7 +349,7 @@ def zgerc(alpha, X, Y, A):
     This function computes the conjugate rank-1 update
     A = \alpha x y^H + A of the matrix A.
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)
     _gslwrap.gsl_blas_zgerc(alpha, X, Y, an)
     return an
 
@@ -355,7 +365,7 @@ def dsyr(alpha, X, A, Uplo=CblasLower):
     are used, and when Uplo is CblasLower then the lower triangle and
     diagonal of A are used.
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)
     _gslwrap.gsl_blas_dsyr(Uplo, alpha, X, an)
     return an
 
@@ -372,7 +382,7 @@ def zher(alpha, X, A, Uplo=CblasLower):
     of A are used. The imaginary elements of the diagonal are automatically
     set to zero. 
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)        
     _gslwrap.gsl_blas_zher(Uplo, alpha, X, an)
     return an
 
@@ -388,7 +398,7 @@ def dsyr2(alpha, X, Y, A, Uplo=CblasLower):
     and diagonal of A are used, and when Uplo is CblasLower then the
     lower triangle and diagonal of A are used. 
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)        
     _gslwrap.gsl_blas_dsyr2(Uplo, alpha, X, Y, an)
     return an
 
@@ -405,7 +415,7 @@ def zher2(alpha, X, Y, A, Uplo=CblasLower):
     lower triangle and diagonal of A are used. The imaginary elements
     of the diagonal are automatically set to zero. 
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)
     _gslwrap.gsl_blas_zher2(Uplo, alpha, X, Y, an)
     return an
 
@@ -427,7 +437,7 @@ def dgemm(alpha,
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans and similarly
     for the parameter TransB.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_dgemm(TransA, TransB, alpha, A, B, beta, cn)
     return cn
 
@@ -445,7 +455,7 @@ def zgemm(alpha,
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans and similarly
     for the parameter TransB.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_zgemm(TransA, TransB, alpha, A, B, beta, cn)
     return cn
 
@@ -463,7 +473,7 @@ def dsymm(alpha, A, B, beta, C,
     diagonal of A are used, and when Uplo is CblasLower then the lower
     triangle and diagonal of A are used.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_dsymm(Side, Uplo, alpha, A, B, beta, cn)
     return cn
 
@@ -481,7 +491,7 @@ def zsymm(alpha, A, B, beta, C,
     diagonal of A are used, and when Uplo is CblasLower then the lower
     triangle and diagonal of A are used.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_zsymm(Side, Uplo, alpha, A, B, beta, cn)
     return cn
 
@@ -500,7 +510,7 @@ def zhemm(alpha, A, B, beta, C,
     triangle and diagonal of A are used. The imaginary elements of the
     diagonal are automatically set to zero.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_zhemm(Side, Uplo, alpha, A, B, beta, cn)
     return cn
 
@@ -523,7 +533,7 @@ def dtrmm(alpha, A, B,
     of A is used, but if Diag is CblasUnit then the diagonal elements
     of the matrix A are taken as unity and are not referenced.
     """
-    bn = B.astype(B.typecode())
+    bn = array_typed_copy(B)
     _gslwrap.gsl_blas_dtrmm(Side, Uplo, TransA, Diag, alpha, A, bn)
     return bn
 
@@ -546,7 +556,7 @@ def ztrmm(alpha, A, B,
     of A is used, but if Diag is CblasUnit then the diagonal elements
     of the matrix A are taken as unity and are not referenced.
     """
-    bn = B.astype(B.typecode())
+    bn = array_typed_copy(B)
     _gslwrap.gsl_blas_ztrmm(Side, Uplo, TransA, Diag, alpha, A, bn)
     return bn
 
@@ -569,7 +579,7 @@ def dtrsm(alpha, A, B,
     of A is used, but if Diag is CblasUnit then the diagonal elements
     of the matrix A are taken as unity and are not referenced.
     """
-    bn = B.astype(B.typecode())
+    bn = array_typed_copy(B)
     _gslwrap.gsl_blas_dtrsm(Side, Uplo, TransA, Diag, alpha, A, bn)
     return bn
 
@@ -592,7 +602,7 @@ def ztrsm(alpha, A, B,
     of A is used, but if Diag is CblasUnit then the diagonal elements
     of the matrix A are taken as unity and are not referenced.
     """
-    bn = B.astype(B.typecode())
+    bn = array_typed_copy(B)
     _gslwrap.gsl_blas_ztrsm(Side, Uplo, TransA, Diag, alpha, A, bn)
     return bn
 
@@ -611,7 +621,7 @@ def dsyrk(alpha, A, beta, C,
     used, and when Uplo is CblasLower then the lower triangle and diagonal
     of C are used.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_dsyrk(Uplo, Trans, alpha, A, beta, cn)
     return cn
 
@@ -630,7 +640,7 @@ def zsyrk(alpha, A, beta, C,
     used, and when Uplo is CblasLower then the lower triangle and diagonal
     of C are used.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_zsyrk(Uplo, Trans, alpha, A, beta, cn)
     return cn
 
@@ -648,7 +658,7 @@ def triang2symm(A,
     of A is used, but if Diag is CblasUnit then the diagonal elements
     of the matrix A are taken as unity and are not referenced.
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)
     if Uplo == CblasLower:
         for i in range(A.shape[0]):
             an[:i+1,i] =  A[i,:i+1]
@@ -674,7 +684,7 @@ def triang2herm(A,
     of A is used, but if Diag is CblasUnit then the diagonal elements
     of the matrix A are taken as unity and are not referenced.
     """
-    an = A.astype(A.typecode())
+    an = array_typed_copy(A)
     if Uplo == CblasLower:
         for i in range(A.shape[0]):
             an[:i+1,i] = Numeric.conjugate(A[i,:i+1])
@@ -702,7 +712,7 @@ def zherk(alpha, A, beta, C,
     diagonal of C are used. The imaginary elements of the diagonal are
     automatically set to zero.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_zherk(Uplo, Trans, alpha, A, beta, cn)
     return cn
 
@@ -721,7 +731,7 @@ def dsyr2k(alpha, A, B, beta, C,
     the upper triangle and diagonal of C are used, and when Uplo is
     CblasLower then the lower triangle and diagonal of C are used.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_dsyr2k(Uplo, Trans, alpha, A, B, beta, cn)
     return cn
 
@@ -740,7 +750,7 @@ def zsyr2k(alpha, A, B, beta, C,
     the upper triangle and diagonal of C are used, and when Uplo is
     CblasLower then the lower triangle and diagonal of C are used.
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_zsyr2k(Uplo, Trans, alpha, A, B, beta, cn)
     return cn
 
@@ -760,6 +770,6 @@ def zher2k(alpha, A, B, beta, C,
     CblasLower then the lower triangle and diagonal of C are used.
     The imaginary elements of the diagonal are automatically set to zero. 
     """
-    cn = C.astype(C.typecode())
+    cn = array_typed_copy(C)
     _gslwrap.gsl_blas_zher2k(Uplo, Trans, alpha, A, B, beta, cn)
     return cn

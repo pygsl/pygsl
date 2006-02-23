@@ -4,7 +4,7 @@ import types
 import pygsl._numobj as Numeric
 from pygsl import poly
 import unittest
-#import pygsl
+from gsl_test import iscomplex
 
 _eps = 1e-8
 class TestPoly(unittest.TestCase):
@@ -53,8 +53,9 @@ class TestQuadratic(unittest.TestCase):
             if test == 0:
                 print poly.complex_solve_quadratic(1,3,2)
         assert(tmp == 2)
+        
         assert(type(r1) == types.ComplexType)
-        assert(type(r2) == types.ComplexType)    
+        assert(type(r2) == types.ComplexType)
         assert(r1 == -2 or r2 == -2)
         assert(r1 == -1 or r2 == -1)
 
@@ -94,8 +95,9 @@ class TestCubicWorkspace(unittest.TestCase):
         rs = pc.solve((2,3,1))
         r1 = rs[0]
         r2 = rs[1]
-        assert(type(r1) == types.ComplexType)
-        assert(type(r2) == types.ComplexType)    
+        
+        assert(iscomplex(r1))
+        assert(iscomplex(r2))
         assert(r1 == -2 or r2 == -2)
         assert(r1 == -1 or r2 == -1)
     

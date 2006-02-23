@@ -17,6 +17,8 @@ from permutation import Permutation
 import pygsl._numobj as Numeric
 zeros = Numeric.zeros
 array = Numeric.array
+get_typecode = pygsl.get_typecode
+array_typed_copy = pygsl.array_typed_copy
 #
 # LU Decomposition
 #
@@ -43,14 +45,13 @@ of the matrix P is given by the k-th column of the identity matrix, where
     """
     
     p = Permutation(A.shape[1])
-    code = A.typecode()
+    code = get_typecode(A)
+    An = array_typed_copy(A)
     if code == Numeric.Complex:
-        An = A.astype(Numeric.Complex)
         # Now all error flags are turned into python exceptions. So no
         # unpack necessary any longer.
         signum = _gslwrap.gsl_linalg_complex_LU_decomp(An, p)
     elif code == Numeric.Float:
-        An = A.astype(Numeric.Float)
         signum = _gslwrap.gsl_linalg_LU_decomp(An, p)
     else:
         raise TypeError, "LU must be of type Float or Complex"
@@ -64,8 +65,9 @@ def LU_unpack(LU):
     This function splits the matrix LU into the the upper matrix U and
     the lower matrix L. The diagonal of L is the identity.
     """
-    u = zeros(LU.shape, LU.typecode())
-    l = Numeric.identity(LU.shape[0], LU.typecode())
+    code = get_typecode(LU)
+    u = zeros(LU.shape, code)
+    l = Numeric.identity(LU.shape[0], code)
     for i in  range(LU.shape[0]):
         u[i, i: ] = LU[i, i:]
         l[i, 0:i] = LU[i, :i]
@@ -77,8 +79,8 @@ def LU_solve(LU, p, b):
     This function solves the system A x = b using the LU decomposition of A
     into (LU, p) given by LU_decomp.
     """
-    x = zeros(LU.shape[1], LU.typecode())
-    code = LU.typecode()
+    code = get_typecode(LU)
+    x = zeros(LU.shape[1], code)
     if code == Numeric.Complex:
         _gslwrap.gsl_linalg_complex_LU_solve(LU, p, b, x)
     elif code == Numeric.Float:
@@ -96,7 +98,7 @@ def LU_refine(A, LU, p, b, x):
     of A x = b, using the LU decomposition of A into (LU,p). The initial
     residual r = A x - b is also computed and stored in residual. 
     """
-    code = LU.typecode()
+    code = get_typecode(LU)
     raise NotImplementedError, "This function is not (yet implemented)"
 #    if code == Numeric.Complex:
 #        _gslwrap.gsl_linalg_complex_LU_refine(A, LU, p, b, x, residual)
@@ -116,7 +118,7 @@ def LU_invert(LU, p):
     the identity matrix. It is preferable to avoid direct computation of the
     inverse whenever possible.
     """
-    code = LU.typecode()
+    code = get_typecode(LU)
     inverse = zeros(LU.shape, code)
     if code == Numeric.Complex:
         _gslwrap.gls_linalg_complex_LU_invert(LU, p, inverse)
@@ -135,7 +137,7 @@ def LU_det(LU, signum):
     decomposition, LU. The determinant is computed as the product of
     the diagonal elements of U and the sign of the row permutation signum.
     """
-    code = LU.typecode()
+    code = get_typecode(LU)
     if code == Numeric.Complex:
         return _gslwrap.gls_linalg_complex_LU_det(LU, signum)
     elif code == Numeric.Float:
@@ -151,7 +153,7 @@ def LU_lndet(LU):
     This function may be useful if the direct computation of the determinant
     would overflow or underflow.
     """
-    code = LU.typecode()
+    code = get_typecode(LU)
     if code == Numeric.Complex:
         return _gslwrap.gls_linalg_complex_LU_lndet(LU)
     elif code == Numeric.Float:
@@ -165,7 +167,7 @@ def LU_sgndet(LU, signum):
     This function computes the sign or phase factor of the determinant of a
     matrix A, det(A)/|det(A)|, from its LU decomposition, LU.
     """
-    code = LU.typecode()
+    code = get_typecode(LU)
     if code == Numeric.Complex:
         return _gslwrap.gls_linalg_complex_LU_sgndet(LU, signum)
     elif code == Numeric.Float:
@@ -197,8 +199,9 @@ def QR_decomp(A):
     The algorithm used to perform the decomposition is Householder QR
     (Golub & Van Loan, Matrix Computations, Algorithm 5.2.1).
     """
-    qr = A.astype(A.typecode())
-    tau = zeros((min(A.shape),), A.typecode())
+    code = get_typecode(A)
+    qr = array_typed_copy(A, code)
+    tau = zeros((min(A.shape),), code)
     _gslwrap.gsl_linalg_QR_decomp(qr, tau)
     return (qr, tau)
 
@@ -210,7 +213,8 @@ def QR_solve(QR, tau, b):
     This function solves the system A x = b using the QR decomposition of
     A into (QR, tau) given by gsl_linalg_QR_decomp.
     """
-    x = zeros(QR.shape[1], b.typecode())
+    code = get_typecode(b)
+    x = zeros(QR.shape[1], code)
     _gslwrap.gsl_linalg_QR_solve(QR, tau, b, x)
     return x
 
@@ -226,8 +230,9 @@ def QR_lssolve(QR, tau, b):
     gsl_linalg_QR_decomp. The solution is returned in x. The residual is
     computed as a by-product and stored in residual.
     """
-    x = zeros(QR.shape[1], QR.typecode())
-    residual = zeros(QR.shape[0], QR.typecode())
+    code = get_typecode(QR)
+    x = zeros(QR.shape[1], code)
+    residual = zeros(QR.shape[0], code)
     _gslwrap.gsl_linalg_QR_lssolve(QR, tau, b, x, residual)
     return (x, residual)
 
@@ -241,7 +246,7 @@ def QR_QTvec(QR, tau, v):
     multiplication is carried out directly using the encoding of the
     Householder vectors without needing to form the full matrix Q^T.
     """
-    vn = v.astype(v.typecode())
+    vn = array_typed_copy(v)
     _gslwrap.gsl_linalg_QR_QTvec(QR,tau,vn)
     return vn
 
@@ -255,7 +260,7 @@ def QR_Qvec(QR, tau, v):
     multiplication is carried out directly using the encoding of the
     Householder vectors without needing to form the full matrix Q.
     """
-    vn = v.astype(v.typecode())
+    vn = array_typed_copy(v)
     _gslwrap.gsl_linalg_QR_Qvec(QR,tau,vn)
     return vn
     
@@ -268,7 +273,7 @@ def QR_Rsolve(QR, b):
     It may be useful if the product b' = Q^T b has already been computed
     using gsl.linalg.QR_QTvec.
     """
-    x = zeros(QR.shape[1], b.typecode())
+    x = zeros(QR.shape[1], get_typecode(b))
     _gslwrap.gsl_linalg_QR_Rsolve(QR, b, x)
     return x
     
@@ -281,7 +286,7 @@ def QR_unpack(QR, tau):
     matrices Q and R, where Q is M-by-M and R is M-by-N.
     """
     (m, n) = QR.shape
-    code = QR.typecode()
+    code = get_typecode(QR)
     q = zeros([m,m], code)
     r = zeros([m,n], code)
     _gslwrap.gsl_linalg_QR_unpack(QR, tau, q, r)
@@ -295,7 +300,7 @@ def QR_QRsolve(Q, R, b):
     This function solves the system R x = Q^T b for x. It can be used when
     the QR decomposition of a matrix is available in unpacked form as (Q,R).
     """
-    x = zeros(R.shape[1], R.typecode())
+    x = zeros(R.shape[1], get_typecode(R))
     _gslwrap.gsl_linalg_QR_QRsolve(Q, R, b, x)
     return x
 
@@ -308,7 +313,7 @@ def QR_update(Q, R, w, v):
     triangular. Note that Q and R are overwritten with Q' and R'!
     """
     raise NotImplementedError, "Please verify the output of this function!"
-    wn = w.astype(w.typecode())
+    wn = array_typed_copy(w)
     _gslwrap.gsl_linalg_QR_update(Q, R, wn, v)
 
 
@@ -319,7 +324,7 @@ def R_solve(R, b):
     This function solves the triangular system R x = b for the N-by-N
     matrix R.
     """
-    x = zeros(R.shape[1], R.typecode())
+    x = zeros(R.shape[1], get_typecode(R))
     _gslwrap.gsl_linalg_QR_QRsolve(R, b, x)
     return x
     
@@ -342,9 +347,9 @@ def SV_decomp(A):
     
     This routine uses the Golub-Reinsch SVD algorithm.
     """    
-    code = A.typecode()
+    code = get_typecode(A)
     n = A.shape[1]
-    u = A.astype(code)
+    u = array_typed_copy(A, code)
     s = zeros(n, code)
     v = zeros((n, n), code)
     work = zeros(A.shape[1], code)
@@ -360,9 +365,9 @@ def SV_decomp_mod(A):
     algorithm, which is faster for M>>N. It requires the vector work
     and the N-by-N matrix X as additional working space.
     """
-    code = A.typecode()
+    code = get_typecode(A)
     n = A.shape[1]
-    u = A.astype(code)
+    u = array_typed_copy(A, code)
     s = zeros(n, code)
     v = zeros((n, n), code)
     x = zeros((n, n), code)
@@ -379,9 +384,9 @@ def SV_decomp_jacobi(A):
     (see references for details). The Jacobi method can compute singular
     values to higher relative accuracy than Golub-Reinsch algorithms.
     """
-    code = A.typecode()
+    code = get_typecode(A)
     n = A.shape[1]
-    u = A.astype(code)
+    u = array_typed_copy(A, code)
     s = zeros(n, code)
     v = zeros((n, n), code)
     _gslwrap.gsl_linalg_SV_decomp_jacobi(u, v, s)
@@ -404,7 +409,7 @@ def SV_solve(U, V, S, b):
     system is solved in the least squares sense, returning the solution x
     which minimizes ||A x - b||_2. 
     """
-    x = zeros(U.shape[1], b.typecode())
+    x = zeros(U.shape[1], get_typecode(b))
     _gslwrap.gsl_linalg_SV_solve(U, V, S, b, x)
     return x
 
@@ -425,7 +430,7 @@ def cholesky_decomp(A):
     positive-definite then the decomposition will fail, returning the
     error code GSL_EDOM.
     """
-    An = A.astype(A.typecode())
+    An = array_typed_copy(A)
     _gslwrap.gsl_linalg_cholesky_decomp(An)
     return An
 
@@ -437,8 +442,8 @@ def cholesky_unpack(L):
     This function splits the matrix L into the the upper matrix L^T and
     the lower matrix L. The diagonal of L is the identical for both.
     """
-    lt = zeros(L.shape, L.typecode())
-    l = zeros(L.shape, L.typecode())
+    lt = zeros(L.shape, get_typecode(L))
+    l = zeros(L.shape, get_typecode(L))
     for i in  range(L.shape[0]):
         lt[i, i: ] = L[i, i:]
         l[i, 0:i+1] = L[i, :i+1]
@@ -452,7 +457,7 @@ def cholesky_solve(cholesky, b):
     This function solves the system A x = b using the Cholesky decomposition
     of A into the matrix cholesky given by cholesky_decomp.
     """
-    x = zeros(b.shape, b.typecode())
+    x = zeros(b.shape, get_typecode(b))
     _gslwrap.gsl_linalg_cholesky_solve(cholesky, b, x)
     return x
 
@@ -481,8 +486,9 @@ def symmtd_decomp(A):
     is the same as used by LAPACK. The upper triangular part of A is not
     referenced.
     """
-    QT = A.astype(A.typecode())
-    tau = zeros(A.shape[0]-1, A.typecode())
+    code = get_typecode(A)
+    QT = array_typed_copy(A, code)
+    tau = zeros(A.shape[0]-1, code)
     _gslwrap.gsl_linalg_symmtd_decomp(QT, tau)
     return (QT, tau)
 
@@ -497,7 +503,7 @@ def symmtd_unpack(A, tau):
     subdiagonal elements subdiag.
     """
     n = A.shape[0]
-    code = A.typecode()
+    code = get_typecode(A)
     Q = zeros([n,n], code)
     diag = zeros((n,), code)
     subdiag = zeros((n-1,), code)
@@ -514,7 +520,7 @@ def symmtd_unpack_T(A):
     gsl_linalg_symmtd_decomp into the vectors diag and subdiag.
     """
     n = A.shape[0]
-    code = A.typecode()
+    code = get_typecode(A)
     diag = zeros((n,), code)
     subdiag = zeros((n-1,), code)
     _gslwrap.gsl_linalg_symmtd_unpack_T(A, diag, subdiag)
@@ -564,8 +570,9 @@ def hermtd_decomp(A):
     storage scheme is the same as used by LAPACK. The upper triangular
     part of A and imaginary parts of the diagonal are not referenced.
     """
-    QT = A.astype(A.typecode())
-    tau = zeros(A.shape[0]-1, A.typecode())
+    code = get_typecode(A)
+    QT = array_typed_copy(A, code)
+    tau = zeros(A.shape[0]-1, code)
     _gslwrap.gsl_linalg_hermtd_decomp(QT, tau)
     return (QT, tau)
 
@@ -580,7 +587,7 @@ def hermtd_unpack(A, tau):
     elements subdiag.
     """
     n = A.shape[0]
-    code = A.typecode()
+    code = get_typecode(A)
     Q = zeros([n,n], code)
     diag = zeros((n,), Numeric.Float)
     subdiag = zeros((n-1,), Numeric.Float)
@@ -639,8 +646,8 @@ def bidiag_decomp(A):
     in the diagonal of A and the length of tau_V should be one element shorter.
     """
     n = min(A.shape)
-    code = A.typecode()
-    BUV = A.astype(code)
+    code = get_typecode(A)
+    BUV = array_typed_copy(A, code)
     tau_U = zeros(n, code)
     tau_V = zeros(n-1, code)
     _gslwrap.gsl_linalg_bidiag_decomp(BUV, tau_U, tau_V)
@@ -657,7 +664,7 @@ def bidiag_unpack(A, tau_U, tau_V):
     superdiagonal superdiag.
     """
     (m,n) = A.shape
-    code = A.typecode()
+    code = get_typecode(A)
     U = zeros([m,n], code)
     V = zeros([n,n], code)
     diag = zeros(n, code)
@@ -676,7 +683,7 @@ def bidiag_unpack_B(A):
     """
     raise NotImplementedError, "the GSL function for this is buggy!"    
     n = n = A.shape[1]
-    code = A.typecode()
+    code = get_typecode(A)
     diag = zeros(n, code)
     superdiag = zeros(n-1, code)
     _gslwrap.gsl_linalg_bidiag_unpack_B(A, diag, superdiag)
@@ -711,9 +718,9 @@ def HH_solve(A,b):
     transformations. On output the solution is stored in x and b is not
     modified.
     """
-    code = A.typecode()
+    code = get_typecode(A)
     x = zeros(A.shape[1], code)
-    An = A.astype(code)
+    An = array_typed_copy(A, code)
     _gslwrap.gsl_linalg_HH_solve(An, b, x)
     return x
 
@@ -734,7 +741,7 @@ def solve_symm_tridiag(diag, e, b):
         (     e_1 d_2 e_2 )
         (         e_2 d_3 )
     """
-    x = zeros(diag.shape, diag.typecode())
+    x = zeros(diag.shape, get_typecode(diag))
     _gslwrap.gsl_linalg_solve_symm_tridiag(diag, e, b, x)
     return x
 
@@ -752,7 +759,7 @@ def solve_symm_cyc_tridiag(diag, e, b):
         (     e_1 d_2 e_2 )
         ( e_3     e_2 d_3 )
     """
-    x = zeros(diag.shape, diag.typecode())
+    x = zeros(diag.shape, get_typecode(diag))
     _gslwrap.gsl_linalg_solve_symm_cyc_tridiag(diag, e, b, x)
     return x
     

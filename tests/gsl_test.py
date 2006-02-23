@@ -4,28 +4,65 @@ import unittest
 
 import pygsl.math 
 from pygsl._numobj import *
-import pygsl._mlab as MLab
+import pygsl._mlab as mlab
 fcmp = pygsl.math.fcmp
 
+def iscomplex_default(a):
+    return type(a) is types.ComplexType
+
+def iscomplex_numpy(a):
+    if type(a) == ArrayType:
+        return a.dtypechar in typecodes["Complex"]
+    else:
+        if type(a) in (types.FloatType, types.IntType):
+            return False
+
+        return isinstance(a,types.ComplexType)
+
+def isfloat_numpy(a):
+    if type(a) == ArrayType:
+        return a.dtypechar in typecodes["Float"]
+    else:
+        if type(a) == types.FloatType:
+            return True
+        return isinstance(a,types.FloatType)
+        
+def isfloat_default(a):
+    return type(a) is types.FloatType
+
+if nummodule == "numpy":
+    iscomplex = iscomplex_numpy
+    isfloat   = isfloat_numpy    
+else:
+    isfloat   = isfloat_default
+    iscomplex = iscomplex_default
+    
 def fpcompare(a, b, digits):
     result = 1
-    ac = type(a) is types.ComplexType
-    bc = type(b) is types.ComplexType
+    ac = iscomplex(a)
+    bc = iscomplex(b)
     eps = 10**-digits
-    if ac and bc:
-        res1 = (fcmp(a.real, b.real, eps) == 0)
-        res2 = (fcmp(a.imag, b.imag, eps) == 0)
-        result = res1 and res2
-    elif ac and not bc:
-        res1 = (fcmp(a.real, b, eps) == 0)
-        res2 = (fcmp(a.imag, 0, eps) == 0)
-        result = res1 and res2
-    elif not ac and bc:
-        res1 = (fcmp(a, b.real, eps) == 0)
-        res2 = (fcmp(0, b.imag, eps) == 0)
-        result = res1 and res2
-    else:
-        result = (fcmp(a, b, eps) == 0)
+    test = 0
+    try:
+        if ac and bc:
+            res1 = (fcmp(a.real, b.real, eps) == 0)
+            res2 = (fcmp(a.imag, b.imag, eps) == 0)
+            result = res1 and res2
+        elif ac and not bc:
+            res1 = (fcmp(a.real, b, eps) == 0)
+            res2 = (fcmp(a.imag, 0, eps) == 0)
+            result = res1 and res2
+        elif not ac and bc:
+            res1 = (fcmp(a, b.real, eps) == 0)
+            res2 = (fcmp(0, b.imag, eps) == 0)
+            result = res1 and res2
+        else:
+                result = (fcmp(a, b, eps) == 0)
+        test = 1
+    finally:
+        if test == 0:
+            print "a complex ?", ac, a, a.dtypechar in typecodes["Complex"]
+            print "b complex ?", bc, b, b.dtypechar in typecodes["Complex"]
     return result
 
 def arrayCompare(a, l, digits):
@@ -33,12 +70,13 @@ def arrayCompare(a, l, digits):
 
     for i in range(len(l)):
         result = result and fpcompare(a[i], l[i], digits)
-        if not result: print "Error: a = %s\t b = %s\t digits = %s" % (a[i], l[i], digits)
+        if not result:
+            print "Error: a = %s\t b = %s\t digits = %s" % (a[i], l[i], digits)
     return result
 
 def arrayIsZero(a):
     result = 1
-    return MLab.max(absolute(ravel(a))) < 1e-8
+    return mlab.max(absolute(ravel(a))) < 1e-8
 
 
 def herm(A):

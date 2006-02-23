@@ -15,11 +15,13 @@ Fortran version  of LAPACK is recommended  as the standard  package for linear
 algebra.
 
 """
-
+import pygsl
 import _gslwrap
 import gslwrap
 #import Numeric
 import pygsl._numobj as Numeric
+get_typecode = pygsl.get_typecode
+array_typed_copy = pygsl.array_typed_copy
 
 eigen_symm_workspace = gslwrap.gsl_eigen_symm_workspace
 eigen_symmv_workspace = gslwrap.gsl_eigen_symmv_workspace
@@ -34,8 +36,8 @@ def eigenvalues(a, ws=None):
     The eigenvalues are returned as NumPy array and are unordered. 
     """
     n = a.shape[1]
-    code = a.typecode()
-    an = a.astype(code)
+    code = get_typecode(a)
+    an = array_typed_copy(a, code)
     eval = Numeric.zeros((n,), code)
     if ws == None:
         ws = gslwrap.gsl_eigen_symm_workspace(n)
@@ -54,8 +56,8 @@ def eigenvectors(a, ws=None):
     guaranteed to be mutually orthogonal and normalised to unit magnitude. 
     """
     n = a.shape[1]
-    code = a.typecode()
-    an = a.astype(code)
+    code = get_typecode(a)
+    an = array_typed_copy(a, code)
     eval = Numeric.zeros((n,), code)
     evec = Numeric.zeros((n,n), code)
     if ws == None:

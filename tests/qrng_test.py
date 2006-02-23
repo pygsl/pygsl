@@ -1,11 +1,15 @@
 #!/usr/bin/env python
+import pygsl
+
+
 import pygsl.qrng as qrng
 import unittest
 import pygsl._numobj as Numeric
 import types
 import string
 import copy
-            
+from array_check import array_check, Float
+
 class _QrngTest(unittest.TestCase):
     _type = None
     #def testType(self):
@@ -52,10 +56,7 @@ class _QrngTest(unittest.TestCase):
     def __testreturn(self, array, dim0):
         test = 0
         try:
-            assert(type(array) == Numeric.ArrayType)
-            assert(len(array.shape) == 2)
-            assert(array.shape[1] == self._dim)
-            assert(array.shape[0] == dim0)
+            array_check(array, Float, (dim0, self._dim))
             test = 1
         finally:
             if test == 0:

@@ -1,7 +1,6 @@
 # Author : Fabian Jakobs 
 import unittest
 import pygsl._numobj as Numeric
-#import _pygsl2
 from gsl_test import *
 from pygsl.eigen import *
 import pygsl.blas

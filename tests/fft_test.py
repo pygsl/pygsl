@@ -6,11 +6,22 @@ import pygsl.fft as fft
 pygsl.set_debug_level(0)
 import pygsl._numobj as Numeric
 import pygsl._mlab as MLab
+import string
 from pygsl.math import fcmp
 
-from array_object_functions import get_type_code
-_eps = 1e-8
+from array_check import array_check, get_typecode
+_eps = 1e-5
 
+_fcmp = fcmp
+def fcmp(a, b, eps):
+    return _fcmp(float(a), float(b), eps)
+
+def printvec(array, value, eps):
+    for i in range(len(array)):
+        if fcmp(array[i]+1, value+1, eps) != 0:
+            print "v[%d]=%e   " % (i, array[i]),
+    print        
+   
 class _ffttest(unittest.TestCase):
     # Type of the array
     typecode = None
@@ -22,13 +33,15 @@ class _ffttest(unittest.TestCase):
         try:
             tmp1 = f[l].imag
             tmp2 = self.sin_n
-            assert(fcmp(f[l].imag, self.sin_n, self._eps) == 0)
+            flag = fcmp(tmp1, tmp2, self._eps)
+            assert(flag == 0)
             a[l] = 0
             if(len(f) > self.n/2 + 1):
                 # Only for the complex transform
                 tmp1 = f[self.n-l].imag
                 tmp2 = self.sin_n_l
-                assert(fcmp(tmp1, tmp2, self._eps) == 0)
+                flag = fcmp(tmp1, tmp2, self._eps)
+                assert(flag == 0)
                 a[self.n-l] = 0
             test = 1
         finally:
@@ -36,7 +49,7 @@ class _ffttest(unittest.TestCase):
                 print 
                 print "Check Sin Result len(f) = %s, self.n/2 = %s", len(f), self.n/2                
                 print f[l]
-                print "tmp1 = %s, tmp2 = %s" % (tmp1, tmp2)
+                print "tmp1 = %s, tmp2 = %s, flag = %s" % (tmp1, tmp2, flag)
                 #print f[self.n-l]
                 
         # Take the maximum
@@ -46,20 +59,21 @@ class _ffttest(unittest.TestCase):
             test = 1
         finally:
             if test == 0:
-                print a, MLab.max(a)
+                printvec(a, 0, self._eps)
+                print MLab.max(a)
 
     def _CheckCosResult(self, f, l):
         # Take all data
         a = Numeric.absolute(f)
         assert(fcmp(f[l].real, self.n/2, self._eps) == 0)
+        stmp = ["%s" % a[l]]
         a[l] = 0
+        stmp.append("should be zero %s" % (a[l],))
         if(len(f) > self.n/2 + 1):
                 # Only for the complex transform
                 assert(fcmp(f[self.n-l].real, self.n/2, self._eps) == 0)
                 a[self.n-l] = 0
         # Take the maximum
-
-
         test = 0
         try:
             assert(MLab.max(a) < self._eps)
@@ -67,8 +81,9 @@ class _ffttest(unittest.TestCase):
         finally:
             if test == 0:
                 print "Check Cos Result",
-                print a, MLab.max(a)
-        
+                printvec(a, 0, self._eps)
+                print string.join(stmp)
+                
     def SinOne(self, x, l, args=()):
         y = Numeric.sin(x * l)
         tmp = self.convert(y)
@@ -89,7 +104,7 @@ class _ffttest(unittest.TestCase):
     def testCos(self):        
         x = Numeric.arange(self.n) * (2 * Numeric.pi / self.n)
         for i in range(1,self.n/2):
-            if self.__class__.__name__ == "testrealforwardradix2float":
+            if self.__class__.__name__ == "testrealforwardfloat":
                 pygsl.set_debug_level(0)
             try:                
                 self.CosOne(x,i)
@@ -137,12 +152,13 @@ class DoubleType:
 class FloatType:
     _eps = 1e-4
     def convert(self, y):
-        if get_type_code(y) in  Numeric.typecodes['Float']:
+        code = get_typecode(y)
+        if  code in  Numeric.typecodes['Float']:
             return y.astype(Numeric.Float32)
-        elif y.typecode() in  Numeric.typecodes['Complex']:
+        elif code in  Numeric.typecodes['Complex']:
             return y.astype(Numeric.Complex32)
         else:
-            raise TypeError, "Not implemented for an array of type", y.typecode
+            raise TypeError, "Not implemented for an array of type", code
         
 class number:
     n = 64
@@ -155,7 +171,7 @@ class numberbackward:
     sin_n_l = - n / 2
 
 class numbermixedradix:
-    n = 2 * 3 * 5 * 7
+    n = 2 * 3 * 5  #*7 * 11
     sin_n = - n / 2
     sin_n_l = n / 2
 

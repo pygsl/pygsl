@@ -6,7 +6,7 @@ import unittest
 import pygsl.errortest
 import pygsl.errors as errors
 
-en = pygsl.errortest
+en = errors.errno
 
 class _TestException(unittest.TestCase):
     errno = None
@@ -19,7 +19,7 @@ class _TestException(unittest.TestCase):
     def test1(self):
         self.assertRaises(errors.gsl_Error, pygsl.errortest.trigger, self.errno)
 
-class Testgsl_Error                  (_TestException): errno = en.GSL_FAILURE  ; exception = errors.gsl_Error                  
+#class Testgsl_Error                  (_TestException): errno = en.GSL_FAILURE  ; exception = errors.gsl_Error                  
 class Testgsl_DomainError            (_TestException): errno = en.GSL_EDOM     ; exception = errors.gsl_DomainError            
 class Testgsl_RangeError             (_TestException): errno = en.GSL_ERANGE   ; exception = errors.gsl_RangeError             
 class Testgsl_PointerError           (_TestException): errno = en.GSL_EFAULT   ; exception = errors.gsl_PointerError           

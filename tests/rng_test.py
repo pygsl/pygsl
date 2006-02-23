@@ -8,7 +8,8 @@ import pygsl.rng as rngmodule
 import sys
 sys.stdout = sys.stderr
 rng_types = rngmodule.list_available_rngs()
-
+from array_check import array_check, Float
+from gsl_test import isfloat, iscomplex
 
 class _rng_type:
     _type = None
@@ -107,18 +108,12 @@ class _rng_distributions(unittest.TestCase):
             assert(type(d) == mytype)
             if pdf_method:
                 p = apply(pdf_method, (d,) + args)
-                assert(type(p) == types.FloatType)
+                assert(isfloat(p))
             da = apply(method, args + (10,))
-            assert(type(da) == Numeric.ArrayType)
-            assert(len(da.shape) == 1)
-            assert(da.typecode() == arraytype)
-            assert(da.shape[0] == 10)
+            array_check(da, arraytype, (10,))
             if pdf_method:
                 pa = apply(pdf_method, (da,) + args)
-                assert(type(pa) == Numeric.ArrayType)
-                assert(len(pa.shape) == 1)
-                assert(pa.typecode() == Numeric.Float)
-                assert(pa.shape[0] == 10)                
+                array_check(pa, Numeric.Float, (10,))
             test = 1
         finally:
             if test == 0:
@@ -139,27 +134,18 @@ class _rng_distributions(unittest.TestCase):
             d = method(*args)
             assert(len(d) == n)
             for i in d:
-                assert(type(i) == types.FloatType)
+                assert(isfloat(i))
             if pdf_method:
                 p = apply(pdf_method, tuple(d) + args)
-                assert(type(p) == types.FloatType)
+                assert(isfloat(p))
             da = apply(method, args + (10,))
-            assert(type(da) == Numeric.ArrayType)
-            assert(da.typecode() == Numeric.Float)
-            assert(len(da.shape) == 2)
-            assert(da.shape[0] == 10)
-            assert(da.shape[1] == n)
+            array_check(da, Numeric.Float, (10, n))
             test = 1
             if pdf_method:
                 x = da[:,0]
                 y = da[:,1]
                 pa = apply(pdf_method, (x, y) + args)
-                assert(type(pa) == Numeric.ArrayType)
-                assert(pa.typecode() == Numeric.Float)
-                assert(len(pa.shape) == 1)
-                assert(pa.shape[0] == 10)
-                assert(type(p) == types.FloatType)
-
+                array_check(da, Numeric.Float, (10,2))
         finally:
             if test == 0:
                 print "I was testing ", method
@@ -274,19 +260,12 @@ class _rng_distributions(unittest.TestCase):
     def test_dirichlet(self):
         a = Numeric.arange(10) * .1 + .1
         d = self.rng.dirichlet(a)
-        assert(type(d) == Numeric.ArrayType)
-        assert(d.typecode() == Numeric.Float)
-        assert(len(d.shape) == 1)
-        assert(d.shape[0] == a.shape[0])
+        array_check(d, Float, (a.shape[0],))
         ra = Numeric.reshape(a, (a.shape[0], -1))
         ra = Numeric.transpose(ra)
         p = rngmodule.dirichlet_pdf(d,ra)
         d = self.rng.dirichlet(a,100)
-        assert(type(d) == Numeric.ArrayType)
-        assert(d.typecode() == Numeric.Float)
-        assert(len(d.shape) == 2)
-        assert(d.shape[0] == 100)
-        assert(d.shape[1] == a.shape[0])
+        array_check(d, Float, (100, a.shape[0]))
 
     def test_multinomial(self):
         pass
