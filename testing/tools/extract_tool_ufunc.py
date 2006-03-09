@@ -17,8 +17,8 @@ class prototype_collector:
         self.prefix=prefix
         self.exclude_list = []
 
-    def set_exclude_list(self, list):
-        self.exclude_list = list
+    def set_exclude_list(self, mylist):
+        self.exclude_list = mylist
         
     def determine_headers(self,prefix=None):
         """

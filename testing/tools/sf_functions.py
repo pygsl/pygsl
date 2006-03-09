@@ -11,17 +11,16 @@ exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and ou
                 # use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
                 'gsl_sf_result_smash_e', # the only one to use a const pointer as input. Not recognized by the tool.
                 # Complex Functions are wrapped manually.
-                'gsl_sf_complex_dilog_e',
-                'gsl_sf_lngamma_complex_e',
-                'gsl_sf_complex_log_e',
-                'gsl_sf_complex_sin_e',
-                'gsl_sf_complex_cos_e',
-                'gsl_sf_complex_logsin_e',
+                'gsl_sf_complex_dilog_e',   # polar to rect
+                'gsl_sf_lngamma_complex_e', # rect to polar
+                'gsl_sf_complex_log_e',     # rect to polar
+                'gsl_sf_complex_sin_e',     # rect to rect
+                'gsl_sf_complex_cos_e',     # rect to rect
+                'gsl_sf_complex_logsin_e',  
                 #Deprecated functions
                 'gsl_sf_coupling_6j_INCORRECT_e',
                 'gsl_sf_coupling_INCORRECT_6j',
                 # Functions returning arrays are not mapped currently.
-                'gsl_sf_coulomb_wave_F_array',
                 'gsl_sf_polar_to_rect',
                 'gsl_sf_rect_to_polar',
                 'gsl_sf_bessel_sequence_Jnu_e',
@@ -36,6 +35,7 @@ exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and ou
                 'gsl_sf_bessel_yl_array',
                 'gsl_sf_bessel_il_scaled_array',
                 'gsl_sf_bessel_kl_scaled_array',
+                'gsl_sf_coulomb_wave_F_array',           
                 'gsl_sf_coulomb_wave_FG_array',
                 'gsl_sf_coulomb_wave_FGp_array',
                 'gsl_sf_coulomb_wave_sphF_array',

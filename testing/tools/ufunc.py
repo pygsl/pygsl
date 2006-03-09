@@ -4,6 +4,22 @@ import string
 from cStringIO import StringIO
 
 class Argument:
+    """
+    Descirbes one argument
+    
+    letter nomenclatura
+    f   ... float
+    d   ... double
+    r*  ... gsl_sf_result
+    er* ... gsl_sf_result_e10
+    i   ... integer
+    m   ... gsl_mode_t
+    ui  ... unsigned int
+    l   ... long
+    p   ... use return value as normal return to user(parameter)
+    q   ... use return as error flag to print warning or raise error
+            ("quality" :-)
+    """
     def __init__(self):
         self._type = None
         self._operator = None
@@ -23,7 +39,7 @@ class Argument:
         returns how many input arguments are needed.
         """
         return 1
-
+    
     def GetNumberOutArgs(self):
         """
         returns how many output  arguments are needed.
@@ -153,6 +169,10 @@ def indent_lists(lists, indent):
     return string.join(o, ", ")    
         
 class PyUFunc:
+    """
+    Gets information about the types of the function
+    and gives the approbriate code if requested.
+    """
     def __init__(self):
         self.a_function_data = []
         self.a_function_types = []
@@ -275,18 +295,23 @@ class PyUFunc:
     def WriteUFuncObjectDoc(self):
         inargs = 0
         outargs = 0
-        extrainfo = ""    
+        extrainfo = ""
+        intypes = ""
+        outtypes = ""
         for n in range(len(self.in_args)):
             i = self.in_args[n]
             inargs += i.GetNumberInArgs()
+            intypes += i.GetTypeLetter(0)
             extrainfo += self.__WriteExtraInfo(i, inargs, n)
         if not self.return_is_error_flag:
             outargs += 1
+            outtypes += i.GetTypeLetter(0)
         else:
             extrainfo += '"The error flag is discarded.\\n"\n'
         for n in range(len(self.out_args)):
             i = self.out_args[n]
             outargs += i.GetNumberOutArgs()
+            outtypes += i.GetTypeLetter(0)
             extrainfo += self.__WriteExtraInfo(i, outargs, len(self.in_args) + n, "Return")
 
         if extrainfo:
@@ -296,13 +321,10 @@ class PyUFunc:
 
         ret ="""
 static  char * %s =
-"Special function Wrapper.  See the  GSL reference document for the description\\n"
-"of this  function.  This  wrapper is  a Numeric ufunc.  This means,  that each\\n"
-"input argument can be either a single value or an array.\\n"
 "\\n"
-"    Number of Input  Arguments: %2d\\n"
-"    Number of Output Arguments: %2d%s\\n";
-"""  % (name, inargs, outargs, extrainfo)
+"    %2d input  args :  %s\\n"
+"    %2d output args :  %s %s\\n";
+"""  % (name, inargs, intypes, outargs, outtypes, extrainfo)
         return ret
     
     def WriteUFuncObjectHelpers(self):
@@ -388,7 +410,7 @@ static  char * %s =
             print indent, docname, ","
             print indent, "0 /*check return*/); "
             print 'PyDict_SetItemString(sf_dict, "%s", f);' % pythonname
-            print 'Py_DECREF(f);'
+            print '/* Py_DECREF(f) */;'
             c.seek(0)
             test = 1
             return c.read()
@@ -605,7 +627,8 @@ static  char * %s =
         else:
             index = 0
         name =  self.GetPyUFuncEvaluatorNames()[index]
-        print "void %s (char **args, int *dimensions, int *steps, void *func){" % name
+        print "void %s (char **args, intp *dimensions, intp *steps, void *func){" % name
+        #print "void %s (char **args, int *dimensions, int *steps, void *func){" % name
         print "\tint i, ",
         for i in self.in_args:
             for j in range(i.GetNumberInArgs()):
@@ -654,7 +677,7 @@ static  char * %s =
         #print '\t\t__FUNCTION__, __LINE__, is0, is1, os0);'
 
         print "\tfor(i = 0; i<dimensions[0]; i++", 
-        #print '\t\tDEBUG_MESS(2, "Evaluating element %d", i);'
+        
 
         counter = 0
         in_counter = 0
@@ -672,7 +695,8 @@ static  char * %s =
                 counter += 1
                 out_counter +=1
 
-        print "){"        
+        print "){"
+        print '\t\tDEBUG_MESS(2, "Evaluating element %d", i);'
         #print "x = (float*)ip1;"
         #print "mode = (int *) ip2;"
         funccast =  self.funccast
