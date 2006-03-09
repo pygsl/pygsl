@@ -5,6 +5,8 @@
 #define PyGSL_API_H 1
 
 
+#include <Python.h>
+
 /*
 #define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 */
