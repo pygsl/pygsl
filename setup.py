@@ -67,14 +67,13 @@ macros = [('SWIG_COBJECT_TYPES', 1)]
 macros = macros + [('DEBUG', 1)]
 debug_macros = macros + [('DEBUG', 1)]
 
-pygsl_init=gsl_Extension("errorno",
+pygsl_errno=gsl_Extension("errno",
 			 ['src/init/errorno.c'],
                          gsl_min_version=(1,),
                          define_macros = macros + [('DEBUG', 1)],
                          python_min_version=(2,1),
                          )
-exts.append(pygsl_init)    
-
+exts.append(pygsl_errno)
 pygsl_init=gsl_Extension("init",
 			 ['src/init/initmodule.c'],
                          gsl_min_version=(1,),
@@ -151,13 +150,13 @@ pygsl_diff = gsl_Extension("diff",
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_diff)
-pygsl_deriv = gsl_Extension("deriv",
-                           ['src/derivmodule.c'],
-                           define_macros = macros,
-                           gsl_min_version=(1, 5),
-                           python_min_version=(2,1)
-                           )
-exts.append(pygsl_deriv)
+#pygsl_deriv = gsl_Extension("deriv",
+#                           ['src/derivmodule.c'],
+#                           define_macros = macros,
+#                           gsl_min_version=(1, 5),
+#                           python_min_version=(2,1)
+#                           )
+#exts.append(pygsl_deriv)
 pygsl_transform = gsl_Extension("_transform",
                            ['src/transform/transformmodule.c'],
                            define_macros = macros,
@@ -305,6 +304,14 @@ errortest = gsl_Extension("errortest",
 exts.append(errortest)
 
 if BUILD_TESTING:
+    sfarray=gsl_Extension("testing.sfarray",
+                          ['testing/src/sf/sf__arrays.c'],
+                          gsl_min_version=(1,),
+                          define_macros = macros,
+                          python_min_version=(2,0)
+                     )
+    exts.append(sfarray)
+    
     sf=gsl_Extension("testing.sf",
                      ['testing/src/sf/sfmodule_testing.c'],
                      gsl_min_version=(1,),
@@ -312,6 +319,55 @@ if BUILD_TESTING:
                      python_min_version=(2,0)
                      )
     #exts.append(sf)
+
+    solver=gsl_Extension("testing.multimin",
+                         ['testing/src/solvers/multimin.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros, 
+                         python_min_version=(2,0)
+                         )
+    exts.append(solver)
+
+    solver=gsl_Extension("testing.multiroot",
+                         ['testing/src/solvers/multiroot.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros, 
+                         python_min_version=(2,0)
+                         )
+    exts.append(solver)
+
+    solver=gsl_Extension("testing.multifit_nlin",
+                         ['testing/src/solvers/multifit_nlin.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros, 
+                         python_min_version=(2,0)
+                         )
+    exts.append(solver)
+
+    solver=gsl_Extension("testing.minimize",
+                         ['testing/src/solvers/minimize.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros, 
+                         python_min_version=(2,0)
+                         )
+    exts.append(solver)
+
+    solver=gsl_Extension("testing.roots",
+                         ['testing/src/solvers/roots.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros, 
+                         python_min_version=(2,0)
+                         )
+    exts.append(solver)
+
+    solver=gsl_Extension("testing.odeiv",
+                         ['testing/src/solvers/odeiv.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros, 
+                         python_min_version=(2,0)
+                         )
+    exts.append(solver)
+
     solver=gsl_Extension("testing.solver",
                          ['testing/src/solvers/solvermodule.c'],
                          gsl_min_version=(1,),
