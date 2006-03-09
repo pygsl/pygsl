@@ -1,88 +1,22 @@
 /*
  * This module must not depend on any other as it is needed during the startup
  * of pygsl.
- *
- * Thus no use of traceback or any error converting function!
  */
 #include <Python.h>
 #include <gsl/gsl_errno.h>
-#include <pygsl/errorno.h>
+#include <pygsl/pygsl_errorno.h>
 
-struct gsl_errors{
-     const char * name;
-     int errorno;
-};
-
-static struct gsl_errors errors [] = {
-     {"GSL_SUCCESS"  , GSL_SUCCESS  },
-     {"GSL_FAILURE"  , GSL_FAILURE  },
-     {"GSL_CONTINUE" , GSL_CONTINUE },
-     {"GSL_EDOM"     , GSL_EDOM     },
-     {"GSL_ERANGE"   , GSL_ERANGE   },
-     {"GSL_EFAULT"   , GSL_EFAULT   },
-     {"GSL_EINVAL"   , GSL_EINVAL   },
-     {"GSL_EFAILED"  , GSL_EFAILED  },
-     {"GSL_EFACTOR"  , GSL_EFACTOR  },
-     {"GSL_ESANITY"  , GSL_ESANITY  },
-     {"GSL_ENOMEM"   , GSL_ENOMEM   },
-     {"GSL_EBADFUNC" , GSL_EBADFUNC },
-     {"GSL_ERUNAWAY" , GSL_ERUNAWAY },
-     {"GSL_EMAXITER" , GSL_EMAXITER },
-     {"GSL_EZERODIV" , GSL_EZERODIV },
-     {"GSL_EBADTOL"  , GSL_EBADTOL  },
-     {"GSL_ETOL"     , GSL_ETOL     },
-     {"GSL_EUNDRFLW" , GSL_EUNDRFLW },
-     {"GSL_EOVRFLW"  , GSL_EOVRFLW  },
-     {"GSL_ELOSS"    , GSL_ELOSS    },
-     {"GSL_EROUND"   , GSL_EROUND   },
-     {"GSL_EBADLEN"  , GSL_EBADLEN  },
-     {"GSL_ENOTSQR"  , GSL_ENOTSQR  },
-     {"GSL_ESING"    , GSL_ESING    },
-     {"GSL_EDIVERGE" , GSL_EDIVERGE },
-     {"GSL_EUNSUP"   , GSL_EUNSUP   },
-     {"GSL_EUNIMPL"  , GSL_EUNIMPL  },
-     {"GSL_ECACHE"   , GSL_ECACHE   },
-     {"GSL_ETABLE"   , GSL_ETABLE   },
-     {"GSL_ENOPROG"  , GSL_ENOPROG  },
-     {"GSL_ENOPROGJ" , GSL_ENOPROGJ },
-     {"GSL_ETOLF"    , GSL_ETOLF    },
-     {"GSL_ETOLX"    , GSL_ETOLX    },
-     {"GSL_ETOLG"    , GSL_ETOLG    },
-     {"GSL_EOF"      , GSL_EOF      },
-     {"PyGSL_ESTRIDE", PyGSL_ESTRIDE},
-     {NULL, 0}
-};
-
-
-static int
-PyGSL_add_errors(PyObject *dict, struct gsl_errors *errors)
-{
-     PyObject *item;
-     struct gsl_errors *p;
-
-     for(p = errors; p->name != NULL; ++p){
-	  item = PyInt_FromLong(p->errorno);
-	  if(item == NULL){
-	       fprintf(stderr, "Failed to add error %d with name %s", 
-		       p->errorno, p->name);
-	       return GSL_ESANITY;
-	  }
-	  if(PyDict_SetItemString(dict, p->name, item) != 0){
-	       fprintf(stderr, "Failed to add error item %p with error %d with name %s",
-		       item, p->errorno, p->name);
-	       return GSL_ESANITY;
-	  }
-     }
-     return GSL_SUCCESS;
-}
-
+#define ADD_ERRNO(ERRNO, ERRNOSTR)                     \
+   (item = PyInt_FromLong((ERRNO))) ? ((PyDict_SetItemString(dict, ERRNOSTR, item) != 0) ? 1 : 0) : 0
+   
 static PyMethodDef errornoMethods[] = {
      {NULL, NULL, 0, NULL}
 };
 
+
 DL_EXPORT(void) initerrno(void)
 {
-     PyObject *dict=NULL, *m=NULL;
+     PyObject *dict=NULL, *item=NULL, *m=NULL;
      
      m = Py_InitModule("errno", errornoMethods);
      assert(m);
@@ -91,8 +25,45 @@ DL_EXPORT(void) initerrno(void)
      if(!dict)
 	  goto fail;
 
-     if(PyGSL_add_errors(dict, errors) != GSL_SUCCESS)
-	  goto fail;
+     ADD_ERRNO(GSL_SUCCESS , "GSL_SUCCESS" );
+     ADD_ERRNO(GSL_FAILURE , "GSL_FAILURE" );
+     ADD_ERRNO(GSL_CONTINUE, "GSL_CONTINUE");
+     ADD_ERRNO(GSL_EDOM    , "GSL_EDOM"    );
+     ADD_ERRNO(GSL_ERANGE  , "GSL_ERANGE"  );
+     ADD_ERRNO(GSL_EFAULT  , "GSL_EFAULT"  );
+     ADD_ERRNO(GSL_EINVAL  , "GSL_EINVAL"  );
+     ADD_ERRNO(GSL_EFAILED , "GSL_EFAILED" );
+     ADD_ERRNO(GSL_EFACTOR , "GSL_EFACTOR" );
+     ADD_ERRNO(GSL_ESANITY , "GSL_ESANITY" );
+     ADD_ERRNO(GSL_ENOMEM  , "GSL_ENOMEM"  );
+     ADD_ERRNO(GSL_EBADFUNC, "GSL_EBADFUNC");
+     ADD_ERRNO(GSL_ERUNAWAY, "GSL_ERUNAWAY");
+     ADD_ERRNO(GSL_EMAXITER, "GSL_EMAXITER");
+     ADD_ERRNO(GSL_EZERODIV, "GSL_EZERODIV");
+     ADD_ERRNO(GSL_EBADTOL , "GSL_EBADTOL" );
+     ADD_ERRNO(GSL_ETOL    , "GSL_ETOL"    );
+     ADD_ERRNO(GSL_EUNDRFLW, "GSL_EUNDRFLW");
+     ADD_ERRNO(GSL_EOVRFLW , "GSL_EOVRFLW" );
+     ADD_ERRNO(GSL_ELOSS   , "GSL_ELOSS"   );
+     ADD_ERRNO(GSL_EROUND  , "GSL_EROUND"  );
+     ADD_ERRNO(GSL_EBADLEN , "GSL_EBADLEN" );
+     ADD_ERRNO(GSL_ENOTSQR , "GSL_ENOTSQR" );
+     ADD_ERRNO(GSL_ESING   , "GSL_ESING"   );
+     ADD_ERRNO(GSL_EDIVERGE, "GSL_EDIVERGE");
+     ADD_ERRNO(GSL_EUNSUP  , "GSL_EUNSUP"  );
+     ADD_ERRNO(GSL_EUNIMPL , "GSL_EUNIMPL" );
+     ADD_ERRNO(GSL_ECACHE  , "GSL_ECACHE"  );
+     ADD_ERRNO(GSL_ETABLE  , "GSL_ETABLE"  );
+     ADD_ERRNO(GSL_ENOPROG , "GSL_ENOPROG" );
+     ADD_ERRNO(GSL_ENOPROGJ, "GSL_ENOPROGJ");
+     ADD_ERRNO(GSL_ETOLF   , "GSL_ETOLF"   );
+     ADD_ERRNO(GSL_ETOLX   , "GSL_ETOLX"   );
+     ADD_ERRNO(GSL_ETOLG   , "GSL_ETOLG"   );
+     ADD_ERRNO(GSL_EOF     , "GSL_EOF"     );
+     ADD_ERRNO(PyGSL_ESTRIDE, "PyGSL_ESTRIDE");
+     
+
+
      return;
  fail:
      fprintf(stderr, "Initialisation of module errorno failed!\n");
