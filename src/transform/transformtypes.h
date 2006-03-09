@@ -17,6 +17,11 @@
  * transform.
  */
 
+#if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION > 5)
+#define _PYGSL_HAS_WAVELET 1
+#endif 
+
+
 /* ------------------------------------------------------------------------- */
 /*
  * One Python type is used to encapsulate all the different workspaces. This
@@ -51,7 +56,9 @@ union pygsl_transform_space_t{
 	gsl_fft_real_workspace_float        *rwsf;
 	gsl_fft_real_wavetable_float        *rwtf;
 	gsl_fft_halfcomplex_wavetable_float *hcwtf;
+#ifdef _PYGSL_HAS_WAVELET 
 	gsl_wavelet_workspace               *wws; 
+#endif
 	void                                *v;
 };
 
@@ -105,9 +112,11 @@ enum pygsl_packed_type{
 
 typedef int transform(void * data, size_t stride, size_t N, const void *, void *);
 typedef int transform_r2(void * data, size_t stride, size_t N);
+
+#ifdef _PYGSL_HAS_WAVELET 
 typedef int wavelet(const gsl_wavelet * W, double *data, size_t stride, size_t N, void *);
 typedef int wavelet2d(const gsl_wavelet * W, gsl_matrix *m, void *);
-
+#endif
 typedef void * pygsl_transform_helpn_t(int);
 typedef void * pygsl_transform_help_t(void *);
 
@@ -117,8 +126,10 @@ typedef void * pygsl_transform_help_t(void *);
 union transforms{
 	transform *free;
 	transform_r2 *radix2;
+#ifdef _PYGSL_HAS_WAVELET 
 	wavelet *wavelet;
 	wavelet2d *wavelet2d;
+#endif
 	void *v;
 };
 
@@ -201,6 +212,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps);
 /*
  * Currently only wavelets provide a 2 dimensional transform
  */
+
 static PyObject *
 PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps);
 

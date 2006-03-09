@@ -1,4 +1,6 @@
+#ifdef _PyGSL_HAS_WAVELET
 #include "wavelet.h"
+#endif
 /*
  * Checks existing objects if they are of proper type, and if so check that 
  * they are big enough. If not allocate space of approbriate size.
@@ -101,6 +103,7 @@ PyGSL_transform_helpers_free(struct _pygsl_transform_help_rf_s * h)
 	FUNC_MESS_END();
 }
 
+#ifdef _PyGSL_HAS_WAVELET
 /*
  * The two D function. Currently only supports wavelet2d_matrix...
  */
@@ -165,7 +168,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	FUNC_MESS("Fail End");
 	return NULL;
 }
-
+#endif
 /*
  * Catch all for all one dimensional functions.
  */
@@ -174,7 +177,9 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 {
 	PyObject *ret = NULL, *s_o = NULL, *t_o = NULL, *data = NULL;
 	PyArrayObject *result = NULL, *a=NULL, *r=NULL;
+#ifdef _PyGSL_HAS_WAVELET
 	PyGSL_wavelet *wavelet = NULL;
+#endif
 	double eps=1e-6;
 	int line = -1;
 	int length=-1;
@@ -233,6 +238,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 *  to support.
 	 */
 	switch(radix2){
+#ifdef _PYGSL_HAS_WAVELET
 	case WAVELET:
 		FUNC_MESS("Wavelet");
 		/* 
@@ -250,6 +256,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			goto fail;
 		}
 		break;
+#endif
 	case RADIX_FREE:
 		FUNC_MESS("Radix_Free");
 		assert(helps->helpers);
@@ -330,6 +337,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 */
 	FUNC_MESS("Return Array");
 	switch(radix2){
+#ifdef _PyGSL_HAS_WAVELET
 	case WAVELET:
 		return_n = n;
 		call_n = n; 
@@ -337,7 +345,8 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			line = __LINE__ -1;
 			goto fail;
 		}
-		break;		
+		break;	
+#endif	
 	case RADIX_FREE:
 		FUNC_MESS("Radix Free");
 		switch(mode){
@@ -401,7 +410,9 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	DEBUG_MESS(2, "Strides r->strides[0] %d strides = %d", r->strides[0], strides);
 	/* build the helpers if necessary */
 	switch(radix2){
+#ifdef _PyGSL_HAS_WAVELET
 	case WAVELET:
+#endif
 	case RADIX_FREE:
 		FUNC_MESS("Build Helpers");
 		if (PyGSL_transform_helpers_alloc(s_o, t_o, helps->helpers, call_n) != GSL_SUCCESS){
@@ -449,6 +460,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			goto fail;
 		}
 		break;
+#ifdef _PyGSL_HAS_WAVELET
 	case WAVELET:	
 		FUNC_MESS("Tranform wavelet");
 		assert(wavelet);
@@ -459,6 +471,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			goto fail;
 		}
 		break;
+#endif
 	default:
 		line = __LINE__ -1;
 		goto fail;
