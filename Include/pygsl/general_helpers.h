@@ -3,7 +3,6 @@
 
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
-#include <Python.h>
 
 
 typedef struct 

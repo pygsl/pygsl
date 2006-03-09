@@ -2,7 +2,6 @@
 #define PyGSL_COMPLEX_HELPERS_H 1
 #include <pygsl/utils.h>
 #include <pygsl/intern.h>
-#include <Python.h>
 #include <gsl/gsl_complex.h>
 #include <gsl/gsl_errno.h>
 

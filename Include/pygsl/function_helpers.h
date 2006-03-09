@@ -30,7 +30,6 @@
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/function_helpers.h>
-#include <Python.h>
 #include <math.h>
 #include <setjmp.h>
 

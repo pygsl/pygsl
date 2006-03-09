@@ -28,7 +28,6 @@
 
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
-#include <Python.h>
 #include <pygsl/general_helpers.h>
 
 #include <pygsl/arrayobject.h>

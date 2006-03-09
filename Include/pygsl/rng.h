@@ -2,7 +2,6 @@
 #define PyGSL_RNG_H 1
 
 #include <pygsl/intern.h>
-#include <Python.h>
 #include <gsl/gsl_rng.h>
 typedef struct {
   PyObject_HEAD
