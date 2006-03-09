@@ -4,29 +4,12 @@
  * file: pygsl/src/multiminmodule.c
  * $Id$
  */
-#include <pygsl/block_helpers.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/function_helpers.h>
 #include <pygsl/solver.h>
 
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_multimin.h>
 #include "multiminmodule_doc.h"
 
-const struct _GSLMethods 
-multimin_f   = { (void_m_t) gsl_multimin_fminimizer_free,   
-		/* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
-		  (name_m_t) gsl_multimin_fminimizer_name,   
-		 (int_m_t) gsl_multimin_fminimizer_iterate};
-
-const struct _GSLMethods
-multimin_fdf = {(void_m_t) gsl_multimin_fdfminimizer_free, 
-		(void_m_t) gsl_multimin_fdfminimizer_restart,
-		(name_m_t) gsl_multimin_fdfminimizer_name, 
-		(int_m_t)  gsl_multimin_fdfminimizer_iterate};
-
-static const char multimin_f_type_name[] = "F-MultiMinimizer";
-static const char multimin_fdf_type_name[] = "FdF-MultiMinimizer";
 
 const char  * filename = __FILE__;
 PyObject *module = NULL;
@@ -51,7 +34,7 @@ PyGSL_multimin_function_f(const gsl_vector* x, void* params)
      for(i = 0; i<x->size; i++){
 	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
      }
-     assert(min_o->methods->n_cbs >= 1);
+     assert(min_o->mstatic->n_cbs >= 1);
      flag = PyGSL_function_wrap_On_O(x, min_o->cbs[0], min_o->args, &result,
 				     NULL, x->size, __FUNCTION__);
      if (flag!= GSL_SUCCESS){
@@ -75,7 +58,7 @@ PyGSL_multimin_function_df(const gsl_vector* x, void* params, gsl_vector *df)
      for(i = 0; i<x->size; i++){
 	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
      }
-     assert(min_o->methods->n_cbs >= 2);
+     assert(min_o->mstatic->n_cbs >= 2);
      flag = PyGSL_function_wrap_Op_On(x, df, min_o->cbs[1], min_o->args,
 				      x->size, x->size, __FUNCTION__);
      for(i = 0; i<df->size; i++){
@@ -99,7 +82,7 @@ PyGSL_multimin_function_fdf(const gsl_vector* x, void* params, double *f, gsl_ve
      for(i = 0; i<x->size; i++){
 	  DEBUG_MESS(2, "Got a x[%d] of %f", i, gsl_vector_get(x, i));
      }
-     assert(min_o->methods->n_cbs >= 3);
+     assert(min_o->mstatic->n_cbs >= 3);
      flag = PyGSL_function_wrap_On_O(x, min_o->cbs[2], min_o->args, f,
 				     df, x->size, __FUNCTION__);
      DEBUG_MESS(2, "Got a result of %f", *f);
@@ -403,9 +386,32 @@ static PyMethodDef PyGSL_multimin_fdfmethods[] = {
      {NULL, NULL, 0, NULL}           /* sentinel */
 };
 
-const struct _SolverMethods 
-multimin_solver_f   = {1, PyGSL_multimin_fmethods},
-multimin_solver_fdf = {3, PyGSL_multimin_fdfmethods};
+const struct _GSLMethods 
+multimin_f   = { (void_m_t) gsl_multimin_fminimizer_free,   
+		/* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
+		  (name_m_t) gsl_multimin_fminimizer_name,   
+		 (int_m_t) gsl_multimin_fminimizer_iterate};
+
+const struct _GSLMethods
+multimin_fdf = {(void_m_t) gsl_multimin_fdfminimizer_free, 
+		(void_m_t) gsl_multimin_fdfminimizer_restart,
+		(name_m_t) gsl_multimin_fdfminimizer_name, 
+		(int_m_t)  gsl_multimin_fdfminimizer_iterate};
+
+static const char multimin_f_type_name[] = "F-MultiMinimizer";
+static const char multimin_fdf_type_name[] = "FdF-MultiMinimizer";
+
+const struct _SolverStatic 
+multimin_solver_f   = {{(void_m_t) gsl_multimin_fminimizer_free,   
+			(void_m_t) NULL,
+			(name_m_t) gsl_multimin_fminimizer_name,   
+			(int_m_t) gsl_multimin_fminimizer_iterate}, 
+		       1, PyGSL_multimin_fmethods, multimin_f_type_name},
+multimin_solver_fdf = {{(void_m_t) gsl_multimin_fdfminimizer_free, 
+			(void_m_t) gsl_multimin_fdfminimizer_restart,
+			(name_m_t) gsl_multimin_fdfminimizer_name, 
+			(int_m_t)  gsl_multimin_fdfminimizer_iterate},
+		       3, PyGSL_multimin_fdfmethods, multimin_fdf_type_name};
 
 static PyObject* 
 PyGSL_multimin_f_init(PyObject *self, PyObject *args, 
@@ -414,7 +420,7 @@ PyGSL_multimin_f_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_multimin_fminimizer_alloc,
-			      multimin_f_type_name, &multimin_solver_f, &multimin_f};
+			      &multimin_solver_f};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 1);
      FUNC_MESS_END();     
@@ -428,7 +434,7 @@ PyGSL_multimin_fdf_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_multimin_fdfminimizer_alloc,
-			      multimin_fdf_type_name, &multimin_solver_fdf, &multimin_fdf};
+			      &multimin_solver_fdf};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 1);
      FUNC_MESS_END();     

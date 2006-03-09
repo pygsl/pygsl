@@ -4,42 +4,10 @@
 static const char PyGSL_solver_module_doc[] = "XXX Missing";
 static const char PyGSL_solver_type_doc[] = "XXX Missing";
 
-static const char multimin_f_type_name[] = "F-MultiMinimizer";
-static const char multimin_fdf_type_name[] = "FdF-MultiMinimizer";
-
-static const char multiroot_f_type_name[] = "F-MultiRootSolver";
-static const char multiroot_fdf_type_name[] = "FdF-MultiRootSolver";
-
-static const char multifit_f_type_name[] = "F-MultiFitSolver";
-static const char multifit_fdf_type_name[] = "FdF-MultiFitSolver";
-
-static const char min_f_type_name[] = "F-Minimizer";
-static const char root_f_type_name[] = "F-RootSolver";
-static const char root_fdf_type_name[] = "FdF-RootSolver";
 
 
-static const char min_x_minimum_doc[]= ""; 	
-static const char min_x_lower_doc[]= ""; 	
-static const char min_x_upper_doc[]= ""; 	
-static const char min_f_minimum_doc[]= ""; 	
-static const char min_f_lower_doc[]= ""; 	
-static const char min_f_upper_doc[]= ""; 	
-static const char min_test_delta_doc[]= ""; 
-static const char min_set_f_doc[]= "";
- 
-static const char min_init_brent_doc[]= ""; 
-static const char min_init_goldensection_doc[]= ""; 
 
-static const char root_f_root_doc[] = "";
-static const char root_set_f_doc[] = "";
-static const char root_set_fdf_doc[] = "";
-static const char root_fdf_root_doc[] = "";
-static const char root_x_lower_doc  [] = "";
-static const char root_x_upper_doc  [] = ""; 
 
-static const char odeiv_step_type_name   [] = "Odeiv-Step";
-static const char odeiv_control_type_name[] = "Odeiv-Control";
-static const char odeiv_evolve_type_name [] = "Odeiv-Evolve";
 
 
 #endif /* SOLVER_DOC_IC */

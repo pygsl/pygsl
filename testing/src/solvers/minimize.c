@@ -1,6 +1,3 @@
-#include <pygsl/block_helpers.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/function_helpers.h>
 #include <pygsl/solver.h>
 #include <gsl/gsl_min.h>
 
@@ -86,13 +83,13 @@ static PyMethodDef PyGSL_min_fmethods[] = {
 };
 
 
-const struct _GSLMethods 
-min_f   = { (void_m_t) gsl_min_fminimizer_free,   
-	    /* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
-	    (name_m_t) gsl_min_fminimizer_name,   
-	    (int_m_t) gsl_min_fminimizer_iterate};
 
-const struct _SolverMethods min_solver_f = {1, PyGSL_min_fmethods};
+const struct _SolverStatic
+min_solver_f = {{(void_m_t) gsl_min_fminimizer_free,   
+		 /* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
+		 (name_m_t) gsl_min_fminimizer_name,   
+		 (int_m_t) gsl_min_fminimizer_iterate},
+		1, PyGSL_min_fmethods, min_f_type_name};
 
 static PyObject* 
 PyGSL_min_f_init(PyObject *self, PyObject *args, 
@@ -101,7 +98,7 @@ PyGSL_min_f_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_min_fminimizer_alloc,
-			      min_f_type_name, &min_solver_f, &min_f};
+			      &min_solver_f};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 0);
      FUNC_MESS_END();     

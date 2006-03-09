@@ -1,6 +1,3 @@
-#include <pygsl/block_helpers.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/function_helpers.h>
 #include <pygsl/solver.h>
 #include <pygsl/utils.h>
 #include <gsl/gsl_odeiv.h>
@@ -82,39 +79,23 @@ PyGSL_mycontrol_getname(void *v)
 }
 
 
-const struct _GSLMethods 
-odeiv_step_f   = { (void_m_t) gsl_odeiv_step_free,   
-		   (void_m_t) gsl_odeiv_step_reset,
-		   (name_m_t) gsl_odeiv_step_name,   
-		   (int_m_t) NULL},
 
 
-odeiv_control_f   = { (void_m_t) _mycontrol_free,   
-		      (void_m_t) NULL,
-		      (name_m_t) PyGSL_mycontrol_getname,
-		      (int_m_t) NULL},
-odeiv_evolve_f   = { (void_m_t) _myevolve_free,   
-		     (void_m_t) gsl_odeiv_evolve_reset,
-		     (name_m_t) NULL,   
-		     (int_m_t) NULL};
+#define _PyGSL_ODEIV_GENERIC_CHECK(ob, type_desc) \
+  ((PyGSL_solver_check((ob))) && (((PyGSL_solver *)ob)->mstatic->type_name == (type_desc)))
 
-
-#define PyGSL_ODEIV_STEP_Check(ob)    ((PyGSL_solver_check(ob)) && (((PyGSL_solver *)ob)->type_name == odeiv_step_type_name ))
-#define PyGSL_ODEIV_CONTROL_Check(ob) (PyGSL_solver_check(ob) && ((PyGSL_solver *)ob)->type_name == odeiv_control_type_name)
-#define PyGSL_ODEIV_EVOLVE_Check(ob)  (PyGSL_solver_check(ob) && ((PyGSL_solver *)ob)->type_name == odeiv_evolve_type_name)
+#define PyGSL_ODEIV_STEP_Check(ob)    _PyGSL_ODEIV_GENERIC_CHECK((ob), odeiv_step_type_name)
+#define PyGSL_ODEIV_CONTROL_Check(ob) _PyGSL_ODEIV_GENERIC_CHECK((ob), odeiv_control_type_name)
+#define PyGSL_ODEIV_EVOLVE_Check(ob)  _PyGSL_ODEIV_GENERIC_CHECK((ob), odeiv_evolve_type_name)
 
 
 static const char *this_file = __FILE__;
 static char odeiv_step_init_err_msg[] = "odeiv_step.__init__";
 static char odeiv_step_apply_doc[] =  "XXX Documentation missing\n"; 
-static char odeiv_step_name_doc[] =  "XXX Documentation missing\n"; 
 static char odeiv_step_order_doc[] =  "XXX Documentation missing\n"; 
-static char odeiv_step_reset_doc[] =  "XXX Documentation missing\n"; 
        
-static char odeiv_control_name_doc[] =  "XXX Documentation missing\n"; 
 static char odeiv_control_hadjust_doc[] =  "XXX Documentation missing\n"; 
 static char odeiv_evolve_apply_doc[] =  "XXX Documentation missing\n"; 
-static char odeiv_evolve_reset_doc[] =  "XXX Documentation missing\n";
 
 
 static char  PyGSL_odeiv_step_doc[] = "XXX Documentation missing\n"; 
@@ -512,10 +493,23 @@ static struct PyMethodDef PyGSL_odeiv_evolve_methods[] = {
      {NULL, NULL}
 };
 
-static const struct _SolverMethods
-_StepMethods     = {3, PyGSL_odeiv_step_methods},
-_ControlMethods  = {3, PyGSL_odeiv_control_methods},
-_EvolveMethods   = {3, PyGSL_odeiv_evolve_methods};
+
+static const struct _SolverStatic
+_StepMethods     = {{(void_m_t) gsl_odeiv_step_free,   
+		   (void_m_t) gsl_odeiv_step_reset,
+		   (name_m_t) gsl_odeiv_step_name,   
+		   (int_m_t) NULL},
+		    3, PyGSL_odeiv_step_methods, odeiv_step_type_name},
+_ControlMethods  = {{(void_m_t) _mycontrol_free,   
+		      (void_m_t) NULL,
+		      (name_m_t) PyGSL_mycontrol_getname,
+		      (int_m_t) NULL},
+		    3, PyGSL_odeiv_control_methods, odeiv_control_type_name},
+_EvolveMethods   = {{(void_m_t) _myevolve_free,   
+		     (void_m_t) gsl_odeiv_evolve_reset,
+		     (name_m_t) NULL,   
+		     (int_m_t) NULL,},
+		    3, PyGSL_odeiv_evolve_methods, odeiv_evolve_type_name};
 
 
 static PyObject *
@@ -530,7 +524,7 @@ PyGSL_odeiv_step_init(PyObject *self, PyObject *args, PyObject *kwdict, const gs
      gsl_odeiv_system * c_sys;
      
      solver_alloc_struct s = {odeiv_type, (void_an_t) gsl_odeiv_step_alloc,
-			      odeiv_step_type_name, &_StepMethods, &odeiv_step_f};
+			      &_StepMethods};
 
 
      FUNC_MESS_BEGIN();
@@ -577,7 +571,6 @@ PyGSL_odeiv_step_init(PyObject *self, PyObject *args, PyObject *kwdict, const gs
      if(solver == NULL){
 	  goto fail;
      }
-     solver->type_name = odeiv_step_type_name;
      DEBUG_MESS(3, "solver @ %p", solver);
 
      solver->solver =  gsl_odeiv_step_alloc(odeiv_type, dim);     
@@ -585,11 +578,6 @@ PyGSL_odeiv_step_init(PyObject *self, PyObject *args, PyObject *kwdict, const gs
 	  goto fail;
      }
      DEBUG_MESS(3, "step @ %p", solver->solver);
-     solver->problem_dimensions = (int *)calloc(1, sizeof(int));
-     if(solver->problem_dimensions == NULL){
-	  PyErr_NoMemory();
-	  goto fail;
-     }
      c_sys = (gsl_odeiv_system *)calloc(1, sizeof(gsl_odeiv_system));
      if(c_sys == NULL){
 	  PyErr_NoMemory();
@@ -661,7 +649,7 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
      gsl_odeiv_control *(*evaluator_3)(double , double ) = NULL;
 
      solver_alloc_struct s = {type, (void_an_t) gsl_odeiv_control_alloc,
-			      odeiv_control_type_name, &_ControlMethods, &odeiv_control_f};
+			      &_ControlMethods};
 
      FUNC_MESS_BEGIN();
      /* The arguments depend on the type of control */
@@ -701,7 +689,8 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
 	  flag = PyGSL_solver_check(step);
 	  DEBUG_MESS(3, "is solver?  %d, %p %p ", flag,  PyGSL_API[PyGSL_solver_type_NUM], step->ob_type);
 	  if(flag){
-	       DEBUG_MESS(3, "solver = %s, %p !=  %p", step->type_name, step->type_name, odeiv_step_type_name);
+	       DEBUG_MESS(3, "solver = %s, %p !=  %p", step->mstatic->type_name, step->mstatic->type_name, 
+			  odeiv_step_type_name);
 	       gsl_error("First argument must be a step solver!", __FILE__, __LINE__, GSL_EINVAL);
 	  }     
 	  goto fail;
@@ -720,7 +709,6 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
 	  PyErr_NoMemory();
 	  goto fail;
      }
-     solver->type_name = odeiv_control_type_name;
      c = calloc(1, sizeof(mycontrol));
      if(c == NULL){
 	  PyErr_NoMemory();
@@ -773,7 +761,7 @@ PyGSL_odeiv_evolve_init(PyObject *self, PyObject *args)
      PyGSL_solver *step, *control, *a_ev = NULL;
      myevolve *e;
      solver_alloc_struct s = {NULL, (void_an_t) gsl_odeiv_evolve_alloc,
-			      odeiv_evolve_type_name, &_EvolveMethods, &odeiv_evolve_f};
+			      &_EvolveMethods};
 
      /* step, control */
      FUNC_MESS_BEGIN();
@@ -795,12 +783,6 @@ PyGSL_odeiv_evolve_init(PyObject *self, PyObject *args)
      if(NULL == a_ev){
 	  PyErr_NoMemory();
 	  return NULL;
-     }
-     a_ev->type_name = odeiv_evolve_type_name;
-     a_ev->problem_dimensions = (int *)calloc(1, sizeof(int));
-     if(a_ev->problem_dimensions == NULL){
-	  PyErr_NoMemory();
-	  goto fail;
      }
      a_ev->problem_dimensions[0] = step->problem_dimensions[0];
 
@@ -831,20 +813,20 @@ PyGSL_odeiv_evolve_init(PyObject *self, PyObject *args)
 
 static const char PyGSL_odeiv_module_doc [] = "XXX Missing ";
 static PyMethodDef mMethods[] = {
-     {"step_rk2",    (PyCFunction)PyGSL_odeiv_step_init_rk2,    METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rk4",    (PyCFunction)PyGSL_odeiv_step_init_rk4,    METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rkf45",  (PyCFunction)PyGSL_odeiv_step_init_rkf45,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rkck",   (PyCFunction)PyGSL_odeiv_step_init_rkck,   METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rk8pd",  (PyCFunction)PyGSL_odeiv_step_init_rk8pd,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rk2imp", (PyCFunction)PyGSL_odeiv_step_init_rk2imp, METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_rk4imp", (PyCFunction)PyGSL_odeiv_step_init_rk4imp, METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_bsimp",  (PyCFunction)PyGSL_odeiv_step_init_bsimp,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_gear1",  (PyCFunction)PyGSL_odeiv_step_init_gear1,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"step_gear2",  (PyCFunction)PyGSL_odeiv_step_init_gear2,  METH_VARARGS|METH_KEYWORDS, NULL},
-     {"control_standard_new", PyGSL_odeiv_control_init_standard_new, METH_VARARGS, NULL},
-     {"control_y_new",        PyGSL_odeiv_control_init_y_new,        METH_VARARGS, NULL},
-     {"control_yp_new",       PyGSL_odeiv_control_init_yp_new,       METH_VARARGS, NULL},
-     {"evolve", PyGSL_odeiv_evolve_init, METH_VARARGS, NULL},
+     {"step_rk2",    (PyCFunction)PyGSL_odeiv_step_init_rk2,    METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_rk4",    (PyCFunction)PyGSL_odeiv_step_init_rk4,    METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_rkf45",  (PyCFunction)PyGSL_odeiv_step_init_rkf45,  METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_rkck",   (PyCFunction)PyGSL_odeiv_step_init_rkck,   METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_rk8pd",  (PyCFunction)PyGSL_odeiv_step_init_rk8pd,  METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_rk2imp", (PyCFunction)PyGSL_odeiv_step_init_rk2imp, METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_rk4imp", (PyCFunction)PyGSL_odeiv_step_init_rk4imp, METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_bsimp",  (PyCFunction)PyGSL_odeiv_step_init_bsimp,  METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_gear1",  (PyCFunction)PyGSL_odeiv_step_init_gear1,  METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"step_gear2",  (PyCFunction)PyGSL_odeiv_step_init_gear2,  METH_VARARGS|METH_KEYWORDS, PyGSL_odeiv_step_doc},
+     {"control_standard_new", PyGSL_odeiv_control_init_standard_new, METH_VARARGS, PyGSL_odeiv_control_doc},
+     {"control_y_new",        PyGSL_odeiv_control_init_y_new,        METH_VARARGS, PyGSL_odeiv_control_doc},
+     {"control_yp_new",       PyGSL_odeiv_control_init_yp_new,       METH_VARARGS, PyGSL_odeiv_control_doc},
+     {"evolve", PyGSL_odeiv_evolve_init, METH_VARARGS, PyGSL_odeiv_evolve_doc},
      {NULL, NULL, 0, NULL}
 };
 

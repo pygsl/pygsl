@@ -1,25 +1,6 @@
-#include <pygsl/block_helpers.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/function_helpers.h>
 #include <pygsl/solver.h>
+#include <gsl/gsl_multiroots.h>
 
-#include <gsl/gsl_errno.h>
-#include <gsl/gsl_multimin.h>
-
-const struct _GSLMethods 
-multiroot_f   = { (void_m_t) gsl_multiroot_fsolver_free,   
-		/* gsl_multiroot_fsolver_restart */  (void_m_t) NULL,
-		  (name_m_t) gsl_multiroot_fsolver_name,   
-		 (int_m_t) gsl_multiroot_fsolver_iterate};
-
-const struct _GSLMethods
-multiroot_fdf = {(void_m_t) gsl_multiroot_fdfsolver_free, 
-		 /* gsl_multiroot_fdfsolver_restart (void_m_t) */ NULL,
-		(name_m_t) gsl_multiroot_fdfsolver_name, 
-		(int_m_t)  gsl_multiroot_fdfsolver_iterate};
-
-static const char multiroot_f_type_name[] = "F-MultiRootSolver";
-static const char multiroot_fdf_type_name[] = "FdF-MultiRootSolver";
 static PyObject * module = NULL;
 
 /* accessor methods */
@@ -196,9 +177,21 @@ static PyMethodDef PyGSL_multiroot_fdfmethods[] = {
      {NULL, NULL, 0, NULL}
 };
 
-const struct _SolverMethods 
-multiroot_solver_f   = {1, PyGSL_multiroot_fmethods},
-multiroot_solver_fdf = {3, PyGSL_multiroot_fdfmethods};
+
+static const char multiroot_f_type_name[] = "F-MultiRootSolver";
+static const char multiroot_fdf_type_name[] = "FdF-MultiRootSolver";
+
+const struct _SolverStatic
+multiroot_solver_f   = {{(void_m_t) gsl_multiroot_fsolver_free,   
+			/* gsl_multiroot_fsolver_restart */  (void_m_t) NULL,
+			(name_m_t) gsl_multiroot_fsolver_name,   
+			 (int_m_t) gsl_multiroot_fsolver_iterate},
+			1, PyGSL_multiroot_fmethods, multiroot_f_type_name},
+multiroot_solver_fdf = {{(void_m_t) gsl_multiroot_fdfsolver_free, 
+			 /* gsl_multiroot_fdfsolver_restart (void_m_t) */ NULL,
+			 (name_m_t) gsl_multiroot_fdfsolver_name, 
+			 (int_m_t)  gsl_multiroot_fdfsolver_iterate},
+			3, PyGSL_multiroot_fdfmethods, multiroot_fdf_type_name};
 
 
 static PyObject* 
@@ -208,7 +201,7 @@ PyGSL_multiroot_f_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_multiroot_fsolver_alloc,
-			      multiroot_f_type_name, &multiroot_solver_f, &multiroot_f};
+			      &multiroot_solver_f};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 1);
      FUNC_MESS_END();     
@@ -222,7 +215,7 @@ PyGSL_multiroot_fdf_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_multiroot_fdfsolver_alloc,
-			      multiroot_fdf_type_name, &multiroot_solver_fdf, &multiroot_fdf};
+			      &multiroot_solver_fdf};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 1);
      FUNC_MESS_END();     

@@ -1,18 +1,6 @@
-#include <pygsl/block_helpers.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/function_helpers.h>
 #include <pygsl/solver.h>
 #include <gsl/gsl_roots.h>
 
-const struct _GSLMethods 
-root_f   = { (void_m_t) gsl_root_fsolver_free,   
-	    /* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
-	    (name_m_t) gsl_root_fsolver_name,   
-	      (int_m_t) gsl_root_fsolver_iterate},
-root_fdf   = { (void_m_t) gsl_root_fdfsolver_free,   
-	    /* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
-	    (name_m_t) gsl_root_fdfsolver_name,   
-	    (int_m_t) gsl_root_fdfsolver_iterate};
 
 const char  * filename = __FILE__;
 PyObject *module = NULL;
@@ -86,8 +74,18 @@ static PyMethodDef PyGSL_root_fdfmethods[] = {
      {NULL, NULL, 0, NULL}           /* sentinel */
 };
 
-const struct _SolverMethods root_solver_f = {1, PyGSL_root_fmethods},
-root_solver_fdf = {3, PyGSL_root_fdfmethods};
+
+const struct _SolverStatic 
+root_solver_f = {{(void_m_t) gsl_root_fsolver_free,   
+		  /* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
+		  (name_m_t) gsl_root_fsolver_name,   
+		  (int_m_t) gsl_root_fsolver_iterate},
+		 1, PyGSL_root_fmethods, root_f_type_name},
+root_solver_fdf = {{(void_m_t) gsl_root_fdfsolver_free,   
+		    /* gsl_multimin_fminimizer_restart */  (void_m_t) NULL,
+		    (name_m_t) gsl_root_fdfsolver_name,   
+		     (int_m_t) gsl_root_fdfsolver_iterate},
+		   3, PyGSL_root_fdfmethods, root_fdf_type_name};
 
 static PyObject* 
 PyGSL_root_f_init(PyObject *self, PyObject *args, 
@@ -96,7 +94,7 @@ PyGSL_root_f_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_root_fsolver_alloc,
-			      root_f_type_name, &root_solver_f, &root_f};
+			      &root_solver_f};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 0);
      FUNC_MESS_END();     
@@ -110,7 +108,7 @@ PyGSL_root_fdf_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_root_fdfsolver_alloc,
-			      root_fdf_type_name, &root_solver_fdf, &root_fdf};
+			      &root_solver_fdf};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 0);
      FUNC_MESS_END();     

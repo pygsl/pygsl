@@ -1,6 +1,8 @@
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
+#if 0
 #include <pygsl/function_helpers.h>
+#endif
 #include <setjmp.h>
 #include <gsl/gsl_math.h>
 #include <pygsl/error_helpers.h>
@@ -32,9 +34,9 @@ PyGSL_solver_restart(PyGSL_solver *self, PyObject *args)
      if (PyGSL_SOLVER_SET_CALLED(self) != GSL_SUCCESS)
 	  return NULL;
 
-     if(self->raw_methods->restart == NULL)
+     if(self->mstatic->cmethods.restart == NULL)
 	  GSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
-     self->raw_methods->restart(self->solver);
+     self->mstatic->cmethods.restart(self->solver);
      Py_INCREF(Py_None);
      FUNC_MESS_END();
      return Py_None;
@@ -46,9 +48,9 @@ PyGSL_solver_name(PyGSL_solver *self, PyObject *args)
      PyObject * tmp;
      const char * ctmp;
      FUNC_MESS_BEGIN();
-     if(self->raw_methods->name == NULL)
+     if(self->mstatic->cmethods.name == NULL)
 	  GSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
-     ctmp = self->raw_methods->name(self->solver);
+     ctmp = self->mstatic->cmethods.name(self->solver);
      tmp =  PyString_FromString(ctmp);
      FUNC_MESS_END();
      return tmp;
@@ -62,12 +64,12 @@ PyGSL_solver_iterate(PyGSL_solver *self, PyObject *args)
      if (PyGSL_SOLVER_SET_CALLED(self) != GSL_SUCCESS)
 	  return NULL;
 
-     if(self->raw_methods->iterate == NULL)
+     if(self->mstatic->cmethods.iterate == NULL)
 	  GSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
 
-     assert(self->raw_methods->iterate);
+     assert(self->mstatic->cmethods.iterate);
      assert(self->solver);
-     tmp = (self->raw_methods->iterate(self->solver));
+     tmp = (self->mstatic->cmethods.iterate(self->solver));
      if(PyGSL_ERROR_FLAG(tmp) != GSL_SUCCESS)
 	  return NULL;
 
@@ -80,33 +82,38 @@ PyGSL_solver_dealloc(PyGSL_solver * self)
 {
      FUNC_MESS_BEGIN();
      assert(self);
-     assert(self->raw_methods);
-     DEBUG_MESS(3, "Freeing a solver of type %s", self->type_name);
-     if(self->raw_methods->free != NULL && self->solver != NULL){
-	  self->raw_methods->free(self->solver);
-	  self->solver = NULL;
+     assert(self->mstatic);
+
+     if(self->mstatic->cmethods.free == NULL){
+	  DEBUG_MESS(3, "Could not free solver @ %p. No free method specified!", self->solver);
+     }else{
+	  DEBUG_MESS(3, "Freeing a solver of type %s", self->mstatic->type_name);
+	  if(self->solver != NULL){
+	       self->mstatic->cmethods.free(self->solver);
+	       self->solver = NULL;
+	  }
      }
+
      Py_XDECREF(self->args);     
      self->args = NULL;
      if(self->c_sys){
+	  DEBUG_MESS(3, "Freeing c_sys @ %p", self->c_sys);
 	  free(self->c_sys);
 	  self->c_sys = NULL;
-     }
-     if(self->problem_dimensions){
-	  free(self->problem_dimensions);
-	  self->problem_dimensions = NULL;
      }
      PyMem_Free(self);
      self = NULL;
      FUNC_MESS_END();
 
 }
+
 static PyObject *
 PyGSL_solver_type(PyGSL_solver * self, PyObject *unused)
 {
-     assert(self->type_name);
-     return PyString_FromString(self->type_name);
+     assert(self->mstatic->type_name);
+     return PyString_FromString(self->mstatic->type_name);
 }
+
 static PyMethodDef solver_methods[] = {
      {"name",    (PyCFunction) PyGSL_solver_name,    METH_NOARGS, NULL},
      {"restart", (PyCFunction) PyGSL_solver_restart, METH_NOARGS, NULL},
@@ -119,8 +126,8 @@ PyGSL_solver_getattr(PyGSL_solver * self, char * name)
 {
      PyObject *tmp = NULL;
      FUNC_MESS_BEGIN();
-     if(self->methods->pymethods)
-	  tmp = Py_FindMethod(self->methods->pymethods, (PyObject *) self, name);
+     if(self->mstatic->pymethods)
+	  tmp = Py_FindMethod(self->mstatic->pymethods, (PyObject *) self, name);
      if(tmp == NULL){
 	  PyErr_Clear();
 	  tmp = Py_FindMethod(solver_methods, (PyObject *) self, name);
@@ -160,37 +167,43 @@ static PyTypeObject PyGSL_solver_pytype = {
   (char *) PyGSL_solver_type_doc		/* tp_doc */
 };
 
-static PyGSL_solver*
-_PyGSL_solver_init(const struct _SolverMethods *methods, const struct _GSLMethods* raw_methods) 
+PyGSL_solver* 
+_PyGSL_solver_init(const struct _SolverStatic *mstatic) 
 {
      PyGSL_solver *solver_o=NULL;
      int line = -1;
+     int i;
 
      FUNC_MESS_BEGIN();     
+     if(mstatic->n_cbs > PyGSL_SOLVER_NCBS_MAX){
+	  line = __LINE__ - 1;
+	  gsl_error("More callbacks requested than possible!", __FILE__,
+		    line, GSL_ESANITY);
+	  goto fail;
+     }
      solver_o =  (PyGSL_solver *) PyObject_NEW(PyGSL_solver, &PyGSL_solver_pytype);
      if(solver_o == NULL){
 	  line = __LINE__ -1;
 	  goto fail;
      }
-     solver_o->isset = 0;
+     
      solver_o->args = NULL;     
-     solver_o->cbs = NULL;     
      solver_o->tmparrays = NULL;
+     solver_o->mstatic = NULL;
+     solver_o->mstatic = mstatic;
      solver_o->solver = NULL;
-     solver_o->methods = NULL;
-     solver_o->raw_methods = NULL;
-     solver_o->methods = methods;
-     solver_o->raw_methods = raw_methods;
      solver_o->c_sys = NULL;
-     solver_o->problem_dimensions = NULL;
-     solver_o->type_name = NULL;
      solver_o->set_called = 0;
-     solver_o->cbs = (PyObject **) calloc(methods->n_cbs, sizeof(PyObject *));
-     if(solver_o->cbs == NULL){
-	  line = __LINE__ -1;
-	  gsl_error("Could not allocate space for callbacks", __FILE__, line, GSL_ENOMEM);
-	  goto fail;
+     solver_o->isset = 0;
+
+     for(i = 0; i < PyGSL_SOLVER_NCBS_MAX; ++i){
+	  solver_o->cbs[i] = NULL;
      }
+
+     for(i = 0; i < PyGSL_SOLVER_PB_ND_MAX; ++i){
+	  solver_o->problem_dimensions[i] = -1;
+     }
+
      DEBUG_MESS(3, "refcount = %d", solver_o->ob_refcnt);
      FUNC_MESS_END();
      return solver_o;
@@ -207,30 +220,30 @@ PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct *
      PyGSL_solver *solver_o=NULL;
      int n1=1, n2=1;
      int line = -1;
-     int flag;
+     int flag=0;
 
      FUNC_MESS_BEGIN();
      assert(alloc);
-     solver_o =  _PyGSL_solver_init(alloc->methods, alloc->raw_methods);
+     solver_o =  _PyGSL_solver_init(alloc->mstatic);
      if(solver_o == NULL){
 	  line = __LINE__ - 2;
 	  goto fail;
      }
-     solver_o->type_name = alloc->type_name;
      switch(nd){
      case 0: flag = 1; break;
      case 1: flag = PyArg_ParseTuple(args,"i", &n1); break;
      case 2: flag = PyArg_ParseTuple(args,"ii", &n1, &n2); break;
      case 3:
 	  /* odeiv */
-	  break;
+	  flag = 1; break;
      default:
+	  line = __LINE__;
 	  gsl_error("Only 1 or two for number of problem_dimensions implemented!",
-		    __FILE__, __LINE__, GSL_ESANITY);
+		    __FILE__, line, GSL_ESANITY);
 	  goto fail;
      }
      if (0==flag){
-	  line = __LINE__ - 8 + (nd-1);
+	  line = __LINE__ - 1;
 	  goto fail;
      }
      if (n1<=0) {
@@ -269,8 +282,7 @@ PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct *
      switch(nd){
      case 1:
      case 2:
-	  solver_o->problem_dimensions = calloc(nd, sizeof(int));
-	  if(solver_o->solver == NULL || solver_o->problem_dimensions == NULL){
+	  if(solver_o->solver == NULL){
 	       line = __LINE__ - 1;
 	       goto fail;
 	  }
@@ -294,6 +306,7 @@ PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct *
      return (PyObject *) solver_o;
  fail:
      FUNC_MESS("Fail");
+     DEBUG_MESS(3, "line was %d", line);
      PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line);
      Py_XDECREF(solver_o);
      return NULL;

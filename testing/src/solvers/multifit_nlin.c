@@ -1,26 +1,10 @@
-#include <pygsl/block_helpers.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/function_helpers.h>
 #include <pygsl/solver.h>
-
 #include <gsl/gsl_multifit_nlin.h>
 
 const char  * filename = __FILE__;
 PyObject *module = NULL;
 static const char multifit_f_type_name[] = "F-MultiFitSolver";
 static const char multifit_fdf_type_name[] = "FdF-MultiFitSolver";
-
-const struct _GSLMethods 
-multifit_f   = { (void_m_t) gsl_multifit_fsolver_free,   
-		/* gsl_multifit_fsolver_restart */  (void_m_t) NULL,
-		  (name_m_t) gsl_multifit_fsolver_name,   
-		 (int_m_t) gsl_multifit_fsolver_iterate};
-const struct _GSLMethods
-multifit_fdf = {(void_m_t) gsl_multifit_fdfsolver_free, 
-		     /* gsl_multifit_fdfsolver_restart (void_m_t) */ NULL,
-		     (name_m_t) gsl_multifit_fdfsolver_name, 
-		     (int_m_t)  gsl_multifit_fdfsolver_iterate};
-
 
 
 int 
@@ -164,9 +148,19 @@ static PyMethodDef PyGSL_multifit_fdfmethods[] = {
      {NULL, NULL, 0, NULL}
 };
 
-const struct _SolverMethods 
-multifit_solver_f   = {1, PyGSL_multifit_fmethods},
-multifit_solver_fdf = {3, PyGSL_multifit_fdfmethods};
+
+
+const struct _SolverStatic
+multifit_solver_f   = {{ (void_m_t) gsl_multifit_fsolver_free,   
+			 /* gsl_multifit_fsolver_restart */  (void_m_t) NULL,
+			 (name_m_t) gsl_multifit_fsolver_name,   
+			 (int_m_t) gsl_multifit_fsolver_iterate},
+		       1, PyGSL_multifit_fmethods, multifit_f_type_name},
+multifit_solver_fdf = {{(void_m_t) gsl_multifit_fdfsolver_free, 
+		     /* gsl_multifit_fdfsolver_restart (void_m_t) */ NULL,
+		     (name_m_t) gsl_multifit_fdfsolver_name, 
+		     (int_m_t)  gsl_multifit_fdfsolver_iterate},
+		       3, PyGSL_multifit_fdfmethods, multifit_fdf_type_name};
 
 static PyObject* 
 PyGSL_multifit_f_init(PyObject *self, PyObject *args, 
@@ -175,8 +169,7 @@ PyGSL_multifit_f_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_multifit_fsolver_alloc,
-			      multifit_f_type_name, &multifit_solver_f,
-			      &multifit_f};
+			      &multifit_solver_f};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 2);
      FUNC_MESS_END();     
@@ -190,7 +183,7 @@ PyGSL_multifit_fdf_init(PyObject *self, PyObject *args,
 
      PyObject *tmp=NULL;
      solver_alloc_struct s = {type, (void_an_t) gsl_multifit_fdfsolver_alloc,
-			      multifit_fdf_type_name, &multifit_solver_fdf, &multifit_fdf};
+			      &multifit_solver_fdf};
      FUNC_MESS_BEGIN();     
      tmp = PyGSL_solver_dn_init(self, args, &s, 2);
      FUNC_MESS_END();     
