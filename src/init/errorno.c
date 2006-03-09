@@ -4,7 +4,7 @@
  */
 #include <Python.h>
 #include <gsl/gsl_errno.h>
-#include <pygsl/pygsl_errorno.h>
+#include <pygsl/errorno.h>
 
 #define ADD_ERRNO(ERRNO, ERRNOSTR)                     \
    (item = PyInt_FromLong((ERRNO))) ? ((PyDict_SetItemString(dict, ERRNOSTR, item) != 0) ? 1 : 0) : 0
