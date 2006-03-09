@@ -95,11 +95,13 @@ def switchpreference(array_preference):
 		    else:
 			print "Did not find the numarray module you asked for"
 
-	if use_numeric == 0 and use_numarray == 0:            
+	if use_numeric == 0 and use_numarray == 0 and use_numpy == 0:            
 	    if have_numeric == 1:
 		use_numeric = 1
 	    elif have_numarray == 1:
 		use_numarray = 1
+	    elif have_numpy == 1:
+		use_numpy = 1
 	    else:
 		raise  DistutilsModuleError, "I need either Numeric or nummarray!"
 	if use_numpy == 1:
