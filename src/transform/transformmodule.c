@@ -4,22 +4,6 @@
  *
  */
 
-#include <gsl/gsl_fft.h>
-#include <gsl/gsl_fft_complex.h>
-#include <gsl/gsl_fft_real.h>
-#include <gsl/gsl_fft_halfcomplex.h>
-#include <gsl/gsl_fft_complex_float.h>
-#include <gsl/gsl_fft_real_float.h>
-#include <gsl/gsl_fft_halfcomplex_float.h>
-#include <gsl/gsl_blas.h>
-#ifdef _PyGSL_HAS_WAVELET
-#define backward backward_wavelet
-#include <gsl/gsl_wavelet.h>
-#include <gsl/gsl_wavelet2d.h>
-#undef forward
-#undef backward
-#else
-#endif /* gsl version > 1.5*/
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <string.h>
@@ -90,7 +74,7 @@ static PyMethodDef transformMethods[] = {
 	{"halfcomplex_radix2_unpack",         PyGSL_fft_halfcomplex_radix2_unpack,       METH_VARARGS, (char*)un_doc_r2},
 	{"halfcomplex_radix2_unpack_float",   PyGSL_fft_halfcomplex_radix2_unpack_float, METH_VARARGS, (char*)float_doc},
 	/* wavelet inits */ 
-#ifdef _PYGSL_HAS_WAVELET
+#ifdef _PyGSL_HAS_WAVELET
 	PyGSL_WAVELET_TRANSFORM_TYPE(daubechies)
 	PyGSL_WAVELET_TRANSFORM_TYPE(haar)
 	PyGSL_WAVELET_TRANSFORM_TYPE(bspline)

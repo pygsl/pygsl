@@ -30,7 +30,7 @@ PyGSL_debug_mess_array(PyArrayObject * a, const char * name)
 static int
 PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src, enum pygsl_transform_mode mode)
 {
-	int i, n, n_check, n_2, modulo;
+	int i, n, n_check, n_2, modulo=0;
 	void *srcv, *dstv;
 	double *srcd=NULL, *dstd=NULL;			
 	float  *srcf=NULL, *dstf=NULL;			

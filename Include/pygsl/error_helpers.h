@@ -3,7 +3,7 @@
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
 #include <gsl/gsl_errno.h>
-#include <pygsl/pygsl_errorno.h>
+#include <pygsl/errorno.h>
 
 
 /*

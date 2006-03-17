@@ -3,7 +3,6 @@
 # author: Achim Gaedke
 # created: May 2001
 # file: pygsl/setup.py
-# $Id$
 #
 # setup script for building and installing pygsl
 
@@ -428,7 +427,6 @@ headers = None
 if INSTALL_HEADERS == 1:
     headers = glob.glob("Include/pygsl/*.h")
     gsldist = map(lambda x: 'gsl_dist.' + os.path.basename(x)[:-3], glob.glob("gsl_dist/*.py"))
-    print gsldist
 
 py_modules = map(lambda x : 'pygsl.' + x, py_module_names) + gsldist 
     

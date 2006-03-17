@@ -1692,10 +1692,13 @@ static PyObject *_wrap_DiscreteHankelTransform_init(PyObject *self, PyObject *ar
     result = (int)gsl_dht_struct_init(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);

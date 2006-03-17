@@ -2127,10 +2127,13 @@ static PyObject *_wrap_gsl_linalg_matmult(PyObject *self, PyObject *args, PyObje
     result = (int)gsl_linalg_matmult((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -2237,10 +2240,13 @@ static PyObject *_wrap_gsl_linalg_matmult_mod(PyObject *self, PyObject *args, Py
     result = (int)gsl_linalg_matmult_mod((gsl_matrix const *)arg1,(gsl_linalg_matrix_mod_t )arg2,(gsl_matrix const *)arg3,(gsl_linalg_matrix_mod_t )arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -2333,10 +2339,13 @@ static PyObject *_wrap_gsl_linalg_exponential_ss(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_exponential_ss((gsl_matrix const *)arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -2500,10 +2509,13 @@ static PyObject *_wrap_gsl_linalg_householder_hm(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_householder_hm(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -2581,10 +2593,13 @@ static PyObject *_wrap_gsl_linalg_householder_mh(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_householder_mh(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -2663,10 +2678,13 @@ static PyObject *_wrap_gsl_linalg_householder_hv(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_householder_hv(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -2729,10 +2747,13 @@ static PyObject *_wrap_gsl_linalg_householder_hm1(PyObject *self, PyObject *args
     result = (int)gsl_linalg_householder_hm1(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -2802,10 +2823,13 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hm(PyObject *self, PyObjec
     result = (int)gsl_linalg_complex_householder_hm(arg1,(gsl_vector_complex const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -2953,10 +2977,13 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_SV_decomp(arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -3091,10 +3118,13 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
     result = (int)gsl_linalg_SV_decomp_mod(arg1,arg2,arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -3210,10 +3240,13 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_jacobi(PyObject *self, PyObject *arg
     result = (int)gsl_linalg_SV_decomp_jacobi(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -3339,10 +3372,13 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_linalg_SV_solve((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -3437,10 +3473,13 @@ static PyObject *_wrap_gsl_linalg_LU_decomp(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_LU_decomp(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -3523,10 +3562,13 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_linalg_LU_solve((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -3612,10 +3654,13 @@ static PyObject *_wrap_gsl_linalg_LU_svx(PyObject *self, PyObject *args, PyObjec
     result = (int)gsl_linalg_LU_svx((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -3735,10 +3780,13 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_LU_refine((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -3843,10 +3891,13 @@ static PyObject *_wrap_gsl_linalg_LU_invert(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_LU_invert((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4052,10 +4103,13 @@ static PyObject *_wrap_gsl_linalg_complex_LU_decomp(PyObject *self, PyObject *ar
     result = (int)gsl_linalg_complex_LU_decomp(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4138,10 +4192,13 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
     result = (int)gsl_linalg_complex_LU_solve((gsl_matrix_complex const *)arg1,(gsl_permutation const *)arg2,(gsl_vector_complex const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4207,10 +4264,13 @@ static PyObject *_wrap_gsl_linalg_complex_LU_svx(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_complex_LU_svx((gsl_matrix_complex const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4320,10 +4380,13 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
     result = (int)gsl_linalg_complex_LU_refine((gsl_matrix_complex const *)arg1,(gsl_matrix_complex const *)arg2,(gsl_permutation const *)arg3,(gsl_vector_complex const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4398,10 +4461,13 @@ static PyObject *_wrap_gsl_linalg_complex_LU_invert(PyObject *self, PyObject *ar
     result = (int)gsl_linalg_complex_LU_invert((gsl_matrix_complex const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4630,10 +4696,13 @@ static PyObject *_wrap_gsl_linalg_QR_decomp(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_QR_decomp(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4735,10 +4804,13 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_linalg_QR_solve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4845,10 +4917,13 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
     result = (int)gsl_linalg_QR_svx((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -4975,10 +5050,13 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
     result = (int)gsl_linalg_QR_lssolve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5109,10 +5187,13 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
     result = (int)gsl_linalg_QR_QRsolve(arg1,arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5219,10 +5300,13 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_QR_Rsolve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5304,10 +5388,13 @@ static PyObject *_wrap_gsl_linalg_QR_Rsvx(PyObject *self, PyObject *args, PyObje
     result = (int)gsl_linalg_QR_Rsvx((gsl_matrix const *)arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5408,10 +5495,13 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_QR_update(arg1,arg2,arg3,(gsl_vector const *)arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5518,10 +5608,13 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_linalg_QR_QTvec((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5618,10 +5711,13 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
     result = (int)gsl_linalg_QR_Qvec((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5731,10 +5827,13 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_QR_unpack((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5841,10 +5940,13 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
     result = (int)gsl_linalg_R_solve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -5949,10 +6051,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
     result = (int)gsl_linalg_QRPT_decomp(arg1,arg2,arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -6087,10 +6192,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
     result = (int)gsl_linalg_QRPT_decomp2((gsl_matrix const *)arg1,arg2,arg3,arg4,arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -6228,10 +6336,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
     result = (int)gsl_linalg_QRPT_solve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -6342,10 +6453,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_linalg_QRPT_svx((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_permutation const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -6460,10 +6574,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
     result = (int)gsl_linalg_QRPT_QRsolve((gsl_matrix const *)arg1,(gsl_matrix const *)arg2,(gsl_permutation const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -6574,10 +6691,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
     result = (int)gsl_linalg_QRPT_Rsolve((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -6663,10 +6783,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsvx(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_linalg_QRPT_Rsvx((gsl_matrix const *)arg1,(gsl_permutation const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -6771,10 +6894,13 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
     result = (int)gsl_linalg_QRPT_update(arg1,arg2,(gsl_permutation const *)arg3,arg4,(gsl_vector const *)arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -8947,10 +9073,13 @@ static PyObject *_wrap_gsl_linalg_cholesky_decomp(PyObject *self, PyObject *args
     result = (int)gsl_linalg_cholesky_decomp(arg1);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9027,10 +9156,13 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_cholesky_solve((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9112,10 +9244,13 @@ static PyObject *_wrap_gsl_linalg_cholesky_svx(PyObject *self, PyObject *args, P
     result = (int)gsl_linalg_cholesky_svx((gsl_matrix const *)arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9187,10 +9322,13 @@ static PyObject *_wrap_gsl_linalg_symmtd_decomp(PyObject *self, PyObject *args, 
     result = (int)gsl_linalg_symmtd_decomp(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9306,10 +9444,13 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
     result = (int)gsl_linalg_symmtd_unpack((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9426,10 +9567,13 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
     result = (int)gsl_linalg_symmtd_unpack_T((gsl_matrix const *)arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9511,10 +9655,13 @@ static PyObject *_wrap_gsl_linalg_hermtd_decomp(PyObject *self, PyObject *args, 
     result = (int)gsl_linalg_hermtd_decomp(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9620,10 +9767,13 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
     result = (int)gsl_linalg_hermtd_unpack((gsl_matrix_complex const *)arg1,(gsl_vector_complex const *)arg2,arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9730,10 +9880,13 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
     result = (int)gsl_linalg_hermtd_unpack_T((gsl_matrix_complex const *)arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9830,10 +9983,13 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
     result = (int)gsl_linalg_HH_solve(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -9915,10 +10071,13 @@ static PyObject *_wrap_gsl_linalg_HH_svx(PyObject *self, PyObject *args, PyObjec
     result = (int)gsl_linalg_HH_svx(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -10021,10 +10180,13 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
     result = (int)gsl_linalg_solve_symm_tridiag((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -10162,10 +10324,13 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
     result = (int)gsl_linalg_solve_tridiag((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -10298,10 +10463,13 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
     result = (int)gsl_linalg_solve_symm_cyc_tridiag((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -10439,10 +10607,13 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
     result = (int)gsl_linalg_solve_cyc_tridiag((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -10559,10 +10730,13 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
     result = (int)gsl_linalg_bidiag_decomp(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -10717,10 +10891,13 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     result = (int)gsl_linalg_bidiag_unpack((gsl_matrix const *)arg1,(gsl_vector const *)arg2,arg3,(gsl_vector const *)arg4,arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -10871,10 +11048,13 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
     result = (int)gsl_linalg_bidiag_unpack2(arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -10981,10 +11161,13 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
     result = (int)gsl_linalg_bidiag_unpack_B((gsl_matrix const *)arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -11066,10 +11249,13 @@ static PyObject *_wrap_gsl_linalg_balance_columns(PyObject *self, PyObject *args
     result = (int)gsl_linalg_balance_columns(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -11207,10 +11393,13 @@ static PyObject *_wrap_Permutation__linear_to_canonical(PyObject *self, PyObject
     result = gsl_permutation_struct__linear_to_canonical(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -11241,10 +11430,13 @@ static PyObject *_wrap_Permutation__canonical_to_linear(PyObject *self, PyObject
     result = gsl_permutation_struct__canonical_to_linear(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -11279,10 +11471,13 @@ static PyObject *_wrap_Permutation__mul(PyObject *self, PyObject *args, PyObject
     result = gsl_permutation_struct__mul(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -11382,10 +11577,13 @@ static PyObject *_wrap_Permutation__inverse(PyObject *self, PyObject *args, PyOb
     result = gsl_permutation_struct__inverse(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -11453,10 +11651,13 @@ static PyObject *_wrap_Permutation_swap(PyObject *self, PyObject *args, PyObject
     result = gsl_permutation_struct_swap(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -11506,10 +11707,13 @@ static PyObject *_wrap_Permutation_valid(PyObject *self, PyObject *args, PyObjec
     result = gsl_permutation_struct_valid(arg1);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -13156,10 +13360,13 @@ static PyObject *_wrap_gsl_blas_sdsdot(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_sdsdot(arg1,(gsl_vector_float const *)arg2,(gsl_vector_float const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -13216,10 +13423,13 @@ static PyObject *_wrap_gsl_blas_dsdot(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dsdot((gsl_vector_float const *)arg1,(gsl_vector_float const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -13278,10 +13488,13 @@ static PyObject *_wrap_gsl_blas_sdot(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_sdot((gsl_vector_float const *)arg1,(gsl_vector_float const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -13338,10 +13551,13 @@ static PyObject *_wrap_gsl_blas_ddot(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_ddot((gsl_vector const *)arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -13426,10 +13642,13 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cdotu((gsl_vector_complex_float const *)arg1,(gsl_vector_complex_float const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -13492,10 +13711,13 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cdotc((gsl_vector_complex_float const *)arg1,(gsl_vector_complex_float const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -13558,10 +13780,13 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zdotu((gsl_vector_complex const *)arg1,(gsl_vector_complex const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -13635,10 +13860,13 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zdotc((gsl_vector_complex const *)arg1,(gsl_vector_complex const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14140,10 +14368,13 @@ static PyObject *_wrap_gsl_blas_sswap(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_sswap(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14196,10 +14427,13 @@ static PyObject *_wrap_gsl_blas_scopy(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_scopy((gsl_vector_float const *)arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14258,10 +14492,13 @@ static PyObject *_wrap_gsl_blas_saxpy(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_saxpy(arg1,(gsl_vector_float const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14314,10 +14551,13 @@ static PyObject *_wrap_gsl_blas_dswap(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dswap(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14390,10 +14630,13 @@ static PyObject *_wrap_gsl_blas_dcopy(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dcopy((gsl_vector const *)arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14472,10 +14715,13 @@ static PyObject *_wrap_gsl_blas_daxpy(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_daxpy(arg1,(gsl_vector const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14548,10 +14794,13 @@ static PyObject *_wrap_gsl_blas_cswap(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cswap(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14604,10 +14853,13 @@ static PyObject *_wrap_gsl_blas_ccopy(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ccopy((gsl_vector_complex_float const *)arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14668,10 +14920,13 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_caxpy(arg1,(gsl_vector_complex_float const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14724,10 +14979,13 @@ static PyObject *_wrap_gsl_blas_zswap(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zswap(arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14780,10 +15038,13 @@ static PyObject *_wrap_gsl_blas_zcopy(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zcopy((gsl_vector_complex const *)arg1,arg2);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14844,10 +15105,13 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zaxpy(arg1,(gsl_vector_complex const *)arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14886,10 +15150,13 @@ static PyObject *_wrap_gsl_blas_srotg(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_srotg(arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -14934,10 +15201,13 @@ static PyObject *_wrap_gsl_blas_srotmg(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_srotmg(arg1,arg2,arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15002,10 +15272,13 @@ static PyObject *_wrap_gsl_blas_srot(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_srot(arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15062,10 +15335,13 @@ static PyObject *_wrap_gsl_blas_srotm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_srotm(arg1,arg2,(float const (*))arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15104,10 +15380,13 @@ static PyObject *_wrap_gsl_blas_drotg(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_drotg(arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15152,10 +15431,13 @@ static PyObject *_wrap_gsl_blas_drotmg(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_drotmg(arg1,arg2,arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15220,10 +15502,13 @@ static PyObject *_wrap_gsl_blas_drot(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_drot(arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15300,10 +15585,13 @@ static PyObject *_wrap_gsl_blas_drotm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_drotm(arg1,arg2,(double const (*))arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15644,10 +15932,13 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_sgemv((CBLAS_TRANSPOSE_t )arg1,arg2,(gsl_matrix_float const *)arg3,(gsl_vector_float const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15727,10 +16018,13 @@ static PyObject *_wrap_gsl_blas_strmv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_strmv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_float const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15810,10 +16104,13 @@ static PyObject *_wrap_gsl_blas_strsv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_strsv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_float const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -15908,10 +16205,13 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dgemv((CBLAS_TRANSPOSE_t )arg1,arg2,(gsl_matrix const *)arg3,(gsl_vector const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16011,10 +16311,13 @@ static PyObject *_wrap_gsl_blas_dtrmv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dtrmv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16104,10 +16407,13 @@ static PyObject *_wrap_gsl_blas_dtrsv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dtrsv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16216,10 +16522,13 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cgemv((CBLAS_TRANSPOSE_t )arg1,arg2,(gsl_matrix_complex_float const *)arg3,(gsl_vector_complex_float const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16299,10 +16608,13 @@ static PyObject *_wrap_gsl_blas_ctrmv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ctrmv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_complex_float const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16382,10 +16694,13 @@ static PyObject *_wrap_gsl_blas_ctrsv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ctrsv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_complex_float const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16484,10 +16799,13 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zgemv((CBLAS_TRANSPOSE_t )arg1,arg2,(gsl_matrix_complex const *)arg3,(gsl_vector_complex const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16567,10 +16885,13 @@ static PyObject *_wrap_gsl_blas_ztrmv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ztrmv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_complex const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16650,10 +16971,13 @@ static PyObject *_wrap_gsl_blas_ztrsv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ztrsv((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,(CBLAS_DIAG_t )arg3,(gsl_matrix_complex const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16748,10 +17072,13 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ssymv((CBLAS_UPLO_t )arg1,arg2,(gsl_matrix_float const *)arg3,(gsl_vector_float const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16834,10 +17161,13 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_sger(arg1,(gsl_vector_float const *)arg2,(gsl_vector_float const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -16911,10 +17241,13 @@ static PyObject *_wrap_gsl_blas_ssyr(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_ssyr((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_float const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17003,10 +17336,13 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ssyr2((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_float const *)arg3,(gsl_vector_float const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17101,10 +17437,13 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dsymv((CBLAS_UPLO_t )arg1,arg2,(gsl_matrix const *)arg3,(gsl_vector const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17207,10 +17546,13 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_dger(arg1,(gsl_vector const *)arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17304,10 +17646,13 @@ static PyObject *_wrap_gsl_blas_dsyr(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_dsyr((CBLAS_UPLO_t )arg1,arg2,(gsl_vector const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17406,10 +17751,13 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dsyr2((CBLAS_UPLO_t )arg1,arg2,(gsl_vector const *)arg3,(gsl_vector const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17528,10 +17876,13 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_chemv((CBLAS_UPLO_t )arg1,arg2,(gsl_matrix_complex_float const *)arg3,(gsl_vector_complex_float const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17616,10 +17967,13 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cgeru(arg1,(gsl_vector_complex_float const *)arg2,(gsl_vector_complex_float const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17704,10 +18058,13 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cgerc(arg1,(gsl_vector_complex_float const *)arg2,(gsl_vector_complex_float const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17781,10 +18138,13 @@ static PyObject *_wrap_gsl_blas_cher(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_cher((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_complex_float const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17875,10 +18235,13 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cher2((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_complex_float const *)arg3,(gsl_vector_complex_float const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -17977,10 +18340,13 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zhemv((CBLAS_UPLO_t )arg1,arg2,(gsl_matrix_complex const *)arg3,(gsl_vector_complex const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18065,10 +18431,13 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zgeru(arg1,(gsl_vector_complex const *)arg2,(gsl_vector_complex const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18153,10 +18522,13 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zgerc(arg1,(gsl_vector_complex const *)arg2,(gsl_vector_complex const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18230,10 +18602,13 @@ static PyObject *_wrap_gsl_blas_zher(PyObject *self, PyObject *args, PyObject *k
     result = (int)gsl_blas_zher((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_complex const *)arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18324,10 +18699,13 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zher2((CBLAS_UPLO_t )arg1,arg2,(gsl_vector_complex const *)arg3,(gsl_vector_complex const *)arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18426,10 +18804,13 @@ static PyObject *_wrap_gsl_blas_sgemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_sgemm((CBLAS_TRANSPOSE_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_float const *)arg4,(gsl_matrix_float const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18548,10 +18929,13 @@ static PyObject *_wrap_gsl_blas_ssymm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ssymm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_float const *)arg4,(gsl_matrix_float const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18656,10 +19040,13 @@ static PyObject *_wrap_gsl_blas_ssyrk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ssyrk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_float const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18768,10 +19155,13 @@ static PyObject *_wrap_gsl_blas_ssyr2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_ssyr2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_float const *)arg4,(gsl_matrix_float const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18882,10 +19272,13 @@ static PyObject *_wrap_gsl_blas_strmm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_strmm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_float const *)arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -18986,10 +19379,13 @@ static PyObject *_wrap_gsl_blas_strsm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_strsm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_float const *)arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -19098,10 +19494,13 @@ static PyObject *_wrap_gsl_blas_dgemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dgemm((CBLAS_TRANSPOSE_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix const *)arg4,(gsl_matrix const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -19220,10 +19619,13 @@ static PyObject *_wrap_gsl_blas_dsymm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dsymm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix const *)arg4,(gsl_matrix const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -19328,10 +19730,13 @@ static PyObject *_wrap_gsl_blas_dsyrk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dsyrk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -19440,10 +19845,13 @@ static PyObject *_wrap_gsl_blas_dsyr2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_dsyr2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix const *)arg4,(gsl_matrix const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -19554,10 +19962,13 @@ static PyObject *_wrap_gsl_blas_dtrmm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dtrmm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix const *)arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -19658,10 +20069,13 @@ static PyObject *_wrap_gsl_blas_dtrsm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_dtrsm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix const *)arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -19774,10 +20188,13 @@ static PyObject *_wrap_gsl_blas_cgemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cgemm((CBLAS_TRANSPOSE_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -19900,10 +20317,13 @@ static PyObject *_wrap_gsl_blas_csymm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_csymm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20012,10 +20432,13 @@ static PyObject *_wrap_gsl_blas_csyrk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_csyrk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20128,10 +20551,13 @@ static PyObject *_wrap_gsl_blas_csyr2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_csyr2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20244,10 +20670,13 @@ static PyObject *_wrap_gsl_blas_ctrmm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ctrmm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_complex_float const *)arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20350,10 +20779,13 @@ static PyObject *_wrap_gsl_blas_ctrsm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ctrsm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_complex_float const *)arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20466,10 +20898,13 @@ static PyObject *_wrap_gsl_blas_zgemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zgemm((CBLAS_TRANSPOSE_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20592,10 +21027,13 @@ static PyObject *_wrap_gsl_blas_zsymm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zsymm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20704,10 +21142,13 @@ static PyObject *_wrap_gsl_blas_zsyrk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zsyrk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20820,10 +21261,13 @@ static PyObject *_wrap_gsl_blas_zsyr2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_zsyr2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -20936,10 +21380,13 @@ static PyObject *_wrap_gsl_blas_ztrmm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ztrmm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_complex const *)arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -21042,10 +21489,13 @@ static PyObject *_wrap_gsl_blas_ztrsm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_ztrsm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,(CBLAS_TRANSPOSE_t )arg3,(CBLAS_DIAG_t )arg4,arg5,(gsl_matrix_complex const *)arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -21158,10 +21608,13 @@ static PyObject *_wrap_gsl_blas_chemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_chemm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -21266,10 +21719,13 @@ static PyObject *_wrap_gsl_blas_cherk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_cherk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -21380,10 +21836,13 @@ static PyObject *_wrap_gsl_blas_cher2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_cher2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex_float const *)arg4,(gsl_matrix_complex_float const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -21506,10 +21965,13 @@ static PyObject *_wrap_gsl_blas_zhemm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zhemm((CBLAS_SIDE_t )arg1,(CBLAS_UPLO_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -21614,10 +22076,13 @@ static PyObject *_wrap_gsl_blas_zherk(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_blas_zherk((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -21728,10 +22193,13 @@ static PyObject *_wrap_gsl_blas_zher2k(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_blas_zher2k((CBLAS_UPLO_t )arg1,(CBLAS_TRANSPOSE_t )arg2,arg3,(gsl_matrix_complex const *)arg4,(gsl_matrix_complex const *)arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -21975,10 +22443,13 @@ static PyObject *_wrap_gsl_eigen_symm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_eigen_symm(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -22268,10 +22739,13 @@ static PyObject *_wrap_gsl_eigen_symmv(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_eigen_symmv(arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -22536,10 +23010,13 @@ static PyObject *_wrap_gsl_eigen_herm(PyObject *self, PyObject *args, PyObject *
     result = (int)gsl_eigen_herm(arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -22850,10 +23327,13 @@ static PyObject *_wrap_gsl_eigen_hermv(PyObject *self, PyObject *args, PyObject 
     result = (int)gsl_eigen_hermv(arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -22941,10 +23421,13 @@ static PyObject *_wrap_gsl_eigen_symmv_sort(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_eigen_symmv_sort(arg1,arg2,(gsl_eigen_sort_t )arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23022,10 +23505,13 @@ static PyObject *_wrap_gsl_eigen_hermv_sort(PyObject *self, PyObject *args, PyOb
     result = (int)gsl_eigen_hermv_sort(arg1,arg2,(gsl_eigen_sort_t )arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23121,10 +23607,13 @@ static PyObject *_wrap_gsl_eigen_jacobi(PyObject *self, PyObject *args, PyObject
     result = (int)gsl_eigen_jacobi(arg1,arg2,arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23211,10 +23700,13 @@ static PyObject *_wrap_gsl_eigen_invert_jacobi(PyObject *self, PyObject *args, P
     result = (int)gsl_eigen_invert_jacobi((gsl_matrix const *)arg1,arg2,arg3);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23456,10 +23948,13 @@ static PyObject *_wrap_gsl_spline_init(PyObject *self, PyObject *args, PyObject 
     result = gsl_spline_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23500,10 +23995,13 @@ static PyObject *_wrap_gsl_spline_eval_e(PyObject *self, PyObject *args, PyObjec
     result = gsl_spline_eval_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23579,10 +24077,13 @@ static PyObject *_wrap_gsl_spline_eval_deriv_e(PyObject *self, PyObject *args, P
     result = gsl_spline_eval_deriv_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23658,10 +24159,13 @@ static PyObject *_wrap_gsl_spline_eval_deriv2_e(PyObject *self, PyObject *args, 
     result = gsl_spline_eval_deriv2_e((gsl_spline const *)arg1,arg2,arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23743,10 +24247,13 @@ static PyObject *_wrap_gsl_spline_eval_integ_e(PyObject *self, PyObject *args, P
     result = gsl_spline_eval_integ_e((gsl_spline const *)arg1,arg2,arg3,arg4,arg5);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -23981,10 +24488,13 @@ static PyObject *_wrap_gsl_interp_accel_reset(PyObject *self, PyObject *args, Py
     result = gsl_interp_accel_reset(arg1);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -24096,10 +24606,13 @@ static PyObject *_wrap_gsl_interp_init(PyObject *self, PyObject *args, PyObject 
     result = gsl_interp_init(arg1,(double const (*))arg2,(double const (*))arg3,arg4);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -24224,10 +24737,13 @@ static PyObject *_wrap_gsl_interp_eval_e(PyObject *self, PyObject *args, PyObjec
     result = gsl_interp_eval_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -24383,10 +24899,13 @@ static PyObject *_wrap_gsl_interp_eval_deriv_e(PyObject *self, PyObject *args, P
     result = gsl_interp_eval_deriv_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -24542,10 +25061,13 @@ static PyObject *_wrap_gsl_interp_eval_deriv2_e(PyObject *self, PyObject *args, 
     result = gsl_interp_eval_deriv2_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);
@@ -24707,10 +25229,13 @@ static PyObject *_wrap_gsl_interp_eval_integ_e(PyObject *self, PyObject *args, P
     result = gsl_interp_eval_integ_e((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6,arg7);
     
     {
-        assert(result >= 0);
+        /* 
+        	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+        	negative numbers.
+             */
         if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
             PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
-            __FUNCTION__, 70); 
+            __FUNCTION__, 73); 
             goto fail;
         }
         Py_INCREF(Py_None);

@@ -18,8 +18,26 @@
  */
 
 #if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION > 5)
-#define _PYGSL_HAS_WAVELET 1
-#endif 
+#define _PyGSL_HAS_WAVELET 1
+#endif
+
+#include <gsl/gsl_fft.h>
+#include <gsl/gsl_fft_complex.h>
+#include <gsl/gsl_fft_real.h>
+#include <gsl/gsl_fft_halfcomplex.h>
+#include <gsl/gsl_fft_complex_float.h>
+#include <gsl/gsl_fft_real_float.h>
+#include <gsl/gsl_fft_halfcomplex_float.h>
+#include <gsl/gsl_blas.h>
+#ifdef  _PyGSL_HAS_WAVELET
+#define forward forward_wavelet
+#define backward backward_wavelet
+#include <gsl/gsl_wavelet.h>
+#include <gsl/gsl_wavelet2d.h>
+#undef forward
+#undef backward
+#else /* _PyGSL_HAS_WAVELET */
+#endif /* _PyGSL_HAS_WAVELET */
 
 
 /* ------------------------------------------------------------------------- */
@@ -56,7 +74,7 @@ union pygsl_transform_space_t{
 	gsl_fft_real_workspace_float        *rwsf;
 	gsl_fft_real_wavetable_float        *rwtf;
 	gsl_fft_halfcomplex_wavetable_float *hcwtf;
-#ifdef _PYGSL_HAS_WAVELET 
+#ifdef _PyGSL_HAS_WAVELET 
 	gsl_wavelet_workspace               *wws; 
 #endif
 	void                                *v;
@@ -113,7 +131,7 @@ enum pygsl_packed_type{
 typedef int transform(void * data, size_t stride, size_t N, const void *, void *);
 typedef int transform_r2(void * data, size_t stride, size_t N);
 
-#ifdef _PYGSL_HAS_WAVELET 
+#ifdef _PyGSL_HAS_WAVELET 
 typedef int wavelet(const gsl_wavelet * W, double *data, size_t stride, size_t N, void *);
 typedef int wavelet2d(const gsl_wavelet * W, gsl_matrix *m, void *);
 #endif
@@ -126,7 +144,7 @@ typedef void * pygsl_transform_help_t(void *);
 union transforms{
 	transform *free;
 	transform_r2 *radix2;
-#ifdef _PYGSL_HAS_WAVELET 
+#ifdef _PyGSL_HAS_WAVELET 
 	wavelet *wavelet;
 	wavelet2d *wavelet2d;
 #endif

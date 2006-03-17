@@ -168,7 +168,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	FUNC_MESS("Fail End");
 	return NULL;
 }
-#endif
+#endif /*  _PyGSL_HAS_WAVELET */
 /*
  * Catch all for all one dimensional functions.
  */
@@ -424,12 +424,13 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		/* No helpers needed! */ ;
 	}/* radix2 */
 
-#if DEBUG > 0	
-	if(PyGSL_Check_Array_Length(r, call_n, datatype, n_type) != GSL_SUCCESS){
-		line = __LINE__ -1;
-		goto fail;
+        if(PyGSL_DEBUG_LEVEL() > 0) {
+		if(PyGSL_Check_Array_Length(r, call_n, datatype, n_type) != GSL_SUCCESS){
+			line = __LINE__ -1;
+			goto fail;
+		}
 	}
-#endif 
+
 	vdata = (void *) r->data;
 	if(call_offset!=0){
 		switch(datatype){

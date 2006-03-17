@@ -107,4 +107,5 @@ static PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;
    } \
    DEBUG_MESS(2, "PyGSL_API points to %p and PyGSL_STATISTICS_API points to %p\n", (void *) PyGSL_API, (void *) PyGSL_STATISTICS_API);  \
 }
+
 #endif /* PYGSL_STATMODULE_H */
