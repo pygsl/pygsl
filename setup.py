@@ -15,7 +15,7 @@ USE_SWIG = 1
 # Some modules have been reimplemented. These modules will be installed in
 # pygsl.testing...
 # Set to one if you want them built
-BUILD_TESTING = 1
+BUILD_TESTING = 0
 
 #
 # If you want to use the PyGSL API in other projects ...
@@ -39,6 +39,7 @@ gsldist_path = os.path.join(os.path.dirname("__name__"), "gsl_dist")
 # Make sure that we use the new one ...
 sys.path.insert(0, gsldist_path)
 
+#This must be before gsl_Extension is included.
 import gsl_numobj
 
 import distutils
@@ -46,7 +47,7 @@ from distutils.core import setup, Extension
 from gsl_Extension import gsl_Extension
 from swig_extension import SWIG_Extension as _SWIG_Extension
 from swig_extension import SWIG_Extension_Nop as _SWIG_Extension_Nop
-import gsl_numobj
+
 from distutils import sysconfig
 #from common_objects import libpygsl
 
