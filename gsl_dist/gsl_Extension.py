@@ -18,7 +18,8 @@ from sys import argv,version_info
 
 
 
-numpy_dir='/usr/lib/python2.3/site-packages/numpy/core/include/'
+from array_includes import array_include_dirs
+
 
 # steel --gsl-prefix from option list
 gsl_prefix_option=None
@@ -180,7 +181,7 @@ class gsl_Extension(Extension):
 	    include_dirs.append('Include')
 	    include_dirs.append('.')
             include_dirs[0:0]=[os.path.join(self.gsl_prefix,'include')]
-	    include_dirs.append(numpy_dir)
+	    include_dirs= include_dirs + array_include_dirs
 
             # prepend library directory
             if library_dirs is None: library_dirs=[]

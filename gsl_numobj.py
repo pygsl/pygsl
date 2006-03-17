@@ -27,6 +27,7 @@ from distutils.errors import DistutilsModuleError
 packagedir = os.path.dirname(os.path.abspath(__file__))
 includedir = os.path.join(packagedir, "Include", "pygsl")
 pygsldir   = os.path.join(packagedir, "pygsl")
+gsl_dist   = os.path.join(packagedir, "gsl_dist")
 
 def extractpattern():
 	"""
@@ -139,6 +140,18 @@ def writenumobj(nummodule):
 	file.close()
 	del file
 
+        file = open(os.path.join(gsl_dist, "array_includes.py"), "w")
+	file.write('"""\n')
+	file.write(warnmsg)
+	file.write('"""\n')
+	file.write('\n')
+	file.write('array_include_dirs = []\n')
+	if nummodule == "numpy":
+	    file.write('from numpy.distutils.misc_util import get_numpy_include_dirs\n')
+            file.write('array_include_dirs = get_numpy_include_dirs()\n')
+	file.close()
+	del file
+
 	# Write the chosen module to a include header
 	file = open(os.path.join(includedir, "arrayobject.h"), "w")
 	file.write('/*')
@@ -220,5 +233,6 @@ if "build" in sys.argv:
 else:
 	nummodule = read_from_numobj()
 assert(nummodule)
+
 
 print "Using '%s' as array object" %  nummodule
