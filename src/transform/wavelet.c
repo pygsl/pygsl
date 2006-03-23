@@ -140,23 +140,36 @@ static PyObject *
 PyGSL_wavelet_init(PyObject *self, PyObject *args, const gsl_wavelet_type *type)
 {
 	int n;
-	PyGSL_wavelet * o;
+	PyGSL_wavelet * o = NULL;
 	FUNC_MESS_BEGIN();
 	o =  (PyGSL_wavelet *) PyObject_NEW(PyGSL_wavelet, &PyGSL_wavelet_pytype);
 	if(o == NULL){
-		return NULL;
+		goto fail;
 	}
 
 	if (0==PyArg_ParseTuple(args,"l", &n))
-		return NULL;
+		goto fail;
 
 	if (n<=0) {
 		PyErr_SetString(PyExc_RuntimeError, "dimension must be >0");
-		return NULL;
+		goto fail;
 	}
-	if((o->wavelet = gsl_wavelet_alloc(type, n)) == NULL)
-		PyErr_NoMemory();	
+	if((o->wavelet = gsl_wavelet_alloc(type, n)) == NULL){
+	     /* 
+	      * If the wrong parameter n is given, it will call GSL_ERROR
+	      * and return NULL. I hope it does that in case of no memory as
+	      * well. The installed error handler will then call
+	      *	PyErr_NoMemory();
+	      */
+	     goto fail;
+	}
+	FUNC_MESS_END();
 	return (PyObject *) o;
+
+ fail:
+	FUNC_MESS("Fail");
+	Py_XDECREF(o);
+	return NULL;
 }
 
 #define PyGSL_WAVELET_INIT(name) \
