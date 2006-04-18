@@ -728,6 +728,22 @@ def HH_solve(A,b):
 #
 # Tridiagonal Systems
 #
+ 
+def solve_tridiag(diag, e, f, b):
+    """
+    returns x
+
+    This function solves the general N-by-N system A x = b where A is
+    tridiagonal. The form of A for the 4-by-4 case is shown below,
+
+    A = ( d_0 e_0         )
+        ( f_0 d_1 e_1     )
+        (     f_1 d_2 e_2 )
+        (         f_2 d_3 )
+    """
+    x = zeros(diag.shape, get_typecode(diag))
+    _gslwrap.gsl_linalg_solve_tridiag(diag, e, f, b, x)
+    return x
 
 def solve_symm_tridiag(diag, e, b):
     """
