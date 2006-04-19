@@ -1129,6 +1129,8 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	       assert(0);
 	  }
      }
+     Py_DECREF(array_p);
+     Py_DECREF(array_n);
      return (PyObject *) array_out;
  fail:
      FUNC_MESS("FAIL");
