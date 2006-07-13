@@ -14,7 +14,11 @@ PyGSL_error_flag(long flag)
      if(PyErr_Occurred())
 	  return GSL_FAILURE;
      if(flag>0){
-	  /* How can I end here without an Python error? */
+	  /* 
+	   * How can I end here without an Python error? All GSL modules are
+	   * supposed to call GSL_ERROR which should call the default error
+	   * handler.
+	   */
 	  gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__, 
 		    __LINE__, flag);
 	  return GSL_FAILURE;
@@ -127,8 +131,14 @@ static PyObject * unknown_error = NULL;
 static int
 PyGSL_register_accel_err_object(PyObject * err_ob, long test_errno)
 {
+     PyObject *tmp;
+
      assert(err_ob);
-     if(errno_accel[test_errno] != NULL){
+     tmp = errno_accel[test_errno];
+     if(tmp != NULL){
+	  PyErr_Format(PyExc_ValueError, 
+		       "In errno_accel: errno %ld already occupied with object %p!\n",
+		       test_errno, (void *) tmp);
 	  return -2;
      }
      Py_INCREF(err_ob);
@@ -136,21 +146,25 @@ PyGSL_register_accel_err_object(PyObject * err_ob, long test_errno)
      return 0;
 }
 
-/**/
+/* register an error object to the Python dictionary */
 static int
 _PyGSL_register_err_object(PyObject *dict, PyObject * err_ob, PyObject *the_errno)
 {
      PyObject *test;
      assert(error_dict);
      test = PyDict_GetItem(dict, the_errno);
-     if(test != NULL)
+     if(test != NULL){
+	  PyErr_Format(PyExc_ValueError, 
+		       "In dict %p: key %p already occupied with object %p!\n",
+		       dict, the_errno, (void *) test);
 	  return -2;
-
+     }
      Py_INCREF(err_ob);
      PyDict_SetItem(dict, the_errno, err_ob);
      return 0;
 }
 
+/* register an error object */
 static int
 _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
 {
@@ -172,11 +186,17 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
 
 	  fprintf(stderr, "failed to get errno from err_ob '%s' @ %p\n",
 		  c_name, (void *) err_ob);
+	  PyErr_Format(PyExc_AttributeError,
+		       "err_ob '%s' @ %p missed attribue 'errno!'\n", c_name,
+		       err_ob);
 	  return -1;
      }
      
      if(!PyInt_CheckExact(tmp)){
-	  fprintf(stderr, "errno %p from err_ob %p was not an exact int!\n", (void *) tmp, (void *) err_ob);
+	  fprintf(stderr, "errno %p from err_ob %p was not an exact int!\n", 
+		  (void *) tmp, (void *) err_ob);
+	  PyErr_Format(PyExc_TypeError, "errno %p from err_ob %p was not an exact int!\n",
+		       (void *) tmp, (void *) err_ob);
 	  return -1;
      }
 
@@ -184,7 +204,7 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
      if((dict == error_dict) && (test_errno < ERRNO_MAX)){
 	  flag = PyGSL_register_accel_err_object(err_ob, test_errno);
      }else{
-	  flag = _PyGSL_register_err_object(dict, err_ob, tmp);	  
+	  flag = _PyGSL_register_err_object(dict, err_ob, tmp);
      }	       
      if(flag != 0)
 	  fprintf(stderr, "Failed to register err_ob %p with errno %ld.\n" 
@@ -207,14 +227,14 @@ PyGSL_register_error_objs(PyObject *self, PyObject *args, PyObject *dict, int er
 	  flag = _PyGSL_register_error(dict, errno_max, tmp);
 	  if(flag != 0){
 	       fprintf(stderr, "Failed to register error object %d\n", i);
-	       PyErr_SetString(PyExc_ValueError, "Failed to register exceptions!");
+	       return NULL;
 	  }
      }
      
      Py_INCREF(Py_None);
      return Py_None;
-
 }
+
 static PyObject*
 PyGSL_register_warnings(PyObject *self, PyObject *args)
 {
