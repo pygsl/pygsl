@@ -46,7 +46,7 @@ gsl_blas_sdsdot = _gslwrap.gsl_blas_sdsdot
 
 def ddot(x, y):
     """
-    This function computes the scalar product x^T y for the vectors x and y,
+    This function computes the scalar product \M{x^T y} for the vectors x and y,
     returning the result. 
     """
     return _gslwrap.gsl_blas_ddot(x, y)#[1]
@@ -54,7 +54,7 @@ def ddot(x, y):
 
 def zdotu(x, y):
     """
-    This function computes the complex scalar product x^T y for the
+    This function computes the complex scalar product \M{x^T y} for the
     vectors x and y, returning the result.
     """
     return _gslwrap.gsl_blas_zdotu(x, y, 1j)#[1]
@@ -62,7 +62,7 @@ def zdotu(x, y):
 
 def zdotc(x, y):
     """
-    This function computes the complex conjugate scalar product x^H y for the
+    This function computes the complex conjugate scalar product \M{x^H y} for the
     vectors x and y, returning the result. 
     """
     return _gslwrap.gsl_blas_zdotc(x, y, 1j)#[1]
@@ -70,7 +70,7 @@ def zdotc(x, y):
 
 def dnrm2(x):
     """
-    This function computes the Euclidean norm ||x||_2 = \sqrt {\sum x_i^2}
+    This function computes the Euclidean norm \M{||x||_2 = \sqrt {\sum x_i^2}}
     of the vector x. 
     """
     return _gslwrap.gsl_blas_dnrm2(x)
@@ -79,7 +79,7 @@ def dnrm2(x):
 def dznrm2(x):
     """
     This function computes the Euclidean norm of the complex vector x,
-    ||x||_2 = \sqrt {\sum (\Re(x_i)^2 + \Im(x_i)^2)}.
+    \M{||x||_2 = \sqrt {\sum (\Re(x_i)^2 + \Im(x_i)^2)}}.
 
     """
     return _gslwrap.gsl_blas_dznrm2(x)
@@ -87,7 +87,7 @@ def dznrm2(x):
 
 def dasum(x):
     """
-    This function computes the absolute sum \sum |x_i| of the elements
+    This function computes the absolute sum \M{\sum |x_i|} of the elements
     of the vector x. 
     """
     return _gslwrap.gsl_blas_dasum(x)
@@ -95,7 +95,7 @@ def dasum(x):
 
 def dzasum(x):
     """
-    This function computes the absolute sum \sum |\Re(x_i)| + |\Im(x_i)|
+    This function computes the absolute sum \M{\sum |\Re(x_i)| + |\Im(x_i)|}
     of the elements of the vector x. 
     """
     return _gslwrap.gsl_blas_dzasum(x)
@@ -115,7 +115,7 @@ def izamax(x):
     """
     This function returns the index of the largest element of the vector x.
     The largest element is determined by the sum of the magnitudes of the
-    real and imaginary parts |\Re(x_i)| + |\Im(x_i)|. If the largest value
+    real and imaginary parts \M{|\Re(x_i)| + |\Im(x_i)|}. If the largest value
     occurs several times then the index of the first occurrence is returned. 
     """
     return _gslwrap.gsl_blas_izamax(x)
@@ -123,7 +123,7 @@ def izamax(x):
 
 def daxpy(alpha, x, y):
     """
-    This function computes the sum y = \alpha x + y for the vectors x and y.
+    This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     yn = array_typed_copy(y, Float)
     _gslwrap.gsl_blas_daxpy(alpha, x, yn)
@@ -132,14 +132,14 @@ def daxpy(alpha, x, y):
 
 def daxpy_cr(alpha, x, y_CR):
     """
-    This function computes the sum y = \alpha x + y for the vectors x and y.
+    This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     _gslwrap.gsl_blas_daxpy(alpha, x, y_CR)
     
 
 def zaxpy(alpha, x, y):
     """
-    This function computes the sum y = \alpha x + y for the vectors x and y.
+    This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     yn = array_typed_copy(y, Numeric.Complex)
     _gslwrap.gsl_blas_zaxpy(alpha, x, yn)
@@ -148,14 +148,14 @@ def zaxpy(alpha, x, y):
 
 def zaxpy_cr(alpha, x, y_CR):
     """
-    This function computes the sum y = \alpha x + y for the vectors x and y.
+    This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     _gslwrap.gsl_blas_zaxpy(alpha, x, y_CR)
  
 
 def drot(x, y, c, s):
     """
-    This function applies a Givens rotation (x', y') = (c x + s y, -s x + c y)
+    This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
     to the vectors x, y.
     """
     xn = array_typed_copy(x, Numeric.Float)
@@ -166,7 +166,7 @@ def drot(x, y, c, s):
 
 def drot_cr(x_CR, y_CR, c, s):
     """
-    This function applies a Givens rotation (x', y') = (c x + s y, -s x + c y)
+    This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
     to the vectors x, y.
     """
     _gslwrap.gsl_blas_drot(x_CR, y_CR, c, s)
@@ -179,7 +179,7 @@ def drot_cr(x_CR, y_CR, c, s):
 def dgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
     """
     This function computes the matrix-vector product and
-    sum y = \alpha op(A) x + \beta y, where op(A) = A, A^T, A^H for
+    sum \M{y = S{alpha} op(A) x + S{beta} y}, where op(A) = \M{A, A^T, A^H} for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
     yn = array_typed_copy(y, Numeric.Float)
@@ -190,7 +190,7 @@ def dgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
 def zgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
     """
     This function computes the matrix-vector product and
-    sum y = \alpha op(A) x + \beta y, where op(A) = A, A^T, A^H for
+    sum \M{y = S{alpha} op(A) x + S{beta} y}, where \M{op(A) = A, A^T, A^H} for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
     yn = array_typed_copy(y, Numeric.Complex)
@@ -290,7 +290,7 @@ def dsymv(alpha, A, X, beta, Y, Uplo=CblasLower):
     returns y'
 
     This function computes the matrix-vector product and
-    sum y' = \alpha A x + \beta y for the symmetric matrix A. Since the
+    sum \M{y' = S{alpha} A x + S{beta} y} for the symmetric matrix A. Since the
     matrix A is symmetric only its upper half or lower half need to be
     stored. When Uplo is CblasUpper then the upper triangle and diagonal
     of A are used, and when Uplo is CblasLower then the lower triangle
@@ -306,7 +306,7 @@ def zhemv(alpha, A, X, beta, Y, Uplo=CblasLower):
     returns y'
     
     This function computes the matrix-vector product and
-    sum y' = \alpha A x + \beta y for the hermitian matrix A. Since the
+    sum \M{y' = S{alpha} A x + S{beta} y} for the hermitian matrix A. Since the
     matrix A is hermitian only its upper half or lower half need to be
     stored. When Uplo is CblasUpper then the upper triangle and diagonal
     of A are used, and when Uplo is CblasLower then the lower triangle
@@ -322,7 +322,7 @@ def dger(alpha, X, Y, A):
     """
     returns A'
 
-    This function computes the rank-1 update A' = \alpha x y^T + A of
+    This function computes the rank-1 update \M{A' = S{alpha} x y^T + A} of
     the matrix A. 
     """
     an = array_typed_copy(A)
@@ -334,7 +334,7 @@ def zgeru(alpha, X, Y, A):
     """
     returns A'
 
-    This function computes the rank-1 update A' = \alpha x y^T + A of
+    This function computes the rank-1 update \M{A' = S{alpha} x y^T + A} of
     the matrix A. 
     """
     an = array_typed_copy(A)
@@ -347,7 +347,7 @@ def zgerc(alpha, X, Y, A):
     returns A'
 
     This function computes the conjugate rank-1 update
-    A = \alpha x y^H + A of the matrix A.
+    \M{A = S{alpha} x y^H + A} of the matrix A.
     """
     an = array_typed_copy(A)
     _gslwrap.gsl_blas_zgerc(alpha, X, Y, an)
@@ -359,7 +359,7 @@ def dsyr(alpha, X, A, Uplo=CblasLower):
     returns A'
 
     This function computes the symmetric rank-1 update
-    A' = \alpha x x^T + A of the symmetric matrix A. Since the matrix A
+    \M{A' = S{alpha} x x^T + A} of the symmetric matrix A. Since the matrix A
     is symmetric only its upper half or lower half need to be stored.
     When Uplo is CblasUpper then the upper triangle and diagonal of A
     are used, and when Uplo is CblasLower then the lower triangle and
@@ -375,7 +375,7 @@ def zher(alpha, X, A, Uplo=CblasLower):
     returns A'
 
     This function computes the hermitian rank-1 update
-    A' = \alpha x x^H + A of the hermitian matrix A. Since the matrix A
+    \M{A' = S{alpha} x x^H + A} of the hermitian matrix A. Since the matrix A
     is hermitian only its upper half or lower half need to be stored.
     When Uplo is CblasUpper then the upper triangle and diagonal of A are
     used, and when Uplo is CblasLower then the lower triangle and diagonal
@@ -392,7 +392,7 @@ def dsyr2(alpha, X, Y, A, Uplo=CblasLower):
     returns A'
 
     This function computes the symmetric rank-2 update
-    A' = \alpha x y^T + \alpha y x^T + A of the symmetric matrix A.
+    \M{A' = S{alpha} x y^T + S{alpha} y x^T + A} of the symmetric matrix A.
     Since the matrix A is symmetric only its upper half or lower half
     need to be stored. When Uplo is CblasUpper then the upper triangle
     and diagonal of A are used, and when Uplo is CblasLower then the
@@ -408,7 +408,7 @@ def zher2(alpha, X, Y, A, Uplo=CblasLower):
     returns A'
 
     This function computes the hermitian rank-2 update
-    A' = \alpha x y^H + \alpha^* y x^H A of the hermitian matrix A.
+    \M{A' = S{alpha} x y^H + S{alpha}^* y x^H A} of the hermitian matrix A.
     Since the matrix A is hermitian only its upper half or lower half
     need to be stored. When Uplo is CblasUpper then the upper triangle
     and diagonal of A are used, and when Uplo is CblasLower then the
@@ -433,7 +433,7 @@ def dgemm(alpha,
     returns C'
     
     This function computes the matrix-matrix product and sum
-    C' = \alpha op(A) op(B) + \beta C where op(A) = A, A^T, A^H for
+    \M{C' = S{alpha} op(A) op(B) + S{beta} C} where op(A) = A, A^T, A^H for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans and similarly
     for the parameter TransB.
     """
@@ -451,7 +451,7 @@ def zgemm(alpha,
     returns C'
     
     This function computes the matrix-matrix product and sum
-    C' = \alpha op(A) op(B) + \beta C where op(A) = A, A^T, A^H for
+    \M{C' = S{alpha} op(A) op(B) + S{beta} C} where op(A) = A, A^T, A^H for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans and similarly
     for the parameter TransB.
     """
@@ -467,8 +467,8 @@ def dsymm(alpha, A, B, beta, C,
     returns C'
     
     This function computes the matrix-matrix product and
-    sum C' = \alpha A B + \beta C for Side is CblasLeft and
-    C' = \alpha B A + \beta C for Side is CblasRight, where the matrix A
+    sum \M{C' = S{alpha} A B + S{beta} C} for Side is CblasLeft and
+    \M{C' = S{alpha} B A + S{beta} C} for Side is CblasRight, where the matrix A
     is symmetric. When Uplo is CblasUpper then the upper triangle and
     diagonal of A are used, and when Uplo is CblasLower then the lower
     triangle and diagonal of A are used.
@@ -485,8 +485,8 @@ def zsymm(alpha, A, B, beta, C,
     returns C'
     
     This function computes the matrix-matrix product and
-    sum C' = \alpha A B + \beta C for Side is CblasLeft and
-    C' = \alpha B A + \beta C for Side is CblasRight, where the matrix A
+    sum \M{C' = S{alpha} A B + S{beta} C} for Side is CblasLeft and
+    \M{C' = S{alpha} B A + S{beta} C} for Side is CblasRight, where the matrix A
     is symmetric. When Uplo is CblasUpper then the upper triangle and
     diagonal of A are used, and when Uplo is CblasLower then the lower
     triangle and diagonal of A are used.
@@ -503,8 +503,8 @@ def zhemm(alpha, A, B, beta, C,
     returns C'
     
     This function computes the matrix-matrix product and
-    sum C' = \alpha A B + \beta C for Side is CblasLeft and
-    C' = \alpha B A + \beta C for Side is CblasRight, where the matrix A
+    sum \M{C' = S{alpha} A B + S{beta} C} for Side is CblasLeft and
+    \M{C' = S{alpha} B A + S{beta} C} for Side is CblasRight, where the matrix A
     is hermitian. When Uplo is CblasUpper then the upper triangle and
     diagonal of A are used, and when Uplo is CblasLower then the lower
     triangle and diagonal of A are used. The imaginary elements of the
@@ -524,8 +524,8 @@ def dtrmm(alpha, A, B,
     returns B'
 
     This function computes the matrix-matrix product
-    B' = \alpha op(A) B for Side is CblasLeft and
-    B' = \alpha B op(A) for Side is CblasRight. The matrix A is
+    \M{B' = S{alpha} op(A) B} for Side is CblasLeft and
+    \M{B' = S{alpha} B op(A)} for Side is CblasRight. The matrix A is
     triangular and op(A) = A, A^T, A^H for TransA = CblasNoTrans,
     CblasTrans, CblasConjTrans When Uplo is CblasUpper then the upper
     triangle of A is used, and when Uplo is CblasLower then the lower
@@ -547,8 +547,8 @@ def ztrmm(alpha, A, B,
     returns B'
 
     This function computes the matrix-matrix product
-    B' = \alpha op(A) B for Side is CblasLeft and
-    B' = \alpha B op(A) for Side is CblasRight. The matrix A is
+    \M{B' = S{alpha} op(A) B} for Side is CblasLeft and
+    \M{B' = S{alpha} B op(A)} for Side is CblasRight. The matrix A is
     triangular and op(A) = A, A^T, A^H for TransA = CblasNoTrans,
     CblasTrans, CblasConjTrans When Uplo is CblasUpper then the upper
     triangle of A is used, and when Uplo is CblasLower then the lower
@@ -570,8 +570,8 @@ def dtrsm(alpha, A, B,
     returns B'
     
     This function computes the matrix-matrix product
-    B' = \alpha op(inv(A)) B for Side is CblasLeft and
-    B' = \alpha B op(inv(A)) for Side is CblasRight. The matrix A is
+    \M{B' = S{alpha} op(inv(A)) B} for Side is CblasLeft and
+    \M{B' = S{alpha} B op(inv(A))} for Side is CblasRight. The matrix A is
     triangular and op(A) = A, A^T, A^H for TransA = CblasNoTrans,
     CblasTrans, CblasConjTrans When Uplo is CblasUpper then the upper
     triangle of A is used, and when Uplo is CblasLower then the lower
@@ -585,16 +585,16 @@ def dtrsm(alpha, A, B,
 
 
 def ztrsm(alpha, A, B,
-          Side=CblasLeft,
-          Uplo=CblasLower,
-          TransA=CblasNoTrans,
-          Diag=CblasNonUnit):
+         Side=CblasLeft,
+         Uplo=CblasLower,
+         TransA=CblasNoTrans,
+         Diag=CblasNonUnit):
     """
     returns B'
     
     This function computes the matrix-matrix product
-    B' = \alpha op(inv(A)) B for Side is CblasLeft and
-    B' = \alpha B op(inv(A)) for Side is CblasRight. The matrix A is
+    \M{B' = S{alpha} op(inv(A)) B} for Side is CblasLeft and
+   \M{ B' = S{alpha} B op(inv(A))} for Side is CblasRight. The matrix A is
     triangular and op(A) = A, A^T, A^H for TransA = CblasNoTrans,
     CblasTrans, CblasConjTrans When Uplo is CblasUpper then the upper
     triangle of A is used, and when Uplo is CblasLower then the lower
@@ -608,14 +608,14 @@ def ztrsm(alpha, A, B,
 
 
 def dsyrk(alpha, A, beta, C,
-          Uplo=CblasLower,
-          Trans=CblasNoTrans):
+         Uplo=CblasLower,
+         Trans=CblasNoTrans):
     """
     returns C'
     
     This function computes a rank-k update of the symmetric matrix C,
-    C' = \alpha A A^T + \beta C when Trans is CblasNoTrans and
-    C' = \alpha A^T A + \beta C when Trans is CblasTrans. Since the matrix
+    \M{C' = S{alpha} A A^T + S{beta} C} when Trans is CblasNoTrans and
+    \M{C' = S{alpha} A^T A + S{beta} C} when Trans is CblasTrans. Since the matrix
     C is symmetric only its upper half or lower half need to be stored.
     When Uplo is CblasUpper then the upper triangle and diagonal of C are
     used, and when Uplo is CblasLower then the lower triangle and diagonal
@@ -627,14 +627,14 @@ def dsyrk(alpha, A, beta, C,
 
 
 def zsyrk(alpha, A, beta, C,
-          Uplo=CblasLower,
-          Trans=CblasNoTrans):
+         Uplo=CblasLower,
+         Trans=CblasNoTrans):
     """
     returns C'
     
     This function computes a rank-k update of the symmetric matrix C,
-    C' = \alpha A A^T + \beta C when Trans is CblasNoTrans and
-    C' = \alpha A^T A + \beta C when Trans is CblasTrans. Since the matrix
+    \M{C' = S{alpha} A A^T + S{beta} C} when Trans is CblasNoTrans and
+    \M{C' = S{alpha} A^T A + S{beta} C} when Trans is CblasTrans. Since the matrix
     C is symmetric only its upper half or lower half need to be stored.
     When Uplo is CblasUpper then the upper triangle and diagonal of C are
     used, and when Uplo is CblasLower then the lower triangle and diagonal
@@ -646,8 +646,8 @@ def zsyrk(alpha, A, beta, C,
 
 
 def triang2symm(A,
-          Uplo=CblasLower,
-          Diag=CblasNonUnit):
+             Uplo=CblasLower,
+             Diag=CblasNonUnit):
     """
     returns A'
 
@@ -672,8 +672,8 @@ def triang2symm(A,
 
 
 def triang2herm(A,
-          Uplo=CblasLower,
-          Diag=CblasNonUnit):
+             Uplo=CblasLower,
+             Diag=CblasNonUnit):
     """
     returns A'
 
@@ -704,8 +704,8 @@ def zherk(alpha, A, beta, C,
     returns C'
     
     This function computes a rank-k update of the hermitian matrix C,
-    C' = \alpha A A^H + \beta C when Trans is CblasNoTrans and
-    C' = \alpha A^H A + \beta C when Trans is CblasTrans. Since
+    \M{C' = S{alpha} A A^H + S{beta} C} when Trans is CblasNoTrans and
+    \M{C' = S{alpha} A^H A + S{beta} C} when Trans is CblasTrans. Since
     the matrix C is hermitian only its upper half or lower half need to
     be stored. When Uplo is CblasUpper then the upper triangle and diagonal
     of C are used, and when Uplo is CblasLower then the lower triangle and
@@ -724,8 +724,8 @@ def dsyr2k(alpha, A, B, beta, C,
     returns C'
     
     This function computes a rank-2k update of the symmetric
-    matrix C, C' = \alpha A B^T + \alpha B A^T + \beta C when Trans
-    is CblasNoTrans and C' = \alpha A^T B + \alpha B^T A + \beta C when
+    matrix C, \M{C' = S{alpha} A B^T + S{alpha} B A^T + S{beta} C} when Trans
+    is CblasNoTrans and \M{C' = S{alpha} A^T B + S{alpha} B^T A + S{beta} C} when
     Trans is CblasTrans. Since the matrix C is symmetric only its upper
     half or lower half need to be stored. When Uplo is CblasUpper then
     the upper triangle and diagonal of C are used, and when Uplo is
@@ -743,8 +743,8 @@ def zsyr2k(alpha, A, B, beta, C,
     returns C'
     
     This function computes a rank-2k update of the symmetric
-    matrix C, C' = \alpha A B^T + \alpha B A^T + \beta C when Trans
-    is CblasNoTrans and C' = \alpha A^T B + \alpha B^T A + \beta C when
+    matrix C, \M{C' = S{alpha} A B^T + S{alpha} B A^T + S{beta} C} when Trans
+    is CblasNoTrans and \M{C' = S{alpha} A^T B + S{alpha} B^T A + S{beta} C} when
     Trans is CblasTrans. Since the matrix C is symmetric only its upper
     half or lower half need to be stored. When Uplo is CblasUpper then
     the upper triangle and diagonal of C are used, and when Uplo is
@@ -762,8 +762,8 @@ def zher2k(alpha, A, B, beta, C,
     returns C'
     
     This function computes a rank-2k update of the hermitian matrix C,
-    C' = \alpha A B^H + \alpha^* B A^H + \beta C when Trans is
-    CblasNoTrans and C' = \alpha A^H B + \alpha^* B^H A + \beta C when
+    \M{C' = S{alpha} A B^H + S{alpha}^* B A^H + S{beta} C} when Trans is
+    CblasNoTrans and \M{C' = S{alpha} A^H B + S{alpha}^* B^H A + S{beta} C} when
     Trans is CblasTrans. Since the matrix C is hermitian only its upper
     half or lower half need to be stored. When Uplo is CblasUpper then
     the upper triangle and diagonal of C are used, and when Uplo is

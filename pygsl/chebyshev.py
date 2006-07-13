@@ -3,12 +3,11 @@
 """
 This module describes routines for computing Chebyshev
 approximations to univariate functions.  A Chebyshev approximation is a
-truncation of the series f(x) = \sum c_n T_n(x), where the Chebyshev
-polynomials T_n(x) = \cos(n \arccos x) provide an orthogonal basis of
-polynomials on the interval [-1,1] with the weight function 1 /
-\sqrt{1-x^2}.  The first few Chebyshev polynomials are, T_0(x) = 1,
+truncation of the series \M{f(x) = S{sum} c_n T_n(x)}, where the Chebyshev
+polynomials \M{T_n(x) = cos(n \arccos x)} provide an orthogonal basis of
+polynomials on the interval [-1,1] with the weight function
+\M{1 / sqrt{1-x^2}}.  The first few Chebyshev polynomials are, T_0(x) = 1,
 T_1(x) = x, T_2(x) = 2 x^2 - 1.
-
 
 def f(x, p):
     if x < 0.5:
@@ -29,7 +28,6 @@ for i in range(100):
     r10 = cs.eval_n(10, x)
     r40 = cs.eval(x)
     print "%g %g %g %g" % (x, f(x, None), r10, r40)
-
 """
 import _callback
 
@@ -67,7 +65,7 @@ class cheb_series(_workspace):
     def __init__(self, size):
         """
         input : n
-            n ... number of coefficients
+        @params n : number of coefficients
         """
         self._size = size
         _workspace.__init__(self, size)
@@ -76,13 +74,13 @@ class cheb_series(_workspace):
         """
         This function computes the Chebyshev approximation for the
         function F over the range (a,b) to the previously specified order.
-        The computation of the Chebyshev approximation is an O(n^2)
+        The computation of the Chebyshev approximation is an \M{O(n^2)}
         process, and requires n function evaluations.
 
         input : f, a, b
-            f ... a gsl_function
-            a ... lower limit
-            b ... upper limit
+        @params  f : a gsl_function
+        @params  a : lower limit
+        @params  b : upper limit
         """
         return self._init(self._ptr, f.get_ptr(), a, b)
 
