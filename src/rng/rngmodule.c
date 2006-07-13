@@ -5,10 +5,10 @@
  *
  */
 
-
-#include <pygsl/utils.h>
-#include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
+#include <pygsl/block_helpers.h>
+#include <pygsl/utils.h>
+
 #ifdef PyGSL_NO_IMPORT_API
 #undef PyGSL_NO_IMPORT_API
 #endif
@@ -424,11 +424,20 @@ static PyObject* rng_ ## name ## _pdf (PyObject *self, PyObject *args)     \
 
 static PyObject* rng_dirichlet_lnpdf (PyObject *self, PyObject *args)         
 { 
-   return PyGSL_pdf_dA_to_dA(self, args, gsl_ran_dirichlet_lnpdf); 
+     PyObject *tmp;
+     FUNC_MESS_BEGIN();
+     tmp = PyGSL_pdf_dA_to_dA(self, args, gsl_ran_dirichlet_lnpdf); 
+     FUNC_MESS_END();
+     return tmp;
 }
+
 static PyObject* rng_multinomial_lnpdf (PyObject *self, PyObject *args)
 { 
-   return PyGSL_pdf_uidA_to_uiA(self, args, gsl_ran_multinomial_lnpdf); 
+     PyObject *tmp;
+     FUNC_MESS_BEGIN();
+     tmp = PyGSL_pdf_uidA_to_uiA(self, args, gsl_ran_multinomial_lnpdf);
+     FUNC_MESS_END();
+     return tmp;
 }
 
 static PyMethodDef PyGSL_rng_module_functions[] = {
