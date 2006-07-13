@@ -414,7 +414,7 @@ class evolve:
         """
         _callback.gsl_odeiv_evolve_reset(self.ptr)
 
-    def apply(self, t, t1, h, y, nsteps=1):        
+    def apply(self, t, t1, h, y, nsteps=1,hmax=None):        
         """
         input : t, t1, h, y
             t  ... start time
@@ -441,8 +441,11 @@ class evolve:
         """
         step = self.step._get_ptr()
         control =  self.control._get_ptr()
+        res = (nsteps,)
+        if hmax:
+            res = nsteps, hmax
         tmp =  _callback.gsl_odeiv_evolve_apply(step, control, self.ptr,
                                                 self.func, self.jac, t, t1, h,
-                                                y, self.args, nsteps)
+                                                y, self.args, *res)
 
         return tmp
