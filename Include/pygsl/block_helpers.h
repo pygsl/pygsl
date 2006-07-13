@@ -30,6 +30,17 @@
 #include <pygsl/utils.h>
 #include <pygsl/general_helpers.h>
 
+/* 
+ *  required for 64 bit machines; backward compability. I rather perfer
+ *  to declare it as a long as its just my functions
+ */
+#if PY_VERSION_HEX < 0x02050000
+typedef long PyGSL_array_index_t;
+typedef int Py_ssize_t;
+#else 
+typedef Py_ssize_t PyGSL_array_index_t;
+#endif
+
 #include <pygsl/arrayobject.h>
 #ifdef PyGSL_NUMPY
 #include <numpy/arrayobject.h>
@@ -217,6 +228,80 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 				       int argnum);
 
 /*
+ * Check if a python object can be used as a vector. If so return an
+ *  approbriate python array object.
+ *
+ *
+ * Input:
+ *      src        ... the python object
+ *      size       ... the required size. Pass -1 if it should not be checked.
+ *
+ *      array_type ... the required type.
+ *      flag       ... shall be an input or output or inout array?
+ *                 ... shall it be contiguous?
+ *      argnum     ... the positional argument number. Used when reporting an
+ *                     error
+ *      
+ *                     Information if the stride of the vector should be
+ *                     recalulated to the native C type.
+ *      type_size  ... the size of the native C type (typically sizeof(type)).
+ *                     If stride is NULL this value is without meaning.
+ *
+ *      *stride    ... the recalculated stride. If NULL stride will not be
+ *                      recalulated, and the following items can be of any value
+ *
+ *      info       ... info structure passed by callbacks for reporting an error
+ *
+ *     Convienience macros:
+ *                PyGSL_DVECTOR_CHECK(src, size, flag, argnum, stride, info)
+ */
+PyGSL_API_EXTERN PyArrayObject *
+PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size, int array_type,
+		   int flag, int argnum,  int type_size, int *stride,
+		   PyGSL_error_info * info);
+
+
+/*
+ * Check if a python object can be used as a vector. If so return an
+ * approbriate python array object.
+ *
+ *
+ * Input:
+ *      src        ... the python object
+ *
+ *      size1      ... the required size of the first dimension.  Pass -1 if it
+ *                     should not be checked.
+ *      size2     ...  the required size of the second dimension. Pass -1 if it
+ *                     should not be checked.
+ *
+ *      array_type ... the required type.
+ *      flag       ... shall be an input or output or inout array?
+ *                     shall it be contiguous?
+ *      argnum     ... the positional argument number. Used when reporting an
+ *                     error
+ *      
+ *                     Information if the stride of the vector should be 
+ *                     recalulated to the native C type.
+ *      type_size  ... the size of the native C type (typically sizeof(type)).
+ *                     If stride is NULL this value is without meaning.
+ *
+ *      *stride1   ... the recalculated stride. If NULL stride will not be
+ *                      recalulated, and the following items can be of any value
+ *      *stride2   ... the recalculated stride. If NULL stride will not be
+ *                      recalulated, and the following items can be of any value
+ *
+ *      info       ... info structure passed by callbacks for reporting an error
+ *
+ *     Convienience macros:
+ *       PyGSL_DMATRIX_CHECK(src, size1, size2, flag, argnum, stride1, stride2, info)
+ */
+PyGSL_API_EXTERN PyArrayObject *
+PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t size2, 
+		   int array_type, int type_size, int flag, int argnum,
+		   PyGSL_array_index_t *stride1, PyGSL_array_index_t *stride2,
+		   PyGSL_error_info * info);
+
+/*
  * PyGSL_copy_pyarray_to_gslvector
  *                           Copy the contents of a pyarray to a gsl_vector.
  *
@@ -234,7 +319,7 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
  *
  */
 PyGSL_API_EXTERN int
-PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n, 
+PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, long n, 
 				PyGSL_error_info * info);
 
 /*
@@ -257,7 +342,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n,
  *
  */
 PyGSL_API_EXTERN int
-PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,
+PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, long n, long p,
 				PyGSL_error_info * info);
 
 PyGSL_API_EXTERN PyArrayObject * 
@@ -301,10 +386,10 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
 #define  PyGSL_Copy_Array  \
 (*(PyArrayObject * (*)(PyArrayObject *))                               PyGSL_API[PyGSL_PyArray_copy_NUM])
 #define  PyGSL_PyArray_prepare_gsl_vector_view  \
-(*(PyArrayObject * (*)(PyObject *, enum PyArray_TYPES, int,  int, int, PyGSL_error_info *)) \
+(*(PyArrayObject * (*)(PyObject *, enum PyArray_TYPES, int,  long, long, PyGSL_error_info *)) \
                                                                      PyGSL_API[PyGSL_PyArray_prepare_gsl_vector_view_NUM])
 #define  PyGSL_PyArray_prepare_gsl_matrix_view  \
-(*(PyArrayObject * (*)(PyObject *, enum PyArray_TYPES, int,  int, int, int, PyGSL_error_info *)) \
+(*(PyArrayObject * (*)(PyObject *, enum PyArray_TYPES, int,  long, long, int, PyGSL_error_info *)) \
                                                                      PyGSL_API[PyGSL_PyArray_prepare_gsl_matrix_view_NUM])
 #define PyGSL_PyArray_generate_gsl_vector_view \
 (*(PyArrayObject *(*)(PyObject *, enum PyArray_TYPES, int))          PyGSL_API[PyGSL_PyArray_generate_gsl_vector_view_NUM]) 
@@ -313,9 +398,9 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
 (*(PyArrayObject *(*)(PyObject *, enum PyArray_TYPES, int))          PyGSL_API[PyGSL_PyArray_generate_gsl_matrix_view_NUM]) 
 
 #define PyGSL_copy_pyarray_to_gslvector \
-(*(int (*) (gsl_vector *, PyObject *, int, PyGSL_error_info *))      PyGSL_API[PyGSL_copy_pyarray_to_gslvector_NUM])
+(*(int (*) (gsl_vector *, PyObject *, long, PyGSL_error_info *))      PyGSL_API[PyGSL_copy_pyarray_to_gslvector_NUM])
 #define PyGSL_copy_pyarray_to_gslmatrix \
-(*(int (*) (gsl_matrix *, PyObject *, int, int, PyGSL_error_info *)) PyGSL_API[PyGSL_copy_pyarray_to_gslmatrix_NUM])
+(*(int (*) (gsl_matrix *, PyObject *, long, long, PyGSL_error_info *)) PyGSL_API[PyGSL_copy_pyarray_to_gslmatrix_NUM])
 
 #define PyGSL_copy_gslvector_to_pyarray \
  (*(PyArrayObject * (*)(const gsl_vector *))                         PyGSL_API[ PyGSL_copy_gslvector_to_pyarray_NUM])
@@ -324,7 +409,7 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
  (*(PyArrayObject * (*)(const gsl_matrix *))                         PyGSL_API[ PyGSL_copy_gslmatrix_to_pyarray_NUM])         
 
 #define  PyGSL_vector_or_double  \
-(*(PyArrayObject * (*)(PyObject *, int,  int, int, PyGSL_error_info *)) \
+(*(PyArrayObject * (*)(PyObject *, int,  long, int, PyGSL_error_info *)) \
                                                                      PyGSL_API[PyGSL_vector_or_double_NUM])
 
 #endif /* _PyGSL_API_MODULE */
@@ -335,6 +420,14 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
            ((*(stride_recalc)) = (strides) / (basis_type_size)), GSL_SUCCESS \
          : \
            PyGSL_stride_recalc(strides, basis_type_size, stride_recalc)
+
+/*
+#define PyGSL_DVECTOR_CHECK(src, size, flag, argnum, stride, info) \
+PyGSL_vector_check(src, size, PyArray_DOUBLE, sizeof(double), flag, argnum, stride, info)
+
+#define PyGSL_DMATRIX_CHECK(src, size1, size2, flag, argnum, stride1, stride2, info) \
+PyGSL_vector_check(src, size1, size2, PyArray_DOUBLE, sizeof(double), flag, argnum, stride1, stride2, info)
+*/
 
 #ifdef PyGSL_NUMPY
 #include <pygsl/block_helpers_numpy.h>
