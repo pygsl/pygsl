@@ -5,13 +5,11 @@
  * $Id$
  *
  */
-
+#include <pygsl/error_helpers.h>
+#include <pygsl/general_helpers.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_ieee_utils.h>
 #include <gsl/gsl_errno.h>
-#include <Python.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/general_helpers.h>
 /*
  * constants definitions
  */
