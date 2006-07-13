@@ -278,7 +278,7 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x)
  * that called it, and a error description.
  */
 static int
-PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n, PyGSL_error_info * info)
+PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, long n, PyGSL_error_info * info)
 {
      PyArrayObject *a_array = NULL;
      double tmp;
@@ -318,12 +318,13 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, int n, PyGSL_er
 
 
 static int
-PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,  PyGSL_error_info * info)
+PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, long n, long p,  PyGSL_error_info * info)
 {
      PyArrayObject *a_array = NULL;
      double tmp;
      char *myptr;
-     int i,j, argnum=-1;
+     int argnum=-1;
+     long i, j;
 
 
      FUNC_MESS_BEGIN();
@@ -347,7 +348,7 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object, int n, int p,  
 	      myptr =  a_array->data + a_array->strides[0] * i  
 		                     + a_array->strides[1] * j;
 	      tmp = *((double *)(myptr));
-	      DEBUG_MESS(3, "\t\ta_array_%d = %f\n", i, tmp);
+	      DEBUG_MESS(3, "\t\ta_array[%ld,%ld] = %f\n", i, j, tmp);
 	      gsl_matrix_set(f, i, j, tmp);
 	 }
     }
@@ -396,6 +397,166 @@ PyGSL_vector_or_double(PyObject *src, int flag, long size, int argnum, PyGSL_err
      FUNC_MESS("Fail");
      return NULL;
 }
+
+static PyArrayObject *
+PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size, int array_type,
+		   int flag, int argnum,  int type_size, int *stride,
+		   PyGSL_error_info * info)
+{
+
+     int line=-1, tmp, tries;
+     PyArrayObject * a_array = NULL;
+
+     FUNC_MESS_BEGIN();
+     /*
+      * numpy arrays are which are non contiguous can have a stride which does
+      * not match the basis type. In this case the conversion is repeated and 
+      * a contiguous array is demanded.
+      */
+     for(tries = 0; tries <2; ++tries){
+	  a_array = PyGSL_PyArray_prepare_gsl_vector_view(src, array_type, flag, size, argnum, info);
+	  if(a_array == NULL){
+	       line = __LINE__ - 2;
+	       goto fail;
+	  }
+
+	  if(stride == NULL){
+	       /* no one interested in the stride. so help yourself ... */
+	       FUNC_MESS_END();
+	       return a_array;
+	  }
+
+	  if(PyGSL_STRIDE_RECALC(a_array->strides[0], type_size, stride) == GSL_SUCCESS){
+	       /* everybody happy I hope! */
+	       if((flag & PyGSL_CONTIGUOUS) == 1){
+		    /* 
+		     *  just a check to see ... could be disabled later on when
+		     *  the code is tested a little
+		     */
+		    if(*stride != 1){
+			 line = __LINE__ - 1;
+			 gsl_error("Stride not one of a contiguous array!",
+				   filename, line, GSL_ESANITY);
+			 goto fail;
+		    }
+	       }
+	       FUNC_MESS_END();
+	       return a_array;
+	  }
+     
+     
+	  /* Lets try to see if it makes sense to meake a copy */
+	  DEBUG_MESS(2, "Stride recalc failed type size is  %ld, array stride[0] is %ld",
+		     (long)type_size, (long)a_array->strides[0]);
+
+	  if((flag & PyGSL_CONTIGUOUS) == 1){
+	       line = __LINE__ - 1;
+	       gsl_error("Why does the stride recalc fail for a contigous array?",
+			 filename, line, GSL_ESANITY);
+	       goto fail;
+	  } else {
+	       /* keep the flags, but demand contiguous this time */
+	       flag -= (flag & PyGSL_CONTIGUOUS);
+	       Py_DECREF(a_array);
+	  }    
+
+     }/* number of tries */
+     
+    /* handling failed stride recalc */
+     FUNC_MESS_END();
+
+     return a_array;
+     
+ fail:
+     FUNC_MESS("Fail");
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
+     Py_XDECREF(a_array);
+     return NULL;
+
+}
+
+
+
+static PyArrayObject *
+PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t size2, 
+		   int array_type, int type_size, int flag, int argnum,
+		   PyGSL_array_index_t *stride1, PyGSL_array_index_t *stride2, PyGSL_error_info * info)
+{
+     int line=-1, tmp, tries, j;
+     PyArrayObject * a_array = NULL;
+     PyGSL_array_index_t * stride;
+
+     FUNC_MESS_BEGIN();
+     /*
+      * numpy arrays are which are non contiguous can have a stride which does
+      * not match the basis type. In this case the conversion is repeated and 
+      * a contiguous array is demanded.
+      */
+     for(tries = 0; tries <2; ++tries){
+	  a_array = PyGSL_PyArray_prepare_gsl_matrix_view(src, array_type, flag, size1, size2, argnum, info);
+	  if(a_array == NULL){
+	       line = __LINE__ - 2;
+	       goto fail;
+	  }
+
+	  for(j = 0; j<2; ++j){
+	       switch(j){
+	       case 0:  stride = stride1; break;
+	       case 1:  stride = stride2; break;
+	       default: assert(0);
+	       }
+
+	       if(stride == NULL){
+		    /* no one interested in the stride. lets check the other one ... */
+		    continue;
+	       }
+
+	       if(PyGSL_STRIDE_RECALC(a_array->strides[j], type_size, stride) == GSL_SUCCESS){
+		    /* everybody happy I hope! */
+		    if((flag & PyGSL_CONTIGUOUS) == 1){
+			 /* 
+			  *  just a check to see ... could be disabled later on when
+			  *  the code is tested a little
+			  */
+			 if(*stride != 1){
+			      line = __LINE__ - 1;
+			      gsl_error("Stride not one of a contiguous array!",
+				   filename, line, GSL_ESANITY);
+			      goto fail;
+			 }
+		    }
+	       } else {         
+		    /* Lets try to see if it makes sense to meake a copy */
+		    DEBUG_MESS(2, "Stride recalc failed type size is  %ld, array stride[0] is %ld",
+			       (long)type_size, (long)a_array->strides[j]);
+		    
+		    if((flag & PyGSL_CONTIGUOUS) == 1){
+			 line = __LINE__ - 1;
+			 gsl_error("Why does the stride recalc fail for a contigous array?",
+				   filename, line, GSL_ESANITY);
+			 goto fail;
+		    } else {
+			 /* keep the flags, but demand contiguous this time */
+			 flag -= (flag & PyGSL_CONTIGUOUS);
+			 Py_DECREF(a_array);
+		    }
+	       } /* recalc stride or try again */    
+	  } /* check strides */
+     }/* number of tries */
+     
+    /* handling failed stride recalc */
+     FUNC_MESS_END();
+
+     return a_array;
+
+
+ fail:
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
+     Py_XDECREF(a_array);
+     return NULL;
+     
+}
+
 
 #ifdef PyGSL_NUMPY
 #include "block_helpers_numpy.ic"
