@@ -9,34 +9,34 @@ static PyObject *
 PyGSL_wavelet_getattr(PyGSL_wavelet *self, const char * name);
 
 PyTypeObject PyGSL_wavelet_pytype = {
-  PyObject_HEAD_INIT(NULL)	 /* fix up the type slot in init */
-  0,				 /* ob_size */
-  "PyGSL_wavelet",		 /* tp_name */
-  sizeof(PyGSL_wavelet),	 /* tp_basicsize */
-  0,				 /* tp_itemsize */
+	PyObject_HEAD_INIT(NULL)	 /* fix up the type slot in init */
+	0,				 /* ob_size */
+	"PyGSL_wavelet",		 /* tp_name */
+	sizeof(PyGSL_wavelet),	 /* tp_basicsize */
+	0,				 /* tp_itemsize */
 
-  /* standard methods */
-  (destructor)  PyGSL_wavelet_dealloc, /* tp_dealloc  ref-count==0  */
-  (printfunc)   0,		         /* tp_print    "print x"     */
-  (getattrfunc) PyGSL_wavelet_getattr,  /* tp_getattr  "x.attr"      */
-  (setattrfunc) 0,		 /* tp_setattr  "x.attr=v"    */
-  (cmpfunc)     0,		   /* tp_compare  "x > y"       */
-  (reprfunc)    0,                 /* tp_repr     `x`, print x  */
+	/* standard methods */
+	(destructor)  PyGSL_wavelet_dealloc, /* tp_dealloc  ref-count==0  */
+	(printfunc)   0,		         /* tp_print    "print x"     */
+	(getattrfunc) PyGSL_wavelet_getattr,  /* tp_getattr  "x.attr"      */
+	(setattrfunc) 0,		 /* tp_setattr  "x.attr=v"    */
+	(cmpfunc)     0,		   /* tp_compare  "x > y"       */
+	(reprfunc)    0,                 /* tp_repr     `x`, print x  */
+	
+	/* type categories */
+	0,				/* tp_as_number   +,-,*,/,%,&,>>,pow...*/
+	0,				/* tp_as_sequence +,[i],[i:j],len, ...*/
+	0,				/* tp_as_mapping  [key], len, ...*/
 
-  /* type categories */
-  0,				/* tp_as_number   +,-,*,/,%,&,>>,pow...*/
-  0,				/* tp_as_sequence +,[i],[i:j],len, ...*/
-  0,				/* tp_as_mapping  [key], len, ...*/
-
-  /* more methods */
-  (hashfunc)     0,		/* tp_hash    "dict[x]" */
-  (ternaryfunc)  0,             /* tp_call    "x()"     */
-  (reprfunc)     0,             /* tp_str     "str(x)"  */
-  (getattrofunc) 0,		/* tp_getattro */
-  (setattrofunc) 0,		/* tp_setattro */
-  0,				/* tp_as_buffer */
-  0L,				/* tp_flags */
-  (char *) PyGSL_wavelet_type_doc		/* tp_doc */
+	/* more methods */
+	(hashfunc)     0,		/* tp_hash    "dict[x]" */
+	(ternaryfunc)  0,             /* tp_call    "x()"     */
+	(reprfunc)     0,             /* tp_str     "str(x)"  */
+	(getattrofunc) 0,		/* tp_getattro */
+	(setattrofunc) 0,		/* tp_setattro */
+	0,				/* tp_as_buffer */
+	0L,				/* tp_flags */
+	(char *) PyGSL_wavelet_type_doc		/* tp_doc */
 };
 
 /*
@@ -51,8 +51,8 @@ PyGSL_wavelet_dealloc(PyGSL_wavelet *self)
 {
 	FUNC_MESS_BEGIN();
 	assert(PyGSL_WAVELET_CHECK(self));
-	assert(self->wavelet);
-	gsl_wavelet_free(self->wavelet);
+	if(self->wavelet)
+		gsl_wavelet_free(self->wavelet);
 	self->wavelet = NULL;
 	FUNC_MESS_END();
 }
@@ -127,7 +127,8 @@ static PyMethodDef PyGSL_wavelet_methods[] = {
 
 
 static PyObject *
-PyGSL_wavelet_getattr(PyGSL_wavelet *self, const char * name){
+PyGSL_wavelet_getattr(PyGSL_wavelet *self, const char * name)
+{
 	PyObject *tmp;
 	FUNC_MESS_BEGIN();
 	assert(PyGSL_WAVELET_CHECK(self));
@@ -155,17 +156,17 @@ PyGSL_wavelet_init(PyObject *self, PyObject *args, const gsl_wavelet_type *type)
 		goto fail;
 	}
 	if((o->wavelet = gsl_wavelet_alloc(type, n)) == NULL){
-	     /* 
-	      * If the wrong parameter n is given, it will call GSL_ERROR
-	      * and return NULL. I hope it does that in case of no memory as
-	      * well. The installed error handler will then call
-	      *	PyErr_NoMemory();
-	      */
-	     goto fail;
+		/* 
+		 * If the wrong parameter n is given, it will call GSL_ERROR()
+		 * and return NULL. I hope it does that in case of no memory as
+		 * well. The installed error handler will then call
+		 *	PyErr_NoMemory();
+		 */
+		goto fail;
 	}
 	FUNC_MESS_END();
 	return (PyObject *) o;
-
+	
  fail:
 	FUNC_MESS("Fail");
 	Py_XDECREF(o);
@@ -190,3 +191,10 @@ PyGSL_WAVELET_INIT(haar)
 PyGSL_WAVELET_INIT(haar_centered)
 PyGSL_WAVELET_INIT(bspline)
 PyGSL_WAVELET_INIT(bspline_centered)
+
+/*
+ * Local Variables:
+ * mode: C
+ * c-file-style: "python"
+ * End:
+ */
