@@ -12,16 +12,14 @@
  *     where the gsl library is statically linked to the various 
  *     modules.    
  */
-
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_ieee_utils.h>
-#include <gsl/gsl_version.h>
-#include <Python.h>
 #define  _PyGSL_API_MODULE 1
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_ieee_utils.h>
+#include <gsl/gsl_version.h>
 /* Taken from Modules/getbuildinfo */
 #ifndef DATE
 #ifdef __DATE__
@@ -183,6 +181,7 @@ PyGSL_init_api(void)
      _PyGSL_API[PyGSL_register_debug_flag_NUM                  ] = (void *) & PyGSL_register_debug_flag                  ;
      _PyGSL_API[PyGSL_vector_or_double_NUM                     ] = (void *) & PyGSL_vector_or_double                     ;
      _PyGSL_API[PyGSL_warning_NUM                              ] = (void *) & PyGSL_warning                              ;
+     _PyGSL_API[PyGSL_pyint_to_int_NUM                         ] = (void *) & PyGSL_pyint_to_int                         ;
      
 }
 
