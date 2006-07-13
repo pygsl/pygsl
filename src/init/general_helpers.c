@@ -41,14 +41,14 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 	  name_o = PyObject_GetAttrString(callback, "func_name");
      }
      if (name_o == NULL){
-	 PyErr_SetString(PyExc_ValueError, 
+	 PyErr_SetString(PyExc_AttributeError, 
 			 "While I was treating an errornous callback object,"
 			 " I found that it had no attribute '__name__'!");
 	 GSL_ERROR("Could not get the name of the callback!", GSL_EBADFUNC);
 	 goto fail;
      }
      if(!PyString_Check(name_o)){
-	  PyErr_SetString(PyExc_ValueError, 
+	  PyErr_SetString(PyExc_TypeError, 
 			  " For an errornous callback object,"  
 			  " the attribute '__name__' was not a Python string!");
 	 GSL_ERROR("Nameobject of the callback was not a string!", GSL_EBADFUNC);
@@ -111,6 +111,7 @@ PyGSL_pylong_to_uint(PyObject *object, unsigned int *result, PyGSL_error_info *i
      return flag;
 }
 
+
 PyGSL_API_EXTERN int 
 PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info *info)
 {
@@ -126,7 +127,7 @@ PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info 
 	      info->error_description = msg;
 	      return PyGSL_set_error_string_for_callback(info);
 	 }
-	 GSL_ERROR(msg, GSL_EBADFUNC);
+	 GSL_ERROR(msg, GSL_EINVAL);
      }
 
      *result   = PyLong_AsUnsignedLong(object1);
@@ -137,6 +138,39 @@ PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info 
 
      PyGSL_INCREASE_float_transform_counter();
 
+     return GSL_SUCCESS;
+}
+
+PyGSL_API_EXTERN int 
+PyGSL_pyint_to_int(PyObject *object, int *result, PyGSL_error_info *info)
+{
+     
+     PyObject *object1;
+     char *msg="The object returned to the GSL Function could not be converted to int";
+     long tmp;
+
+     FUNC_MESS_BEGIN();
+     object1 = PyNumber_Int(object);
+     if(object1 == NULL){
+	 *result = INT_MIN;
+	 if(info){
+	      info->error_description = msg;
+	      return PyGSL_set_error_string_for_callback(info);
+	 }
+	 DEBUG_MESS(2, "Not from call back treatment, normal error. info = %p", info);
+	 GSL_ERROR(msg, GSL_EINVAL);
+     }
+
+     tmp = PyInt_AsLong(object1);
+     if(tmp > INT_MAX)
+	  GSL_ERROR("Number too big for int", GSL_EINVAL);
+     else if (tmp < INT_MIN)
+	  GSL_ERROR("Number too small for int", GSL_EINVAL);
+
+     *result = (int) tmp;
+     DEBUG_MESS(3, "found a int of %d\n", *result);
+     Py_DECREF(object1);
+     FUNC_MESS_END();
      return GSL_SUCCESS;
 }
 
