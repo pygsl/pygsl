@@ -236,6 +236,23 @@ class LinalgTestCase(GSLTestCase):
         result = arrayCompare(x, [1.0,1.0], 5)
         self.failUnless(result)
 
+    def testSolve_tridiag(self):
+        # Thanks to bruce for the test
+        diag = ones((3,), Float)
+        subd = zeros((2,), Float)
+        supd = zeros((2,), Float)
+        rhs = array([1, 2, 3], Float)
+        trivial_1 = solve_symm_tridiag(diag, subd, rhs)
+        trivial_2 = solve_tridiag(diag, supd, subd, rhs)
+
+        test = (trivial_1 - trivial_2)
+        result = arrayIsZero(test)
+        self.failUnless(result)
+        subd[1] = 100
+        asymm = solve_tridiag(diag, supd, subd, rhs)
+        result = arrayIsZero(asymm)
+        self.failUnless(not result)
+
     def testSolve_symm_tridiag(self):
         diag = array([1.0,1,1,1])
         e = array([2.0,2,2])
