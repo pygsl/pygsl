@@ -102,7 +102,8 @@ static void **PyGSL_API;
 
 #define PyGSL_error_string_for_callback_NUM            45
 
-#define PyGSL_NENTRIES_NUM                             46
+#define PyGSL_pyint_to_int_NUM                         46
+#define PyGSL_NENTRIES_NUM                             47
 #ifndef _PyGSL_API_MODULE
 #endif /* _PyGSL_API_MODULE */
 
