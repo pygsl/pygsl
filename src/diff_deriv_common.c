@@ -1,6 +1,10 @@
-#if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION > 4)
+#if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION < 5)
+#define _PYGSL_HAS_DERIV 0
+#else 
 #define _PYGSL_HAS_DERIV 1
 #endif 
+#include <pygsl/error_helpers.h>
+#include <pygsl/function_helpers.h>
 
 #ifdef  _PYGSL_HAS_DERIV 
 #include <gsl/gsl_deriv.h>
@@ -15,10 +19,7 @@
 #include <gsl/gsl_diff.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_math.h>
-#include <Python.h>
 
-#include <pygsl/error_helpers.h>
-#include <pygsl/function_helpers.h>
 #include <setjmp.h>
 /* 
  * callback functions
