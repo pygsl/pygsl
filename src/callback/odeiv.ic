@@ -12,7 +12,10 @@
  *  - Added jmp buffer to PyGSL_odeiv_parameter_pass as 
  *   GSL does not honour the return value of func and jac.
  */
-#include <stdio.h>
+#include <pygsl/utils.h>
+#include <pygsl/profile.h>
+#include <pygsl/general_helpers.h>
+#include <pygsl/block_helpers.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <gsl/gsl_odeiv.h>
@@ -20,10 +23,6 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_blas.h>
-#include <pygsl/utils.h>
-#include <pygsl/profile.h>
-#include <pygsl/general_helpers.h>
-#include <pygsl/block_helpers.h>
 #include <setjmp.h>
 
 typedef struct
@@ -326,7 +325,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     PyObject *t_o = NULL;
     PyArrayObject *volatile y0 = NULL, *volatile yout = NULL, *volatile ts = NULL;
     double t1=0, t2=0, h=0, flag;
-    double t;
+    double t, hmax=GSL_POSINF;
 
     gsl_odeiv_step *s=NULL;
     gsl_odeiv_control *con=NULL;
@@ -342,8 +341,8 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 
     FUNC_MESS_BEGIN();
     sys.params = &params;
-    if(!PyArg_ParseTuple(args, "OOOOOdOdOO|ii", &step, &control, &evolve,
-			  &func_o, &jac_o, &t, &t_o, &h, &y0_o, &myargs, &nsteps)){
+    if(!PyArg_ParseTuple(args, "OOOOOdOdOO|id", &step, &control, &evolve,
+			  &func_o, &jac_o, &t, &t_o, &h, &y0_o, &myargs, &nsteps, &hmax)){
 	 line = __LINE__ - 2;
 	 goto fail;
     }
@@ -507,6 +506,9 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	      DEBUG_MESS(3, "\r step %3d -> t = % 8.6e h = % 8.6e", j, t, h);
 	      r = gsl_odeiv_evolve_apply(e, con, s, &sys, &t, t1, &h,
 					 gsl_vector_ptr(&vy1.vector, 0));
+	      if(h>hmax){
+		   h=hmax;
+	      }
 	      DEBUG_MESS(3, "  stepped to  t = % 8.6e h = % 8.6e", t, h);
 	      if(r == GSL_EINVAL)
 		   fprintf(stderr, "\n invalid %3d t =% 8.6e t1 =% 8.6e,  h = % 8.6e\n", j, t,t1, h);
