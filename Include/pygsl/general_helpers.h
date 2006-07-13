@@ -38,6 +38,9 @@ PyGSL_pylong_to_ulong(PyObject *object, unsigned long *result, PyGSL_error_info 
 PyGSL_API_EXTERN int 
 PyGSL_pylong_to_uint(PyObject *object, unsigned int *result, PyGSL_error_info *info);
 
+PyGSL_API_EXTERN int 
+PyGSL_pyint_to_int(PyObject *object,  int *result, PyGSL_error_info *info);
+
 /*
  * Checks following conditions:
  *  For No Arguments: Got Py_None and No Error
@@ -62,11 +65,13 @@ PyGSL_clear_name(char *name, int size);
 #define PyGSL_set_error_string_for_callback\
   (*(int (*) (PyGSL_error_info *))                            PyGSL_API[PyGSL_error_string_for_callback_NUM])
 #define PyGSL_pyfloat_to_double\
- (*((int (*)(PyObject *, double *, PyGSL_error_info *))        PyGSL_API[PyGSL_pyfloat_to_double_NUM]))
+ (*(int (*)(PyObject *, double *, PyGSL_error_info *))        PyGSL_API[PyGSL_pyfloat_to_double_NUM])
 #define PyGSL_pylong_to_ulong\
  (*(int (*)(PyObject *, unsigned long *, PyGSL_error_info *))  PyGSL_API[PyGSL_pylong_to_ulong_NUM])
 #define PyGSL_pylong_to_uint\
  (*(int (*)(PyObject *, unsigned int *, PyGSL_error_info *))   PyGSL_API[PyGSL_pylong_to_uint_NUM])
+#define PyGSL_pyint_to_int\
+ (*(int (*)(PyObject *, int *, PyGSL_error_info *))   PyGSL_API[PyGSL_pyint_to_int_NUM])
 #define PyGSL_check_python_return \
  (*(int (*) (PyObject *object, int, PyGSL_error_info  *))     PyGSL_API[PyGSL_check_python_return_NUM])
 #define PyGSL_clear_name          (*(void (*)(char *, int))   PyGSL_API[PyGSL_clear_name_NUM])
@@ -86,6 +91,12 @@ PyGSL_clear_name(char *name, int size);
   ?                                                        \
    ((*(result))   = (unsigned int) PyLong_AsUnsignedLong((object)), GSL_SUCCESS) \
   :  PyGSL_pylong_to_uint((object),  (result), (info))  
+
+#define PyGSL_PYINT_TO_INT(object, result, info)        \
+  ( PyInt_Check((object)) )                               \
+  ?                                                        \
+   ((*(result))   = (int) PyInt_AsLong((object)), GSL_SUCCESS) \
+  :  PyGSL_pyint_to_int((object),  (result), (info))  
 
 #define PyGSL_PYFLOAT_TO_DOUBLE(object, result, info)      \
   ( PyFloat_Check((object)) )                              \
