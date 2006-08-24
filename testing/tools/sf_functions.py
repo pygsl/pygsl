@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+"""
+Generate sf_functions. 
+
+The prototype collector gets the include path to the gsl include directory.
+The the  number of functions not to wrap (exclude_list) are registered.
+
+Then the method generates the files.
+
+"""
 import string
 from extract_tool_ufunc import *
 import sys
@@ -51,4 +60,6 @@ exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and ou
                 'gsl_sf_legendre_H3d_array'
                 ]
 p.set_exclude_list(exclude_list)
-p.make_wrapper_and_index_file("sf_")
+#p.make_wrapper_and_index_file("sf_",  "gsl_complex_math.h")
+p.make_wrapper_and_index_file("sf_",  "gsl_complex_math.h", "gsl_sf.h")
+

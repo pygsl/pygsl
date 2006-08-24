@@ -1,3 +1,15 @@
+"""
+
+class prototype_collector generates code to wrap functions using only numerical
+arguments as UFuncs. This involves the following steps:
+
+    - searching for the header files and parsing them
+    - generating code required for the different functions
+
+    - writing the code for the different UFunc evaluators required for the
+      different types.
+      
+"""
 import re
 import string
 import os.path
@@ -19,49 +31,135 @@ class prototype_collector:
 
     def set_exclude_list(self, mylist):
         self.exclude_list = mylist
-        
-    def determine_headers(self,prefix=None):
+
+    def make_wrapper_and_index_file(self, filename, *search_patterns):
         """
-        determines the header files
+        The main worker.
+        
+        Reads the header files using get_prototypes. This sets up a
+        representation of the different prototypes as PyUFunc objects. 
+        These objects are then used to write the different parts of the
+        wrapper. The files for the different parts are listed below:
+        
+        _index.c    : entries for the PyMethodstable for the sf module
+        _data.c     : static data for the different Ufunc evaluators
+        _ufuncs.txt : lists which ufunc is used to evaluate which function
+        _evals.c    : the different evaluators
+
+        First it writes the (static) information for wrapping the different functions.
+
+        Then it generates a list of the different required UFunc evaluation functions
+        and generates the code for them. Each evaluator can be used for all the different
+        functions with the same prototype.
+        
+        """
+        prototypes=self.get_prototypes(*search_patterns)
+        index_file = file(filename+"_index.c","w")
+        data_file = file(filename+"_data.c","w")
+        objects_file = file(filename+"_objects.c","w")
+        ufuncs_list =  file(filename+"_ufuncs.txt","w")
+        evaluators = file(filename + "_evals.c", "w")
+        ufunc_names_dic = {}
+
+        for p in  prototypes[:]:            
+            if p.get_name() in self.exclude_list:
+                continue
+            index_entry=p.make_function_entry()
+            if index_entry is not None:
+                try:
+                    a_py_ufunc =  p.make_wrapper_function()
+                    data_file.write(a_py_ufunc.WriteStaticData()+"\n")
+                    #objects_file.write("{\n")
+                    objects_file.write(a_py_ufunc.WriteUFuncObject()+"\n")
+                    #objects_file.write("}\n")
+                    index_file.write(index_entry+",\n")
+                except RuntimeError, message:
+                    print message
+                ufunc_names = a_py_ufunc.GetPyUFuncEvaluatorNames()    
+                for name in ufunc_names:
+                    print name
+                    if not ufunc_names_dic.has_key(name):
+                        ufunc_names_dic[name] = []
+                    ufunc_names_dic[name].append(a_py_ufunc)                  
+            else:
+                print "No index entry for", p.get_name()
+                    
+        index_file.close()
+        names = ufunc_names_dic.keys()
+        names.sort()
+        for i in names:
+            ufuncs_list.write(i + ": ");
+            l = map(lambda x: x.GetName(), ufunc_names_dic[i])
+            l.sort()
+            ufuncs_list.write(string.join(l, ", "))
+            ufuncs_list.write("\n")
+            
+        for methods in ((objects_file, lambda x: x.WriteUFuncObjectHelpersArrayData(),),
+                        (data_file, lambda x: x.WriteUFuncObjectHelpers(),),                        
+                        (evaluators, lambda x: x.GetTypeDef(), lambda x: x.GetEvaluator())):
+            for i in names:
+                fake = self.fake_test.search(i)
+                obj = ufunc_names_dic[i][0]
+                if not fake:        
+                    #evaluators.write("\n/* obj name = ->%s<-, name = ->%s<- */\n" % (obj.GetName(), i))
+                    for m in methods[1:]:
+                        methods[0].write(m(obj) + "\n")
+                        
+        objects_file.close()
+        evaluators.close()
+        data_file.close()
+
+    def get_prototypes(self, *patterns):
+        """
+        Get the function prototypes from the files
+        """
+        file_name_list=self.determine_headers(*patterns)
+        all_prototypes=[]
+        for file_name in file_name_list:
+            print "Processing file %s" %(file_name, )
+            new_prototypes=self.get_prototypes_from_file(file_name)
+            all_prototypes.extend(new_prototypes)
+        return all_prototypes
+        
+    def determine_headers(self, *patterns):
+        """
+        returns a list of header files of special functions.
+        
+        searches for the header file "<gsl/gsl_sf.h>" for the special functions
+        of the GSL library and generates a list of all the gsl_sf_*.h files
+        included there.
         """
 
         #prepare file names
         general_include_dir_name=self.prefix
-        general_include_file_name=os.path.join(general_include_dir_name,"gsl","gsl_sf.h")
 
-        #test if exists
-        if not os.path.isfile(general_include_file_name):
-            raise Exception,"could not find general header file"
-
-        #parse file for includes
-        general_include_file=file(general_include_file_name,"r")
         sf_header_list=[]
-        include_pattern=re.compile("#\s*include\s+[\"<](.+)[\">].*")
-        a_line=general_include_file.readline()
-        while a_line:
-            # if line is matching
-            include_match=include_pattern.match(a_line)
-            if include_match:
-                new_header_name=os.path.join(general_include_dir_name,include_match.group(1))
-                if os.path.isfile(new_header_name):
-                    sf_header_list.append(new_header_name)
-                else:
-                    print ("could not find header %s",new_header_name)
-            
-            a_line=general_include_file.readline()
-        general_include_file.close()
+        for pattern in patterns:
+            general_include_file_name=os.path.join(general_include_dir_name, "gsl", pattern)
 
+            #test if exists
+            if not os.path.isfile(general_include_file_name):
+                raise Exception,"could not find general header file '%s'" % (general_include_file_name,)
+
+            #parse file for includes
+            general_include_file=file(general_include_file_name,"r")
+            include_pattern=re.compile("#\s*include\s+[\"<](.+)[\">].*")
+            a_line=general_include_file.readline()
+            while a_line:
+                # if line is matching
+                include_match=include_pattern.match(a_line)
+                if include_match:
+                    new_header_name=os.path.join(general_include_dir_name,include_match.group(1))
+                    if os.path.isfile(new_header_name):
+                        sf_header_list.append(new_header_name)
+                    else:
+                        print ("could not find header %s",new_header_name)
+
+                a_line=general_include_file.readline()
+            general_include_file.close()
+            sf_header_list.append(general_include_file_name)
         return sf_header_list
 
-    def get_prototypes(self):
-        """
-        """
-        file_name_list=self.determine_headers(self.prefix)
-        all_prototypes=[]
-        for file_name in file_name_list:
-            new_prototypes=self.get_prototypes_from_file(file_name)
-            all_prototypes.extend(new_prototypes)
-        return all_prototypes
 
     def get_prototypes_from_file(self, include_file_name):
         """
@@ -94,65 +192,10 @@ class prototype_collector:
             if tmp.get_name() not in self.exclude_list:
                 prototype_list.append(tmp)
         return prototype_list
-
-    def make_wrapper_and_index_file(self,filename):
-
-        prototypes=self.get_prototypes()
-        index_file = file(filename+"_index.c","w")
-        data_file = file(filename+"_data.c","w")
-        objects_file = file(filename+"_objects.c","w")
-        ufuncs_list =  file(filename+"_ufuncs.txt","w")
-        evaluators = file(filename + "_evals.c", "w")
-        ufunc_names_dic = {}
-        for p in  prototypes[:]:
-            if p.name in self.exclude_list:
-                continue
-            index_entry=p.make_function_entry()
-            if index_entry is not None:
-                try:
-                    a_py_ufunc =  p.make_wrapper_function()
-                    data_file.write(a_py_ufunc.WriteStaticData()+"\n")
-                    #objects_file.write("{\n")
-                    objects_file.write(a_py_ufunc.WriteUFuncObject()+"\n")
-                    #objects_file.write("}\n")
-                    index_file.write(index_entry+",\n")
-                except RuntimeError, message:
-                    print message
-                ufunc_names = a_py_ufunc.GetPyUFuncEvaluatorNames()    
-                for name in ufunc_names:
-                    if not ufunc_names_dic.has_key(name):
-                        ufunc_names_dic[name] = []
-                    ufunc_names_dic[name].append(a_py_ufunc)                  
-
-
-        index_file.close()
-        names = ufunc_names_dic.keys()
-        names.sort()
-        for i in names:
-            ufuncs_list.write(i + ": ");
-            l = map(lambda x: x.GetName(), ufunc_names_dic[i])
-            l.sort()
-            ufuncs_list.write(string.join(l, ", "))
-            ufuncs_list.write("\n")
-            
-        for methods in ((objects_file, lambda x: x.WriteUFuncObjectHelpersArrayData(),),
-                        (data_file, lambda x: x.WriteUFuncObjectHelpers(),),                        
-                        (evaluators, lambda x: x.GetTypeDef(), lambda x: x.GetEvaluator())):
-            for i in names:
-                fake = self.fake_test.search(i)
-                obj = ufunc_names_dic[i][0]
-                if not fake:        
-                    #evaluators.write("\n/* obj name = ->%s<-, name = ->%s<- */\n" % (obj.GetName(), i))
-                    for m in methods[1:]:
-                        methods[0].write(m(obj) + "\n")
-                        
-        objects_file.close()
-        evaluators.close()
-        data_file.close()
-        
+                
 class sf_prototype:
     """
-    contains all necessary informations about this prototype
+    contains all necessary informations about the prototype
     and can contain code for it
     """
 
@@ -210,6 +253,10 @@ class sf_prototype:
         if matched_name_stem is None:
             matched_name_stem=re.match("gsl_sf_(.+?)$",self.name)
             self.use_return_value = 1
+        if matched_name_stem is None:
+            # Try if it is a complex function
+            matched_name_stem=re.match("gsl_complex_(.+?)$",self.name)
+            self.use_return_value = 1            
         if  matched_name_stem is None:
             return None
         name_stem=matched_name_stem.group(1)
@@ -218,7 +265,7 @@ class sf_prototype:
 
     def make_wrapper_function(self):
         """
-        define function for gsl wrapper library
+        define function for gsl wrapper library using PyUFunc objects
         """
 
 
