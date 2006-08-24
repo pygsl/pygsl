@@ -30,15 +30,13 @@
 	  PyErr_SetString(PyExc_TypeError, "Expected a sequence of two arrays! Number of sequence arguments did not match!");
 	  goto fail;
      }
-     _PyVector_1$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	  PySequence_GetItem($input, 0), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, $argnum, NULL);
+     _PyVector_1$argnum = PyGSL_vector_check(PySequence_GetItem($input, 0), -1, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector_1$argnum == NULL)
 	  goto fail;
 
      mysize = _PyVector_1$argnum->dimensions[0];
 
-     _PyVector_2$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	   PySequence_GetItem($input, 1), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, mysize, $argnum+1, NULL);
+     _PyVector_2$argnum = PyGSL_vector_check(PySequence_GetItem($input, 1), mysize, PyGSL_DARRAY_CINPUT($argnum+1), NULL, NULL);
      if (_PyVector_2$argnum == NULL)
 	  goto fail;
 
@@ -59,8 +57,7 @@
 %};
 %typemap(in) (const double *, size_t ) {
      int mysize = 0;
-     _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	  $input, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, $argnum, NULL);
+     _PyVector$argnum = PyGSL_vector_check($input, -1, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
 
