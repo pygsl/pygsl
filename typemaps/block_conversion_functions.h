@@ -32,6 +32,8 @@ typedef unsigned short ushort;
  * I have no idea why all these braces are necessary, but apparently they are
  * necessary for correct functioning.
  */
+
+#if 0    
 #define PyGSL_VECTOR_CONVERT(input, output, pyvector, vectorview, flag, basetype, argnum, stride)\
    (( \
        ((pyvector =  PyGSL_PyArray_PREPARE_gsl_vector_view(input, basetype ## _py_array_type, \
@@ -45,6 +47,7 @@ typedef unsigned short ushort;
 	 GSL_SUCCESS) \
      : \
      (GSL_FAILURE))
+
 
 #define PyGSL_MATRIX_CONVERT(input, output, pyvector, matrixview, flag, basetype, argnum, stride)\
    (( \
@@ -61,7 +64,35 @@ typedef unsigned short ushort;
 	 GSL_SUCCESS) \
      : \
      (GSL_FAILURE))
+#else
 
+#define PyGSL_VECTOR_CONVERT(input, output, pyvector, vectorview, flag, basetype, argnum, stride)\
+( \
+     ((pyvector =  PyGSL_vector_check(input, -1, \
+                  PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | flag,  basetype ## _py_array_type, \
+                                         sizeof(basetype ## _basis_type), argnum), \
+                  stride, NULL)) != NULL) \
+ ? \
+	 (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
+                                                           *(stride), pyvector->dimensions[0]),\
+         output =  (basetype *) &(vectorview.vector), \
+	 GSL_SUCCESS) \
+     : \
+     (GSL_FAILURE))
+
+#define PyGSL_MATRIX_CONVERT(input, output, pyvector, matrixview, flag, basetype, argnum, stride)\
+( \
+     ( ((pyvector =  PyGSL_matrix_check(input, -1, -1, PyGSL_BUILD_ARRAY_INFO(PyGSL_CONTIGUOUS | flag, \
+		   basetype ## _py_array_type, sizeof(basetype ## _basis_type), argnum), NULL, stride, NULL)) != NULL) &&\
+         ((*(stride) == 1))) \
+ ? \
+	 (matrixview = TYPE_VIEW_ARRAY_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
+                                                    pyvector->dimensions[0], pyvector->dimensions[1]),\
+         output =  (basetype *) &(matrixview.matrix), \
+	 GSL_SUCCESS) \
+     : \
+     (GSL_FAILURE))
+#endif
 #define PyGSL_VECTOR_GENERATE(input, output, pyvector, vectorview, flag, basetype, argnum, stride)\
    ((\
      ((pyvector = PyGSL_PyArray_generate_gsl_vector_view(input,  basetype ## _py_array_type, argnum)) != NULL) \

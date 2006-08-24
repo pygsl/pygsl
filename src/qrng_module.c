@@ -1,9 +1,8 @@
+#include <pygsl/utils.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/utils.h>
 #include <gsl/gsl_qrng.h>
-
+#include <pygsl/error_helpers.h>
 #include "qrng_module_defines.h"
 static PyObject *module = NULL;
 
@@ -196,8 +195,9 @@ qrng_reinit(PyGSL_qrng *self, PyObject *args)
 static PyObject *
 qrng_get(PyGSL_qrng *self, PyObject *args)
 {
-     int dimension = 1, lineno=0, dims[2];
+     int dimension = 1, lineno=0;
      PyArrayObject *a_array;
+     PyGSL_array_index_t dims[2];
      double *data;
      int i;
 
@@ -214,7 +214,7 @@ qrng_get(PyGSL_qrng *self, PyObject *args)
      }
      dims[0] = dimension;
      dims[1] = self->qrng->dimension;
-     DEBUG_MESS(5, "Building return array with dimensions (%d,%d)", dims[0], dims[1]);
+     DEBUG_MESS(5, "Building return array with dimensions (%ld,%ld)", (long)dims[0], (long)dims[1]);
      a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
      if(a_array == NULL){lineno = __LINE__ - 1; goto fail;}
      DEBUG_MESS(5, "Its strides are (%d,%d)", a_array->strides[0], a_array->strides[1]);
@@ -299,7 +299,6 @@ init_qrng(void)
 
      m = Py_InitModule("_qrng", PyGSL_qrng_module_functions);
      init_pygsl();
-     import_array();
 
 
      assert(m);

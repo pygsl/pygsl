@@ -66,7 +66,7 @@
 %}
 %typemap(in) gsl_vector * IN  %{
      {
-	  int stride=0;
+	  PyGSL_array_index_t stride=0;
 	  if(PyGSL_VECTOR_CONVERT($input, $1, _PyVector$argnum, _vector$argnum,
 				  PyGSL_INPUT_ARRAY, $1_basetype, $argnum, &stride) != GSL_SUCCESS){
 	       goto fail;
@@ -75,7 +75,7 @@
 %}
 %typemap(in) gsl_vector * INOUT  %{
      {
-	  int stride=0;
+	  PyGSL_array_index_t stride=0;
 	  if(PyGSL_VECTOR_CONVERT($input, $1, _PyVector$argnum, _vector$argnum,
 				  PyGSL_IO_ARRAY, $1_basetype, $argnum, &stride) != GSL_SUCCESS){
 	       goto fail;
@@ -90,7 +90,8 @@
  */
 %typemap(in) gsl_vector * IN_ONLY_SIZE %{
      {
-	  int stride, flag;
+	  PyGSL_array_index_t stride;
+	  int flag;
 	  _vector$argnum.vector.data = NULL;
 	  flag = PyGSL_VECTOR_GENERATE($input, $1, _PyVector$argnum, _vector$argnum,
 					PyGSL_OUTPUT_ARRAY, $1_basetype, $argnum, &stride);
@@ -110,7 +111,7 @@
  */
 %typemap( argout) gsl_vector * INOUT {
      assert(_PyVector$argnum != NULL);
-     $result = t_output_helper($result,  PyArray_Return(_PyVector$argnum));
+     $result = t_output_helper($result,  PyGSL_array_return(_PyVector$argnum));
      _PyVector$argnum = NULL;
      FUNC_MESS_END();
 }
@@ -124,11 +125,12 @@
 /* ------------------------------------------------------------------------- */
 %typemap(out) gsl_vector_view {
      PyArrayObject * out = NULL; 
-     $1_basetype vectmp; int tmp;
+     $1_basetype vectmp; 
+     PyGSL_array_index_t tmp;
      if(PyGSL_VECTORVIEW_COPY(out, $1, $1_basetype, vectmp, tmp) != GSL_SUCCESS){
 	  goto fail;
      }
-     $result = PyArray_Return(out);
+     $result = PyGSL_array_return(out);
 }
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
@@ -144,7 +146,7 @@
 
 %typemap(in) gsl_matrix * IN  %{
      {
-	  int stride;
+	  PyGSL_array_index_t stride;
 	  if(PyGSL_MATRIX_CONVERT($input, $1, _PyMatrix$argnum, _matrix$argnum,
 				  PyGSL_INPUT_ARRAY, $1_basetype, $argnum, &stride) != GSL_SUCCESS)
 	       goto fail;	  
@@ -152,7 +154,7 @@
 %}
 %typemap(in) gsl_matrix * INOUT  %{
      {
-	  int stride;
+	  PyGSL_array_index_t stride;
 	  if(PyGSL_MATRIX_CONVERT($input, $1, _PyMatrix$argnum, _matrix$argnum,
 				  PyGSL_IO_ARRAY, $1_basetype, $argnum, &stride) != GSL_SUCCESS)
 	       goto fail;	  
@@ -164,7 +166,7 @@
  * like them to mimic Numeric.ones and the like ...
  */
 %typemap(in) gsl_matrix * IN_ONLY_SIZE  {
-     int stride;
+	  PyGSL_array_index_t stride;
      if(PyGSL_MATRIX_GENERATE($input, $1, _PyMatrix$argnum, _matrix$argnum, PyGSL_OUTPUT_ARRAY, $1_basetype, $argnum, &stride) !=GSL_SUCCESS)
 	  goto fail;
 }
@@ -177,7 +179,7 @@
  */
 %typemap( argout) gsl_matrix * INOUT {
      assert((PyObject *) _PyMatrix$argnum != NULL);
-     $result = t_output_helper($result,  PyArray_Return(_PyMatrix$argnum));
+     $result = t_output_helper($result,  PyGSL_array_return(_PyMatrix$argnum));
      _PyMatrix$argnum = NULL;
      FUNC_MESS_END();
 }
