@@ -150,7 +150,8 @@ PyGSL_copy_halfcomplex_to_real(PyArrayObject *dst, PyArrayObject *src, double ep
 static int
 PyGSL_copy_array_to_array(PyArrayObject *dst, PyArrayObject *src,  enum pygsl_transform_mode mode)
 {
-	int n, n_check, stride1, stride2, size, flag, iscomplex=0;
+	int n, n_check,  size, flag, iscomplex=0;
+	PyGSL_array_index_t stride1, stride2;
 	gsl_vector_view d1, d2;
 	gsl_vector_float_view f1, f2;
 	gsl_vector_complex_view z1, z2;
@@ -260,17 +261,21 @@ _PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args, enum pygsl_
 
 	PyObject *a_o=NULL;
 	PyArrayObject *a=NULL, *r=NULL;
-	int i, n, rn;       
 	double *ddata, *dreal, *dimag;
         float *fdata, *freal, *fimag;
 	void *adata, *rdata;
-
+	PyGSL_array_info_t dinfo, finfo;
+	PyGSL_array_index_t n, rn, i;
 	FUNC_MESS_BEGIN();
 	if(!PyArg_ParseTuple(args, "O",&a_o))
 		return NULL;
-
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(a_o, PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_DOUBLE, PyArray_FLOAT), 
-						  PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+	
+	dinfo = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY,
+				       PyArray_DOUBLE, sizeof(double), 1);
+	finfo = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY,
+				       PyArray_FLOAT, sizeof(float), 1);
+	
+	a = PyGSL_vector_check(a_o, -1, PyGSL_TRANSFORM_MODE_SWITCH(mode, dinfo, finfo), NULL, NULL);
 	if(a == NULL)
 		goto fail;
 	n = a->dimensions[0];
@@ -373,7 +378,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 	const int type2 = PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_DOUBLE, PyArray_FLOAT);
 	FUNC_MESS_BEGIN();
 	/* Check if I got a return array */
-	if(!PyArray_Check(master)){
+	if(!PyGSL_array_check(master)){
 		line = __LINE__ - 1;
 		goto fail;
 	}
@@ -397,7 +402,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 			FUNC_MESS("Copying input to output array");
 			/* Check if it is an array of the approbriate size */
 			s = (PyArrayObject *) shadow;
-			if((PyArray_Check((PyObject *) s)) && (s->nd == 1) 
+			if((PyGSL_array_check((PyObject *) s)) && (s->nd == 1) 
 			   && (s->descr->type_num == m->descr->type_num) 
 			   && (s->dimensions[0] == m->dimensions[0])){
 				Py_INCREF(s);

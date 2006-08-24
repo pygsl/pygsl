@@ -1,11 +1,17 @@
-static const char  PyGSL_wavelet_type_doc[] = "XXX Missing!\n";
-static const char  PyGSL_wavelet_forward_doc[] = "XXX Missing!\n";
-static const char  PyGSL_wavelet_inverse_doc[] = "XXX Missing!\n";
+static const char  PyGSL_wavelet_type_doc[] = "a pygsl wavelet type\n";
+static const char  PyGSL_wavelet_forward_doc[] = "\n";
+static const char  PyGSL_wavelet_inverse_doc[] = "\n";
 static const char  PyGSL_transform_space_type_doc[] = "\
 A catch all of the various space types of the transform module. Call the method\n\
 'get_type' to find what object is wrapped underneath!\n\
 ";
-
+static const char ww_doc[] =
+"Wavelet workspace\n\
+\n\
+    required for storing intermediate data for the wavelet transform.\
+\n\
+Input:\n\
+     n ... Length of the data to transform";
 static const char fft_module_doc[] = "\
 Wrapper for the FFT Module of the GSL Library\n\
 \n\

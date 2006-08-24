@@ -116,7 +116,7 @@ static PyObject *
 PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyGSL_transform_space *args)
 {
 
-       int nf, i;                                                           
+       PyGSL_array_index_t nf, i;                                                           
        long *data=NULL;
        size_t *cp_data=NULL;
        PyArrayObject * a_array = NULL;					    

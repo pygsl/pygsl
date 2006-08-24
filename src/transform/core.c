@@ -137,8 +137,9 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	     line = __LINE__ - 1;
 	     goto fail;
 	}
-	m = PyGSL_PyArray_prepare_gsl_matrix_view(data, input_array_type, 2,
-						  -1, -1, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, NULL);
+	m = PyGSL_matrix_check(data, -1, -1, 
+			       PyGSL_BUILD_ARRAY_INFO(PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, input_array_type, 1, 2), 
+			       NULL, NULL, NULL);
 	if(m == NULL)
 	     goto fail;
 
@@ -169,6 +170,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	return NULL;
 }
 #endif /*  _PyGSL_HAS_WAVELET */
+
 /*
  * Catch all for all one dimensional functions.
  */
@@ -190,7 +192,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 *  computation in place into account and minimizes the necessary
 	 *  copies.
 	 */
-	int n=0, call_n=0, return_n=0, strides=0;
+	PyGSL_array_index_t n=0, call_n=0, return_n=0, strides=0;
 	const enum PyArray_TYPES  input_array_type=helps->info->input_array_type, 
 	     output_array_type=helps->info->output_array_type;
 
@@ -324,7 +326,8 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	DEBUG_MESS(3, "n_type = %d sizeofbasis = %d", n_type, sizeoftype);
 	{
 		const int io_type = ((ret == NULL) ? PyGSL_INPUT_ARRAY : PyGSL_IO_ARRAY) | PyGSL_NON_CONTIGUOUS;
-		if((a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, input_array_type, io_type, -1, 1, NULL)) == NULL){
+		a = PyGSL_vector_check(data, -1, PyGSL_BUILD_ARRAY_INFO(io_type, input_array_type, 1, 1), NULL, NULL);
+		if(a == NULL){
 			line = __LINE__ - 1;
 			goto fail;
 		}
@@ -345,8 +348,8 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			line = __LINE__ -1;
 			goto fail;
 		}
-		break;	
-#endif	
+		break;		
+#endif
 	case RADIX_FREE:
 		FUNC_MESS("Radix Free");
 		switch(mode){
@@ -407,7 +410,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		line = __LINE__ -1;
 		goto fail;
 	}
-	DEBUG_MESS(2, "Strides r->strides[0] %d strides = %d", r->strides[0], strides);
+	DEBUG_MESS(2, "Strides r->strides[0] %ld strides = %ld", (long)r->strides[0], (long)strides);
 	/* build the helpers if necessary */
 	switch(radix2){
 #ifdef _PyGSL_HAS_WAVELET
@@ -424,13 +427,12 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		/* No helpers needed! */ ;
 	}/* radix2 */
 
-        if(PyGSL_DEBUG_LEVEL() > 0) {
-		if(PyGSL_Check_Array_Length(r, call_n, datatype, n_type) != GSL_SUCCESS){
-			line = __LINE__ -1;
-			goto fail;
-		}
+#if DEBUG > 0	
+	if(PyGSL_Check_Array_Length(r, call_n, datatype, n_type) != GSL_SUCCESS){
+		line = __LINE__ -1;
+		goto fail;
 	}
-
+#endif 
 	vdata = (void *) r->data;
 	if(call_offset!=0){
 		switch(datatype){
@@ -445,14 +447,16 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		FUNC_MESS("Transform free length");
 		assert(helps->helpers->table);
 		assert(helps->helpers->space);
-		DEBUG_MESS(3, "vdata = %f, strides = %d, call_n = %d",  *((double *)(vdata)), strides, call_n);	
+		DEBUG_MESS(3, "vdata = %f, strides = %ld, call_n = %ld", 
+			   *((double *)(vdata)), (long) strides, (long) call_n);	
 		if(PyGSL_ERROR_FLAG(helps->transform.free(vdata, strides, call_n,
 							  helps->helpers->table, 
 							  helps->helpers->space)) != GSL_SUCCESS){
 			line = __LINE__ -1;
 			goto fail;
 		}
-		DEBUG_MESS(3, "Transformed: r->data[0] = %f, strides = %d, call_n = %d", *((double *)(r->data)), strides, call_n);
+		DEBUG_MESS(3, "Transformed: r->data[0] = %f, strides = %ld, call_n = %ld", 
+			   *((double *)(r->data)), (long)strides, (long)call_n);
 		break;
 	case RADIX_TWO:
 		FUNC_MESS("Tranform radix2");

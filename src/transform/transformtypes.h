@@ -17,6 +17,27 @@
  * transform.
  */
 
+/* ------------------------------------------------------------------------- */
+/*
+ * One Python type is used to encapsulate all the different workspaces. This
+ * enum allows the C Code to destinquish between the different types.
+ */
+
+enum pygsl_transform_space_type{
+	NOSPACE=0,
+	COMPLEX_WORKSPACE,
+	REAL_WORKSPACE,
+	COMPLEX_WAVETABLE,
+	REAL_WAVETABLE,
+	HALFCOMPLEX_WAVETABLE,
+	COMPLEX_WORKSPACE_FLOAT,
+	REAL_WORKSPACE_FLOAT,
+	COMPLEX_WAVETABLE_FLOAT,
+	REAL_WAVETABLE_FLOAT,
+	HALFCOMPLEX_WAVETABLE_FLOAT,
+	WAVELET_WORKSPACE
+};
+
 #if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION > 5)
 #define _PyGSL_HAS_WAVELET 1
 #endif
@@ -38,27 +59,6 @@
 #undef backward
 #else /* _PyGSL_HAS_WAVELET */
 #endif /* _PyGSL_HAS_WAVELET */
-
-
-/* ------------------------------------------------------------------------- */
-/*
- * One Python type is used to encapsulate all the different workspaces. This
- * enum allows the C Code to destinquish between the different types.
- */
-enum pygsl_transform_space_type{
-	NOSPACE=0,
-	COMPLEX_WORKSPACE,
-	REAL_WORKSPACE,
-	COMPLEX_WAVETABLE,
-	REAL_WAVETABLE,
-	HALFCOMPLEX_WAVETABLE,
-	COMPLEX_WORKSPACE_FLOAT,
-	REAL_WORKSPACE_FLOAT,
-	COMPLEX_WAVETABLE_FLOAT,
-	REAL_WAVETABLE_FLOAT,
-	HALFCOMPLEX_WAVETABLE_FLOAT,
-	WAVELET_WORKSPACE
-};
 
 /*
  * Here the corresponding union to address the pointer as the proper type.
@@ -130,8 +130,7 @@ enum pygsl_packed_type{
 
 typedef int transform(void * data, size_t stride, size_t N, const void *, void *);
 typedef int transform_r2(void * data, size_t stride, size_t N);
-
-#ifdef _PyGSL_HAS_WAVELET 
+#ifdef  _PyGSL_HAS_WAVELET
 typedef int wavelet(const gsl_wavelet * W, double *data, size_t stride, size_t N, void *);
 typedef int wavelet2d(const gsl_wavelet * W, gsl_matrix *m, void *);
 #endif
@@ -144,7 +143,7 @@ typedef void * pygsl_transform_help_t(void *);
 union transforms{
 	transform *free;
 	transform_r2 *radix2;
-#ifdef _PyGSL_HAS_WAVELET 
+#ifdef  _PyGSL_HAS_WAVELET
 	wavelet *wavelet;
 	wavelet2d *wavelet2d;
 #endif
@@ -230,7 +229,6 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps);
 /*
  * Currently only wavelets provide a 2 dimensional transform
  */
-
 static PyObject *
 PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps);
 
