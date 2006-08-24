@@ -25,7 +25,7 @@ pygsl_poly_eval(PyObject *self, PyObject *args)
 {
   PyObject  *array_o = NULL, *x_o;
   PyArrayObject *array = NULL, *x = NULL, *y = NULL;
-
+  PyGSL_array_index_t dimension;
   int i;
   double *input, *output;
 
@@ -34,11 +34,14 @@ pygsl_poly_eval(PyObject *self, PyObject *args)
   if(! PyArg_ParseTuple(args, "OO", &array_o, &x_o)){
       return NULL;
   }
-  array = PyGSL_PyArray_PREPARE_gsl_vector_view(array_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+  array = PyGSL_vector_check(array_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if (array == NULL) goto fail;
 
   x =  PyGSL_vector_or_double(x_o, PyGSL_INPUT_ARRAY, -1, 1, NULL);
-  y =  PyGSL_New_Array(x->nd, x->dimensions, PyArray_DOUBLE);
+  if(x == NULL) goto fail;
+  dimension = x->dimensions[0];
+  y =  PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+  if(y == NULL) goto fail;
 
   for(i = 0; i<x->dimensions[0]; i++){
        input  = ((double *) (x->data + x->strides[0] * i));
@@ -68,17 +71,18 @@ pygsl_poly_dd_init(PyObject *self, PyObject *args)
   PyObject * result = NULL, *xa_o = NULL, *ya_o = NULL;
   PyArrayObject *xa = NULL, *ya = NULL, *dd=NULL;
 
-  int dimension, r;
+  PyGSL_array_index_t dimension;
+  int r;
 
   FUNC_MESS_BEGIN();
 
   if(! PyArg_ParseTuple(args, "OO", &xa_o, &ya_o)){
       return NULL;
   }
-  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+  xa = PyGSL_vector_check(xa_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if (xa == NULL) goto fail;
   dimension = xa->dimensions[0];
-  ya = PyGSL_PyArray_PREPARE_gsl_vector_view(ya_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 2, NULL);
+  ya = PyGSL_vector_check(ya_o, dimension, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if (ya == NULL) goto fail;
   dd = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
   if (dd == NULL) goto fail;
@@ -122,11 +126,11 @@ pygsl_poly_dd_eval(PyObject *self, PyObject *args)
   }
   FUNC_MESS("    Array BEGIN");
   FUNC_MESS("    xa");
-  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+  xa = PyGSL_vector_check(xa_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if (xa == NULL) goto fail;
   dimension = xa->dimensions[0];
   FUNC_MESS("    dd");
-  dd = PyGSL_PyArray_PREPARE_gsl_vector_view(dd_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
+  dd = PyGSL_vector_check(dd_o,  -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if (dd == NULL) goto fail;
   FUNC_MESS("    Call gsl");
   y = gsl_poly_dd_eval ((double *) dd->data, 
@@ -154,19 +158,20 @@ pygsl_poly_dd_taylor(PyObject *self, PyObject *args)
   PyObject * result = NULL, *xa_o = NULL, *dd_o = NULL, *wa_o = NULL;
   PyArrayObject *xa = NULL, *dd=NULL, *wa = NULL, *c=NULL;
   double xp;
-  int dimension, r, nline=-1;
+  PyGSL_array_index_t dimension;
+  int r, nline=-1;
 
   FUNC_MESS_BEGIN();
 
   if(! PyArg_ParseTuple(args, "dOOO", &xp, &dd_o, &xa_o, &wa_o)){
       return NULL;
   }
-  dd = PyGSL_PyArray_PREPARE_gsl_vector_view(dd_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+  dd = PyGSL_vector_check(dd_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if (dd == NULL) {nline = __LINE__ -1; goto fail;}
   dimension = dd->dimensions[0];
-  xa = PyGSL_PyArray_PREPARE_gsl_vector_view(xa_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 2, NULL);
+  xa = PyGSL_vector_check(xa_o, dimension, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if (xa == NULL)  {nline = __LINE__ -1; goto fail;}
-  wa = PyGSL_PyArray_PREPARE_gsl_vector_view(wa_o, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 3, NULL);
+  wa = PyGSL_vector_check(wa_o, dimension, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
   if (wa == NULL)  {nline = __LINE__ -1; goto fail;}
   c = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
   if (c == NULL)  {nline = __LINE__ -1; goto fail;}
@@ -202,11 +207,13 @@ extern int gsl_poly_complex_solve (const double * A, size_t N,
 static PyObject *
 pygsl_poly_complex_solve(PyObject *self, PyObject *args)
 {
+
   PyObject *result = NULL, *a_o = NULL, *w =NULL;
   PyArrayObject *a = NULL, *za = NULL; 
 
+  PyGSL_array_index_t dimension, za_dimension;
+  int r;
 
-  int r, dimension, za_dimension;
   gsl_poly_complex_workspace * ws = NULL;
   
   FUNC_MESS_BEGIN();
@@ -219,7 +226,7 @@ pygsl_poly_complex_solve(PyObject *self, PyObject *args)
     goto fail;
   }
 
-  a = PyGSL_PyArray_PREPARE_gsl_vector_view(a_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
+  a = PyGSL_vector_check(a_o, -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if (a == NULL) goto fail;
   dimension = a->dimensions[0];
   za_dimension = dimension - 1;

@@ -81,7 +81,7 @@
 
   PyObject *tolist(){
        PyObject *a_list = NULL, *a_int;
-       long size = 0, i;
+       PyGSL_array_index_t size = 0, i;
 
        size = (long) gsl_permutation_size(self);
        a_list = PyList_New(size);
@@ -101,7 +101,7 @@
   PyObject *toarray(){
        PyArrayObject * a_array = NULL;
        long *data;
-       int size, i;
+       PyGSL_array_index_t size, i;
 
        size = (int) gsl_permutation_size(self);
        a_array = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_LONG);

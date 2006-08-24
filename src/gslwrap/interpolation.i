@@ -49,7 +49,7 @@ typedef struct
 %};
 
 %typemap(in) (const double *, const double *, size_t ) {
-     int mysize = 0;
+     PyGSL_array_index_t mysize = 0;
      if(!PySequence_Check($input)){
 	  PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
 	  goto fail;
@@ -58,15 +58,13 @@ typedef struct
 	  PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
 	  goto fail;
      }
-     _PyVector_1$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	  PySequence_Fast_GET_ITEM($input, 0), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, $argnum, NULL);
+     _PyVector_1$argnum = PyGSL_vector_check(PySequence_Fast_GET_ITEM($input, 0), -1, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector_1$argnum == NULL)
 	  goto fail;
 
      mysize = _PyVector_1$argnum->dimensions[0];
 
-     _PyVector_2$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	   PySequence_Fast_GET_ITEM($input, 1), PyArray_DOUBLE,  PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, mysize, $argnum+1, NULL);
+     _PyVector_2$argnum = PyGSL_vector_check(PySequence_Fast_GET_ITEM($input, 1), mysize, PyGSL_DARRAY_CINPUT($argnum+1), NULL, NULL);
      if (_PyVector_2$argnum == NULL)
 	  goto fail;
 
@@ -86,9 +84,8 @@ typedef struct
      PyArrayObject *_PyVector$argnum = NULL;
 %};
 %typemap(in) (const double *, size_t ) {
-     int mysize = 0;
-     _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	  $input, PyArray_DOUBLE,  PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, $argnum, NULL);
+     PyGSL_array_index_t mysize = 0;
+     _PyVector$argnum = PyGSL_vector_check($input, -1, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
 
@@ -109,8 +106,7 @@ typedef struct
      _input$argnum = $input;
 };
 %typemap(check) (const double * array) {
-     _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	  _input$argnum, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, $argnum, NULL);
+     _PyVector$argnum = PyGSL_vector_check(_input$argnum, _gslinterp_size, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
      $1 = (double *)(_PyVector$argnum->data);
@@ -272,8 +268,7 @@ gsl_interp_free(gsl_interp * interp);
 %};
 /* moved to check as I need the size of the interpolation! */
 %typemap(in) (const double x_array[]) {
-     _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view(
-	  $input, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, $argnum, NULL);
+     _PyVector$argnum = PyGSL_vector_check($input, -1, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
      $1 = (double *)(_PyVector$argnum->data);

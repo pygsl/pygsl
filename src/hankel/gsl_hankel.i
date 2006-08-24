@@ -18,7 +18,6 @@
 
 
 %init {
-  import_array();
   init_pygsl();
 }
 typedef unsigned int size_t;
@@ -68,12 +67,12 @@ struct gsl_dht_struct
   PyObject * apply(PyObject *in){
        PyArrayObject *a_in = NULL, *a_out = NULL;
        PyObject *resultobj = NULL, *returnobj = NULL;
-       int size = -1;
+       PyGSL_array_index_t size = -1;
        int result;
 
        size = (int) self->size;
 
-       a_in = PyGSL_PyArray_PREPARE_gsl_vector_view(in, PyArray_DOUBLE, 1, size, 1, NULL);
+       a_in = PyGSL_vector_check(in, size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
        if (a_in == NULL)        
 	    goto fail;
 

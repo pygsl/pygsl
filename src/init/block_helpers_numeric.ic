@@ -1,6 +1,6 @@
 /* -*- C -*- */
 static PyArrayObject *
-PyGSL_New_Array(int nd, int *dimensions, int type)
+PyGSL_New_Array(int nd,  PyGSL_array_index_t *dimensions, int type)
 {
      return (PyArrayObject *) PyArray_FromDims(nd, dimensions, type);
      gsl_error("This function should not be called as a macro calls the"
@@ -12,8 +12,6 @@ PyGSL_New_Array(int nd, int *dimensions, int type)
 static PyArrayObject *
 PyGSL_Copy_Array(PyArrayObject *ob, int type)
 {
-     int nd;
-     nd = ob->nd;
      if(!PyArray_Check((PyObject *) ob)){
 	  gsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
@@ -21,11 +19,27 @@ PyGSL_Copy_Array(PyArrayObject *ob, int type)
      return (PyArrayObject *) PyArray_Copy(ob);
 }
 
+
+#define __PyGSL_NUMERIC_FLAGS 0x000000000001
+#define __PyGSL_FLAG_CHECK(flag, flag_bit)  (flag_bit & (flag & __PyGSL_NUMERIC_FLAGS))
+#define __PyGSL_CONTIGUOUS_CHECK(flag) (flag, PyGSL_CONTIGUOUS)
+
+#define __PyGSL_ARRAY_CONVERT(object, array_type, ndtest, flag)                             \
+       ( PyArray_Check((object)) )                                                          \
+    && ( ((PyArrayObject *) (object))->nd == ndtest )                                       \
+    && ( ((PyArrayObject *) (object))->descr->type_num == (array_type))                     \
+    && ( ( (flag &  PyGSL_CONTIGUOUS) == 0 )|| ((((PyArrayObject *) (object))->flags) & CONTIGUOUS) ) \
+   ?                                                                                        \
+    Py_INCREF( (object) ), ( (PyArrayObject *) (object))                                    \
+ :                                                                                          \
+    NULL	 
+#define PyGSL_VECTOR_CONVERT(src, array_type, flag) __PyGSL_ARRAY_CONVERT(src, array_type, 1, flag)
+#define PyGSL_MATRIX_CONVERT(src, array_type, flag) __PyGSL_ARRAY_CONVERT(src, array_type, 2, flag)
+
 static PyArrayObject * 
-PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
-				      int array_type,
-				      int flag, 
-				      long size, int argnum, PyGSL_error_info * info)
+PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src, int array_type, int flag,
+				      PyGSL_array_index_t size, int argnum, 
+				      PyGSL_error_info * info)
 {
      PyArrayObject * a_array = NULL;
      int line = -1;
@@ -57,14 +71,12 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
 }
 
 static PyArrayObject *
-PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
-				      int array_type,
-				      int flag, 
-				      long size1, long size2, int argnum, 
-				      PyGSL_error_info * info)
+PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src, int array_type, int flag,
+				      PyGSL_array_index_t size1, PyGSL_array_index_t size2,
+				      int argnum, PyGSL_error_info * info)
 {
      PyArrayObject * a_array = NULL;
-     long dimensions[2];
+     PyGSL_array_index_t dimensions[2];
 
      if ((flag & PyGSL_CONTIGUOUS) == 0){
 	  FUNC_MESS("\t Looking for NON Contiguous Matrix");

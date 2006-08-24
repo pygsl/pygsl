@@ -92,18 +92,26 @@ static void **PyGSL_API;
 #define PyGSL_solver_func_set_NUM                      38
 
 #define PyGSL_function_wrap_OnOn_On_NUM                39
-#define PyGSL_function_wrap_On_O_NUM                   40
-#define PyGSL_function_wrap_Op_On_NUM                  41
-#define PyGSL_solver_n_set_NUM                         42
-#define PyGSL_solver_set_f_NUM                         43
+#define PyGSL_function_wrap_Op_On_Opn_NUM              40
+#define PyGSL_function_wrap_On_O_NUM                   41
+#define PyGSL_function_wrap_Op_On_NUM                  42
+#define PyGSL_function_wrap_Op_Opn_NUM                 43
+#define PyGSL_solver_n_set_NUM                         44
+#define PyGSL_solver_set_f_NUM                         45
+#define PyGSL_solver_getset_NUM                        46
+
+/* to be resorted */
+#define PyGSL_vector_check_NUM                         50
+#define PyGSL_matrix_check_NUM                         51
+#define PyGSL_array_check_NUM                          52
 
 /* Add Debug Number */
-#define PyGSL_register_debug_flag_NUM                  44
+#define PyGSL_register_debug_flag_NUM                  61
 
-#define PyGSL_error_string_for_callback_NUM            45
+#define PyGSL_error_string_for_callback_NUM            62
 
-#define PyGSL_pyint_to_int_NUM                         46
-#define PyGSL_NENTRIES_NUM                             47
+#define PyGSL_pyint_to_int_NUM                         63
+#define PyGSL_NENTRIES_NUM                             64
 #ifndef _PyGSL_API_MODULE
 #endif /* _PyGSL_API_MODULE */
 

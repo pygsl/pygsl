@@ -1,7 +1,10 @@
 /* -*- C -*- */
 static PyArrayObject *
-PyGSL_New_Array(int nd, int *dimensions, int type)
+PyGSL_New_Array(int nd,  PyGSL_array_index_t *dimensions, int type)
 {
+     return NA_Empty(nd, dimensions, type);
+
+     /*
      maybelong tmp[2];
      if (nd > 2){
 	  gsl_error("This function must not be called to create an array with more than two dimensions!",
@@ -16,7 +19,8 @@ PyGSL_New_Array(int nd, int *dimensions, int type)
      tmp[0] = dimensions[0];
      if(nd == 2)
 	  tmp[1] = dimensions[1];
-     return NA_Empty(nd, tmp, type);
+     maybelong tmp[2];
+     */
 
 }
 
@@ -31,6 +35,18 @@ PyGSL_Copy_Array(PyArrayObject *ob, int type)
      }
      return (PyArrayObject *) NA_copy(ob);
 }
+
+
+
+
+#define PyGSL_ARRAY_CONVERT(src, array_type, nd, flag) \
+         PyGSL_nummarray_convert(src, array_type, flag)
+
+#define PyGSL_VECTOR_CONVERT(src, array_type, flag) \
+         PyGSL_ARRAY_CONVERT(src, array_type, 1, flag)
+
+#define PyGSL_MATRIX_CONVERT(src, array_type, flag) \
+         PyGSL_ARRAY_CONVERT(src, array_type, 2, flag)
 
 static PyArrayObject * 
 PyGSL_nummarray_convert(PyObject *src, int array_type, int flag)
@@ -74,7 +90,7 @@ static PyArrayObject *
 PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
 				      int array_type,
 				      int flag, 
-				      long size, int argnum, PyGSL_error_info * info)
+				      PyGSL_array_index_t size, int argnum, PyGSL_error_info * info)
 {
      PyArrayObject * a_array = NULL;
      int line=-1;
@@ -102,14 +118,13 @@ PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
 }
 
 static PyArrayObject *
-PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
-				      int array_type,
+PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src, int array_type,
 				      int flag, 
-				      long size1, long size2, int argnum, 
+				      PyGSL_array_index_t size1, PyGSL_array_index_t size2, int argnum, 
 				      PyGSL_error_info * info)
 {
      PyArrayObject * a_array = NULL;
-     long dimensions[2];
+     PyGSL_array_index_t dimensions[2];
 
      FUNC_MESS_BEGIN();
      if(!NA_NumArrayCheckExact(src))

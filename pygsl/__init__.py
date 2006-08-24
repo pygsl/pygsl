@@ -95,6 +95,31 @@ if _numobj.nummodule == "numpy":
 else:
     get_typecode = get_typecode_default
 
+
+
+try:
+    Int =  _numobj.Int
+except  AttributeError:
+    # For numpy 1.0b
+    Int = _numobj.int_
+
+try:
+    Float = _numobj.Float
+except  AttributeError:
+    # For numpy 1.0b
+    Float = _numobj.float_
+
+try:
+    Complex = _numobj.Complex
+except  AttributeError:
+    # For numpy 1.0b
+    Complex = _numobj.complex_
+
+try:
+    ArrayType = _numobj.ArrayType
+except AttributeError:
+    # For numpy 1.0b
+    ArrayType = _numobj.ndarray
     
 def array_typed_copy(array, code = None):
     """

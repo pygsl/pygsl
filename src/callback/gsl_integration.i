@@ -149,7 +149,7 @@ int gsl_integration_qags (const gsl_function *  BUFFER,
      PyArrayObject * volatile _PyVector$argnum = NULL;
 %}
 %typemap(in) (double *pts, size_t npts) %{
-     _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, $argnum, NULL);
+     _PyVector$argnum = PyGSL_vector_check($input, -1, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
      $1 = (double*)(_PyVector$argnum->data);

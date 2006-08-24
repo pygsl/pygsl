@@ -305,8 +305,8 @@ histogram_histogram2d_set_ranges(PyObject *self, PyObject *ranges)
   y_o=PySequence_GetItem(ranges,1);
   if(x_o == NULL || y_o == NULL)
        goto fail;
-  xranges = PyGSL_PyArray_prepare_gsl_vector_view(x_o, PyArray_DOUBLE, PyGSL_INPUT_ARRAY| PyGSL_CONTIGUOUS, -1, 1, NULL); 
-  yranges = PyGSL_PyArray_prepare_gsl_vector_view(y_o, PyArray_DOUBLE, PyGSL_INPUT_ARRAY| PyGSL_CONTIGUOUS, -1, 1, NULL); 
+  xranges = PyGSL_vector_check(x_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL); 
+  yranges = PyGSL_vector_check(y_o, -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL); 
 
   if(xranges == NULL)
 	  goto fail;
@@ -342,8 +342,8 @@ histogram_histogram2d_plot_data(PyObject *self, PyObject *args)
 {
      gsl_histogram2d *histogram;
      PyArrayObject *x_a = NULL, *y_a = NULL, *h_a = NULL;
-     int nx, ny, i, j, dim[2], testsize, index;
-     
+     PyGSL_array_index_t nx, ny, i, j, dim[2], testsize, index;
+
      if((histogram = PyGSL_HIST2D_GET(self)) == NULL)
 	  goto fail;
 

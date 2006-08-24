@@ -18,8 +18,8 @@ void
 gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 
 %typemap(arginit) gsl_multifit_linear_workspace * work_provide %{
-     int _work_provide_n_$1_name = -1;
-     int _work_provide_p_$1_name = -1;
+     PyGSL_array_index_t _work_provide_n_$1_name = -1;
+     PyGSL_array_index_t _work_provide_p_$1_name = -1;
 %}
 %typemap( in) gsl_multifit_linear_workspace *  work_provide {
      if ((SWIG_ConvertPtr($input, (void **) &$1, SWIGTYPE_p_gsl_multifit_linear_workspace,1)) == -1){
@@ -32,21 +32,19 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
      /* All done in check as the workspace stores the information about the required size */
 %}
 %typemap(check) gsl_vector * OUT {
-	  int stride;
+          PyGSL_array_index_t stride;
 
 	  _PyVector$argnum = (PyArrayObject *) PyGSL_New_Array(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
           if(NULL == _PyVector$argnum){
                goto fail;
           }
 	  
-	  
 	  if(PyGSL_STRIDE_RECALC(_PyVector$argnum->strides[0], sizeof(BASIS_TYPE($1_basetype)), &stride) != GSL_SUCCESS)
 	       goto fail;
-                                                                                                                                                
+
           _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype((BASIS_C_TYPE($1_basetype) *) _PyVector$argnum->data,
                                                                 stride,
                                                                 _PyVector$argnum->dimensions[0]);
-                                                                                                                                                
           $1 = ($basetype *) &(_vector$argnum.vector);
 
 }
@@ -54,7 +52,7 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 %typemap(check) gsl_matrix * OUT {
 	  PyArrayObject * a_array;
 
-	  int stride_recalc=0, dimensions[2];
+	  PyGSL_array_index_t stride_recalc=0, dimensions[2];
 	  dimensions[0] = _work_provide_p_work_provide;
 	  dimensions[1] = _work_provide_p_work_provide;
 	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, PyArray_DOUBLE);
@@ -99,19 +97,16 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 %}
 
 %typemap(in)  (double * ,  size_t ){
-     int strides;
+     PyGSL_array_index_t strides, size;
      /* This should be a preprocessor directive. */
      if ( '$1_name' == 'x' )
-	  _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, PyArray_DOUBLE, 
-								   PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, $argnum, NULL);
+	  size = -1;
      else
-	  _PyVector$argnum = PyGSL_PyArray_PREPARE_gsl_vector_view($input, PyArray_DOUBLE, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
-								   _PyVectorLengthx , $argnum, NULL);
-     
+	  size = _PyVectorLengthx;
+     _PyVector$argnum = PyGSL_vector_check($input, size, PyGSL_DARRAY_INPUT($argnum), &strides, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
-     if(PyGSL_STRIDE_RECALC(_PyVector$argnum->strides[0], sizeof(double), &strides) != GSL_SUCCESS)
-	  goto fail;
+
      $1 = (double *) (_PyVector$argnum->data);
      $2 = (size_t) strides;
      _PyVectorLength$1_name = (size_t) _PyVector$argnum->dimensions[0];

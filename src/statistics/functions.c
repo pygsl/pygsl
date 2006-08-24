@@ -34,19 +34,20 @@ statistics_t_A(PyObject *self, PyObject *args, STATMOD_C_TYPE (*pointer)(const S
     PyObject *input = NULL, *r; 
     PyArrayObject *data; 
     STATMOD_C_TYPE  result;
-    int stride=1, n, flag; 
+    PyGSL_array_index_t stride=1, n;
+    PyGSL_array_info_t info;
+    int flag; 
     
+    FUNC_MESS_BEGIN();
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, STATMOD_APPEND_PYC_TYPE(PyArray_), PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
-    if(data == NULL) 
-	return NULL;
-
-    if(PyGSL_STRIDE_RECALC(data->strides[0], sizeof(STATMOD_C_TYPE), &stride)!= GSL_SUCCESS){
-	Py_DECREF(data);
-	return NULL;
-    }
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+				  STATMOD_APPEND_PYC_TYPE(PyArray_), 
+				  sizeof(STATMOD_C_TYPE), 1);
+    data = PyGSL_vector_check(input, -1, info, &stride, NULL);
+    if(data == NULL)
+	 return NULL;
 
     n = data->dimensions[0];
     result = pointer((STATMOD_C_TYPE *)data->data, (size_t) stride, (size_t) n);
@@ -57,6 +58,7 @@ statistics_t_A(PyObject *self, PyObject *args, STATMOD_C_TYPE (*pointer)(const S
 	r = PyFloat_FromDouble((double) result);
     else
 	r = PyInt_FromLong((long) result);
+    FUNC_MESS_END();
     return r;
 }
 
@@ -66,19 +68,22 @@ statistics_tt_A(PyObject *self, PyObject *args, void (*pointer)(STATMOD_C_TYPE *
     PyObject *input = NULL, *r; 
     PyArrayObject *data; 
     STATMOD_C_TYPE result1, result2;
-    long stride=1, n; 
+    PyGSL_array_index_t stride=1, n;
+    PyGSL_array_info_t info;
     int flag;
+
+    FUNC_MESS_BEGIN();
 
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, STATMOD_APPEND_PYC_TYPE(PyArray_), PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+				  STATMOD_APPEND_PYC_TYPE(PyArray_), 
+				  sizeof(STATMOD_C_TYPE), 1);
+    data = PyGSL_vector_check(input, -1, info, &stride, NULL);
     if(data == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data->strides[0], sizeof(STATMOD_C_TYPE), &stride) != GSL_SUCCESS){
-	Py_XDECREF(data); return NULL;
-    }
 
     n = data->dimensions[0];
     pointer(&result1, &result2, (STATMOD_C_TYPE *)data->data, (size_t) stride, (size_t) n);
@@ -93,6 +98,7 @@ statistics_tt_A(PyObject *self, PyObject *args, void (*pointer)(STATMOD_C_TYPE *
 	PyTuple_SET_ITEM(r, 0, PyInt_FromLong((long) result1));
 	PyTuple_SET_ITEM(r, 1, PyInt_FromLong((long) result2));
     }
+    FUNC_MESS_END();
     return r;
 }
 
@@ -300,7 +306,6 @@ DL_EXPORT(void) init ## type (void) \
 { \
     FUNC_MESS_BEGIN(); \
     Py_InitModule(typestr, STATMOD_APPEND_PYC_TYPE(StatisticsMethods_)); \
-    import_array(); \
     init_pygsl(); \
     import_pygsl_stats(); \
     FUNC_MESS_END(); \

@@ -20,6 +20,8 @@
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_ieee_utils.h>
 #include <gsl/gsl_version.h>
+
+
 /* Taken from Modules/getbuildinfo */
 #ifndef DATE
 #ifdef __DATE__
@@ -167,8 +169,10 @@ PyGSL_init_api(void)
      _PyGSL_API[PyGSL_stride_recalc_NUM                        ] = (void *) & PyGSL_stride_recalc                        ;
      _PyGSL_API[PyGSL_PyArray_new_NUM                          ] = (void *) & PyGSL_New_Array                            ;
      _PyGSL_API[PyGSL_PyArray_copy_NUM                         ] = (void *) & PyGSL_Copy_Array                           ;
+/*
      _PyGSL_API[PyGSL_PyArray_prepare_gsl_vector_view_NUM      ] = (void *) & PyGSL_PyArray_prepare_gsl_vector_view      ;
      _PyGSL_API[PyGSL_PyArray_prepare_gsl_matrix_view_NUM      ] = (void *) & PyGSL_PyArray_prepare_gsl_matrix_view      ;
+*/
      _PyGSL_API[PyGSL_PyArray_generate_gsl_vector_view_NUM     ] = (void *) & PyGSL_PyArray_generate_gsl_vector_view     ;
      _PyGSL_API[PyGSL_PyArray_generate_gsl_matrix_view_NUM     ] = (void *) & PyGSL_PyArray_generate_gsl_matrix_view     ;
      _PyGSL_API[PyGSL_copy_pyarray_to_gslvector_NUM            ] = (void *) & PyGSL_copy_pyarray_to_gslvector            ;
@@ -182,7 +186,10 @@ PyGSL_init_api(void)
      _PyGSL_API[PyGSL_vector_or_double_NUM                     ] = (void *) & PyGSL_vector_or_double                     ;
      _PyGSL_API[PyGSL_warning_NUM                              ] = (void *) & PyGSL_warning                              ;
      _PyGSL_API[PyGSL_pyint_to_int_NUM                         ] = (void *) & PyGSL_pyint_to_int                         ;
-     
+     _PyGSL_API[PyGSL_vector_check_NUM                         ] = (void *) & PyGSL_vector_check                         ;
+     _PyGSL_API[PyGSL_matrix_check_NUM                         ] = (void *) & PyGSL_matrix_check                         ;
+     _PyGSL_API[PyGSL_array_check_NUM                          ] = (void *) & PyGSL_array_check                          ;
+
 }
 
 DL_EXPORT(void) initinit(void)

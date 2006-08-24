@@ -12,21 +12,17 @@ PyGSL_statistics_d_A(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     double result;
-    long stride=1, n; 
-    
+    PyGSL_array_index_t stride=1, n; 
+    PyGSL_array_info_t info;
+
     FUNC_MESS_BEGIN();
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
-    if(data == NULL) 
-	return NULL;
-
-    
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, (int *) &stride) != GSL_SUCCESS){
-	 Py_XDECREF(data); 
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 1);
+    data = PyGSL_vector_check(input, -1, info, &stride, NULL);
+    if(data == NULL)
 	 return NULL;
-    }
 
     n = data->dimensions[0];
     result = pointer((void *)data->data, (size_t) stride, (size_t) n);
@@ -44,19 +40,16 @@ PyGSL_statistics_l_A(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     long result;
-    long stride=1, n; 
-    
+    PyGSL_array_index_t stride=1, n; 
+    PyGSL_array_info_t info;
+
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
-    if(data == NULL) 
-	return NULL;
-
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, (int *) &stride) != GSL_SUCCESS){
-	 Py_XDECREF(data); 
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 1);
+    data = PyGSL_vector_check(input, -1, info, &stride, NULL);
+    if(data == NULL)
 	 return NULL;
-    }
 
 
     n = data->dimensions[0]; 
@@ -74,19 +67,18 @@ PyGSL_statistics_d_Ad(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     double result, mean;
-    long stride=1, n; 
+    PyGSL_array_index_t stride=1, n; 
+    PyGSL_array_info_t info;
     
     if(!(PyArg_ParseTuple(args, "Od", &input, &mean))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 1);
+    data = PyGSL_vector_check(input, -1, info, &stride, NULL);
+
     if(data == NULL) 
 	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size,  (int *) &stride) != GSL_SUCCESS){
-	 Py_XDECREF(data); 
-	 return NULL;
-    }
 
 
     n = data->dimensions[0];
@@ -103,31 +95,28 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     PyObject *input1 = NULL, *input2 = NULL;
     PyArrayObject *data1=NULL, *data2=NULL;
     double result;
-    long stride1=1, stride2=1, n1;
+    PyGSL_array_index_t stride1=1, stride2=1, n1;
+    PyGSL_array_info_t info;
 
     FUNC_MESS_BEGIN();
     if(!(PyArg_ParseTuple(args, "OO", &input1, &input2))) 
 	return NULL;
 
-    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
-    if(data1 == NULL) 
-	return NULL;
 
-    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size,  (int *) &stride1) != GSL_SUCCESS){
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 1);
+    data1 = PyGSL_vector_check(input1, -1, info, &stride1, NULL);
+
+    if(data1 == NULL) 
 	 goto fail;
-    }
 
     n1 = data1->dimensions[0];
 
-
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input2, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 2);
+    data2 = PyGSL_vector_check(input2, n1, info, &stride2, NULL);
     if(data2 == NULL){
 	 goto fail;
     }
 
-    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, (int *) &stride2) != GSL_SUCCESS){
-	 goto fail;
-    }    
     DEBUG_MESS(3, "basis_type_size %d\t stride1 %ld\t stride2 %ld", basis_type_size, (long) stride1, (long) stride2);
     result = pointer((void *)data1->data, (size_t) stride1, (void *)data2->data, (size_t) stride2,  (size_t) n1);
     DEBUG_MESS(2, "result = %e", result);
@@ -152,40 +141,31 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
     PyObject *input1 = NULL, *input2 = NULL;
     PyArrayObject *data1=NULL, *data2=NULL;
     double result, mean;
-    long stride1=1, stride2=1;
-    long n1;
+    PyGSL_array_index_t stride1=1, stride2=1, n1;
+    PyGSL_array_info_t info;
  
     if(!(PyArg_ParseTuple(args, "OOd", &input1, &input2, &mean))) 
 	return NULL;
 
-    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
-    if(data1 == NULL) 
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 1);
+    data1 = PyGSL_vector_check(input1, -1, info, &stride1, NULL);
+    if(data1 == NULL){
 	return NULL;
-
-    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size,(int *) &stride1) != GSL_SUCCESS){
-	 goto fail;
     }
 
     n1 = data1->dimensions[0];
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 2);
+    data2 = PyGSL_vector_check(input2, n1, info, &stride2, NULL);
 
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input2, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
     if(data2 == NULL){
 	Py_XDECREF(data1); 
 	return NULL;
     }
-
-    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size,(int *) &stride2) != GSL_SUCCESS){
-	 goto fail;
-    }
-
     result = pointer((void *)data1->data, (size_t) stride1, (void *)data2->data, (size_t) stride2, (size_t) n1, mean);
     Py_DECREF(data1); 
     Py_DECREF(data2); 
     return PyFloat_FromDouble(result); 
- fail:
-    Py_XDECREF(data1);
-    Py_XDECREF(data2);
-    return NULL;
+
 }
 
 
@@ -198,40 +178,31 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
     PyObject *input1 = NULL, *input2 = NULL;
     PyArrayObject *data1=NULL, *data2=NULL;
     double result, mean1, mean2;
-    long stride1=1, stride2=1;
-    long n1;
+    PyGSL_array_index_t n1, stride1=1, stride2=1;
+    PyGSL_array_info_t info;
  
     if(!(PyArg_ParseTuple(args, "OOdd", &input1, &input2, &mean1, &mean2))) 
 	return NULL;
 
-    data1 = PyGSL_PyArray_PREPARE_gsl_vector_view(input1, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
-    if(data1 == NULL) 
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 1);
+    data1 = PyGSL_vector_check(input1, -1, info, &stride1, NULL);
+    if(data1 == NULL){
 	return NULL;
-
-    if(PyGSL_STRIDE_RECALC(data1->strides[0], basis_type_size, (int *) &stride1) != GSL_SUCCESS){
-	 goto fail;
     }
 
     n1 = data1->dimensions[0];
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 2);
+    data2 = PyGSL_vector_check(input2, n1, info, &stride2, NULL);
 
-    data2 = PyGSL_PyArray_PREPARE_gsl_vector_view(input2, array_type, PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, n1, 1, NULL);
     if(data2 == NULL){
 	Py_XDECREF(data1); 
 	return NULL;
-    }
-
-    if(PyGSL_STRIDE_RECALC(data2->strides[0], basis_type_size, (int *) &stride2) != GSL_SUCCESS){
-	 goto fail;
     }
 
     result = pointer((void *)data1->data, (size_t) stride1, (void *)data2->data, (size_t) stride2, (size_t) n1, mean1, mean2);
     Py_DECREF(data1); 
     Py_DECREF(data2); 
     return PyFloat_FromDouble(result); 
- fail:
-    Py_XDECREF(data1);
-    Py_XDECREF(data2);
-    return NULL;
 }
 
 
@@ -244,20 +215,17 @@ PyGSL_statistics_d_Add(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     double result, mean1, mean2;
-    long stride=1, n; 
+    PyGSL_array_index_t stride=1, n; 
+    PyGSL_array_info_t info;
     
     if(!(PyArg_ParseTuple(args, "Odd", &input, &mean1, &mean2))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, 0, -1, 1, NULL);
-    if(data == NULL) 
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 1);
+    data = PyGSL_vector_check(input, -1, info, &stride, NULL);
+    if(data == NULL){
 	return NULL;
-
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, (int *) &stride) != GSL_SUCCESS){
-	 Py_XDECREF(data); 
-	 return NULL;
     }
-
 
     n = data->dimensions[0];
     result = pointer((void *)data->data, (size_t) stride, (size_t) n, mean1, mean2);
@@ -274,20 +242,17 @@ PyGSL_statistics_ll_A(PyObject *self, PyObject *args,
     PyObject *input = NULL; 
     PyArrayObject *data; 
     size_t result1, result2;
-    long stride=1, n; 
+    PyGSL_array_index_t stride=1, n; 
+    PyGSL_array_info_t info;
     
     if(!(PyArg_ParseTuple(args, "O", &input))) 
 	return NULL;
 
-    data = PyGSL_PyArray_PREPARE_gsl_vector_view(input, array_type, 0, -1, 1, NULL);
-    if(data == NULL) 
+    info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 1);
+    data = PyGSL_vector_check(input, -1, info, &stride, NULL);
+    if(data == NULL){
 	return NULL;
-
-    if(PyGSL_STRIDE_RECALC(data->strides[0], basis_type_size, (int *) &stride) != GSL_SUCCESS){
-	 Py_XDECREF(data); 
-	 return NULL;
     }
-
 
     n = data->dimensions[0];
     pointer(&result1, &result2, (void *)data->data, (size_t) stride, (size_t) n);
@@ -332,10 +297,6 @@ DL_EXPORT(void) init_stat(void)
      if(m == NULL)
 	  goto fail;
 
-     DEBUG_MESS(2, "Importing Array!", NULL);
-     import_array();
-   
-     DEBUG_MESS(2, "Importing pygsl!", NULL);
      init_pygsl();
 
 

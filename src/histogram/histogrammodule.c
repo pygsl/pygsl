@@ -13,12 +13,11 @@
  *    Now the warnings are all handled by a separate function.   
  */
 
-#include <Python.h>
+#include <pygsl/error_helpers.h>
+#include <pygsl/block_helpers.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_histogram.h>
 #include <gsl/gsl_histogram2d.h>
-#include <pygsl/error_helpers.h>
-#include <pygsl/block_helpers.h>
 
 
 enum hist_error{
@@ -125,17 +124,16 @@ static int
 PyGSL_warn_err(int rcode, int errcode, const char * errdes, const char * file, int line)
 {
      int warn_result;   
-  if (errcode==rcode) {
-       warn_result = PyGSL_warning(errdes, file, line, errcode);
-       if (warn_result==-1)
-	    /* exception is raised by PyErr_Warn */
-	    return GSL_EFAILED;
-  }
-  else if (PyGSL_ERROR_FLAG(rcode) != GSL_SUCCESS)
-    return rcode;
+     if (errcode==rcode) {
+	  warn_result = PyGSL_warning(errdes, file, line, errcode);
+	  if (warn_result==-1)
+	       /* exception is raised by PyErr_Warn */
+	       return GSL_EFAILED;
+     }
+     else if (PyGSL_ERROR_FLAG(rcode) != GSL_SUCCESS)
+	  return rcode;
 
-  return GSL_SUCCESS;
-
+     return GSL_SUCCESS;
 }
 
 #define PyGSL_WARN_ERR(ob, errcode, errdes) \
@@ -184,6 +182,7 @@ typedef struct {
     gsl_histogram* h;
 } histogram_histogramObject;
 
+
 #define _CONCAT2(class, suffix) class ## _ ## suffix
 
 #include "histogram.ic"
@@ -198,7 +197,9 @@ typedef struct {
 #ifdef HISTOGRAM2D
 #undef HISTOGRAM2D
 #endif
+#include "histogram_pdf_common.ic"
 #include "histogram_common.ic"
+
 #undef HISTTYPE
 #undef PyGSLHISTTYPE
 #undef PyGSL_HIST_TYPE_GET
@@ -253,6 +254,7 @@ PyTypeObject histogram_histogramType = {
 	NULL         			        /* tp_free */
 };
 
+
 /*
  *
  * here begins the section for the 2d histogram
@@ -268,6 +270,7 @@ typedef struct {
     gsl_histogram2d* h;
 } histogram_histogram2dObject;
 
+
 static PyObject *
 histogram_histogram2d_reset(PyObject *);
 
@@ -280,6 +283,7 @@ histogram_histogram2d_reset(PyObject *);
 #define PyGSL_HIST_TYPE_CAST(ob) PyGSL_HIST2D_CAST((ob))
 #define GSLNAME(suffix)  _CONCAT2(gsl_histogram2d, suffix)
 #define FUNCNAME(suffix) _CONCAT2(histogram_histogram2d, suffix)
+#include "histogram_pdf_common.ic"
 #include "histogram_common.ic"
 
 
@@ -328,6 +332,7 @@ PyTypeObject histogram_histogram2dType = {
 	NULL			                /* tp_free */
 };
 
+#include "histogram_pdf.ic"
 /*
  *
  * module specific stuff
@@ -339,33 +344,33 @@ static PyMethodDef histogramMethods[] = {
   {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+
+void 
+register_type(PyTypeObject *p, char *name)
+{
+     p->ob_type  = &PyType_Type;
+     p->tp_alloc = PyType_GenericAlloc;
+     p->tp_new   = PyType_GenericNew;
+     p->tp_free  = _PyObject_Del;
+     /* install histogram type */
+     /* important! must increment histogram type reference counter */
+     Py_INCREF((PyObject*)p);
+     PyModule_AddObject(module, name, (PyObject*)p);     
+}
+
 void
 inithistogram(void)
 {
   PyObject* m;
   m=Py_InitModule("histogram", histogramMethods);
+  if(!m)
+       return;
 
-  import_array();
+  module = m;
   init_pygsl();
   /* init histogram type */
-  histogram_histogramType.ob_type  = &PyType_Type;
-  histogram_histogramType.tp_alloc = PyType_GenericAlloc;
-  histogram_histogramType.tp_new   = PyType_GenericNew;
-  histogram_histogramType.tp_free  = _PyObject_Del;
-
-  /* install histogram type */
-  /* important! must increment histogram type reference counter */
-  Py_INCREF((PyObject*)&histogram_histogramType);
-  PyModule_AddObject(m,"histogram", (PyObject*)&histogram_histogramType);
-
-  /* init histogram type */
-  histogram_histogram2dType.ob_type  = &PyType_Type;
-  histogram_histogram2dType.tp_alloc = PyType_GenericAlloc;
-  histogram_histogram2dType.tp_new   = PyType_GenericNew;
-  histogram_histogram2dType.tp_free  = _PyObject_Del;
-
-  /* install histogram type */
-  /* important! must increment histogram type reference counter */
-  Py_INCREF((PyObject*)&histogram_histogram2dType);
-  PyModule_AddObject(m,"histogram2d", (PyObject*)&histogram_histogram2dType);
+  register_type(&histogram_histogramType, "histogram");
+  register_type(&histogram_histogram_pdfType, "histogram_pdf");
+  register_type(&histogram_histogram2dType, "histogram2d");
+  register_type(&histogram_histogram2d_pdfType, "histogram2d_pdf");
 }

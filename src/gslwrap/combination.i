@@ -81,7 +81,7 @@ struct gsl_combination_struct
   PyObject *toarray(){
        PyArrayObject * a_array = NULL;
        long *data;
-       int size, i;
+       PyGSL_array_index_t size, i;
 
        size = (int) gsl_combination_k(self);
        a_array = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_LONG);

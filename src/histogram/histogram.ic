@@ -237,7 +237,7 @@ histogram_histogram_set_ranges(PyObject *self, PyObject *ranges)
      if(0==PyArg_ParseTuple(ranges, "O", &tmp))
 	  return NULL;
      
-     a_ranges = PyGSL_PyArray_prepare_gsl_vector_view(tmp, PyArray_DOUBLE, PyGSL_INPUT_ARRAY| PyGSL_CONTIGUOUS, -1, 1, NULL); 
+     a_ranges = PyGSL_vector_check(tmp, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL); 
      if(a_ranges == NULL)
 	  goto fail;
 
@@ -263,7 +263,7 @@ histogram_histogram_plot_data(PyObject *self, PyObject *args)
 {
      gsl_histogram *histogram;
      PyArrayObject *x_a = NULL, *y_a = NULL;
-     int n, i, dim[2];
+     PyGSL_array_index_t n, i, dim[2];
      double *data;
      FUNC_MESS_BEGIN();
      if((histogram = PyGSL_HIST_GET(self)) == NULL)
@@ -271,7 +271,7 @@ histogram_histogram_plot_data(PyObject *self, PyObject *args)
 
 
      n = gsl_histogram_bins(histogram);
-     DEBUG_MESS(3, "n = %d", n);
+     DEBUG_MESS(3, "n = %ld", (long)n);
      assert(n>0);
      dim[0] = n;
      dim[1] = 2;

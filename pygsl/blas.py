@@ -20,9 +20,7 @@ package are left out here.
 import _gslwrap
 import pygsl._numobj as Numeric
 import copy
-from pygsl import array_typed_copy, get_typecode
-Float = Numeric.Float
-Complex = Numeric.Complex
+from pygsl import array_typed_copy, get_typecode, Float, Complex
 #
 # constants
 #
@@ -141,7 +139,7 @@ def zaxpy(alpha, x, y):
     """
     This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
-    yn = array_typed_copy(y, Numeric.Complex)
+    yn = array_typed_copy(y, Complex)
     _gslwrap.gsl_blas_zaxpy(alpha, x, yn)
     return yn
 
@@ -158,8 +156,8 @@ def drot(x, y, c, s):
     This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
     to the vectors x, y.
     """
-    xn = array_typed_copy(x, Numeric.Float)
-    yn = array_typed_copy(y, Numeric.Float)
+    xn = array_typed_copy(x, Float)
+    yn = array_typed_copy(y, Float)
     _gslwrap.gsl_blas_drot(xn, yn, c, s)
     return (xn, yn)
 
@@ -182,7 +180,7 @@ def dgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
     sum \M{y = S{alpha} op(A) x + S{beta} y}, where op(A) = \M{A, A^T, A^H} for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
-    yn = array_typed_copy(y, Numeric.Float)
+    yn = array_typed_copy(y, Float)
     _gslwrap.gsl_blas_dgemv(TransA, alpha, a, x, beta, yn)
     return yn
     
@@ -193,7 +191,7 @@ def zgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
     sum \M{y = S{alpha} op(A) x + S{beta} y}, where \M{op(A) = A, A^T, A^H} for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
-    yn = array_typed_copy(y, Numeric.Complex)
+    yn = array_typed_copy(y, Complex)
     _gslwrap.gsl_blas_zgemv(TransA, alpha, a, x, beta, yn)
     return yn
 
@@ -215,7 +213,7 @@ def dtrmv(A,
     the matrix is used, but if Diag is CblasUnit then the diagonal
     elements of the matrix A are taken as unity and are not referenced. 
     """
-    xn = array_typed_copy(x, Numeric.Float)
+    xn = array_typed_copy(x, Float)
 
     _gslwrap.gsl_blas_dtrmv(Uplo, TransA, Diag, A, xn)
     return xn
@@ -296,7 +294,7 @@ def dsymv(alpha, A, X, beta, Y, Uplo=CblasLower):
     of A are used, and when Uplo is CblasLower then the lower triangle
     and diagonal of A are used. 
     """
-    yn = array_typed_copy(Y, Numeric.Float)
+    yn = array_typed_copy(Y, Float)
     _gslwrap.gsl_blas_dsymv(Uplo, alpha, A, X, beta, yn)
     return yn
 
