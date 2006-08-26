@@ -5,6 +5,7 @@ import unittest
 import pygsl._numobj as Numeric
 import random
 import pygsl
+from pygsl import Float
 from pygsl import multifit_nlin
 import copy
 #import Gnuplot
@@ -66,7 +67,7 @@ class DefaultCase(unittest.TestCase):
         t = Numeric.arange(self._getn());
         y = testfunc(t, self.A, self.lambda_, self.b)
         sigma = Numeric.ones(self._getn()) * 0.1
-        self.data = Numeric.array((t,y,sigma), Numeric.Float)
+        self.data = Numeric.array((t,y,sigma), Float)
         self.sys = multifit_nlin.gsl_multifit_function_fdf(exp_f, exp_df,
                                                            exp_fdf, self.data,
                                                            self._getn(),

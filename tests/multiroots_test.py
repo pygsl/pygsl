@@ -2,6 +2,7 @@
 import sys
 import unittest
 import pygsl._numobj as Numeric
+from pygsl import Float
 import pygsl
 #print pygsl
 #multiroots = pygsl.roots.multiroots
@@ -19,7 +20,7 @@ def rosenbrock_f(x, params):
 def rosenbrock_df(x, params):
     a = params[0]
     b = params[1]
-    df = Numeric.zeros((x.shape[0], x.shape[0]), Numeric.Float)
+    df = Numeric.zeros((x.shape[0], x.shape[0]), Float)
     df[0,0] = -a
     df[0,1] = 0
     df[1,0] = -2 * b * x[0]
@@ -37,7 +38,7 @@ class DefaultCase(unittest.TestCase):
         return 2
     
     def _run(self, solver):
-        tmp = Numeric.array((-10., -5.), Numeric.Float)
+        tmp = Numeric.array((-10., -5.), Float)
         solver.set(tmp)
         for iter in range(100):
             status = solver.iterate()
@@ -57,7 +58,7 @@ class DefaultCase(unittest.TestCase):
 
 class FTest(DefaultCase):
     def setUp(self):
-        tmp = Numeric.array((1., 10.), Numeric.Float)
+        tmp = Numeric.array((1., 10.), Float)
         self.sys = multiroots.gsl_multiroot_function(rosenbrock_f, tmp,
                                                      self._getsize())
 
@@ -79,7 +80,7 @@ class FTest(DefaultCase):
 
 class FDFTest(DefaultCase):
     def setUp(self):
-        tmp = Numeric.array((1., 10.), Numeric.Float)
+        tmp = Numeric.array((1., 10.), Float)
         self.sys = multiroots.gsl_multiroot_function_fdf(rosenbrock_f, rosenbrock_df, rosenbrock_fdf, tmp, self._getsize())
 
     def test_newton(self):

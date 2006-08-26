@@ -1,9 +1,8 @@
 import pygsl
 import pygsl._numobj
 nummodule = pygsl._numobj
-Float = nummodule.Float
-Int =  nummodule.Int
-
+ArrayType = pygsl.ArrayType
+    
 get_typecode = pygsl.get_typecode
 
 def myord_numeric(obj):
@@ -32,7 +31,7 @@ else:
 def array_check(array, arraytype=None, size=None):
     test = 0
     shape = None
-    assert(type(array) == nummodule.ArrayType)
+    assert(type(array) == ArrayType)
     try:
         if arraytype:
             assert(get_typecode(array) == arraytype)
@@ -47,9 +46,9 @@ def array_check(array, arraytype=None, size=None):
     finally:            
         if test == 0:
             print "Got an array of type", type(array)
-            print "With type %s and shape %s" % (get_typecode(array), shape)
-            print "Expected an array of ", nummodule.ArrayType,
-            print "With type %s and shape %s" % (arraytype, size)
+            print "With type '%s' and shape '%s'" % (get_typecode(array), shape)
+            print "Expected an array of ", ArrayType,
+            print "With type '%s' and shape '%s'" % (arraytype, size)
 
 
     

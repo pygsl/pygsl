@@ -4,8 +4,7 @@ from gsl_test import *
 from pygsl._numobj import *
 from pygsl.errors import gsl_Error
 from pygsl.blas import *
-from pygsl import  _gslwrap
-
+from pygsl import  _gslwrap, Float, Complex
 import pygsl.blas
 #print pygsl.blas
 #print pygsl.blas._gslwrap
@@ -278,12 +277,12 @@ class BlasTestCase(GSLTestCase):
 
     def testDtrsm(self):
         I = dtrsm(1, self.triang, self.triang)
-        result = arrayIsZero(reshape(I - identity(4, Numeric.Float), (-1,)))
+        result = arrayIsZero(reshape(I - identity(4, Float), (-1,)))
         self.failUnless(result)
 
     def testZtrsm(self):
         I = ztrsm(1+0j, self.triangz, self.triangz)
-        result = arrayIsZero(reshape(I - identity(4, Numeric.Complex), (-1,)))
+        result = arrayIsZero(reshape(I - identity(4, Complex), (-1,)))
         self.failUnless(result)
 
     def testDsyrk(self):

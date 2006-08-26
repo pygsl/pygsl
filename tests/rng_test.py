@@ -8,7 +8,8 @@ import pygsl.rng as rngmodule
 import sys
 sys.stdout = sys.stderr
 rng_types = rngmodule.list_available_rngs()
-from array_check import array_check, Float
+from pygsl import Float, Int
+from array_check import array_check
 from gsl_test import isfloat, iscomplex
 
 class _rng_type:
@@ -113,7 +114,7 @@ class _rng_distributions(unittest.TestCase):
             array_check(da, arraytype, (10,))
             if pdf_method:
                 pa = apply(pdf_method, (da,) + args)
-                array_check(pa, Numeric.Float, (10,))
+                array_check(pa, Float, (10,))
             test = 1
         finally:
             if test == 0:
@@ -121,11 +122,11 @@ class _rng_distributions(unittest.TestCase):
 
     def _test_ui_return_one(self, method, pdf_method, *args):
         self._test_generic_return_generic(method, pdf_method, types.LongType,
-                                          Numeric.Int, *args)
+                                          Int, *args)
         
     def _test_double_return_one(self, method, pdf_method, *args):
         self._test_generic_return_generic(method, pdf_method, types.FloatType,
-                                          Numeric.Float, *args)
+                                          Float, *args)
             
                 
     def _test_nd_return_one(self, method, pdf_method, n, *args):
@@ -139,13 +140,13 @@ class _rng_distributions(unittest.TestCase):
                 p = apply(pdf_method, tuple(d) + args)
                 assert(isfloat(p))
             da = apply(method, args + (10,))
-            array_check(da, Numeric.Float, (10, n))
+            array_check(da, Float, (10, n))
             test = 1
             if pdf_method:
                 x = da[:,0]
                 y = da[:,1]
                 pa = apply(pdf_method, (x, y) + args)
-                array_check(da, Numeric.Float, (10,2))
+                array_check(da, Float, (10,2))
         finally:
             if test == 0:
                 print "I was testing ", method
@@ -301,7 +302,7 @@ class TestIfAll(unittest.TestCase):
                     print "r      = %s %s" % (type(r), repr(r))
                     print "refrng = %s %s" % (type(refrng), repr(refrng))
 ##print "Last rng = ", rng_types[-1]
-for i in rng_types:
+for i in rng_types[4:5]:
     tmp = "class %s_rng_basics(%s, _rng_basics): pass" % ((i,) *2)
     exec(tmp)
     tmp = "class %s_rng_distributions(%s, _rng_distributions): pass" % ((i,) *2)

@@ -4,7 +4,7 @@ import types
 import tempfile
 import pygsl
 import pygsl._numobj as nummodule
-from pygsl import vector
+from pygsl import vector, ArrayType
 from pygsl import matrix_pierre
 matrix = matrix_pierre
 
@@ -13,8 +13,8 @@ from array_check import myord, myorda, array_check, get_typecode
 
 import unittest
 import sys
-#sys.stderr = sys.stdout
-
+sys.stderr = sys.stdout
+#pygsl.set_debug_level(10)
     
 def getopentmpfile(mode='rb'):
     file = tempfile.TemporaryFile(mode)
@@ -84,11 +84,11 @@ class _DefaultTestCase(unittest.TestCase):
     def test_0_matrixtype(self):
         test = 0
         try:
-            assert type(self.array) == nummodule.ArrayType, "Not an array type"
+            assert type(self.array) == ArrayType, "Not an array type"
             test = 1
         finally:
             if test == 0:
-                print "Expected a type of %s but got a type of %s" %(nummodule.ArrayType, type(self.array))
+                print "Expected a type of %s but got a type of %s" %(ArrayType, type(self.array))
     def tearDown(self):
         self._mytearDown()
 

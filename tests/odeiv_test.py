@@ -2,13 +2,13 @@
 import sys
 import pygsl._numobj as Numeric
 import pygsl
-from pygsl import  odeiv
+from pygsl import  odeiv, Float
 sys.stdout = sys.stderr
 
 mu = 10.0
 def func(t, y, mu):
     #print "--> func", t, y
-    f = Numeric.zeros((2,), Numeric.Float) * 1.0
+    f = Numeric.zeros((2,), Float) * 1.0
     f[0] = y[1]
     f[1] = -y[0] - mu * y[1] * (y[0] ** 2 -1);
     #print f
@@ -16,7 +16,7 @@ def func(t, y, mu):
 
 def jac(t, y, mu):
     #print "--> jac", t, y
-    dfdy = Numeric.ones((2,2), Numeric.Float) 
+    dfdy = Numeric.ones((2,2), Float) 
     dfdy[0, 0] = 0.0
     dfdy[0, 1] = 1.0
     dfdy[1, 0] = -2.0 * mu * y[0] * y[1] - 1.0
