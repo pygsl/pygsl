@@ -1,15 +1,24 @@
+"""
+Classes to represent UFuncs and their Arguments
+
+"""
 import sys
+import types
 import pprint
 import string
 from cStringIO import StringIO
 
 class Argument:
     """
-    Descirbes one argument
+    Descirbes one argument.
+
+    Also handles the different type casts. e.g a function handling doubles can
+    be also evaluated with arrays of floats.
     
     letter nomenclatura
     f   ... float
     d   ... double
+    c   ... gsl_complex
     r*  ... gsl_sf_result
     er* ... gsl_sf_result_e10
     i   ... integer
@@ -26,23 +35,32 @@ class Argument:
         self._name = None
 
     def SetName(self, name):
+        """
+        The name of the argument.
+        """
         self._name = name
 
     def SetOperator(self, operator):
+        """
+        XXX ??? Perhaps a qualifier ???
+        """
         self._operator = operator
 
-    def SetType(self, type):
-        self._type = type
+    def SetType(self, mytype):
+        """
+        The type of the argument
+        """
+        self._type = mytype
 
     def GetNumberInArgs(self):
         """
-        returns how many input arguments are needed.
+        returns how many input arguments are needed for the represented type
         """
         return 1
     
     def GetNumberOutArgs(self):
         """
-        returns how many output  arguments are needed.
+        returns how many output  arguments are needed for the represented type
         """
         if self._type == "gsl_sf_result_e10":
             return 3
@@ -50,6 +68,9 @@ class Argument:
             return 2
         return 1
 
+    def IsComlex(self):
+        return self._type == "gsl_complex"
+    
     def IsResult(self):
         return self._type == "gsl_sf_result"
 
@@ -65,10 +86,12 @@ class Argument:
         """
         if minor and self._type == 'double':
             return 'float'
+        #if minor and self._type == 'gsl_complex':
+        #    return 'gsl_complex_float'
         return None
 
     
-    def GetBasisType(self):
+    def GetBasisType(self):        
         if self._operator:
             return  self._type + ' ' +  self._operator
         return self._type
@@ -97,6 +120,14 @@ class Argument:
                 return "f"
             return "d"
 
+        if self._type == "gsl_complex":
+            #if minor == 1:
+            #    return "F"
+            return "D"
+
+        #if self._type == "gsl_complex_float":
+        #    return "F"
+
         if self._type == "float":
             return "f"
 
@@ -119,6 +150,8 @@ class Argument:
                 return "erf"
             return "erd"
 
+        raise ValueError, "Not Type defined"
+        
     def GetArrayType(self, argumentnumber, minor):
         """
         Get the type for the approbriate argument number.
@@ -140,6 +173,11 @@ class Argument:
         if self._type == "int":
             return "PyArray_INT"
 
+        if self._type == "gsl_complex":
+            #if minor == 1:
+            #    return "PyArray_CFLOAT"
+            return "PyArray_CDOUBLE"
+        
         if self._type == "gsl_sf_result":
             if minor == 1:
                 return "PyArray_FLOAT"
@@ -158,6 +196,10 @@ class Argument:
         return "variable : %s\n   type : %s\n    op : %s\n" %(self._name, self._type, self._operator)
 
 def indent_lists(lists, indent):
+    """
+    treat the list as text and intend int according to the text indent. The
+    user has to take care that indent is really empty text.
+    """
     o = []
     myindent = ""
     for l in lists:
@@ -170,8 +212,8 @@ def indent_lists(lists, indent):
         
 class PyUFunc:
     """
-    Gets information about the types of the function
-    and gives the approbriate code if requested.
+    Collects the all the information for one function to wrap and returns the
+    approbriate wrapper code if requested.
     """
     def __init__(self):
         self.a_function_data = []
@@ -184,9 +226,18 @@ class PyUFunc:
         self.evaluator_mode = 0
         
     def SetName(self, name):
+        """
+        The name of the function
+        """
         self.name = name
 
     def AddInParams(self, name, type, operator):
+        """
+        add an argument to the function of type Argument
+
+        Note that the first argument has to be registered as the first one,
+        the second as the second one
+        """
         arg = Argument()
         arg.SetName(name)
         arg.SetOperator(operator)
@@ -195,6 +246,9 @@ class PyUFunc:
 
 
     def ReturnParam(self, name, type, operator):
+        """
+        The return argument of the function
+        """
         arg = Argument()
         arg.SetName(name)
         arg.SetOperator(operator)
@@ -204,6 +258,12 @@ class PyUFunc:
 
 
     def AddOutParams(self, name, type, operator):
+        """
+        add an argument to the function of type Argument
+
+        Note that the first argument has to be registered as the first one ...
+        """
+
         arg = Argument()
         arg.SetName(name)
         arg.SetOperator(operator)
@@ -212,10 +272,18 @@ class PyUFunc:
         self.out_args.append(arg)
 
     def ReturnIsErrorFlag(self, flag):
+        """
+        Is the return value a error flag or a full argument?
+
+        Typically functions named_e return errors
+        """
         self.return_is_error_flag = flag
 
 
     def _GetFuncNameFromLetters(self):
+        """
+        Generate the name of the evaluator from the function names.
+        """
         letters = ""
         minorletters = ""
         return_letter = self.return_arg.GetTypeLetter(0)
@@ -250,12 +318,14 @@ class PyUFunc:
     
     def GetPyUFuncEvaluatorOne(self):
         """
+        Return one common unique name for the different UFUncs.
         """
         letters, minorletters, returntype = self._GetFuncNameFromLetters()
         return "PyGSL_sf_ufunc_%s_%s_one" % (returntype, letters)
         
     def GetPyUFuncEvaluatorNames(self):
         """
+        Return the names of the Required UFunc evaluators.
         """
         letters, minorletters, returntype = self._GetFuncNameFromLetters()
         return (("PyGSL_sf_ufunc_%s_%s_as_%s" % (returntype, minorletters, letters,)) ,
@@ -263,36 +333,47 @@ class PyUFunc:
         
     def WriteUFuncObjectHelpersArrayData(self):
         """
-        
+        Set the function pointers for the approbriate evaluators!
         """
         c = StringIO()
         save = sys.stdout
         sys.stdout = c
+        typecast = "PyUFuncGenericFunction"
         try:
             name = self.GetPyUFuncEvaluatorOne() + '_data'
-            tmp = self.GetPyUFuncEvaluatorNames()
-            print "%s[0] = %s;" % (name, tmp[0])
-            print "%s[1] = %s;" % (name, tmp[1])
+            tmp  = self.GetPyUFuncEvaluatorNames()
+            
+            print "%s[0] = (%s) %s;" % (name, typecast, tmp[0])
+            print "%s[1] = (%s) %s;" % (name, typecast, tmp[1])
             c.seek(0)
             return c.read()
         finally:
             sys.stdout = save
 
     def __WriteExtraInfo(self, argument, argnumber, c_argnumber, additional = ""):
+        """
+        Generate description for __doc__ string  for special arguments
+        """
         extrainfo = ""
         i = argument
         if i.IsGSLMode():
-            tmp = '"%s Argument %d is a gsl_mode_t, valid parameters are:\\n\tsf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\\n"\n'
+            tmp = ('"%s Argument %d is a gsl_mode_t, valid parameters are:' +
+                   '\\n\tsf.PREC_DOUBLE or sf.PREC_SINGLE or sf.PREC_APPROX\\n"\n')
             extrainfo += tmp % (additional, argnumber)
         if i.IsResult():
-            tmp = '"%s Arguments %d and %d resemble a gsl_result argument,\\n\\twhich is  argument %d of the C argument list\\n"\n'
+            tmp =  ('"%s Arguments %d and %d resemble a gsl_result argument,\\n'+
+                    '\\twhich is  argument %d of the C argument list\\n"\n')
             extrainfo += tmp % (additional, argnumber - 1, argnumber, c_argnumber + 1)
         if i.IsResulte10():
-            tmp = '"%s Arguments %d - %d resemble a gsl_result_e10 argument,\\n\\twhich is argument %d of the C argument list\\n"\n'
+            tmp = ('"%s Arguments %d - %d resemble a gsl_result_e10 argument,\\n'+
+                   '\\twhich is argument %d of the C argument list\\n"\n')
             extrainfo += tmp % (additional, argnumber - 2, argnumber, c_argnumber + 1)
         return extrainfo
     
     def WriteUFuncObjectDoc(self):
+        """
+        Generate __doc__ string for the ufunc object.
+        """
         inargs = 0
         outargs = 0
         extrainfo = ""
@@ -328,6 +409,13 @@ static  char * %s =
         return ret
     
     def WriteUFuncObjectHelpers(self):
+        """
+        Generate the static information required to set up a UFunc.
+
+        This is:
+               -- space for registering/writting the  approbriate callbacks
+               -- the doc strings.
+        """
         c = StringIO()
         save = sys.stdout
         sys.stdout = c
@@ -369,22 +457,28 @@ static  char * %s =
             sys.stdout = save
 
     def WriteUFuncObject(self):
+        """
+        Generates the code setting up the UFunc Object.
+
+        This basically the following code:
+          f = PyUFunc_FromFuncAndData(special_test_functions,
+                                      a_function_data, 
+                                      a_function_types, 
+                                      ntypes, /* number of supported types*/ 
+                                      nin, /* number of input arguments */
+                                      nout, /* number of output arguments */
+                                      PyUFunc_None, # Constant for all
+                                      a_function_name, 
+                                      a_function_doc, 
+                                      0 /*check return ?*/ # Constant for all
+                                      );
+        
+        """
         test = 0
         c = StringIO()
         save = sys.stdout
         sys.stdout = c
         try:
-            #  f = PyUFunc_FromFuncAndData(special_test_functions,
-            #                              a_function_data, 
-            #                              a_function_types, 
-            #                              ntypes, /* number of supported types*/ 
-            #                              nin, /* number of input arguments */
-            #                              nout, /* number of output arguments */
-            #                              PyUFunc_None, # Constant for all
-            #                              a_function_name, 
-            #                              a_function_doc, 
-            #                              0 /*check return ?*/ # Constant for all
-            #                              );
             evaluator_name = self.GetPyUFuncEvaluatorOne()
             pythonname = self.GetPythonName()
             docname = evaluator_name + "_doc"
@@ -420,6 +514,17 @@ static  char * %s =
                 print "I was working on %s" % repr(self)
             
     def WriteStaticData(self):
+        """
+        write out the data containing the names of the functions to evaluate
+        e.g:
+            static void * a_function_data [] = {(void *) a_function_name_for_float,
+                                                (void *) a_function_name_for_double};
+
+        and the types of the different arguments
+        e. g:
+            static char a_function_types[] = {PyArray_FLOAT,   PyArray_UINT,  PyArray_FLOAT,  PyArray_FLOAT,
+                                              PyArray_DOUBLE,  PyArray_UINT,  PyArray_DOUBLE, PyArray_DOUBLE};
+        """
         c = StringIO()
         save = sys.stdout
         sys.stdout = c
@@ -427,8 +532,6 @@ static  char * %s =
         try:
             pythonname =  self.GetPythonName()
             name = self.GetName()
-            #static void * a_function_data [] = {(void *) a_function_name_for_float,
-            #                                    (void *) a_function_name_for_double};
             print "static void * %s_data [] = {" % pythonname,
             data = []
             for i in range(2):            
@@ -436,8 +539,6 @@ static  char * %s =
             print string.join(data, ", "),
             print "};"
 
-            #static char a_function_types[] = {PyArray_FLOAT,   PyArray_UINT,  PyArray_FLOAT,  PyArray_FLOAT,
-            #                            PyArray_DOUBLE,  PyArray_UINT,  PyArray_DOUBLE, PyArray_DOUBLE};
 
             test = 1
             c.seek(0)
@@ -448,6 +549,9 @@ static  char * %s =
                 print "I was working on %s" % repr(self)
 
     def GetTypeDef(self):
+        """
+        Get the typedef required for the different functions to evaluate.
+        """
         t = []
         for i in self.in_args:
             t.append(i.GetBasisType())
@@ -471,15 +575,41 @@ static  char * %s =
         return string.join(l, '\n')
 
     def GetName(self):
+        """
+        Get the name of the function
+        """
         return self.name
 
     def GetPythonName(self):
-        teststr = "gsl_sf_"
-        l = len(teststr)
-        assert(self.name[:l] == teststr)
-        return self.name[l:]
+        """
+        Get the Python name of the function.
 
+        Strip the name gsl_ and gsl_sf if possible...
+        """
+        teststr_gsl = "gsl_"
+
+        # I now need _sf so that I can sort out which function should go where
+        #teststr_gsl_sf = "gsl_sf_"
+
+        common = 0
+        for teststr in (teststr_gsl,):
+            # Make sure that one can skip the extra string. So only gsl_sf is abbrivated.
+            l = len(teststr)
+            if self.name[:l] == teststr:
+                common = l
+                continue
+            else:
+                break
+        tmp = self.name[common:]
+        assert(len(tmp) > 0)
+        assert(type(tmp) == types.StringType)
+        print "/*Using %s as pyton name*/" %(tmp,)
+        return tmp
+    
     def add_in_types(self):
+        """
+        
+        """
         counter = 0
         for i in self.in_args:
             for j in range(i.GetNumberInArgs()):
@@ -500,6 +630,8 @@ static  char * %s =
         return counter        
         
     def function_call_with_flag(self):
+        """
+        """
         print "\t\t{"
         print "\t\tint flag;"
         counter = 0
@@ -591,6 +723,8 @@ static  char * %s =
 
 
     def function_call_without_flag(self):
+        """
+        """
         mytype = self.return_arg.GetType(0, 0)
         fake = self.return_arg.GetFakeType(0, self.evaluator_mode)
         if fake:
@@ -627,9 +761,9 @@ static  char * %s =
         else:
             index = 0
         name =  self.GetPyUFuncEvaluatorNames()[index]
-        print "void %s (char **args, intp *dimensions, intp *steps, void *func){" % name
+        print "void %s (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){" % name
         #print "void %s (char **args, int *dimensions, int *steps, void *func){" % name
-        print "\tint i, ",
+        print "\tPyGSL_array_index_t i, ",
         for i in self.in_args:
             for j in range(i.GetNumberInArgs()):
                 if counter > 0:
@@ -696,7 +830,7 @@ static  char * %s =
                 out_counter +=1
 
         print "){"
-        print '\t\tDEBUG_MESS(2, "Evaluating element %d", i);'
+        print '\t\tDEBUG_MESS(2, "Evaluating element %ld", (long)i);'
         #print "x = (float*)ip1;"
         #print "mode = (int *) ip2;"
         funccast =  self.funccast
