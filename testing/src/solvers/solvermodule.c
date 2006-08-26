@@ -80,6 +80,11 @@ PyGSL_solver_iterate(PyGSL_solver *self, PyObject *args)
 static void
 PyGSL_solver_dealloc(PyGSL_solver * self)
 {
+     struct pygsl_array_cache * cache_ptr;
+     int i, count;
+     PyObject * ob;
+     PyArrayObject *tmp;
+
      FUNC_MESS_BEGIN();
      assert(self);
      assert(self->mstatic);
@@ -101,6 +106,52 @@ PyGSL_solver_dealloc(PyGSL_solver * self)
 	  free(self->c_sys);
 	  self->c_sys = NULL;
      }
+
+     /*
+      * remove the cached arrays
+      */
+     if(self->cache == NULL){
+	  DEBUG_MESS(2, "No cache was used cache = %p", self->cache);
+     }else{
+#if 0
+	  cache_ptr = self->cache;
+	  for(i = 0; i< PyGSL_SOLVER_N_ARRAYS; ++i){
+	       tmp =  cache_ptr[i].ref;
+	       ob = (PyObject *) tmp;
+	       if(ob == NULL){
+		    break;
+	       }
+	       count =  ob->ob_refcnt;
+	       if(count == 0){
+		    DEBUG_MESS(3, "object[%d] @ %p has a zero reference count!"
+			       " array should be deposed already and ptr set to zero!", i, ob);
+	       }else if(count == 1){
+		    /* no one referencing the array; good */		    
+		    DEBUG_MESS(3, "Dereferencing  object[%d] @ %p", i, ob);
+		    Py_DECREF(ob);
+		    cache_ptr[i].ref = NULL;
+	       }else if(count < 0){
+		    DEBUG_MESS(2, "I found an array (object) at %p which had "
+			       "a count [%d] smaller than zero", ob, count);
+		    
+	       }else{
+		    /* count > 1 */
+		    fprintf(stderr, "In %s at %d array %d had %d refcouts.\n"
+			    "This means you reference an array which was\n"
+			    "passed to you while evaluating your callback.\n" 
+			    "This produces a memory leak!\n", 
+			    __FILE__, __LINE__, i, count);		    
+	       
+	       }
+	  } /* handeled cached objects */
+	  fprintf(stderr, "Freed %d cached objects\n", i);
+	  /* free the cache */
+	  free(self->cache);
+	  self->cache = NULL;
+#endif 
+
+     } /* freeing cached objects */
+
      PyMem_Free(self);
      self = NULL;
      FUNC_MESS_END();
@@ -188,7 +239,7 @@ _PyGSL_solver_init(const struct _SolverStatic *mstatic)
      }
      
      solver_o->args = NULL;     
-     solver_o->tmparrays = NULL;
+     solver_o->cache = NULL;
      solver_o->mstatic = NULL;
      solver_o->mstatic = mstatic;
      solver_o->solver = NULL;
@@ -243,6 +294,7 @@ PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct *
 	  goto fail;
      }
      if (0==flag){
+	  /* Successful parsing of the arguments ?*/
 	  line = __LINE__ - 1;
 	  goto fail;
      }
@@ -300,6 +352,13 @@ PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct *
 	  break;
      default:
 	  ;
+     }
+
+     solver_o->cache = (struct pygsl_array_cache *) calloc(PyGSL_SOLVER_N_ARRAYS, sizeof(struct pygsl_array_cache));
+     if(solver_o->cache == NULL){
+	  PyErr_NoMemory();
+	  line = __LINE__ - 1;
+	  goto fail;
      }
 
      FUNC_MESS_END();
@@ -528,12 +587,15 @@ PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      
 }
 
+/*
+ * Set the solver
+ */
 PyGSL_API_EXTERN PyObject *
 PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw, 
 		    const struct pygsl_solver_n_set * info)
 {
      int n, flag=GSL_EFAILED;
-     long stride;
+     PyGSL_array_index_t stride;
 
      PyObject *args=Py_None, *f=NULL, *df=NULL, *fdf=NULL, *x;
      PyArrayObject * xa = NULL;
@@ -546,7 +608,7 @@ PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      FUNC_MESS_BEGIN();
      assert(PyGSL_solver_check(self));     
      if (self->solver == NULL) {
-	  gsl_error("Got a NULL Pointer of multiroots.f", filename, __LINE__ - 3, GSL_EFAULT);
+	  gsl_error("solver ==  NULL at solver_n_set", filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
      }	  
 
@@ -563,12 +625,8 @@ PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
 
      n=self->problem_dimensions[0];
      DEBUG_MESS(3, "len(x) should be %d", n);
-     xa  = PyGSL_PyArray_PREPARE_gsl_vector_view(x, PyArray_DOUBLE, 0, n, 2, NULL);
+     xa  = PyGSL_vector_check(x, n, PyGSL_DARRAY_INPUT(2), &stride, NULL);
      if (xa == NULL){
-	  line = __LINE__ - 2;
-	  goto fail;
-     }
-     if(PyGSL_STRIDE_RECALC(xa->strides[0], sizeof(double), &stride) != GSL_SUCCESS){
 	  line = __LINE__ - 2;
 	  goto fail;
      }
@@ -676,19 +734,16 @@ PyGSL_solver_vd_i(PyObject * self, PyObject *args, int_f_vd_t func)
      gsl_vector_view gradient;
 
      double epsabs;
-     int flag = GSL_EFAILED, stride_recalc=-1;
+     int flag = GSL_EFAILED;
+     PyGSL_array_index_t stride_recalc=-1;
 
      FUNC_MESS_BEGIN();
      if (0==PyArg_ParseTuple(args,"Od", &g, &epsabs))
 	  return NULL;     
 
-     ga  = PyGSL_PyArray_PREPARE_gsl_vector_view(g, PyArray_DOUBLE, 0, -1, 1, NULL);
+     ga  = PyGSL_vector_check(g, -1, PyGSL_DARRAY_INPUT(1), &stride_recalc, NULL);
      if (ga == NULL){
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
-	  return NULL;
-     }
-     if((PyGSL_STRIDE_RECALC(ga->strides[0],sizeof(double), &stride_recalc)) != GSL_SUCCESS){
-	  Py_XDECREF(ga);
 	  return NULL;
      }
      gradient = gsl_vector_view_array_with_stride((double *)(ga->data), stride_recalc,
@@ -704,38 +759,27 @@ PyGSL_solver_vvdd_i(PyObject * self, PyObject * args, int_f_vvdd_t func)
 {
      int flag;
      int line = -1;
-     long stride;
      double epsabs, epsrel;
      PyObject *dx_o, *x_o;
      PyArrayObject *dx_a = NULL, *x_a = NULL;
      gsl_vector_view x, dx;
+     PyGSL_array_index_t dimension, stride;
 
      FUNC_MESS_BEGIN();
      if(!PyArg_ParseTuple(args, "OOdd", &dx_o, &x_o, &epsabs, &epsrel))
 	  return NULL;
 
-     dx_a = PyGSL_PyArray_prepare_gsl_vector_view(dx_o, PyArray_DOUBLE,
-						 PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY,
-						 -1, 1, NULL);
+     dx_a = PyGSL_vector_check(dx_o, -1, PyGSL_DARRAY_INPUT(1), &stride, NULL);
      if(dx_a == NULL){
 	  line = __LINE__ - 4;
 	  goto fail;
      }
-     if((PyGSL_STRIDE_RECALC(dx_a->strides[0], sizeof(double), &stride)) != GSL_SUCCESS){
-	  line = __LINE__ - 2;
-	  goto fail;
-     }
      dx = gsl_vector_view_array_with_stride((double *)(dx_a->data), stride, dx_a->dimensions[0]);
 
-     x_a = PyGSL_PyArray_prepare_gsl_vector_view(x_o, PyArray_DOUBLE,
-						 PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY,
-						 -1, dx_a->dimensions[0], NULL);
+     dimension = dx_a->dimensions[0];
+     x_a = PyGSL_vector_check(x_o, dimension, PyGSL_DARRAY_CINPUT(2), &stride,  NULL);
      if(x_a == NULL){
 	  line = __LINE__ - 4;
-	  goto fail;
-     }
-     if((PyGSL_STRIDE_RECALC(x_a->strides[0],sizeof(double), &stride)) != GSL_SUCCESS){
-	  line = __LINE__ - 2;
 	  goto fail;
      }
      x = gsl_vector_view_array_with_stride((double *)(x_a->data), stride, x_a->dimensions[0]);
@@ -802,6 +846,56 @@ PyGSL_solver_func_set(PyGSL_solver *self, PyObject *args, PyObject *f,
      return GSL_SUCCESS;     
 }
 
+
+static PyObject *
+PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_GETSET_typemode mode)
+{
+     PyObject *ret=NULL, *input=NULL;
+     unsigned long ultmp;
+     int flag;
+
+     if (!PyArg_ParseTuple(args, "|O", &input))	  
+	  return NULL;
+
+     if(input){
+	  switch(mode){
+	  case PyGSL_MODE_DOUBLE:
+	       flag = PyGSL_PYFLOAT_TO_DOUBLE(input, (double *) address, NULL);
+	       break;
+	  case PyGSL_MODE_INT:
+	       flag = PyGSL_PYINT_TO_INT(input, (int *) address, NULL);
+	       break;
+	  case PyGSL_MODE_SIZE_T:
+	       flag = PyGSL_PYLONG_TO_ULONG(input, &ultmp, NULL);
+	       *((size_t *) address) = ultmp;
+	       break;
+	  default:
+	       GSL_ERROR_NULL("Unknown mode",GSL_ESANITY);
+	  }
+	  if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
+	       return NULL;
+
+	  Py_INCREF(Py_None);
+	  ret = Py_None;
+	  return ret;     
+     }
+
+     switch(mode){
+     case PyGSL_MODE_DOUBLE:
+	  ret = PyFloat_FromDouble(*((double *) address));
+	  break;
+     case PyGSL_MODE_INT:
+	  ret = PyInt_FromLong(((long) *((int *) address)));
+	  break;
+     case PyGSL_MODE_SIZE_T:
+	  ret = PyLong_FromUnsignedLong(((unsigned long) *((size_t *) address)));
+	  break;
+     default:
+	  GSL_ERROR_NULL("Unknown mode",GSL_ESANITY);
+     }
+     return ret;
+}
+
 #ifdef ONEFILE
 
 #include "chars.c"
@@ -820,7 +914,6 @@ PyGSL_solver_func_set(PyGSL_solver *self, PyObject *args, PyObject *f,
 #endif /* ONEFILE */
 
 static PyMethodDef solverMethods[] = {
-     /* odeiv */
      {NULL, NULL, 0, NULL}
 };
 
@@ -828,21 +921,24 @@ void
 init_api(void)
 {
      FUNC_MESS_BEGIN();    
-     PyGSL_API[PyGSL_solver_type_NUM          ] = (void *) &PyGSL_solver_pytype    ;
-     PyGSL_API[PyGSL_solver_ret_int_NUM       ] = (void *) &PyGSL_solver_ret_int    ;
-     PyGSL_API[PyGSL_solver_ret_double_NUM    ] = (void *) &PyGSL_solver_ret_double ;
-     PyGSL_API[PyGSL_solver_ret_size_t_NUM    ] = (void *) &PyGSL_solver_ret_size_t ;
-     PyGSL_API[PyGSL_solver_ret_vec_NUM       ] = (void *) &PyGSL_solver_ret_vec    ;
-     PyGSL_API[PyGSL_solver_dn_init_NUM       ] = (void *) &PyGSL_solver_dn_init    ;
-     PyGSL_API[PyGSL_solver_vd_i_NUM          ] = (void *) &PyGSL_solver_vd_i       ;
-     PyGSL_API[PyGSL_solver_vvdd_i_NUM        ] = (void *) &PyGSL_solver_vvdd_i     ;
-     PyGSL_API[PyGSL_Callable_Check_NUM       ] = (void *) &PyGSL_Callable_Check    ;
-     PyGSL_API[PyGSL_solver_func_set_NUM      ] = (void *) &PyGSL_solver_func_set   ;
-     PyGSL_API[PyGSL_function_wrap_OnOn_On_NUM] = (void *) &PyGSL_function_wrap_OnOn_On;
-     PyGSL_API[PyGSL_function_wrap_On_O_NUM   ] = (void *) &PyGSL_function_wrap_On_O;
-     PyGSL_API[PyGSL_function_wrap_Op_On_NUM  ] = (void *) &PyGSL_function_wrap_Op_On;
-     PyGSL_API[PyGSL_solver_n_set_NUM         ] = (void *) &PyGSL_solver_n_set      ;
-     PyGSL_API[PyGSL_solver_set_f_NUM         ] = (void *) &PyGSL_solver_set_f      ;
+     PyGSL_API[PyGSL_solver_type_NUM            ] = (void *) &PyGSL_solver_pytype     ;
+     PyGSL_API[PyGSL_solver_ret_int_NUM         ] = (void *) &PyGSL_solver_ret_int    ;
+     PyGSL_API[PyGSL_solver_ret_double_NUM      ] = (void *) &PyGSL_solver_ret_double ;
+     PyGSL_API[PyGSL_solver_ret_size_t_NUM      ] = (void *) &PyGSL_solver_ret_size_t ;
+     PyGSL_API[PyGSL_solver_ret_vec_NUM         ] = (void *) &PyGSL_solver_ret_vec    ;
+     PyGSL_API[PyGSL_solver_dn_init_NUM         ] = (void *) &PyGSL_solver_dn_init    ;
+     PyGSL_API[PyGSL_solver_vd_i_NUM            ] = (void *) &PyGSL_solver_vd_i       ;
+     PyGSL_API[PyGSL_solver_vvdd_i_NUM          ] = (void *) &PyGSL_solver_vvdd_i     ;
+     PyGSL_API[PyGSL_Callable_Check_NUM         ] = (void *) &PyGSL_Callable_Check    ;
+     PyGSL_API[PyGSL_solver_func_set_NUM        ] = (void *) &PyGSL_solver_func_set   ;
+     PyGSL_API[PyGSL_function_wrap_OnOn_On_NUM  ] = (void *) &PyGSL_function_wrap_OnOn_On;
+     PyGSL_API[PyGSL_function_wrap_On_O_NUM     ] = (void *) &PyGSL_function_wrap_On_O;
+     PyGSL_API[PyGSL_function_wrap_Op_On_NUM    ] = (void *) &PyGSL_function_wrap_Op_On;
+     PyGSL_API[PyGSL_function_wrap_Op_Opn_NUM   ] = (void *) &PyGSL_function_wrap_Op_Opn;
+     PyGSL_API[PyGSL_function_wrap_Op_On_Opn_NUM] = (void *) &PyGSL_function_wrap_Op_On_Opn;
+     PyGSL_API[PyGSL_solver_n_set_NUM           ] = (void *) &PyGSL_solver_n_set      ;
+     PyGSL_API[PyGSL_solver_set_f_NUM           ] = (void *) &PyGSL_solver_set_f      ;
+     PyGSL_API[PyGSL_solver_getset_NUM          ] = (void *) &PyGSL_solver_GetSet     ;
      FUNC_MESS_END();
 }
 

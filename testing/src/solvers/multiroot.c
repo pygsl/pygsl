@@ -289,24 +289,25 @@ static PyMethodDef mMethods[] = {
 };
 
 static const char PyGSL_multiroot_module_doc[] = "XXX Missing\n";
+
 void
 initmultiroot(void)
 {
      PyObject* m, *dict, *item;
      FUNC_MESS_BEGIN();
 
-     assert(PyGSL_API);
      m=Py_InitModule("multiroot", mMethods);
      module = m;
      assert(m);
-     dict = PyModule_GetDict(m);
-     if(!dict)
-	  goto fail;
 
      import_array();
      init_pygsl()
      import_pygsl_solver();
+     assert(PyGSL_API);
 
+     dict = PyModule_GetDict(m);
+     if(!dict)
+	  goto fail;
 
      if (!(item = PyString_FromString((char*)PyGSL_multiroot_module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 

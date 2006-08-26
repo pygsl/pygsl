@@ -7,12 +7,12 @@ PyObject *module = NULL;
 
 static const char root_f_type_name[] = "F-RootSolver";
 static const char root_fdf_type_name[] = "FdF-RootSolver";
-static const char root_f_root_doc[] = "";
+static const char root_f_root_doc[] = "Get the value of F";
 static const char root_set_f_doc[] = "";
 static const char root_set_fdf_doc[] = "";
 static const char root_fdf_root_doc[] = "";
-static const char root_x_lower_doc  [] = "";
-static const char root_x_upper_doc  [] = ""; 
+static const char root_x_lower_doc  [] = "Get the lower bound of x";
+static const char root_x_upper_doc  [] = "Get the upper bound of x"; 
 
 static PyObject* 
 PyGSL_root_f_root(PyGSL_solver *self, PyObject *args) 

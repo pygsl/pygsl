@@ -7,7 +7,7 @@ static const char multifit_f_type_name[] = "F-MultiFitSolver";
 static const char multifit_fdf_type_name[] = "FdF-MultiFitSolver";
 
 
-int 
+static int 
 PyGSL_multifit_function_wrap(const gsl_vector *x, void *params, gsl_vector *f)
 {
      PyGSL_solver *self = (PyGSL_solver *) params;
@@ -16,7 +16,7 @@ PyGSL_multifit_function_wrap(const gsl_vector *x, void *params, gsl_vector *f)
 }
 
 
-int 
+static int 
 PyGSL_multifit_function_wrap_df(const gsl_vector *x, void *params, gsl_matrix *df)
 {
      PyGSL_solver *self = (PyGSL_solver *) params; 
@@ -25,7 +25,7 @@ PyGSL_multifit_function_wrap_df(const gsl_vector *x, void *params, gsl_matrix *d
 				       __FUNCTION__);
 }
 
-int 
+static int 
 PyGSL_multifit_function_wrap_fdf(const gsl_vector *x, void *params, gsl_vector *f, gsl_matrix *df)
 {
      PyGSL_solver *self = (PyGSL_solver *) params;
@@ -34,7 +34,7 @@ PyGSL_multifit_function_wrap_fdf(const gsl_vector *x, void *params, gsl_vector *
 					  __FUNCTION__);
 }
 
-PyObject *
+static PyObject *
 PyGSL_multifit_fdfsolver_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 {
 
@@ -215,27 +215,21 @@ PyGSL_multifit_gradient(PyObject *self, PyObject *args)
   gsl_vector_view g;
   gsl_matrix_view J;
 
-  int stride_recalc, dimension, flag;
+  PyGSL_array_index_t stride_recalc, dimension;
+  int flag;
 
   if(!PyArg_ParseTuple(args, "OO:gsl_multifit_gradient", &J_o, &f_o)){
        return NULL;
   }
 
-  J_a = PyGSL_PyArray_PREPARE_gsl_matrix_view(J_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, -1, 1, NULL);
+  J_a = PyGSL_matrix_check(J_o, -1, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL, NULL);
   if(J_a == NULL) goto fail;
 
+  dimension = J_a->dimensions[0];
   /* Numpy calculates strides in bytes, gsl in basis type */
-  f_a = PyGSL_PyArray_PREPARE_gsl_vector_view(f_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
+  f_a = PyGSL_vector_check(f_o, dimension, PyGSL_DARRAY_INPUT(2), &stride_recalc, NULL);
   if(f_a == NULL) goto fail;
 
-  stride_recalc = f_a->strides[0] / sizeof(double);
-  assert(f_a->strides[0] % sizeof(double) == 0);
-
-  if(J_a->dimensions[0] != f_a->dimensions[0]){
-       gsl_error("The length of the vector and the matrix do not fit!\n", 
-		 __FILE__, __LINE__, GSL_EBADLEN);
-       goto fail;
-  }
   dimension = J_a->dimensions[1];
   g_a = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
   if(g_a == NULL) goto fail;
@@ -266,7 +260,8 @@ PyGSL_multifit_covar(PyObject *self, PyObject *args)
   PyArrayObject *J_a = NULL, *C_a = NULL;
   PyObject *J_o = NULL;
   gsl_matrix_view J, C;
-  int dimensions[2], flag;
+  PyGSL_array_index_t dimensions[2];
+  int flag;
   double epsrel;
 
 
@@ -274,7 +269,7 @@ PyGSL_multifit_covar(PyObject *self, PyObject *args)
     return NULL;
   }
 
-  J_a = PyGSL_PyArray_PREPARE_gsl_matrix_view(J_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, -1, 1, NULL);
+  J_a = PyGSL_matrix_check(J_o, -1, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL, NULL);
   if(J_a == NULL) goto fail;
 
   dimensions[0] = J_a->dimensions[1];
@@ -329,8 +324,7 @@ initmultifit_nlin(void)
      PyObject* m, *dict, *item;
      FUNC_MESS_BEGIN();
 
-     assert(PyGSL_API);
-     m=Py_InitModule("multifin_nlin", mMethods);
+     m=Py_InitModule("multifit_nlin", mMethods);
      module = m;
      assert(m);
      dict = PyModule_GetDict(m);
@@ -340,6 +334,7 @@ initmultifit_nlin(void)
      import_array();
      init_pygsl()
      import_pygsl_solver();
+     assert(PyGSL_API);
 
 
      if (!(item = PyString_FromString((char*)PyGSL_multifit_nlin_module_doc))){
@@ -354,6 +349,7 @@ initmultifit_nlin(void)
      }
      
      FUNC_MESS_END();
+     return;
 
  fail:
      FUNC_MESS("FAIL");

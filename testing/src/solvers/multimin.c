@@ -105,7 +105,7 @@ PyGSL_multimin_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
      PyObject* func = NULL, * args = Py_None, * x = NULL, * steps = NULL;
      PyArrayObject * xa = NULL, * stepsa = NULL;
      int n=0, flag=GSL_EFAILED;
-     int stride_recalc;
+     PyGSL_array_index_t stride_recalc;
      gsl_vector_view gsl_x;
      gsl_vector_view gsl_steps;
      gsl_multimin_function * c_sys = NULL;
@@ -129,23 +129,18 @@ PyGSL_multimin_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	  return NULL;	  
      }
      n=self->problem_dimensions[0]; 
-     xa  = PyGSL_PyArray_PREPARE_gsl_vector_view(x, PyArray_DOUBLE, 0, n, 4, NULL);
+     xa  = PyGSL_vector_check(x, n, PyGSL_DARRAY_INPUT(4), &stride_recalc, NULL);
      if (xa == NULL){
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  goto fail;
      }
-     if(PyGSL_STRIDE_RECALC(xa->strides[0],sizeof(double), &stride_recalc) != GSL_SUCCESS)
-	  goto fail;
 
      gsl_x = gsl_vector_view_array_with_stride((double *)(xa->data), stride_recalc, xa->dimensions[0]);
-     stepsa =  PyGSL_PyArray_PREPARE_gsl_vector_view(steps, PyArray_DOUBLE, 0, n, 5, NULL);
+     stepsa =  PyGSL_vector_check(steps, n, PyGSL_DARRAY_INPUT(5), &stride_recalc, NULL);
      if (stepsa == NULL){
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  goto fail;
      }
-     if(PyGSL_STRIDE_RECALC(stepsa->strides[0],sizeof(double), &stride_recalc) != GSL_SUCCESS)
-	  goto fail;
-
      gsl_steps = gsl_vector_view_array_with_stride((double *)(stepsa->data), stride_recalc, stepsa->dimensions[0]);
 
      if (self->c_sys != NULL) {
@@ -211,7 +206,7 @@ PyGSL_multimin_set_fdf(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	      * x = NULL;
      PyArrayObject * xa = NULL;
      int n=0, flag=GSL_EFAILED;
-     int stride_recalc=-1;
+     PyGSL_array_index_t stride_recalc=-1;
      double step=0.01, tol=1e-4;
      gsl_vector_view gsl_x;
      gsl_multimin_function_fdf * c_sys;
@@ -230,13 +225,11 @@ PyGSL_multimin_set_fdf(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	  return NULL;
 
      n=self->problem_dimensions[0];
-     xa  = PyGSL_PyArray_PREPARE_gsl_vector_view(x, PyArray_DOUBLE, 0, n, 4, NULL);
+     xa  = PyGSL_vector_check(x, n, PyGSL_DARRAY_INPUT(4), &stride_recalc, NULL);
      if (xa == NULL){
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  goto fail;
      }
-     if(PyGSL_STRIDE_RECALC(xa->strides[0],sizeof(double), &stride_recalc) != GSL_SUCCESS)
-	  goto fail;
      gsl_x = gsl_vector_view_array_with_stride((double *)(xa->data), stride_recalc, xa->dimensions[0]);
 
 
@@ -514,7 +507,6 @@ initmultimin(void)
      PyObject* m, *dict, *item;
      FUNC_MESS_BEGIN();
 
-     assert(PyGSL_API);
      m=Py_InitModule("multimin", mMethods);
      module = m;
      assert(m);
@@ -525,6 +517,7 @@ initmultimin(void)
      import_array();
      init_pygsl()
      import_pygsl_solver();
+     assert(PyGSL_API);
 
 
      if (!(item = PyString_FromString((char*)PyGSL_multimin_module_doc))){

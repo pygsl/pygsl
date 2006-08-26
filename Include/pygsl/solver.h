@@ -5,7 +5,7 @@
 /* Not directly needed here, but provides a lot of convienience functions */
 #include <pygsl/error_helpers.h>
 #include <gsl/gsl_math.h>
-#include <setjmp.h>
+
 /*
  * Many functions are "just" accessor methods. These different methods are
  * listed here.
@@ -57,8 +57,14 @@ struct _SolverStatic{
      const char * type_name;
 };
 
+struct pygsl_array_cache{
+     double * data;
+     PyArrayObject * ref;
+};
 #define PyGSL_SOLVER_NCBS_MAX 4
 #define PyGSL_SOLVER_PB_ND_MAX 2
+#define PyGSL_SOLVER_N_ARRAYS 10
+
 struct _PyGSLSolverObject{
      PyObject_HEAD
      /* 
@@ -71,7 +77,7 @@ struct _PyGSLSolverObject{
       * the calculation speed, I want to store them here, thus I can reuse them
       * if not stored by the user for later evaluation.
       */
-     PyArrayObject *tmparrays;
+     struct pygsl_array_cache *cache;
      /*
       * The Python callback methods.
       */
@@ -121,13 +127,26 @@ typedef struct{
 #define PyGSL_API_EXTERN static
 #endif 
 
+/*
+ *  Initalises a solver
+ *
+ *  The internal structure is set up and the 
+ *  nd: number of dimensions
+ *     0 ... zero dimensional e.g. minimize, root
+ *     1 ... one  dimensional e.g. multimin
+ *     2 ... two  dimensional e.g. multifit_nlin
+ *    
+ *     3 ... only initalise the structure
+ * 
+ */
 PyGSL_API_EXTERN  PyObject *
 PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct * alloc, int nd);
 
 /*
  * Accessor methods.
  *
- * These methods allow to access the 
+ * These methods allow to access parameters of the C structure using the access
+ * methods _m_t func
  */
 PyGSL_API_EXTERN PyObject* 
 PyGSL_solver_ret_double(PyGSL_solver *self, PyObject *args, double_m_t func);
@@ -167,6 +186,11 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector *x, gsl_vector *f1, gsl_matrix *f
 PyGSL_API_EXTERN int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback, 
 			  PyObject * arguments, int n, int p, char *c_func_name);
+
+PyGSL_API_EXTERN int
+PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
+			   PyObject *arguments, int n, int p, char * c_func_name);
+
 /*
  * evaluates a C function taking an vector and a double as input and returning a status.
  */
@@ -210,6 +234,19 @@ PyObject * PyGSL_ ## name(PyGSL_solver *self, PyObject *args) \
 #define GETINT(name)    _GET(name, int_m_t,    ret_int)
 #define GETVEC(name)    _GET(name, ret_vec,    ret_vec)
 
+
+/*
+ * Get or set a double ....
+ */
+enum PyGSL_GETSET_typemode {
+     PyGSL_MODE_DOUBLE = 0,
+     PyGSL_MODE_INT,
+     PyGSL_MODE_SIZE_T
+};
+
+PyGSL_API_EXTERN PyObject *
+PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_GETSET_typemode mode);
+
 #ifndef _PyGSL_SOLVER_API_MODULE
 
 #define PyGSL_function_wrap_Op_On \
@@ -223,6 +260,15 @@ PyObject * PyGSL_ ## name(PyGSL_solver *self, PyObject *args) \
 #define PyGSL_function_wrap_OnOn_On \
 (* (int (*)(const gsl_vector *, const gsl_vector *, gsl_vector *, PyObject *,  PyObject *,int ,char *))\
  PyGSL_API[PyGSL_function_wrap_OnOn_On_NUM])
+
+#define PyGSL_function_wrap_Op_On_Opn \
+(* (int (*)(const gsl_vector *, gsl_vector *, gsl_matrix *, PyObject *, PyObject *, int, int, char *))\
+ PyGSL_API[PyGSL_function_wrap_Op_On_Opn_NUM])
+
+#define PyGSL_function_wrap_Op_Opn \
+(* (int (*)(const gsl_vector *, gsl_matrix *, PyObject *, PyObject *, int, int, char *))\
+ PyGSL_API[PyGSL_function_wrap_Op_Opn_NUM])
+
 
 #define PyGSL_solver_ret_int \
 (*(PyObject *  (*) (PyGSL_solver *, PyObject *, int_m_t func))    PyGSL_API[PyGSL_solver_ret_int_NUM])
@@ -256,6 +302,9 @@ PyObject * PyGSL_ ## name(PyGSL_solver *self, PyObject *args) \
 
 #define PyGSL_solver_set_f \
 (* (PyObject * (*)(PyGSL_solver *, PyObject *, PyObject *, void *, int )) PyGSL_API[PyGSL_solver_set_f_NUM])
+
+#define PyGSL_solver_GetSet \
+(* (PyObject * (*) (PyObject *, PyObject *, void *, enum PyGSL_GETSET_typemode mode)) PyGSL_API[PyGSL_solver_getset_NUM])
 
 #define PyGSL_solver_check(ob) (((ob)->ob_type) == (PyGSL_API[PyGSL_solver_type_NUM]))
 

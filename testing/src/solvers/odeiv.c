@@ -259,8 +259,8 @@ PyGSL_odeiv_step_apply(PyGSL_solver *self, PyObject *args)
 	 *volatile yout = NULL;
 
     double t=0, h=0, *volatile dydt_in_d;
-    int dimension, r, flag;
-
+    int  r, flag;
+    PyGSL_array_index_t dimension;
 
     FUNC_MESS_BEGIN();
     assert(PyGSL_ODEIV_STEP_Check(self));
@@ -270,14 +270,14 @@ PyGSL_odeiv_step_apply(PyGSL_solver *self, PyObject *args)
 
 
     dimension = self->problem_dimensions[0];
-    y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, 1, dimension, 1, NULL);
+    y0 = PyGSL_vector_check(y0_o, dimension, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
     if(y0 == NULL) goto fail;
 
 
     if (Py_None == dydt_in_o){
 	 dydt_in_d = NULL;
     }else{
-	 dydt_in = PyGSL_PyArray_PREPARE_gsl_vector_view(dydt_in_o, PyArray_DOUBLE, 1, dimension, 2, NULL);
+	 dydt_in = PyGSL_vector_check(dydt_in_o, dimension, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
 	 if(dydt_in == NULL) goto fail;
 	 dydt_in_d = (double *) dydt_in->data;
     }
@@ -358,7 +358,7 @@ PyGSL_odeiv_control_hadjust(PyGSL_solver *self, PyObject *args)
   int r = 0;
   mycontrol *c;
 
-  size_t dimension = 0;
+  PyGSL_array_index_t dimension = 0;
 
   FUNC_MESS_BEGIN();
   assert(PyGSL_ODEIV_CONTROL_Check(self));
@@ -369,11 +369,11 @@ PyGSL_odeiv_control_hadjust(PyGSL_solver *self, PyObject *args)
   dimension = self->problem_dimensions[0];
 
 
-  y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, 1, dimension,  1, NULL);
+  y0 = PyGSL_vector_check(y0_o, dimension, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if(y0 == NULL)   goto fail;
-  yerr = PyGSL_PyArray_PREPARE_gsl_vector_view(yerr_o, PyArray_DOUBLE, 1, dimension, 2, NULL);
+  yerr = PyGSL_vector_check(yerr_o, dimension, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if(yerr == NULL) goto fail;
-  dydt = PyGSL_PyArray_PREPARE_gsl_vector_view(yerr_o, PyArray_DOUBLE, 1, dimension, 3, NULL);
+  dydt = PyGSL_vector_check(dydt_o, dimension, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
   if(dydt == NULL) goto fail;
   
   FUNC_MESS("      Array Pointers End");
@@ -424,7 +424,7 @@ PyGSL_odeiv_evolve_apply(PyGSL_solver *self, PyObject *args)
 
     DEBUG_MESS(3, "y0_o @ %p", y0_o);
     
-    y0 = PyGSL_PyArray_PREPARE_gsl_vector_view(y0_o, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, dimension, 1, NULL);
+    y0 = PyGSL_vector_check(y0_o, dimension, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
     if(y0 == NULL) goto fail;
 
 
