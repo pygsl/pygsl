@@ -2,12 +2,14 @@
  * author: Pierre Schnizer
  * created: June 2003
  */
+#include <pygsl/error_helpers.h>
+#include <pygsl/block_helpers.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_sf.h>
+#include <gsl/gsl_complex.h>
+#include <gsl/gsl_complex_math.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_nan.h>
-#include <pygsl/block_helpers.h>
-#include <Python.h>
 #undef _PyGSL_UFUNC_SUPPORTED
 #ifdef PyGSL_NUMPY
 #include <numpy/arrayobject.h>
@@ -22,7 +24,6 @@
 #ifndef _PyGSL_UFUNC_SUPPORTED
 #error "UFUNCs not supported by the selected/found array module!"
 #endif
-#include <pygsl/error_helpers.h>
 /*
    #include <pygsl/utils.h>
    #include <pygsl/error_helpers.h>
@@ -74,13 +75,14 @@ void  PyGSL_sf_ufunc_qi_dd_D(char **args, int *dimensions, int *steps, void *fun
 	double *dop;
 
 	gsl_sf_result x, y;
-	int i, tmp;
+	int tmp;
+	PyGSL_array_index_t i;
 	FUNC_MESS_BEGIN();
 	DEBUG_MESS(2, "dimensions = %d %d %d", dimensions[0], dimensions[1],dimensions[2]);
 	DEBUG_MESS(2, "steps = %d %d %d", steps[0], steps[1], steps[2]);
 	DEBUG_MESS(2, "args = %p %p %p", args[0], args[1], args[2]);
         for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-	     DEBUG_MESS(2, "i = %d", i);
+	     DEBUG_MESS(2, "i = %ld", (long)i);
 	    dop = ((double *) op0);
 	    tmp = ((PyGSL_sf_ufunc_qi_dd_D_one *) func)(*((double *)ip0), *((double *)ip1), &x, &y);
 	    dop[0] = x.val;
@@ -111,7 +113,8 @@ static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_D_one_data[] = {PyGSL_sf_ufun
 typedef int PyGSL_sf_ufunc_qi_D_dd_one(double, double, gsl_sf_result *, gsl_sf_result *);
 void  PyGSL_sf_ufunc_qi_D_dd(char **args, int *dimensions, int *steps, void *func)
 {
-        int i,  is0=steps[0], os0=steps[1], os1=steps[2], tmp;
+	int tmp;
+	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2];
         char   *ip0=args[0], *op0=args[1], *op1=args[2];
 	double *dip;
 	gsl_sf_result radius, angle;
@@ -122,7 +125,7 @@ void  PyGSL_sf_ufunc_qi_D_dd(char **args, int *dimensions, int *steps, void *fun
 	DEBUG_MESS(2, "args = %p %p %p", args[0], args[1], args[2]);
 	DEBUG_MESS(1, "rect_to_polar %p", (void *)func);
         for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
-	     DEBUG_MESS(2, "i = %d", i);
+	     DEBUG_MESS(2, "i = %ld", (long)i);
 	    dip = ((double *) ip0);
 	    tmp = ((PyGSL_sf_ufunc_qi_D_dd_one *) func)(dip[0], dip[1], &radius, &angle);
 	    *((double *)op0) = radius.val;
@@ -132,7 +135,7 @@ void  PyGSL_sf_ufunc_qi_D_dd(char **args, int *dimensions, int *steps, void *fun
 }
 void  PyGSL_sf_ufunc_qi_D_dd_as_F_ff(char **args, int *dimensions, int *steps, void *func)
 {
-        int i,  is0=steps[0], os0=steps[1],  os1=steps[2], tmp;
+        PyGSL_array_index_t i,  is0=steps[0], os0=steps[1],  os1=steps[2], tmp;
         char   *ip0=args[0],  *op0=args[1], *op1=args[2];
 	double tmp2, tmp1;
 	gsl_sf_result radius, angle;
@@ -143,7 +146,7 @@ void  PyGSL_sf_ufunc_qi_D_dd_as_F_ff(char **args, int *dimensions, int *steps, v
 	DEBUG_MESS(1, "polar_to_rect %p", (void *)func);
         for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
 	     tmp = ((PyGSL_sf_ufunc_qi_D_dd_one *) func)((double) *((float *)ip0), (double) *(((float *)ip0)+1), &radius, &angle);
-	     DEBUG_MESS(2, "i = %d", i);
+	     DEBUG_MESS(2, "i = %ld", (long)i);
 	      *((float *)op0) = (float) radius.val;
 	      *((float *)op1) = (float) angle.val;
 	}
@@ -159,7 +162,7 @@ static char * sf_module_doc =
 Use print sf.<function>.__doc__ to get more information about the ufunc.\n\
 Help does not display the information stored there!\n";
 
-DL_EXPORT(void) initsf(void)
+DL_EXPORT(void) init_ufuncs(void)
 {
   PyObject* gsl_errors_module=NULL;
   PyObject* sf_module=NULL, *sf_dict=NULL;
@@ -167,7 +170,7 @@ DL_EXPORT(void) initsf(void)
   PyObject* f=NULL, *item=NULL;
 
   fprintf(stderr, "Module compiled at %s %s\n", __DATE__, __TIME__);
-  sf_module=Py_InitModule("sf", sf_array_functions);
+  sf_module=Py_InitModule("_ufuncs", sf_array_functions);
   module = sf_module;
 
   import_array();
