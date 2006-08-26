@@ -1581,12 +1581,12 @@ SWIGINTERNSHORT PyObject*
 static PyObject *gsl_dht_struct_apply(struct gsl_dht_struct *self,PyObject *in){
        PyArrayObject *a_in = NULL, *a_out = NULL;
        PyObject *resultobj = NULL, *returnobj = NULL;
-       int size = -1;
+       PyGSL_array_index_t size = -1;
        int result;
 
        size = (int) self->size;
 
-       a_in = PyGSL_PyArray_PREPARE_gsl_vector_view(in, PyArray_DOUBLE, 1, size, 1, NULL);
+       a_in = PyGSL_vector_check(in, size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
        if (a_in == NULL)        
 	    goto fail;
 
@@ -2200,7 +2200,6 @@ SWIGEXPORT(void) SWIG_init(void) {
     SWIG_InstallConstants(d,swig_const_table);
     
     
-    import_array();
     init_pygsl();
     
     

@@ -2187,7 +2187,6 @@ SWIGEXPORT(void) SWIG_init(void) {
     SWIG_InstallConstants(d,swig_const_table);
     
     
-    import_array();
     init_pygsl();
     
 }

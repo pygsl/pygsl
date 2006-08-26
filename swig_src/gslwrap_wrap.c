@@ -1715,7 +1715,7 @@ SWIG_FromCharPtr(const char* cptr)
 
 static PyObject *gsl_permutation_struct_tolist(struct gsl_permutation_struct *self){
        PyObject *a_list = NULL, *a_int;
-       long size = 0, i;
+       PyGSL_array_index_t size = 0, i;
 
        size = (long) gsl_permutation_size(self);
        a_list = PyList_New(size);
@@ -1734,7 +1734,7 @@ static PyObject *gsl_permutation_struct_tolist(struct gsl_permutation_struct *se
 static PyObject *gsl_permutation_struct_toarray(struct gsl_permutation_struct *self){
        PyArrayObject * a_array = NULL;
        long *data;
-       int size, i;
+       PyGSL_array_index_t size, i;
 
        size = (int) gsl_permutation_size(self);
        a_array = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_LONG);
@@ -1847,7 +1847,7 @@ static PyObject *gsl_combination_struct_tolist(struct gsl_combination_struct *se
 static PyObject *gsl_combination_struct_toarray(struct gsl_combination_struct *self){
        PyArrayObject * a_array = NULL;
        long *data;
-       int size, i;
+       PyGSL_array_index_t size, i;
 
        size = (int) gsl_combination_k(self);
        a_array = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_LONG);
@@ -2102,7 +2102,7 @@ static PyObject *_wrap_gsl_linalg_matmult(PyObject *self, PyObject *args, PyObje
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_matmult",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2110,7 +2110,7 @@ static PyObject *_wrap_gsl_linalg_matmult(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2118,7 +2118,7 @@ static PyObject *_wrap_gsl_linalg_matmult(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2207,7 +2207,7 @@ static PyObject *_wrap_gsl_linalg_matmult_mod(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_matmult_mod",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2219,7 +2219,7 @@ static PyObject *_wrap_gsl_linalg_matmult_mod(PyObject *self, PyObject *args, Py
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2231,7 +2231,7 @@ static PyObject *_wrap_gsl_linalg_matmult_mod(PyObject *self, PyObject *args, Py
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2312,7 +2312,7 @@ static PyObject *_wrap_gsl_linalg_exponential_ss(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_exponential_ss",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2320,7 +2320,7 @@ static PyObject *_wrap_gsl_linalg_exponential_ss(PyObject *self, PyObject *args,
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2393,7 +2393,7 @@ static PyObject *_wrap_gsl_linalg_householder_transform(PyObject *self, PyObject
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_linalg_householder_transform",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2437,7 +2437,7 @@ static PyObject *_wrap_gsl_linalg_complex_householder_transform(PyObject *self, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_linalg_complex_householder_transform",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2491,7 +2491,7 @@ static PyObject *_wrap_gsl_linalg_householder_hm(PyObject *self, PyObject *args,
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2500,7 +2500,7 @@ static PyObject *_wrap_gsl_linalg_householder_hm(PyObject *self, PyObject *args,
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2575,7 +2575,7 @@ static PyObject *_wrap_gsl_linalg_householder_mh(PyObject *self, PyObject *args,
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2584,7 +2584,7 @@ static PyObject *_wrap_gsl_linalg_householder_mh(PyObject *self, PyObject *args,
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2659,7 +2659,7 @@ static PyObject *_wrap_gsl_linalg_householder_hv(PyObject *self, PyObject *args,
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2668,7 +2668,7 @@ static PyObject *_wrap_gsl_linalg_householder_hv(PyObject *self, PyObject *args,
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2738,7 +2738,7 @@ static PyObject *_wrap_gsl_linalg_householder_hm1(PyObject *self, PyObject *args
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2805,7 +2805,7 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hm(PyObject *self, PyObjec
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2814,7 +2814,7 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hm(PyObject *self, PyObjec
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2881,7 +2881,7 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hv(PyObject *self, PyObjec
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2890,7 +2890,7 @@ static PyObject *_wrap_gsl_linalg_complex_householder_hv(PyObject *self, PyObjec
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2942,7 +2942,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_SV_decomp",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2950,7 +2950,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -2958,7 +2958,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -2967,7 +2967,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3075,7 +3075,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_SV_decomp_mod",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3083,7 +3083,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3091,7 +3091,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3099,7 +3099,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3108,7 +3108,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_mod(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3214,7 +3214,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_jacobi(PyObject *self, PyObject *arg
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_SV_decomp_jacobi",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3222,7 +3222,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_jacobi(PyObject *self, PyObject *arg
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3230,7 +3230,7 @@ static PyObject *_wrap_gsl_linalg_SV_decomp_jacobi(PyObject *self, PyObject *arg
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3328,7 +3328,7 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_SV_solve",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3336,7 +3336,7 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3344,7 +3344,7 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3353,7 +3353,7 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3362,7 +3362,7 @@ static PyObject *_wrap_gsl_linalg_SV_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3462,7 +3462,7 @@ static PyObject *_wrap_gsl_linalg_LU_decomp(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_LU_decomp",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3533,7 +3533,7 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LU_solve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3543,7 +3543,7 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3552,7 +3552,7 @@ static PyObject *_wrap_gsl_linalg_LU_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3634,7 +3634,7 @@ static PyObject *_wrap_gsl_linalg_LU_svx(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LU_svx",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3644,7 +3644,7 @@ static PyObject *_wrap_gsl_linalg_LU_svx(PyObject *self, PyObject *args, PyObjec
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3734,7 +3734,7 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOO:gsl_linalg_LU_refine",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3742,7 +3742,7 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3752,7 +3752,7 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3761,7 +3761,7 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3770,7 +3770,7 @@ static PyObject *_wrap_gsl_linalg_LU_refine(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -3872,7 +3872,7 @@ static PyObject *_wrap_gsl_linalg_LU_invert(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LU_invert",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3882,7 +3882,7 @@ static PyObject *_wrap_gsl_linalg_LU_invert(PyObject *self, PyObject *args, PyOb
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3947,7 +3947,7 @@ static PyObject *_wrap_gsl_linalg_LU_det(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_LU_det",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -3994,7 +3994,7 @@ static PyObject *_wrap_gsl_linalg_LU_lndet(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_linalg_LU_lndet",kwnames,&obj0)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4039,7 +4039,7 @@ static PyObject *_wrap_gsl_linalg_LU_sgndet(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_LU_sgndet",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4092,7 +4092,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_decomp(PyObject *self, PyObject *ar
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_complex_LU_decomp",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4163,7 +4163,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_complex_LU_solve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4173,7 +4173,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4182,7 +4182,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_solve(PyObject *self, PyObject *arg
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4244,7 +4244,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_svx(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_complex_LU_svx",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4254,7 +4254,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_svx(PyObject *self, PyObject *args,
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4334,7 +4334,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOO:gsl_linalg_complex_LU_refine",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4342,7 +4342,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4352,7 +4352,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4361,7 +4361,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4370,7 +4370,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_refine(PyObject *self, PyObject *ar
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4442,7 +4442,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_invert(PyObject *self, PyObject *ar
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_complex_LU_invert",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4452,7 +4452,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_invert(PyObject *self, PyObject *ar
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4517,7 +4517,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_det(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_complex_LU_det",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4572,7 +4572,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_lndet(PyObject *self, PyObject *arg
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_linalg_complex_LU_lndet",kwnames,&obj0)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4617,7 +4617,7 @@ static PyObject *_wrap_gsl_linalg_complex_LU_sgndet(PyObject *self, PyObject *ar
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_complex_LU_sgndet",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4678,7 +4678,7 @@ static PyObject *_wrap_gsl_linalg_QR_decomp(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_QR_decomp",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4686,7 +4686,7 @@ static PyObject *_wrap_gsl_linalg_QR_decomp(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4768,7 +4768,7 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QR_solve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4776,7 +4776,7 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4785,7 +4785,7 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4794,7 +4794,7 @@ static PyObject *_wrap_gsl_linalg_QR_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4890,7 +4890,7 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QR_svx",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -4898,7 +4898,7 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -4907,7 +4907,7 @@ static PyObject *_wrap_gsl_linalg_QR_svx(PyObject *self, PyObject *args, PyObjec
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5005,7 +5005,7 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_QR_lssolve",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5013,7 +5013,7 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5022,7 +5022,7 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5031,7 +5031,7 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5040,7 +5040,7 @@ static PyObject *_wrap_gsl_linalg_QR_lssolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5152,7 +5152,7 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QR_QRsolve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5160,7 +5160,7 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5168,7 +5168,7 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5177,7 +5177,7 @@ static PyObject *_wrap_gsl_linalg_QR_QRsolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5273,7 +5273,7 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QR_Rsolve",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5281,7 +5281,7 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5290,7 +5290,7 @@ static PyObject *_wrap_gsl_linalg_QR_Rsolve(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5370,7 +5370,7 @@ static PyObject *_wrap_gsl_linalg_QR_Rsvx(PyObject *self, PyObject *args, PyObje
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_QR_Rsvx",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5378,7 +5378,7 @@ static PyObject *_wrap_gsl_linalg_QR_Rsvx(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5460,7 +5460,7 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QR_update",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5468,7 +5468,7 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5476,7 +5476,7 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5485,7 +5485,7 @@ static PyObject *_wrap_gsl_linalg_QR_update(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5581,7 +5581,7 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QR_QTvec",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5589,7 +5589,7 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5598,7 +5598,7 @@ static PyObject *_wrap_gsl_linalg_QR_QTvec(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5684,7 +5684,7 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QR_Qvec",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5692,7 +5692,7 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5701,7 +5701,7 @@ static PyObject *_wrap_gsl_linalg_QR_Qvec(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5793,7 +5793,7 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QR_unpack",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5801,7 +5801,7 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5810,7 +5810,7 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5818,7 +5818,7 @@ static PyObject *_wrap_gsl_linalg_QR_unpack(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5913,7 +5913,7 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_R_solve",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -5921,7 +5921,7 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -5930,7 +5930,7 @@ static PyObject *_wrap_gsl_linalg_R_solve(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6022,7 +6022,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QRPT_decomp",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6030,7 +6030,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6041,7 +6041,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp(PyObject *self, PyObject *args, Py
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6147,7 +6147,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOO:gsl_linalg_QRPT_decomp2",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6155,7 +6155,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6163,7 +6163,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6171,7 +6171,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6182,7 +6182,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_decomp2(PyObject *self, PyObject *args, P
     if (SWIG_arg_fail(5)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg7, _PyVector7, _vector7,
         PyGSL_INPUT_ARRAY, gsl_vector, 7, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6298,7 +6298,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_QRPT_solve",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6306,7 +6306,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6317,7 +6317,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6326,7 +6326,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_solve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6424,7 +6424,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QRPT_svx",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6432,7 +6432,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6443,7 +6443,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_svx(PyObject *self, PyObject *args, PyObj
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6537,7 +6537,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_QRPT_QRsolve",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6545,7 +6545,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6555,7 +6555,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6564,7 +6564,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_QRsolve(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6662,7 +6662,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_QRPT_Rsolve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6672,7 +6672,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6681,7 +6681,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsolve(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6763,7 +6763,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsvx(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_QRPT_Rsvx",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6773,7 +6773,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_Rsvx(PyObject *self, PyObject *args, PyOb
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6857,7 +6857,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_QRPT_update",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6865,7 +6865,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6875,7 +6875,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6884,7 +6884,7 @@ static PyObject *_wrap_gsl_linalg_QRPT_update(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -6974,7 +6974,7 @@ static PyObject *_wrap_gsl_linalg_LQ_decomp(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_LQ_decomp",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -6982,7 +6982,7 @@ static PyObject *_wrap_gsl_linalg_LQ_decomp(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7054,7 +7054,7 @@ static PyObject *_wrap_gsl_linalg_LQ_solve_T(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LQ_solve_T",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7062,7 +7062,7 @@ static PyObject *_wrap_gsl_linalg_LQ_solve_T(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7071,7 +7071,7 @@ static PyObject *_wrap_gsl_linalg_LQ_solve_T(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7080,7 +7080,7 @@ static PyObject *_wrap_gsl_linalg_LQ_solve_T(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7166,7 +7166,7 @@ static PyObject *_wrap_gsl_linalg_LQ_svx_T(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LQ_svx_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7174,7 +7174,7 @@ static PyObject *_wrap_gsl_linalg_LQ_svx_T(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7183,7 +7183,7 @@ static PyObject *_wrap_gsl_linalg_LQ_svx_T(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7271,7 +7271,7 @@ static PyObject *_wrap_gsl_linalg_LQ_lssolve_T(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_LQ_lssolve_T",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7279,7 +7279,7 @@ static PyObject *_wrap_gsl_linalg_LQ_lssolve_T(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7288,7 +7288,7 @@ static PyObject *_wrap_gsl_linalg_LQ_lssolve_T(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7297,7 +7297,7 @@ static PyObject *_wrap_gsl_linalg_LQ_lssolve_T(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7306,7 +7306,7 @@ static PyObject *_wrap_gsl_linalg_LQ_lssolve_T(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7402,7 +7402,7 @@ static PyObject *_wrap_gsl_linalg_LQ_Lsolve_T(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LQ_Lsolve_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7410,7 +7410,7 @@ static PyObject *_wrap_gsl_linalg_LQ_Lsolve_T(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7419,7 +7419,7 @@ static PyObject *_wrap_gsl_linalg_LQ_Lsolve_T(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7489,7 +7489,7 @@ static PyObject *_wrap_gsl_linalg_LQ_Lsvx_T(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_LQ_Lsvx_T",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7497,7 +7497,7 @@ static PyObject *_wrap_gsl_linalg_LQ_Lsvx_T(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7563,7 +7563,7 @@ static PyObject *_wrap_gsl_linalg_L_solve_T(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_L_solve_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7571,7 +7571,7 @@ static PyObject *_wrap_gsl_linalg_L_solve_T(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7580,7 +7580,7 @@ static PyObject *_wrap_gsl_linalg_L_solve_T(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7656,7 +7656,7 @@ static PyObject *_wrap_gsl_linalg_LQ_vecQ(PyObject *self, PyObject *args, PyObje
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LQ_vecQ",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7664,7 +7664,7 @@ static PyObject *_wrap_gsl_linalg_LQ_vecQ(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7673,7 +7673,7 @@ static PyObject *_wrap_gsl_linalg_LQ_vecQ(PyObject *self, PyObject *args, PyObje
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7749,7 +7749,7 @@ static PyObject *_wrap_gsl_linalg_LQ_vecQT(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_LQ_vecQT",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7757,7 +7757,7 @@ static PyObject *_wrap_gsl_linalg_LQ_vecQT(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7766,7 +7766,7 @@ static PyObject *_wrap_gsl_linalg_LQ_vecQT(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7848,7 +7848,7 @@ static PyObject *_wrap_gsl_linalg_LQ_unpack(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LQ_unpack",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7856,7 +7856,7 @@ static PyObject *_wrap_gsl_linalg_LQ_unpack(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7865,7 +7865,7 @@ static PyObject *_wrap_gsl_linalg_LQ_unpack(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7873,7 +7873,7 @@ static PyObject *_wrap_gsl_linalg_LQ_unpack(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7964,7 +7964,7 @@ static PyObject *_wrap_gsl_linalg_LQ_update(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LQ_update",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7972,7 +7972,7 @@ static PyObject *_wrap_gsl_linalg_LQ_update(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -7980,7 +7980,7 @@ static PyObject *_wrap_gsl_linalg_LQ_update(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -7989,7 +7989,7 @@ static PyObject *_wrap_gsl_linalg_LQ_update(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8081,7 +8081,7 @@ static PyObject *_wrap_gsl_linalg_LQ_LQsolve(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_LQ_LQsolve",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8089,7 +8089,7 @@ static PyObject *_wrap_gsl_linalg_LQ_LQsolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8097,7 +8097,7 @@ static PyObject *_wrap_gsl_linalg_LQ_LQsolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8106,7 +8106,7 @@ static PyObject *_wrap_gsl_linalg_LQ_LQsolve(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8198,7 +8198,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_decomp(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_PTLQ_decomp",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8206,7 +8206,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_decomp(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8217,7 +8217,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_decomp(PyObject *self, PyObject *args, Py
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8313,7 +8313,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_decomp2(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOO:gsl_linalg_PTLQ_decomp2",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8321,7 +8321,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_decomp2(PyObject *self, PyObject *args, P
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8329,7 +8329,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_decomp2(PyObject *self, PyObject *args, P
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8337,7 +8337,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_decomp2(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8348,7 +8348,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_decomp2(PyObject *self, PyObject *args, P
     if (SWIG_arg_fail(5)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg7, _PyVector7, _vector7,
         PyGSL_INPUT_ARRAY, gsl_vector, 7, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8454,7 +8454,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_solve_T(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_PTLQ_solve_T",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8462,7 +8462,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_solve_T(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8473,7 +8473,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_solve_T(PyObject *self, PyObject *args, P
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8482,7 +8482,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_solve_T(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8570,7 +8570,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_svx_T(PyObject *self, PyObject *args, PyO
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_PTLQ_svx_T",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8578,7 +8578,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_svx_T(PyObject *self, PyObject *args, PyO
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8589,7 +8589,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_svx_T(PyObject *self, PyObject *args, PyO
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8673,7 +8673,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_LQsolve_T(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_PTLQ_LQsolve_T",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8681,7 +8681,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_LQsolve_T(PyObject *self, PyObject *args,
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8691,7 +8691,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_LQsolve_T(PyObject *self, PyObject *args,
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8700,7 +8700,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_LQsolve_T(PyObject *self, PyObject *args,
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8788,7 +8788,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_Lsolve_T(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_PTLQ_Lsolve_T",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8798,7 +8798,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_Lsolve_T(PyObject *self, PyObject *args, 
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8807,7 +8807,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_Lsolve_T(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8879,7 +8879,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_Lsvx_T(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_PTLQ_Lsvx_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8889,7 +8889,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_Lsvx_T(PyObject *self, PyObject *args, Py
     if (SWIG_arg_fail(2)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8963,7 +8963,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_update(PyObject *self, PyObject *args, Py
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_PTLQ_update",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8971,7 +8971,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_update(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -8981,7 +8981,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_update(PyObject *self, PyObject *args, Py
     if (SWIG_arg_fail(3)) SWIG_fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -8990,7 +8990,7 @@ static PyObject *_wrap_gsl_linalg_PTLQ_update(PyObject *self, PyObject *args, Py
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9064,7 +9064,7 @@ static PyObject *_wrap_gsl_linalg_cholesky_decomp(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_linalg_cholesky_decomp",kwnames,&obj0)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9129,7 +9129,7 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_cholesky_solve",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9137,7 +9137,7 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9146,7 +9146,7 @@ static PyObject *_wrap_gsl_linalg_cholesky_solve(PyObject *self, PyObject *args,
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9226,7 +9226,7 @@ static PyObject *_wrap_gsl_linalg_cholesky_svx(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_cholesky_svx",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9234,7 +9234,7 @@ static PyObject *_wrap_gsl_linalg_cholesky_svx(PyObject *self, PyObject *args, P
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9255,6 +9255,74 @@ static PyObject *_wrap_gsl_linalg_cholesky_svx(PyObject *self, PyObject *args, P
         }
         Py_INCREF(Py_None);
         resultobj = Py_None;
+    }
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    return resultobj;
+    fail:
+    {
+        Py_XDECREF(_PyMatrix1);
+        _PyMatrix1 = NULL;
+        FUNC_MESS_END();
+    }
+    {
+        Py_XDECREF(_PyVector2);
+        _PyVector2 = NULL;
+        FUNC_MESS_END();
+    }
+    return NULL;
+}
+
+
+static PyObject *_wrap_gsl_linalg_cholesky_decomp_unit(PyObject *self, PyObject *args, PyObject *kwargs) {
+    PyObject *resultobj;
+    gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+    gsl_vector *arg2 = (gsl_vector *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    char *kwnames[] = {
+        (char *) "A",(char *) "D", NULL 
+    };
+    
+    
+    PyArrayObject * _PyMatrix1 = NULL;
+    TYPE_VIEW_gsl_matrix _matrix1;
+    
+    
+    PyArrayObject * volatile _PyVector2 = NULL;
+    TYPE_VIEW_gsl_vector _vector2;
+    
+    if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_cholesky_decomp_unit",kwnames,&obj0,&obj1)) goto fail;
+    
+    {
+        PyGSL_array_index_t stride;
+        if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+        goto fail;	  
+    }
+    
+    
+    {
+        PyGSL_array_index_t stride=0;
+        if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+            goto fail;
+        }
+    }
+    
+    result = (int)gsl_linalg_cholesky_decomp_unit(arg1,arg2);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
     }
     {
         Py_XDECREF(_PyMatrix1);
@@ -9304,7 +9372,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_decomp(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_symmtd_decomp",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9312,7 +9380,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_decomp(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9400,7 +9468,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_symmtd_unpack",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9408,7 +9476,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9417,7 +9485,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9425,7 +9493,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9434,7 +9502,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9540,7 +9608,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_symmtd_unpack_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9548,7 +9616,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9557,7 +9625,7 @@ static PyObject *_wrap_gsl_linalg_symmtd_unpack_T(PyObject *self, PyObject *args
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9637,7 +9705,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_decomp(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_hermtd_decomp",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9645,7 +9713,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_decomp(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9723,7 +9791,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_hermtd_unpack",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9731,7 +9799,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9740,7 +9808,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9748,7 +9816,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9757,7 +9825,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9853,7 +9921,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_hermtd_unpack_T",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9861,7 +9929,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9870,7 +9938,7 @@ static PyObject *_wrap_gsl_linalg_hermtd_unpack_T(PyObject *self, PyObject *args
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9956,7 +10024,7 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_HH_solve",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -9964,7 +10032,7 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -9973,7 +10041,7 @@ static PyObject *_wrap_gsl_linalg_HH_solve(PyObject *self, PyObject *args, PyObj
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10053,7 +10121,7 @@ static PyObject *_wrap_gsl_linalg_HH_svx(PyObject *self, PyObject *args, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_HH_svx",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -10061,7 +10129,7 @@ static PyObject *_wrap_gsl_linalg_HH_svx(PyObject *self, PyObject *args, PyObjec
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10143,7 +10211,7 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_solve_symm_tridiag",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10152,7 +10220,7 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10161,7 +10229,7 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10170,7 +10238,7 @@ static PyObject *_wrap_gsl_linalg_solve_symm_tridiag(PyObject *self, PyObject *a
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10278,7 +10346,7 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_solve_tridiag",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10287,7 +10355,7 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10296,7 +10364,7 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10305,7 +10373,7 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10314,7 +10382,7 @@ static PyObject *_wrap_gsl_linalg_solve_tridiag(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10426,7 +10494,7 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_solve_symm_cyc_tridiag",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10435,7 +10503,7 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10444,7 +10512,7 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10453,7 +10521,7 @@ static PyObject *_wrap_gsl_linalg_solve_symm_cyc_tridiag(PyObject *self, PyObjec
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10561,7 +10629,7 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_linalg_solve_cyc_tridiag",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10570,7 +10638,7 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10579,7 +10647,7 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10588,7 +10656,7 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10597,7 +10665,7 @@ static PyObject *_wrap_gsl_linalg_solve_cyc_tridiag(PyObject *self, PyObject *ar
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10703,7 +10771,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_bidiag_decomp",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -10711,7 +10779,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10720,7 +10788,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_decomp(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10830,7 +10898,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOOOO:gsl_linalg_bidiag_unpack",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -10838,7 +10906,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10847,7 +10915,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -10855,7 +10923,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10864,7 +10932,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -10872,7 +10940,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -10881,7 +10949,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack(PyObject *self, PyObject *args, 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj6, arg7, _PyVector7, _vector7,
         PyGSL_INPUT_ARRAY, gsl_vector, 7, &stride) != GSL_SUCCESS){
             goto fail;
@@ -11013,7 +11081,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_linalg_bidiag_unpack2",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -11021,7 +11089,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -11030,7 +11098,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -11039,7 +11107,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack2(PyObject *self, PyObject *args,
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -11134,7 +11202,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_linalg_bidiag_unpack_B",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -11142,7 +11210,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -11151,7 +11219,7 @@ static PyObject *_wrap_gsl_linalg_bidiag_unpack_B(PyObject *self, PyObject *args
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -11231,7 +11299,7 @@ static PyObject *_wrap_gsl_linalg_balance_columns(PyObject *self, PyObject *args
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_linalg_balance_columns",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -11239,7 +11307,7 @@ static PyObject *_wrap_gsl_linalg_balance_columns(PyObject *self, PyObject *args
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13339,7 +13407,7 @@ static PyObject *_wrap_gsl_blas_sdsdot(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13348,7 +13416,7 @@ static PyObject *_wrap_gsl_blas_sdsdot(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13404,7 +13472,7 @@ static PyObject *_wrap_gsl_blas_dsdot(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_dsdot",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13413,7 +13481,7 @@ static PyObject *_wrap_gsl_blas_dsdot(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13467,7 +13535,7 @@ static PyObject *_wrap_gsl_blas_sdot(PyObject *self, PyObject *args, PyObject *k
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_sdot",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13476,7 +13544,7 @@ static PyObject *_wrap_gsl_blas_sdot(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13532,7 +13600,7 @@ static PyObject *_wrap_gsl_blas_ddot(PyObject *self, PyObject *args, PyObject *k
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_ddot",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13541,7 +13609,7 @@ static PyObject *_wrap_gsl_blas_ddot(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13618,7 +13686,7 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_cdotu",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13627,7 +13695,7 @@ static PyObject *_wrap_gsl_blas_cdotu(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13687,7 +13755,7 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_cdotc",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13696,7 +13764,7 @@ static PyObject *_wrap_gsl_blas_cdotc(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13756,7 +13824,7 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_zdotu",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13765,7 +13833,7 @@ static PyObject *_wrap_gsl_blas_zdotu(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13836,7 +13904,7 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_zdotc",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13845,7 +13913,7 @@ static PyObject *_wrap_gsl_blas_zdotc(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13905,7 +13973,7 @@ static PyObject *_wrap_gsl_blas_snrm2(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_snrm2",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13939,7 +14007,7 @@ static PyObject *_wrap_gsl_blas_sasum(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_sasum",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -13973,7 +14041,7 @@ static PyObject *_wrap_gsl_blas_dnrm2(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_dnrm2",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14017,7 +14085,7 @@ static PyObject *_wrap_gsl_blas_dasum(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_dasum",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14061,7 +14129,7 @@ static PyObject *_wrap_gsl_blas_scnrm2(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_scnrm2",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14095,7 +14163,7 @@ static PyObject *_wrap_gsl_blas_scasum(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_scasum",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14129,7 +14197,7 @@ static PyObject *_wrap_gsl_blas_dznrm2(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_dznrm2",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14163,7 +14231,7 @@ static PyObject *_wrap_gsl_blas_dzasum(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_dzasum",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14197,7 +14265,7 @@ static PyObject *_wrap_gsl_blas_isamax(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_isamax",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14231,7 +14299,7 @@ static PyObject *_wrap_gsl_blas_idamax(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_idamax",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14275,7 +14343,7 @@ static PyObject *_wrap_gsl_blas_icamax(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_icamax",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14309,7 +14377,7 @@ static PyObject *_wrap_gsl_blas_izamax(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_blas_izamax",kwnames,&obj0)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14349,7 +14417,7 @@ static PyObject *_wrap_gsl_blas_sswap(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_sswap",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14358,7 +14426,7 @@ static PyObject *_wrap_gsl_blas_sswap(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14408,7 +14476,7 @@ static PyObject *_wrap_gsl_blas_scopy(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_scopy",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14417,7 +14485,7 @@ static PyObject *_wrap_gsl_blas_scopy(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14473,7 +14541,7 @@ static PyObject *_wrap_gsl_blas_saxpy(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14482,7 +14550,7 @@ static PyObject *_wrap_gsl_blas_saxpy(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14532,7 +14600,7 @@ static PyObject *_wrap_gsl_blas_dswap(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_dswap",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14541,7 +14609,7 @@ static PyObject *_wrap_gsl_blas_dswap(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14611,7 +14679,7 @@ static PyObject *_wrap_gsl_blas_dcopy(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_dcopy",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14620,7 +14688,7 @@ static PyObject *_wrap_gsl_blas_dcopy(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14696,7 +14764,7 @@ static PyObject *_wrap_gsl_blas_daxpy(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14705,7 +14773,7 @@ static PyObject *_wrap_gsl_blas_daxpy(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14775,7 +14843,7 @@ static PyObject *_wrap_gsl_blas_cswap(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_cswap",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14784,7 +14852,7 @@ static PyObject *_wrap_gsl_blas_cswap(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14834,7 +14902,7 @@ static PyObject *_wrap_gsl_blas_ccopy(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_ccopy",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14843,7 +14911,7 @@ static PyObject *_wrap_gsl_blas_ccopy(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14901,7 +14969,7 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14910,7 +14978,7 @@ static PyObject *_wrap_gsl_blas_caxpy(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14960,7 +15028,7 @@ static PyObject *_wrap_gsl_blas_zswap(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_zswap",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -14969,7 +15037,7 @@ static PyObject *_wrap_gsl_blas_zswap(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15019,7 +15087,7 @@ static PyObject *_wrap_gsl_blas_zcopy(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:gsl_blas_zcopy",kwnames,&obj0,&obj1)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15028,7 +15096,7 @@ static PyObject *_wrap_gsl_blas_zcopy(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15086,7 +15154,7 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15095,7 +15163,7 @@ static PyObject *_wrap_gsl_blas_zaxpy(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15245,7 +15313,7 @@ static PyObject *_wrap_gsl_blas_srot(PyObject *self, PyObject *args, PyObject *k
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_blas_srot",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15254,7 +15322,7 @@ static PyObject *_wrap_gsl_blas_srot(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15314,7 +15382,7 @@ static PyObject *_wrap_gsl_blas_srotm(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_srotm",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15323,7 +15391,7 @@ static PyObject *_wrap_gsl_blas_srotm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15475,7 +15543,7 @@ static PyObject *_wrap_gsl_blas_drot(PyObject *self, PyObject *args, PyObject *k
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_blas_drot",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15484,7 +15552,7 @@ static PyObject *_wrap_gsl_blas_drot(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15564,7 +15632,7 @@ static PyObject *_wrap_gsl_blas_drotm(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_blas_drotm",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15573,7 +15641,7 @@ static PyObject *_wrap_gsl_blas_drotm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15644,7 +15712,7 @@ static PyObject *_wrap_gsl_blas_sscal(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15681,7 +15749,7 @@ static PyObject *_wrap_gsl_blas_dscal(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15730,7 +15798,7 @@ static PyObject *_wrap_gsl_blas_cscal(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15769,7 +15837,7 @@ static PyObject *_wrap_gsl_blas_zscal(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15806,7 +15874,7 @@ static PyObject *_wrap_gsl_blas_csscal(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15843,7 +15911,7 @@ static PyObject *_wrap_gsl_blas_zdscal(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15901,7 +15969,7 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -15909,7 +15977,7 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -15922,7 +15990,7 @@ static PyObject *_wrap_gsl_blas_sgemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16000,7 +16068,7 @@ static PyObject *_wrap_gsl_blas_strmv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16008,7 +16076,7 @@ static PyObject *_wrap_gsl_blas_strmv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16086,7 +16154,7 @@ static PyObject *_wrap_gsl_blas_strsv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16094,7 +16162,7 @@ static PyObject *_wrap_gsl_blas_strsv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16174,7 +16242,7 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16182,7 +16250,7 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16195,7 +16263,7 @@ static PyObject *_wrap_gsl_blas_dgemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16293,7 +16361,7 @@ static PyObject *_wrap_gsl_blas_dtrmv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16301,7 +16369,7 @@ static PyObject *_wrap_gsl_blas_dtrmv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16389,7 +16457,7 @@ static PyObject *_wrap_gsl_blas_dtrsv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16397,7 +16465,7 @@ static PyObject *_wrap_gsl_blas_dtrsv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16489,7 +16557,7 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16497,7 +16565,7 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16512,7 +16580,7 @@ static PyObject *_wrap_gsl_blas_cgemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16590,7 +16658,7 @@ static PyObject *_wrap_gsl_blas_ctrmv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16598,7 +16666,7 @@ static PyObject *_wrap_gsl_blas_ctrmv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16676,7 +16744,7 @@ static PyObject *_wrap_gsl_blas_ctrsv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16684,7 +16752,7 @@ static PyObject *_wrap_gsl_blas_ctrsv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16766,7 +16834,7 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16774,7 +16842,7 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16789,7 +16857,7 @@ static PyObject *_wrap_gsl_blas_zgemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16867,7 +16935,7 @@ static PyObject *_wrap_gsl_blas_ztrmv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16875,7 +16943,7 @@ static PyObject *_wrap_gsl_blas_ztrmv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -16953,7 +17021,7 @@ static PyObject *_wrap_gsl_blas_ztrsv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -16961,7 +17029,7 @@ static PyObject *_wrap_gsl_blas_ztrsv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj4, arg5, _PyVector5, _vector5,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 5, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17041,7 +17109,7 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17049,7 +17117,7 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17062,7 +17130,7 @@ static PyObject *_wrap_gsl_blas_ssymv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17134,7 +17202,7 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17143,7 +17211,7 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17152,7 +17220,7 @@ static PyObject *_wrap_gsl_blas_sger(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17223,7 +17291,7 @@ static PyObject *_wrap_gsl_blas_ssyr(PyObject *self, PyObject *args, PyObject *k
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17232,7 +17300,7 @@ static PyObject *_wrap_gsl_blas_ssyr(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17309,7 +17377,7 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17318,7 +17386,7 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_float, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17327,7 +17395,7 @@ static PyObject *_wrap_gsl_blas_ssyr2(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17406,7 +17474,7 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17414,7 +17482,7 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17427,7 +17495,7 @@ static PyObject *_wrap_gsl_blas_dsymv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17519,7 +17587,7 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17528,7 +17596,7 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17537,7 +17605,7 @@ static PyObject *_wrap_gsl_blas_dger(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17628,7 +17696,7 @@ static PyObject *_wrap_gsl_blas_dsyr(PyObject *self, PyObject *args, PyObject *k
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17637,7 +17705,7 @@ static PyObject *_wrap_gsl_blas_dsyr(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17724,7 +17792,7 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17733,7 +17801,7 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17742,7 +17810,7 @@ static PyObject *_wrap_gsl_blas_dsyr2(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17843,7 +17911,7 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -17851,7 +17919,7 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17866,7 +17934,7 @@ static PyObject *_wrap_gsl_blas_chemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17940,7 +18008,7 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17949,7 +18017,7 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -17958,7 +18026,7 @@ static PyObject *_wrap_gsl_blas_cgeru(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18031,7 +18099,7 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18040,7 +18108,7 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18049,7 +18117,7 @@ static PyObject *_wrap_gsl_blas_cgerc(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18120,7 +18188,7 @@ static PyObject *_wrap_gsl_blas_cher(PyObject *self, PyObject *args, PyObject *k
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18129,7 +18197,7 @@ static PyObject *_wrap_gsl_blas_cher(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18208,7 +18276,7 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18217,7 +18285,7 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_complex_float, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18226,7 +18294,7 @@ static PyObject *_wrap_gsl_blas_cher2(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18307,7 +18375,7 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18315,7 +18383,7 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18330,7 +18398,7 @@ static PyObject *_wrap_gsl_blas_zhemv(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj5, arg6, _PyVector6, _vector6,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 6, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18404,7 +18472,7 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18413,7 +18481,7 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18422,7 +18490,7 @@ static PyObject *_wrap_gsl_blas_zgeru(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18495,7 +18563,7 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18504,7 +18572,7 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18513,7 +18581,7 @@ static PyObject *_wrap_gsl_blas_zgerc(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18584,7 +18652,7 @@ static PyObject *_wrap_gsl_blas_zher(PyObject *self, PyObject *args, PyObject *k
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18593,7 +18661,7 @@ static PyObject *_wrap_gsl_blas_zher(PyObject *self, PyObject *args, PyObject *k
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18672,7 +18740,7 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj2, arg3, _PyVector3, _vector3,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 3, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18681,7 +18749,7 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj3, arg4, _PyVector4, _vector4,
         PyGSL_INPUT_ARRAY, gsl_vector_complex, 4, &stride) != GSL_SUCCESS){
             goto fail;
@@ -18690,7 +18758,7 @@ static PyObject *_wrap_gsl_blas_zher2(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18775,7 +18843,7 @@ static PyObject *_wrap_gsl_blas_sgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18783,7 +18851,7 @@ static PyObject *_wrap_gsl_blas_sgemm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18795,7 +18863,7 @@ static PyObject *_wrap_gsl_blas_sgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18900,7 +18968,7 @@ static PyObject *_wrap_gsl_blas_ssymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18908,7 +18976,7 @@ static PyObject *_wrap_gsl_blas_ssymm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -18920,7 +18988,7 @@ static PyObject *_wrap_gsl_blas_ssymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19019,7 +19087,7 @@ static PyObject *_wrap_gsl_blas_ssyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19031,7 +19099,7 @@ static PyObject *_wrap_gsl_blas_ssyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19126,7 +19194,7 @@ static PyObject *_wrap_gsl_blas_ssyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19134,7 +19202,7 @@ static PyObject *_wrap_gsl_blas_ssyr2k(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19146,7 +19214,7 @@ static PyObject *_wrap_gsl_blas_ssyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19255,7 +19323,7 @@ static PyObject *_wrap_gsl_blas_strmm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19263,7 +19331,7 @@ static PyObject *_wrap_gsl_blas_strmm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19362,7 +19430,7 @@ static PyObject *_wrap_gsl_blas_strsm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19370,7 +19438,7 @@ static PyObject *_wrap_gsl_blas_strsm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19465,7 +19533,7 @@ static PyObject *_wrap_gsl_blas_dgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19473,7 +19541,7 @@ static PyObject *_wrap_gsl_blas_dgemm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19485,7 +19553,7 @@ static PyObject *_wrap_gsl_blas_dgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19590,7 +19658,7 @@ static PyObject *_wrap_gsl_blas_dsymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19598,7 +19666,7 @@ static PyObject *_wrap_gsl_blas_dsymm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19610,7 +19678,7 @@ static PyObject *_wrap_gsl_blas_dsymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19709,7 +19777,7 @@ static PyObject *_wrap_gsl_blas_dsyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19721,7 +19789,7 @@ static PyObject *_wrap_gsl_blas_dsyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19816,7 +19884,7 @@ static PyObject *_wrap_gsl_blas_dsyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19824,7 +19892,7 @@ static PyObject *_wrap_gsl_blas_dsyr2k(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19836,7 +19904,7 @@ static PyObject *_wrap_gsl_blas_dsyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19945,7 +20013,7 @@ static PyObject *_wrap_gsl_blas_dtrmm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -19953,7 +20021,7 @@ static PyObject *_wrap_gsl_blas_dtrmm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20052,7 +20120,7 @@ static PyObject *_wrap_gsl_blas_dtrsm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20060,7 +20128,7 @@ static PyObject *_wrap_gsl_blas_dtrsm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20157,7 +20225,7 @@ static PyObject *_wrap_gsl_blas_cgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20165,7 +20233,7 @@ static PyObject *_wrap_gsl_blas_cgemm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20179,7 +20247,7 @@ static PyObject *_wrap_gsl_blas_cgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20286,7 +20354,7 @@ static PyObject *_wrap_gsl_blas_csymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20294,7 +20362,7 @@ static PyObject *_wrap_gsl_blas_csymm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20308,7 +20376,7 @@ static PyObject *_wrap_gsl_blas_csymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20409,7 +20477,7 @@ static PyObject *_wrap_gsl_blas_csyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20423,7 +20491,7 @@ static PyObject *_wrap_gsl_blas_csyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20520,7 +20588,7 @@ static PyObject *_wrap_gsl_blas_csyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20528,7 +20596,7 @@ static PyObject *_wrap_gsl_blas_csyr2k(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20542,7 +20610,7 @@ static PyObject *_wrap_gsl_blas_csyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20653,7 +20721,7 @@ static PyObject *_wrap_gsl_blas_ctrmm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20661,7 +20729,7 @@ static PyObject *_wrap_gsl_blas_ctrmm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20762,7 +20830,7 @@ static PyObject *_wrap_gsl_blas_ctrsm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20770,7 +20838,7 @@ static PyObject *_wrap_gsl_blas_ctrsm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20867,7 +20935,7 @@ static PyObject *_wrap_gsl_blas_zgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20875,7 +20943,7 @@ static PyObject *_wrap_gsl_blas_zgemm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20889,7 +20957,7 @@ static PyObject *_wrap_gsl_blas_zgemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -20996,7 +21064,7 @@ static PyObject *_wrap_gsl_blas_zsymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21004,7 +21072,7 @@ static PyObject *_wrap_gsl_blas_zsymm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21018,7 +21086,7 @@ static PyObject *_wrap_gsl_blas_zsymm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21119,7 +21187,7 @@ static PyObject *_wrap_gsl_blas_zsyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21133,7 +21201,7 @@ static PyObject *_wrap_gsl_blas_zsyrk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21230,7 +21298,7 @@ static PyObject *_wrap_gsl_blas_zsyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21238,7 +21306,7 @@ static PyObject *_wrap_gsl_blas_zsyr2k(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21252,7 +21320,7 @@ static PyObject *_wrap_gsl_blas_zsyr2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21363,7 +21431,7 @@ static PyObject *_wrap_gsl_blas_ztrmm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21371,7 +21439,7 @@ static PyObject *_wrap_gsl_blas_ztrmm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21472,7 +21540,7 @@ static PyObject *_wrap_gsl_blas_ztrsm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21480,7 +21548,7 @@ static PyObject *_wrap_gsl_blas_ztrsm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21577,7 +21645,7 @@ static PyObject *_wrap_gsl_blas_chemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21585,7 +21653,7 @@ static PyObject *_wrap_gsl_blas_chemm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21599,7 +21667,7 @@ static PyObject *_wrap_gsl_blas_chemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21698,7 +21766,7 @@ static PyObject *_wrap_gsl_blas_cherk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21710,7 +21778,7 @@ static PyObject *_wrap_gsl_blas_cherk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21807,7 +21875,7 @@ static PyObject *_wrap_gsl_blas_cher2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21815,7 +21883,7 @@ static PyObject *_wrap_gsl_blas_cher2k(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21827,7 +21895,7 @@ static PyObject *_wrap_gsl_blas_cher2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex_float, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21934,7 +22002,7 @@ static PyObject *_wrap_gsl_blas_zhemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21942,7 +22010,7 @@ static PyObject *_wrap_gsl_blas_zhemm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -21956,7 +22024,7 @@ static PyObject *_wrap_gsl_blas_zhemm(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22055,7 +22123,7 @@ static PyObject *_wrap_gsl_blas_zherk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22067,7 +22135,7 @@ static PyObject *_wrap_gsl_blas_zherk(PyObject *self, PyObject *args, PyObject *
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj5, arg6, _PyMatrix6, _matrix6,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 6, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22164,7 +22232,7 @@ static PyObject *_wrap_gsl_blas_zher2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj3, arg4, _PyMatrix4, _matrix4,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 4, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22172,7 +22240,7 @@ static PyObject *_wrap_gsl_blas_zher2k(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj4, arg5, _PyMatrix5, _matrix5,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 5, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22184,7 +22252,7 @@ static PyObject *_wrap_gsl_blas_zher2k(PyObject *self, PyObject *args, PyObject 
     }
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj6, arg7, _PyMatrix7, _matrix7,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 7, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22423,7 +22491,7 @@ static PyObject *_wrap_gsl_eigen_symm(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_eigen_symm",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22431,7 +22499,7 @@ static PyObject *_wrap_gsl_eigen_symm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -22711,7 +22779,7 @@ static PyObject *_wrap_gsl_eigen_symmv(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_eigen_symmv",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22719,7 +22787,7 @@ static PyObject *_wrap_gsl_eigen_symmv(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -22728,7 +22796,7 @@ static PyObject *_wrap_gsl_eigen_symmv(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22990,7 +23058,7 @@ static PyObject *_wrap_gsl_eigen_herm(PyObject *self, PyObject *args, PyObject *
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_eigen_herm",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -22998,7 +23066,7 @@ static PyObject *_wrap_gsl_eigen_herm(PyObject *self, PyObject *args, PyObject *
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -23299,7 +23367,7 @@ static PyObject *_wrap_gsl_eigen_hermv(PyObject *self, PyObject *args, PyObject 
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_eigen_hermv",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -23307,7 +23375,7 @@ static PyObject *_wrap_gsl_eigen_hermv(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -23316,7 +23384,7 @@ static PyObject *_wrap_gsl_eigen_hermv(PyObject *self, PyObject *args, PyObject 
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -23399,7 +23467,7 @@ static PyObject *_wrap_gsl_eigen_symmv_sort(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_eigen_symmv_sort",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -23408,7 +23476,7 @@ static PyObject *_wrap_gsl_eigen_symmv_sort(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -23483,7 +23551,7 @@ static PyObject *_wrap_gsl_eigen_hermv_sort(PyObject *self, PyObject *args, PyOb
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_eigen_hermv_sort",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj0, arg1, _PyVector1, _vector1,
         PyGSL_INPUT_ARRAY, gsl_vector, 1, &stride) != GSL_SUCCESS){
             goto fail;
@@ -23492,7 +23560,7 @@ static PyObject *_wrap_gsl_eigen_hermv_sort(PyObject *self, PyObject *args, PyOb
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix_complex, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -23575,7 +23643,7 @@ static PyObject *_wrap_gsl_eigen_jacobi(PyObject *self, PyObject *args, PyObject
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_eigen_jacobi",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -23583,7 +23651,7 @@ static PyObject *_wrap_gsl_eigen_jacobi(PyObject *self, PyObject *args, PyObject
     
     
     {
-        int stride=0;
+        PyGSL_array_index_t stride=0;
         if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
         PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
             goto fail;
@@ -23592,7 +23660,7 @@ static PyObject *_wrap_gsl_eigen_jacobi(PyObject *self, PyObject *args, PyObject
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
         PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -23679,7 +23747,7 @@ static PyObject *_wrap_gsl_eigen_invert_jacobi(PyObject *self, PyObject *args, P
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_eigen_invert_jacobi",kwnames,&obj0,&obj1,&obj2)) goto fail;
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
         PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -23687,7 +23755,7 @@ static PyObject *_wrap_gsl_eigen_invert_jacobi(PyObject *self, PyObject *args, P
     
     
     {
-        int stride;
+        PyGSL_array_index_t stride;
         if(PyGSL_MATRIX_CONVERT(obj1, arg2, _PyMatrix2, _matrix2,
         PyGSL_INPUT_ARRAY, gsl_matrix, 2, &stride) != GSL_SUCCESS)
         goto fail;	  
@@ -23916,7 +23984,7 @@ static PyObject *_wrap_gsl_spline_init(PyObject *self, PyObject *args, PyObject 
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_gsl_spline, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        int mysize = 0;
+        PyGSL_array_index_t mysize = 0;
         if(!PySequence_Check(obj1)){
             PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
             goto fail;
@@ -23925,15 +23993,13 @@ static PyObject *_wrap_gsl_spline_init(PyObject *self, PyObject *args, PyObject 
             PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
             goto fail;
         }
-        _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
+        _PyVector_12 = PyGSL_vector_check(PySequence_Fast_GET_ITEM(obj1, 0), -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector_12 == NULL)
         goto fail;
         
         mysize = _PyVector_12->dimensions[0];
         
-        _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE,  PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, mysize, 2+1, NULL);
+        _PyVector_22 = PyGSL_vector_check(PySequence_Fast_GET_ITEM(obj1, 1), mysize, PyGSL_DARRAY_CINPUT(2+1), NULL, NULL);
         if (_PyVector_22 == NULL)
         goto fail;
         
@@ -24448,9 +24514,8 @@ static PyObject *_wrap_gsl_interp_accel_find(PyObject *self, PyObject *args, PyO
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        int mysize = 0;
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        obj1, PyArray_DOUBLE,  PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
+        PyGSL_array_index_t mysize = 0;
+        _PyVector2 = PyGSL_vector_check(obj1, -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         
@@ -24574,7 +24639,7 @@ static PyObject *_wrap_gsl_interp_init(PyObject *self, PyObject *args, PyObject 
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_gsl_interp, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        int mysize = 0;
+        PyGSL_array_index_t mysize = 0;
         if(!PySequence_Check(obj1)){
             PyErr_SetString(PyExc_TypeError, "Expected a sequence!");
             goto fail;
@@ -24583,15 +24648,13 @@ static PyObject *_wrap_gsl_interp_init(PyObject *self, PyObject *args, PyObject 
             PyErr_SetString(PyExc_TypeError, "Expected a sequence with length 2!");
             goto fail;
         }
-        _PyVector_12 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 0), PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 2, NULL);
+        _PyVector_12 = PyGSL_vector_check(PySequence_Fast_GET_ITEM(obj1, 0), -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector_12 == NULL)
         goto fail;
         
         mysize = _PyVector_12->dimensions[0];
         
-        _PyVector_22 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        PySequence_Fast_GET_ITEM(obj1, 1), PyArray_DOUBLE,  PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, mysize, 2+1, NULL);
+        _PyVector_22 = PyGSL_vector_check(PySequence_Fast_GET_ITEM(obj1, 1), mysize, PyGSL_DARRAY_CINPUT(2+1), NULL, NULL);
         if (_PyVector_22 == NULL)
         goto fail;
         
@@ -24721,15 +24784,13 @@ static PyObject *_wrap_gsl_interp_eval_e(PyObject *self, PyObject *args, PyObjec
     SWIG_Python_ConvertPtr(obj4, (void **)&arg5, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(5)) SWIG_fail;
     {
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input2, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 2, NULL);
+        _PyVector2 = PyGSL_vector_check(_input2, _gslinterp_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         arg2 = (double *)(_PyVector2->data);
     }
     {
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input3, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 3, NULL);
+        _PyVector3 = PyGSL_vector_check(_input3, _gslinterp_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
         if (_PyVector3 == NULL)
         goto fail;
         arg3 = (double *)(_PyVector3->data);
@@ -24806,15 +24867,13 @@ static PyObject *_wrap_gsl_interp_eval(PyObject *self, PyObject *args, PyObject 
     SWIG_Python_ConvertPtr(obj4, (void **)&arg5, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(5)) SWIG_fail;
     {
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input2, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 2, NULL);
+        _PyVector2 = PyGSL_vector_check(_input2, _gslinterp_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         arg2 = (double *)(_PyVector2->data);
     }
     {
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input3, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 3, NULL);
+        _PyVector3 = PyGSL_vector_check(_input3, _gslinterp_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
         if (_PyVector3 == NULL)
         goto fail;
         arg3 = (double *)(_PyVector3->data);
@@ -24883,15 +24942,13 @@ static PyObject *_wrap_gsl_interp_eval_deriv_e(PyObject *self, PyObject *args, P
     SWIG_Python_ConvertPtr(obj4, (void **)&arg5, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(5)) SWIG_fail;
     {
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input2, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 2, NULL);
+        _PyVector2 = PyGSL_vector_check(_input2, _gslinterp_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         arg2 = (double *)(_PyVector2->data);
     }
     {
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input3, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 3, NULL);
+        _PyVector3 = PyGSL_vector_check(_input3, _gslinterp_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
         if (_PyVector3 == NULL)
         goto fail;
         arg3 = (double *)(_PyVector3->data);
@@ -24968,15 +25025,13 @@ static PyObject *_wrap_gsl_interp_eval_deriv(PyObject *self, PyObject *args, PyO
     SWIG_Python_ConvertPtr(obj4, (void **)&arg5, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(5)) SWIG_fail;
     {
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input2, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 2, NULL);
+        _PyVector2 = PyGSL_vector_check(_input2, _gslinterp_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         arg2 = (double *)(_PyVector2->data);
     }
     {
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input3, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 3, NULL);
+        _PyVector3 = PyGSL_vector_check(_input3, _gslinterp_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
         if (_PyVector3 == NULL)
         goto fail;
         arg3 = (double *)(_PyVector3->data);
@@ -25045,15 +25100,13 @@ static PyObject *_wrap_gsl_interp_eval_deriv2_e(PyObject *self, PyObject *args, 
     SWIG_Python_ConvertPtr(obj4, (void **)&arg5, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(5)) SWIG_fail;
     {
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input2, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 2, NULL);
+        _PyVector2 = PyGSL_vector_check(_input2, _gslinterp_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         arg2 = (double *)(_PyVector2->data);
     }
     {
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input3, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 3, NULL);
+        _PyVector3 = PyGSL_vector_check(_input3, _gslinterp_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
         if (_PyVector3 == NULL)
         goto fail;
         arg3 = (double *)(_PyVector3->data);
@@ -25130,15 +25183,13 @@ static PyObject *_wrap_gsl_interp_eval_deriv2(PyObject *self, PyObject *args, Py
     SWIG_Python_ConvertPtr(obj4, (void **)&arg5, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(5)) SWIG_fail;
     {
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input2, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 2, NULL);
+        _PyVector2 = PyGSL_vector_check(_input2, _gslinterp_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         arg2 = (double *)(_PyVector2->data);
     }
     {
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input3, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 3, NULL);
+        _PyVector3 = PyGSL_vector_check(_input3, _gslinterp_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
         if (_PyVector3 == NULL)
         goto fail;
         arg3 = (double *)(_PyVector3->data);
@@ -25213,15 +25264,13 @@ static PyObject *_wrap_gsl_interp_eval_integ_e(PyObject *self, PyObject *args, P
     SWIG_Python_ConvertPtr(obj5, (void **)&arg6, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(6)) SWIG_fail;
     {
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input2, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 2, NULL);
+        _PyVector2 = PyGSL_vector_check(_input2, _gslinterp_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         arg2 = (double *)(_PyVector2->data);
     }
     {
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input3, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 3, NULL);
+        _PyVector3 = PyGSL_vector_check(_input3, _gslinterp_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
         if (_PyVector3 == NULL)
         goto fail;
         arg3 = (double *)(_PyVector3->data);
@@ -25304,15 +25353,13 @@ static PyObject *_wrap_gsl_interp_eval_integ(PyObject *self, PyObject *args, PyO
     SWIG_Python_ConvertPtr(obj5, (void **)&arg6, SWIGTYPE_p_gsl_interp_accel, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(6)) SWIG_fail;
     {
-        _PyVector2 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input2, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 2, NULL);
+        _PyVector2 = PyGSL_vector_check(_input2, _gslinterp_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
         if (_PyVector2 == NULL)
         goto fail;
         arg2 = (double *)(_PyVector2->data);
     }
     {
-        _PyVector3 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        _input3, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, _gslinterp_size, 3, NULL);
+        _PyVector3 = PyGSL_vector_check(_input3, _gslinterp_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
         if (_PyVector3 == NULL)
         goto fail;
         arg3 = (double *)(_PyVector3->data);
@@ -25369,8 +25416,7 @@ static PyObject *_wrap_gsl_interp_bsearch(PyObject *self, PyObject *args, PyObje
     
     if(!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:gsl_interp_bsearch",kwnames,&obj0,&obj1,&obj2,&obj3)) goto fail;
     {
-        _PyVector1 = PyGSL_PyArray_PREPARE_gsl_vector_view(
-        obj0, PyArray_DOUBLE, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL);
+        _PyVector1 = PyGSL_vector_check(obj0, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
         if (_PyVector1 == NULL)
         goto fail;
         arg1 = (double *)(_PyVector1->data);
@@ -25497,6 +25543,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_linalg_cholesky_decomp", (PyCFunction) _wrap_gsl_linalg_cholesky_decomp, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_cholesky_solve", (PyCFunction) _wrap_gsl_linalg_cholesky_solve, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_cholesky_svx", (PyCFunction) _wrap_gsl_linalg_cholesky_svx, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_linalg_cholesky_decomp_unit", (PyCFunction) _wrap_gsl_linalg_cholesky_decomp_unit, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_symmtd_decomp", (PyCFunction) _wrap_gsl_linalg_symmtd_decomp, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_symmtd_unpack", (PyCFunction) _wrap_gsl_linalg_symmtd_unpack, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_linalg_symmtd_unpack_T", (PyCFunction) _wrap_gsl_linalg_symmtd_unpack_T, METH_VARARGS | METH_KEYWORDS, NULL},
