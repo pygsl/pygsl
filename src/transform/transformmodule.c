@@ -3,10 +3,29 @@
  * Date   : February 2005
  *
  */
-
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <string.h>
+
+#include <gsl/gsl_fft.h>
+#include <gsl/gsl_fft_complex.h>
+#include <gsl/gsl_fft_real.h>
+#include <gsl/gsl_fft_halfcomplex.h>
+#include <gsl/gsl_fft_complex_float.h>
+#include <gsl/gsl_fft_real_float.h>
+#include <gsl/gsl_fft_halfcomplex_float.h>
+#include <gsl/gsl_blas.h>
+#if PYGSL_GSL_MAJOR_VERSION >= 1 && PYGSL_GSL_MINOR_VERSION > 5
+#define forward forward_wavelet
+#define backward backward_wavelet
+#include <gsl/gsl_wavelet.h>
+#include <gsl/gsl_wavelet2d.h>
+#undef forward
+#undef backward
+#else
+#error Need GSL version 1.6 or higher! If you need it for a lower version
+#error add the different conditional compilation!
+#endif /* gsl version > 1.5*/
 static PyObject *module = NULL;
 static const char filename[] = __FILE__;
 
@@ -52,7 +71,7 @@ static PyMethodDef transformMethods[] = {
 	{"real_wavetable_float",        PyGSL_transform_space_init_REAL_WAVETABLE_FLOAT,         METH_VARARGS, (char*)rwt_doc},
 	{"halfcomplex_wavetable_float", PyGSL_transform_space_init_HALFCOMPLEX_WAVETABLE_FLOAT,  METH_VARARGS, (char*)hcwt_doc},
 #ifdef _PyGSL_HAS_WAVELET
-	{"wavelet_workspace",           PyGSL_transform_space_init_WAVELET_WORKSPACE,            METH_VARARGS, NULL},
+	{"wavelet_workspace",           PyGSL_transform_space_init_WAVELET_WORKSPACE,            METH_VARARGS, (char*)ww_doc},
 #endif
 	/* transform functions */
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_forward",             fft_complex_forward,              cf_doc)
@@ -113,6 +132,15 @@ init_helpers(void)
 	DEBUG_MESS(3, "PyArray_DOUBLE  = %d ", PyArray_DOUBLE );
 	DEBUG_MESS(3, "PyArray_CFLOAT  = %d ", PyArray_CFLOAT );
 	DEBUG_MESS(3, "PyArray_CDOUBLE = %d ", PyArray_CDOUBLE);
+
+#ifdef _PyGSL_HAS_WAVELET	
+	DEBUG_MESS(4, "%s @ %p", "daubechies", gsl_wavelet_daubechies);
+	DEBUG_MESS(4, "%s @ %p", "daubechies_centered", gsl_wavelet_daubechies_centered);
+	DEBUG_MESS(4, "%s @ %p", "haar", gsl_wavelet_haar);
+	DEBUG_MESS(4, "%s @ %p", "haar_centered", gsl_wavelet_haar_centered);
+	DEBUG_MESS(4, "%s @ %p", "bspline", gsl_wavelet_bspline);
+	DEBUG_MESS(4, "%s @ %p", "bspline_centered", gsl_wavelet_bspline_centered);     
+#endif
 	FUNC_MESS_END();
 
 }
@@ -128,7 +156,6 @@ DL_EXPORT(void) init_transform(void)
 #endif
 	m = Py_InitModule("_transform", transformMethods);
 	module = m;
-	import_array();
 	init_pygsl();
 	init_helpers();
 	if (m == NULL)
