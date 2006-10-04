@@ -129,7 +129,8 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	     wavelet = (PyGSL_wavelet *) self;
 	     break;
 	default: 
-	     gsl_error("Unknown switch!", filename, __LINE__, GSL_ESANITY);
+		line = __LINE__;
+	     gsl_error("Unknown switch!", filename, line, GSL_ESANITY);
 	     goto fail;
 	}
 	/* Currently only implemented for wavelet 2d transform */
@@ -240,7 +241,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 *  to support.
 	 */
 	switch(radix2){
-#ifdef _PYGSL_HAS_WAVELET
+#ifdef _PyGSL_HAS_WAVELET
 	case WAVELET:
 		FUNC_MESS("Wavelet");
 		/* 
@@ -285,7 +286,8 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			}
 			break;
 		default:
-			gsl_error("Unknown mode!", filename, __LINE__, GSL_ESANITY);
+			line = __LINE__;
+			gsl_error("Unknown mode!", filename, line, GSL_ESANITY);
 			goto fail;
 		} /* mode */
 		break;
@@ -309,12 +311,15 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			}
 			break;
 		default:
-			gsl_error("Unknown mode!", filename, __LINE__, GSL_ESANITY);
+			line = __LINE__;
+			gsl_error("Unknown mode!", filename, line, GSL_ESANITY);
 			goto fail;
 		} /* mode */
 		break;
 	default:
-		gsl_error("Unknown radix!", filename, __LINE__, GSL_ESANITY);
+		line = __LINE__;
+		DEBUG_MESS(3, "Radix2 was %d, wavelet = %d", (int) radix2, (int) WAVELET); 
+		gsl_error("Unknown radix!", filename, line, GSL_ESANITY);
 		goto fail;
 	}/* radix2 */
 	FUNC_MESS("mode");
