@@ -1,25 +1,21 @@
+#include <pygsl/error_helpers.h>
+#include <pygsl/function_helpers.h>
 #if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION < 5)
 #define _PYGSL_HAS_DERIV 0
 #else 
 #define _PYGSL_HAS_DERIV 1
 #endif 
-#include <pygsl/error_helpers.h>
-#include <pygsl/function_helpers.h>
-
-#ifdef  _PYGSL_HAS_DERIV 
-#include <gsl/gsl_deriv.h>
-#endif
 
 #ifdef PyGSL_DERIV_MODULE
-#ifndef _PYGSL_HAS_DERIV
+#if ( _PYGSL_HAS_DERIV == 0 )
 #error "The deriv module was only introduced by GSL 1.5. You seem to compile against an older verion!"
 #endif
+#include <gsl/gsl_deriv.h>
 #endif /* PyGSL_DERIV_MODULE */
 
 #include <gsl/gsl_diff.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_math.h>
-
 #include <setjmp.h>
 /* 
  * callback functions
@@ -126,7 +122,7 @@ PyGSL_diff_generic(PyObject *self, PyObject *args,
 	     flag = func(&diff_gsl_callback, x, &value, &abserr);	
 #endif
 	}else{
-		DEBUG_MESS(2, "CALLBACK called longjmp!", 0);
+		DEBUG_MESS(2, "CALLBACK called longjmp! flag =%d", flag);
 	}
 	
 	/* Arguments no longer used */
