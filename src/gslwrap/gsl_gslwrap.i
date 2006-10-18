@@ -17,7 +17,6 @@
 %}
 
 %init {
-  import_array();
   init_pygsl();
 }
 
