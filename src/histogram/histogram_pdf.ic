@@ -1,0 +1,243 @@
+/* -*- C -*- */
+static PyObject *
+histogram_histogram_pdf_sample(PyObject *self, PyObject *args)
+{
+     histogram_histogram_pdfObject *p;  
+     PyObject *o;
+     PyArrayObject *sample=NULL, *number=NULL;
+     long i;
+     double *dsample, *dnumber;
+     PyGSL_array_index_t dimension;
+
+     FUNC_MESS_BEGIN();
+     p = (histogram_histogram_pdfObject *)self;
+
+
+     if (!PyArg_ParseTuple(args, "O", &o)){
+	  return NULL;
+     }
+
+     sample = PyGSL_vector_or_double(o, PyGSL_INPUT_ARRAY, -1, 1, NULL);
+     if(sample == NULL)
+	  goto fail;
+     dimension = sample->dimensions[0];
+     number = PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+     if(!number)
+	  goto fail;
+     
+     dnumber = (double *) (number->data);
+     for(i=0; i<sample->dimensions[0]; ++i){
+	  dsample = (double *) (sample->data + sample->strides[0] * i);
+	  dnumber[i] = gsl_histogram_pdf_sample(p->pdf, *dsample);
+     }
+
+     Py_DECREF(number);
+     FUNC_MESS_END();
+     return (PyObject *) sample;
+
+ fail:
+     Py_XDECREF(number);
+     Py_XDECREF(sample);
+     return NULL;
+}
+
+
+static PyObject *
+histogram_histogram2d_pdf_sample(PyObject *self, PyObject *args)
+{
+     histogram_histogram2d_pdfObject *p;  
+     PyObject *o, *o2, *ret;
+     PyArrayObject *sample=NULL, *number=NULL;
+     PyArrayObject *sample2=NULL, *number2=NULL;
+     long i;
+     double *dsample, *dnumber;    
+     double *dsample2, *dnumber2;
+     PyGSL_array_index_t dimension;
+
+     int flag;
+
+     FUNC_MESS_BEGIN();
+     p = (histogram_histogram2d_pdfObject *)self;
+
+
+     if (!PyArg_ParseTuple(args, "OO", &o, &o2)){
+	  return NULL;
+     }
+
+     sample = PyGSL_vector_or_double(o, PyGSL_INPUT_ARRAY, -1, 1, NULL);
+     if(sample == NULL)
+	  goto fail;
+
+     dimension = sample->dimensions[0];
+     sample2 = PyGSL_vector_or_double(o2, PyGSL_INPUT_ARRAY, dimension, 1, NULL);
+     if(sample2 == NULL)
+	  goto fail;
+
+     number = PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+     if(!number)
+	  goto fail;
+
+     number2 = PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+     if(!number2)
+	  goto fail;
+     
+     dnumber = (double *) (number->data);
+     dnumber2 = (double *) (number2->data);
+     for(i=0; i<sample->dimensions[0]; ++i){
+	  dsample  = (double *) (sample->data  + sample->strides[0]  * i);
+	  dsample2 = (double *) (sample2->data + sample2->strides[0] * i);
+	  flag = gsl_histogram2d_pdf_sample(p->pdf, *dsample, *dsample2, dnumber + i, dnumber2 + i);
+	  if(flag != GSL_SUCCESS)
+	       goto fail;
+     }
+
+     Py_DECREF(number);
+     Py_DECREF(number2);
+     FUNC_MESS_END();
+
+     ret = PyTuple_New(2);
+     if(ret == NULL)
+	  goto fail;
+     
+     PyTuple_SET_ITEM(ret, 0, (PyObject *)sample);
+     PyTuple_SET_ITEM(ret, 1, (PyObject *)sample2);
+     return ret;
+
+
+ fail:
+     Py_XDECREF(number);
+     Py_XDECREF(sample);
+     Py_XDECREF(number2);
+     Py_XDECREF(sample2);
+     return NULL;
+}
+static int 
+histogram_histogram2d_pdf_init(PyObject *self, PyObject *args, PyObject *kwds)
+{
+
+     histogram_histogram2dObject *histogram=NULL;
+     histogram_histogram2d_pdfObject *p;  
+     long int n=-1, n2;
+     int flag;
+
+     static char *kwlist1[] = {"histogram",NULL};
+     static char *kwlist2[] = {"nx", "ny", NULL};  
+
+     FUNC_MESS_BEGIN();
+     p = (histogram_histogram2d_pdfObject *)self;
+     p->pdf = NULL;
+
+
+     /* test two call alternatives: */
+     if (PyArg_ParseTupleAndKeywords(args, kwds,"O!",kwlist1,&histogram_histogram2dType,&histogram)) {
+	  if (histogram==NULL){
+	       return -1;
+	  }
+	  /* Fine we found a valid histogram! */
+     }else {
+	  /* reset exception */
+	  PyErr_Clear();
+	  /* Try to find a number */
+	  if (PyArg_ParseTupleAndKeywords(args, kwds,"ll",kwlist2,&n, &n2)) {
+	       if (n<=0) {
+		    gsl_error ("histogram_pdf length nx must be positive",
+			       filename, __LINE__, GSL_EDOM);
+		    return -1;
+	       }
+	       if (n2<=0) {
+		    gsl_error ("histogram_pdf length ny must be positive",
+			       filename, __LINE__, GSL_EDOM);
+		    return -1;
+	       }
+	  } else {
+	       /* no histogram nor a n: set own error message */
+	       PyErr_Clear();
+	       PyErr_SetString(PyExc_TypeError, 
+			       "histogram_pdf.init requires pygsl.histogram.histogram2d object or 2 int arguments");
+	       return -1;
+	  }
+     } /* test alternatives */
+
+	  
+     if (histogram){
+	  assert(n==-1);
+	  n = histogram->h->nx;
+	  n2 = histogram->h->ny;
+     }
+     p->pdf=gsl_histogram2d_pdf_alloc(n, n2);
+     if(!(p->pdf)){
+	  PyErr_NoMemory();
+	  return -1;
+     }
+     
+     if(histogram){     	  
+	  flag = gsl_histogram2d_pdf_init(p->pdf, histogram->h);
+	  if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
+	       return -1;
+     }
+     FUNC_MESS_END();
+     return 0;
+}
+
+
+static int 
+histogram_histogram_pdf_init(PyObject *self, PyObject *args, PyObject *kwds)
+{
+
+     histogram_histogramObject *histogram=NULL;
+     histogram_histogram_pdfObject *p;  
+     long int n=-1;
+     int flag;
+
+     static char *kwlist1[] = {"histogram",NULL};
+     static char *kwlist2[] = {"n",NULL};  
+
+     FUNC_MESS_BEGIN();
+     p = (histogram_histogram_pdfObject *)self;
+     p->pdf = NULL;
+
+
+     /* test two call alternatives: */
+     if (PyArg_ParseTupleAndKeywords(args, kwds,"O!",kwlist1,&histogram_histogramType,&histogram)) {
+	  if (histogram==NULL){
+	       return -1;
+	  }
+	  /* Fine we found a valid histogram! */
+     }else {
+	  /* reset exception */
+	  PyErr_Clear();
+	  /* Try to find a number */
+	  if (PyArg_ParseTupleAndKeywords(args, kwds,"l",kwlist2,&n)) {
+	       if (n<=0) {
+		    gsl_error ("histogram_pdf length n must be positive",
+			       filename, __LINE__, GSL_EDOM);
+		    return -1;
+	       }
+	  } else {
+	       /* no histogram nor a n: set own error message */
+	       PyErr_Clear();
+	       PyErr_SetString(PyExc_TypeError, 
+			       "histogram_pdf.init requires pygsl.histogram.histogram object or long int argument");
+	       return -1;
+	  }
+     } /* test alternatives */
+
+	  
+     if (histogram){
+	  assert(n==-1);
+	  n = histogram->h->n;
+     }
+     p->pdf=gsl_histogram_pdf_alloc(n);
+     if(!(p->pdf)){
+	  PyErr_NoMemory();
+	  return -1;
+     }
+     
+     if(histogram){     	  
+	  flag = gsl_histogram_pdf_init(p->pdf, histogram->h);
+	  if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
+	       return -1;
+     }
+     FUNC_MESS_END();
+     return 0;
+}

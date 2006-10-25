@@ -1,0 +1,113 @@
+/* -*- C -*- */
+
+static const char FUNCNAME(pdfObjectdes) [] = "pygsl.histogram.histogram_pdf";
+typedef struct {
+     PyObject_HEAD
+     GSLNAME(pdf) * pdf;
+} FUNCNAME(pdfObject);
+
+static void 
+FUNCNAME(pdf_dealloc)(FUNCNAME(pdfObject) *self, PyObject *args);
+
+static PyObject*
+FUNCNAME(pdf_getattr)(PyObject* obj, char *name);
+
+static int 
+FUNCNAME(pdf_init)(PyObject *self, PyObject *args, PyObject *kwds);
+
+static PyObject *
+FUNCNAME(pdf_sample)(PyObject *self, PyObject *args);
+
+static
+PyTypeObject FUNCNAME(pdfType) = {
+	PyObject_HEAD_INIT(NULL)
+	0,
+	(char*) FUNCNAME(pdfObjectdes),
+	sizeof(FUNCNAME(pdfObject)),
+	0,
+	(destructor) FUNCNAME(pdf_dealloc), /* tp_dealloc */
+	0,                                      /* tp_print */
+	FUNCNAME(pdf_getattr),            /* tp_getattr */
+	0,					/* tp_setattr */
+	0,			                /* tp_compare */
+	0,                  			/* tp_repr */
+	0,					/* tp_as_number */
+	0,	                		/* tp_as_sequence */
+	0,	                                /* tp_as_mapping */
+	0,				        /* tp_hash */
+	0,					/* tp_call */
+	0,					/* tp_str */
+	0,		                        /* tp_getattro */
+	0,					/* tp_setattro */
+	0,					/* tp_as_buffer */
+	Py_TPFLAGS_DEFAULT,		        /* tp_flags */
+        0,				        /* tp_doc */
+	0, 		                        /* tp_traverse */
+	0,			                /* tp_clear */
+	0,              			/* tp_richcompare */
+	0,					/* tp_weaklistoffset */
+	0,			                /* tp_iter */
+	0,					/* tp_iternext */
+	0,				        /* tp_methods */
+	0,					/* tp_members */
+	0,					/* tp_getset */
+	0,					/* tp_base */
+	0,					/* tp_dict */
+	0,					/* tp_descr_get */
+	0,					/* tp_descr_set */
+	0,					/* tp_dictoffset */
+	(initproc)FUNCNAME(pdf_init),	        /* tp_init */
+	NULL,              			/* tp_alloc */
+	NULL,                			/* tp_new */
+	NULL         			        /* tp_free */
+};
+
+
+static void 
+FUNCNAME(pdf_dealloc)(FUNCNAME(pdfObject) *self, PyObject *args)
+{
+     FUNC_MESS_BEGIN();
+     if((self->pdf) != NULL){
+	  GSLNAME(pdf_free)(self->pdf);
+	  self->pdf = NULL;
+     }
+     self->ob_type->tp_free(self);
+     FUNC_MESS_END();
+}
+
+
+
+
+static PyObject *
+FUNCNAME(pdf_init_data)(PyObject *self, PyObject *args)
+{
+     PyObject* histogram; 
+     FUNCNAME(pdfObject) *p;  
+     int flag;
+
+     p = (FUNCNAME(pdfObject) *)self;
+
+     if (!PyArg_ParseTuple(args, "O!", &PyGSLHISTTYPE, &histogram)){
+	  return NULL;
+     }
+
+     flag = GSLNAME(pdf_init)(p->pdf, PyGSL_HIST_TYPE_CAST(histogram));
+     if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
+	  return NULL;
+
+     Py_INCREF(Py_None);
+     return Py_None;
+}
+
+
+static PyMethodDef FUNCNAME(pdf_methods)[] = {
+     {"init",   FUNCNAME(pdf_init_data), METH_VARARGS, NULL},
+     {"sample", FUNCNAME(pdf_sample),    METH_VARARGS, NULL},
+     {NULL, NULL, 0, NULL}
+};
+
+static PyObject*
+FUNCNAME(pdf_getattr)(PyObject* obj, char *name)
+{
+  return Py_FindMethod(FUNCNAME(pdf_methods), obj, name);
+}
