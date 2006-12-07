@@ -104,6 +104,7 @@ PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
      PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, line);     
      DEBUG_MESS(3, "contiguous = %d, array_type = %d", contiguous, array_type);
      DEBUG_MESS(4, "common array types: Double %d, CDouble %d", PyArray_DOUBLE, PyArray_CDOUBLE);
+     DEBUG_MESS(8, "Char type %d", PyArray_CHAR);
      return NULL;
 }
 
@@ -154,7 +155,7 @@ PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
 				      PyGSL_error_info * info)
 {
      PyArrayObject * a_array = NULL;
-     long dimensions[2];
+     PyGSL_array_index_t dimensions[2];
 
      FUNC_MESS_BEGIN();
      if(!PyArray_Check(src))
