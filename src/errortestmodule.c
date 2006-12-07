@@ -33,7 +33,7 @@ static PyMethodDef errortestMethods[] = {
 
 DL_EXPORT(void) initerrortest(void)
 {
-     PyObject *dict=NULL, *item=NULL, *m=NULL;
+     PyObject  *m=NULL;
      
      m = Py_InitModule("errortest", errortestMethods);
      assert(m);
@@ -41,9 +41,6 @@ DL_EXPORT(void) initerrortest(void)
 
      init_pygsl();
      
-     return;
- fail:
-     fprintf(stderr, "Initialisation of module errortest failed!\n");
      return;
 }
 
