@@ -8,6 +8,7 @@
 static int  
 PyGSL_error_flag(long flag)
 {
+     FUNC_MESS_BEGIN();
      if(DEBUG > 2){
 	  fprintf(stderr,"I got an Error of %ld\n", flag);
      }
@@ -23,6 +24,7 @@ PyGSL_error_flag(long flag)
 		    __LINE__, flag);
 	  return GSL_FAILURE;
      }
+     FUNC_MESS_END();
      return GSL_SUCCESS;
 }
 
@@ -30,10 +32,13 @@ static PyObject *
 PyGSL_error_flag_to_pyint(long flag)
 {
      PyObject * result = NULL;
+     FUNC_MESS_BEGIN();
      if(GSL_FAILURE == PyGSL_error_flag(flag)){
 	  return NULL;
      }
      result = PyInt_FromLong((long) flag);
+     FUNC_MESS_END();
+
      return result;
 }
 
@@ -122,17 +127,29 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 }
 
 
-#define ERRNO_MAX 32
-static PyObject * errno_accel[ERRNO_MAX];
+#define PyGSL_ERRNO_MAX 32
+static PyObject * errno_accel[PyGSL_ERRNO_MAX];
 static PyObject * error_dict = NULL;
 static PyObject * warning_dict = NULL;
 static PyObject * unknown_error = NULL;
+
+static void
+PyGSL_print_accel_object(void)
+{
+     int i;
+     FUNC_MESS_BEGIN();
+     for(i = 0; i<PyGSL_ERRNO_MAX; ++i){
+	  DEBUG_MESS(4, "errno_accel[%d] = %p", i, (void*)(errno_accel[i]));
+     }
+     FUNC_MESS_END();
+}
 
 static int
 PyGSL_register_accel_err_object(PyObject * err_ob, long test_errno)
 {
      PyObject *tmp;
 
+     FUNC_MESS_BEGIN();
      assert(err_ob);
      tmp = errno_accel[test_errno];
      if(tmp != NULL){
@@ -143,6 +160,7 @@ PyGSL_register_accel_err_object(PyObject * err_ob, long test_errno)
      }
      Py_INCREF(err_ob);
      errno_accel[test_errno] = err_ob;
+     FUNC_MESS_END();
      return 0;
 }
 
@@ -151,6 +169,8 @@ static int
 _PyGSL_register_err_object(PyObject *dict, PyObject * err_ob, PyObject *the_errno)
 {
      PyObject *test;
+
+     FUNC_MESS_BEGIN();
      assert(error_dict);
      test = PyDict_GetItem(dict, the_errno);
      if(test != NULL){
@@ -161,6 +181,7 @@ _PyGSL_register_err_object(PyObject *dict, PyObject * err_ob, PyObject *the_errn
      }
      Py_INCREF(err_ob);
      PyDict_SetItem(dict, the_errno, err_ob);
+     FUNC_MESS_END();
      return 0;
 }
 
@@ -172,6 +193,8 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
      long test_errno;
      int flag; 
      char * c_name;
+
+     FUNC_MESS_BEGIN();
      assert(err_ob);
      tmp = PyObject_GetAttrString(err_ob, "errno");
      if(tmp == NULL){
@@ -201,7 +224,7 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
      }
 
      test_errno = PyInt_AsLong(tmp);
-     if((dict == error_dict) && (test_errno < ERRNO_MAX)){
+     if((dict == error_dict) && (test_errno < PyGSL_ERRNO_MAX)){
 	  flag = PyGSL_register_accel_err_object(err_ob, test_errno);
      }else{
 	  flag = _PyGSL_register_err_object(dict, err_ob, tmp);
@@ -209,6 +232,7 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
      if(flag != 0)
 	  fprintf(stderr, "Failed to register err_ob %p with errno %ld.\n" 
 		  "\tAlready registered?\n", err_ob, test_errno);
+     FUNC_MESS_END();
      return flag;
 }
 
@@ -217,11 +241,13 @@ PyGSL_register_error_objs(PyObject *self, PyObject *args, PyObject *dict, int er
 {
      int flag, i, len;
      PyObject *tmp;
-     
+
+     FUNC_MESS_BEGIN();     
      if(!PySequence_Check(args))
 	  return NULL;
 
      len = PySequence_Size(args);
+     DEBUG_MESS(5, "Recieved %d error objects", len);
      for(i = 0; i < len; ++i){
 	  tmp = PySequence_GetItem(args, i);
 	  flag = _PyGSL_register_error(dict, errno_max, tmp);
@@ -230,35 +256,56 @@ PyGSL_register_error_objs(PyObject *self, PyObject *args, PyObject *dict, int er
 	       return NULL;
 	  }
      }
+     PyGSL_print_accel_object();
      
      Py_INCREF(Py_None);
+     FUNC_MESS_END();
      return Py_None;
 }
 
 static PyObject*
 PyGSL_register_warnings(PyObject *self, PyObject *args)
 {
-     return PyGSL_register_error_objs(self, args, warning_dict, 0);    
+     PyObject *tmp;
+     FUNC_MESS_BEGIN();
+     tmp = PyGSL_register_error_objs(self, args, warning_dict, 0);    
+     FUNC_MESS_END();
+     return tmp;
 }
 
 static PyObject*
 PyGSL_register_exceptions(PyObject *self, PyObject *args)
 {
-     return PyGSL_register_error_objs(self, args, error_dict, ERRNO_MAX);
-
+     PyObject *tmp;
+     FUNC_MESS_BEGIN();
+     tmp = PyGSL_register_error_objs(self, args, error_dict, PyGSL_ERRNO_MAX);
+     FUNC_MESS_END();
+     return tmp;
 }
+
 
 static PyObject *
 PyGSL_get_error_object(int the_errno, PyObject ** accel, int accel_max, PyObject *dict)
 {
      PyObject *tmp;
+
+     FUNC_MESS_BEGIN();
      assert(the_errno >= 0);
-     if (the_errno < accel_max)
+     if (the_errno < accel_max){
+	  DEBUG_MESS(4, "Trying to get an error object from accel array at %p",
+		     (void*) accel);
 	  tmp = accel[the_errno];
-     else
+     }else{
+	  DEBUG_MESS(4, "Trying to get an error object from dictonary at %p",
+		     (void*) dict);
 	  tmp =  PyDict_GetItem(dict, PyInt_FromLong(the_errno));
-     if(tmp == NULL)
+     }
+     if(tmp == NULL){
+	  DEBUG_MESS(3, "Could not find an error object for errno %d", the_errno);
+	  PyGSL_print_accel_object();
 	  return unknown_error;
+     }
+     FUNC_MESS_END();
      return tmp;
 }
 
@@ -266,7 +313,11 @@ static int
 PyGSL_init_errno(void)
 {
      int i;
-     for(i = 0; i< ERRNO_MAX; ++i){
+     FUNC_MESS_BEGIN();
+
+     for(i = 0; i< PyGSL_ERRNO_MAX; ++i){
+	  DEBUG_MESS(3, "setting errno_accel[%d] to NULL; was %p", 
+		     i, (void*) (errno_accel[i]));
 	  errno_accel[i] = NULL;
      }
      error_dict = PyDict_New();
@@ -278,6 +329,7 @@ PyGSL_init_errno(void)
 	  return -1;
 
      unknown_error = PyExc_ValueError;
+     FUNC_MESS_END();
      return 0;
 }
 
@@ -345,7 +397,7 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
   switch(flag){
   case HANDLE_ERROR:   
        assert(gsl_error > 0);
-       gsl_error_object = PyGSL_get_error_object(gsl_error, errno_accel, ERRNO_MAX, error_dict);
+       gsl_error_object = PyGSL_get_error_object(gsl_error, errno_accel, PyGSL_ERRNO_MAX, error_dict);
        Py_INCREF(gsl_error_object);  
        PyErr_SetObject(gsl_error_object, PyString_FromString(error_text)); 
        return -1;

@@ -6,13 +6,33 @@
 #include <gsl/gsl_errno.h>
 #include <pygsl/errorno.h>
 
+#if 0
+static int 
+add_errno(PyObject * dict, int num, char * name)
+{
+     PyObject * item;
+
+     item = PyInt_FromLong(num);
+     if(item == NULL){
+	  fprintf(stderr, "Failed to generate PyInt with value %d for errno %s\n",
+		  num, name);
+	  return -1;
+     }
+     if(PyDict_SetItemString(dict, name, item) == -1){
+	  fprintf(stderr, "Failed to add PyInt %p with value %d to dict %p for errno %s\n",
+		  (void *) item, num, (void *) dict, name);
+	  return -1;
+     }
+     return 0;
+}   
+#define ADD_ERRNO(ERRNO, ERRNOSTR) if(add_errno(dict, ERRNO, ERRNOSTR) != 0) goto fail
+#else
 #define ADD_ERRNO(ERRNO, ERRNOSTR)                     \
-   (item = PyInt_FromLong((ERRNO))) ? ((PyDict_SetItemString(dict, ERRNOSTR, item) != 0) ? 1 : 0) : 0
-   
+   ((item =  PyInt_FromLong(ERRNO)) ? ((PyDict_SetItemString(dict, ERRNOSTR, item) != 0) ? 1 : 0) : 0)
+#endif 
 static PyMethodDef errornoMethods[] = {
      {NULL, NULL, 0, NULL}
 };
-
 
 DL_EXPORT(void) initerrno(void)
 {
