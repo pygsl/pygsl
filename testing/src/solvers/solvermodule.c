@@ -151,8 +151,7 @@ PyGSL_solver_dealloc(PyGSL_solver * self)
 #endif 
 
      } /* freeing cached objects */
-
-     PyMem_Free(self);
+     PyObject_Del(self);
      self = NULL;
      FUNC_MESS_END();
 
@@ -949,7 +948,6 @@ initsolver(void)
 
   FUNC_MESS_BEGIN();
   m=Py_InitModule("solver", solverMethods);
-  import_array();
   init_pygsl();
 
 

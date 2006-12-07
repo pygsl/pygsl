@@ -146,7 +146,6 @@ initminimize(void)
      FUNC_MESS_BEGIN();
 
      m=Py_InitModule("minimize", mMethods);
-     import_array();
      import_pygsl_solver();
      assert(PyGSL_API);
 

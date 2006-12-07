@@ -67,7 +67,6 @@ DL_EXPORT(void) initderiv(void)
 
 	m = Py_InitModule("deriv", derivMethods);
 	init_pygsl();
-        import_array();
 	if (m == NULL)
 		return;
 

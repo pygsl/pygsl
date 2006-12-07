@@ -1,9 +1,8 @@
-#include <Python.h>
-#include <gsl/gsl_sf.h>
-#include <gsl/gsl_nan.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
+#include <gsl/gsl_sf.h>
+#include <gsl/gsl_nan.h>
 
 #ifndef IMPORTALL
 static PyObject *module=NULL;
@@ -383,8 +382,8 @@ static PyMethodDef sf_array_functions[] = {
 DL_EXPORT(void) initsfarray(void)
 {
      module = Py_InitModule("sfarray", sf_array_functions);
-       import_array();
+     import_array();
        init_pygsl();
-
+       
 }
 #endif

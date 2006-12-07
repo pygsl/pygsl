@@ -82,7 +82,6 @@ DL_EXPORT(void) initdiff(void)
 
 	m = Py_InitModule("diff", diffMethods);
 	init_pygsl();
-        import_array();
 	if (m == NULL)
 		return;
 

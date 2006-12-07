@@ -331,7 +331,6 @@ initmultifit_nlin(void)
      if(!dict)
 	  goto fail;
 
-     import_array();
      init_pygsl()
      import_pygsl_solver();
      assert(PyGSL_API);

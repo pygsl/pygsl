@@ -10,7 +10,7 @@
 %}
 %include gsl_error_typemap.i
 %init %{
-     import_array();
+     init_pygsl();
 %}
 %inline %{
 static

@@ -300,7 +300,6 @@ initmultiroot(void)
      module = m;
      assert(m);
 
-     import_array();
      init_pygsl()
      import_pygsl_solver();
      assert(PyGSL_API);

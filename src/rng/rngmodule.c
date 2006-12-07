@@ -126,9 +126,14 @@ rng_delete(PyGSL_rng *self)
 {
      FUNC_MESS_BEGIN();
      assert(PyGSL_RNG_Check(self));
-     gsl_rng_free(self->rng);
+     if(self->rng != NULL){
+	  DEBUG_MESS(5, "Freeing gsl_rng @ %p", self->rng);
+	  gsl_rng_free(self->rng);
+	  self->rng = NULL;
+     }
      DEBUG_MESS(1, " self %p\n",(void *) self);
-     PyMem_Free(self);
+     PyObject_Del(self);
+     self = NULL;
      FUNC_MESS_END();
 }
 
@@ -566,7 +571,7 @@ initrng(void)
 
      m = Py_InitModule("rng", PyGSL_rng_module_functions);
      assert(m);
-     import_array();
+     /* import_array(); */
      init_pygsl();
 
      /* create_rng_types(m); */

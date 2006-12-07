@@ -26,8 +26,6 @@
 %}
 
 %init %{
-  /* To use the numeric extension */
-  import_array();
   init_pygsl();
 %}
 

@@ -20,7 +20,6 @@
 typedef unsigned int size_t;
 %init %{
   /* To use the numeric extension */
-  import_array();
   init_pygsl();
 %}
 

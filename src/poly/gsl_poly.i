@@ -24,7 +24,6 @@ All the doc strings were taken form the gsl reference document.";
 #include <poly.ic>
 %}
 %init %{
-  import_array();
   init_pygsl();
 %}
 /*

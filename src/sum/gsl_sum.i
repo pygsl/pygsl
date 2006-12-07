@@ -7,7 +7,6 @@
 %}
 
 %init {
-  import_array();
   init_pygsl();
 }
 typedef unsigned int size_t;
