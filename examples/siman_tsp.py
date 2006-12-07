@@ -28,7 +28,7 @@ Original Copyright:
 
 import copy
 import sys
-
+import time
 import pygsl.siman as siman
 import pygsl.rng   as rng
 from pygsl import _numobj as numx
@@ -86,6 +86,7 @@ for i in range(len(cities)):
     cities[i].SetNumber(i)
     
 earth_radius = 6375.000
+#n_cities = 6
 
 # distance between two cities
 def city_distance(c):
@@ -218,41 +219,62 @@ class ExhaustiveSearch:
         self.third_route  = numx.arange(n_cities)
         self.tsp = Tsp()
         self.tsp.SetNCities(n_cities)
+        self.r_cities = numx.arange(n_cities)
         self.__runs = 0
+        self.__total_runs = 68588312
+        self.__time_stamp = 0
         
     def arange_routes(self, route):
         """
         """
         #rint "Calculating Energy ...",
-        self.tsp.SetRoute(route)
-        self.E = self.tsp.EFunc()
+        E = 0
+        i_ind = numx.take(route, self.r_cities)
+        j_ind = numx.take(route, (self.r_cities + 1) % n_cities)
+        for i in self.r_cities:
+            E += distance_matrix[route[i]][route[(i + 1) % n_cities]]
         #print self.E
-        if self.E < self.best_E:
+        if E < self.best_E:
             self.third_E = self.second_E
             self.third_route[:] = self.second_route[:]
             self.second_E = self.best_E
             self.second_route[:] = self.best_route[:]
-            self.best_E = self.E
+            self.best_E = E
             self.best_route[:] = route[:]
-        elif self.E < self.second_E:
+        elif E < self.second_E:
             self.third_E = self.second_E
             self.third_route[:] = self.second_route[:]
-            self.second_E = self.E
+            self.second_E = E
             self.second_route[:] = route[:]
-        elif self.E < self.third_E:
-            self.third_E = self.E;
+        elif E < self.third_E:
+            self.third_E = E;
             route[:] = self.third_route[:]
         else:
             # Nothing to do
             pass
 
+    def forcastendtime(self):
+        """
+        """
+        now = time.time()
+        dt = now -  self.__time_stamp
+        required_time = (self.__total_runs - self.__runs) * dt / self.__runs
+        if required_time > 0:
+            end = now + required_time
+        else:
+            # well self.__total_runs is not a good guess any more
+            end = now
+        tmp = time.strftime("%Y %m %d %H:%M:%S", time.localtime(end))
+        sys.stdout.write("\r" + " " * 78 + "\r"),
+        sys.stdout.write("end %s " % tmp)
+        sys.stdout.flush()
+        
     def do_all_perms(self, route, n):
         self.__runs += 1
         if self.__runs % (1000 * 1000) == 0 :
-            sys.stdout.write(","),
-            sys.stdout.flush()
-
-        elif self.__runs % (1000 * 10) == 0 :
+            self.forcastendtime()
+            
+        elif self.__runs % (1000 * 20) == 0 :
             sys.stdout.write("."),
             sys.stdout.flush()
             
@@ -264,21 +286,27 @@ class ExhaustiveSearch:
         elif n > n_cities - 1 :
             raise ValueError
         else:
+            #print "range",
             new_route = copy.copy(route)
-            #print "range", 
             for j in range(n, n_cities):
-                new_route[j], new_route[n] =  new_route[j], new_route[n]
+                new_route[j], new_route[n] =  new_route[n], new_route[j]
                 #print "j,", j
                 self.do_all_perms(new_route, n+1)
 
     def search(self):
         initial_route = numx.arange(n_cities)
+        self.__time_stamp = int(time.time())
+        sys.stdout.write(" " * 79 + "\n")
         self.do_all_perms(initial_route, 1)
 
+        print " " * 78
+        print "\n"
         print "Initial route: "
         for i in initial_route:
             print cities[i]
 
+        print "Required %d runs estimated %d runs" % (self.__runs, self.__total_runs)
+        print 
         print "Best route: "
         for i in self.best_route:
             print cities[i]
@@ -299,5 +327,5 @@ def exhaustive_search():
     ExhaustiveSearch().search()
 
 if __name__ == "__main__":
-    #siman_exp()
-    exhaustive_search()
+    siman_exp()
+    #exhaustive_search()
