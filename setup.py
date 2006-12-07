@@ -3,6 +3,7 @@
 # author: Achim Gaedke
 # created: May 2001
 # file: pygsl/setup.py
+# $Id$
 #
 # setup script for building and installing pygsl
 
@@ -15,7 +16,10 @@ USE_SWIG = 1
 # Some modules have been reimplemented. These modules will be installed in
 # pygsl.testing...
 # Set to one if you want them built
-BUILD_TESTING = 0
+BUILD_TESTING = 1
+
+# Some modules are not considered to be used in future
+BUILD_DEPRECATED = 0
 
 #
 # If you want to use the PyGSL API in other projects ...
@@ -64,23 +68,23 @@ def SWIG_Extension(*args, **kws):
 
 
 macros = [('SWIG_COBJECT_TYPES', 1)]
-macros = macros + [('DEBUG', 1)]
+macros = macros + [('DEBUG', 0)]
 debug_macros = macros + [('DEBUG', 1)]
 
 pygsl_errno=gsl_Extension("errno",
 			 ['src/init/errorno.c'],
                          gsl_min_version=(1,),
-                         define_macros = macros + [('DEBUG', 1)],
+                         define_macros = macros,
                          python_min_version=(2,1),
                          )
 exts.append(pygsl_errno)
 pygsl_init=gsl_Extension("init",
 			 ['src/init/initmodule.c'],
                          gsl_min_version=(1,),
-                         define_macros = macros + [('DEBUG', 1)],
+                         define_macros = macros,
                          python_min_version=(2,1),
                          )
-exts.append(pygsl_init)    
+exts.append(pygsl_init)
 
 exts.append(SWIG_Extension("hankel",                           
                            ["src/hankel/gsl_hankel.i"],
@@ -150,13 +154,13 @@ pygsl_diff = gsl_Extension("diff",
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_diff)
-#pygsl_deriv = gsl_Extension("deriv",
-#                           ['src/derivmodule.c'],
-#                           define_macros = macros,
-#                           gsl_min_version=(1, 5),
-#                           python_min_version=(2,1)
-#                           )
-#exts.append(pygsl_deriv)
+pygsl_deriv = gsl_Extension("deriv",
+                           ['src/derivmodule.c'],
+                           define_macros = macros,
+                           gsl_min_version=(1, 5),
+                           python_min_version=(2,1)
+                           )
+exts.append(pygsl_deriv)
 pygsl_transform = gsl_Extension("_transform",
                            ['src/transform/transformmodule.c'],
                            define_macros = macros,
@@ -205,13 +209,6 @@ try:
                                   python_min_version=(2,2)
                                   )
     exts.append(pygsl_histogram)    
-    pygsl_matrix=gsl_Extension("matrix",
-                                  ['src/matrixmodule.c'],
-                               define_macros = macros,
-                                  gsl_min_version=(1,'0+'),
-                                  python_min_version=(2,2)
-                                  )
-    exts.append(pygsl_matrix)    
     pygsl_multimin=gsl_Extension("multimin",
                                   ['src/multiminmodule.c'],
                                  define_macros = macros,
@@ -303,22 +300,16 @@ errortest = gsl_Extension("errortest",
                           )
 exts.append(errortest)
 
+if BUILD_DEPRECATED:
+    pygsl_matrix=gsl_Extension("matrix",
+                               ['src/matrixmodule.c'],
+                               define_macros = macros,
+                               gsl_min_version=(1,'0+'),
+                               python_min_version=(2,2)
+                               )
+    exts.append(pygsl_matrix)    
+
 if BUILD_TESTING:
-    sfarray=gsl_Extension("testing.sfarray",
-                          ['testing/src/sf/sf__arrays.c'],
-                          gsl_min_version=(1,),
-                          define_macros = macros,
-                          python_min_version=(2,0)
-                     )
-    exts.append(sfarray)
-    
-    sf=gsl_Extension("testing.sf",
-                     ['testing/src/sf/sfmodule_testing.c'],
-                     gsl_min_version=(1,),
-                     define_macros = macros,
-                     python_min_version=(2,0)
-                     )
-    #exts.append(sf)
 
     solver=gsl_Extension("testing.multimin",
                          ['testing/src/solvers/multimin.c'],
@@ -368,6 +359,14 @@ if BUILD_TESTING:
                          )
     exts.append(solver)
 
+    solver=gsl_Extension("testing.monte",
+                         ['testing/src/solvers/monte.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros, 
+                         python_min_version=(2,0)
+                         )
+    exts.append(solver)
+
     solver=gsl_Extension("testing.solver",
                          ['testing/src/solvers/solvermodule.c'],
                          gsl_min_version=(1,),
@@ -381,6 +380,24 @@ if BUILD_TESTING:
                          define_macros = macros + [("ONEFILE", 1)],
                          python_min_version=(2,0)
                      )
+
+    num = gsl_numobj.nummodule
+    if num == "numpy" or num == "Numeric":
+        sfarray=gsl_Extension("testing.sfarray",
+                              ['testing/src/sf/sf__arrays.c'],
+                              gsl_min_version=(1,),
+                              define_macros = macros,
+                              python_min_version=(2,0)
+                              )
+        exts.append(sfarray)        
+        sf=gsl_Extension("testing._ufuncs",
+                         ['testing/src/sf/sfmodule_testing.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros,
+                         python_min_version=(2,0)
+                         )
+        exts.append(sf)
+
     #exts.append(cheb)
     pass
 
@@ -428,6 +445,7 @@ headers = None
 if INSTALL_HEADERS == 1:
     headers = glob.glob("Include/pygsl/*.h")
     gsldist = map(lambda x: 'gsl_dist.' + os.path.basename(x)[:-3], glob.glob("gsl_dist/*.py"))
+    print gsldist
 
 py_modules = map(lambda x : 'pygsl.' + x, py_module_names) + gsldist 
     
@@ -436,7 +454,7 @@ if "bdist" in sys.argv:
     extends = "_" + str(gsl_numobj.nummodule)
 
 setup (name = "pygsl",
-       version = "0.3.2" + extends,
+       version = "0.9.0" + extends,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
        long_description = "This project provides a python interface for the GNU scientific library (gsl)",
