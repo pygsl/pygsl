@@ -10,7 +10,7 @@ static void			/* generic instance destruction */
 generic_dealloc (PyObject *self)
 {
   DEBUG_MESS(1, " *** generic_dealloc %p\n", (void *) self);
-  PyMem_Free(self);
+  PyObject_Del(self);
 }
 
 
@@ -180,7 +180,6 @@ qrng_delete(PyGSL_qrng *self)
      assert(PyGSLQRng_Check(self));
      gsl_qrng_free(self->qrng);
      DEBUG_MESS(1, " self %p\n",(void *) self);
-     PyMem_Free(self);
 }
 
 static PyObject *
