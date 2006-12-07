@@ -8,7 +8,7 @@ sys.stdout = sys.stderr
 import Numeric
 import pygsl
 pygsl.set_debug_level(0)
-import pygsl.testing.multiminimize as multimin
+import pygsl.testing.multimin as multimin
 
 def f(x, params):
     a = params[0]
