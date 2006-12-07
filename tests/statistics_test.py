@@ -7,6 +7,24 @@
 #
 import unittest
 from pygsl._numobj import *
+try:
+    Int8
+except NameError:
+    Int8 = int8
+try:
+    Int32
+except NameError:
+    Int32 = int32
+
+try:
+    Int16
+except NameError:
+    Int16 = int16
+
+try:
+    UInt8
+except NameError:
+    UInt8 = uint8
 
 from pygsl.statistics import *
 from pygsl.statistics import char as char
@@ -46,8 +64,9 @@ class statistics_test(unittest.TestCase):
         self.failIf(mean(data[::-2]) != 6.0)
 
     def test_mean_char(self):
-        self.failIf(char.mean([1,2,3]) != 2)
-        self.failIf(char.mean(array([1,2,3], Int8)) != 2)
+        tmp = (ord("1") + ord("2") + ord("3")) / 3
+        self.failIf(char.mean([1,2,3]) != tmp)
+        self.failIf(char.mean(array([1,2,3], Int8)) != tmp)
     
     def test_mean_float(self):
         self.failIf(float.mean(array([-1.,-3.,1.], 'f')) != -1)
@@ -67,7 +86,7 @@ class statistics_test(unittest.TestCase):
         self.failIf(short.mean(array([-1,-3,1], Int16)) != -1)
 
     def test_mean_uchar(self):
-        self.failIf(uchar.mean(array([1,2,3], 'b')) != 2)
+        self.failIf(uchar.mean(array([1,2,3], UInt8)) != 2)
         self.failIf(uchar.mean([1,2,3]) != 2)
         
     def test_sd(self):
