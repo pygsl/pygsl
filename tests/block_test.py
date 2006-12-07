@@ -8,8 +8,8 @@ from pygsl import vector, ArrayType
 from pygsl import matrix_pierre
 matrix = matrix_pierre
 
-from pygsl import _block
-from array_check import myord, myorda, array_check, get_typecode
+from pygsl import _block, get_typecode
+from array_check import myord, myorda, array_check
 
 import unittest
 import sys
@@ -334,7 +334,14 @@ class _SetZeroMatrixTestCase(_DefaultMatrixTestCase):
                 
     def test_2_isnull(self):
         tmp = self._get_function('isnull')
-        a = tmp(self.array)                
+        test = 0
+        try:
+            a = tmp(self.array)
+            test = 1
+        finally:
+            if test == 0:
+                print self, tmp
+                
         assert tmp(self.array)
         
     def _mytearDown(self):
@@ -1295,8 +1302,15 @@ class SetZeroCharVectorTestCase(_CharVectorTestCase,
                                 ):
     def test_2_all(self):
         for i in range(self.size):
-            assert myorda(self.array[i]) ==  0, "Of Diagonale not zero!"
-
+            test = 0
+            cztmp = myorda(self.array[i])
+            try:
+                assert cztmp  ==  0, "Of Diagonale not zero!"
+                test = 1
+            finally:
+                if test == 0:
+                    print "Of Diagonale not zero (but %s) for class %s !" (cztmp, self)
+                    
 class SetZeroCharVectorUITestCase(_CharVectorTestCase,
                                 _UIAccess,
                                 _SetZeroVectorTestCase,
