@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-import pygsl._numobj as Numeric
+import pygsl._numobj as numx
 import pygsl.sum as sum
 print sum
 N = 20
-M_PI = Numeric.pi
+M_PI = numx.pi
 w = sum.gsl_sum_levin_u_workspace(N)
 zeta_2 = M_PI * M_PI / 6.0;
 
-np1 = Numeric.arange(N) + 1
+np1 = numx.arange(N) + 1
 t = 1.0 / (np1 * np1)
-sum = Numeric.add.reduce(t)
+sum = numx.add.reduce(t)
 sum_accel, err = w.accel(t)     
 print "term-by-term sum = % .16f using %d terms" % (sum, N)     
 #print "term-by-term sum = % .16f using %d terms" % (w->sum_plain, w->terms_used)

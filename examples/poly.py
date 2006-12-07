@@ -6,20 +6,20 @@ Various examples for using the polynomial functions.
 Just shows the usage of the different functions. 
 """
 
-import pygsl._numobj as Numeric
+import pygsl._numobj as numx
 from pygsl import poly
 
 
 _eps = 1e-8
 
 def test_poly_eval():
-    c = Numeric.ones((3,))
+    c = numx.ones((3,))
     x = 2
     poly.poly_eval(c,x)
 
 def polydd():
-    xa = Numeric.arange(100) / 100.0 * 2. * Numeric.pi
-    ya = Numeric.sin(xa)
+    xa = numx.arange(100) / 100.0 * 2. * numx.pi
+    ya = numx.sin(xa)
     dd = poly.poly_dd(xa, ya)
     dd.eval(0)        
     c = dd.taylor(0.0)

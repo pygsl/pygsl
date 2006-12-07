@@ -5,20 +5,20 @@ The python equivalent of the C example found in the GSL Reference document.
 
 The function run_fsolver shows how to use the fsolvers (e.g. brent).
 """
-import Numeric
-from pygsl import minimize
 
+from pygsl import minimize, errno
+from pygsl import _numobj as numx
 
 
 def fn1(x, params):
-    return Numeric.cos(x) + 1.0
+    return numx.cos(x) + 1.0
 
 def run_fsolver():
     mysys = minimize.gsl_function(fn1, None)
     m = 2.0
     a = 0.0
     b = 6.0
-    m_expected = Numeric.pi
+    m_expected = numx.pi
 
     
     minimizer = minimize.brent(mysys)
@@ -34,11 +34,11 @@ def run_fsolver():
         b      = minimizer.x_upper()
         m      = minimizer.minimum()
         status = minimize.test_interval(a, b, 0.001, 0)
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             print "# Converged: "
         print "  %5d [%.7f %.7f]  %.7f + % .6f % .6f" %(iter, a, b, m,
                                                       m -m_expected, b - a)
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             break
     else:
         raise ValueError, "Number of Iterations exceeded!"

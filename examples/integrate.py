@@ -8,12 +8,12 @@ the "numerical singularity" (please could someone change it to the approbriate
 expression?) x = 0. qawf is used to integrate towards infinity.
 
 """
-import Numeric
 from  pygsl import integrate
+from  pygsl import _numobj as numx
 
 def run():
     def f2(x,y):
-        return Numeric.sin(x) / x
+        return numx.sin(x) / x
     sys2 = integrate.gsl_function(f2, None)
     
     def f1(x,y):
@@ -32,12 +32,12 @@ def run():
     table2 = integrate.qawo_table(-1, 100, integrate.SINE, 100)
 
     # Borders and singualrity for gagp
-    pts = Numeric.array((-Numeric.pi, 0, Numeric.pi))
+    pts = numx.array((-numx.pi, 0, numx.pi))
     
     flag, result1, error = integrate.qagp(sys2, pts, 1e-8, 1e-8, 100000, w)
-    flag, result2, error = integrate.qawf(sys1, Numeric.pi, 1e-8,  100, w,
+    flag, result2, error = integrate.qawf(sys1, numx.pi, 1e-8,  100, w,
                                           cyclew, table1)
-    flag, result3, error = integrate.qawf(sys3, Numeric.pi, 1e-8,  100, w,
+    flag, result3, error = integrate.qawf(sys3, numx.pi, 1e-8,  100, w,
                                           cyclew, table2)
     
     print "Result of integration is :", result1 + result2 + result3

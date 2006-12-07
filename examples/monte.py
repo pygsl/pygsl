@@ -18,7 +18,7 @@ import exceptions
 import sys
 sys.stdout = sys.stderr
 
-import pygsl._numobj as Numeric
+import pygsl._numobj as numx
 import pygsl
 import pygsl.rng
 import pygsl.monte as monte
@@ -28,15 +28,15 @@ calls = 50000
 r = pygsl.rng.mt19937_1999()
 
 xl = [ 0, 0, 0 ]
-M_PI = Numeric.pi
+M_PI = numx.pi
 xu = [ M_PI, M_PI, M_PI ]
 
 
-A = 1.0 / Numeric.pi**3
+A = 1.0 / numx.pi**3
 
 def g(k, params):    
-    Numeric.cos(k,k)    
-    return A / (1.0 - Numeric.multiply.reduce(k))
+    numx.cos(k,k)    
+    return A / (1.0 - numx.multiply.reduce(k))
 
 G =  monte.gsl_monte_function(g, None, 3)
 
@@ -45,7 +45,7 @@ def display_results (title, result, error):
     print "result = % .6f" % result
     print "sigma  = % .6f" % error
     print "exact  = % .6f" % exact
-    t = (result - exact, Numeric.absolute(result - exact) / error)
+    t = (result - exact, numx.absolute(result - exact) / error)
     print "error  = % .6f = %.1g sigma" % t
 
 
@@ -73,7 +73,7 @@ def run_vegas():
         res, err = s.integrate(G, xl, xu, calls/5, r)
         chisq = s.get_chisq()
         print "result = % .6f sigma = % .6f chisq/dof = %.1f" % (res, err, chisq);
-        if (Numeric.absolute(chisq - 1.0) <= 0.5):    
+        if (numx.absolute(chisq - 1.0) <= 0.5):    
             display_results("vegas final", res, err)
             break
 

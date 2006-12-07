@@ -6,14 +6,14 @@ The python equivalent of the C example found in the GSL Reference document.
 The function run_fsolver shows how to use the fdfsolvers (e.g. lsmder).
 """
 
-import Numeric
 import random
 import pygsl
-from pygsl import multifit_nlin
+from pygsl import multifit_nlin, errno
+from pygsl import _numobj as numx
 import copy
 
 
-exp = Numeric.exp
+exp = numx.exp
 
 def testfunc(t, A = 1., lambda_ = .1, b=.5):
         return  A * exp(- lambda_ * t) + b
@@ -42,8 +42,8 @@ def exp_df(x, params):
 
     e = exp(-lambda_ * t)
     e_s = e/sigma
-    df = Numeric.array((e_s, -t * A * e_s, 1/sigma))
-    df = Numeric.transpose(df)
+    df = numx.array((e_s, -t * A * e_s, 1/sigma))
+    df = numx.transpose(df)
     return df
 
 def exp_fdf(x, params):
@@ -60,17 +60,17 @@ def run_fdfsolver():
     n = 40
     p = 3
 
-    t = Numeric.arange(n);
+    t = numx.arange(n);
     y = testfunc(t, A, lambda_, b)
-    sigma = Numeric.ones(n) * 0.1
-    data = Numeric.array((t,y,sigma), Numeric.Float)
+    sigma = numx.ones(n) * 0.1
+    data = numx.array((t,y,sigma),)
     mysys = multifit_nlin.gsl_multifit_function_fdf(exp_f, exp_df, exp_fdf,
 						       data, n,p)
     solver = multifit_nlin.lmsder(mysys, n, p)    
     #solver = multifit_nlin.lmder(mysys, n, p)
 
 
-    x = Numeric.array((1.0, 0.0, 0.0))
+    x = numx.array((1.0, 0.0, 0.0))
     solver.set(x)
     print "# Testing solver ", solver.name() 
     print "# %5s %9s %9s  %9s  %10s" % ("iter", "A", "lambda", "b", "|f(x)|")
@@ -82,10 +82,10 @@ def run_fdfsolver():
 	J  = solver.getJ()
 	tdx = multifit_nlin.gradient(J, f)
 	status = multifit_nlin.test_delta(dx, x, 1e-8, 1e-8)
-	fn = Numeric.sqrt(Numeric.sum(f*f))
-	if status == 0:
+	fn = numx.sqrt(numx.sum(f*f))
+	if status == errno.GSL_SUCCESS:
 		print "# Convereged :"
-	if status == 0:
+	if status == errno.GSL_SUCCESS:
                 break
         print "  %5d % .7f % .7f  % .7f  % .7f" %(iter, x[0], x[1], x[2], fn)
     else:

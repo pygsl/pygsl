@@ -6,7 +6,7 @@ The pythonic version of the simple example from the gsl reference document.
 """
 # Author: Pierre Schnizer
 # Date  : December 2003
-import pygsl._numobj as Numeric
+import pygsl._numobj as numx
 import pygsl.siman as siman
 import pygsl.rng   as rng
 
@@ -40,11 +40,11 @@ class MySiman(siman.NumericEnsemble):
         if t2 > 700:
             tmp = 0
         else:
-            tmp = Numeric.exp(-t2)
-        return tmp*Numeric.sin(8*x)
+            tmp = numx.exp(-t2)
+        return tmp*numx.sin(8*x)
      
     def Metric(self, outer):     
-        return Numeric.absolute(self._data - outher.GetData())
+        return numx.absolute(self._data - outher.GetData())
 
     def Step(self, rng, step_size):
         old_x = self._data

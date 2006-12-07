@@ -2,13 +2,13 @@
 """
 
 """
-import pygsl._numobj as Numeric
+import pygsl._numobj as numx
 import pygsl.fft as fft
 print fft
 def complex_example_simple():
     n = 16
-    data = Numeric.arange(n) * (2 * Numeric.pi / n)
-    data = Numeric.cos(data) +0j
+    data = numx.arange(n) * (2 * numx.pi / n)
+    data = numx.cos(data) +0j
     space = fft.complex_workspace(n)
     wavetable = fft.complex_wavetable(n)
 
@@ -28,7 +28,7 @@ def complex_example():
     print space.get_type()
     print wavetable.get_type()
     print wavetable.get_factors()
-    data = Numeric.zeros((630,), Numeric.Complex)
+    data = numx.zeros((630,), numx.Complex)
     data[:11] = 1.0
     data[11:] = 1.0
     d = data[:]
@@ -37,7 +37,7 @@ def complex_example():
 
 def real_example_simple1():
     n = 32
-    data = Numeric.cos(1*(Numeric.arange(n) * (2 * Numeric.pi / n))).astype(Numeric.Float32)
+    data = numx.cos(1*(numx.arange(n) * (2 * numx.pi / n))).astype(numx.Float32)
     print data
     result =  fft.real_transform_float(data)
     print result
@@ -46,7 +46,7 @@ def real_example_simple1():
     
 def real_example_simple():
     n = 1024*1024
-    data = Numeric.zeros((n,), Numeric.Int)
+    data = numx.zeros((n,), numx.Int)
     data[n/3:2*n/3] = 1
     result =  fft.real_transform(data)
     #print "Nyqusit ->", result[0]
@@ -62,8 +62,8 @@ def real_example_simple():
 
 def halfcomplex_radix2_unpack():
     n = 32   
-    a = Numeric.arange(n)
-    c = Numeric.zeros((n,))
+    a = numx.arange(n)
+    c = numx.zeros((n,))
     c[1:n/2+1]=a[1::2]
     c[n/2+1:]=a[-2:1:-2]    
     print c

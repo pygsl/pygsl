@@ -5,8 +5,8 @@ The python equivalent of the C example found in the GSL Reference document.
 The function run_fsolver shows how to use the fsolvers (e.g. brent) and the
 function run_fdfsolver explains the usage of the fdfsolvers (e.g. newton).
 """
-from pygsl import  roots
-import pygsl._numobj as Numeric
+from pygsl import  roots, errno
+import pygsl._numobj as numx
 
 def quadratic(x, params):
     a = params[0]
@@ -40,7 +40,7 @@ def run_fsolver():
     
     solver.set(0.0, 5.0)
     iter = 0
-    r_expected = Numeric.sqrt(5.0)
+    r_expected = numx.sqrt(5.0)
     print "# Using solver ", solver.name() 
     print "# %5s [%9s %9s]  %9s  %10s %9s" % ("iter", "upper", "lower", "root",
                                               "err", "err(est)")
@@ -50,12 +50,12 @@ def run_fsolver():
         x_up = solver.x_upper()
         status = roots.test_interval(x_lo, x_up, 0, 0.001)
         r = solver.root()
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             print "#  Convereged :"
         print "  %5d [%.7f %.7f]  %.7f  % .6f % .6f" %(iter, x_lo, x_up, r,
                                                        r -r_expected,
                                                        x_up - x_lo)
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             break
     else:
         raise ValueError, "Exeeded maximum number of iterations!"
@@ -65,7 +65,7 @@ def run_fdfsolver():
     b = 0.0
     c = -5.0
     mysys = roots.gsl_function_fdf(quadratic, quadratic_deriv, quadratic_fdf,
-                                 Numeric.array((a,b,c)))
+                                 numx.array((a,b,c)))
 
     solver = roots.newton(mysys)    
     #solver = roots.secant(mysys)
@@ -73,7 +73,7 @@ def run_fdfsolver():
 
     x = 5.0
     solver.set(x)
-    r_expected = Numeric.sqrt(5.0)
+    r_expected = numx.sqrt(5.0)
     print "# Using solver ", solver.name() 
     print "# %5s %9s  %10s %9s" % ("iter", "root", "err", "err(est)")
     ok = 1
@@ -83,10 +83,10 @@ def run_fdfsolver():
         x = solver.root()
         status = roots.test_delta(x, x0, 0.0, 1e-3)
         r = solver.root()
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             print "#  Convereged :"
         print "%5d  %.7f  % .6f % .6f" %(iter, r, r -r_expected, x - x0)
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
                 break
     else:
         raise ValueError, "Exeeded maximum number of iterations!"

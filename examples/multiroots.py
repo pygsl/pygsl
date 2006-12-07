@@ -5,8 +5,8 @@ The python equivalent of the C example found in the GSL Reference document.
 The function run_fsolver shows how to use the fsolvers (e.g. dnewton) and the
 function run_fdfsolver explains the usage of the fdfsolvers (e.g. gnewton).
 """
-import pygsl._numobj as Numeric
-from pygsl  import multiroots
+import pygsl._numobj as numx
+from pygsl  import multiroots, errno
 import copy
 
 def rosenbrock_f(x, params):
@@ -20,7 +20,7 @@ def rosenbrock_f(x, params):
 def rosenbrock_df(x, params):
     a = params[0]
     b = params[1]
-    df = Numeric.zeros((x.shape[0], x.shape[0]), Numeric.Float)
+    df = numx.zeros((x.shape[0], x.shape[0])) * 1.
     df[0,0] = -a
     df[0,1] = 0
     df[1,0] = -2 * b * x[0]
@@ -33,7 +33,7 @@ def rosenbrock_fdf(x, params):
     return f, df
 
 def run_fsolver():
-    params = Numeric.array((1., 10.), Numeric.Float)
+    params = numx.array((1., 10.)) * 1.
     mysys = multiroots.gsl_multiroot_function(rosenbrock_f, params, 2)
     
     #solver = multiroots.hybrids(mysys, 2)
@@ -41,7 +41,7 @@ def run_fsolver():
     #solver = multiroots.broyden(mysys, 2)
     #solver = multiroots.hybrid(mysys, 2)
     
-    tmp = Numeric.array((-10., -5.), Numeric.Float)
+    tmp = numx.array((-10., -5.),)
     solver.set(tmp)
     print "# Testing solver ", solver.name() 
     print "# %5s %9s %9s  %9s  %10s" % ("iter", "x[0]", "x[1]", "f[0]", "f[1]")
@@ -51,16 +51,16 @@ def run_fsolver():
         x = solver.getx()
         f = solver.getf()
         status = multiroots.test_residual(f, 1e-7)
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             print "# Converged :"
         print "  %5d % .7f % .7f  % .7f  % .7f" %(iter, x[0], x[1], f[0], f[1])
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             break
     else:
         raise ValueError, "Number of Iterations exceeded!"
 
 def run_fdfsolver():
-    params = Numeric.array((1., 10.), Numeric.Float)
+    params = numx.array((1., 10.),)
     mysys = multiroots.gsl_multiroot_function_fdf(rosenbrock_f, rosenbrock_df,
                                                   rosenbrock_fdf, params, 2)
     
@@ -69,7 +69,7 @@ def run_fdfsolver():
     #solver = multiroots.hybridj(mysys, 2)
     #solver = multiroots.hybridsj(mysys, 2)
     
-    tmp = Numeric.array((-10., -5.), Numeric.Float)
+    tmp = numx.array((-10., -5.), )
     solver.set(tmp)
     print "# Testing solver ", solver.name() 
     print "# %5s %9s %9s  %9s  %10s" % ("iter", "x[0]", "x[1]", "f[0]", "f[1]")
@@ -79,10 +79,10 @@ def run_fdfsolver():
         x = solver.getx()
         f = solver.getf()
         status = multiroots.test_residual(f, 1e-7)
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             print "# Converged :"
         print "  %5d % .7f % .7f  % .7f  % .7f" %(iter, x[0], x[1], f[0], f[1])
-        if status == 0:
+        if status == errno.GSL_SUCCESS:
             break
     else:
         raise ValueError, "Number of Iterations exceeded!"

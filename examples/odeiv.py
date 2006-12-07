@@ -8,25 +8,24 @@ the output.
 
 """
 import sys
-import pygsl._numobj as Numeric
-import pygsl
 import time
+import pygsl._numobj as numx
 from pygsl import odeiv
 
 
 def func(t, y, mu):
-    f = Numeric.zeros((2,), Numeric.Float) * 1.0
+    f = numx.zeros((2,), ) * 1.0
     f[0] = y[1]
     f[1] = -y[0] - mu * y[1] * (y[0] ** 2 -1);
     return f
 
 def jac(t, y, mu):
-    dfdy = Numeric.ones((2,2), Numeric.Float) 
+    dfdy = numx.ones((2,2),) * 1. 
     dfdy[0, 0] = 0.0
     dfdy[0, 1] = 1.0
     dfdy[1, 0] = -2.0 * mu * y[0] * y[1] - 1.0
     dfdy[1, 1] = -mu * (y[0]**2 - 1.0)
-    dfdt = Numeric.zeros((2,))
+    dfdt = numx.zeros((2,))
     return dfdy, dfdt
     
 def run():

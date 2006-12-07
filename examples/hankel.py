@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-import Numeric
 from pygsl import hankel
+from pygsl import _numobj as numx
 
-a = Numeric.arange(1000)
+a = numx.arange(1000)
 
 h = hankel.DiscreteHankelTransform(100)
 h.init(10,10)
