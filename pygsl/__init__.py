@@ -87,7 +87,7 @@ __all__=['blas', 'chebyshev', 'combination', 'const', 'deriv', 'eigen', 'fit',
 import _numobj
 import errno
 
-get_typecode_numpy = lambda x: x.dtype.char
+get_typecode_numpy = lambda x: x.dtype
 get_typecode_default = lambda x: x.typecode()
     
 if _numobj.nummodule == "numpy":
@@ -100,25 +100,25 @@ else:
 try:
     Int =  _numobj.Int
 except  AttributeError:
-    # For numpy 1.0b
+    # For numpy 1.0
     Int = _numobj.int_
 
 try:
     Float = _numobj.Float
 except  AttributeError:
-    # For numpy 1.0b
+    # For numpy 1.0
     Float = _numobj.float_
 
 try:
     Complex = _numobj.Complex
 except  AttributeError:
-    # For numpy 1.0b
+    # For numpy 1.0
     Complex = _numobj.complex_
 
 try:
     ArrayType = _numobj.ArrayType
 except AttributeError:
-    # For numpy 1.0b
+    # For numpy 1.0
     ArrayType = _numobj.ndarray
     
 def array_typed_copy(array, code = None):
@@ -139,7 +139,8 @@ def set_debug_level(level):
     try:
         pygsl.init.set_debug_level(level)
     except pygsl.errors.gsl_NotImplementedError:
-        print "Switchable debug information was not compiled in!"
+        #print "Switchable debug information was not compiled in!"
+        pass
     
 def import_all():
     """
