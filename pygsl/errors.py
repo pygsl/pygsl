@@ -8,8 +8,8 @@
 #       error numbers. Needed to translate error numbers to the approbriate
 #       exception. See Lib/error_helpers.c
 import exceptions
-import errno
 import types
+from pygsl import errno
 
 class gsl_Error(exceptions.Exception):
     """
@@ -295,11 +295,16 @@ def _get_exceptions(subclass):
     globs = globals()
     for name in globs:
         i = globs[name]
-        if type(i) != types.ClassType:
+        # Does not work with python2.5
+        # These classes are seen as  types
+        #if type(i) != types.ClassType:
+        #    print "%s is not a class" % (i,)
+        #    continue
+        try:
+            if not issubclass(i, subclass):
+                continue
+        except TypeError:
             continue
-        if not issubclass(i, subclass):
-            continue
-        
         try:
             t = i.errno
         except AttributeError:
