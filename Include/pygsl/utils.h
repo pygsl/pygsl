@@ -1,8 +1,8 @@
 #ifndef PYGSL_UTIL_H
 #define PYGSL_UTIL_H
-#include <stdio.h>
 #include <pygsl/compilers.h>
 #include <pygsl/intern.h>
+#include <stdio.h>
 /* Uncomment the following block to get DEBUG information */
 /*
 #ifndef DEBUG
