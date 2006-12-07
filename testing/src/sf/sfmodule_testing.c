@@ -3,7 +3,7 @@
  * created: June 2003
  */
 #include <pygsl/error_helpers.h>
-#include <pygsl/block_helpers.h>
+#include <pygsl/arrayobject.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_complex.h>
