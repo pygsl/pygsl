@@ -168,7 +168,7 @@ def writenumobj(nummodule):
 	file.write(warnmsg)
 	file.write('"""\n')
 	if  nummodule == "numpy":
-		file.write('from numpy.lib.mlab import *\n')
+		file.write('from numpy.oldnumeric.mlab import *\n')
 	elif nummodule == "Numeric":
 		file.write('from MLab import *\n')
 	elif nummodule == "numarray":
