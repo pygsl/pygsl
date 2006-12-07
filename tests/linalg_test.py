@@ -3,13 +3,13 @@ import unittest
 import pygsl
 from pygsl.linalg import *
 from gsl_test import *
-import pygsl._numobj as Numeric
+import pygsl._numobj as numx
 
 class LinalgTestCase(GSLTestCase):
     def testLU_decomp(self):
         (lu, p, s) = LU_decomp(self.m1_4)
         (l,u) = LU_unpack(lu)
-        dot = Numeric.dot(l,u)
+        dot = numx.dot(l,u)
         result = zeros((4,4), Float)
         for i in range(len(p)):
             result[p[i]] = dot[i]
@@ -51,7 +51,7 @@ class LinalgTestCase(GSLTestCase):
     def testLU_lndet(self):
         (lu, p, s) = LU_decomp(self.m1_4)
         lndet = LU_lndet(lu)
-        result = fpcompare(lndet, Numeric.log(15.744), 3)
+        result = fpcompare(lndet, numx.log(15.744), 3)
         self.failUnless(result)
         
     def testLU_sgndet(self):
@@ -134,8 +134,8 @@ class LinalgTestCase(GSLTestCase):
         b = array([1,1,1,1], Float)
         (qr,tau) = QR_decomp(A)
         (x, res) = QR_lssolve(qr, tau, b)
-        assert(Numeric.absolute(x[0]) < 1e-7)
-        assert(Numeric.absolute(x[1] - 0.25925) < 1e-4)        
+        assert(numx.absolute(x[0]) < 1e-7)
+        assert(numx.absolute(x[1] - 0.25925) < 1e-4)        
         res2 = arrayCompare(res, [0.48148, 0.2222, -0.037037037, -0.296296], 4)
         self.failUnless(res2)
 
@@ -235,23 +235,6 @@ class LinalgTestCase(GSLTestCase):
         x = HH_solve(A, b)
         result = arrayCompare(x, [1.0,1.0], 5)
         self.failUnless(result)
-
-    def testSolve_tridiag(self):
-        # Thanks to bruce for the test
-        diag = ones((3,), Float)
-        subd = zeros((2,), Float)
-        supd = zeros((2,), Float)
-        rhs = array([1, 2, 3], Float)
-        trivial_1 = solve_symm_tridiag(diag, subd, rhs)
-        trivial_2 = solve_tridiag(diag, supd, subd, rhs)
-
-        test = (trivial_1 - trivial_2)
-        result = arrayIsZero(test)
-        self.failUnless(result)
-        subd[1] = 100
-        asymm = solve_tridiag(diag, supd, subd, rhs)
-        result = arrayIsZero(asymm)
-        self.failUnless(not result)
 
     def testSolve_symm_tridiag(self):
         diag = array([1.0,1,1,1])

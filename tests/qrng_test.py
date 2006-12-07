@@ -8,7 +8,8 @@ import pygsl._numobj as Numeric
 import types
 import string
 import copy
-from array_check import array_check, Float
+from array_check import array_check
+Float = pygsl.Float
 
 class _QrngTest(unittest.TestCase):
     _type = None
@@ -55,15 +56,8 @@ class _QrngTest(unittest.TestCase):
 
     def __testreturn(self, array, dim0):
         test = 0
-        try:
-            array_check(array, Float, (dim0, self._dim))
-            test = 1
-        finally:
-            if test == 0:
-                print "Got type ", type(array),
-                print "with shape ", array.shape,
-                print "Expected shape ", dim0, self._dim
-                
+        array_check(array, Float, (dim0, self._dim))
+                        
     def testGet(self):
         tmp = self.qrng()
         self.__testreturn(tmp, 1)

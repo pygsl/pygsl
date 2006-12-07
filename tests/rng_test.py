@@ -302,7 +302,7 @@ class TestIfAll(unittest.TestCase):
                     print "r      = %s %s" % (type(r), repr(r))
                     print "refrng = %s %s" % (type(refrng), repr(refrng))
 ##print "Last rng = ", rng_types[-1]
-for i in rng_types[4:5]:
+for i in rng_types:
     tmp = "class %s_rng_basics(%s, _rng_basics): pass" % ((i,) *2)
     exec(tmp)
     tmp = "class %s_rng_distributions(%s, _rng_distributions): pass" % ((i,) *2)

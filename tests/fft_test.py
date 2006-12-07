@@ -4,15 +4,30 @@ import unittest
 import pygsl
 import pygsl.fft as fft
 pygsl.set_debug_level(0)
-import pygsl._numobj as Numeric
+import pygsl._numobj as numx
 import pygsl._mlab as MLab
 import string
 from pygsl.math import fcmp
 
-from array_check import array_check, get_typecode
+from array_check import array_check
+get_typecode = pygsl.get_typecode
 _eps = 1e-5
 
 _fcmp = fcmp
+
+try:
+    _float32 = numx.Float32
+except AttributeError:
+    # For numpy
+    _float32 = numx.float32
+
+
+try:
+    _complex32 = numx.Complex64
+except AttributeError:
+    # For numpy
+    _complex32 = numx.complex64
+    
 def fcmp(a, b, eps):
     return _fcmp(float(a), float(b), eps)
 
@@ -26,7 +41,7 @@ class _ffttest(unittest.TestCase):
     # Type of the array
     typecode = None
     def _CheckSinResult(self, f, l):
-        a = Numeric.absolute(f)
+        a = numx.absolute(f)
         test = 0
         tmp1 = None
         tmp2 = None
@@ -64,7 +79,7 @@ class _ffttest(unittest.TestCase):
 
     def _CheckCosResult(self, f, l):
         # Take all data
-        a = Numeric.absolute(f)
+        a = numx.absolute(f)
         assert(fcmp(f[l].real, self.n/2, self._eps) == 0)
         stmp = ["%s" % a[l]]
         a[l] = 0
@@ -85,24 +100,24 @@ class _ffttest(unittest.TestCase):
                 print string.join(stmp)
                 
     def SinOne(self, x, l, args=()):
-        y = Numeric.sin(x * l)
+        y = numx.sin(x * l)
         tmp = self.convert(y)
         f = self.transform(*((tmp,) + args))
         self._CheckSinResult(f, l)
 
     def CosOne(self, x, l, args=()):
-        y = Numeric.cos(x * l)
+        y = numx.cos(x * l)
         tmp = self.convert(y)
         f = self.transform(*((tmp,) + args))
         self._CheckCosResult(f, l)
         
     def testSin(self):        
-        x = Numeric.arange(self.n) * (2 * Numeric.pi / self.n)
+        x = numx.arange(self.n) * (2 * numx.pi / self.n)
         for i in range(1,self.n/2):
            self.SinOne(x,i)
 
     def testCos(self):        
-        x = Numeric.arange(self.n) * (2 * Numeric.pi / self.n)
+        x = numx.arange(self.n) * (2 * numx.pi / self.n)
         for i in range(1,self.n/2):
             if self.__class__.__name__ == "testrealforwardfloat":
                 pygsl.set_debug_level(0)
@@ -116,7 +131,7 @@ class _radix2(_ffttest):
 
 class _mixedradix(_ffttest):
     def testSinSpace(self):        
-        x = Numeric.arange(self.n) * (2 * Numeric.pi / self.n)
+        x = numx.arange(self.n) * (2 * numx.pi / self.n)
         space = self.workspace(self.n)
         assert(space.get_n() == self.n)
         table = self.wavetable(self.n)
@@ -125,7 +140,7 @@ class _mixedradix(_ffttest):
            self.SinOne(x,i, (space,table))
 
     def testCosSpace(self):        
-        x = Numeric.arange(self.n) * (2 * Numeric.pi / self.n)
+        x = numx.arange(self.n) * (2 * numx.pi / self.n)
         space = self.workspace(self.n)
         assert(space.get_n() == self.n)
         table = self.wavetable(self.n)
@@ -137,9 +152,9 @@ class _mixedradixcomplex(_mixedradix):
     def testSinReturnSaveSpaces(self):
         space = self.workspace(self.n)
         table = self.wavetable(self.n)
-        x = Numeric.arange(self.n) * ((2+0j) * Numeric.pi / self.n)
+        x = numx.arange(self.n) * ((2+0j) * numx.pi / self.n)
         for i in range(1,self.n/2):
-            y = Numeric.sin(x * i)
+            y = numx.sin(x * i)
             tmp = self.convert(y)
             f = self.transform(tmp, space, table, tmp)
             self._CheckSinResult(f, i)
@@ -153,10 +168,17 @@ class FloatType:
     _eps = 1e-4
     def convert(self, y):
         code = get_typecode(y)
-        if  code in  Numeric.typecodes['Float']:
-            return y.astype(Numeric.Float32)
-        elif code in  Numeric.typecodes['Complex']:
-            return y.astype(Numeric.Complex32)
+
+        # adaption for numpy
+        try:
+            code = code.char
+        except AttributeError:
+            pass
+        
+        if  code in  numx.typecodes['Float']:
+            return y.astype(_float32)
+        elif code in  numx.typecodes['Complex']:
+            return y.astype(_complex32)
         else:
             raise TypeError, "Not implemented for an array of type", code
         

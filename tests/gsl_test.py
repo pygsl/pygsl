@@ -1,10 +1,10 @@
 # Author : Fabian Jakobs
 import types
 import unittest
-
 import pygsl.math 
 from pygsl._numobj import *
 import pygsl._mlab as mlab
+from pygsl import Float, Complex, ArrayType
 fcmp = pygsl.math.fcmp
 
 def iscomplex_default(a):
