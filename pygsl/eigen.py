@@ -18,8 +18,9 @@ algebra.
 import pygsl
 import _gslwrap
 import gslwrap
-#import Numeric
-import pygsl._numobj as Numeric
+import pygsl._numobj as numx
+_float   = pygsl.Float
+_complex = pygsl.Complex
 get_typecode = pygsl.get_typecode
 array_typed_copy = pygsl.array_typed_copy
 
@@ -38,7 +39,7 @@ def eigenvalues(a, ws=None):
     n = a.shape[1]
     code = get_typecode(a)
     an = array_typed_copy(a, code)
-    eval = Numeric.zeros((n,), code)
+    eval = numx.zeros((n,), code)
     if ws == None:
         ws = gslwrap.gsl_eigen_symm_workspace(n)
     _gslwrap.gsl_eigen_symm(an, eval, ws)
@@ -58,8 +59,8 @@ def eigenvectors(a, ws=None):
     n = a.shape[1]
     code = get_typecode(a)
     an = array_typed_copy(a, code)
-    eval = Numeric.zeros((n,), code)
-    evec = Numeric.zeros((n,n), code)
+    eval = numx.zeros((n,), code)
+    evec = numx.zeros((n,n), code)
     if ws == None:
         ws = gslwrap.gsl_eigen_symmv_workspace(n)
     _gslwrap.gsl_eigen_symmv(an, eval, evec, ws)
@@ -74,8 +75,8 @@ def Heigenvalues(a, ws=None):
     unordered. 
     """
     n = a.shape[1]
-    an = a.astype(Numeric.Complex)
-    eval = Numeric.zeros((n,), Numeric.Float)
+    an = a.astype(_complex)
+    eval = numx.zeros((n,), _float)
     if ws == None:
         ws = gslwrap.gsl_eigen_herm_workspace(n)
     _gslwrap.gsl_eigen_herm(an, eval, ws)
@@ -94,9 +95,9 @@ def Heigenvectors(a, ws=None):
     unit magnitude.  
     """
     n = a.shape[0]
-    an = a.astype(Numeric.Complex)
-    eval = Numeric.zeros((n,), Numeric.Float)
-    evec = Numeric.zeros((n,n), Numeric.Complex)
+    an = a.astype(_complex)
+    eval = numx.zeros((n,), _float)
+    evec = numx.zeros((n,n), _complex)
     if ws == None:
         ws = gslwrap.gsl_eigen_hermv_workspace(n)
     _gslwrap.gsl_eigen_hermv(an, eval, evec, ws)

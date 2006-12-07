@@ -14,11 +14,13 @@ specialized data representations and other optimizations.
 import pygsl
 import _gslwrap
 from permutation import Permutation
-import pygsl._numobj as Numeric
-zeros = Numeric.zeros
-array = Numeric.array
+import pygsl._numobj as numx
+zeros = numx.zeros
+array = numx.array
 get_typecode = pygsl.get_typecode
 array_typed_copy = pygsl.array_typed_copy
+Float = pygsl.Float
+Complex = pygsl.Complex
 #
 # LU Decomposition
 #
@@ -47,13 +49,14 @@ of the matrix P is given by the k-th column of the identity matrix, where
     p = Permutation(A.shape[1])
     code = get_typecode(A)
     An = array_typed_copy(A)
-    if code == Numeric.Complex:
+    if code == Complex:
         # Now all error flags are turned into python exceptions. So no
         # unpack necessary any longer.
         signum = _gslwrap.gsl_linalg_complex_LU_decomp(An, p)
-    elif code == Numeric.Float:
+    elif code == Float:
         signum = _gslwrap.gsl_linalg_LU_decomp(An, p)
     else:
+        print code, Float, Complex
         raise TypeError, "LU must be of type Float or Complex"
     return (An, p, signum)
 
@@ -67,7 +70,7 @@ def LU_unpack(LU):
     """
     code = get_typecode(LU)
     u = zeros(LU.shape, code)
-    l = Numeric.identity(LU.shape[0], code)
+    l = numx.identity(LU.shape[0], code)
     for i in  range(LU.shape[0]):
         u[i, i: ] = LU[i, i:]
         l[i, 0:i] = LU[i, :i]
@@ -81,9 +84,9 @@ def LU_solve(LU, p, b):
     """
     code = get_typecode(LU)
     x = zeros(LU.shape[1], code)
-    if code == Numeric.Complex:
+    if code == Complex:
         _gslwrap.gsl_linalg_complex_LU_solve(LU, p, b, x)
-    elif code == Numeric.Float:
+    elif code == Float:
         _gslwrap.gsl_linalg_LU_solve(LU, p, b, x)
     else:
         raise TypeError, "LU must be of type Float or Complex"
@@ -120,9 +123,9 @@ def LU_invert(LU, p):
     """
     code = get_typecode(LU)
     inverse = zeros(LU.shape, code)
-    if code == Numeric.Complex:
+    if code == Complex:
         _gslwrap.gls_linalg_complex_LU_invert(LU, p, inverse)
-    elif code == Numeric.Float:
+    elif code == Float:
         _gslwrap.gsl_linalg_LU_invert(LU, p, inverse)
     else:
         raise TypeError, "LU must be of type Float or Complex"
@@ -138,9 +141,9 @@ def LU_det(LU, signum):
     the diagonal elements of U and the sign of the row permutation signum.
     """
     code = get_typecode(LU)
-    if code == Numeric.Complex:
+    if code == Complex:
         return _gslwrap.gls_linalg_complex_LU_det(LU, signum)
-    elif code == Numeric.Float:
+    elif code == Float:
         return _gslwrap.gsl_linalg_LU_det(LU, signum)
     else:
         raise TypeError, "LU must be of type Float or Complex"
@@ -154,9 +157,9 @@ def LU_lndet(LU):
     would overflow or underflow.
     """
     code = get_typecode(LU)
-    if code == Numeric.Complex:
+    if code == Complex:
         return _gslwrap.gls_linalg_complex_LU_lndet(LU)
-    elif code == Numeric.Float:
+    elif code == Float:
         return _gslwrap.gsl_linalg_LU_lndet(LU)
     else:
         raise TypeError, "LU must be of type Float or Complex"
@@ -168,9 +171,9 @@ def LU_sgndet(LU, signum):
     matrix A, det(A)/|det(A)|, from its LU decomposition, LU.
     """
     code = get_typecode(LU)
-    if code == Numeric.Complex:
+    if code == Complex:
         return _gslwrap.gls_linalg_complex_LU_sgndet(LU, signum)
-    elif code == Numeric.Float:
+    elif code == Float:
         return _gslwrap.gsl_linalg_LU_sgndet(LU, signum)
     else:
         raise TypeError, "LU must be of type Float or Complex"
@@ -535,12 +538,12 @@ def symmtd_unpack_diag(diag, subdiag):
     and subdiagonal obtained from gsl_linalg_symmtd_unpack[_T]
     """
     n = diag.shape[0]
-    T = Numeric.identity(n)*diag
-    sub = Numeric.identity(n-1)*subdiag
-    sub1 = Numeric.concatenate(
-        (zeros((1,n)), Numeric.concatenate((sub, zeros((n-1,1))), 1)))
-    sub2 = Numeric.concatenate(
-        (Numeric.concatenate((zeros([n-1,1]),sub), 1), zeros([1,n])))
+    T = numx.identity(n)*diag
+    sub = numx.identity(n-1)*subdiag
+    sub1 = numx.concatenate(
+        (zeros((1,n)), numx.concatenate((sub, zeros((n-1,1))), 1)))
+    sub2 = numx.concatenate(
+        (numx.concatenate((zeros([n-1,1]),sub), 1), zeros([1,n])))
     T = sub1 + sub2 + T
     return T
 
@@ -589,8 +592,8 @@ def hermtd_unpack(A, tau):
     n = A.shape[0]
     code = get_typecode(A)
     Q = zeros([n,n], code)
-    diag = zeros((n,), Numeric.Float)
-    subdiag = zeros((n-1,), Numeric.Float)
+    diag = zeros((n,), Float)
+    subdiag = zeros((n-1,), Float)
     _gslwrap.gsl_linalg_hermtd_unpack(A, tau, Q, diag, subdiag)
     return (Q, diag, subdiag)
 
@@ -604,8 +607,8 @@ def symmtd_unpack_T(A):
     gsl_linalg_hermtd_decomp into the real vectors diag and subdiag.
     """
     n = A.shape[0]
-    diag = zeros((n,), Numeric.Float)
-    subdiag = zeros((n-1,), Numeric.Float)
+    diag = zeros((n,), Float)
+    subdiag = zeros((n-1,), Float)
     _gslwrap.gsl_linalg_hermtd_unpack_T(A, diag, subdiag)
     return (diag, subdiag)
 
@@ -698,10 +701,10 @@ def bidiag_unpack_diag(diag, superdiag):
     and superdiagonal obtained from gsl_linalg_bidiag_unpack[_B]
     """
     n = diag.shape[0]
-    B = Numeric.identity(n)*diag
-    sub = Numeric.identity(n-1)*superdiag
-    sub2 = Numeric.concatenate(
-        (Numeric.concatenate((zeros([n-1,1]),sub), 1), zeros([1,n])))
+    B = numx.identity(n)*diag
+    sub = numx.identity(n-1)*superdiag
+    sub2 = numx.concatenate(
+        (numx.concatenate((zeros([n-1,1]),sub), 1), zeros([1,n])))
     B = sub2 + B
     return B
 
