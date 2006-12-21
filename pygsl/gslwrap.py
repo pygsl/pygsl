@@ -188,6 +188,8 @@ gsl_linalg_cholesky_solve = _gslwrap.gsl_linalg_cholesky_solve
 
 gsl_linalg_cholesky_svx = _gslwrap.gsl_linalg_cholesky_svx
 
+gsl_linalg_cholesky_decomp_unit = _gslwrap.gsl_linalg_cholesky_decomp_unit
+
 gsl_linalg_symmtd_decomp = _gslwrap.gsl_linalg_symmtd_decomp
 
 gsl_linalg_symmtd_unpack = _gslwrap.gsl_linalg_symmtd_unpack
