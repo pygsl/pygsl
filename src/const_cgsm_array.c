@@ -94,3 +94,5 @@
 {"dyne",GSL_CONST_CGSM_DYNE,"cm g / s^2"},
 {"joule",GSL_CONST_CGSM_JOULE,"g cm^2 / s^2"},
 {"erg",GSL_CONST_CGSM_ERG,"g cm^2 / s^2"},
+{"stefan_boltzmann_constant",GSL_CONST_CGSM_STEFAN_BOLTZMANN_CONSTANT,"g / K^4 s^3"},
+{"thomson_cross_section",GSL_CONST_CGSM_THOMSON_CROSS_SECTION,"cm^2"},
