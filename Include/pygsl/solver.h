@@ -5,7 +5,7 @@
 /* Not directly needed here, but provides a lot of convienience functions */
 #include <pygsl/error_helpers.h>
 #include <gsl/gsl_math.h>
-
+#include <setjmp.h>
 /*
  * Many functions are "just" accessor methods. These different methods are
  * listed here.
