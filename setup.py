@@ -147,13 +147,14 @@ pygsl_const=gsl_Extension("const",
                           python_min_version=(2,1)
                           )
 exts.append(pygsl_const)
-pygsl_diff = gsl_Extension("diff",
-                           ['src/diffmodule.c'],
-                           define_macros = macros,
-                           gsl_min_version=(1,'0+'),
-                           python_min_version=(2,1)
-                           )
-exts.append(pygsl_diff)
+if BUILD_DEPRECATED:
+    pygsl_diff = gsl_Extension("diff",
+                               ['src/diffmodule.c'],
+                               define_macros = macros,
+                               gsl_min_version=(1,'0+'),
+                               python_min_version=(2,1)
+                               )
+    exts.append(pygsl_diff) 
 pygsl_deriv = gsl_Extension("deriv",
                            ['src/derivmodule.c'],
                            define_macros = macros,
@@ -365,7 +366,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    #exts.append(solver)
 
     solver=gsl_Extension("testing.solver",
                          ['testing/src/solvers/solvermodule.c'],
@@ -389,7 +390,7 @@ if BUILD_TESTING:
                               define_macros = macros,
                               python_min_version=(2,0)
                               )
-        exts.append(sfarray)        
+        #exts.append(sfarray)        
         sf=gsl_Extension("testing._ufuncs",
                          ['testing/src/sf/sfmodule_testing.c'],
                          gsl_min_version=(1,),
