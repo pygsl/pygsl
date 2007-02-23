@@ -68,7 +68,7 @@ def SWIG_Extension(*args, **kws):
 
 
 macros = [('SWIG_COBJECT_TYPES', 1)]
-macros = macros + [('DEBUG', 0)]
+macros = macros + [('DEBUG', 1)]
 debug_macros = macros + [('DEBUG', 1)]
 
 pygsl_errno=gsl_Extension("errno",
@@ -318,7 +318,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    #exts.append(solver)
 
     solver=gsl_Extension("testing.multiroot",
                          ['testing/src/solvers/multiroot.c'],
@@ -326,7 +326,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    #exts.append(solver)
 
     solver=gsl_Extension("testing.multifit_nlin",
                          ['testing/src/solvers/multifit_nlin.c'],
@@ -334,7 +334,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    #exts.append(solver)
 
     solver=gsl_Extension("testing.minimize",
                          ['testing/src/solvers/minimize.c'],
@@ -342,7 +342,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    #exts.append(solver)
 
     solver=gsl_Extension("testing.roots",
                          ['testing/src/solvers/roots.c'],
@@ -350,7 +350,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    #exts.append(solver)
 
     solver=gsl_Extension("testing.odeiv",
                          ['testing/src/solvers/odeiv.c'],
@@ -358,7 +358,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    #exts.append(solver)
 
     solver=gsl_Extension("testing.monte",
                          ['testing/src/solvers/monte.c'],
@@ -374,7 +374,7 @@ if BUILD_TESTING:
                          define_macros = macros + [("ONEFILE", 1)],
                          python_min_version=(2,0)
                      )
-    exts.append(solver)
+    #exts.append(solver)
     cheb=gsl_Extension("testing.chebyshev",
                          ['testing/src/solvers/chebyshev.c'],
                          gsl_min_version=(1,),
