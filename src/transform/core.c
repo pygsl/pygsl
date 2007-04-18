@@ -116,7 +116,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	gsl_matrix_view mv;
 	const enum radix_mode  radix2 = helps->info->radix2;
 	const enum PyArray_TYPES  input_array_type=helps->info->input_array_type;	     
-	const int sizeoftype = sizeof(double);
+	/* const int sizeoftype = sizeof(double) */;
 	int call_n, line=-1;
 
 	switch(radix2){

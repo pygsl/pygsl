@@ -324,7 +324,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     PyObject *y0_o = NULL, *func_o = NULL, *jac_o = NULL, *myargs = NULL;
     PyObject *t_o = NULL;
     PyArrayObject *volatile y0 = NULL, *volatile yout = NULL, *volatile ts = NULL;
-    double t1=0, t2=0, h=0, flag;
+    double t1=0, h=0, flag;
     double t;
 
     gsl_odeiv_step *s=NULL;
