@@ -117,14 +117,11 @@ typedef struct{
 } solver_alloc_struct;
 
 
-#ifdef  PyGSL_API_EXTERN
-#undef  PyGSL_API_EXTERN
-#endif
 
 #ifndef _PyGSL_SOLVER_API_MODULE
-#define PyGSL_API_EXTERN extern
+#define PyGSL_SOLVER_API_EXTERN extern
 #else 
-#define PyGSL_API_EXTERN static
+#define PyGSL_SOLVER_API_EXTERN static
 #endif 
 
 /*
@@ -139,7 +136,7 @@ typedef struct{
  *     3 ... only initalise the structure
  * 
  */
-PyGSL_API_EXTERN  PyObject *
+PyGSL_SOLVER_API_EXTERN  PyObject *
 PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct * alloc, int nd);
 
 /*
@@ -148,16 +145,16 @@ PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct *
  * These methods allow to access parameters of the C structure using the access
  * methods _m_t func
  */
-PyGSL_API_EXTERN PyObject* 
+PyGSL_SOLVER_API_EXTERN PyObject* 
 PyGSL_solver_ret_double(PyGSL_solver *self, PyObject *args, double_m_t func);
 
-PyGSL_API_EXTERN PyObject* 
+PyGSL_SOLVER_API_EXTERN PyObject* 
 PyGSL_solver_ret_int(PyGSL_solver *self, PyObject *args, int_m_t func);
 
-PyGSL_API_EXTERN PyObject* 
+PyGSL_SOLVER_API_EXTERN PyObject* 
 PyGSL_solver_ret_size_t(PyGSL_solver *self, PyObject *args, size_t_m_t func);
 
-PyGSL_API_EXTERN PyObject* 
+PyGSL_SOLVER_API_EXTERN PyObject* 
 PyGSL_solver_ret_vec(PyGSL_solver *self, PyObject *args,  ret_vec func);
 
 /*
@@ -167,37 +164,37 @@ PyGSL_solver_ret_vec(PyGSL_solver *self, PyObject *args,  ret_vec func);
 #define PyGSL_CALLABLE_CHECK(ob, name) \
 (PyCallable_Check(ob) ? GSL_SUCCESS : PyGSL_Callable_Check(ob, name))
 
-PyGSL_API_EXTERN int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_Callable_Check(PyObject *f, const char * myname);
 
-PyGSL_API_EXTERN int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 			 PyObject *arguments, double *result1,
 			 gsl_vector *result2, int n, char * c_func_name);
 
-PyGSL_API_EXTERN int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_OnOn_On(const gsl_vector *x, const gsl_vector *v, gsl_vector *hv, PyObject *callback,
 			    PyObject *arguments, int n, char *c_func_name);
 
-PyGSL_API_EXTERN int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_Op_On_Opn(const gsl_vector *x, gsl_vector *f1, gsl_matrix *f2, PyObject *callback,
 			    PyObject *arguments, int n, int p, char *c_func_name);
 
-PyGSL_API_EXTERN int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback, 
 			  PyObject * arguments, int n, int p, char *c_func_name);
 
-PyGSL_API_EXTERN int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
 			   PyObject *arguments, int n, int p, char * c_func_name);
 
 /*
  * evaluates a C function taking an vector and a double as input and returning a status.
  */
-PyGSL_API_EXTERN PyObject*
+PyGSL_SOLVER_API_EXTERN PyObject*
 PyGSL_solver_vd_i(PyObject * self, PyObject *args, int_f_vd_t func);
 
-PyGSL_API_EXTERN PyObject *
+PyGSL_SOLVER_API_EXTERN PyObject *
 PyGSL_solver_vvdd_i(PyObject * self, PyObject * args, int_f_vvdd_t func);
 
 struct pygsl_solver_n_set{
@@ -206,7 +203,7 @@ struct pygsl_solver_n_set{
      set_m_t set;
 };
 
-PyGSL_API_EXTERN PyObject *
+PyGSL_SOLVER_API_EXTERN PyObject *
 PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw, 
 		   const struct pygsl_solver_n_set * info);
 
@@ -214,11 +211,11 @@ PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
 /*
  *
  */
-PyGSL_API_EXTERN int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_solver_func_set(PyGSL_solver *self, PyObject *args, PyObject *f,
 		       PyObject *df, PyObject *fdf);
 
-PyGSL_API_EXTERN PyObject* 
+PyGSL_SOLVER_API_EXTERN PyObject* 
 PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw, 
 		   void *fptr, int isfdf); 
 
@@ -244,7 +241,7 @@ enum PyGSL_GETSET_typemode {
      PyGSL_MODE_SIZE_T
 };
 
-PyGSL_API_EXTERN PyObject *
+PyGSL_SOLVER_API_EXTERN PyObject *
 PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_GETSET_typemode mode);
 
 #ifndef _PyGSL_SOLVER_API_MODULE

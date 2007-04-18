@@ -1,3 +1,4 @@
+#include "solver_intern.h"
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
 #if 0
@@ -7,7 +8,6 @@
 #include <gsl/gsl_math.h>
 #include <pygsl/error_helpers.h>
 #include <strings.h>
-#include "solver_intern.h"
 #include "solver_doc.ic"
 
 
@@ -80,11 +80,11 @@ PyGSL_solver_iterate(PyGSL_solver *self, PyObject *args)
 static void
 PyGSL_solver_dealloc(PyGSL_solver * self)
 {
-     struct pygsl_array_cache * cache_ptr;
+     /* struct pygsl_array_cache * cache_ptr; 
      int i, count;
      PyObject * ob;
      PyArrayObject *tmp;
-
+     */
      FUNC_MESS_BEGIN();
      assert(self);
      assert(self->mstatic);

@@ -1,15 +1,16 @@
 #ifndef _PYGSL_SOLVER_INTERN_H_
 #define _PYGSL_SOLVER_INTERN_H_ 1
 
+#define _PyGSL_SOLVER_API_MODULE 1
+#include <pygsl/solver.h>
+#undef _PyGSL_SOLVER_API_MODULE
+
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/function_helpers.h>
 #include <setjmp.h>
 #include <gsl/gsl_math.h>
 
-#define _PyGSL_SOLVER_API_MODULE
-#include <pygsl/solver.h>
-#undef _PyGSL_SOLVER_API_MODULE
 /*
  * Collect all element accessor methods which just need a pointer to the struct
  * and return a value.

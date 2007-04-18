@@ -9,7 +9,7 @@
 
 
 /* 2. A_n O -> A_n_p */
-int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
 			   PyObject *arguments, int n, int p, char * c_func_name)
 {
@@ -65,7 +65,7 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
 
 
 /* 5. A_n O -> A_n A_n_p */
-PyGSL_API_EXTERN int
+PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *f2, PyObject *callback,
 			   PyObject *arguments, int n, int p, char * c_func_name)
 {
@@ -135,7 +135,7 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
       Generic Helper Functions
    ------------------------------------------------------------------------ */
 /* Callbacks using one function */
-callback_function_params *
+PyGSL_SOLVER_API_EXTERN callback_function_params *
 PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, char * c_func_name)
 {
      PyObject *func=NULL, *args=NULL;
@@ -204,7 +204,7 @@ PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, char 
 }
 
 /* Callbacks using 3  functions */
-callback_function_params_fdf *
+PyGSL_SOLVER_API_EXTERN callback_function_params_fdf *
 PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2, 
 				char * c_f_func_name, char * c_df_func_name, char * c_fdf_func_name)
 {
@@ -287,7 +287,7 @@ PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2,
      return params;
 }
 
-void 
+PyGSL_SOLVER_API_EXTERN void 
 PyGSL_params_free(callback_function_params *p)
 {
      if(p != NULL){
@@ -305,7 +305,7 @@ PyGSL_params_free(callback_function_params *p)
   
 }
 
-void 
+PyGSL_SOLVER_API_EXTERN void 
 PyGSL_params_free_fdf(callback_function_params_fdf *p)
 {
        if(p != NULL){
@@ -335,7 +335,7 @@ PyGSL_params_free_fdf(callback_function_params_fdf *p)
    Special Helper Functions
    ------------------------------------------------------------------------ */
 
-double 
+PyGSL_SOLVER_API_EXTERN double 
 PyGSL_function_wrap(double x, void * params)
 {
      int flag;
@@ -357,7 +357,7 @@ PyGSL_function_wrap(double x, void * params)
      }
      return result;
 }
-double 
+PyGSL_SOLVER_API_EXTERN double 
 PyGSL_function_wrap_f(double x, void * params)
 {
      int flag;
@@ -380,7 +380,7 @@ PyGSL_function_wrap_f(double x, void * params)
      return result;
 
 }
-double 
+PyGSL_SOLVER_API_EXTERN double 
 PyGSL_function_wrap_df(double x, void * params)
 {
      int flag;
@@ -403,7 +403,7 @@ PyGSL_function_wrap_df(double x, void * params)
      return result;
 
 }
-void
+PyGSL_SOLVER_API_EXTERN void
 PyGSL_function_wrap_fdf(double x,  void * params, double *f, double * fdf)
 {
      int flag;
@@ -426,7 +426,7 @@ PyGSL_function_wrap_fdf(double x,  void * params, double *f, double * fdf)
 }
 
 #if 0
-gsl_function *  
+PyGSL_SOLVER_API_EXTERN gsl_function *  
 PyGSL_convert_to_gsl_function(PyObject * object)
 {
      gsl_function * f = NULL;
@@ -449,7 +449,7 @@ PyGSL_convert_to_gsl_function(PyObject * object)
 }
 
 
-gsl_function_fdf *  
+PyGSL_SOLVER_API_EXTERN gsl_function_fdf *  
 PyGSL_convert_to_gsl_function_fdf(PyObject * object)
 {
 
@@ -476,7 +476,7 @@ PyGSL_convert_to_gsl_function_fdf(PyObject * object)
 }
 
  
-gsl_multiroot_function *  
+PyGSL_SOLVER_API_EXTERN gsl_multiroot_function *  
 PyGSL_convert_to_gsl_multiroot_function(PyObject * object)
 {
      gsl_multiroot_function * f = NULL;
@@ -502,7 +502,7 @@ PyGSL_convert_to_gsl_multiroot_function(PyObject * object)
 }
 
 
-gsl_multiroot_function_fdf *  
+PyGSL_SOLVER_API_EXTERN gsl_multiroot_function_fdf *  
 PyGSL_convert_to_gsl_multiroot_function_fdf(PyObject * object){
 
      gsl_multiroot_function_fdf * F = NULL;
@@ -530,7 +530,7 @@ PyGSL_convert_to_gsl_multiroot_function_fdf(PyObject * object){
 }
 
 
-double
+PyGSL_SOLVER_API_EXTERN double
 PyGSL_multimin_function_wrap(const gsl_vector *x, void *params)
 {
      double tmp;
@@ -551,7 +551,7 @@ PyGSL_multimin_function_wrap(const gsl_vector *x, void *params)
      }
      return tmp;
 }
-double
+PyGSL_SOLVER_API_EXTERN double
 PyGSL_multimin_function_wrap_f(const gsl_vector *x, void *params)
 {
      double tmp;
@@ -573,7 +573,7 @@ PyGSL_multimin_function_wrap_f(const gsl_vector *x, void *params)
      return tmp;
 }
 /* GSL Documentation specifies this function to int, header to void */
-void
+PyGSL_SOLVER_API_EXTERN void
 PyGSL_multimin_function_wrap_df(const gsl_vector *x, void *params, gsl_vector *g)
 {
      int flag;
@@ -594,7 +594,7 @@ PyGSL_multimin_function_wrap_df(const gsl_vector *x, void *params, gsl_vector *g
 
 }
 /* GSL Documentation specifies this function to int, header to void */
-void
+PyGSL_SOLVER_API_EXTERN void
 PyGSL_multimin_function_wrap_fdf(const gsl_vector *x, void *params, double *f, gsl_vector *g)
 {
      int flag;
@@ -616,7 +616,7 @@ PyGSL_multimin_function_wrap_fdf(const gsl_vector *x, void *params, double *f, g
 
 }
 
-gsl_multimin_function *  
+PyGSL_SOLVER_API_EXTERN gsl_multimin_function *  
 PyGSL_convert_to_gsl_multimin_function(PyObject * object)
 {
      gsl_multimin_function * f = NULL;
@@ -642,7 +642,7 @@ PyGSL_convert_to_gsl_multimin_function(PyObject * object)
      return f;
 }
 
-gsl_multimin_function_fdf *  
+PyGSL_SOLVER_API_EXTERN gsl_multimin_function_fdf *  
 PyGSL_convert_to_gsl_multimin_function_fdf(PyObject * object){
 
      gsl_multimin_function_fdf * F = NULL;
@@ -671,7 +671,7 @@ PyGSL_convert_to_gsl_multimin_function_fdf(PyObject * object){
 
 
  
-gsl_multifit_function *  
+PyGSL_SOLVER_API_EXTERN gsl_multifit_function *  
 PyGSL_convert_to_gsl_multifit_function(PyObject * object)
 {
      gsl_multifit_function * f = NULL;
@@ -698,7 +698,7 @@ PyGSL_convert_to_gsl_multifit_function(PyObject * object)
 }
 
 
-gsl_multifit_function_fdf *  
+PyGSL_SOLVER_API_EXTERN gsl_multifit_function_fdf *  
 PyGSL_convert_to_gsl_multifit_function_fdf(PyObject * object){
 
      gsl_multifit_function_fdf * F = NULL;
@@ -730,7 +730,7 @@ PyGSL_convert_to_gsl_multifit_function_fdf(PyObject * object){
 }
 
 
-double
+PyGSL_SOLVER_API_EXTERN double
 PyGSL_monte_function_wrap(double *x,  size_t dim, void *params)
 {
      double tmp;
@@ -757,7 +757,7 @@ PyGSL_monte_function_wrap(double *x,  size_t dim, void *params)
      return tmp;
 }
 
-gsl_monte_function *
+PyGSL_SOLVER_API_EXTERN gsl_monte_function *
 PyGSL_convert_to_gsl_monte_function(PyObject * object)
 {
      gsl_monte_function * f = NULL;
