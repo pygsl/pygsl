@@ -268,7 +268,7 @@ PyGSL_function_wrap_OnOn_On(const gsl_vector * x, const gsl_vector *v, gsl_vecto
 {
 
      PyArrayObject *x_a = NULL, *v_a = NULL;
-     PyObject *object = NULL, *r1=NULL, *r2 = NULL, *arglist=NULL;
+     PyObject *object = NULL, *arglist=NULL;
      PyGSL_error_info  info;
 
      /* the line number to appear in the traceback */ 
