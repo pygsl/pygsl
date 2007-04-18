@@ -7,6 +7,9 @@ RNG_ARNG(fishman2x	 )
 RNG_ARNG(gfsr4		 )
 RNG_ARNG(knuthran	 )
 RNG_ARNG(knuthran2	 )
+#if PyGSL_GSL_MAJOR_VERSION >= 1 && PyGSL_GSL_MINOR_VERSION >= 9
+RNG_ARNG(knuthran2002	 )
+#endif
 RNG_ARNG(lecuyer21	 )
 RNG_ARNG(minstd		 )
 RNG_ARNG(mrg		 )

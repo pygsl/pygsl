@@ -455,6 +455,9 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
      {"gfsr4"           , PyGSL_rng_init_gfsr4           , METH_NOARGS, NULL},
      {"knuthran"        , PyGSL_rng_init_knuthran        , METH_NOARGS, NULL},
      {"knuthran2"       , PyGSL_rng_init_knuthran2       , METH_NOARGS, NULL},
+#if PyGSL_GSL_MAJOR_VERSION >= 1 && PyGSL_GSL_MINOR_VERSION >= 9
+     {"knuthran2002"    , PyGSL_rng_init_knuthran2002    , METH_NOARGS, NULL},
+#endif
      {"lecuyer21"       , PyGSL_rng_init_lecuyer21       , METH_NOARGS, NULL},
      {"minstd"          , PyGSL_rng_init_minstd          , METH_NOARGS, NULL},
      {"mrg"             , PyGSL_rng_init_mrg             , METH_NOARGS, NULL},
