@@ -40,7 +40,7 @@ INSTALL_HEADERS = 1
 # dynamic debug information
 DEBUG_LEVEL = 1
 # Compile time set debug level
-DEBUG_LEVEL = 10
+#DEBUG_LEVEL = 10
 #####
 #------------------------------------------------------------------------------
 # As long as you are not taking part in the development process, I hope that 
@@ -59,7 +59,7 @@ pygsldir = os.path.dirname("__name__")
 # Get the version information
 versionfile = open(os.path.join(pygsldir, "pygsl", "_version.py"))
 exec(versionfile)
-print version
+
 # Make sure that we use the new one ...
 gsldist_path = os.path.join(pygsldir, "gsl_dist")
 sys.path.insert(0, gsldist_path)
