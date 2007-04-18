@@ -126,7 +126,7 @@ PyGSL_siman_efunc(void *xp)
 	pygsl_siman_t *x;
 	int flag=GSL_EFAILED;
 	double value;
-	static const char *functionname  = __FUNCTION__;
+	/* static char *functionname  = __FUNCTION__; */
 
 	FUNC_MESS_BEGIN();
 
@@ -139,12 +139,12 @@ PyGSL_siman_efunc(void *xp)
 	assert(x);
 	assert(x->func);
 
-	callback = PyGSL_get_callable_method(x->x, EFunc_name, 1, module, filename, functionname, __LINE__);
+	callback = PyGSL_get_callable_method(x->x, EFunc_name, 1, module, filename, __FUNCTION__, __LINE__);
 	if(callback == NULL)
 		goto fail;
 
 	info.callback = callback;
-	info.message  = functionname;
+	info.message  = __FUNCTION__;
 	info.error_description = "and the description ???";
 	info.argnum = 1;
 
@@ -152,11 +152,11 @@ PyGSL_siman_efunc(void *xp)
 	result = PyEval_CallObject(callback, arglist);
 	Py_DECREF(arglist);
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 1, &info)) != GSL_SUCCESS){
-		PyGSL_add_traceback(module, filename, functionname, __LINE__);
+		PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	if((flag = PyGSL_PYFLOAT_TO_DOUBLE(result, &value, &info)) != GSL_SUCCESS){
-		PyGSL_add_traceback(module, filename, functionname, __LINE__);
+		PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	Py_DECREF(result);
@@ -186,18 +186,18 @@ PyGSL_siman_step(const gsl_rng *r, void *xp, double step_size)
 	pygsl_siman_t *x;
 	int flag=GSL_EFAILED;
 
-	static const char * functionname  = __FUNCTION__;
+	/* static const char * functionname  = __FUNCTION__; */
 
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) xp;
 	DEBUG_MESS(2, "Found x at %p", xp);
 
-	callback = PyGSL_get_callable_method(x->x, Step_name, 1, module, filename, functionname, __LINE__);
+	callback = PyGSL_get_callable_method(x->x, Step_name, 1, module, filename, __FUNCTION__, __LINE__);
 	if(callback == NULL)
 		goto fail;
 
 	info.callback = callback;
-	info.message  = functionname;
+	info.message  = __FUNCTION__;
 	info.error_description = "???";
 	info.argnum = 1;
 
@@ -213,7 +213,7 @@ PyGSL_siman_step(const gsl_rng *r, void *xp, double step_size)
 	result = PyEval_CallObject(callback, arglist);
 	Py_DECREF(arglist);
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 0, &info)) != GSL_SUCCESS){
-		PyGSL_add_traceback(module, filename, functionname, __LINE__);
+		PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	Py_DECREF(result);
@@ -240,7 +240,7 @@ PyGSL_siman_metric(void *xp, void *yp)
 	pygsl_siman_t *x, *y;
 	int flag=GSL_EFAILED;
 	double value;
-	static const char * functionname = __FUNCTION__;
+	/* static const char * functionname = __FUNCTION__; */
 
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) xp;
@@ -254,12 +254,12 @@ PyGSL_siman_metric(void *xp, void *yp)
 	assert(x->x);
 	assert(y->x);
 
-	callback = PyGSL_get_callable_method(x->x, Metric_name, 1, module, filename, functionname, __LINE__);
+	callback = PyGSL_get_callable_method(x->x, Metric_name, 1, module, filename, __FUNCTION__, __LINE__);
 	if(callback == NULL)
 		goto fail;
 
 	info.callback = callback;
-	info.message  = functionname;
+	info.message  = __FUNCTION__;
 	info.error_description = "???";
 	info.argnum = 1;
 		
@@ -271,11 +271,11 @@ PyGSL_siman_metric(void *xp, void *yp)
 	Py_XDECREF(arglist);
 
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 0, &info)) != GSL_SUCCESS){
-		PyGSL_add_traceback(module, filename, functionname, __LINE__);
+		PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	if((flag = PyGSL_PYFLOAT_TO_DOUBLE(result, &value, &info)) != GSL_SUCCESS){
-		PyGSL_add_traceback(module, filename, functionname, __LINE__);
+		PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	Py_DECREF(result);
@@ -299,17 +299,17 @@ PyGSL_siman_print(void *xp)
 	PyGSL_error_info info;
 	pygsl_siman_t *x;
 	int flag=GSL_EFAILED;
-	static const char * functionname  = __FUNCTION__;
+	/* static const char * functionname  = __FUNCTION__; */
 
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) xp;
 
-	callback = PyGSL_get_callable_method(x->x, Print_name, 1, module, filename, functionname, __LINE__);
+	callback = PyGSL_get_callable_method(x->x, Print_name, 1, module, filename, __FUNCTION__, __LINE__);
 	if(callback == NULL)
 		goto fail;
 
 	info.callback = callback;
-	info.message  = functionname;
+	info.message  = __FUNCTION__;
 	info.error_description = "what goes here ???";
 	info.argnum = 1;
 		
@@ -318,7 +318,7 @@ PyGSL_siman_print(void *xp)
 	Py_DECREF(arglist);
 
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 0, &info)) != GSL_SUCCESS){
-		PyGSL_add_traceback(module, (const char*)filename, functionname, __LINE__);
+		PyGSL_add_traceback(module, (const char*)filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	Py_DECREF(result);
@@ -349,7 +349,7 @@ PyGSL_siman_copy(void *src, void *dst)
 	PyGSL_error_info info;
 	pygsl_siman_t *x, *y;
 	int flag=GSL_EFAILED;
-	static const char * functionname = __FUNCTION__;
+	/* static const char * functionname = __FUNCTION__; */
 
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) src;
@@ -357,7 +357,7 @@ PyGSL_siman_copy(void *src, void *dst)
 	
 	DEBUG_MESS(2, "Got source at %p, Destination at %p", (void *) x, (void *) y);
 	assert(x->x);
-	callback = PyGSL_get_callable_method(x->x, Clone_name, 1, module, filename, functionname, __LINE__);
+	callback = PyGSL_get_callable_method(x->x, Clone_name, 1, module, filename, __FUNCTION__, __LINE__);
 	if(callback == NULL)
 		goto fail;
 
@@ -366,12 +366,12 @@ PyGSL_siman_copy(void *src, void *dst)
 	Py_DECREF(arglist);
 
 	info.callback = callback;
-	info.message  = functionname;
+	info.message  = __FUNCTION__;
 	info.error_description = "???";
 	info.argnum = 1;
 
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(new, 1, &info)) != GSL_SUCCESS){
-		PyGSL_add_traceback(module, (const char*)filename, functionname, __LINE__);
+		PyGSL_add_traceback(module, (const char*)filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	Py_XDECREF(y->x);
@@ -548,7 +548,7 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 	pygsl_siman_t        myargs = {NULL, NULL, NULL, NULL}; 
 	
 
-	static const char  * functionname = __FUNCTION__;
+	/* static const char  * functionname = __FUNCTION__; */
 
 	int flag=GSL_EFAILED, do_print=0;
 	void * x0 = NULL;
@@ -564,10 +564,10 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 		return NULL;
 
 	/* The following methods must exist */
-	efunc  = PyGSL_get_callable_method(x_o, EFunc_name,  1, module, filename, functionname, __LINE__);
-	step   = PyGSL_get_callable_method(x_o, Step_name,   1, module, filename, functionname, __LINE__);
-	metric = PyGSL_get_callable_method(x_o, Metric_name, 1, module, filename, functionname, __LINE__);
-	clone  = PyGSL_get_callable_method(x_o, Clone_name,  1, module, filename, functionname, __LINE__);
+	efunc  = PyGSL_get_callable_method(x_o, EFunc_name,  1, module, filename, __FUNCTION__, __LINE__);
+	step   = PyGSL_get_callable_method(x_o, Step_name,   1, module, filename, __FUNCTION__, __LINE__);
+	metric = PyGSL_get_callable_method(x_o, Metric_name, 1, module, filename, __FUNCTION__, __LINE__);
+	clone  = PyGSL_get_callable_method(x_o, Clone_name,  1, module, filename, __FUNCTION__, __LINE__);
 	if( efunc == NULL || step == NULL || metric == NULL || clone == NULL){
 		return NULL;
 	}
@@ -576,7 +576,7 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 	if(do_print == 0){
 		a_print = NULL;		
 	} else {
-		print  = PyGSL_get_callable_method(x_o, Print_name,  1, module, filename, functionname, __LINE__);
+		print  = PyGSL_get_callable_method(x_o, Print_name,  1, module, filename, __FUNCTION__, __LINE__);
 		if(print == NULL){
 			DEBUG_MESS(2, "Did not get a print method! print = %p", print);
 			a_print = NULL;
@@ -620,7 +620,7 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 				params);
 		FUNC_MESS("End siman");
 	}else{
-		PyGSL_add_traceback(module, filename, functionname, __LINE__);
+		PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	Py_DECREF(x_o);
