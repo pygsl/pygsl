@@ -186,8 +186,22 @@ def read_numobj():
 	path = os.path.join(pygsldir, "_numobj.py")
 	g = {}
 	l = {}
-	execfile(path, g, l)
-	return l['nummodule']
+	module = None
+	try:
+		execfile(path, g, l)
+		module = l["nummodule"]
+		return module
+	except IOError:
+		print "No Numobj was selected, trying to find one."
+		return None
+	except ImportError:
+		pass
+
+	# Try to find the name of the set module
+	line = open(path).readlines()[-1]
+	lastobject =  string.strip(string.split(line, "=")[1])
+	print "Array object %s found in pygsl._numobj can not be imported!" % (lastobject,)	
+	return None
 
 def build_guess():
 	"""
@@ -195,26 +209,19 @@ def build_guess():
 	"""
 	# See if --array-object was given on the command line
 	tmp =  extractpattern()
+
+	lastmodule = read_numobj()
 	# If not return the last selection if possible ....
-	if tmp == "":
-		try:
-			return  read_numobj()
-		except IOError:
-			print "No Numobj was selected, trying to find one."
-			pass		
-		except ImportError:
-			print "Array object found in pygsl._numobj can not be importet!"
-			pass
-		
+	if tmp == "" and lastmodule != None:
+		return lastmodule
+
+	print "Looking for a suitable array module"
 	# If given, find out if it can be used ...	
 	nummodule = switchpreference(tmp)
+	
 	# find out if it is a change ...
-	last = None
-	try:
-		last = read_numobj()
-	except IOError:
-		pass 
-	if last == None or last != nummodule:
+	if lastmodule == None or lastmodule != nummodule:
+		print "SELECTED a NEW array module ->", nummodule
 		print "Please make sure that all modules are built with the same setting."
 		print "e.g. remove the build directory and start the build process again!"
 		writenumobj(nummodule)
@@ -224,7 +231,7 @@ def read_from_numobj():
 	try:
 		return read_numobj()
 	except IOError:
-		return build_guess()	
+		return build_guess()
 
 nummodule = None
 
