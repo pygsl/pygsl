@@ -240,7 +240,7 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
      PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
      DEBUG_MESS(4, "common array types: Double %d, CDouble %d", PyArray_DOUBLE, PyArray_CDOUBLE);
      DEBUG_MESS(4, "integer: Long %d, Int %d, Short %d", PyArray_LONG, PyArray_INT, PyArray_SHORT);
-     DEBUG_MESS(8, "Char type %d  Byte type %d String type %d", PyArray_CHAR, PyArray_BYTE, PyArray_STRING);
+     /* DEBUG_MESS(8, "Char type %d  Byte type %d String type %d", PyArray_CHAR, PyArray_BYTE, PyArray_STRING); */
      return error_flag;
 }
 
