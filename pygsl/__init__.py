@@ -75,7 +75,8 @@ run_gsl_version = pygsl.init.run_gsl_version
 # The compile date
 compile_date = pygsl.init.compile_date
 
-version="0.3.2"
+import _version
+version= _version.version
 __all__=['blas', 'chebyshev', 'combination', 'const', 'deriv', 'eigen', 'fit',
          'fft', 'histogram','ieee', 'integrate', 'interpolation','linalg',
          'math', 'minimize', 'monte', 'multifit', 'multifit_nlin', 'multimin',
