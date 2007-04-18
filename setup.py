@@ -26,6 +26,22 @@ BUILD_DEPRECATED = 0
 # Well, I do
 #
 INSTALL_HEADERS = 1
+#
+#
+#####
+# PyGSL comes with a lot of debug information. This can be either disabled
+# setting DEBUG_LEVEL to 0 at compile time, swtiched on and off at run time
+# using pygsl.set_debug_level(level) setting DEBUG_LEVEL to 0 or set to some
+# value during compile time using a level bigger than 1 (the heigher the value
+# is the more verbose the output gets. Please note that pygsl needs to be
+# completly rebuild if you hcange this parameter
+# No debug information
+# DEBUG_LEVEL = 0
+# dynamic debug information
+DEBUG_LEVEL = 1
+# Compile time set debug level
+DEBUG_LEVEL = 10
+#####
 #------------------------------------------------------------------------------
 # As long as you are not taking part in the development process, I hope that 
 # you do not need to modify anything here.
@@ -39,8 +55,13 @@ import glob
 
 # Add the gsldist path
 import os
-gsldist_path = os.path.join(os.path.dirname("__name__"), "gsl_dist")
+pygsldir = os.path.dirname("__name__")
+# Get the version information
+versionfile = open(os.path.join(pygsldir, "pygsl", "_version.py"))
+exec(versionfile)
+print version
 # Make sure that we use the new one ...
+gsldist_path = os.path.join(pygsldir, "gsl_dist")
 sys.path.insert(0, gsldist_path)
 
 #This must be before gsl_Extension is included.
@@ -67,8 +88,10 @@ def SWIG_Extension(*args, **kws):
     return apply(_SWIG_Extension, args, kws)
 
 
-macros = [('SWIG_COBJECT_TYPES', 1)]
-macros = macros + [('DEBUG', 1)]
+
+check_macros = [('GSL_DISABLE_DEPRECATED', 1)]
+macros = [('SWIG_COBJECT_TYPES', 1)] #+ check_macros
+macros = macros + [('DEBUG', DEBUG_LEVEL)]
 debug_macros = macros + [('DEBUG', 1)]
 
 pygsl_errno=gsl_Extension("errno",
@@ -318,7 +341,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    #exts.append(solver)
+    exts.append(solver)
 
     solver=gsl_Extension("testing.multiroot",
                          ['testing/src/solvers/multiroot.c'],
@@ -326,7 +349,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    #exts.append(solver)
+    exts.append(solver)
 
     solver=gsl_Extension("testing.multifit_nlin",
                          ['testing/src/solvers/multifit_nlin.c'],
@@ -334,7 +357,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    #exts.append(solver)
+    exts.append(solver)
 
     solver=gsl_Extension("testing.minimize",
                          ['testing/src/solvers/minimize.c'],
@@ -342,7 +365,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    #exts.append(solver)
+    exts.append(solver)
 
     solver=gsl_Extension("testing.roots",
                          ['testing/src/solvers/roots.c'],
@@ -350,7 +373,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    #exts.append(solver)
+    exts.append(solver)
 
     solver=gsl_Extension("testing.odeiv",
                          ['testing/src/solvers/odeiv.c'],
@@ -358,14 +381,14 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    #exts.append(solver)
+    exts.append(solver)
 
-    solver=gsl_Extension("testing.monte",
-                         ['testing/src/solvers/monte.c'],
-                         gsl_min_version=(1,),
-                         define_macros = macros, 
-                         python_min_version=(2,0)
-                         )
+    #solver=gsl_Extension("testing.monte",
+    #                     ['testing/src/solvers/monte.c'],
+    #                     gsl_min_version=(1,),
+    #                     define_macros = macros, 
+    #                     python_min_version=(2,0)
+    #                     )
     #exts.append(solver)
 
     solver=gsl_Extension("testing.solver",
@@ -374,13 +397,13 @@ if BUILD_TESTING:
                          define_macros = macros + [("ONEFILE", 1)],
                          python_min_version=(2,0)
                      )
-    #exts.append(solver)
-    cheb=gsl_Extension("testing.chebyshev",
-                         ['testing/src/solvers/chebyshev.c'],
-                         gsl_min_version=(1,),
-                         define_macros = macros + [("ONEFILE", 1)],
-                         python_min_version=(2,0)
-                     )
+    exts.append(solver)
+    #cheb=gsl_Extension("testing.chebyshev",
+    #                     ['testing/src/solvers/chebyshev.c'],
+    #                     gsl_min_version=(1,),
+    #                     define_macros = macros + [("ONEFILE", 1)],
+    #                     python_min_version=(2,0)
+    #                 )
 
     num = gsl_numobj.nummodule
     if num == "numpy" or num == "Numeric":
@@ -455,7 +478,7 @@ if "bdist" in sys.argv:
     extends = "_" + str(gsl_numobj.nummodule)
 
 setup (name = "pygsl",
-       version = "0.9.0" + extends,
+       version = version + extends,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
        long_description = "This project provides a python interface for the GNU scientific library (gsl)",
