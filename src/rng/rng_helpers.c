@@ -11,7 +11,14 @@
  * the static library. I assume that you have numeric installed. It will not 
  * work otherwise anyway.
  */
+#ifndef NUMERIC
 #define NUMERIC 1
+#else 
+#if NUMERIC <= 0
+#undef NUMERIC
+#define NUMERIC 1
+#endif
+#endif 
 
 /*
  * Numeric 21.0 does not include PyArray_UINT. Until Numerical 23.0 is 
