@@ -171,6 +171,9 @@ PyGSL_monte_init(PyGSL_solver *self, PyObject *args)
      return Py_None;
 }
 
+typedef int (*pygsl_monte_fptr_t)(gsl_monte_function * F, double XL[], double XU[], size_t DIM,
+		     size_t CALLS, gsl_rng * R, gsl_monte_plain_state * S, 
+		     double * RESULT, double * ABSERR);
 
 static PyObject *
 PyGSL_monte_integrate(PyGSL_solver *self, PyObject *args)
@@ -185,10 +188,7 @@ PyGSL_monte_integrate(PyGSL_solver *self, PyObject *args)
      PyArrayObject *xua=NULL;
      double result, abserr;
      gsl_monte_function mfunc;
-
-     int ((*fptr)(gsl_monte_function * F, double XL[], double XU[], size_t DIM,
-		  size_t CALLS, gsl_rng * R, gsl_monte_plain_state * S, 
-		  double * RESULT, double * ABSERR)) = NULL;
+     pygsl_monte_fptr_t fptr;
 
      FUNC_MESS_BEGIN();
      assert(PyGSL_solver_check(self));
@@ -241,9 +241,9 @@ PyGSL_monte_integrate(PyGSL_solver *self, PyObject *args)
      csys = (monte_csys *)self->c_sys;
 
      switch(csys->type){
-     case PyGSL_MONTE_plain:	  fptr = &gsl_monte_plain_integrate; break;
-     case PyGSL_MONTE_miser:	  fptr = &gsl_monte_miser_integrate; break;
-     case PyGSL_MONTE_vegas:	  fptr = &gsl_monte_vegas_integrate; break;
+     case PyGSL_MONTE_plain:	  fptr = (pygsl_monte_fptr_t)&gsl_monte_plain_integrate; break;
+     case PyGSL_MONTE_miser:	  fptr = (pygsl_monte_fptr_t)&gsl_monte_miser_integrate; break;
+     case PyGSL_MONTE_vegas:	  fptr = (pygsl_monte_fptr_t)&gsl_monte_vegas_integrate; break;
      default:
 	  line = __LINE__ - 5;
 	  DEBUG_MESS(2, "Monte type %d unknown",flag);
