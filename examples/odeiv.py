@@ -69,7 +69,7 @@ def run():
         if t >= t1[0]:
             break
         t, h, y = evolve.apply(t, t1, h, y)
-	y = y[-1]
+        y = y[-1]
 	#print "  %5d % 10.6f % 10.6f  % 10.6f " %(i, t, y[0], y[1])
 
     else:
