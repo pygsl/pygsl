@@ -20,6 +20,7 @@ recursive-include Include *.h
 recursive-include examples *.py
 recursive-include testing/src *.c
 recursive-include testing/src *.h
+recursive-include testing/src *.ic
 recursive-include testing *.py
 include gsl_Extension.py
 include gsl_numobj.py
