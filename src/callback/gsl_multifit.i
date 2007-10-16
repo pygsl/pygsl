@@ -71,11 +71,11 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  $1 = ($basetype *) &(_matrix$argnum.matrix);
 }
 %typemap(argout) gsl_vector * OUT{
-     $result = t_output_helper($result,  (PyObject *) _PyVector$argnum);
+     $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyVector$argnum);
      _PyVector$argnum =NULL;
 };
 %typemap(argout) gsl_matrix * OUT{
-     $result = t_output_helper($result,  (PyObject *) _PyMatrix$argnum);
+     $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyMatrix$argnum);
      _PyMatrix$argnum =NULL;
 };
 
@@ -140,6 +140,17 @@ gsl_multifit_linear (const gsl_matrix * IN,
                      gsl_multifit_linear_workspace * work_provide);
 
 gsl_error_flag_drop
+gsl_multifit_linear_svd (const gsl_matrix * IN,
+	           const gsl_vector * IN,
+			 double TOL,
+			 size_t * OUTPUT,
+                     gsl_vector * OUT,
+                     gsl_matrix * OUT,
+                     double * chisq,
+                     gsl_multifit_linear_workspace * work_provide);
+
+
+gsl_error_flag_drop
 gsl_multifit_wlinear (const gsl_matrix * IN,
                       const gsl_vector * IN,
                       const gsl_vector * IN,
@@ -149,6 +160,22 @@ gsl_multifit_wlinear (const gsl_matrix * IN,
                       gsl_multifit_linear_workspace * work_provide);
 
 
+gsl_error_flag_drop
+gsl_multifit_wlinear_svd (const gsl_matrix * IN,
+                          const gsl_vector * IN,
+                          const gsl_vector * IN,
+			 double TOL,
+			 size_t * OUTPUT,
+                          gsl_vector * OUT,
+                          gsl_matrix * OUT,
+                          double * chisq,
+                          gsl_multifit_linear_workspace * work_provide);
+
+gsl_error_flag_drop
+gsl_multifit_linear_est (const gsl_vector * IN, 
+	          const gsl_vector * IN, 
+	          const gsl_matrix * IN, 
+			 double * Y, double *Y_ERR);
 
 
 %apply (double *, size_t){(const double * x, const size_t xstride),
