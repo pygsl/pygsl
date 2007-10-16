@@ -67,7 +67,7 @@
     PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
     goto fail;    
   }
-  $result = t_output_helper($result, out);
+  $result = SWIG_Python_AppendOutput($result, out);
   FUNC_MESS_END();
 }
 
@@ -93,7 +93,7 @@
     PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
     goto fail;    
   }
-  $result = t_output_helper($result, out);
+  $result = SWIG_Python_AppendOutput($result, out);
   FUNC_MESS_END();
 }
 

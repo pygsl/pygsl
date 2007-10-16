@@ -111,7 +111,7 @@
  */
 %typemap( argout) gsl_vector * INOUT {
      assert(_PyVector$argnum != NULL);
-     $result = t_output_helper($result,  PyGSL_array_return(_PyVector$argnum));
+     $result = SWIG_Python_AppendOutput($result,  PyGSL_array_return(_PyVector$argnum));
      _PyVector$argnum = NULL;
      FUNC_MESS_END();
 }
@@ -179,7 +179,7 @@
  */
 %typemap( argout) gsl_matrix * INOUT {
      assert((PyObject *) _PyMatrix$argnum != NULL);
-     $result = t_output_helper($result,  PyGSL_array_return(_PyMatrix$argnum));
+     $result = SWIG_Python_AppendOutput($result,  PyGSL_array_return(_PyMatrix$argnum));
      _PyMatrix$argnum = NULL;
      FUNC_MESS_END();
 }
