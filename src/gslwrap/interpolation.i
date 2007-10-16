@@ -143,6 +143,30 @@ gsl_spline_eval_e(const gsl_spline * spline, double x,
 double
 gsl_spline_eval(const gsl_spline * spline, double x, gsl_interp_accel * a);
 
+%{
+PyObject *
+gsl_spline_eval_vector(const gsl_spline * spline, const gsl_vector *x, gsl_interp_accel * a)
+{
+     size_t i;
+     int n;
+     double  *data;
+     PyArrayObject * ret = NULL;
+
+     n = x->size;
+     ret = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+     if(ret == NULL)
+	  return NULL;
+     
+     data = (double *) ret->data;
+     for(i=0; i<n; ++i){
+	  data[i] = gsl_spline_eval(spline, gsl_vector_get(x, i), a);
+     }
+     return (PyObject *) ret;
+}
+%}
+PyObject *
+gsl_spline_eval_vector(const gsl_spline * spline, const gsl_vector *IN, gsl_interp_accel * a);
+
 gsl_error_flag_drop
 gsl_spline_eval_deriv_e(const gsl_spline * spline,
                         double x,

@@ -55,7 +55,14 @@ class _spline(_common):
         self._init(self._ptr, (xa,ya))
         self._xyptr = (self._ptr,)
         self.accel_reset()
-        
+
+    def eval_vector(self, x):
+        """
+        input : x
+               a vector of independent values
+        """
+        return  gslwrap.gsl_spline_eval_vector(self._ptr, x, self._accel)
+    
     def name(self):
         """
         Returns the name of the interpolation type used
