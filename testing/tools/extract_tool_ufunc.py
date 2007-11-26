@@ -61,7 +61,7 @@ class prototype_collector:
         evaluators = file(filename + "_evals.c", "w")
         ufunc_names_dic = {}
 
-        for p in  prototypes[:]:            
+        for p in  prototypes[:]:
             if p.get_name() in self.exclude_list:
                 continue
             index_entry=p.make_function_entry()
@@ -70,11 +70,20 @@ class prototype_collector:
                     a_py_ufunc =  p.make_wrapper_function()
                     data_file.write(a_py_ufunc.WriteStaticData()+"\n")
                     #objects_file.write("{\n")
-                    objects_file.write(a_py_ufunc.WriteUFuncObject()+"\n")
+                    test = 0
+                    try:
+                        objects_file.write(a_py_ufunc.WriteUFuncObject()+"\n")
+                        test = 1
+                    finally:
+                        if test == 0:
+                            print "I was working on prototype", p.get_name()
                     #objects_file.write("}\n")
                     index_file.write(index_entry+",\n")
                 except RuntimeError, message:
                     print message
+
+                # Collect the various differnt  ufuncs objects. These will
+                # iterate over the functions
                 ufunc_names = a_py_ufunc.GetPyUFuncEvaluatorNames()    
                 for name in ufunc_names:
                     print name
@@ -87,12 +96,15 @@ class prototype_collector:
         index_file.close()
         names = ufunc_names_dic.keys()
         names.sort()
+
+        # List which evaluator handles which functions
         for i in names:
             ufuncs_list.write(i + ": ");
             l = map(lambda x: x.GetName(), ufunc_names_dic[i])
             l.sort()
             ufuncs_list.write(string.join(l, ", "))
             ufuncs_list.write("\n")
+
             
         for methods in ((objects_file, lambda x: x.WriteUFuncObjectHelpersArrayData(),),
                         (data_file, lambda x: x.WriteUFuncObjectHelpers(),),                        
@@ -187,10 +199,14 @@ class prototype_collector:
                                             re.MULTILINE+re.DOTALL)
         #parse all declarations
         prototype_list=[]
-        for match in match_list:
+        for match in match_list:            
             tmp = sf_prototype(match)
+            print "Found function prototype", tmp.get_name(), 
             if tmp.get_name() not in self.exclude_list:
+                print "excluded"
                 prototype_list.append(tmp)
+            else:
+                print
         return prototype_list
                 
 class sf_prototype:
