@@ -1,4 +1,4 @@
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 #include "wavelet.h"
 #endif
 /*
@@ -103,7 +103,7 @@ PyGSL_transform_helpers_free(struct _pygsl_transform_help_rf_s * h)
 	FUNC_MESS_END();
 }
 
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 /*
  * The two D function. Currently only supports wavelet2d_matrix...
  */
@@ -170,7 +170,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	FUNC_MESS("Fail End");
 	return NULL;
 }
-#endif /*  _PyGSL_HAS_WAVELET */
+#endif /*  _PYGSL_GSL_HAS_WAVELET */
 
 /*
  * Catch all for all one dimensional functions.
@@ -180,7 +180,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 {
 	PyObject *ret = NULL, *s_o = NULL, *t_o = NULL, *data = NULL;
 	PyArrayObject *result = NULL, *a=NULL, *r=NULL;
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	PyGSL_wavelet *wavelet = NULL;
 #endif
 	double eps=1e-6;
@@ -241,7 +241,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 *  to support.
 	 */
 	switch(radix2){
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET:
 		FUNC_MESS("Wavelet");
 		/* 
@@ -345,7 +345,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 */
 	FUNC_MESS("Return Array");
 	switch(radix2){
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET:
 		return_n = n;
 		call_n = n; 
@@ -418,7 +418,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	DEBUG_MESS(2, "Strides r->strides[0] %ld strides = %ld", (long)r->strides[0], (long)strides);
 	/* build the helpers if necessary */
 	switch(radix2){
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET:
 #endif
 	case RADIX_FREE:
@@ -470,7 +470,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			goto fail;
 		}
 		break;
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET:	
 		FUNC_MESS("Tranform wavelet");
 		assert(wavelet);
