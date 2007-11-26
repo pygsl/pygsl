@@ -546,6 +546,10 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 	       ;
 	  } else {
 	       /* lets try if that goes okay */
+	       if(a_array != NULL){
+		    /* Array could be allocated previously... */
+		    Py_DECREF(a_array);
+	       }
 	       a_array = PyGSL_PyArray_prepare_gsl_vector_view(src, array_type, flag, size, argnum, info);
 	       if(a_array == NULL){
 		    line = __LINE__ - 2;
@@ -593,7 +597,8 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 	       flag -= (flag & PyGSL_CONTIGUOUS);
 	       assert(a_array);
 	       Py_DECREF(a_array);
-	  }    
+	       a_array = NULL;
+	  }
 
      }/* number of tries */
      
@@ -644,14 +649,25 @@ PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t
       * a contiguous array is demanded.
       */
      for(tries = 0; tries <2; ++tries){
+#if 0	  
 	  a_array = PyGSL_MATRIX_CONVERT(src, array_type, flag);
 	  if(a_array !=  NULL && a_array->nd == 1 && 
 	     (size1 == -1 || a_array->dimensions[0] == size1) &&
-	     (size2 == -1 || a_array->dimensions[1] == size2)) {
+	     (size2 == -1 || a_array->dimensions[1] == size2)) 
+#else
+	  if(0)
+#endif
+	  {
 	       /* good ... everything fine */
 	       ;
+	       
 	  } else {
+	       DEBUG_MESS(4, "PyGSL_MATRIX_CONVERT failed a_array = %p", a_array);
 	       /* lets try if that goes okay */
+	       if(a_array != NULL){
+		    /* Array could be allocated previously... */
+		    Py_DECREF(a_array);
+	       }
 	       a_array = PyGSL_PyArray_prepare_gsl_matrix_view(src, array_type, flag, size1, size2, argnum, info);
 	       if(a_array == NULL){
 		    line = __LINE__ - 2;
@@ -696,8 +712,11 @@ PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t
 			 goto fail;
 		    } else {
 			 /* keep the flags, but demand contiguous this time */
+			 DEBUG_MESS(3, "Matrix %p ot satisfying requests, trying this time contiguous", (void *) a_array);
 			 flag -= (flag & PyGSL_CONTIGUOUS);
 			 Py_DECREF(a_array);
+			 a_array = NULL;
+			 break;
 		    }
 	       } /* recalc stride or try again */    
 	  } /* check strides */
