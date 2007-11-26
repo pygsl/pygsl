@@ -71,7 +71,7 @@ class linear_workspace(_workspace):
         assert(self._free != None)
         self._ptr = self._alloc(n, p)
 
-def linear(X, y, work):
+def linear(X, y, work=None):
     """
     This function computes the best-fit parameters C of the model y =
     X c for the observations Y and the matrix of predictor variables
@@ -86,10 +86,23 @@ def linear(X, y, work):
     improve the accuracy of the singular values. Any components which
     have zero singular value (to machine precision) are discarded from
     the fit.
+
+    If work is None, the approbriate workspace will be allocated
+    automatically
     """
+    if work == None:
+        work = linear_workspace(X.shape[0], X.shape[1])
     return _callback.gsl_multifit_linear(X, y, work._ptr)
 
-def wlinear(X, y, w, work):
+def linear_svd(X, y, tol, work=None):
+    """
+    """
+    if work == None:
+        work = linear_workspace(X.shape[0], X.shape[1])
+
+    return _callback.gsl_multifit_linear_svd(X, y, tol, work._ptr)
+    
+def wlinear(X, y, w, work=None):
     """
     This function computes the best-fit parameters C of the model y =
     X c for the observations Y and the matrix of predictor variables
@@ -101,5 +114,21 @@ def wlinear(X, y, w, work):
     X using the preallocated workspace provided in WORK. Any
     components which have zero singular value (to machine precision)
     are discarded from the fit.
+
+    If work is None, the approbriate workspace will be allocated
+    automatically
     """
+    if work == None:
+        work = linear_workspace(X.shape[0], X.shape[1])
+
+    return _callback.gsl_multifit_wlinear(X, y, w, work._ptr)
+
+def wlinear_svd(X, y, w, work=None):
+    """
+    Similar to wlinear, except that this function returns
+    
+    """
+    if work == None:
+        work = linear_workspace(X.shape[0], X.shape[1])
+
     return _callback.gsl_multifit_wlinear(X, y, w, work._ptr)
