@@ -7,7 +7,7 @@ to one of these packages.
 
 When imported this module:
      1.) Looks on the command line if it can find a flag of type
-         --array-object=[Numeric|nummarray]
+         --array-object=[Numeric|nummarray|numpy]
 
      2.) Tries to import these modules.
 
@@ -82,7 +82,7 @@ def switchpreference(array_preference):
 		if have_numpy == 1:
 		    use_numpy = 1
 	        else:
-		    print "Did not find the Numeric module you asked for"            
+		    print "Did not find the numpy module you asked for"            
 
 	    if array_preference == 'Numeric':
 		if have_numeric == 1:
@@ -104,7 +104,8 @@ def switchpreference(array_preference):
 	    elif have_numeric == 1:
 		use_numeric = 1
 	    else:
-		raise  DistutilsModuleError, "I need either Numeric or nummarray!"
+		raise  DistutilsModuleError, "I need either numpy, nummarray, or Numeric!"
+	
 	if use_numpy == 1:
 		use_numeric = 0
 		use_numarray = 0
@@ -122,7 +123,7 @@ def switchpreference(array_preference):
 		use_numpy = 0
 		nummodule = "numarray"
 	else:
-		raise  DistutilsModuleError, "I need either numpy, Numeric or nummarray!"
+		raise  DistutilsModuleError, "I need either numpy, nummarray or Numeric!"
 	return nummodule
 
 def writenumobj(nummodule):
@@ -192,7 +193,7 @@ def read_numobj():
 		module = l["nummodule"]
 		return module
 	except IOError:
-		print "No Numobj was selected, trying to find one."
+		print "No array object was selected."
 		return None
 	except ImportError:
 		pass
@@ -200,46 +201,68 @@ def read_numobj():
 	# Try to find the name of the set module
 	line = open(path).readlines()[-1]
 	lastobject =  string.strip(string.split(line, "=")[1])
-	print "Array object %s found in pygsl._numobj can not be imported!" % (lastobject,)	
+	print "Array object %s found in pygsl._numobj can not be imported!" % (lastobject,)
 	return None
 
-def build_guess():
+def build_guess(selectedmodule):
 	"""
 	Find out which array module to use ...
 	"""
 	# See if --array-object was given on the command line
-	tmp =  extractpattern()
 
 	lastmodule = read_numobj()
 	# If not return the last selection if possible ....
-	if tmp == "" and lastmodule != None:
+	if selectedmodule == "" and lastmodule != None:
 		return lastmodule
 
 	print "Looking for a suitable array module"
 	# If given, find out if it can be used ...	
-	nummodule = switchpreference(tmp)
+	nummodule = switchpreference(selectedmodule)
 	
 	# find out if it is a change ...
 	if lastmodule == None or lastmodule != nummodule:
-		print "SELECTED a NEW array module ->", nummodule
-		print "Please make sure that all modules are built with the same setting."
-		print "e.g. remove the build directory and start the build process again!"
+		if lastmodule != nummodule:
+			print "SELECTED a NEW array module ->", nummodule
+			print "Please make sure that all modules are built with the same setting."
+			print "e.g. remove the build directory and start the build process again!"
+		else:
+			print "SELECTED as array module ->", nummodule
 		writenumobj(nummodule)
 	return nummodule
 
-def read_from_numobj():
-	try:
-		return read_numobj()
-	except IOError:
-		return build_guess()
-
-nummodule = None
-
-if "build" in sys.argv:
-	nummodule = build_guess()
-else:
-	nummodule = read_from_numobj()
-assert(nummodule)
+def read_from_numobj(default):
+	"""
+	tries to read from the file. If this fails it searches if one of the
+	array objects can be found
+	"""
+	tmp = read_numobj()
+	if tmp != None:
+		return tmp
+	return build_guess(default)
 
 
-print "Using '%s' as array object" %  nummodule
+class _nummodule:
+	"""
+	Delay finding the array object until really needed
+	"""
+	def __init__(self):
+		self.__arrayobject = None
+		self.__preference = extractpattern()
+		pass
+
+	def __findarrayobject(self):
+		if "build" in sys.argv:
+			nummodule = build_guess(self.__preference)
+		else:
+			nummodule = read_from_numobj(self.__preference)	
+		self.__arrayobject = nummodule
+
+	def __str__(self):
+		if self.__arrayobject == None:
+			self.__findarrayobject()
+		#print "Using '%s' as array object" %  self.__arrayobject		
+		return self.__arrayobject
+
+		
+nummodule = _nummodule()
+print nummodule
