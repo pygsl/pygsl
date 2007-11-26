@@ -25,7 +25,7 @@
  * Type mapping for grabbing a FILE * from Python
  * Taken from the Swig documentation ... 
  */
-%typemap(python,in) FILE * {
+%typemap(in) FILE * {
   FUNC_MESS_BEGIN();
   HANDLE_MINGW();
   if (!PyFile_Check($input)) {
