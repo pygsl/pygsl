@@ -57,7 +57,16 @@ exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and ou
                 'gsl_sf_legendre_sphPlm_array',
                 'gsl_sf_legendre_sphPlm_deriv_array',
                 'gsl_sf_legendre_array_size',
-                'gsl_sf_legendre_H3d_array'
+                'gsl_sf_legendre_H3d_array',		
+		'gsl_sf_mathieu_ce_array',
+		'gsl_sf_mathieu_se_array',
+		'gsl_sf_mathieu_Mc_array',
+		'gsl_sf_mathieu_Ms_array',
+                'gsl_sf_mathieu_a_array',
+                'gsl_sf_mathieu_b_array',
+                'gsl_sf_mathieu_workspace',
+                'gsl_sf_mathieu_free',
+                
                 ]
 p.set_exclude_list(exclude_list)
 #p.make_wrapper_and_index_file("sf_",  "gsl_complex_math.h")
