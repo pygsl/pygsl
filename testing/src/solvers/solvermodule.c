@@ -15,7 +15,7 @@ PyObject * module = NULL;
 const char *filename = __FILE__;
 
 
-static int *
+static int
 PyGSL_solver_set_called(PyGSL_solver *self)
 {
      FUNC_MESS_BEGIN();
@@ -25,6 +25,7 @@ PyGSL_solver_set_called(PyGSL_solver *self)
      gsl_error("The set() method must be called before using the other methods!",
 	       filename, __LINE__, GSL_EINVAL);
      FUNC_MESS_END();
+     return GSL_EINVAL;
 }
 
 static PyObject* 

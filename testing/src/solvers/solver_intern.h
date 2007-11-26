@@ -31,7 +31,7 @@ _PyGSL_solver_init(const struct _SolverStatic *mstatic);
 
 
 
-static int *
+static int
 PyGSL_solver_set_called(PyGSL_solver *self);
 
 #define PyGSL_SOLVER_SET_CALLED(ob) \
