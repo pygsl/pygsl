@@ -6,7 +6,6 @@
 #include <gsl/gsl_errno.h>
 #include <pygsl/errorno.h>
 
-#if 0
 static int 
 add_errno(PyObject * dict, int num, char * name)
 {
@@ -26,17 +25,14 @@ add_errno(PyObject * dict, int num, char * name)
      return 0;
 }   
 #define ADD_ERRNO(ERRNO, ERRNOSTR) if(add_errno(dict, ERRNO, ERRNOSTR) != 0) goto fail
-#else
-#define ADD_ERRNO(ERRNO, ERRNOSTR)                     \
-   ((item =  PyInt_FromLong(ERRNO)) ? ((PyDict_SetItemString(dict, ERRNOSTR, item) != 0) ? 1 : 0) : 0)
-#endif 
+
 static PyMethodDef errornoMethods[] = {
      {NULL, NULL, 0, NULL}
 };
 
 DL_EXPORT(void) initerrno(void)
 {
-     PyObject *dict=NULL, *item=NULL, *m=NULL;
+     PyObject *dict=NULL, *m=NULL;
      
      m = Py_InitModule("errno", errornoMethods);
      assert(m);
