@@ -85,7 +85,7 @@ PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS |PyGSL_INPUT_ARRAY, ARRAY_TYPE_IN, 1
      }									     \
 									     \
 									     \
-     Py_DECREF(array_in);						     \
+     Py_DECREF(array_in); array_in = NULL;				     \
      FUNC_MESS_END();                                                        \
      return (PyObject *) array_out;                                          \
 }
@@ -155,6 +155,7 @@ PyGSL_rng_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const gs
      RNG_EVALUATOR
   fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;
 }
 
@@ -178,6 +179,7 @@ PyGSL_pdf_to_double(PyObject *self, PyObject *args, double (*evaluator)(double))
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -201,6 +203,7 @@ PyGSL_rng_d_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const 
      RNG_EVALUATOR
   fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;
 }
 
@@ -225,6 +228,7 @@ PyGSL_pdf_d_to_double(PyObject *self, PyObject *args, double (*evaluator)(double
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -272,6 +276,7 @@ PyGSL_pdf_dd_to_double(PyObject *self, PyObject *args, double (*evaluator)(doubl
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -295,6 +300,7 @@ PyGSL_rng_ddd_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(cons
      RNG_EVALUATOR
   fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;
 }
 
@@ -321,6 +327,7 @@ PyGSL_pdf_ddd_to_double(PyObject *self, PyObject *args, double (*evaluator)(doub
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -357,6 +364,7 @@ PyGSL_rng_ui_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const
      RNG_EVALUATOR
   fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(limit_o);
      return NULL;
 }
@@ -396,6 +404,7 @@ PyGSL_pdf_ui_to_double(PyObject *self, PyObject *args, double (*evaluator)(unsig
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -428,6 +437,7 @@ PyGSL_rng_d_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(con
      RNG_EVALUATOR
   fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;
 }
 
@@ -466,6 +476,7 @@ PyGSL_pdf_d_to_ui(PyObject *self, PyObject *args, double (*evaluator)(unsigned i
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -504,6 +515,7 @@ PyGSL_rng_dui_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(c
      RNG_EVALUATOR
   fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;
 }
 
@@ -546,6 +558,7 @@ PyGSL_pdf_dui_to_ui(PyObject *self, PyObject *args, double (*evaluator)(unsigned
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -581,6 +594,7 @@ PyGSL_rng_dd_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(co
      RNG_EVALUATOR
   fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;
 }
 
@@ -617,6 +631,7 @@ PyGSL_pdf_dd_to_ui(PyObject *self, PyObject *args, double (*evaluator)(const uns
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -660,6 +675,7 @@ PyGSL_rng_uiuiui_to_ui(PyGSL_rng *rng, PyObject *args,
      RNG_EVALUATOR
   fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;
 }
 
@@ -703,6 +719,7 @@ PyGSL_pdf_uiuiui_to_ui(PyObject *self, PyObject *args,
 
  fail:     
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(array_in);
      Py_XDECREF(array_out);
      return NULL;
@@ -841,6 +858,7 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 
 	  fail:
 	  FUNC_MESS("Fail");
+	  PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
 	  Py_XDECREF(array_x);
 	  Py_XDECREF(array_y);
 	  Py_XDECREF(array_out);
@@ -990,6 +1008,7 @@ PyGSL_rng_dA_to_dA(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_r
      return (PyObject *) a_array_out;
 
  fail:
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(a_array_in);
      Py_XDECREF(a_array_out);
      return NULL;
@@ -1044,6 +1063,7 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
 
  fail:
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      Py_XDECREF(a_array_in);
      Py_XDECREF(a_array_out);
      return NULL;
@@ -1077,14 +1097,14 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	  goto fail;	  
      }
      k = array_p->dimensions[0];
-     FUNC_MESS("Building Matrix!");
+     DEBUG_MESS(4, "Building Matrix. Input Object @ %p with refcount %d!", (void *) tmp1, tmp1->ob_refcnt);
      ainfo = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, type_3darg, 1, 2);
      array_n = PyGSL_matrix_check(tmp1, -1, k, ainfo,  NULL, NULL, NULL);
      if(array_n == NULL){
 	  line = __LINE__ - 2;
 	  goto fail;
      }
-     FUNC_MESS("BUILT!");
+     DEBUG_MESS(4, "Built Matrix. Matrix Object @ %p with refcount %d!", (void *) array_n, array_n->ob_refcnt);
      dimension = array_n->dimensions[0];
 
      FUNC_MESS("New Array ...");
@@ -1139,6 +1159,11 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	       assert(0);
 	  }
      }
+
+     DEBUG_MESS(4, "Dereferencing p @ %p with ref count %d and n @ %p with ref count %d", 
+		(void *) array_p, array_p->ob_refcnt, (void *) array_n,  array_n->ob_refcnt);
+     Py_DECREF(array_p);
+     Py_DECREF(array_n);
      return (PyObject *) array_out;
  fail:
      FUNC_MESS("FAIL");
@@ -1203,6 +1228,7 @@ PyGSL_rng_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evaluator
 
  fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;	  
 }
 #undef  RNG_ARGUMENTS
@@ -1235,5 +1261,6 @@ PyGSL_rng_ul_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evalua
 
   fail:  
      FUNC_MESS("FAIL");
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
      return NULL;
 }
