@@ -93,7 +93,7 @@ PyGSL_transform_space_get_n(PyGSL_transform_space *self)
 	case COMPLEX_WAVETABLE_FLOAT:     n = self->space.cwtf ->n;  break;
 	case REAL_WAVETABLE_FLOAT:        n = self->space.rwtf ->n;  break;
 	case HALFCOMPLEX_WAVETABLE_FLOAT: n = self->space.hcwtf->n;  break;
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET_WORKSPACE:           n = self->space.wws->n;    break;
 #endif
 	default:
@@ -170,7 +170,7 @@ PyGSL_transform_space_get_type(PyGSL_transform_space *self, PyObject *notused)
 	case COMPLEX_WAVETABLE_FLOAT:     p = "COMPLEX_WAVETABLE_FLOAT";     break;
 	case REAL_WAVETABLE_FLOAT:	  p = "REAL_WAVETABLE_FLOAT";	     break;
 	case HALFCOMPLEX_WAVETABLE_FLOAT: p = "HALFCOMPLEX_WAVETABLE_FLOAT"; break;
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET_WORKSPACE:           p = "WAVELET_WORKSPACE";           break;
 #endif
 	default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL;
@@ -231,7 +231,7 @@ PyGSL_transform_space_dealloc(PyGSL_transform_space * self)
      case REAL_WORKSPACE_FLOAT:        gsl_fft_real_workspace_float_free(self->space.rwsf);         break;
      case REAL_WAVETABLE_FLOAT:	       gsl_fft_real_wavetable_float_free(self->space.rwtf);         break;
      case HALFCOMPLEX_WAVETABLE_FLOAT: gsl_fft_halfcomplex_wavetable_float_free(self->space.hcwtf); break;
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
      case WAVELET_WORKSPACE          : gsl_wavelet_workspace_free(self->space.wws);                 break;
 #endif
      default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); break;
@@ -271,7 +271,7 @@ PyGSL_transform_space_init(PyObject *self, PyObject *args, const enum pygsl_tran
 	case REAL_WORKSPACE_FLOAT:        o->space.rwsf  = gsl_fft_real_workspace_float_alloc(n);        break;
 	case REAL_WAVETABLE_FLOAT:	  o->space.rwtf  = gsl_fft_real_wavetable_float_alloc(n);        break;
 	case HALFCOMPLEX_WAVETABLE_FLOAT: o->space.hcwtf = gsl_fft_halfcomplex_wavetable_float_alloc(n); break;
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET_WORKSPACE          : o->space.wws   = gsl_wavelet_workspace_alloc(n);               break;
 #endif
 	default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL; break;
@@ -301,6 +301,6 @@ PyGSL_SPACE_ALLOC(REAL_WORKSPACE_FLOAT)
 PyGSL_SPACE_ALLOC(REAL_WAVETABLE_FLOAT)
 PyGSL_SPACE_ALLOC(HALFCOMPLEX_WAVETABLE_FLOAT)
 
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 PyGSL_SPACE_ALLOC(WAVELET_WORKSPACE)
 #endif
