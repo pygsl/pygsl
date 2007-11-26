@@ -12,27 +12,23 @@
 #include <Python.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_const_num.h>
+#include <pygsl/pygsl_features.h>
 
-#if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION < 4)
-/* WARNING deprecated!! */
-/* #warning "DEPRECATED! Consider upgrading to gsl 1.4 or higher!" */
-#define _PYGSL_GSL_HAS_CGS 1
-#define _PYGSL_GSL_HAS_MKS 1
+#ifdef _PYGSL_GSL_HAS_CGS
 #include <gsl/gsl_const_cgs.h>
-#include <gsl/gsl_const_mks.h>
-#else /* (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION < 4) */
-#define _PYGSL_GSL_HAS_CGSM 1
-#define _PYGSL_GSL_HAS_MKSA 1
+#endif
+
+#ifdef _PYGSL_GSL_HAS_CGSM
 #include <gsl/gsl_const_cgsm.h>
-#include <gsl/gsl_const_mksa.h>
-#if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION > 5)
-#define _PYGSL_GSL_HAS_CGS 1
-#define _PYGSL_GSL_HAS_MKS 1
-#include <gsl/gsl_const_cgs.h>
+#endif
+
+#ifdef _PYGSL_GSL_HAS_MKS
 #include <gsl/gsl_const_mks.h>
 #endif
-#endif /* (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION < 4) */
 
+#ifdef _PYGSL_GSL_HAS_MKSA
+#include <gsl/gsl_const_mksa.h>
+#endif
 
 
 static PyMethodDef constMethods[] = {

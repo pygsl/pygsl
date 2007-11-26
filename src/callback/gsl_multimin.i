@@ -150,15 +150,12 @@ gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs;
 	   * give a NULL. The overlying wrapper must check for NULL and raise 
            * an approbriate error message.
 	   */
-#if PYGSL_GSL_MAJOR_VERSION < 1
-#error "This wrapper needs at least GSL 1.0"
-#endif 
-	  
-#if PYGSL_GSL_MINOR_VERSION < 3	  
-	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex = NULL;
-#else 
+#include <pygsl/pygsl_features.h>
+#ifdef _PYGSL_GSL_HAS_FMINIMIZER_NMSIMPLEX
 	  extern const
 	       gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex;
+#else
+	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex = NULL;
 #endif
 %}
 

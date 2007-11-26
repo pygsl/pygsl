@@ -20,9 +20,10 @@
 /*
  * All doc strings
  */
+static PyObject *module = NULL;
+
 #include "rng_helpers.c"
 #include "rngmodule_docs.h"
-static PyObject *module = NULL;
 
 
 static void rng_delete(PyGSL_rng *self);
@@ -455,7 +456,7 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
      {"gfsr4"           , PyGSL_rng_init_gfsr4           , METH_NOARGS, NULL},
      {"knuthran"        , PyGSL_rng_init_knuthran        , METH_NOARGS, NULL},
      {"knuthran2"       , PyGSL_rng_init_knuthran2       , METH_NOARGS, NULL},
-#if PyGSL_GSL_MAJOR_VERSION >= 1 && PyGSL_GSL_MINOR_VERSION >= 9
+#ifdef  _PYGSL_GSL_HAS_RNG_KNUTHRAN2002
      {"knuthran2002"    , PyGSL_rng_init_knuthran2002    , METH_NOARGS, NULL},
 #endif
      {"lecuyer21"       , PyGSL_rng_init_lecuyer21       , METH_NOARGS, NULL},

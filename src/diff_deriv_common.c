@@ -1,13 +1,9 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/function_helpers.h>
-#if (PYGSL_GSL_MAJOR_VERSION == 1) && (PYGSL_GSL_MINOR_VERSION < 5)
-#define _PYGSL_HAS_DERIV 0
-#else 
-#define _PYGSL_HAS_DERIV 1
-#endif 
+#include <pygsl/pygsl_features.h>
 
 #ifdef PyGSL_DERIV_MODULE
-#if ( _PYGSL_HAS_DERIV == 0 )
+#if ( _PYGSL_GSL_HAS_DERIV == 0 )
 #error "The deriv module was only introduced by GSL 1.5. You seem to compile against an older verion!"
 #endif
 #include <gsl/gsl_deriv.h>

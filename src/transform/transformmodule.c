@@ -5,6 +5,7 @@
  */
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
+#include <pygsl/pygsl_features.h>
 #include <string.h>
 
 #include <gsl/gsl_fft.h>
@@ -15,7 +16,7 @@
 #include <gsl/gsl_fft_real_float.h>
 #include <gsl/gsl_fft_halfcomplex_float.h>
 #include <gsl/gsl_blas.h>
-#if PYGSL_GSL_MAJOR_VERSION >= 1 && PYGSL_GSL_MINOR_VERSION > 5
+#ifdef _PYGSL_GSL_HAS_WAVELET
 #define forward forward_wavelet
 #define backward backward_wavelet
 #include <gsl/gsl_wavelet.h>
@@ -23,8 +24,10 @@
 #undef forward
 #undef backward
 #else
-#error Need GSL version 1.6 or higher! If you need it for a lower version
+/*
+#error Need GSL version 1.6 or higher with wavelet implementation! If you need it for a lower version
 #error add the different conditional compilation!
+*/
 #endif /* gsl version > 1.5*/
 static PyObject *module = NULL;
 static const char filename[] = __FILE__;
@@ -45,7 +48,7 @@ static const char filename[] = __FILE__;
 /*
  * The wavelet type and the methods to call the different transform functions.
  */
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 #include "wavelet.c"
 #define PyGSL_WAVELET_TRANSFORM_TYPE(name) \
        {#name,             PyGSL_wavelet_init_ ## name,              METH_VARARGS, NULL}, \
@@ -70,7 +73,7 @@ static PyMethodDef transformMethods[] = {
 	{"real_workspace_float",        PyGSL_transform_space_init_REAL_WORKSPACE_FLOAT,         METH_VARARGS, (char*)rws_doc},
 	{"real_wavetable_float",        PyGSL_transform_space_init_REAL_WAVETABLE_FLOAT,         METH_VARARGS, (char*)rwt_doc},
 	{"halfcomplex_wavetable_float", PyGSL_transform_space_init_HALFCOMPLEX_WAVETABLE_FLOAT,  METH_VARARGS, (char*)hcwt_doc},
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	{"wavelet_workspace",           PyGSL_transform_space_init_WAVELET_WORKSPACE,            METH_VARARGS, (char*)ww_doc},
 #endif
 	/* transform functions */
@@ -93,7 +96,7 @@ static PyMethodDef transformMethods[] = {
 	{"halfcomplex_radix2_unpack",         PyGSL_fft_halfcomplex_radix2_unpack,       METH_VARARGS, (char*)un_doc_r2},
 	{"halfcomplex_radix2_unpack_float",   PyGSL_fft_halfcomplex_radix2_unpack_float, METH_VARARGS, (char*)float_doc},
 	/* wavelet inits */ 
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	PyGSL_WAVELET_TRANSFORM_TYPE(daubechies)
 	PyGSL_WAVELET_TRANSFORM_TYPE(haar)
 	PyGSL_WAVELET_TRANSFORM_TYPE(bspline)
@@ -133,7 +136,7 @@ init_helpers(void)
 	DEBUG_MESS(3, "PyArray_CFLOAT  = %d ", PyArray_CFLOAT );
 	DEBUG_MESS(3, "PyArray_CDOUBLE = %d ", PyArray_CDOUBLE);
 
-#ifdef _PyGSL_HAS_WAVELET	
+#ifdef _PYGSL_GSL_HAS_WAVELET	
 	DEBUG_MESS(4, "%s @ %p", "daubechies", gsl_wavelet_daubechies);
 	DEBUG_MESS(4, "%s @ %p", "daubechies_centered", gsl_wavelet_daubechies_centered);
 	DEBUG_MESS(4, "%s @ %p", "haar", gsl_wavelet_haar);
@@ -151,7 +154,7 @@ DL_EXPORT(void) init_transform(void)
 	
 	FUNC_MESS_BEGIN();
 	PyGSL_transform_space_pytype.ob_type = &PyType_Type;
-#ifdef _PyGSL_HAS_WAVELET
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	PyGSL_wavelet_pytype.ob_type = &PyType_Type;
 #endif
 	m = Py_InitModule("_transform", transformMethods);
