@@ -74,7 +74,8 @@ PyGSL_register_debug_flag(int * ptr, const char * module_name)
      FUNC_MESS_END();
      return GSL_SUCCESS;
 #endif
-     GSL_ERROR("Why does it try to add the pointer? Should use the compile time value DEBUG!", GSL_ESANITY);
+     GSL_ERROR("Why does it try to register the debug level callback? Should"
+	       " use the compile time value DEBUG!", GSL_ESANITY);
 }
 
 static PyObject *
