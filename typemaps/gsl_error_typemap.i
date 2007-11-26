@@ -9,6 +9,7 @@
 typedef int gsl_error_flag;
 typedef int gsl_error_flag_drop;
 PyObject *pygsl_module_for_error_treatment = NULL;
+                        
 %}
 
 %init {
@@ -40,7 +41,7 @@ PyObject *pygsl_module_for_error_treatment = NULL;
 */
 
 /* Warning: Swig will treat it as an pointer !! */
-%typemap(python, out) gsl_error_flag {
+%typemap(out) gsl_error_flag {
      $result = PyGSL_ERROR_FLAG_TO_PYINT($1);
      if ($result == NULL){ 
 	  PyGSL_add_traceback(pygsl_module_for_error_treatment, __FILE__, 
@@ -63,7 +64,7 @@ PyObject *pygsl_module_for_error_treatment = NULL;
  *  3.) All positive results indicate some error. These are turned into an
  *      exception. So it is not necessary to return the flag.
  */
-%typemap(python, out) gsl_error_flag_drop {
+%typemap(out) gsl_error_flag_drop {
      /* 
 	assert($1 >= 0);  assertion removed as PyGSL_error_flag can deal with
 	negative numbers.
