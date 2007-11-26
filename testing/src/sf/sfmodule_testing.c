@@ -137,7 +137,6 @@ void  PyGSL_sf_ufunc_qi_D_dd_as_F_ff(char **args, int *dimensions, int *steps, v
 {
         PyGSL_array_index_t i,  is0=steps[0], os0=steps[1],  os1=steps[2], tmp;
         char   *ip0=args[0],  *op0=args[1], *op1=args[2];
-	double tmp2, tmp1;
 	gsl_sf_result radius, angle;
 	FUNC_MESS_BEGIN();
 	DEBUG_MESS(2, "dimensions = %d %d %d", dimensions[0], dimensions[1],dimensions[2]);
@@ -164,9 +163,7 @@ Help does not display the information stored there!\n";
 
 DL_EXPORT(void) init_ufuncs(void)
 {
-  PyObject* gsl_errors_module=NULL;
   PyObject* sf_module=NULL, *sf_dict=NULL;
-  PyObject* gsl_errors_dict=NULL;
   PyObject* f=NULL, *item=NULL;
 
   fprintf(stderr, "Module compiled at %s %s\n", __DATE__, __TIME__);
