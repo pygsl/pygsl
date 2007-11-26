@@ -10,7 +10,7 @@
 /* 3.1 dO -> d d    gsl_function_fdf */
 PyGSL_API_EXTERN int 
 PyGSL_function_wrap_helper(double x, double * result, double *result2,
-			   PyObject *callback, PyObject *arguments, char *c_func_name)
+			   PyObject *callback, PyObject *arguments, const char *c_func_name)
 {
      PyObject *object = NULL, *arglist = NULL, *tmp = NULL;
      int flag;

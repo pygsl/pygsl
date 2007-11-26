@@ -56,7 +56,7 @@
 typedef struct {
      PyObject *function;
      PyObject *arguments;
-     char * c_func_name;
+     const char * c_func_name;
      jmp_buf buffer;
      int buffer_is_set;
 } callback_function_params;
@@ -66,9 +66,9 @@ typedef struct {
      PyObject *df;
      PyObject *fdf;
      PyObject *arguments;
-     char * c_f_func_name;
-     char * c_df_func_name;
-     char * c_fdf_func_name;
+     const char * c_f_func_name;
+     const char * c_df_func_name;
+     const char * c_fdf_func_name;
      jmp_buf buffer;
      int buffer_is_set;
 } callback_function_params_fdf;
@@ -86,18 +86,18 @@ typedef struct {
 /* 1. A_n O -> A_p  */
 int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback, 
-			  PyObject * arguments, int n, int p, char *c_func_name);
+			  PyObject * arguments, int n, int p, const char *c_func_name);
 /* 2. A_n O -> A_n_p */
 int
 PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
-			   PyObject *arguments, int n, int p, char * c_func_name);
+			   PyObject *arguments, int n, int p, const char * c_func_name);
 
 /* 3   dO -> d      gsl_function     */
 /* 3.1 dO -> d d    gsl_function_fdf */
 PyGSL_API_EXTERN int 
 PyGSL_function_wrap_helper(double x, double * result, double *result2,
 			   PyObject *callback, PyObject *arguments,
-			   char *c_func_name);
+			   const char *c_func_name);
 
 /*
  * Pass a NULL pointer for result 2, if not needed.
@@ -106,14 +106,14 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
  int
 PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 			PyObject *arguments, double *result1,
-			 gsl_vector *result2, int n, char * c_func_name);
+			 gsl_vector *result2, int n, const char * c_func_name);
 
 /* 5. A_n O -> A_n A_n_p */
  int
 PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, 
 			      gsl_matrix *f2, PyObject *callback, 
 			      PyObject *arguments, int n, int p, 
-			      char * c_func_name);
+			      const char * c_func_name);
 
 
 /* -------------------------------------------------------------------------
@@ -123,11 +123,11 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1,
    ------------------------------------------------------------------------ */
 /* Callbacks using one function */
 callback_function_params *
-PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, char * c_func_name);
+PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, const char * c_func_name);
 /* Callbacks using 3  functions */
 callback_function_params_fdf *
 PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2, 
-				      char * c_f_func_name, char * c_df_func_name, char * c_fdf_func_name);
+				      const char * c_f_func_name, const char * c_df_func_name, const char * c_fdf_func_name);
 void 
 PyGSL_params_free(callback_function_params *p);
 void 
@@ -220,7 +220,7 @@ extern char * pygsl_multiroot_fdf_function;
 extern char * pygsl_monte_function;
 #ifndef _PyGSL_API_MODULE
 #define PyGSL_function_wrap_helper \
-(*(int (*) (double, double *, double *, PyObject *, PyObject *, char *)) PyGSL_API[PyGSL_function_wrap_helper_NUM])
+(*(int (*) (double, double *, double *, PyObject *, PyObject *, const char *)) PyGSL_API[PyGSL_function_wrap_helper_NUM])
 #endif  /* _PyGSL_API_MODULE */
 #endif  /* PyGSL_FUNCTION_HELPERS_H */
 

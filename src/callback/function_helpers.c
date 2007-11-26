@@ -11,7 +11,7 @@
 /* 1. A_n O -> A_p  */
 int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback, 
-			PyObject * arguments, int n, int p, char *c_func_name)
+			PyObject * arguments, int n, int p, const char *c_func_name)
 {
      PyArrayObject *a_array = NULL;
      PyObject *object=NULL, *arglist=NULL;
@@ -66,7 +66,7 @@ PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callbac
 /* 2. A_n O -> A_n_p */
 int
 PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
-			   PyObject *arguments, int n, int p, char * c_func_name)
+			   PyObject *arguments, int n, int p, const char * c_func_name)
 {
 
      PyArrayObject *a_array = NULL;
@@ -126,7 +126,7 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
 int
 PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 			PyObject *arguments, double *result1,
-			gsl_vector *result2, int n, char * c_func_name)
+			gsl_vector *result2, int n, const char * c_func_name)
 {
 
      PyArrayObject *a_array = NULL;
@@ -206,7 +206,7 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 /* 5. A_n O -> A_n A_n_p */
 int
 PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *f2, PyObject *callback,
-			   PyObject *arguments, int n, int p, char * c_func_name)
+			   PyObject *arguments, int n, int p, const char * c_func_name)
 {
 
      PyArrayObject *a_array = NULL;
@@ -275,7 +275,7 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
    ------------------------------------------------------------------------ */
 /* Callbacks using one function */
 callback_function_params *
-PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, char * c_func_name)
+PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, const char * c_func_name)
 {
      PyObject *func=NULL, *args=NULL;
      callback_function_params *params;
@@ -345,7 +345,7 @@ PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, char 
 /* Callbacks using 3  functions */
 callback_function_params_fdf *
 PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2, 
-				char * c_f_func_name, char * c_df_func_name, char * c_fdf_func_name)
+				const char * c_f_func_name, const char * c_df_func_name, const char * c_fdf_func_name)
 {
      PyObject *f = NULL, *df = NULL, *fdf = NULL, *args = NULL;
      callback_function_params_fdf * params = NULL;

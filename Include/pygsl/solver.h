@@ -170,23 +170,23 @@ PyGSL_Callable_Check(PyObject *f, const char * myname);
 PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 			 PyObject *arguments, double *result1,
-			 gsl_vector *result2, int n, char * c_func_name);
+			 gsl_vector *result2, int n, const char * c_func_name);
 
 PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_OnOn_On(const gsl_vector *x, const gsl_vector *v, gsl_vector *hv, PyObject *callback,
-			    PyObject *arguments, int n, char *c_func_name);
+			    PyObject *arguments, int n, const char *c_func_name);
 
 PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_Op_On_Opn(const gsl_vector *x, gsl_vector *f1, gsl_matrix *f2, PyObject *callback,
-			    PyObject *arguments, int n, int p, char *c_func_name);
+			    PyObject *arguments, int n, int p, const char *c_func_name);
 
 PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback, 
-			  PyObject * arguments, int n, int p, char *c_func_name);
+			  PyObject * arguments, int n, int p, const char *c_func_name);
 
 PyGSL_SOLVER_API_EXTERN int
 PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
-			   PyObject *arguments, int n, int p, char * c_func_name);
+			   PyObject *arguments, int n, int p, const char * c_func_name);
 
 /*
  * evaluates a C function taking an vector and a double as input and returning a status.
@@ -247,23 +247,23 @@ PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_G
 #ifndef _PyGSL_SOLVER_API_MODULE
 
 #define PyGSL_function_wrap_Op_On \
-(* (int (*)(const gsl_vector *, gsl_vector *, PyObject *, PyObject *, int, int, char *))\
+(* (int (*)(const gsl_vector *, gsl_vector *, PyObject *, PyObject *, int, int, const char *))\
  PyGSL_API[PyGSL_function_wrap_Op_On_NUM])
 
 #define PyGSL_function_wrap_On_O \
-(* (int (*)(const gsl_vector *, PyObject *, PyObject *, double *, gsl_vector *, int, char *))\
+(* (int (*)(const gsl_vector *, PyObject *, PyObject *, double *, gsl_vector *, int, const char *))\
  PyGSL_API[PyGSL_function_wrap_On_O_NUM])
 
 #define PyGSL_function_wrap_OnOn_On \
-(* (int (*)(const gsl_vector *, const gsl_vector *, gsl_vector *, PyObject *,  PyObject *,int ,char *))\
+(* (int (*)(const gsl_vector *, const gsl_vector *, gsl_vector *, PyObject *,  PyObject *,int, const char *))\
  PyGSL_API[PyGSL_function_wrap_OnOn_On_NUM])
 
 #define PyGSL_function_wrap_Op_On_Opn \
-(* (int (*)(const gsl_vector *, gsl_vector *, gsl_matrix *, PyObject *, PyObject *, int, int, char *))\
+(* (int (*)(const gsl_vector *, gsl_vector *, gsl_matrix *, PyObject *, PyObject *, int, int, const char *))\
  PyGSL_API[PyGSL_function_wrap_Op_On_Opn_NUM])
 
 #define PyGSL_function_wrap_Op_Opn \
-(* (int (*)(const gsl_vector *, gsl_matrix *, PyObject *, PyObject *, int, int, char *))\
+(* (int (*)(const gsl_vector *, gsl_matrix *, PyObject *, PyObject *, int, int, const char *))\
  PyGSL_API[PyGSL_function_wrap_Op_Opn_NUM])
 
 
