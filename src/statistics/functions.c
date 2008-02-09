@@ -4,7 +4,6 @@
  * file: pygsl/src/statisticsmodule.c
  * $Id$
  *
- * optional usage of Numeric module, available at http://numpy.sourceforge.net
  * " <- to fix Emacs colouring
  */
 
