@@ -36,6 +36,10 @@ Installing GSL interface:
    --gsl-prefix=/path/to/gsl
    #If your are using cvs, remove your build directory.
    python setup.py build
+   # Running only
+   python setup.py
+   # can result in an error. So if you see an error runing setup.py
+   please run python setup.py build
    # change to a id, that is allowed to do installation
    python setup.py install
 
@@ -160,8 +164,12 @@ History:
        for applied informatics cologne.
      * pygsl-0.0.3 was released at May 23, 2001
      * pygsl-0.0.4 was released at January 8, 2002
-     * pygsl-0.1a was released at August 27, 2002
-     * pygsl-0.1b was released at , 2003
+     * pygsl-0.1 was released at August 28, 2002
+     * pygsl-0.1b was released at May 17, 2003
+     * oygsl-0.3.0 was released at
+     * oygsl-0.3.1 was released at
+     * oygsl-0.3.3 was released at
+     * oygsl-0.9.0 was released at
 
 Thanks:
 

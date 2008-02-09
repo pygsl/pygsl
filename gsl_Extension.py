@@ -58,6 +58,7 @@ class _gsl_Location:
 	
 	def get_gsl_libs(self):
 		assert(self.libs != None)
+		#print "Libs", self.libs
 		return self.libs
 	
 	

@@ -36,9 +36,9 @@ INSTALL_HEADERS = 1
 # is the more verbose the output gets. Please note that pygsl needs to be
 # completly rebuild if you hcange this parameter
 # No debug information
-# DEBUG_LEVEL = 0
-# dynamic debug information
 DEBUG_LEVEL = 1
+# dynamic debug information
+#DEBUG_LEVEL = 1
 # Compile time set debug level
 #DEBUG_LEVEL = 10
 #####
@@ -76,7 +76,6 @@ from swig_extension import SWIG_Extension_Nop as _SWIG_Extension_Nop
 from distutils import sysconfig
 #from common_objects import libpygsl
 
-
 if USE_SWIG == 0:
     _SWIG_Extension = _SWIG_Extension_Nop
 
@@ -108,6 +107,13 @@ pygsl_init=gsl_Extension("init",
                          python_min_version=(2,1),
                          )
 exts.append(pygsl_init)
+pygsl_init=gsl_Extension("inittest",
+			 ['src/init/inittestmodule.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros,
+                         python_min_version=(2,1),
+                         )
+exts.append(pygsl_init)
 
 exts.append(SWIG_Extension("hankel",                           
                            ["src/hankel/gsl_hankel.i"],
@@ -125,6 +131,15 @@ exts.append(SWIG_Extension("hankel",
 #                          define_macros = macros,
 #                          python_min_version=(2,0),
 #                          )
+#            )
+#exts.append(SWIG_Extension("bspline",
+#                           ["src/bspline/bspline.i"],
+#                           include_dirs=["src/bspline"],
+#                           swig_include_dirs=["src/bspline"],
+#                           gsl_min_version=(1,9),
+#                           define_macros = macros,
+#                           python_min_version=(2,1),
+#                          )            
 #            )
 
 exts.append(SWIG_Extension("_callback",
@@ -178,6 +193,7 @@ if BUILD_DEPRECATED:
                                python_min_version=(2,1)
                                )
     exts.append(pygsl_diff) 
+
 pygsl_deriv = gsl_Extension("deriv",
                            ['src/derivmodule.c'],
                            define_macros = macros,
@@ -206,7 +222,7 @@ try:
                               ["src/gslwrap/gsl_gslwrap.i"],
                                swig_include_dirs=["src/gslwrap/"],
                               define_macros = macros,
-                              gsl_min_version=(1,2),
+                              gsl_min_version=(1,10),
                               python_min_version=(2,1)
                               )
                 )
@@ -334,7 +350,6 @@ if BUILD_DEPRECATED:
     exts.append(pygsl_matrix)    
 
 if BUILD_TESTING:
-
     solver=gsl_Extension("testing.multimin",
                          ['testing/src/solvers/multimin.c'],
                          gsl_min_version=(1,),
@@ -405,8 +420,9 @@ if BUILD_TESTING:
     #                     python_min_version=(2,0)
     #                 )
 
-    num = gsl_numobj.nummodule
-    if num == "numpy" or num == "Numeric":
+    num = str(gsl_numobj.nummodule)
+    if num in ("numpy", "Numeric"):
+        print "Building testing ufuncs!"
         sfarray=gsl_Extension("testing.sfarray",
                               ['testing/src/sf/sf__arrays.c'],
                               gsl_min_version=(1,),
@@ -421,7 +437,9 @@ if BUILD_TESTING:
                          python_min_version=(2,0)
                          )
         exts.append(sf)
-
+    else:
+        print "Selected array object -->%s<--" % (num,)
+        print "No special ufuncs in testing"
     #exts.append(cheb)
     pass
 
@@ -469,7 +487,6 @@ headers = None
 if INSTALL_HEADERS == 1:
     headers = glob.glob("Include/pygsl/*.h")
     gsldist = map(lambda x: 'gsl_dist.' + os.path.basename(x)[:-3], glob.glob("gsl_dist/*.py"))
-    print gsldist
 
 py_modules = map(lambda x : 'pygsl.' + x, py_module_names) + gsldist 
     

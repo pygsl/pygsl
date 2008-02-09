@@ -58,6 +58,7 @@ class _gsl_Location:
 		return self.cflags
 	
 	def get_gsl_libs(self):
+		#print self.libs
 		assert(self.libs != None)
 		return self.libs
 	
@@ -190,6 +191,7 @@ class gsl_Extension(Extension):
             # prepare lib list
             # split optionlist and strip blanks from each option
             gsl_lib_list=map(string.strip,self.get_gsl_libs().split())
+
             # filter options with -l
             not_lib_opt=lambda a:a[:2]=="-l"
             gsl_lib_list=filter(not_lib_opt,gsl_lib_list)
