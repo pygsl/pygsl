@@ -310,4 +310,5 @@ gsl_odeiv_step_gear2 = cvar.gsl_odeiv_step_gear2
 gsl_odeiv_step_apply = __callback.gsl_odeiv_step_apply
 gsl_odeiv_control_hadjust = __callback.gsl_odeiv_control_hadjust
 gsl_odeiv_evolve_apply = __callback.gsl_odeiv_evolve_apply
+gsl_odeiv_evolve_apply_vector = __callback.gsl_odeiv_evolve_apply_vector
 

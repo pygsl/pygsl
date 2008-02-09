@@ -91,5 +91,6 @@ extern void
 gsl_odeiv_evolve_free(gsl_odeiv_evolve *);
 
 %native(gsl_odeiv_evolve_apply) PyObject *pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args);
+%native(gsl_odeiv_evolve_apply_vector) PyObject *pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args);
 
 /* EOF */

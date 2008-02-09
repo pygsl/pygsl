@@ -391,6 +391,7 @@ class evolve:
             dimension ...   dimension of the problem
 
         """
+        # Keep a reference to the objects so that its pointers are valid
         self.step = step
         self.control = control
         
@@ -399,7 +400,10 @@ class evolve:
         self.func = self.step._get_func()
         self.jac  = self.step._get_jac()
         self.args = self.step._get_args()
+        tmp =  self.step._get_ptr(), self.control._get_ptr(), self.ptr
+        self._solvers_tuple = tuple(tmp)
 
+        
     def __del__(self):
         if hasattr(self, 'ptr'):
             if self.ptr != None:
@@ -414,7 +418,7 @@ class evolve:
         """
         _callback.gsl_odeiv_evolve_reset(self.ptr)
 
-    def apply(self, t, t1, h, y, nsteps=1,hmax=None):        
+    def apply(self, t, t1, h, y):        
         """
         input : t, t1, h, y
             t  ... start time
@@ -439,12 +443,19 @@ class evolve:
         time-step the value of t will be set to t1 exactly.
 
         """
-        step = self.step._get_ptr()
-        control =  self.control._get_ptr()
+        tmp =  _callback.gsl_odeiv_evolve_apply(self._solvers_tuple,
+                                                self.func, self.jac, t, t1, h,
+                                                y, self.args)
+
+        return tmp
+
+
+    def apply_vector(self, t, t1, h, y, nsteps=1, hmax=None):
         res = (nsteps,)
-        if hmax:
+        if hmax != None:
             res = nsteps, hmax
-        tmp =  _callback.gsl_odeiv_evolve_apply(step, control, self.ptr,
+            
+        tmp =  _callback.gsl_odeiv_evolve_apply_vector(self._solvers_tuple,
                                                 self.func, self.jac, t, t1, h,
                                                 y, self.args, *res)
 

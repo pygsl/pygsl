@@ -14976,6 +14976,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_odeiv_evolve_reset", (PyCFunction) _wrap_gsl_odeiv_evolve_reset, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_odeiv_evolve_free", (PyCFunction) _wrap_gsl_odeiv_evolve_free, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_odeiv_evolve_apply", pygsl_odeiv_evolve_apply, METH_VARARGS, NULL},
+	 { (char *)"gsl_odeiv_evolve_apply_vector", pygsl_odeiv_evolve_apply_vector, METH_VARARGS, NULL},
 	 { (char *)"gsl_multifit_linear_alloc", (PyCFunction) _wrap_gsl_multifit_linear_alloc, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_multifit_linear_free", (PyCFunction) _wrap_gsl_multifit_linear_free, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_multifit_linear", (PyCFunction) _wrap_gsl_multifit_linear, METH_VARARGS | METH_KEYWORDS, NULL},
