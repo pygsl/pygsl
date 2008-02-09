@@ -36,51 +36,54 @@ def run():
     # Comment your favourite one out to test it.
     #stepper = odeiv.step_rk2
     #stepper = odeiv.step_rk4
-    #stepper = odeiv.step_rkf45
+    stepper = odeiv.step_rkf45
     #stepper = odeiv.step_rkck
-    stepper = odeiv.step_rk8pd
+    #stepper = odeiv.step_rk8pd
     #stepper = odeiv.step_rk2imp
     #stepper = odeiv.step_rk4imp
     #stepper = odeiv.step_gear1
     #stepper = odeiv.step_gear2
     #stepper = odeiv.step_bsimp
     
-    step = stepper(dimension, func,jac, mu)
+    step = stepper(dimension, func, jac, mu)
     # All above steppers exept the odeiv.step_bsimp (Buerlisch - Stoer Improved
     # method can calculate without an jacobian ...
-    # step = stepper(dimension, func)
+    step = stepper(dimension, func, args=mu)
 
     control = odeiv.control_y_new(step, 1e-6, 1e-6)
     evolve  = odeiv.evolve(step, control, dimension)
     
     print  "# Using stepper %s with order %d" %(step.name(), step.order())
     print  "# Using Control ", control.name()
-    print "# %5s %9s %9s  %9s " % ("iter", "t", "y[0]", "y[1]")
-    h = 1
+    print "# %9s  %9s %9s  %9s " % ("t", "h", "y[0]", "y[1]")
+    hstart = 1
     tstart = 0.0
-    t1 = (50.0,)
+    t1 = (50.0)
+    #t1 = (500000.0,)
     ystart = (1.0, 0.0)
     
     t = tstart
     y = ystart
     stamp = time.time()
     nsteps = 1000
+    #nsteps = 10000000
+    h = hstart
     for i in xrange(nsteps):
-        if t >= t1[0]:
+        if t >= t1:
             break
         t, h, y = evolve.apply(t, t1, h, y)
-        y = y[-1]
 	#print "  %5d % 10.6f % 10.6f  % 10.6f " %(i, t, y[0], y[1])
 
     else:
         raise ValueError, "Maximum number of steps exceeded!"
     print "Needed %f seconds" %( time.time() - stamp,)
+    print "  % 10.6f % 10.6f % 10.6f  % 10.6f " %(t, h, y[0], y[1])
 
-    print "  % 10.6f % 10.6f  % 10.6f " %(t, y[0], y[1])
+    
     stamp = time.time()
-    t, h, y = evolve.apply(tstart, t1, h, ystart, nsteps)
-    print "Needed %f seconds" %( time.time() - stamp,)
-    print "  % 10.6f % 10.6f  % 10.6f " %(t, y[0, 0], y[0, 1])
+    t, h, y = evolve.apply_vector(tstart, t1, hstart, ystart, nsteps=1000, hmax=.1)
+    print "Needed %f seconds" %(time.time() - stamp,)
+    print "  % 10.6f % 10.6f % 10.6f  % 10.6f " %(t, h, y[0, 0], y[0, 1])
 	
 if __name__ == '__main__':
     run()
