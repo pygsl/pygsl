@@ -217,7 +217,8 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 	  DEBUG_MESS(4, "\t\tArray type matched! %d", 0);
      else{
 	  gsl_error("The array type did not match the spezified one!", filename, __LINE__, GSL_ESANITY);
-	  DEBUG_MESS(4, "Found an array type of %d", (int) ((PyArrayObject *) (a_array))->descr->type_num);
+	  DEBUG_MESS(4, "Found an array type of %d but expected %d",
+		     (int) ((PyArrayObject *) (a_array))->descr->type_num, array_type);
 	  error_flag = GSL_ESANITY;
 	  line = __LINE__ - 6;
 	  goto fail;
@@ -476,14 +477,27 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object,  PyGSL_array_in
 }
 
 static PyArrayObject * 
-PyGSL_vector_or_double(PyObject *src, int flag,  PyGSL_array_index_t size, int argnum, PyGSL_error_info * info)
+PyGSL_vector_or_double(PyObject *src, PyGSL_array_info_t ainfo, PyGSL_array_index_t size, PyGSL_error_info * info)
 {
      int line = -1;
      PyArrayObject * r = NULL;
      PyGSL_array_index_t dim = 1;
 
      FUNC_MESS_BEGIN();
-     r = PyGSL_vector_check(src, -1, PyGSL_DARRAY_CINPUT(argnum), NULL, info);
+     if (PyGSL_GET_ARRAYTYPE(ainfo) != PyArray_DOUBLE){
+	  line = __LINE__ - 1;
+	  gsl_error("Array request for vector or double is not a double array!",
+		    __FILE__, line, GSL_ESANITY);
+	  goto fail;
+     }
+     if (PyGSL_GET_TYPESIZE(ainfo)  != sizeof(double)){
+	  line = __LINE__ - 1;
+	  gsl_error("Type size passed for vector or double is not of sizeof(double)!",
+		    __FILE__, line, GSL_ESANITY);
+	  goto fail;
+     }
+	  
+     r = PyGSL_vector_check(src, -1, ainfo, NULL, info);
      if(r == NULL){
 	  /* so try if it is a float ... */
 	  double v;
@@ -491,8 +505,8 @@ PyGSL_vector_or_double(PyObject *src, int flag,  PyGSL_array_index_t size, int a
 	  PyErr_Clear();
 	  FUNC_MESS("PyErr_Clear END");
 	  if(PyGSL_PYFLOAT_TO_DOUBLE(src, &v, NULL) != GSL_SUCCESS){
-	       FUNC_MESS("=> NOT FLOAT");
 	       line = __LINE__ - 1;
+	       FUNC_MESS("=> NOT FLOAT");
 	       goto fail;	    
 	  }	 
 	  FUNC_MESS("=> FLOAT");
@@ -505,7 +519,9 @@ PyGSL_vector_or_double(PyObject *src, int flag,  PyGSL_array_index_t size, int a
      }
      FUNC_MESS_END();
      return r;
+
  fail:
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
      Py_XDECREF(r);
      FUNC_MESS("Fail");
      return NULL;
@@ -539,11 +555,16 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
       */
      for(tries = 0; tries <2; ++tries){
 	  /* try fast conversion first */
+#if 0
 	  a_array = PyGSL_VECTOR_CONVERT(src, array_type, flag);
 	  if(a_array !=  NULL && a_array->nd == 1 && 
 	     (size == -1 || a_array->dimensions[0] == size)) {
 	       /* good ... everything fine */
 	       ;
+#else
+	  if(0) {
+	       ;
+#endif
 	  } else {
 	       /* lets try if that goes okay */
 	       if(a_array != NULL){
@@ -558,8 +579,7 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 	  }
 	  if(stride == NULL){
 	       /* no one interested in the stride. so help yourself ... */
-	       FUNC_MESS_END();
-	       return a_array;
+	       break; /* will return array */
 	  }
 
 	  if(PyGSL_STRIDE_RECALC(a_array->strides[0], type_size, stride) == GSL_SUCCESS){
@@ -578,8 +598,7 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 			 } /* stride */
 		    }/*debug level */
 	       }/* contiguous arrays */
-	       FUNC_MESS_END();
-	       return a_array;
+	       break; /* will return array */
 	  }
      
      
@@ -601,7 +620,9 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 	  }
 
      }/* number of tries */
-     
+     DEBUG_MESS(7, "Checking refcount src obj @ %p had %d cts and array @ %p has now %d cts", 
+		(void *) src, src->ob_refcnt, (void *)a_array, a_array->ob_refcnt);
+    	  
     /* handling failed stride recalc */
      FUNC_MESS_END();
 

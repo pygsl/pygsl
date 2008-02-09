@@ -71,7 +71,7 @@ histogram_histogram_increment(PyObject *self, PyObject *args)
     return NULL;
   }
 
-  if((a = PyGSL_vector_or_double(x_o, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL)) == NULL)
+  if((a = PyGSL_vector_or_double(x_o, PyGSL_DARRAY_CINPUT(1), -1, NULL)) == NULL)
        goto fail;
 
   for(i = 0; i <a->dimensions[0]; ++i){
@@ -107,10 +107,10 @@ histogram_histogram_accumulate(PyObject *self, PyObject *args)
     return NULL;
   }
 
-  if((x_a= PyGSL_vector_or_double(x_o, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, 1, NULL)) == NULL)
+  if((x_a= PyGSL_vector_or_double(x_o, PyGSL_DARRAY_CINPUT(1), -1, NULL)) == NULL)
        goto fail;
   dimension = x_a->dimensions[0];
-  if((w_a= PyGSL_vector_or_double(w_o, PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, -1, dimension, NULL)) == NULL)
+  if((w_a= PyGSL_vector_or_double(w_o, PyGSL_DARRAY_CINPUT(2), dimension, NULL)) == NULL)
        goto fail;
 
   for(i = 0; i <dimension; ++i){

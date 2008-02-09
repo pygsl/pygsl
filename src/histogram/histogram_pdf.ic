@@ -17,7 +17,7 @@ histogram_histogram_pdf_sample(PyObject *self, PyObject *args)
 	  return NULL;
      }
 
-     sample = PyGSL_vector_or_double(o, PyGSL_INPUT_ARRAY, -1, 1, NULL);
+     sample = PyGSL_vector_or_double(o, PyGSL_DARRAY_CINPUT(1), -1, NULL);
      if(sample == NULL)
 	  goto fail;
      dimension = sample->dimensions[0];
@@ -64,12 +64,12 @@ histogram_histogram2d_pdf_sample(PyObject *self, PyObject *args)
 	  return NULL;
      }
 
-     sample = PyGSL_vector_or_double(o, PyGSL_INPUT_ARRAY, -1, 1, NULL);
+     sample = PyGSL_vector_or_double(o, PyGSL_DARRAY_CINPUT(1), -1, NULL);
      if(sample == NULL)
 	  goto fail;
 
      dimension = sample->dimensions[0];
-     sample2 = PyGSL_vector_or_double(o2, PyGSL_INPUT_ARRAY, dimension, 1, NULL);
+     sample2 = PyGSL_vector_or_double(o2, PyGSL_DARRAY_CINPUT(2), dimension, NULL);
      if(sample2 == NULL)
 	  goto fail;
 

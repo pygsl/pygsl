@@ -321,8 +321,9 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object,  PyGSL_array_in
 				PyGSL_array_index_t p, PyGSL_error_info * info);
 
 PyGSL_API_EXTERN PyArrayObject * 
-PyGSL_vector_or_double(PyObject *src, int flag,  PyGSL_array_index_t size, int argnum,
+PyGSL_vector_or_double(PyObject *src, PyGSL_array_info_t ainfo, PyGSL_array_index_t size,
 		       PyGSL_error_info * info);
+
 
 /*
  * PyGSL_copy_gslvector_to_pyarrary :
@@ -385,8 +386,9 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
 #define PyGSL_copy_gslmatrix_to_pyarray \
  (*(PyArrayObject * (*)(const gsl_matrix *))                         PyGSL_API[ PyGSL_copy_gslmatrix_to_pyarray_NUM])
 
+
 #define  PyGSL_vector_or_double  \
-(*(PyArrayObject * (*)(PyObject *, int, PyGSL_array_index_t, int, PyGSL_error_info *)) \
+(*(PyArrayObject * (*)(PyObject *, PyGSL_array_info_t , PyGSL_array_index_t, PyGSL_error_info *)) \
                                                                      PyGSL_API[PyGSL_vector_or_double_NUM])
 
 #define PyGSL_vector_check  \

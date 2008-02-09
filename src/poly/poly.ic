@@ -37,7 +37,7 @@ pygsl_poly_eval(PyObject *self, PyObject *args)
   array = PyGSL_vector_check(array_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if (array == NULL) goto fail;
 
-  x =  PyGSL_vector_or_double(x_o, PyGSL_INPUT_ARRAY, -1, 1, NULL);
+  x =  PyGSL_vector_or_double(x_o, PyGSL_DARRAY_CINPUT(2), -1, NULL);
   if(x == NULL) goto fail;
   dimension = x->dimensions[0];
   y =  PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);

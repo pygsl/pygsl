@@ -272,7 +272,7 @@ pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
 			     &sys);
     if (GSL_SUCCESS != r){
 	PyErr_SetString(PyExc_TypeError, "Error While evaluating gsl_odeiv");
-      goto fail;
+	goto fail;
     }
 
     FUNC_MESS("    Returnlist create ");
@@ -311,6 +311,60 @@ pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
     return NULL;
 }
 
+
+static int
+convert_swig_pointers(PyObject *solvers,
+		      gsl_odeiv_step **s,  gsl_odeiv_control **con,  gsl_odeiv_evolve **e)
+{
+     int line=-1;
+     PyObject *step, *control, *evolve;
+     
+     FUNC_MESS_BEGIN();
+     if(!PyTuple_CheckExact(solvers)){
+	  line = __LINE__ - 1;
+	  PyErr_SetString(PyExc_TypeError, "solver object must be tuple!");
+	  goto fail;
+     }
+
+     if(PyTuple_GET_SIZE(solvers) != 3){
+	  line = __LINE__ - 1;
+	  PyErr_SetString(PyExc_TypeError, "solver object must be tuple of length 3!");
+	  goto fail;	  
+     }
+     step    = PyTuple_GET_ITEM(solvers, 0);
+     control = PyTuple_GET_ITEM(solvers, 1);
+     evolve  = PyTuple_GET_ITEM(solvers, 2);
+     
+     if((SWIG_ConvertPtr(step, (void **) s, SWIGTYPE_p_gsl_odeiv_step,1)) == -1){
+	  line = __LINE__ - 1;
+	  PyErr_SetString(PyExc_TypeError, "Could not convert step to pointer");
+	  goto fail;
+     }
+     assert(*s != NULL);
+     
+     if((SWIG_ConvertPtr(control, (void **) con, SWIGTYPE_p_gsl_odeiv_control,1)) == -1){
+	  line = __LINE__ - 1;
+	  PyErr_SetString(PyExc_TypeError, 
+			  "Could not convert control to pointer");
+	  goto fail;
+     }
+     assert(*con != NULL);
+     
+     if((SWIG_ConvertPtr(evolve, (void **) e, SWIGTYPE_p_gsl_odeiv_evolve,1)) == -1){
+	  line = __LINE__ - 1;
+	  PyErr_SetString(PyExc_TypeError, "Could not convert evolve to pointer");
+	  goto fail;
+     }
+     assert(*e != NULL);
+     
+     FUNC_MESS_END();
+     return GSL_SUCCESS;
+
+ fail:
+    PyGSL_add_traceback(NULL, __FILE__,  __FUNCTION__, line);
+    return GSL_EINVAL;
+}
+
 /*
  * int gsl_odeiv_evolve_apply(gsl_odeiv_evolve *, gsl_odeiv_control * con, 
  *                            gsl_odeiv_step * step, 
@@ -322,8 +376,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 {
     PyObject *result = NULL;
     PyObject *y0_o = NULL, *func_o = NULL, *jac_o = NULL, *myargs = NULL;
-    PyObject *t_o = NULL;
-    PyArrayObject *volatile y0 = NULL, *volatile yout = NULL, *volatile ts = NULL;
+    PyArrayObject *y0 = NULL, *yout = NULL;
     double t1=0, h=0, flag;
     double t;
 
@@ -331,19 +384,18 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     gsl_odeiv_control *con=NULL;
     gsl_odeiv_evolve  *e=NULL;
 
-    gsl_vector_view  vy, vy1, vts;
 
     PyGSL_odeiv_parameter_pass params;
     gsl_odeiv_system sys = {PyGSL_odeiv_func, PyGSL_odeiv_jac, 0, NULL};
 
-    int  r=GSL_EFAILED, i, j, nsteps=1, line=-1, direction;
-    PyObject * step = NULL,  * control = NULL, * evolve = NULL;
-    PyGSL_array_index_t dimension,  dims[2], stride;
+    int  r=GSL_EFAILED, line=-1;
+    PyObject * solvers;
+    PyGSL_array_index_t dimension, stride;
 
     FUNC_MESS_BEGIN();
     sys.params = &params;
-    if(!PyArg_ParseTuple(args, "OOOOOdOdOO|ii", &step, &control, &evolve,
-			  &func_o, &jac_o, &t, &t_o, &h, &y0_o, &myargs, &nsteps)){
+    if(!PyArg_ParseTuple(args, "OOOdddOO", &solvers,
+			 &func_o, &jac_o, &t, &t1, &h, &y0_o, &myargs)){
 	 line = __LINE__ - 2;
 	 goto fail;
     }
@@ -351,73 +403,27 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     Py_XINCREF(jac_o);
 
 
-    if((SWIG_ConvertPtr(step, (void **) &s, SWIGTYPE_p_gsl_odeiv_step,1)) == -1){
-	line = __LINE__ - 1;
-	PyErr_SetString(PyExc_TypeError, "Could not convert step to pointer");
-	goto fail;
-    }
-    assert(s != NULL);
-
-    if((SWIG_ConvertPtr(control, (void **) &con, SWIGTYPE_p_gsl_odeiv_control,1)) == -1){
-	line = __LINE__ - 1;
-	PyErr_SetString(PyExc_TypeError, 
-			"Could not convert control to pointer");
-	goto fail;
-    }
-    assert(con != NULL);
-
-    if((SWIG_ConvertPtr(evolve, (void **) &e, SWIGTYPE_p_gsl_odeiv_evolve,1)) == -1){
-	line = __LINE__ - 1;
-	PyErr_SetString(PyExc_TypeError, "Could not convert evolve to pointer");
-	goto fail;
-    }
-    assert(e != NULL);
+    flag = convert_swig_pointers(solvers, &s, &con, &e);
+    if(flag != GSL_SUCCESS)
+	 goto fail;
+	 
     dimension = s -> dimension;
     params.dimension = dimension;
 
-    FUNC_MESS("SWIG END");
+
+    DEBUG_MESS(2, "Checking refcounts of objects: y0_o @ %p refcnt %d", 
+	       (void *) y0_o, y0_o->ob_refcnt);
+
     y0 = PyGSL_vector_check(y0_o, dimension, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
     if(y0 == NULL){
 	line = __LINE__ - 2;
 	 goto fail;
     }
-    FUNC_MESS("Y0 END");
-    FUNC_MESS("T BEGIN");
-    /* time spots to integrate to ... */
-    ts = PyGSL_vector_check(t_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
-    if(ts == NULL){
-        /* so try if it is a float ... */
-         double v;
-	 /* was not an array, but lets see if it is a float, so lets clear the error .... */
-	 PyErr_Clear();
-	 FUNC_MESS("PyErr_Clear END");
-         if(PyGSL_PYFLOAT_TO_DOUBLE(t_o, &v, NULL) != GSL_SUCCESS){
-	    FUNC_MESS("T_O NOT FLOAT");
-	      line = __LINE__ - 1;
-	      goto fail;	    
-	 }	 
-         FUNC_MESS("T_0 FLOAT");
-         PyGSL_array_index_t dim = 1;
-         ts = (PyArrayObject *) PyGSL_New_Array(1, &dim, PyArray_DOUBLE);
-	 if(ts == NULL) {
-	      line = __LINE__ - 2;
-	      goto fail;
-	 }
-         (*(double *)(ts->data)) = v;
-    }
-    FUNC_MESS("T END");
-    if(PyGSL_STRIDE_RECALC(ts->strides[0], sizeof(double), &stride) != GSL_SUCCESS)
-	 goto fail;
-    vts = gsl_vector_view_array_with_stride((double *) ts->data, stride, ts->dimensions[0]);
+    DEBUG_MESS(2, "Checking refcounts of objects: y0 @ %p refcnt %d", 
+	       (void *) y0, y0->ob_refcnt);
 
-    /* yout = (PyArrayObject *)  PyGSL_Copy_Array((PyObject * ) y0, PyArray_DOUBLE, 1, 1); */    
-    dims[1] = y0->dimensions[0];
-    dims[0] = ts->dimensions[0];
-    yout = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
+    yout = (PyArrayObject *)  PyGSL_Copy_Array(y0);
     if(yout == NULL) goto fail;
-    FUNC_MESS("YOUT END");
-
-    FUNC_MESS("   Callback Objects BEGIN");
     if(!(PyCallable_Check(func_o))){
       PyErr_SetString(PyExc_TypeError, "The func object must be callable!");
       goto fail;
@@ -443,10 +449,157 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	  FUNC_MESS("\t\t Setting Jmp Buffer");
      } else {
 	  FUNC_MESS("\t\t Returning from Jmp Buffer");
+	  line = __LINE__ - 3;
 	  goto fail;
      }
 
 
+    if(PyGSL_STRIDE_RECALC(yout->strides[0], sizeof(double), &stride) != GSL_SUCCESS){
+	 line = __LINE__ - 1;
+	 goto fail;
+    }
+    DEBUG_MESS(2, "Raw Stride of yout was (%ld,%ld)\n", (long)yout->strides[0], (long)yout->strides[1]); 
+    if(stride != 1){
+	 line = __LINE__ - 1;
+	 fprintf(stderr, "Stride of yout was %ld\n",  (long)stride); 
+	 gsl_error("Yout had a stride different to 1!", __FILE__, __LINE__, GSL_ESANITY);
+	 goto fail;
+    }
+
+    DEBUG_MESS(3, "\r step t = % 8.6e h = % 8.6e", t, h);
+    r = gsl_odeiv_evolve_apply(e, con, s, &sys, &t, t1, &h, (double *)(yout->data));
+
+    DEBUG_MESS(3, "  stepped to  t = % 8.6e h = % 8.6e", t, h);
+    if(r == GSL_EINVAL)
+	 fprintf(stderr, "\n invalid t =% 8.6e t1 =% 8.6e,  h = % 8.6e\n", t,t1, h);
+    if (PyGSL_ERROR_FLAG(r) != GSL_SUCCESS){		   
+	 PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
+	 goto fail;
+    }
+        
+    assert(yout != NULL);
+    DEBUG_MESS(2, "Checking refcounts of objects: yout @ %p refcnt %d,"
+	       " y0 @ %p refcnt %d", 
+	       (void *) yout, yout->ob_refcnt, (void *) y0, y0->ob_refcnt);
+    
+    result = Py_BuildValue("(ddO)", t, h, yout);
+
+    /* Deleting the arrays */    
+    Py_DECREF(yout);     yout = NULL; 
+    Py_DECREF(y0);       y0=NULL;
+    /* Dereferencing Functions */
+    Py_DECREF(func_o);   func_o=NULL;
+    /* Can be NULL */
+    Py_XDECREF(jac_o);   jac_o=NULL;
+    FUNC_MESS_END();
+    return result;
+
+ fail:
+    FUNC_MESS("IN Fail");
+    PyGSL_add_traceback(NULL, __FILE__,  __FUNCTION__, line);
+    Py_XDECREF(y0);
+    Py_XDECREF(func_o); 
+    Py_XDECREF(jac_o); 
+    Py_XDECREF(yout); 
+    FUNC_MESS("IN Fail End");   
+    return NULL;
+}
+
+#define PyGSL_SAVE_REFCNT(obj) ( ((obj) == NULL) ?  -1 : (obj)->ob_refcnt)
+
+static PyObject *
+pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
+{
+    PyObject *result = NULL;
+    PyObject *y0_o = NULL, *func_o = NULL, *jac_o = NULL, *myargs = NULL;
+    PyObject *t_o = NULL;
+    PyArrayObject *y0 = NULL, *yout = NULL, *ts = NULL;
+    double t1=0, h=0, flag, hmax=0;
+    double t;
+
+    gsl_odeiv_step *s=NULL;
+    gsl_odeiv_control *con=NULL;
+    gsl_odeiv_evolve  *e=NULL;
+
+    gsl_vector_view  vy, vy1, vts;
+
+    PyGSL_odeiv_parameter_pass params;
+    gsl_odeiv_system sys = {PyGSL_odeiv_func, PyGSL_odeiv_jac, 0, NULL};
+
+    int  r=GSL_EFAILED, i, j, nsteps=1, line=-1, direction;
+    PyObject * solvers;
+    PyGSL_array_index_t dimension,  dims[2], stride;
+
+    FUNC_MESS_BEGIN();
+    sys.params = &params;
+    if(!PyArg_ParseTuple(args, "OOOdOdOO|id", &solvers, &func_o, &jac_o, &t,
+			 &t_o, &h, &y0_o, &myargs, &nsteps, &hmax)){
+	 line = __LINE__ - 2;
+	 goto fail;
+    }
+
+
+    Py_INCREF(func_o);
+    Py_XINCREF(jac_o);
+
+
+    flag = convert_swig_pointers(solvers, &s, &con, &e);
+    if(flag != GSL_SUCCESS)
+	 goto fail;
+
+    dimension = s->dimension;
+    params.dimension = dimension;
+
+    FUNC_MESS("SWIG END");
+
+    DEBUG_MESS(4, "Checking refcounts of objects: y0_o @ %p refcnt %d", 
+	       (void *) y0_o, PyGSL_SAVE_REFCNT(y0_o));
+
+    assert(y0 == NULL);
+    y0 = PyGSL_vector_check(y0_o, dimension, PyGSL_DARRAY_CINPUT(7), NULL, NULL);
+    if(y0 == NULL){
+	line = __LINE__ - 2;
+	 goto fail;
+    }
+    DEBUG_MESS(4, "Checking refcounts of objects: y0 @ %p refcnt %d",
+	       (void *) y0, PyGSL_SAVE_REFCNT(y0));
+
+    FUNC_MESS("Y0 END");
+    FUNC_MESS("T BEGIN");
+
+
+
+    /* time spots to integrate to ... */
+    assert(ts == NULL);
+
+    /*
+    ts = PyGSL_vector_check(t_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
+        */
+    ts = PyGSL_vector_or_double(t_o, PyGSL_DARRAY_CINPUT(5), -1, NULL);
+    if (ts == NULL){
+	 line = __LINE__ - 2;
+	 goto fail;
+    }
+
+    if(PyGSL_STRIDE_RECALC(ts->strides[0], sizeof(double), &stride) != GSL_SUCCESS)
+	 goto fail;
+    vts = gsl_vector_view_array_with_stride((double *) ts->data, stride, ts->dimensions[0]);
+
+    DEBUG_MESS(4, "Checking refcounts of objects: ts @ %p refcnt %d",
+	       (void *) ts, PyGSL_SAVE_REFCNT(ts));
+
+
+    /* yout = (PyArrayObject *)  PyGSL_Copy_Array((PyObject * ) y0, PyArray_DOUBLE, 1, 1); */    
+    dims[1] = y0->dimensions[0];
+    dims[0] = ts->dimensions[0];
+    assert(yout == NULL);
+    yout = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
+    if(yout == NULL){
+	 line = __LINE__ - 2;
+	 goto fail;
+    }
+    DEBUG_MESS(4, "Checking refcounts of objects: yout @ %p refcnt %d",
+	       (void *) yout, PyGSL_SAVE_REFCNT(yout));
     if(PyGSL_STRIDE_RECALC(yout->strides[1], sizeof(double), &stride) != GSL_SUCCESS){
 	 line = __LINE__ - 1;
 	 goto fail;
@@ -458,6 +611,40 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 gsl_error("Yout had a stride different to 1!", __FILE__, __LINE__, GSL_ESANITY);
 	 goto fail;
     }
+
+
+    FUNC_MESS("YOUT END");
+
+    FUNC_MESS("   Callback Objects BEGIN");
+    if(!(PyCallable_Check(func_o))){
+      PyErr_SetString(PyExc_TypeError, "The func object must be callable!");
+      goto fail;
+    }
+    if(Py_None == jac_o){
+      sys.jacobian = NULL;
+    }else{
+      if(!(PyCallable_Check(jac_o))){
+	PyErr_SetString(PyExc_TypeError, 
+			"The jacobi object must be callable!");
+	goto fail;
+      }
+    }
+
+    params.py_func = func_o;
+    params.py_jac  = jac_o;
+    params.arguments = myargs;
+    FUNC_MESS("   Callback Objects END");
+
+
+    sys.dimension = dimension;
+    if((flag=setjmp(params.buffer)) == 0){
+	 FUNC_MESS("\t\t Setting Jmp Buffer");
+    } else {
+	 line = __LINE__ - 3;
+	 FUNC_MESS("\t\t Returning from Jmp Buffer");
+	 goto fail;
+    }
+
 
     /* Try to find the integration direction */
     t1 = gsl_vector_get(&vts.vector, 0);
@@ -471,7 +658,6 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     } else {
 	 direction = -1;
     }
-
     for(i = 0; i < ts->dimensions[0]; ++i){
 	 /* The integration direction does not need to be positive! */
 	 if(i == 0){
@@ -484,6 +670,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 }else{
 	      /* Copy the last result to the new position, as the data is modified in place */
 	      /* dimension must correspond to the dimension of the system! */
+	      assert(i>0);
 	      vy  = gsl_vector_view_array((double *)(yout->data + yout->strides[0] *  (i - 1)), yout->dimensions[1]);
 	 }
 	 vy1 = gsl_vector_view_array((double *)(yout->data + yout->strides[0] *  i), yout->dimensions[1]);
@@ -522,17 +709,20 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 }
 	 DEBUG_MESS(3, "nsteps = %d    ", nsteps);
     }/* for(i = 0; i < ts->dimensions[0]; i++)  */
-
-
     assert(yout != NULL);
 
-
     result = Py_BuildValue("(ddO)", t, h, yout);
+    
+    DEBUG_MESS(4, "Checking refcounts of objects: y0 @ %p refcnt %d ts @ %p refcnt %d\
+                   yout @ %p refcnt %d",
+	       (void *) y0,   PyGSL_SAVE_REFCNT(y0), 
+	       (void *) ts,   PyGSL_SAVE_REFCNT(ts), 
+	       (void *) yout, PyGSL_SAVE_REFCNT(yout));    
 
-    /* Deleting the arrays */    
-    Py_DECREF(yout);     yout = NULL;
+    /* Deleting the arrays */
     Py_DECREF(y0);       y0=NULL;
     Py_DECREF(ts);       ts= NULL;
+    Py_DECREF(yout);     yout = NULL;
     /* Dereferencing Functions */
     Py_DECREF(func_o);   func_o=NULL;
     /* Can be NULL */
