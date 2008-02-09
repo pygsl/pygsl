@@ -36,7 +36,7 @@ INSTALL_HEADERS = 1
 # is the more verbose the output gets. Please note that pygsl needs to be
 # completly rebuild if you hcange this parameter
 # No debug information
-DEBUG_LEVEL = 1
+DEBUG_LEVEL = 0
 # dynamic debug information
 #DEBUG_LEVEL = 1
 # Compile time set debug level
