@@ -120,6 +120,7 @@ PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyGSL_transform_s
        long *data=NULL;
        size_t *cp_data=NULL;
        PyArrayObject * a_array = NULL;					    
+       int lineno;
 
        FUNC_MESS_BEGIN();
        assert(PyGSL_transform_space_check(self));
@@ -132,12 +133,19 @@ PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyGSL_transform_s
        case COMPLEX_WAVETABLE_FLOAT:     nf = self->space.cwtf ->nf; cp_data = self->space.cwtf ->factor; break;
        case REAL_WAVETABLE_FLOAT:        nf = self->space.rwtf ->nf; cp_data = self->space.rwtf ->factor; break;
        case HALFCOMPLEX_WAVETABLE_FLOAT: nf = self->space.hcwtf->nf; cp_data = self->space.hcwtf->factor; break;	       
-       default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL; break;
+       default: 
+	    lineno = __LINE__ - 1;
+	    gsl_error("Got unknown switch", filename, lineno, GSL_ESANITY); 
+	    goto fail; 
+	    break;
        }
 
        a_array = (PyArrayObject *) PyGSL_New_Array(1, &nf, PyArray_LONG);
-       if(a_array == NULL)
-	       return NULL;
+       if(a_array == NULL){
+	    lineno = __LINE__ - 1;
+	    goto fail;
+       }
+
        data = (long *) a_array->data;
 
        
@@ -146,6 +154,10 @@ PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyGSL_transform_s
        }
        FUNC_MESS_END();
        return (PyObject *) a_array;
+
+ fail:
+       PyGSL_add_traceback(module, filename, __FUNCTION__, lineno);
+       return NULL;
 
 }
 static const char PyGSL_transform_space_get_factors_doc[] = " Get the factors ...";
