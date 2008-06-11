@@ -48,7 +48,7 @@
 %typemap(check) (const double *, const double *, size_t ) {
      ;
 };
-%typemap(argfree) (const double *, const double *, size_t ) {
+%typemap(freearg) (const double *, const double *, size_t ) {
      Py_XDECREF(_PyVector_1$argnum);
      Py_XDECREF(_PyVector_2$argnum);
 };
@@ -66,7 +66,7 @@
      $2 = (size_t) mysize;
 };
 /* Just to prevent that the check typemap below is applied. */
-%typemap(argfree) (const double *, size_t ) {
+%typemap(freearg) (const double *, size_t ) {
      Py_XDECREF(_PyVector$argnum);
 };
 

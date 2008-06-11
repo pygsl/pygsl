@@ -76,7 +76,7 @@ typedef struct
 %typemap(check) (const double *, const double *, size_t ) {
      ;
 };
-%typemap(argfree) (const double *, const double *, size_t ) {
+%typemap(freearg) (const double *, const double *, size_t ) {
      Py_XDECREF(_PyVector_1$argnum);
      Py_XDECREF(_PyVector_2$argnum);
 };
@@ -94,7 +94,7 @@ typedef struct
      $2 = (size_t) mysize;
 };
 /* Just to prevent that the check typemap below is applied. */
-%typemap(argfree) (const double *, size_t ) {
+%typemap(freearg) (const double *, size_t ) {
      Py_XDECREF(_PyVector$argnum);
 };
 %typemap(arginit) (const double * array) %{
@@ -111,7 +111,7 @@ typedef struct
 	  goto fail;
      $1 = (double *)(_PyVector$argnum->data);
 };
-%typemap(argfree) (const double * array) {
+%typemap(freearg) (const double * array) {
      Py_XDECREF(_PyVector$argnum);
 };
 %typemap(arginit)(gsl_interp * IN) %{
@@ -301,7 +301,7 @@ gsl_interp_free(gsl_interp * interp);
 %typemap(check) (const double x_array[]) {
      ;
 };
-%typemap(argfree) (const double x_array[]) {
+%typemap(freearg) (const double x_array[]) {
      Py_XDECREF(_PyVector$argnum);
 };
 %typemap(check) size_t index{
