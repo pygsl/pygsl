@@ -1,22 +1,21 @@
 #!/usr/bin/env python
 #------------------------------------------------------------------------------
 # Original Author: Julien
-# Author: Piere Schnizer <schnizer@users.sourceforge.net>
+# Author: Pierre Schnizer <schnizer@users.sourceforge.net>
 # Date : August, 2008
 #
-# Illustrates how much time is required if the interpolation matrices
+# Illustrates how much time is required if the interpolation vectors
 # have to be converted all the time.
 #------------------------------------------------------------------------------
 import time
 import pygsl
 # pygsl can be compiled 
 numx = pygsl._numobj
-# The intepolation module. This tries to the arrays directly
+# The intepolation module. This tries to use the data in the vectors directly
 import pygsl.interpolation as intp
 # This module makes an internal copy and stores the data internally
 #import pygsl.spline as intp
 #------------------------------------------------------------------------------
-
 time_ = time.time
 t_initial = time_()
 
@@ -26,10 +25,10 @@ b = numx.arange(10000000,20000000)
 a = a.astype(numx.float_)
 b = b.astype(numx.float_)
 
-c = intp.linear( len(a) )
+c = intp.linear(len(a))
 c.init(a, b)
 
-# Pygsl tries to count if it has to make a type transformation internally
+# pygsl tries to count if it has to make a type transformation internally
 save_cnt = pygsl.init.vector_transform_counter()
 
 t_start = time_()
