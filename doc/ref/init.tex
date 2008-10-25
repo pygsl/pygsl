@@ -32,18 +32,20 @@ input domain error: index i lies outside valid range of 0 .. nx - 1
 
 \section{IEEE-mode}
 \index{ieee-mode!initialisation}
-The IEEE mode is set from the environment variable \envvar{GSL_IEEE_MODE} via \cfunction{gsl_ieee_env_setup()}.
+The IEEE mode is set from the environment variable
+ \envvar{GSL_IEEE_MODE} via \cfunction{gsl_ieee_env_setup()}.
 After the initialisation use \module{pygsl.ieee} for manipulation.
 
 \section{random number generators}
 \index{random number generator!initialisation}
-Also the random number generator can be initialised from the environment variables \envvar{GSL_RNG_TYPE}
+Also the random number generator can be initialised from the environment variables
+ \envvar{GSL_RNG_TYPE}
 and \envvar{GSL_RNG_SEED} using the gsl function \cfunction{gsl_rng_env_setup()}.
 Each random number generators are initialised with \envvar{GSL_RNG_SEED}.
 
 The default generator can be created by:\nopagebreak
 \begin{verbatim}
 import pygsl.rng
-my_rng=gsl_rng()
+my_rng=pygsl.rng.rng()
 print my_rng.name()
 \end{verbatim}

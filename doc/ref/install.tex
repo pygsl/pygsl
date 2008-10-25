@@ -5,7 +5,11 @@ The gsl-library is since version 1.0 stable and for general use.
 More information about it at \url{http://sources.redhat.com/gsl/}.
 
 \paragraph*{Status of this interface}
-Nearly all modules are wrapped. The sum and hankel modules have been
+Nearly all modules are wrapped. A lot of tests are
+covering various functionality. Please report to the mailing list
+\url{pygsl-discuss@lists.sourceforge.net} if you find a bug.
+
+ The sum and hankel modules have been
 wrapped. But noone responded to the request of support (providing an example,
 test the code for proper functioning)
 The code is quite stable now XXX 
@@ -19,20 +23,24 @@ To build the interface, you will need
 \begin{itemize}
 \item \ulink{gsl-1.x}{http://sources.redhat.com/gsl},
 \item \ulink{python2.2}{http://www.python.org} or better,
-\item \ulink{NumPy or numarray}{http://numpy.sf.net}, and
+\item \ulink{NumPy}{http://numpy.sf.net}, and
 \item a c compiler (like \ulink{gcc}{http://gcc.gnu.org}).
 \end{itemize}
 
 Supported Platforms are:
 \begin{itemize}
 \item Linux (Redhat/Debian/SuSE) with python2.* and gsl-1.*
+\item Win32
+\end{itemize}
+It was tested and is tested on an irregular basis on the following platforms
+\begin{itemize}
 \item SUN
 \item Cygwin
-\item Win32
 \item MacOS X
 \end{itemize}
+but is supposed to build on any POSIX platform
 
-\section{Installing GSL interface}
+\section{Installing the pygsl interface}
 
 \program{gsl-config} must be on your path:\nopagebreak
 \begin{verbatim}
@@ -47,20 +55,34 @@ python setup.py install
 \end{verbatim}
 Ready....
 
-{\bf Do not test the interface in the distribution root or in the directories \file{src} or \file{pygsl}.}
+{\bf Do not test the interface in the distribution root or in the directories
+ \file{src} or \file{pygsl}.}
+
+\subsection{Building on win32}
+
+Windows by default does not allow to run a posix shell. Here a different path
+is required. First change into the directory \file{gsl_dist}. Copy the file 
+\file{gsl_site_example.py}
+and edit it to reflect your installation of GSL and SWIG if you want to run it
+yourself. The pygsl windows binaries distributed over 
+\url{http://sourceforge.net/projects/pygsl/} are built using the mingw32 
+compiler. 
 
 \paragraph*{Uninstall GSL interface}
 \code{rm -r }"python install path"\code{/lib/python}"version"\code{/site-packages/pygsl}
 
 \paragraph*{Testing}
-the directory \file{tests} will contains several testsuites, based on python \module{unittest}.
+the directory \file{tests} contains several testsuites, based on python
+\module{unittest}.
 The script \file{run_test.py} in this directory will run one after the other.
 
 \paragraph*{Support}
-Please send mails to our mailinglist at \email{pygsl-discuss@lists.sourceforge.net}.
+Please send mails to our mailinglist at
+\email{pygsl-discuss@lists.sourceforge.net}.
 
 \paragraph*{Developement}
-You can browse our cvs tree at \url{http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/}.
+You can browse our cvs tree at
+\url{http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/}.
 \\
 Type this to check out the actual version:
 \begin{verbatim}
@@ -68,8 +90,10 @@ cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login
 #Hit return for no password.
 cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co pygsl
 \end{verbatim}
-The script \program{tools/extract_tool.py} generates most of the special function code.
+The script \program{tools/extract_tool.py} generates most of the special 
+function code.
 
+%\input{install_advanced.tex}
 \paragraph*{ToDo}
 Implement other parts:
 
@@ -85,19 +109,21 @@ Implement other parts:
 \item \file{gsl-0.3.0} was released at 
 \item \file{gsl-0.3.1} was released at 
 \item \file{gsl-0.3.2} was released at 
+\item \file{gsl-0.9.4} was released at 
 \end{itemize}
 
 \paragraph*{Thanks}
-Jochen K\"upper (\email{jochen@jochen-kuepper.de}) for \module{pygsl.statistics} part\\
-Fabian Jakobs for \module{pygsl.blas}\module{pygsl.eigen}
-\module{pygsl.linalg} \module{pygsl.permutation}\\ 
+Jochen K\"upper (\email{jochen@jochen-kuepper.de}) for 
+\module{pygsl.statistics} part\\
+Fabian Jakobs for \module{pygsl.blas}, \module{pygsl.eigen}
+\module{pygsl.linalg}, \module{pygsl.permutation}\\ 
 Leonardo Milano for rpm build\\
 Eric Gurrola and  Peter Stoltz for testing and supporting the port of pygsl to
 the MAC\\
-Sebastien Maret for supporting the Fink \url{http://fink.sourceforge.net} port of
-pygsl.
+Sebastien Maret for supporting the Fink \url{http://fink.sourceforge.net}
+port of pygsl.
 
 
 \paragraph*{Maintainers}
-Achim G\"adke (\email{AchimGaedke@users.sourceforge.net}),
+Achim G\"adke (\email{AchimGaedke@users.sourceforge.net}),\\
 Pierre Schnizer (\email{schnizer@users.sourceforge.net})

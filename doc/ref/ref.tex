@@ -53,7 +53,7 @@
 }
 \author{
   \ulink{Pierre Schnizer}{mailto:schnizer@users.sourceforge.net}\\
-  Gesellschaft für Schwerionenforschung, Darmstadt, Germany
+  Gesellschaft f\"ur Schwerionenforschung, Darmstadt, Germany
 }
 \else
 %begin{latexonly}
@@ -67,7 +67,7 @@
    \email{jochen@jochen-kuepper.de} \\
    Department of Astronomy, University of Michigan, Ann Arbor, USA \\
    \email{bmaret@users.sourceforge.et} \\
-   Gesellschaft für Schwerionenforschung, Darmstadt, Germany \\
+   Gesellschaft f\"ur Schwerionenforschung, Darmstadt, Germany \\
    \email{schnizer@users.sourceforge.net} \\
 }
 %end{latexonly}
@@ -144,11 +144,17 @@
 \chapter{System Requirements, Installation}
 \label{cha:system-req-installation}
 \input{install}
-
+\input{installadvanced.tex}
+\input{interfacedesign.tex}
 \paragraph*{Acknowledgment}
 \label{sec:acknowledgment}
 Parts of this this manual are based on the \GSL{} reference manual.
+The authors want to thank all for contribution of code,
+support material for generating distribution packages, bug reports
+and example scripts.
 
+
+\input{errors}
 
 \chapter[\protect\module{pygsl.const} --- Mathematical and scientific
 constants]{\protect\module{pygsl.const} \\ Mathematical and scientific
@@ -188,10 +194,7 @@ constants}
 \label{cha:library-initialisation}
 \input{init}
 
-\chapter[\protect\module{pygsl.errors} --- Error and warning classes]
-{\protect\module{pygsl.errors} \\ Error and warning classes} 
-\label{cha:error-module}
-\input{errors}
+
 
 \input{freedoc}
 
