@@ -1,0 +1,71 @@
+/* -*- C -*- */
+#include <assert.h>
+#include <gsl/gsl_blas.h>
+#include <gsl/gsl_multifit.h>
+#if HAVE_INLINE
+#define PyGSL_PREFIX inline
+#else
+#define PyGSL_PREFIX static
+#endif
+
+
+PyGSL_PREFIX int
+_pygsl_bspline_eval_dep(struct pygsl_bspline *self, double x,
+		       double *y)
+{
+	int flag;
+	int lineno = __LINE__;
+	FUNC_MESS_BEGIN();
+
+	flag = gsl_bspline_eval(x, &(self->tmp.vector), self->w);
+	if(flag != GSL_SUCCESS){
+		fprintf(stderr, "vector length %d workspace n coeffs %d\n",
+			self->tmp.vector.size, self->w->n);
+		lineno = __LINE__ -2;
+		goto fail;
+	}
+	flag = gsl_blas_ddot(&(self->coeffs.vector), 
+			     &(self->tmp.vector), y);
+	if(flag != GSL_SUCCESS){
+		lineno = __LINE__ -3;
+		goto fail;
+	}
+	
+	FUNC_MESS_END();
+	return flag;
+  fail:
+	PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, lineno);
+	return flag;
+
+}
+
+PyGSL_PREFIX int
+_pygsl_bspline_eval_dep_yerr(struct pygsl_bspline *self, double x,
+			    double *y, double *yerr)
+{
+	int flag, lineno = __LINE__;
+	FUNC_MESS_BEGIN();
+
+	flag = gsl_bspline_eval(x, &(self->tmp.vector), self->w);
+	if(flag != GSL_SUCCESS){
+		lineno = __LINE__ - 2;
+		goto fail;
+	}
+	
+	/* No covariance matrix */
+	flag = gsl_multifit_linear_est(&(self->tmp.vector),
+				       &(self->coeffs.vector),
+				       &(self->cov.matrix),
+				       y, yerr);
+	if(flag != GSL_SUCCESS){
+		lineno = __LINE__ - 6;
+		goto fail;
+	}
+	FUNC_MESS_END();
+	return flag;
+
+  fail:
+	PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, lineno);
+	return flag;
+
+}
