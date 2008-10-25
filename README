@@ -1,20 +1,20 @@
-
-              PyGSL: Python interface for GNU Scientific Library
+               PyGSL: Python interface for GNU Scientific Library
 
 Status of GSL-Library:
 
-   The gsl-library is since version 1.0 stable and for general use. Read
-   more about it at the [1]GSL homepage.
+   The gsl-library is since version 1.0 stable and for general use. Read more
+   about it at the [1]GSL homepage.
 
 Status of this interface:
 
-   We are collecting implementations of parts of gsl. So the interface is
-   not complete. We are looking forward to contributions of new
-   submodules, while maintaining the awailabel code.
+   We are collecting implementations of parts of gsl. So the interface is not
+   complete. We are looking forward to contributions of new submodules, while
+   maintaining the awailabel code.
 
 Requirements:
 
    To build the interface, you will need
+
      * [2]gsl-1.2 or better,
      * [3]python2.2 or better and
      * [4]NumPy, and
@@ -27,19 +27,19 @@ Retrieving the Interface:
 Installing GSL interface:
 
    Uninstall the old version of pygsl
+
    gsl-config must be on your path
 
    gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
    cd pygsl-x.y.z
    #do this with your prefered python version
-   #to set the gsl location explicitly use setup.py
-   --gsl-prefix=/path/to/gsl
+   #to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl
    #If your are using cvs, remove your build directory.
    python setup.py build
    # Running only
    python setup.py
-   # can result in an error. So if you see an error runing setup.py
-   please run python setup.py build
+   # can result in an error. So if you see an error runing setup.py please
+   run python setup.py build
    # change to a id, that is allowed to do installation
    python setup.py install
 
@@ -47,11 +47,11 @@ Installing GSL interface:
 
 Using pygsl
 
-   Do NOT test the interface in the distribution root directory! --
-   please install it first and then change to the tests directory and
-   execute python run_test.py If you want to execute it in the
-   distribution root directory, please run python setup.py build_ext -i
-   first! It will put the requried binary files into the pygsl directory.
+   Do NOT test the interface in the distribution root directory! -- please
+   install it first and then change to the tests directory and execute python
+   run_test.py If you want to execute it in the distribution root directory,
+   please run python setup.py build_ext -i first! It will put the requried
+   binary files into the pygsl directory.
 
    Just write in python
    import pygsl.sf
@@ -71,54 +71,58 @@ Uninstall GSL interface:
 
 Supported Platforms:
 
-     * Linux (Redhat 8/SuSE) with python2.* and gsl-1.3
-     * Debian stable/testing with python2.3 and gsl-1.4
+     * Linux with python2.* and gsl-1.x
+     * Mac OS X with python2.* and gsl-1.x
+     * Win32 with python2.* and gsl-1.x
+
+   but is supposed to compile and run on any posix platform
 
 Testing:
 
    The directory test will contain several testsuites, based on python
    unittest. Change to this directory to run the tests.
 
-What is implemented (versus gsl1.4):
+What is implemented (versus gsl1.10):
 
-     * Blas
-     * Chebyshev
-     * Combination
-     * Const
-     * Diff
-     * Eigen
-     * Fit
-     * Ieee
-     * Integrate
-     * Interpolation
-     * Linalg
-     * Math
-     * Minimize
-     * Multifit
-     * Multifit_nlin
-     * Multimin
-     * Multiroots
-     * Odeiv
-     * Permutation
-     * Poly
-     * Qrng
-     * Rng
-     * Roots
-     * Siman
-     * Sf
-     * Spline
-     * Statistics
+        * Blas
+        * Chebyshev
+        * Combination
+        * Const
+        * Diff
+        * Eigen
+        * Fit
+        * Ieee
+        * Integrate
+        * Interpolation
+        * Linalg
+        * Math
+        * Minimize
+        * Multifit
+        * Multifit_nlin
+        * Multimin
+        * Multiroots
+        * Odeiv
+        * Permutation
+        * Poly
+        * Qrng
+        * Rng
+        * Roots
+        * Siman
+        * Sf
+        * Spline
+        * Statistics
 
-What is not implemented yet (versus gsl1.4):
+What is not implemented yet (versus gsl1.10):
 
      * GSL Capabilites not yet wrapped by PyGSL
-          + Sorting
-          + N-tuples
+
+          * Sorting
+          * N-tuples
+
      * GSL Capabilites partly implemented
-          + Series Acceleration
-          + Discrete Hankel Transforms
-     * PyGSL related Capabilites
-          + Blas Memory handling
+
+          * Series Acceleration
+          * Discrete Hankel Transforms
 
    See also the [6]TODO file in the distribution.
 
@@ -127,14 +131,14 @@ What is not implemented yet (versus gsl1.4):
    import pygsl.sf
    dir(pygsl.sf)
 
-   You can do this with the other modules, too. The naming scheme is the
-   same as in gsl.
+   You can do this with the other modules, too. The naming scheme is the same
+   as in gsl.
 
 Documentation:
 
-   There will be a small reference, but the function reference can be
-   found in the doc strings and at the gsl-reference. See also the
-   "examples" directory.
+   There will be a small reference, but the function reference can be found
+   in the doc strings and at the gsl-reference. See also the "examples"
+   directory.
 
 Support:
 
@@ -145,14 +149,13 @@ Developement:
    You can browse our [8]cvs tree.
 
    Type this to check out the actual version:
-   cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl
-   login
+   cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login
    Hit return for no password.
-   cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl
-   co pygsl
+   cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co
+   pygsl
 
-   The script tools/extract_tool.py generates most of the special
-   function code.
+   The script tools/extract_tool.py generates most of the special function
+   code.
 
 ToDo:
 
@@ -160,36 +163,38 @@ ToDo:
 
 History:
 
-     * a gsl-interface for python was needed for a project at [9]center
-       for applied informatics cologne.
+     * a gsl-interface for python was needed for a project at [9]center for
+       applied informatics cologne.
      * pygsl-0.0.3 was released at May 23, 2001
      * pygsl-0.0.4 was released at January 8, 2002
      * pygsl-0.1 was released at August 28, 2002
      * pygsl-0.1b was released at May 17, 2003
-     * oygsl-0.3.0 was released at
-     * oygsl-0.3.1 was released at
-     * oygsl-0.3.3 was released at
-     * oygsl-0.9.0 was released at
+     * oygsl-0.3.0 was released
+     * oygsl-0.3.1 was released
+     * oygsl-0.3.3 was released
+     * oygsl-0.9.0 was released
+     * oygsl-0.9.3 was released on 15. June 2008
+     * oygsl-0.9.4 will be released soon
 
 Thanks:
 
      * Fabian Jakobs for blas, linalg and eigen
-     * [10]Jochen Küpper for pygsl.statistics functions
+     * [10]Jochen Kuepper for pygsl.statistics functions
      * Leonardo Milano for rpm build support and test
 
 Maintainers:
 
-   PyGSL is currently maintained by [11]Achim Gaedke and [12]Pierre
-   Schnizer.
+   PyGSL is currently maintained by [11]Achim Gaedke and [12]Pierre Schnizer.
 
 References
 
+   Visible links
    1. http://sources.redhat.com/gsl/
    2. http://sources.redhat.com/gsl
    3. http://www.python.org/
    4. http://numpy.sf.net/
    5. http://pygsl.sourceforge.net/
-   6. file://localhost/home/schnizer/Devel/pygsl/doc/TODO.html
+   6. file:///home2/schnizer/Devel/pygsl/doc/TODO.html
    7. mailto:pygsl-discuss@lists.sourceforge.net
    8. http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/
    9. http://www.zaik.uni-koeln.de/AFS
