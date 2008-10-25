@@ -37,6 +37,9 @@
 
          
     Homepage: http://pygsl.sourceforge.net
+
+Warning: if you want to use setup from the environement you have to call
+pygsl.ieee.env_setup() and pygsl.rng.env_setup() explicitly!
 """
 _init_import_errm ="""
 Did you try to import pygsl in the build directory?
@@ -75,8 +78,12 @@ run_gsl_version = pygsl.init.run_gsl_version
 # The compile date
 compile_date = pygsl.init.compile_date
 
+import _numobj
+import errno
 import _version
 version= _version.version
+
+
 __all__=['blas', 'chebyshev', 'combination', 'const', 'deriv', 'eigen', 'fit',
          'fft', 'histogram','ieee', 'integrate', 'interpolation','linalg',
          'math', 'minimize', 'monte', 'multifit', 'multifit_nlin', 'multimin',
@@ -85,8 +92,6 @@ __all__=['blas', 'chebyshev', 'combination', 'const', 'deriv', 'eigen', 'fit',
 
 
 
-import _numobj
-import errno
 
 get_typecode_numpy = lambda x: x.dtype
 get_typecode_default = lambda x: x.typecode()
