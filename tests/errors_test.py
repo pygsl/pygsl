@@ -3,6 +3,8 @@
 # Date   : 5. October 2003
 
 import unittest
+import pygsl
+#pygsl.init.set_debug_level(10)
 import pygsl.errortest
 import pygsl.errors as errors
 

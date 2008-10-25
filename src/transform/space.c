@@ -97,7 +97,7 @@ PyGSL_transform_space_get_n(PyGSL_transform_space *self)
 	case WAVELET_WORKSPACE:           n = self->space.wws->n;    break;
 #endif
 	default:
-		gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY);
+		pygsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY);
 		return -1;
 	}
 	FUNC_MESS_END();
@@ -135,7 +135,7 @@ PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyGSL_transform_s
        case HALFCOMPLEX_WAVETABLE_FLOAT: nf = self->space.hcwtf->nf; cp_data = self->space.hcwtf->factor; break;	       
        default: 
 	    lineno = __LINE__ - 1;
-	    gsl_error("Got unknown switch", filename, lineno, GSL_ESANITY); 
+	    pygsl_error("Got unknown switch", filename, lineno, GSL_ESANITY); 
 	    goto fail; 
 	    break;
        }
@@ -185,7 +185,7 @@ PyGSL_transform_space_get_type(PyGSL_transform_space *self, PyObject *notused)
 #ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET_WORKSPACE:           p = "WAVELET_WORKSPACE";           break;
 #endif
-	default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL;
+	default: pygsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL;
 	}
 	FUNC_MESS_END();
 	return PyString_FromString(p);
@@ -246,7 +246,7 @@ PyGSL_transform_space_dealloc(PyGSL_transform_space * self)
 #ifdef _PYGSL_GSL_HAS_WAVELET
      case WAVELET_WORKSPACE          : gsl_wavelet_workspace_free(self->space.wws);                 break;
 #endif
-     default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); break;
+     default: pygsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); break;
      }
      self->space.v = NULL;
      FUNC_MESS_END();
@@ -268,7 +268,7 @@ PyGSL_transform_space_init(PyObject *self, PyObject *args, const enum pygsl_tran
 
 
 	if (n<=0) {
-	     gsl_error("dimension must be >0", filename, __LINE__, GSL_EINVAL);
+	     pygsl_error("dimension must be >0", filename, __LINE__, GSL_EINVAL);
 	     return NULL;
 	}
 	o->type = type;
@@ -286,7 +286,7 @@ PyGSL_transform_space_init(PyObject *self, PyObject *args, const enum pygsl_tran
 #ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET_WORKSPACE          : o->space.wws   = gsl_wavelet_workspace_alloc(n);               break;
 #endif
-	default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL; break;
+	default: pygsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL; break;
 	}
 	assert(o->space.v);
 	FUNC_MESS_END();

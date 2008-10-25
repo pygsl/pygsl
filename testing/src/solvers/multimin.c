@@ -114,7 +114,7 @@ PyGSL_multimin_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
      FUNC_MESS_BEGIN();
      assert(PyGSL_solver_check(self));     
      if (self->solver == NULL) {
-	  gsl_error("Got a NULL Pointer of min.f",  filename, __LINE__ - 3, GSL_EFAULT);
+	  pygsl_error("Got a NULL Pointer of min.f",  filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
      }
 
@@ -125,7 +125,7 @@ PyGSL_multimin_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	  return NULL;
 
      if(!PyCallable_Check(func)){
-	  gsl_error("First argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
+	  pygsl_error("First argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
 	  return NULL;	  
      }
      n=self->problem_dimensions[0]; 
@@ -150,7 +150,7 @@ PyGSL_multimin_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	  /* allocate function space */
 	  c_sys=calloc(1, sizeof(gsl_multimin_function));
 	  if (c_sys == NULL) {
-	       gsl_error("Could not allocate the object for the minimizer function", 
+	       pygsl_error("Could not allocate the object for the minimizer function", 
 			 filename, __LINE__ - 3, GSL_ENOMEM);
 	       goto fail;
 	  }
@@ -215,7 +215,7 @@ PyGSL_multimin_set_fdf(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
      FUNC_MESS_BEGIN();
      assert(PyGSL_solver_check(self));     
      if (self->solver == NULL) {
-	  gsl_error("Got a NULL Pointer of min.fdf", filename, __LINE__ - 3, GSL_EFAULT);
+	  pygsl_error("Got a NULL Pointer of min.fdf", filename, __LINE__ - 3, GSL_EFAULT);
 	       return NULL;
 	  }	  
 
@@ -240,7 +240,7 @@ PyGSL_multimin_set_fdf(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	  /* allocate function space */
 	  c_sys=malloc(sizeof(gsl_multimin_function_fdf));
 	  if (c_sys==NULL) {
-	       gsl_error("Could not allocate the object for the minimizer function", 
+	       pygsl_error("Could not allocate the object for the minimizer function", 
 			 filename, __LINE__ - 3, GSL_ENOMEM);
 	       goto fail;
 	  }

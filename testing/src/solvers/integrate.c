@@ -47,7 +47,7 @@ integrate(PyObject *self, PyObject *pyargs)
 	  goto fail;
 
      if(!Py_Callable(callback)){
-	  gsl_error("First argument must be a callable object!", GSL_EINVAL);
+	  pygsl_error("First argument must be a callable object!", GSL_EINVAL);
 	  goto fail;
      }
 

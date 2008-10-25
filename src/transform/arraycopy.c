@@ -54,7 +54,7 @@ PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src, enum pygsl_tr
 		modulo = (i+1)%2;
 
 		if(n_2 >= n_check)
-			GSL_ERROR("Complex array too small!", GSL_ESANITY);
+			PyGSL_ERROR("Complex array too small!", GSL_ESANITY);
 
 		if(mode == MODE_DOUBLE){
 			srcd = (double *) srcv;
@@ -122,14 +122,14 @@ PyGSL_copy_halfcomplex_to_real(PyArrayObject *dst, PyArrayObject *src, double ep
 	}
 	/* Should be zero ... */
 	if(gsl_fcmp(PyGSL_TRANSFORM_MODE_SWITCH(mode, srcd[1], srcf[1]), 0,  eps) != 0)
-		GSL_ERROR("The complex part of the nyquist freqency was not" 
+	        PyGSL_ERROR("The complex part of the nyquist freqency was not" 
 			  "zero as it ought to be!", GSL_EINVAL);
 	*dstd = *srcd;
 
 	for(i = 1; i < n; ++i){
 		n_2 = (i+1)/2;
 		if(n_2 >= n_check){
-			GSL_ERROR("Sizes of the complex array too small!", GSL_ESANITY);
+			PyGSL_ERROR("Sizes of the complex array too small!", GSL_ESANITY);
 		}
 		if(mode == MODE_DOUBLE){
 			srcd = (double *)(src->data + src->strides[0] * n_2);
@@ -166,7 +166,7 @@ PyGSL_copy_array_to_array(PyArrayObject *dst, PyArrayObject *src,  enum pygsl_tr
 	n = dst->dimensions[0];
 	n_check = src->dimensions[0];
 	if(n_check != n){
-		GSL_ERROR("Sizes of the arrays did not match!", GSL_ESANITY);
+		PyGSL_ERROR("Sizes of the arrays did not match!", GSL_ESANITY);
 	}
 	
 	size = PyGSL_TRANSFORM_MODE_SWITCH(mode, sizeof(double), sizeof(float));
@@ -280,7 +280,7 @@ _PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args, enum pygsl_
 		goto fail;
 	n = a->dimensions[0];
 	if(n%2 != 0){
-		gsl_error("The length of the vector must be a multiple of two!",
+		pygsl_error("The length of the vector must be a multiple of two!",
 			  __FILE__, __LINE__, GSL_EDOM);		goto fail;
 	}
 	rn = n / 2 + 1;
@@ -408,7 +408,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 				Py_INCREF(s);
 				ret = (PyArrayObject *) s;
 			} else {
-				gsl_error("The return array must be of approbriate size and type!", 
+				pygsl_error("The return array must be of approbriate size and type!", 
 					  filename, __LINE__, GSL_EINVAL);
 				line = __LINE__ -7;
 				goto fail;
@@ -452,7 +452,7 @@ PyGSL_guess_halfcomplex_length(PyArrayObject *a, int length, double eps,  enum p
 			call_n = n*2-1;
 		}			
 	}else if(length < -1){
-		gsl_error("The given length must be a positive number!",
+		pygsl_error("The given length must be a positive number!",
 			  __FILE__, __LINE__, GSL_EINVAL);
 		return length;
 	}else{
@@ -480,20 +480,20 @@ PyGSL_Check_Array_Length(PyArrayObject *a, int call_n, int datamode, int n_type)
 
 	DEBUG_MESS(3, "Call Length %d, Array Length %d n_type %d", call_n, n_check, n_type);
 	if(call_n > n_check * n_type)
-		GSL_ERROR("Array size was not big enough!", GSL_ESANITY);
+		PyGSL_ERROR("Array size was not big enough!", GSL_ESANITY);
 
 
 	DEBUG_MESS(3, "Check array type %d", a->descr->type_num);
 	switch(datamode){
 	case MODE_DOUBLE:		
 		if(a->descr->type_num != PyArray_CDOUBLE &&  a->descr->type_num != PyArray_DOUBLE)
-			GSL_ERROR("Type not of (C)DOUBLE!", GSL_ESANITY);
+			PyGSL_ERROR("Type not of (C)DOUBLE!", GSL_ESANITY);
 		break;
 	case MODE_FLOAT:
 		if(a->descr->type_num != PyArray_CFLOAT &&  a->descr->type_num != PyArray_FLOAT)
-			GSL_ERROR("Type not of (C)FLOAT!", GSL_ESANITY);
+			PyGSL_ERROR("Type not of (C)FLOAT!", GSL_ESANITY);
 		break;
-		GSL_ERROR("Unknown mode!", GSL_ESANITY);
+		PyGSL_ERROR("Unknown mode!", GSL_ESANITY);
 	}
 	return GSL_SUCCESS;
 }

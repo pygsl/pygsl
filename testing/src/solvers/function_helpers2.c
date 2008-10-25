@@ -190,7 +190,6 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
      Py_XDECREF(arglist);
      Py_XDECREF(a_array);
      Py_XDECREF(object);
-     /* GSL_ERROR("Error in Op_d_On!",  GSL_EBADFUNC); */
      FUNC_MESS("Returning failure !");
      return GSL_FAILURE;
 }

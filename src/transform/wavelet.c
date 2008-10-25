@@ -163,7 +163,7 @@ PyGSL_wavelet_init(PyObject *self, PyObject *args, const gsl_wavelet_type *type)
 	if((o->wavelet = gsl_wavelet_alloc(type, n)) == NULL){
 		line = __LINE__ - 1;
 		/* 
-		 * If the wrong parameter n is given, it will call GSL_ERROR()
+		 * If the wrong parameter n is given, it will call PyGSL_ERROR()
 		 * and return NULL. I hope it does that in case of no memory as
 		 * well. The installed error handler will then call
 		 *	PyErr_NoMemory();

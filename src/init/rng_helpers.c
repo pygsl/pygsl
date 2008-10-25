@@ -13,10 +13,10 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
 
      /* Check that it is from the approbriate type ... */
      if(object == NULL){
-	  gsl_error("I expected a rng instance, but got a NULL pointer!", __FILE__, __LINE__, GSL_ESANITY);
+	  pygsl_error("I expected a rng instance, but got a NULL pointer!", __FILE__, __LINE__, GSL_ESANITY);
      }
      if(!PyGSL_RNG_Check(object)){
-	  gsl_error("I expected a rng instance or an instance from "
+	  pygsl_error("I expected a rng instance or an instance from "
 		    "a derived class",
 		    __FILE__, __LINE__, GSL_EFAULT);
 	  return NULL;
@@ -24,7 +24,7 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object)
      rng = ((PyGSL_rng *) object);
      random = rng->rng;
      if(random == NULL){
-	  gsl_error("I expected a valid rng_pointer, but got a NULL pointer!", __FILE__, __LINE__, GSL_ESANITY);
+	  pygsl_error("I expected a valid rng_pointer, but got a NULL pointer!", __FILE__, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
      FUNC_MESS("End GSL_RNG");

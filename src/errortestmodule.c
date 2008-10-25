@@ -14,16 +14,30 @@ static PyObject *module;
 static PyObject*
 trigger(PyObject *self, PyObject *args)
 {
-     int gsl_errno = GSL_SUCCESS;
-     if (0 == PyArg_ParseTuple(args, "i", &gsl_errno)){
-	  PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__ - 1);
-	  return NULL;
-     }
+	int gsl_errno = GSL_SUCCESS;
 
-     gsl_error ("Just a test to see what pygsl is doing!",
-		__FILE__, __LINE__, gsl_errno);
-     return NULL;
+	FUNC_MESS_BEGIN();
+	if (0 == PyArg_ParseTuple(args, "i", &gsl_errno)){
+		PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__ - 1);
+		return NULL;
+	}
+	/*
+	 *
+	 * 25. October 2008
+	 * set the internal gsl_error_handler to off
+	 * 
+	 */ 
+	pygsl_error("Just a test to see what pygsl is doing!",
+		  __FILE__, __LINE__, gsl_errno);
+	if (PyGSL_ERROR_FLAG(gsl_errno) != GSL_SUCCESS){	
+		FUNC_MESS_FAILED();
+		return NULL;
+	}
+	FUNC_MESS_END();
+	Py_INCREF(Py_None);
+	return (Py_None);
 }
+
 static PyMethodDef errortestMethods[] = {
      /*densities*/
      {"trigger", trigger, METH_VARARGS, trigger_doc},

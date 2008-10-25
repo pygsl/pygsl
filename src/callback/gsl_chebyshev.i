@@ -88,7 +88,7 @@ int gsl_cheb_calc_integ(gsl_cheb_series * integ, const gsl_cheb_series * cs);
 	  size_t i, v_size;
 	  v_size = coef->size;
 	  if(v_size != s->order){
-	       GSL_ERROR("The number of coefficients does not match the specified order.", GSL_EBADLEN);
+	       PyGSL_ERROR("The number of coefficients does not match the specified order.", GSL_EBADLEN);
 	       return GSL_EBADLEN;
 	  }
 	  for (i=0; i<v_size; i++){

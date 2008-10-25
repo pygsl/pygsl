@@ -4,12 +4,12 @@ PyGSL_New_Array(int nd,  PyGSL_array_index_t *dimensions, int type)
 {
      PyGSL_array_index_t tmp[2];
      if (nd > 2){
-	  gsl_error("This function must not be called to create an array with more than two dimensions!",
+	  pygsl_error("This function must not be called to create an array with more than two dimensions!",
 		    filename, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
      if(nd <= 0){
-	  gsl_error("Dimesions must be 1 or 2!",
+	  pygsl_error("Dimesions must be 1 or 2!",
 		    filename, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
@@ -25,7 +25,7 @@ PyGSL_Copy_Array(PyArrayObject *ob, int type)
      int nd;
      nd = ob->nd;
      if(!PyArray_Check((PyObject *) ob)){
-	  gsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
+	  pygsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
      return (PyArrayObject *) PyArray_Copy(ob);
@@ -82,7 +82,7 @@ PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
 	  requires = WRITEABLE;
      } else {
 	  line =  __LINE__;
-	  gsl_error("Either Input of Output or InOut array must be sepecified",
+	  pygsl_error("Either Input of Output or InOut array must be sepecified",
 		    filename, line, GSL_ESANITY);
 	  goto fail;
      }

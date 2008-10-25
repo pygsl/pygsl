@@ -140,12 +140,12 @@ histogram_histogram2d_pdf_init(PyObject *self, PyObject *args, PyObject *kwds)
 	  /* Try to find a number */
 	  if (PyArg_ParseTupleAndKeywords(args, kwds,"ll",kwlist2,&n, &n2)) {
 	       if (n<=0) {
-		    gsl_error ("histogram_pdf length nx must be positive",
+		    pygsl_error ("histogram_pdf length nx must be positive",
 			       filename, __LINE__, GSL_EDOM);
 		    return -1;
 	       }
 	       if (n2<=0) {
-		    gsl_error ("histogram_pdf length ny must be positive",
+		    pygsl_error ("histogram_pdf length ny must be positive",
 			       filename, __LINE__, GSL_EDOM);
 		    return -1;
 	       }
@@ -209,7 +209,7 @@ histogram_histogram_pdf_init(PyObject *self, PyObject *args, PyObject *kwds)
 	  /* Try to find a number */
 	  if (PyArg_ParseTupleAndKeywords(args, kwds,"l",kwlist2,&n)) {
 	       if (n<=0) {
-		    gsl_error ("histogram_pdf length n must be positive",
+		    pygsl_error ("histogram_pdf length n must be positive",
 			       filename, __LINE__, GSL_EDOM);
 		    return -1;
 	       }

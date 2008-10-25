@@ -71,7 +71,7 @@ PyGSL_monte_function_wrap(double *x,  size_t dim, void *params)
      }
      if(i >= PyGSL_SOLVER_N_ARRAYS){
 	  trb_lineno = __LINE__ -1;
-	  gsl_error("Not enough space to cache arrays...", filename, trb_lineno, GSL_ESANITY);
+	  pygsl_error("Not enough space to cache arrays...", filename, trb_lineno, GSL_ESANITY);
 	  goto fail;
      }
      if(a_array == NULL){
@@ -159,7 +159,7 @@ PyGSL_monte_init(PyGSL_solver *self, PyObject *args)
 	  break;
      default:
 	  DEBUG_MESS(2, "Monte type %d unknown",flag);
-	  GSL_ERROR_NULL("Unknown monte type!", GSL_ESANITY);
+	  PyGSL_ERROR_NULL("Unknown monte type!", GSL_ESANITY);
      }
 
      if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
@@ -200,7 +200,7 @@ PyGSL_monte_integrate(PyGSL_solver *self, PyObject *args)
 
      if(!PyCallable_Check(func)){
 	  line = __LINE__ - 1;
-	  gsl_error("The function argument must be callable!", filename, line, GSL_EINVAL);
+	  pygsl_error("The function argument must be callable!", filename, line, GSL_EINVAL);
 	  goto fail;	  
      }
 
@@ -211,7 +211,7 @@ PyGSL_monte_integrate(PyGSL_solver *self, PyObject *args)
 
      if(!PyGSL_RNG_Check(rng_obj)){
 	  line = __LINE__ - 1;
-	  gsl_error("The rng object must be a rng!", filename, line, GSL_EINVAL);
+	  pygsl_error("The rng object must be a rng!", filename, line, GSL_EINVAL);
 	  goto fail;
      }
 
@@ -247,7 +247,7 @@ PyGSL_monte_integrate(PyGSL_solver *self, PyObject *args)
      default:
 	  line = __LINE__ - 5;
 	  DEBUG_MESS(2, "Monte type %d unknown",flag);
-	  gsl_error("Unknown monte type!", filename, line, GSL_ESANITY);
+	  pygsl_error("Unknown monte type!", filename, line, GSL_ESANITY);
 	  goto fail;
      }
 
@@ -382,7 +382,7 @@ PyGSL_gsl_monte_alloc(void * type, int n)
 	  break;
      default:
 	  DEBUG_MESS(2, "Monte type %d unknown",flag);
-	  GSL_ERROR_NULL("Unknown monte type!", GSL_ESANITY);
+	  PyGSL_ERROR_NULL("Unknown monte type!", GSL_ESANITY);
      }
      FUNC_MESS_END();
      return result;

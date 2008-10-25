@@ -29,21 +29,10 @@
    #include <pygsl/error_helpers.h>
 */
 
-static PyObject* gsl_module_error;
 static PyObject* module = NULL; /*used by the backtrace*/
 
 #define IMPORTALL 1
 
-static void 
-invoke_error_handler(char *filename, char *func_name, int errno, int element);
-
-
-static void 
-invoke_error_handler(char *filename, char *func_name, int errno, int element)
-{
-     ;
-     /* DEBUG_MESS(2, "Got error flag of %d for element number %d", errno, element); */
-}
 
 /* I add the evaluate functions types by hand to have an extra check */
 #ifdef IMPORTALL
@@ -166,7 +155,8 @@ DL_EXPORT(void) init_ufuncs(void)
   PyObject* sf_module=NULL, *sf_dict=NULL;
   PyObject* f=NULL, *item=NULL;
 
-  fprintf(stderr, "Module compiled at %s %s\n", __DATE__, __TIME__);
+  FUNC_MESS_BEGIN();
+  DEBUG_MESS(2, "Module compiled at %s %s\n", __DATE__, __TIME__);
   sf_module=Py_InitModule("_ufuncs", sf_array_functions);
   module = sf_module;
 
@@ -231,6 +221,7 @@ DL_EXPORT(void) init_ufuncs(void)
 #include "sf__objects.c"
 #endif
 
+  FUNC_MESS_END();
   return;
 
  fail:

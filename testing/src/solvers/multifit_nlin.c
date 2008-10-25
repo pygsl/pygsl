@@ -45,7 +45,7 @@ PyGSL_multifit_fdfsolver_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
      FUNC_MESS_BEGIN();
      if(self->c_sys == NULL){	  
 	  if((c_sys = calloc(1, sizeof(gsl_multifit_function_fdf))) == NULL){
-	       GSL_ERROR_NULL("Could not allocate the memory for the c_sys", GSL_ENOMEM);
+	       PyGSL_ERROR_NULL("Could not allocate the memory for the c_sys", GSL_ENOMEM);
 	  }	  
 	  c_sys->n=self->problem_dimensions[1];
 	  c_sys->p=self->problem_dimensions[0];

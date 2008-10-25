@@ -163,15 +163,38 @@ static int pygsl_debug_level = 0;
 #endif /*  DEBUG == 1 */
 
 
-
-
+/* #define PyGSL_SET_GSL_ERROR_HANDLER 1 */
+#define _PyGSL_MODULE_ERROR_HANDLER_FUNC \
+    (*(void (*)(const char *, const char *, int, int))PyGSL_API[PyGSL_module_error_handler_NUM])
+#ifdef PyGSL_SET_GSL_ERROR_HANDLER 
 #define PyGSL_SET_ERROR_HANDLER() \
-        gsl_set_error_handler(&(*(void (*)(const char *, const char *, int, int))PyGSL_API[PyGSL_module_error_handler_NUM]))
-        
+        gsl_set_error_handler(_PyGSL_MODULE_ERROR_HANDLER_FUNC)
+#define PyGSL_CHECK_ERROR_HANDLER() \
+    if(PyGSL_SET_ERROR_HANDLER() != _PyGSL_MODULE_ERROR_HANDLER_FUNC){\
+        fprintf(stderr, "Installation of error handler failed! In File %s\n", __FILE__);\
+    }
+#else  /* PyGSL_SET_GSL_ERROR_HANDLER */ 
+#define PyGSL_SET_ERROR_HANDLER() gsl_set_error_handler_off()
+#define PyGSL_CHECK_ERROR_HANDLER() 
+#endif /* PyGSL_SET_GSL_ERROR_HANDLER */
+
+#define pygsl_error(reason, file, line, pygsl_errorno)  \
+     _PyGSL_MODULE_ERROR_HANDLER_FUNC((reason), (file), (line), (pygsl_errorno))
+
+
+#define PyGSL_ERROR_VAL(reason, gsl_errno, value) \
+       do { \
+       pygsl_error((reason), __FILE__, __LINE__, (gsl_errno)) ; \
+       return (value) ; \
+       } while (0)
+
+#define PyGSL_ERROR(reason, gsl_errno)      PyGSL_ERROR_VAL((reason), (gsl_errno), (gsl_errno))
+#define PyGSL_ERROR_NULL(reason, gsl_errno) PyGSL_ERROR_VAL((reason), (gsl_errno), NULL)
+
 #define init_pygsl()\
 { \
    PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
-   unsigned int version; \
+   unsigned int version;\
    if ( \
       (pygsl = PyImport_ImportModule("pygsl.init"))    != NULL && \
       (md = PyModule_GetDict(pygsl))                   != NULL && \
@@ -184,9 +207,7 @@ static int pygsl_debug_level = 0;
             fprintf(stderr, "Compiled for PyGSL_API_VERSION 0x%x but found 0x%x! In File %s\n", PyGSL_API_VERSION, version, __FILE__); \
          } \
          PyGSL_SET_ERROR_HANDLER(); \
-         if((void *) PyGSL_SET_ERROR_HANDLER() != PyGSL_API[PyGSL_module_error_handler_NUM]){\
-            fprintf(stderr, "Installation of error handler failed! In File %s\n", __FILE__); \
-         }\
+         PyGSL_CHECK_ERROR_HANDLER(); \
        if((PyGSL_init_debug()) != GSL_SUCCESS){ \
          fprintf(stderr, "Failed to register debug switch for file %s\n", __FILE__);} \
    } else { \

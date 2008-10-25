@@ -400,7 +400,7 @@ PyGSL_siman_copy_construct(void *new)
 	ret = (pygsl_siman_t *) calloc(1, sizeof(pygsl_siman_t));
 	DEBUG_MESS(2, "New was %p, Constructed a new object at %p", new, (void *) ret);
 	if(ret == NULL){
-		gsl_error("Could not allocate the object for the linked list", 
+		pygsl_error("Could not allocate the object for the linked list", 
 			  filename, __LINE__ - 3, GSL_ENOMEM);
 		goto fail;	
 	}

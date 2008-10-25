@@ -36,8 +36,9 @@ fprintf(stderr,                                                      \
 #define DEBUG_MESS(level, mess,  args...)
 #endif /* DEBUG */
 
-#define FUNC_MESS_BEGIN() FUNC_MESS("BEGIN")
-#define FUNC_MESS_END()   FUNC_MESS("END  ")
+#define FUNC_MESS_BEGIN()  FUNC_MESS("BEGIN ")
+#define FUNC_MESS_END()    FUNC_MESS("END   ")
+#define FUNC_MESS_FAILED() FUNC_MESS("FAILED")
 #ifndef DEBUG
 #define DEBUG 0
 #endif

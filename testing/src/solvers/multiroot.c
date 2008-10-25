@@ -115,7 +115,7 @@ PyGSL_multiroot_fsolver_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
      FUNC_MESS_BEGIN();
      if(self->c_sys == NULL){	  
 	  if((c_sys = calloc(1, sizeof(gsl_multiroot_function))) == NULL){
-	       GSL_ERROR_NULL("Could not allocate the memory for the c_sys", GSL_ENOMEM);
+	       PyGSL_ERROR_NULL("Could not allocate the memory for the c_sys", GSL_ENOMEM);
 	  }	  
 	  c_sys->n =self->problem_dimensions[0];
 	  c_sys->f =PyGSL_multiroot_function_wrap;
@@ -140,7 +140,7 @@ PyGSL_multiroot_fdfsolver_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw
      FUNC_MESS_BEGIN();
      if(self->c_sys == NULL){	  
 	  if((c_sys = calloc(1, sizeof(gsl_multiroot_function_fdf))) == NULL){
-	       GSL_ERROR_NULL("Could not allocate the memory for the c_sys", GSL_ENOMEM);
+	       PyGSL_ERROR_NULL("Could not allocate the memory for the c_sys", GSL_ENOMEM);
 	  }	  
 	  c_sys->n=self->problem_dimensions[0];
 	  c_sys->f  = PyGSL_multiroot_function_wrap;

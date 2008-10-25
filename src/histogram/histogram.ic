@@ -13,7 +13,7 @@ histogram_histogram_alloc(PyObject *self, PyObject *args)
       return NULL;
 
   if (n<=0) {
-    gsl_error ("histogram length n must be positive integer",
+    pygsl_error ("histogram length n must be positive integer",
                filename, __LINE__, GSL_EDOM );
     return NULL;
   }
@@ -169,7 +169,7 @@ histogram_histogram_get(PyObject *self, PyObject *args)
   if (0==PyArg_ParseTuple(args,"l",&n))
       return NULL;
   if (n<0 || n>=histogram->n) {
-    GSL_ERROR_NULL("index lies outside valid range of 0 .. n - 1", GSL_EDOM);
+    PyGSL_ERROR_NULL("index lies outside valid range of 0 .. n - 1", GSL_EDOM);
     return NULL;
   }
   return PyFloat_FromDouble(gsl_histogram_get(histogram,n));
@@ -192,7 +192,7 @@ histogram_histogram_get_range(PyObject *self, PyObject *args)
   if (0==PyArg_ParseTuple(args,"l",&n))
     return NULL;
   if (n<0 || n>=histogram->n) {
-    gsl_error ("index lies outside valid range of 0 .. n - 1",
+    pygsl_error ("index lies outside valid range of 0 .. n - 1",
 	       filename, __LINE__, GSL_EDOM );
     return NULL;
   }
@@ -394,7 +394,7 @@ histogram_histogram_mp_subscript(PyObject *self, PyObject *key)
   if (my_key==NULL) return NULL;
   k=PyInt_AsLong(my_key);
   if (k<0 || k>=histogram->n) {
-    gsl_error ("index lies outside valid range of 0 .. n - 1",
+    pygsl_error ("index lies outside valid range of 0 .. n - 1",
 	       filename, __LINE__, GSL_EDOM );
     return NULL;
   }
@@ -421,7 +421,7 @@ histogram_histogram_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *va
   if (my_key==NULL) return -1;
   k=PyInt_AsLong(my_key);
   if (k<0 || k>=histogram->n) {
-    gsl_error ("index lies outside valid range of 0 .. n - 1",
+    pygsl_error ("index lies outside valid range of 0 .. n - 1",
 	       filename, __LINE__, GSL_EDOM);
     return -1;
   }
@@ -493,7 +493,7 @@ histogram_histogram_init(PyObject *self, PyObject *args, PyObject *kwds)
   if (PyArg_ParseTupleAndKeywords(args, kwds,"l",kwlist2,&n)) {
     gsl_histogram* histogram;
     if (n<=0) {
-      gsl_error ("histogram length n must be positive",
+      pygsl_error ("histogram length n must be positive",
 		 filename, __LINE__, GSL_EDOM);
       return -1;
     }

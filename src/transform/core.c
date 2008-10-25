@@ -20,20 +20,20 @@ PyGSL_transform_helpers_alloc(PyObject *s_o, PyObject *t_o, struct _pygsl_transf
 
 
 	if(h->func == 0)
-		GSL_ERROR("Functions not set!", GSL_EFAULT);
+		PyGSL_ERROR("Functions not set!", GSL_EFAULT);
 	if(n <= 0)
-		GSL_ERROR("n<=0!", GSL_ESANITY);
+		PyGSL_ERROR("n<=0!", GSL_ESANITY);
 
 	DEBUG_MESS(3, "Allocating/Checking space for %d elements", n);
 	if(h->func->space_type != NOSPACE && s_o){
 		if(PyGSL_transform_space_check(s_o) && ((PyGSL_transform_space * )s_o)->type == h->func->space_type){
 			check = PyGSL_transform_space_get_n((PyGSL_transform_space * )s_o);
 			if(check == -1 || check < n)
-				GSL_ERROR("Work Space not big enough!", GSL_EINVAL);
+				PyGSL_ERROR("Work Space not big enough!", GSL_EINVAL);
 			h->space = ((PyGSL_transform_space * )s_o) ->space.v;
 		} else {
 			PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 4);
-			GSL_ERROR("Need a pygsl  transform space of proper type!", GSL_EINVAL);
+			PyGSL_ERROR("Need a pygsl  transform space of proper type!", GSL_EINVAL);
 		}
 	}
 
@@ -41,11 +41,11 @@ PyGSL_transform_helpers_alloc(PyObject *s_o, PyObject *t_o, struct _pygsl_transf
 		if(PyGSL_transform_space_check(t_o) && ((PyGSL_transform_space * )t_o)->type == h->func->table_type){
 			check = PyGSL_transform_space_get_n((PyGSL_transform_space * )s_o);
 			if(check == -1 || check < n)
-				GSL_ERROR("Wave table not big enough!", GSL_EINVAL);
+				PyGSL_ERROR("Wave table not big enough!", GSL_EINVAL);
 			h->table = ((PyGSL_transform_space * )t_o) ->space.v;
 		} else {
 			PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 4);
-			GSL_ERROR("Need a pygsl transform wave table of proper type!", GSL_EINVAL);
+			PyGSL_ERROR("Need a pygsl transform wave table of proper type!", GSL_EINVAL);
 		}
 	}
 	/* Check for the approbriate type and initialise it!*/
@@ -122,7 +122,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	switch(radix2){
 	case WAVELET:
 	     if(!PyGSL_WAVELET_CHECK(self)){
-		  gsl_error("Should be a wavelet method!", filename, line, GSL_ESANITY);
+		  pygsl_error("Should be a wavelet method!", filename, line, GSL_ESANITY);
 		  line = __LINE__ - 1;
 		  goto fail;
 	     }
@@ -130,7 +130,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	     break;
 	default: 
 		line = __LINE__;
-	     gsl_error("Unknown switch!", filename, line, GSL_ESANITY);
+	     pygsl_error("Unknown switch!", filename, line, GSL_ESANITY);
 	     goto fail;
 	}
 	/* Currently only implemented for wavelet 2d transform */
@@ -249,7 +249,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		 *  much in one function 
 		 */
 		if(!PyGSL_WAVELET_CHECK(self)){
-			gsl_error("Should be a wavelet method!", filename, line, GSL_ESANITY);
+			pygsl_error("Should be a wavelet method!", filename, line, GSL_ESANITY);
 			line = __LINE__ - 1;
 			goto fail;
 		}
@@ -287,7 +287,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			break;
 		default:
 			line = __LINE__;
-			gsl_error("Unknown mode!", filename, line, GSL_ESANITY);
+			pygsl_error("Unknown mode!", filename, line, GSL_ESANITY);
 			goto fail;
 		} /* mode */
 		break;
@@ -312,14 +312,14 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			break;
 		default:
 			line = __LINE__;
-			gsl_error("Unknown mode!", filename, line, GSL_ESANITY);
+			pygsl_error("Unknown mode!", filename, line, GSL_ESANITY);
 			goto fail;
 		} /* mode */
 		break;
 	default:
 		line = __LINE__;
 		DEBUG_MESS(3, "Radix2 was %d, wavelet = %d", (int) radix2, (int) WAVELET); 
-		gsl_error("Unknown radix!", filename, line, GSL_ESANITY);
+		pygsl_error("Unknown radix!", filename, line, GSL_ESANITY);
 		goto fail;
 	}/* radix2 */
 	FUNC_MESS("mode");

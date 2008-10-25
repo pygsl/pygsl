@@ -5,24 +5,56 @@
 #include <frameobject.h>
 
 
+enum handleflag {
+     HANDLE_ERROR = 0,
+     HANDLE_WARNING
+};
+
+static int
+PyGSL_internal_error_handler(const char *reason, /* name of function*/
+			     const char *file, /*from CPP*/
+			     int line,   /*from CPP*/
+			     int gsl_error,
+			     enum handleflag flag);
+
 static int  
 PyGSL_error_flag(long flag)
 {
      FUNC_MESS_BEGIN();
-     if(DEBUG > 2){
-	  fprintf(stderr,"I got an Error of %ld\n", flag);
+     if(PyGSL_DEBUG_LEVEL() > 2){
+	  fprintf(stderr,"I got an Error %ld\n", flag);
      }
-     if(PyErr_Occurred())
-	  return GSL_FAILURE;
+     if(PyErr_Occurred()){
+	     DEBUG_MESS(3, "Already a python error registered for flag %ld", flag);
+	     return GSL_FAILURE;
+     }
      if(flag>0){
 	  /* 
-	   * How can I end here without an Python error? All GSL modules are
+	   * How can I end here without an Python error? 
+	   *
+	   * 25. October 2008
+	   * Well, very simply when the GSL_ERROR_HANDLER is set to off. 
+	   *
+	   * All GSL modules are
 	   * supposed to call GSL_ERROR which should call the default error
 	   * handler.
+	   *
+	   * 25. October 2008
+	   * No not when the handler is set to off, which is necessary in 
+	   * a threaded python. That's why it was a bad idea to call the
+	   * gsl_error_handler here!
 	   */
-	  gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__, 
-		    __LINE__, flag);
-	  return GSL_FAILURE;
+	  /*
+	   * gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__, 
+	   *	    __LINE__, flag);
+	  */
+	  PyGSL_internal_error_handler("Unknown Reason. It was not set by GSL",  __FILE__, 
+				       __LINE__, flag, HANDLE_ERROR);
+	  /* 
+	   * So lets keep the flag to return ... who knows what it will be used for...
+	   * return GSL_FAILURE;
+	   */
+	  return flag;
      }
      FUNC_MESS_END();
      return GSL_SUCCESS;
@@ -333,10 +365,6 @@ PyGSL_init_errno(void)
      return 0;
 }
 
-enum handleflag {
-     HANDLE_ERROR = 0,
-     HANDLE_WARNING
-};
 
 
 /*
@@ -367,14 +395,16 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
    * some functions call error handler more than once before returning 
    *  report only the first (most specific) error 
    */
-
+  if (line < 0) line = 0;
   /* test, if exception is already set */
+  DEBUG_MESS(5, "Checking if python error occured, gsl error %d, line %d", gsl_error, line);
   if (PyErr_Occurred()) {
        if(PyGSL_DEBUG_LEVEL() > 0)
 	    fprintf(stderr, "Another error occured: %s\n",error_text);
-    return -1;
+       FUNC_MESS("Already set python error found");
+       return -1;    
   }
-
+  
   /*
    * Find the approbriate error
    */
@@ -400,12 +430,14 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
        gsl_error_object = PyGSL_get_error_object(gsl_error, errno_accel, PyGSL_ERRNO_MAX, error_dict);
        Py_INCREF(gsl_error_object);  
        PyErr_SetObject(gsl_error_object, PyString_FromString(error_text)); 
+       FUNC_MESS("Set Python error object");
        return -1;
        break;
   case HANDLE_WARNING:
        assert(gsl_error > 0);
        gsl_error_object = PyGSL_get_error_object(gsl_error, NULL, 0, warning_dict);
        Py_INCREF(gsl_error_object);  
+       FUNC_MESS("Returning python warning");
        return PyErr_Warn(gsl_error_object, error_text); 
        break;
   default:

@@ -148,7 +148,6 @@ struct pygsl_bspline
 
     PyArrayObject *coeffs_a = NULL, *cov_a = NULL;
     PyGSL_array_index_t size;
-    int flag = GSL_FAILURE;
 
 
     FUNC_MESS_BEGIN();
@@ -211,7 +210,7 @@ struct pygsl_bspline
   gsl_error_flag_drop eval_dep(const double x, double *OUT){
     int flag;     
     if(self->coeffs_a == NULL || self->tmp_a == NULL){
-      GSL_ERROR("No coefficients set", GSL_EFAULT);
+      PyGSL_ERROR("No coefficients set", GSL_EFAULT);
     }
 
     flag = _pygsl_bspline_eval_dep(self, x, OUT);
@@ -225,7 +224,7 @@ struct pygsl_bspline
     int flag;
     
     if(self->coeffs_a == NULL || self->tmp_a == NULL){
-      GSL_ERROR_NULL("No coefficients set", GSL_EFAULT);
+      PyGSL_ERROR_NULL("No coefficients set", GSL_EFAULT);
     }    
     size = X->size;    
     a = PyGSL_New_Array(1, &size, PyArray_DOUBLE);      
@@ -248,7 +247,7 @@ struct pygsl_bspline
   gsl_error_flag_drop eval_dep_yerr(const double x, double *OUT, double *OUT2){
     int flag;     
     if(self->coeffs_a == NULL || self->tmp_a == NULL || self->cov_a == NULL){
-      GSL_ERROR_NULL("No coefficients or No covarince matrix set",
+      PyGSL_ERROR("No coefficients or No covarince matrix set",
 		     GSL_EFAULT);
     }
     flag = _pygsl_bspline_eval_dep_yerr(self, x, OUT, OUT2);
@@ -263,7 +262,7 @@ struct pygsl_bspline
 
     FUNC_MESS_BEGIN();
     if(self->coeffs_a == NULL || self->tmp_a == NULL || self->cov_a == NULL){
-      GSL_ERROR_NULL("No coefficients of No covarince matrix set",
+      PyGSL_ERROR_NULL("No coefficients of No covarince matrix set",
 		GSL_EFAULT);
     }
     size = X->size;

@@ -5,7 +5,10 @@
 #include <gsl/gsl_errno.h>
 #include <pygsl/errorno.h>
 
-
+#undef GSL_ERROR
+#undef GSL_ERROR_VAL
+#undef GSL_ERROR_NULL
+#define gsl_error()
 /*
  * handle gsl error flags.
  *

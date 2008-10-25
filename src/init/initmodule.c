@@ -74,7 +74,7 @@ PyGSL_register_debug_flag(int * ptr, const char * module_name)
      FUNC_MESS_END();
      return GSL_SUCCESS;
 #endif
-     GSL_ERROR("Why does it try to register the debug level callback? Should"
+     PyGSL_ERROR("Why does it try to register the debug level callback? Should"
 	       " use the compile time value DEBUG!", GSL_ESANITY);
 }
 
@@ -91,7 +91,7 @@ PyGSL_set_debug_level(PyObject *self, PyObject *args)
      if(tmp >= 0 && tmp <PyGSL_DEBUG_MAX)
 	  ;
      else
-	  GSL_ERROR_VAL("Only accept debug levels between 0 and PyGSL_DEBUG_MAX", GSL_EINVAL, NULL);
+	  PyGSL_ERROR_VAL("Only accept debug levels between 0 and PyGSL_DEBUG_MAX", GSL_EINVAL, NULL);
 
      pygsl_debug_level = tmp;
      max = PySequence_Size(debuglist);
@@ -110,7 +110,7 @@ PyGSL_set_debug_level(PyObject *self, PyObject *args)
      FUNC_MESS_END();
      return Py_None;
 #else 
-     GSL_ERROR_NULL("PyGSL was not compiled with DEBUG = 1; Can not set DEBUG level!", GSL_EUNIMPL);
+     PyGSL_ERROR_NULL("PyGSL was not compiled with DEBUG = 1; Can not set DEBUG level!", GSL_EUNIMPL);
 #endif 
 }
 
@@ -128,7 +128,6 @@ PyGSL_get_debug_level(PyObject *self, PyObject *args)
 
 static void * _PyGSL_API[PyGSL_NENTRIES_NUM];
 
-
 static PyMethodDef initMethods[] = {
      {"get_debug_level", PyGSL_get_debug_level, METH_NOARGS, NULL},
      {"set_debug_level", PyGSL_set_debug_level, METH_VARARGS, NULL},
@@ -140,8 +139,6 @@ static PyMethodDef initMethods[] = {
      {"register_warnings",         PyGSL_register_warnings,            METH_VARARGS,NULL},
      {NULL,     NULL, 0, NULL}        /* Sentinel */
 };
-
-
 
 
 static void

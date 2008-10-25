@@ -22,7 +22,7 @@ PyGSL_solver_set_called(PyGSL_solver *self)
      if(self->set_called == 1)
 	  return GSL_SUCCESS;
      DEBUG_MESS(2, "self->set_called was %d", self->set_called);
-     gsl_error("The set() method must be called before using the other methods!",
+     pygsl_error("The set() method must be called before using the other methods!",
 	       filename, __LINE__, GSL_EINVAL);
      FUNC_MESS_END();
      return GSL_EINVAL;
@@ -36,7 +36,7 @@ PyGSL_solver_restart(PyGSL_solver *self, PyObject *args)
 	  return NULL;
 
      if(self->mstatic->cmethods.restart == NULL)
-	  GSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
+	  PyGSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
      self->mstatic->cmethods.restart(self->solver);
      Py_INCREF(Py_None);
      FUNC_MESS_END();
@@ -50,7 +50,7 @@ PyGSL_solver_name(PyGSL_solver *self, PyObject *args)
      const char * ctmp;
      FUNC_MESS_BEGIN();
      if(self->mstatic->cmethods.name == NULL)
-	  GSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
+	  PyGSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
      ctmp = self->mstatic->cmethods.name(self->solver);
      tmp =  PyString_FromString(ctmp);
      FUNC_MESS_END();
@@ -66,7 +66,7 @@ PyGSL_solver_iterate(PyGSL_solver *self, PyObject *args)
 	  return NULL;
 
      if(self->mstatic->cmethods.iterate == NULL)
-	  GSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
+	  PyGSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
 
      assert(self->mstatic->cmethods.iterate);
      assert(self->solver);
@@ -228,7 +228,7 @@ _PyGSL_solver_init(const struct _SolverStatic *mstatic)
      FUNC_MESS_BEGIN();     
      if(mstatic->n_cbs > PyGSL_SOLVER_NCBS_MAX){
 	  line = __LINE__ - 1;
-	  gsl_error("More callbacks requested than possible!", __FILE__,
+	  pygsl_error("More callbacks requested than possible!", __FILE__,
 		    line, GSL_ESANITY);
 	  goto fail;
      }
@@ -289,7 +289,7 @@ PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct *
 	  flag = 1; break;
      default:
 	  line = __LINE__;
-	  gsl_error("Only 1 or two for number of problem_dimensions implemented!",
+	  pygsl_error("Only 1 or two for number of problem_dimensions implemented!",
 		    __FILE__, line, GSL_ESANITY);
 	  goto fail;
      }
@@ -325,7 +325,7 @@ PyGSL_solver_dn_init(PyObject *self, PyObject *args, const solver_alloc_struct *
 	       /* odeiv handles that itself */
 	       break;
 	  default:
-	       gsl_error("Only 0,1 or 2 for number of problem_dimensions implemented!",
+	       pygsl_error("Only 0,1 or 2 for number of problem_dimensions implemented!",
 			 __FILE__, __LINE__, GSL_ESANITY);
 	       goto fail;
 	  }
@@ -489,7 +489,7 @@ PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      FUNC_MESS_BEGIN();
      assert(PyGSL_solver_check(self));     
      if (self->solver == NULL) {
-	  gsl_error("Got a NULL Pointer of min.f",  filename, __LINE__ - 3, GSL_EFAULT);
+	  pygsl_error("Got a NULL Pointer of min.f",  filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
      }
 
@@ -507,16 +507,16 @@ PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      }
 
      if(!PyCallable_Check(f)){
-	  gsl_error("First argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
+	  pygsl_error("First argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
 	  return NULL;	  
      }
      if(isfdf == 1){
 	  if(!PyCallable_Check(df)){
-	       gsl_error("Second argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
+	       pygsl_error("Second argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
 	       return NULL;	  
 	  }
 	  if(!PyCallable_Check(fdf)){
-	       gsl_error("Third argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
+	       pygsl_error("Third argument must be callable",  filename, __LINE__ - 3, GSL_EBADFUNC);
 	       return NULL;	  
 	  }
      }
@@ -530,7 +530,7 @@ PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
 	  else
 	       c_sys=calloc(1, sizeof(gsl_function_fdf));
 	  if (c_sys == NULL) {
-	       gsl_error("Could not allocate the object for the minimizer function", 
+	       pygsl_error("Could not allocate the object for the minimizer function", 
 			 filename, __LINE__ - 3, GSL_ENOMEM);
 	       goto fail;
 	  }
@@ -608,7 +608,7 @@ PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      FUNC_MESS_BEGIN();
      assert(PyGSL_solver_check(self));     
      if (self->solver == NULL) {
-	  gsl_error("solver ==  NULL at solver_n_set", filename, __LINE__ - 3, GSL_EFAULT);
+	  pygsl_error("solver ==  NULL at solver_n_set", filename, __LINE__ - 3, GSL_EFAULT);
 	  return NULL;
      }	  
 
@@ -718,7 +718,7 @@ PyGSL_solver_ret_vec(PyGSL_solver *self, PyObject *args,
      assert(PyGSL_solver_check(self));     
      result=func(self->solver);
      if(result == NULL)
-	  GSL_ERROR_NULL("Could not retrive vector ...", GSL_ESANITY);
+	  PyGSL_ERROR_NULL("Could not retrive vector ...", GSL_ESANITY);
      FUNC_MESS_END();
      return (PyObject *) PyGSL_copy_gslvector_to_pyarray(result);
 } 
@@ -803,7 +803,7 @@ PyGSL_Callable_Check(PyObject *f, const char * myname)
      if(!PyCallable_Check(f)){
 	  char str[256];
 	  snprintf(str, 254, "Callback named %s is not callable!", myname);
-	  GSL_ERROR(str, GSL_EINVAL);
+	  PyGSL_ERROR(str, GSL_EINVAL);
      }
      FUNC_MESS_END();
      return GSL_SUCCESS;
@@ -816,7 +816,7 @@ PyGSL_solver_func_set(PyGSL_solver *self, PyObject *args, PyObject *f,
      int flag = GSL_EFAILED;
      if(df){
 	  if(!fdf)
-	       GSL_ERROR("If df is given, fdf must be given as well!", GSL_ESANITY);
+	       PyGSL_ERROR("If df is given, fdf must be given as well!", GSL_ESANITY);
 	  Py_XDECREF(self->cbs[1]);
 	  Py_XDECREF(self->cbs[2]);
 	  self->cbs[1] = NULL;	  
@@ -870,7 +870,7 @@ PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_G
 	       *((size_t *) address) = ultmp;
 	       break;
 	  default:
-	       GSL_ERROR_NULL("Unknown mode",GSL_ESANITY);
+	       PyGSL_ERROR_NULL("Unknown mode",GSL_ESANITY);
 	  }
 	  if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
 	       return NULL;
@@ -891,7 +891,7 @@ PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_G
 	  ret = PyLong_FromUnsignedLong(((unsigned long) *((size_t *) address)));
 	  break;
      default:
-	  GSL_ERROR_NULL("Unknown mode",GSL_ESANITY);
+	  PyGSL_ERROR_NULL("Unknown mode",GSL_ESANITY);
      }
      return ret;
 }

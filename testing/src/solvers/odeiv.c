@@ -123,7 +123,7 @@ PyGSL_odeiv_func(double t, const double y[], double f[], void *params)
     if(!PyGSL_ODEIV_STEP_Check(step)){
 	  PyGSL_add_traceback(module, this_file, __FUNCTION__, 
 			      __LINE__ - 2);
-	  gsl_error("Param not a step type!", 
+	  pygsl_error("Param not a step type!", 
 		    this_file, __LINE__ -2, GSL_EFAULT);
 	  goto fail;
     }
@@ -194,7 +194,7 @@ PyGSL_odeiv_jac(double t, const double y[], double *dfdy, double dfdt[],
     if(!PyGSL_ODEIV_STEP_Check(step)){
 	  PyGSL_add_traceback(module, this_file, __FUNCTION__, 
 			      __LINE__ - 2);
-	  gsl_error("Param not a step type!", 
+	  pygsl_error("Param not a step type!", 
 		    this_file, __LINE__ -2, GSL_EFAULT);
 	  goto fail;
     }
@@ -537,13 +537,13 @@ PyGSL_odeiv_step_init(PyObject *self, PyObject *args, PyObject *kwdict, const gs
      }     
      if (dim <= 0){	  
 	  PyGSL_add_traceback(module, this_file, odeiv_step_init_err_msg, __LINE__ - 1);
-	  gsl_error("The dimension of the problem must be at least 1", 
+	  pygsl_error("The dimension of the problem must be at least 1", 
 		    this_file, __LINE__ -2, GSL_EDOM);
 	  return NULL;
      }
      if(!PyCallable_Check(func)){
 	  PyGSL_add_traceback(module, this_file, odeiv_step_init_err_msg, __LINE__ - 1);
-	  gsl_error("The function object is not callable!", 
+	  pygsl_error("The function object is not callable!", 
 		    this_file, __LINE__ -2, GSL_EBADFUNC);
 	  goto fail;	  
      }
@@ -551,14 +551,14 @@ PyGSL_odeiv_step_init(PyObject *self, PyObject *args, PyObject *kwdict, const gs
      if(jac == Py_None){
 	  if(odeiv_type == gsl_odeiv_step_bsimp){
 	       PyGSL_add_traceback(module, this_file, odeiv_step_init_err_msg, __LINE__ - 1);
-	       gsl_error("The bsimp method needs a jacobian! You supplied None.", 
+	       pygsl_error("The bsimp method needs a jacobian! You supplied None.", 
 			 this_file, __LINE__ -2, GSL_EBADFUNC);
 	       goto fail;
 	  }
      }else{
 	  if(!PyCallable_Check(jac)){
 	       PyGSL_add_traceback(module, this_file, odeiv_step_init_err_msg, __LINE__ - 1);
-	       gsl_error("The jacobian object must be None or callable!", 
+	       pygsl_error("The jacobian object must be None or callable!", 
 			 this_file, __LINE__ -2, GSL_EBADFUNC);
 	       goto fail;
 	  }
@@ -662,7 +662,7 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
      }else{
 	  PyGSL_add_traceback(module, this_file, odeiv_step_init_err_msg, 
 			      __LINE__ - 2);
-	  gsl_error("Unknown control type", 
+	  pygsl_error("Unknown control type", 
 		    this_file, __LINE__ -2, GSL_EFAULT);
 	  goto fail;
      }
@@ -680,7 +680,7 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
 	  break;
      default:
 	  fprintf(stderr, "nargs = %d\n", nargs);
-	  gsl_error("Unknown number of arguments", 
+	  pygsl_error("Unknown number of arguments", 
 		    this_file, __LINE__ -2, GSL_EFAULT);
 	  goto fail; break;
      }
@@ -691,7 +691,7 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
 	  if(flag){
 	       DEBUG_MESS(3, "solver = %s, %p !=  %p", step->mstatic->type_name, step->mstatic->type_name, 
 			  odeiv_step_type_name);
-	       gsl_error("First argument must be a step solver!", __FILE__, __LINE__, GSL_EINVAL);
+	       pygsl_error("First argument must be a step solver!", __FILE__, __LINE__, GSL_EINVAL);
 	  }     
 	  goto fail;
      }
@@ -770,12 +770,12 @@ PyGSL_odeiv_evolve_init(PyObject *self, PyObject *args)
 	  return NULL;
      }
      if(!PyGSL_ODEIV_STEP_Check(step)){
-	  gsl_error("First argument must be a step solver!", __FILE__, __LINE__, GSL_EINVAL);
+	  pygsl_error("First argument must be a step solver!", __FILE__, __LINE__, GSL_EINVAL);
 	  goto fail;
      }
 
      if(!PyGSL_ODEIV_CONTROL_Check(control)){
-	  gsl_error("Second argument must be a control solver!", __FILE__, __LINE__, GSL_EINVAL);
+	  pygsl_error("Second argument must be a control solver!", __FILE__, __LINE__, GSL_EINVAL);
 	  goto fail;
      }
 

@@ -3,7 +3,7 @@ static PyArrayObject *
 PyGSL_New_Array(int nd,  PyGSL_array_index_t *dimensions, int type)
 {
      return (PyArrayObject *) PyArray_FromDims(nd, dimensions, type);
-     gsl_error("This function should not be called as a macro calls the"
+     pygsl_error("This function should not be called as a macro calls the"
 	       " approbriate numpy function",
 	       filename, __LINE__, GSL_ESANITY);
      return NULL;
@@ -13,7 +13,7 @@ static PyArrayObject *
 PyGSL_Copy_Array(PyArrayObject *ob, int type)
 {
      if(!PyArray_Check((PyObject *) ob)){
-	  gsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
+	  pygsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
      return (PyArrayObject *) PyArray_Copy(ob);
