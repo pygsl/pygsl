@@ -1,0 +1,76 @@
+\chapter{Design of the \pygsl{} interface}
+
+The GSL library was implemented using the C language. This implies that 
+each function uses a certain type for the different variables and are fixed
+ to one specific type. The wrapper will try to convert each argument to the approbriate
+C type. 
+The \pygsl{} interface
+tries to follow it as much as possible but only as far as resonable. 
+For example the definition of the poly_eval function in C is given by
+\begin{funcdesc}{\texttt{double} gsl_poly_eval}
+                {\texttt{const double} C[], \texttt{const int} LEN, \texttt{const double} X}
+\end{funcdesc}
+
+The corresponding python wrapper was implemented by
+\begin{funcdesc}{poly.poly_eval}{C, x}
+\end{funcdesc}
+as the wrapper can get the length of any python object and then fill the len variable. 
+The mathematical calculation is performed by the GSL library. Thus the calculation is limited 
+to the precision provided by the underlying hardware.
+
+Default arguments are used to allocate workspaces on the fly if not provided by the user. 
+Consider for example the fft module. The function for the real forward transform is
+named 
+
+\begin{funcdesc}{\texttt{int} gsl_fft_real_transform}
+{\texttt{double DATA[]}, 
+ \texttt{size_t STRIDE},
+ \texttt{size_t N}, 
+ \texttt{const gsl_fft_real_wavetable * WAVETABLE},
+ \texttt{gsl_fft_real_workspace * WORK}
+}
+\end{funcdesc}
+
+The corresponding python wrapper is found in the fft module called
+real_transform
+\begin{funcdesc}{real_transform}
+{data, \optional{space, 
+    table, 
+    output}}
+\end{funcdesc}
+The wrapper will get the stride and size information from the data object provided
+by the user. If space or table are not provided, these objects will be generated on 
+the fly. As the GSL function applies the transformation in space, an internal copy is 
+made of the data and only then the object is passed to the \gsl{} function. If an output
+object is provided the data will be copied there instead. \pygsl{} will always make copies
+of objects which would be otherwise modified in place.
+
+\section{Callbacks}
+
+Solvers require as one argument a user function to work on which have to be provided by the
+user. These callbacks typically are of the form
+\begin{funcdesc}{f}{x, params}
+  \dots\\
+  return result
+\end{funcdesc}
+Please note that this function must return the exact number of arguments
+as given in the example. The wrappers around callbacks go a long way to try to provide
+meaningfull error messages. If a solver fails, please check that the number of input and 
+output arguments it takes are correct
+
+\section{Error handling}
+As GSL is a C library error handling is implemented using an error handler and return values.
+\pygsl{} generates python exceptions out of these values. See \module{pygsl.errors} 
+(chapter~\ref{cha:error-module}) for a list of the exceptions.
+
+\section{The documentation gap}
+
+\pygsl{} does still lack an approbriate documentation. Most documentation is accessible over
+the internal documentation strings. These are accessible as \code{__doc__} attributes (the help
+function does not always show them).  It can be sometimes necessary to create an 
+object to see its methods as well as the documentation of the methods
+ (e.g.a random number generator in the rng module to see its methods). 
+The \file{example} directory contains examples for (nearly each) module.
+
+Please feel welcome to add to the documentation!
+
