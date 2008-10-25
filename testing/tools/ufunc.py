@@ -369,7 +369,45 @@ class PyUFunc:
                    '\\twhich is argument %d of the C argument list\\n"\n')
             extrainfo += tmp % (additional, argnumber - 2, argnumber, c_argnumber + 1)
         return extrainfo
+
     
+    def WriteUFuncLatexDoc(self):
+        """
+        Write information for the pygsl reference document.
+        """
+        inargs = 0
+        outargs = 0
+        extrainfo = ""
+        intypes = ""
+        outtypes = ""
+        for n in range(len(self.in_args)):
+            i = self.in_args[n]
+            inargs += i.GetNumberInArgs()
+            intypes += i.GetTypeLetter(0)
+            extrainfo += self.__WriteExtraInfo(i, inargs, n)
+        if not self.return_is_error_flag:
+            outargs += 1
+            outtypes += i.GetTypeLetter(0)
+        else:
+            extrainfo += '"The error flag is discarded.\\n"\n'
+        for n in range(len(self.out_args)):
+            i = self.out_args[n]
+            outargs += i.GetNumberOutArgs()
+            outtypes += i.GetTypeLetter(0)
+            extrainfo += self.__WriteExtraInfo(i, outargs, len(self.in_args) + n, "Return")
+
+        if extrainfo:
+            extrainfo = '"\n"\\n\\n"\n' + extrainfo + '"'
+
+        name = self.GetPyUFuncEvaluatorOne() + "_doc"
+
+        ret ="""
+\begin{funcdesc}{%s}{%s}
+"    returns %2d variables :  %s %s\\n";
+\end{funcdesc}        
+"""  % (name, intypes, outargs, outtypes, extrainfo)
+        return ret
+
     def WriteUFuncObjectDoc(self):
         """
         Generate __doc__ string for the ufunc object.
@@ -407,7 +445,7 @@ static  char * %s =
 "    %2d output args :  %s %s\\n";
 """  % (name, inargs, intypes, outargs, outtypes, extrainfo)
         return ret
-    
+        
     def WriteUFuncObjectHelpers(self):
         """
         Generate the static information required to set up a UFunc.

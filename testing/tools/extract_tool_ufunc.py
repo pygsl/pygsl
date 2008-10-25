@@ -94,10 +94,10 @@ class prototype_collector:
                 print "No index entry for", p.get_name()
                     
         index_file.close()
-        names = ufunc_names_dic.keys()
-        names.sort()
 
         # List which evaluator handles which functions
+        names = ufunc_names_dic.keys()
+        names.sort()
         for i in names:
             ufuncs_list.write(i + ": ");
             l = map(lambda x: x.GetName(), ufunc_names_dic[i])
@@ -120,7 +120,21 @@ class prototype_collector:
         objects_file.close()
         evaluators.close()
         data_file.close()
-
+        
+        documentation_file = file(filename + "_doc.tex", "w")
+        all_functions = {}
+        for i in names:
+            l = ufunc_names_dic[i]
+            for uf in l:
+                all_functions[uf.GetName()] = uf
+        keys = all_functions.keys()
+        keys.sort()
+        for key in keys:
+            uf = all_functions[key]
+            doc = uf.WriteUFuncLatexDoc()
+            documentation_file.write(doc)
+        documentation_file.close()
+        
     def get_prototypes(self, *patterns):
         """
         Get the function prototypes from the files
