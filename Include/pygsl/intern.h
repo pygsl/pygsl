@@ -37,8 +37,11 @@ static void **PyGSL_API;
 
 
 
-
-
+/*
+ * The version of the API. Allows to check if the used 
+ * API is correct.
+ */
+#define PyGSL_API_VERSION                     0x01
 /* Functions found in the file <pygsl/error_helpers.h> */
 #define PyGSL_api_version_NUM                           0
 #define PyGSL_error_flag_NUM                            1
@@ -168,6 +171,7 @@ static int pygsl_debug_level = 0;
 #define init_pygsl()\
 { \
    PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
+   unsigned int version; \
    if ( \
       (pygsl = PyImport_ImportModule("pygsl.init"))    != NULL && \
       (md = PyModule_GetDict(pygsl))                   != NULL && \
@@ -175,6 +179,10 @@ static int pygsl_debug_level = 0;
       (PyCObject_Check(c_api))                                    \
      ) { \
 	 PyGSL_API = (void **)PyCObject_AsVoidPtr(c_api); \
+         version = (unsigned int) PyGSL_API[PyGSL_api_version_NUM]; \
+         if (PyGSL_API_VERSION != version ){ \
+            fprintf(stderr, "Compiled for PyGSL_API_VERSION 0x%x but found 0x%x! In File %s\n", PyGSL_API_VERSION, version, __FILE__); \
+         } \
          PyGSL_SET_ERROR_HANDLER(); \
          if((void *) PyGSL_SET_ERROR_HANDLER() != PyGSL_API[PyGSL_module_error_handler_NUM]){\
             fprintf(stderr, "Installation of error handler failed! In File %s\n", __FILE__); \
