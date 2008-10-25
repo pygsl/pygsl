@@ -1,3 +1,39 @@
+2008-10-25    Pierre Schnizer <schnizer@sourceforge.net>
+	* Changed the default error handling within PyGSL
+	  Before I installed a gsl_error handler. This handler would then 
+	  translate the error numbers to python exceptions. Now this handler
+	  is switched off, as the above approach requires the GIL, which
+	  numpy's ufunc dispose. 
+	  Now the error object is set up by the called function before giving
+	  control back to python. Unfortunately the description is lost this
+	  way.
+	  From now on all C code within pygsl must us pygsl_error and PyGSL_ERROR
+	  and associated to get the translater function called.
+	  
+	
+2008-06-11   Pierre Schnizer <schnizer@sourceforge.net>
+	* Fixed memory leak in spline / interpolation due to freearg wrongly
+	named argfree!
+	
+2008-02-18   Pierre Schnizer <schnizer@sourceforge.net>
+	* Found out that I should consider Changelog more seriously
+	* Changes according to my (lossy) mind
+	   -- Fixed memory leak in rng
+	   -- Moved odeiv.apply to odeiv.apply_vector
+	   -- Readded Function (odeiv.apply)
+	   -- Fixed memory leak in odeiv.apply_vector	  
+	* Added support for numpy. On this way I found out, (as required
+	  for 64bit architectures)
+	   - converted all code to use pygsl_array_index_t 
+	     (see Include/pygsl/block_helpers.h)
+	  -  added internal methods PyGSL_vector_check and PyGSL_array_check.
+	     These can now also handle arrays which have a non native stride.
+	     In this case they will make a contiguous copy
+	* Added testing.sf and testing.complex module. This now exports the 
+	  relevant functions. These all are implemented as Numeric or numpy 
+	  ufuncs. 
+	* What did I do the last years? I do not remember ....
+	
 2005-06-01  Pierre Schnizer <schnizer@sourceforge.net>
 	* Fixed an off by one error in the siman module
 	
