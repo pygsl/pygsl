@@ -22,13 +22,21 @@ recursive-include testing/src *.c
 recursive-include testing/src *.h
 recursive-include testing/src *.ic
 recursive-include testing *.py
-include gsl_Extension.py
+
+#include gsl_Extension.py
 include gsl_numobj.py
-include swig_extension.py
+#include swig_extension.py
 include gsl_site_example.py
 
-#recursive-include doc *.tex
-#recursive-include doc *.html
+recursive-include doc *.tex
+include doc/Makefile
+include doc/
+include doc/README
+include doc/README-RPM
+include doc/README.html
+include doc/README-Distributors.html
+
+recursive-include doc *.html
 
 include README
 include CREDITS
