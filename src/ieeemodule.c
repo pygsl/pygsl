@@ -63,37 +63,35 @@ static void define_const_ints(PyObject* module)
  * method definitions
  */
 
-static PyObject* set_mode(PyObject *self,
-			  PyObject *args
-			  )
+static PyObject* 
+set_mode(PyObject *self, PyObject *args)
 {
   int precision=2;
   int rounding=1;
   int exception_mask=GSL_IEEE_MASK_ALL;
-
+  int flag; 
   if (!PyArg_ParseTuple(args, "|iii", &precision, &rounding,  &exception_mask))
     return NULL;
   
  
-  if (GSL_SUCCESS!=   PyGSL_error_flag(gsl_ieee_set_mode(precision, rounding, exception_mask)))
+  flag = gsl_ieee_set_mode(precision, rounding, exception_mask);
+  if (GSL_SUCCESS != PyGSL_error_flag(flag))
     return NULL;
 
   Py_INCREF(Py_None);
   return Py_None;
 }
 
-static PyObject* env_setup(PyObject *self,
-			   PyObject *args
-			   )
+static PyObject* 
+env_setup(PyObject *self, PyObject *args)
 {
   gsl_ieee_env_setup();
   Py_INCREF(Py_None);
   return Py_None;
 }
 
-static PyObject* bin_repr(PyObject *self,
-			  PyObject *args
-			  )
+static PyObject* 
+bin_repr(PyObject *self, PyObject *args)
 {
   double x;
   gsl_ieee_double_rep r;
@@ -103,18 +101,17 @@ static PyObject* bin_repr(PyObject *self,
   return Py_BuildValue("(isii)",r.sign,r.mantissa,r.exponent,r.type);
 }
 
-static PyObject* ieee_isnan(PyObject *self,
-			    PyObject *arg
-     )
+static PyObject*
+ieee_isnan(PyObject *self, PyObject *arg)
 {
      double tmp;
      if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
 	  return NULL;
      return PyInt_FromLong(gsl_isnan(tmp));
 }
-static PyObject* ieee_isinf(PyObject *self,
-			    PyObject *arg
-     )
+
+static PyObject* 
+ieee_isinf(PyObject *self, PyObject *arg)
 {
      double tmp;
      if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
@@ -123,9 +120,8 @@ static PyObject* ieee_isinf(PyObject *self,
 
 }
 
-static PyObject* ieee_finite(PyObject *self,
-		       PyObject *arg
-		       )
+static PyObject* 
+ieee_finite(PyObject *self, PyObject *arg)
 {
      double tmp;
      if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
@@ -149,18 +145,41 @@ static PyObject* ieee_posinf(PyObject *self)
   return PyFloat_FromDouble(GSL_POSINF);
 }
 
+/* setup gsl mode and ieee modes from environment variable GSL_IEEE_MODE */
+
+static const char env_setup_doc[] = 
+"Set the IEEE mode, the GSL library should use, using the GSL_IEEE_MODE\n\
+environement variable\n\
+You can also use os.environ['GSL_IEEE_MODE']='<desired_behaviour>' to\n\
+set the variable\n";
+
+static const char bin_repr_doc[] =
+"takes a double and returns its  sign, mantissa, exponent and type\n";
+
+static const char set_mode_doc[] = 
+"Sets the ieee float handling mode\n\
+\tUsage:\n\
+\tset_mode(precision, rounding, exception_mask)\n\
+Each flag can be a combination of the constants defined in this module\n\
+Raises  gsl_NoHardwareSupportError if support is not available.\n\
+\n\
+WARNING: Use with care! It can abort your programm abnormaly!";
+
+static const char  ieee_nan_doc[] = "Returns not a number\n";
+static const char  ieee_neginf_doc[] = "Returns a negative infinite\n";
+static const char  ieee_posinf_doc[] = "Returns a positive infinite\n";
 static PyMethodDef ieeeMethods[] = {
-  {"set_mode", set_mode, METH_VARARGS},
-  {"env_setup", env_setup, METH_NOARGS},
-  {"bin_repr", bin_repr, METH_VARARGS},
+  {"set_mode", set_mode, METH_VARARGS, (char*)set_mode_doc},
+  {"env_setup", env_setup, METH_NOARGS,  (char *)env_setup_doc},
+  {"bin_repr", bin_repr, METH_VARARGS, NULL},
   /* tests on special IEEE-FP meanings */
-  {"isnan",ieee_isnan,METH_O},
-  {"isinf",ieee_isinf,METH_O},
-  {"finite",ieee_finite,METH_O},
+  {"isnan",ieee_isnan,METH_O, NULL},
+  {"isinf",ieee_isinf,METH_O, NULL},
+  {"finite",ieee_finite,METH_O, NULL},
   /* some special ieee-numbers */
-  {"nan",(PyCFunction)ieee_nan, METH_NOARGS},
-  {"neginf",(PyCFunction)ieee_neginf, METH_NOARGS},
-  {"posinf",(PyCFunction)ieee_posinf, METH_NOARGS},
+  {"nan",(PyCFunction)ieee_nan, METH_NOARGS, (char *)ieee_nan_doc},
+  {"neginf",(PyCFunction)ieee_neginf, METH_NOARGS, (char *)ieee_neginf_doc},
+  {"posinf",(PyCFunction)ieee_posinf, METH_NOARGS, (char *)ieee_posinf_doc},
   {NULL,     NULL}        /* Sentinel */
 };
 

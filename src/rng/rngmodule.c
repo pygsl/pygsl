@@ -446,6 +446,24 @@ static PyObject* rng_multinomial_lnpdf (PyObject *self, PyObject *args)
      return tmp;
 }
 
+
+static const char rng_env_setup_doc[] = 
+"This function reads the environment variables `GSL_RNG_TYPE' and\n\
+`GSL_RNG_SEED'.\n\
+The environment variable `GSL_RNG_TYPE' should be the name of a\n\
+generator, such as `taus' or `mt19937'. The environment variable\n\
+`GSL_RNG_SEED' should contain the desired seed value. It is\n\
+converted to an `unsigned long int' using the C library function\n\
+`strtoul'.\n";
+
+static PyObject *
+PyGSL_rng_env_setup(PyObject *self, PyObject *args)
+{
+     gsl_rng_env_setup();
+     Py_INCREF(Py_None);
+     return Py_None;
+}
+
 static PyMethodDef PyGSL_rng_module_functions[] = {
      {"borosh13"        , PyGSL_rng_init_borosh13        , METH_NOARGS, NULL},
      {"cmrg"            , PyGSL_rng_init_cmrg            , METH_NOARGS, NULL},
@@ -550,10 +568,10 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
      {"multinomial_pdf",rng_multinomial_pdf,METH_VARARGS,multinomial_pdf_doc},  
      {"dirichlet_pdf",rng_dirichlet_pdf,METH_VARARGS, rng_dirichlet_pdf_doc},
      {"multinomial_lnpdf",rng_multinomial_lnpdf,METH_VARARGS, NULL},  
-     {"dirichlet_lnpdf",rng_dirichlet_lnpdf,METH_VARARGS, rng_dirichlet_lnpdf_doc},  
+     {"dirichlet_lnpdf",rng_dirichlet_lnpdf,METH_VARARGS, rng_dirichlet_lnpdf_doc},
+     {"env_setup",PyGSL_rng_env_setup,METH_NOARGS, (char*) rng_env_setup_doc},
      {NULL, NULL, 0}        /* Sentinel */
 };
-
 
 static void 
 set_api_pointer(void)
@@ -607,7 +625,6 @@ initrng(void)
 			  "I could not add  _PYGSL_RNG_API!");
 	  goto fail;
      }
-     
      
      return;
      

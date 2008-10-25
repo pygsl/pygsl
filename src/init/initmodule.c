@@ -128,6 +128,7 @@ PyGSL_get_debug_level(PyObject *self, PyObject *args)
 
 static void * _PyGSL_API[PyGSL_NENTRIES_NUM];
 
+
 static PyMethodDef initMethods[] = {
      {"get_debug_level", PyGSL_get_debug_level, METH_NOARGS, NULL},
      {"set_debug_level", PyGSL_set_debug_level, METH_VARARGS, NULL},
@@ -141,6 +142,8 @@ static PyMethodDef initMethods[] = {
 };
 
 
+
+
 static void
 PyGSL_init_api(void)
 {
@@ -149,6 +152,7 @@ PyGSL_init_api(void)
      for(i=0;i<PyGSL_NENTRIES_NUM; ++i){
 	  _PyGSL_API[i] = NULL;
      }
+     _PyGSL_API[PyGSL_api_version_NUM                          ] = (void *) PyGSL_API_VERSION;
      _PyGSL_API[PyGSL_RNG_ObjectType_NUM                       ] = NULL;
      _PyGSL_API[PyGSL_error_flag_NUM                           ] = (void *) &PyGSL_error_flag;
      _PyGSL_API[PyGSL_error_flag_to_pyint_NUM                  ] = (void *) &PyGSL_error_flag_to_pyint;
@@ -265,10 +269,6 @@ DL_EXPORT(void) initinit(void)
    * These functions will be moved to the approbriate modules and the user will
    * have to call them explicitly when needed.
    */
-  /* setup gsl mode and ieee modes from environment variable GSL_IEEE_MODE */
-  gsl_ieee_env_setup();
-  /* setup default random generator from environment variables */
-  gsl_rng_env_setup();
   
   return;
 }
