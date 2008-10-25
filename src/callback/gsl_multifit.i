@@ -129,7 +129,9 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
                        double * cov01, 
                        double * cov11, 
 		       double * sumsq,
-		       double * chisq};
+		       double * chisq,
+		       double * Y,
+		       double * Y_ERR};
 
 gsl_error_flag_drop
 gsl_multifit_linear (const gsl_matrix * IN,
@@ -176,6 +178,14 @@ gsl_multifit_linear_est (const gsl_vector * IN,
 	          const gsl_vector * IN, 
 	          const gsl_matrix * IN, 
 			 double * Y, double *Y_ERR);
+
+
+
+PyObject *
+gsl_multifit_linear_est_matrix (const gsl_matrix * IN, 
+				const gsl_vector * IN, 
+				const gsl_matrix * IN);
+
 
 
 %apply (double *, size_t){(const double * x, const size_t xstride),

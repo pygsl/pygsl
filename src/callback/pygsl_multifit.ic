@@ -5,6 +5,7 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_multifit_nlin.h>
+#include <gsl/gsl_multifit.h>
 #include <pygsl/block_helpers.h>
 
 PyObject * 
@@ -90,4 +91,100 @@ PyGSL_gsl_multifit_covar(PyObject *self, PyObject *args)
     Py_XDECREF(J_a);
     Py_XDECREF(C_a);
     return NULL;
+}
+
+
+#ifdef HAVE_INLINE
+inline
+#else
+static
+#endif
+int
+pygsl_multifit_create_return_arrays(PyGSL_array_index_t n,
+				    PyArrayObject **y, 
+				    PyArrayObject **y_err)
+{
+
+	PyArrayObject *ya = NULL, *ya_err = NULL;
+
+	FUNC_MESS_BEGIN();
+	ya = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+	if(ya == NULL)
+		goto fail;
+	ya_err = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+	if(ya_err == NULL)
+		goto fail;
+	
+	*y = ya;
+	*y_err = ya_err;
+
+	FUNC_MESS_END();
+	return GSL_SUCCESS;
+
+  fail:	
+	Py_XDECREF(ya);
+	Py_XDECREF(ya_err);
+	return GSL_ENOMEM;
+}
+
+#ifdef HAVE_INLINE
+inline
+#else
+static
+#endif
+PyObject *
+pygsl_multifit_create_return_object(PyArrayObject *y, PyArrayObject *y_err)
+{
+	PyObject * result;
+
+	result = PyTuple_New(2);
+	
+	if(result == NULL)
+		goto fail;
+
+	PyTuple_SET_ITEM(result, 0, (PyObject *)y);
+	PyTuple_SET_ITEM(result, 1, (PyObject *)y_err);
+
+	return result;
+  fail:
+	Py_XDECREF(y);
+	Py_XDECREF(y_err);
+	return NULL;
+	
+}
+
+PyObject *
+gsl_multifit_linear_est_matrix (const gsl_matrix * pars,
+				const gsl_vector * c, 
+				const gsl_matrix * cov)
+{
+	int flag;
+	size_t i, n;
+	PyArrayObject *ya = NULL, *ya_err = NULL;
+	PyGSL_array_index_t nt;
+	double yt, yt_err, *yp, *yp_err;
+      
+	n = pars->size1;
+	nt = n;
+	flag = pygsl_multifit_create_return_arrays(nt, &ya, &ya_err);
+	if(flag != GSL_SUCCESS)
+		goto fail;
+
+	yp = (double*)ya->data;
+	yp_err = (double*)ya_err->data;
+	for(i = 0; i < n; ++i){
+		gsl_vector_const_view v = gsl_matrix_const_row(pars, i);
+		flag = gsl_multifit_linear_est(&(v.vector), c, cov, &yt, &yt_err);
+		if(flag != GSL_SUCCESS){
+			goto fail;
+		}
+		yp[i] = yt;
+		yp_err[i] = yt_err;
+	}
+	return pygsl_multifit_create_return_object(ya, ya_err);
+
+  fail:
+	Py_XDECREF(ya);
+	Py_XDECREF(ya_err);
+	return NULL;
 }

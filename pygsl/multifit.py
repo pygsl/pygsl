@@ -132,3 +132,20 @@ def wlinear_svd(X, y, w, work=None):
         work = linear_workspace(X.shape[0], X.shape[1])
 
     return _callback.gsl_multifit_wlinear(X, y, w, work._ptr)
+
+def linear_est(x, c, cov):
+    """
+    This function uses the best-fit multilinear regression coefficients
+    c and their covariance matrix cov to compute the fitted function
+    value y and its standard deviation y_err for the model y = x.c at
+    the point X.
+
+    """
+    return _callback.gsl_multifit_linear_est(x, c, cov)
+
+def linear_est_matrix(X, c, cov):
+    """
+    This function is similar to linear_est, but instead of a vector x it iterates
+    over a matrix X 
+    """
+    return _callback.gsl_multifit_linear_est_matrix(X, c, cov)
