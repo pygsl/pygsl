@@ -264,6 +264,7 @@ gsl_multifit_linear_svd = __callback.gsl_multifit_linear_svd
 gsl_multifit_wlinear = __callback.gsl_multifit_wlinear
 gsl_multifit_wlinear_svd = __callback.gsl_multifit_wlinear_svd
 gsl_multifit_linear_est = __callback.gsl_multifit_linear_est
+gsl_multifit_linear_est_matrix = __callback.gsl_multifit_linear_est_matrix
 gsl_fit_linear = __callback.gsl_fit_linear
 gsl_fit_wlinear = __callback.gsl_fit_wlinear
 gsl_fit_linear_est = __callback.gsl_fit_linear_est
