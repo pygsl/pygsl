@@ -14,23 +14,19 @@ approbriate GSL random generator for generating the random numbers. Use the meth
 \code{name} to get the name of the rng used internally.
 
 Methods of
-this class \class{rng} provide the transformation to different probability
+this type \pytype{rng} provide the transformation to different probability
 distributions and give access to basic properties of random number generators. 
+All methods allow to pass one optional integer. Then the method will be evaluated n times and the result
+will be returned as an array.
 
-\begin{classdesc}{rng}{\texttt{string} typenamme \code{|} \class{rng} r}
+\begin{pytypedesc}{rng}{\texttt{string} typenamme \code{|} \class{rng} r}
   This base class can be instantiated by its name
 \begin{verbatim}
 import pygsl.rng
 my_ran0=pygsl.rng.ran0()
 \end{verbatim}
 .
-
-%  or a clone of an existing generator can be created by:
-%\begin{verbatim}
-%clone_ran0=pygsl.rng.rng(my_ran0)
-%\end{verbatim}
-
-\end{classdesc}
+\end{pytypedesc}
 The type of the allocated generator is given by the method
 \begin{methoddesc}{name}{}
   which returns its name as string.
@@ -212,8 +208,11 @@ children from \class{rng} for gsl-1.2: \newline \class{rng_borosh13}, \class{rng
 \class{rng_ranlxs2}, \class{rng_ranmar}, \class{rng_slatec}, \class{rng_taus},
 \class{rng_taus2}, \class{rng_taus113}, \class{rng_transputer}, \class{rng_tt800},
 \class{rng_uni}, \class{rng_uni32}, \class{rng_vax}, \class{rng_waterman14}, and
-\class{rng_zuf}.  \newline The default generator of \class{rng} is determined by the
-environment variable \envvar{GSL_RNG_TYPE} or defaults to {\tt rng_mt19937}.
+\class{rng_zuf}.  
+\newline 
+
+The default generator of the \class{rng} defaults to {\tt rng_mt19937} but can be set from the
+environment variable \envvar{GSL_RNG_TYPE} using the function \function{rng.env_setup()}.
 
 \section{Probability Density Functions}
 
@@ -226,7 +225,7 @@ environment variable \envvar{GSL_RNG_TYPE} or defaults to {\tt rng_mt19937}.
 %% mode: auto-fill
 %% fill-column: 90
 %% indent-tabs-mode: nil
-%% ispell-dictionary: "american"
+%% ispell-dictionary: "british"
 %% reftex-fref-is-default: nil
 %% TeX-auto-save: t
 %% TeX-command-default: "pdfeLaTeX"
