@@ -442,43 +442,6 @@ a dataset.
 
 
 
-\section{Speed considerations}
-\label{sec:stat:speed-considerations}
-
-All functions work on any Python sequence type but are optimized for use with
-\NUMPY{} (\numpy{}) arrays. It is strongly suggested that you install NumPy
-(available from \url{http://www.numpy.org}).
-
-If you pass NumPy arrays of the \emph{correct data-type} as input data to any
-of the functions they are passed straight to the C functions along with the
-stride information of the data. If you pass generic (non-\numpy{}) Python
-sequences or \numpy{} arrays of the wrong data-type a suntactically suitable
-copy of the data will be created and passed to the function. No precautions
-against data-losses due to downcasts are taken. Esp. when calling functions
-from a module of the smaller datatpes (\module{char}, \module{uchar},
-\module{short}) you have to make sure all your data fits into the C
-representation of the respective C dataype on the machine the program is
-\emph{executed}. \footnote{Of course you should not pass floating point data to
-   integer modules either.}
-
-In general, when not using \numpy{} you should always use the default
-implementation \module{pygsl.statistics} or the special implementation
-\module{pygsl.statistics.long} in case you are \emph{sure} you have only
-integer values. If your program needs the little speed-up that might be
-possible by doing the calculation on a smaller datatype you should probably not
-write it in plain Python anyway:)
-
-If you have installed \numpy{} you can of course use arrays of all the
-datatypes defined by \numpy{}. In that case you should use the submodule that
-corresponds to the \numpy{} datatype you are using, as only that allows us to
-pass your \numpy{} array straight to the C function. See the \numpy{}
-documentation for details on the available datatypes.
-
-\begin{seealso}
-   If you are still unsure whether you should use \numpy{} take a look at
-   \url{http://www.numpy.org} and download your personal copy.
-\end{seealso}
-
 
 
 \section{Further Reading}
@@ -524,7 +487,7 @@ Particle Physics.
 %% mode: auto-fill
 %% fill-column: 79
 %% indent-tabs-mode: nil
-%% ispell-dictionary: "american"
+%% ispell-dictionary: "british"
 %% reftex-fref-is-default: nil
 %% TeX-auto-save: t
 %% TeX-command-default: "pdfeLaTeX"
