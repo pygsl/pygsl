@@ -59,9 +59,46 @@ meaningfull error messages. If a solver fails, please check that the number of i
 output arguments it takes are correct
 
 \section{Error handling}
+\label{sec:interface-error-handling}
 As GSL is a C library error handling is implemented using an error handler and return values.
 \pygsl{} generates python exceptions out of these values. See \module{pygsl.errors} 
 (chapter~\ref{cha:error-module}) for a list of the exceptions.
+
+\section{Exception handling}
+\index{exception handling!initialisation} GSL provides a selectable error
+handler, that is called for occuring errors (like domain errors, division by
+zero, etc. ).  This is switched off. Instead each wrapper function will check
+the error return value and in case of error an python exception is created. 
+
+Here is a python level example:
+\begin{verbatim}
+import pygsl.histogram
+import pygsl.errors
+hist=pygsl.histogram.histogram2d(100,100)
+try:
+   hist[-1,-1]=0
+except pygsl.errors.gsl_Error,err:
+   print err
+\end{verbatim}
+Will result
+\begin{verbatim}
+input domain error: index i lies outside valid range of 0 .. nx - 1
+\end{verbatim}
+
+
+An exception are ufuncs in the testings.sf module (see section\ref{sec:ufuncs}).
+
+
+\subsection{Change of internal error handling.}
+Before a error handler was installed by init_pygsl into gsl which translated
+the error code (and the message) to a python exception.
+This required that the GIL was available, which numpy ufuncs dispose. Thus
+now this gsl error handler is deactivated and instead the C error code
+returned by the C function is translated to an error code by the wrapper
+called from python.
+
+UFuncs do not call this handler now at all.
+
 
 \section{The documentation gap}
 

@@ -8,12 +8,8 @@ All following procedures are called once and before everything other.
 \section{Exception handling}
 \index{exception handling!initialisation} GSL provides a selectable error
 handler, that is called for occuring errors (like domain errors, division by
-zero, etc. ).  \module{pygsl.init} installs a handler by calling
-\cfunction{gsl_set_error_handler} to set an appropiate exception from
-\module{pygsl.errors}.  A \module{pygsl} interface function should return
-\code{NULL} in case of an error, so the exception is raised.  If this handler
-is called more than once before returning to python, only the first set
-exception is raised.
+zero, etc. ).  This is switched off. Instead each wrapper function will check
+the error return value and in case of error an python exception is created. 
 
 Here is a python level example:
 \begin{verbatim}
@@ -30,22 +26,34 @@ Will result
 input domain error: index i lies outside valid range of 0 .. nx - 1
 \end{verbatim}
 
-\section{IEEE-mode}
-\index{ieee-mode!initialisation}
-The IEEE mode is set from the environment variable
- \envvar{GSL_IEEE_MODE} via \cfunction{gsl_ieee_env_setup()}.
-After the initialisation use \module{pygsl.ieee} for manipulation.
 
-\section{random number generators}
-\index{random number generator!initialisation}
-Also the random number generator can be initialised from the environment variables
- \envvar{GSL_RNG_TYPE}
-and \envvar{GSL_RNG_SEED} using the gsl function \cfunction{gsl_rng_env_setup()}.
-Each random number generators are initialised with \envvar{GSL_RNG_SEED}.
+An exception are ufuncs in the testings.sf module (see section\ref{sec:ufuncs}).
 
-The default generator can be created by:\nopagebreak
-\begin{verbatim}
-import pygsl.rng
-my_rng=pygsl.rng.rng()
-print my_rng.name()
-\end{verbatim}
+%\module{pygsl.init} installs a handler by calling
+%\cfunction{gsl_set_error_handler} to set an appropiate exception from
+%\module{pygsl.errors}.  A \module{pygsl} interface function should return
+%\code{NULL} in case of an error, so the exception is raised.  If this handler
+%is called more than once before returning to python, only the first set
+%exception is raised.
+%
+%
+% 
+% \section{IEEE-mode}
+% \index{ieee-mode!initialisation}
+% The IEEE mode is set from the environment variable
+%  \envvar{GSL_IEEE_MODE} via \cfunction{gsl_ieee_env_setup()}.
+% After the initialisation use \module{pygsl.ieee} for manipulation.
+% 
+% \section{random number generators}
+% \index{random number generator!initialisation}
+% Also the random number generator can be initialised from the environment variables
+%  \envvar{GSL_RNG_TYPE}
+% and \envvar{GSL_RNG_SEED} using the gsl function \cfunction{gsl_rng_env_setup()}.
+% Each random number generators are initialised with \envvar{GSL_RNG_SEED}.
+% 
+% The default generator can be created by:\nopagebreak
+% \begin{verbatim}
+% import pygsl.rng
+% my_rng=pygsl.rng.rng()
+% print my_rng.name()
+% \end{verbatim}
