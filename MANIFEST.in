@@ -36,8 +36,8 @@ include doc/README-RPM
 include doc/README.html
 include doc/README-Distributors.html
 
-recursive-include doc *.html
-recursive-include doc *.pdf
+%recursive-include doc *.html
+%recursive-include doc *.pdf
 
 include README
 include CREDITS
