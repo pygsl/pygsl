@@ -7,7 +7,9 @@
 \moduleauthor{Pierre Schnizer}{schnizer@users.sourceforge.net}
 Modules in this package are often reimplementations of an original package
 with significant change to the original. The current rng implementation, for
-example, started its life here. Usage of these modules is encouraged for tests
+example, started its life here.  The sf module implemented here will supersede
+the sf package in one of the next releases. Concerning the other modules the 
+usage is encouraged for tests
 to see if they work, but use them with caution in your production code!
 
 \section[\protect\module{pygsl.testing.sf} --- Special UFuncs]
@@ -24,7 +26,13 @@ Only the python specific part is described here. For a general description of
 the function please see the GSL Reference document.  
 
 \section{UFuncs}
-These UFuncs allow to evaluate an array of doubles or an array of floats typically.
+\label{sec:ufuncs}
+These UFuncs allow to evaluate an array of doubles or an array of floats
+typically. Note that the return values of the functions ending with an _e are
+not turned to exceptions. Instead the error codes are returned as an separate
+array. So if you are interested in them you have to do check the error code
+yourself. 
+
 \input{providedufuncs.tex}
 
 \section{Ordinary Functions}
