@@ -6,6 +6,7 @@
 # You could set this to letter:
 
 PAPER = a4
+PAPER = letter
 
 PYTHON = python
 DVIPS = dvips -N0 -t $(PAPER)
@@ -39,7 +40,7 @@ ADDRESS		= ""
 # Send comments to the <a href=\"mailto:$(MAILINGLIST)\">PyGSL community</a>."
 OPTIONS 	= --address=$(ADDRESS) --split=4
 
-WEBDIR		= shell.sourceforge.net:/home/groups/p/py/pygsl/htdocs/reference/pygsl/
+WEBDIR		= schnizer,pygsl@web.sf.net:htdocs/reference/pygsl/
 RSYNC = rsync
 
 # PyGSL reference manual source files
