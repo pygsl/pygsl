@@ -11,7 +11,7 @@
 \usepackage{amsmath}
 \usepackage[latin1]{inputenc}
 \usepackage{textcomp}
-
+\usepackage{hyperref}
 
 % this version does not reset module names at section level
 %begin{latexonly}
@@ -35,51 +35,64 @@
 \newcommand{\pygsl}{PyGSL}
 \newcommand{\PYGSL}{PyGSL: Python wrapper of the GNU Scientific Library}
 
+\makeatletter
+\newenvironment{pytypedesc}[2]{
+  % Using \renewcommand doesn't work for this, for unknown reasons:
+  \global\def\py@thisclass{#1}
+  \begin{fulllineitems}
+    \py@sigline{\strong{pytype }\bfcode{#1}}{#2}%
+    \index{#1@{\py@idxcode{#1}} (pytype in \py@thismodule)}
+}{\end{fulllineitems}}
+\makeatother
+
 
 \title{PyGSL Reference Manual}
 
 \ifhtml
 \author{
   \ulink{Achim G\"adke}{mailto:achimgaedke@users.sourceforge.net}\\
-  Center for Applied Informatics, Cologne, Germany
-}
-\author{
-  \ulink{Jochen K\"upper}{mailto:jochen@jochen-kuepper.de}\\
-  Fritz-Haber-Institut der MPG, Berlin, Germany
-}
-\author{
-  \ulink{S\'ebastien Maret}{mailto:schnizer@users.sourceforge.net}\\
-  Department of Astronomy, University of Michigan, Ann Arbor, USA
+  Technische Universit\"at Darmstadt, Darmstadt, Germany
 }
 \author{
   \ulink{Pierre Schnizer}{mailto:schnizer@users.sourceforge.net}\\
   Gesellschaft f\"ur Schwerionenforschung, Darmstadt, Germany
 }
+%\author{
+%  \ulink{Jochen K\"upper}{mailto:jochen@jochen-kuepper.de}\\
+%  Fritz-Haber-Institut der MPG, Berlin, Germany
+%}
+%\author{
+%  \ulink{S\'ebastien Maret}{mailto:schnizer@users.sourceforge.net}\\
+%  Department of Astronomy, University of Michigan, Ann Arbor, USA
+%}
 \else
 %begin{latexonly}
 %% pdfelatex (TeXLive 7) doesn't handle \footnotemark in here...
-\author{Achim G\"adke \\ Jochen K\"upper \\ S\'ebastien Maret \\ Pierre Schnizer}
+\author{Achim G\"adke \\ 
+          Jochen K\"upper \\ 
+         %S\'ebastien Maret \\
+        Pierre Schnizer}
 % Please at least include a long-lived email address!
 \authoraddress{
-   Center for Applied Informatics, Cologne, Germany \\
+   Technische Universit\"at Darmstadt, Darmstadt, Germany \\
    \email{achimgaedke@users.sourceforge.net} \\
-   Fritz-Haber-Institut der MPG, Berlin, Germany \\
-   \email{jochen@jochen-kuepper.de} \\
-   Department of Astronomy, University of Michigan, Ann Arbor, USA \\
-   \email{bmaret@users.sourceforge.et} \\
    Gesellschaft f\"ur Schwerionenforschung, Darmstadt, Germany \\
    \email{schnizer@users.sourceforge.net} \\
+%   Fritz-Haber-Institut der MPG, Berlin, Germany \\
+%   \email{jochen@jochen-kuepper.de} \\
+%   Department of Astronomy, University of Michigan, Ann Arbor, USA \\
+%   \email{bmaret@users.sourceforge.et} \\
 }
 %end{latexonly}
 \fi
 
-\date{January, 2005}            % update before release!
+\date{October, 2008}            % update before release!
                                 % Use an explicit date so that reformatting
                                 % doesn't cause a new date to be used.  Setting
                                 % the date to \today can be used during draft
                                 % stages to make it easier to handle versions.
-\release{0.2}                   % release version; this is used to define the
-\setshortversion{0.2}           % \version macro
+\release{0.9}                   % release version; this is used to define the
+\setshortversion{0.9}           % \version macro
 \makeindex                      % tell \index to actually write the .idx file
 
 
@@ -128,10 +141,11 @@
      \module{pygsl.odeiv}               &\\
      \module{pygsl.permutation}         &\\  
      \module{pygsl.poly}                &\\
-     \module{pygsl.qrng}                &\\
+     \module{pygsl.qrng}                &\\     
      \module{pygsl.rng}                 & random number generators and probability densities. \\
      \module{pygsl.roots}               &\\
      \module{pygsl.siman}               &Simulated anealing\\
+     \module{pygsl.sum}                 & \\
      \module{pygsl.sf}                  & $>200$ special functions. \\
      \module{pygsl.statistics}          & Statistical functions. \\
    \end{tabular}
@@ -174,10 +188,12 @@ constants}
 \label{cha:rng-module}
 \input{rng}
 
-\chapter[\protect\module{pygsl.sf} --- Special Functions]
-{\protect\module{pygsl.sf} \\ Special Functions}
-\label{cha:sf-module}
-\input{sf}
+%\chapter[\protect\module{pygsl.sf} --- Special Functions]
+%{\protect\module{pygsl.sf} \\ Special Functions}
+%\label{cha:sf-module}
+%\input{sf}
+
+\input{sum}
 \input{statistics}
 
 \input{testing}
@@ -189,10 +205,10 @@ constants}
 \label{cha:ieee-module}
 \input{ieee}
 
-\chapter[\protect\module{pygsl.init} --- Library initialisation]
-{\protect\module{pygsl.init} \\ Library initialisation}
-\label{cha:library-initialisation}
-\input{init}
+%\chapter[\protect\module{pygsl.init} --- Library initialisation]
+%{\protect\module{pygsl.init} \\ Library initialisation}
+%\label{cha:library-initialisation}
+%\input{init}
 
 
 
