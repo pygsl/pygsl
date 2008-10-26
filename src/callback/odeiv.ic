@@ -462,7 +462,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     if(stride != 1){
 	 line = __LINE__ - 1;
 	 fprintf(stderr, "Stride of yout was %ld\n",  (long)stride); 
-	 gsl_error("Yout had a stride different to 1!", __FILE__, __LINE__, GSL_ESANITY);
+	 pygsl_error("Yout had a stride different to 1!", __FILE__, __LINE__, GSL_ESANITY);
 	 goto fail;
     }
 
@@ -608,7 +608,7 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
     if(stride != 1){
 	 line = __LINE__ - 1;
 	 fprintf(stderr, "Stride of yout was %ld\n",  (long)stride); 
-	 gsl_error("Yout had a stride different to 1!", __FILE__, __LINE__, GSL_ESANITY);
+	 pygsl_error("Yout had a stride different to 1!", __FILE__, __LINE__, GSL_ESANITY);
 	 goto fail;
     }
 
@@ -651,7 +651,7 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
     /* Integration forward or backward? */
     if(t == t1){
 	 line = __LINE__ -1;
-	 gsl_error("Zero time interval!", __FILE__, __LINE__, GSL_EINVAL);
+	 pygsl_error("Zero time interval!", __FILE__, __LINE__, GSL_EINVAL);
 	 goto fail;
     } else if (t1 >= t) {
 	 direction = 0;
@@ -704,7 +704,7 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
 	 }
 	 /* Check if too many iterations ... */
 	 if(nsteps != 1 && j >= nsteps){
-	      gsl_error("While integrating ode function", __FILE__, __LINE__, GSL_EMAXITER);
+	      pygsl_error("While integrating ode function", __FILE__, __LINE__, GSL_EMAXITER);
 	      goto fail;
 	 }
 	 DEBUG_MESS(3, "nsteps = %d    ", nsteps);

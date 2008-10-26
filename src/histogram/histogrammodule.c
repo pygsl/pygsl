@@ -45,7 +45,7 @@ PyGSL_hist_error_helper(const char * function, int line, int myerrno, enum hist_
      default:          tmp = "Unknown case in function hist_error_helper"; myerrno = GSL_ESANITY; break;
      }
      PyGSL_add_traceback(module, filename, function, line);
-     gsl_error(tmp, filename, line, myerrno);
+     pygsl_error(tmp, filename, line, myerrno);
      return myerrno;
 }
 
