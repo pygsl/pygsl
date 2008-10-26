@@ -2768,74 +2768,225 @@ SWIGINTERN PyObject *gsl_dht_struct_apply(struct gsl_dht_struct *self,PyObject *
 extern "C" {
 #endif
 SWIGINTERN PyObject *_wrap_new_DiscreteHankelTransform(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0; size_t arg1 ; struct gsl_dht_struct *result = 0 ; size_t val1 ; int ecode1 = 0 ;
-  PyObject * obj0 = 0 ; char *  kwnames[] = { (char *) "n", NULL } ;
+  PyObject *resultobj = 0;
+  size_t arg1 ;
+  struct gsl_dht_struct *result = 0 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  char *  kwnames[] = {
+    (char *) "n", NULL 
+  };
+  
   if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new_DiscreteHankelTransform",kwnames,&obj0)) SWIG_fail;
-  ecode1 = SWIG_AsVal_size_t(obj0, &val1); if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_DiscreteHankelTransform" "', argument " "1"" of type '" "size_t""'"); }
-    arg1 = (size_t)(val1); result = (struct gsl_dht_struct *)new_gsl_dht_struct(arg1);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_dht_struct, SWIG_POINTER_NEW |  0 ); return resultobj;
-  fail: return NULL; }
+  ecode1 = SWIG_AsVal_size_t(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_DiscreteHankelTransform" "', argument " "1"" of type '" "size_t""'");
+  } 
+  arg1 = (size_t)(val1);
+  result = (struct gsl_dht_struct *)new_gsl_dht_struct(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_dht_struct, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_DiscreteHankelTransform(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0; struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ; void *argp1 = 0 ; int res1 = 0 ;
-  PyObject * obj0 = 0 ; if (!PyArg_ParseTuple(args,(char *)"O:delete_DiscreteHankelTransform",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, SWIG_POINTER_DISOWN |  0 ); if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_DiscreteHankelTransform" "', argument " "1"" of type '" "struct gsl_dht_struct *""'");  }
-   arg1 = (struct gsl_dht_struct *)(argp1); delete_gsl_dht_struct(arg1); resultobj = SWIG_Py_Void(); return resultobj; fail:
-  return NULL; }
+  PyObject *resultobj = 0;
+  struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_DiscreteHankelTransform",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_DiscreteHankelTransform" "', argument " "1"" of type '" "struct gsl_dht_struct *""'"); 
+  }
+  arg1 = (struct gsl_dht_struct *)(argp1);
+  delete_gsl_dht_struct(arg1);
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_DiscreteHankelTransform_init(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0; struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ; double arg2 ; double arg3 ; int result;
-  void *argp1 = 0 ; int res1 = 0 ; double val2 ; int ecode2 = 0 ; double val3 ; int ecode3 = 0 ; PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ; PyObject * obj2 = 0 ; char *  kwnames[] = { (char *) "self",(char *) "nu",(char *) "xmax", NULL } ;
+  PyObject *resultobj = 0;
+  struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ;
+  double arg2 ;
+  double arg3 ;
+  int result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "nu",(char *) "xmax", NULL 
+  };
+  
   if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:DiscreteHankelTransform_init",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 ); if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_init" "', argument " "1"" of type '" "struct gsl_dht_struct *""'");  }
-   arg1 = (struct gsl_dht_struct *)(argp1); ecode2 = SWIG_AsVal_double(obj1, &val2); if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "DiscreteHankelTransform_init" "', argument " "2"" of type '" "double""'"); }
-    arg2 = (double)(val2); ecode3 = SWIG_AsVal_double(obj2, &val3); if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "DiscreteHankelTransform_init" "', argument " "3"" of type '" "double""'"); }
-    arg3 = (double)(val3); result = (int)gsl_dht_struct_init(arg1,arg2,arg3); {  if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
-      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i",  __FUNCTION__, 74);  goto fail; } 
-    Py_INCREF(Py_None); resultobj = Py_None; }  return resultobj; fail: return NULL; }
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_init" "', argument " "1"" of type '" "struct gsl_dht_struct *""'"); 
+  }
+  arg1 = (struct gsl_dht_struct *)(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "DiscreteHankelTransform_init" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "DiscreteHankelTransform_init" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  result = (int)gsl_dht_struct_init(arg1,arg2,arg3);
+  {
+    /* 
+    	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+    	negative numbers.
+         */
+    if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+        __FUNCTION__, 74); 
+      goto fail;
+    }
+    Py_INCREF(Py_None);
+    resultobj = Py_None;
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_DiscreteHankelTransform_x_sample(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0; struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ; int arg2 ; double result;
-  void *argp1 = 0 ; int res1 = 0 ; int val2 ; int ecode2 = 0 ; PyObject * obj0 = 0 ; PyObject * obj1 = 0 ; char *  kwnames[] = {
-    (char *) "self",(char *) "n", NULL } ;
+  PyObject *resultobj = 0;
+  struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ;
+  int arg2 ;
+  double result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  
   if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:DiscreteHankelTransform_x_sample",kwnames,&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 ); if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_x_sample" "', argument " "1"" of type '" "struct gsl_dht_struct *""'");  }
-   arg1 = (struct gsl_dht_struct *)(argp1); ecode2 = SWIG_AsVal_int(obj1, &val2); if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "DiscreteHankelTransform_x_sample" "', argument " "2"" of type '" "int""'"); }
-    arg2 = (int)(val2); result = (double)gsl_dht_struct_x_sample(arg1,arg2); resultobj = SWIG_From_double((double)(result));
-  return resultobj; fail: return NULL; }
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_x_sample" "', argument " "1"" of type '" "struct gsl_dht_struct *""'"); 
+  }
+  arg1 = (struct gsl_dht_struct *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "DiscreteHankelTransform_x_sample" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  result = (double)gsl_dht_struct_x_sample(arg1,arg2);
+  resultobj = SWIG_From_double((double)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_DiscreteHankelTransform_k_sample(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0; struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ; int arg2 ; double result;
-  void *argp1 = 0 ; int res1 = 0 ; int val2 ; int ecode2 = 0 ; PyObject * obj0 = 0 ; PyObject * obj1 = 0 ; char *  kwnames[] = {
-    (char *) "self",(char *) "n", NULL } ;
+  PyObject *resultobj = 0;
+  struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ;
+  int arg2 ;
+  double result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "n", NULL 
+  };
+  
   if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:DiscreteHankelTransform_k_sample",kwnames,&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 ); if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_k_sample" "', argument " "1"" of type '" "struct gsl_dht_struct *""'");  }
-   arg1 = (struct gsl_dht_struct *)(argp1); ecode2 = SWIG_AsVal_int(obj1, &val2); if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "DiscreteHankelTransform_k_sample" "', argument " "2"" of type '" "int""'"); }
-    arg2 = (int)(val2); result = (double)gsl_dht_struct_k_sample(arg1,arg2); resultobj = SWIG_From_double((double)(result));
-  return resultobj; fail: return NULL; }
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_k_sample" "', argument " "1"" of type '" "struct gsl_dht_struct *""'"); 
+  }
+  arg1 = (struct gsl_dht_struct *)(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "DiscreteHankelTransform_k_sample" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  result = (double)gsl_dht_struct_k_sample(arg1,arg2);
+  resultobj = SWIG_From_double((double)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_DiscreteHankelTransform_get_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0; struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ; size_t result; void *argp1 = 0 ;
-  int res1 = 0 ; PyObject * obj0 = 0 ;
+  PyObject *resultobj = 0;
+  struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ;
+  size_t result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
   if (!PyArg_ParseTuple(args,(char *)"O:DiscreteHankelTransform_get_size",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 ); if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_get_size" "', argument " "1"" of type '" "struct gsl_dht_struct *""'");  }
-   arg1 = (struct gsl_dht_struct *)(argp1); result = (size_t)gsl_dht_struct_get_size(arg1);
-  resultobj = SWIG_From_size_t((size_t)(result)); return resultobj; fail: return NULL; }
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_get_size" "', argument " "1"" of type '" "struct gsl_dht_struct *""'"); 
+  }
+  arg1 = (struct gsl_dht_struct *)(argp1);
+  result = (size_t)gsl_dht_struct_get_size(arg1);
+  resultobj = SWIG_From_size_t((size_t)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_DiscreteHankelTransform_apply(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0; struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ; PyObject *arg2 = (PyObject *) 0 ;
-  PyObject *result = 0 ; void *argp1 = 0 ; int res1 = 0 ; PyObject * obj0 = 0 ; PyObject * obj1 = 0 ; char *  kwnames[] = {
-    (char *) "self",(char *) "_in", NULL } ;
+  PyObject *resultobj = 0;
+  struct gsl_dht_struct *arg1 = (struct gsl_dht_struct *) 0 ;
+  PyObject *arg2 = (PyObject *) 0 ;
+  PyObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "_in", NULL 
+  };
+  
   if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:DiscreteHankelTransform_apply",kwnames,&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 ); if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_apply" "', argument " "1"" of type '" "struct gsl_dht_struct *""'");  }
-   arg1 = (struct gsl_dht_struct *)(argp1); arg2 = obj1; result = (PyObject *)gsl_dht_struct_apply(arg1,arg2);
-  resultobj = result; return resultobj; fail: return NULL; }
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_dht_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "DiscreteHankelTransform_apply" "', argument " "1"" of type '" "struct gsl_dht_struct *""'"); 
+  }
+  arg1 = (struct gsl_dht_struct *)(argp1);
+  arg2 = obj1;
+  result = (PyObject *)gsl_dht_struct_apply(arg1,arg2);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *DiscreteHankelTransform_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O|swigregister", &obj)) return NULL;

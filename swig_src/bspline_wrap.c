@@ -2442,13 +2442,15 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_char swig_types[0]
-#define SWIGTYPE_p_double swig_types[1]
-#define SWIGTYPE_p_gsl_complex swig_types[2]
-#define SWIGTYPE_p_gsl_poly_complex_workspace swig_types[3]
-#define SWIGTYPE_p_unsigned_int swig_types[4]
-static swig_type_info *swig_types[6];
-static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
+#define SWIGTYPE_p_PyArrayObject swig_types[0]
+#define SWIGTYPE_p_char swig_types[1]
+#define SWIGTYPE_p_double swig_types[2]
+#define SWIGTYPE_p_gsl_bspline_workspace swig_types[3]
+#define SWIGTYPE_p_gsl_matrix_view swig_types[4]
+#define SWIGTYPE_p_gsl_vector swig_types[5]
+#define SWIGTYPE_p_pygsl_bspline swig_types[6]
+static swig_type_info *swig_types[8];
+static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2461,11 +2463,11 @@ static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
 #endif
 
 /*-----------------------------------------------
-              @(target):= __poly.so
+              @(target):= _bspline.so
   ------------------------------------------------*/
-#define SWIG_init    init__poly
+#define SWIG_init    init_bspline
 
-#define SWIG_name    "__poly"
+#define SWIG_name    "_bspline"
 
 #define SWIGVERSION 0x010329 
 
@@ -2473,15 +2475,38 @@ static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
 #define SWIG_as_voidptr(a) (void *)((const void *)(a)) 
 #define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),(void**)(a)) 
 
-
-#include <gsl/gsl_poly.h>
-#include <gsl/gsl_errno.h>
-#include <poly.ic>
-
-
-#include <gsl/gsl_errno.h>
+   
 #include <pygsl/utils.h>
-#include <pygsl/complex_helpers.h>
+#include <pygsl/error_helpers.h>
+typedef int gsl_error_flag;
+typedef int gsl_error_flag_drop;
+PyObject *pygsl_module_for_error_treatment = NULL;
+                        
+
+
+#include <pygsl/utils.h>
+#include <pygsl/block_helpers.h>
+#include <typemaps/block_conversion_functions.h>
+#include <string.h>
+#include <assert.h>
+
+
+#include <pygsl/block_helpers.h>
+#include <gsl/gsl_vector.h>
+#include <gsl/gsl_bspline.h>
+#include <stdlib.h>
+#include <stdio.h>
+struct pygsl_bspline
+{
+     gsl_matrix_view cov;
+     gsl_vector_view coeffs;
+     gsl_vector_view tmp;
+     gsl_bspline_workspace *w;
+     PyArrayObject *coeffs_a;
+     PyArrayObject *cov_a;
+     PyArrayObject *tmp_a;
+};
+#include "bspline.ic"
 
 
 SWIGINTERN int
@@ -2525,19 +2550,6 @@ SWIG_AsVal_double (PyObject *obj, double *val)
   }
 #endif
   return res;
-}
-
-
-  #define SWIG_From_double   PyFloat_FromDouble 
-
-
-  #define SWIG_From_long   PyInt_FromLong 
-
-
-SWIGINTERNINLINE PyObject *
-SWIG_From_int  (int value)
-{    
-  return SWIG_From_long  (value);
 }
 
 
@@ -2630,373 +2642,452 @@ SWIG_AsVal_size_t (PyObject * obj, size_t *val)
   return res;
 }
 
+SWIGINTERN struct pygsl_bspline *new_pygsl_bspline(size_t K,size_t NBREAK){
+       struct pygsl_bspline *tmp;
+       tmp = calloc(1, sizeof(struct pygsl_bspline));
+       if(tmp == NULL){
+	    return NULL;
+       }	    
+       tmp->w = gsl_bspline_alloc(K, NBREAK);
+       tmp->coeffs_a = NULL;
+       tmp->cov_a = NULL;
+       return tmp;
+  }
+SWIGINTERN void delete_pygsl_bspline(struct pygsl_bspline *self){
+       gsl_bspline_free(self->w);
+       self->w = NULL;
+       Py_XDECREF(self->coeffs_a);
+       self->coeffs_a = NULL;
+       Py_XDECREF(self->cov_a);
+       self->cov_a = NULL;
+       Py_XDECREF(self->tmp_a);
+       self->tmp_a = NULL;
+       free(self);
+  }
+SWIGINTERN gsl_error_flag_drop pygsl_bspline_knots(struct pygsl_bspline *self,gsl_vector const *BREAKPTS){
+       return gsl_bspline_knots(BREAKPTS, self->w);
+  }
+SWIGINTERN gsl_error_flag_drop pygsl_bspline_knots_uniform(struct pygsl_bspline *self,double const a,double const b){
+       return gsl_bspline_knots_uniform(a, b, self->w);
+  }
+SWIGINTERN PyObject *pygsl_bspline_eval_vector(struct pygsl_bspline *self,gsl_vector const *X){
+       PyArrayObject *B_M_a = NULL;
+       gsl_vector_view B_v;
+       PyGSL_array_index_t n, sample_len, tmp[2], i;       
+       double x;
+       char * row_ptr;
+       int flag=GSL_EFAILED;
+
+       FUNC_MESS_BEGIN();
+       n = self->w->n;
+       sample_len = X->size;
+       tmp[0] = sample_len;
+       tmp[1] = n;
+       B_M_a = PyGSL_New_Array(2, tmp, PyArray_DOUBLE);
+       if(B_M_a == NULL)
+	    return NULL;
+
+       for(i = 0; i < sample_len; ++i){
+	 row_ptr = B_M_a->data + B_M_a->strides[0] * i;
+	 B_v = gsl_vector_view_array((double *) (row_ptr), (B_M_a->dimensions[1]));
+	 x = gsl_vector_get(X, i);
+	 flag = gsl_bspline_eval(x, &(B_v.vector), self->w);
+	 if (PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
+	    goto fail;
+       }
+       FUNC_MESS_END();
+       return (PyObject *) B_M_a;
+
+  fail:
+       /* Failed */
+       Py_XDECREF(B_M_a);
+       return NULL;
+  }
+SWIGINTERN PyObject *pygsl_bspline_eval(struct pygsl_bspline *self,double const X){
+       PyArrayObject *B_a = NULL;
+       gsl_vector_view B_v;
+       PyGSL_array_index_t n;
+       int flag=GSL_EFAILED;
+
+       n = self->w->n;
+       B_a = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+       if(B_a == NULL)
+	    return NULL;
+       B_v = gsl_vector_view_array((double *) (B_a->data), (B_a->dimensions[0]));
+       flag = gsl_bspline_eval(X, &(B_v.vector), self->w);
+       if (PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
+	    goto fail;
+       return (PyObject *) B_a;
+
+  fail:
+       /* Failed */
+       Py_XDECREF(B_a);
+       return NULL;
+  }
+SWIGINTERN gsl_error_flag_drop pygsl_bspline_set_coefficients_and_covariance_matrix(struct pygsl_bspline *self,PyObject *coeffs_o,PyObject *cov_o){
+
+    PyArrayObject *coeffs_a = NULL, *cov_a = NULL;
+    PyGSL_array_index_t size;
+
+
+    FUNC_MESS_BEGIN();
+    if(self->coeffs_a != NULL){
+      Py_XDECREF(self->coeffs_a);
+      self->coeffs_a = NULL;
+
+    }
+
+    size = self->w->n;
+    coeffs_a = PyGSL_vector_check(coeffs_o, size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
+    if(coeffs_a == NULL)
+      return GSL_FAILURE;
+
+    self->coeffs_a = coeffs_a;
+    self->coeffs = gsl_vector_view_array((double *) (coeffs_a->data),
+					 coeffs_a->dimensions[0]);
+    coeffs_a = NULL;
+
+    /* work array, does the size fit? */
+    if(self->tmp_a != NULL && self->tmp_a->dimensions[0] != size){
+	Py_DECREF(self->tmp_a);      
+	self->tmp_a = NULL;
+    }
+    if(self->tmp_a == NULL){
+      PyGSL_array_index_t size_tmp = self->w->n;
+      self->tmp_a = PyGSL_New_Array(1, &size_tmp, PyArray_DOUBLE);      
+    }
+    if(self->tmp_a == NULL){
+      return GSL_ENOMEM;
+    }
+    self->tmp = gsl_vector_view_array((double *) (self->tmp_a->data),
+				      self->tmp_a->dimensions[0]);
+    if(cov_o == NULL){
+      /* Nothing left to do ...*/
+      Py_XDECREF(self->cov_a);
+      self->cov_a = NULL;
+      return GSL_SUCCESS;
+    }
+
+    if(self->cov_a != NULL){
+      Py_XDECREF(self->cov_a);
+      self->cov_a = NULL;
+    }
+
+    cov_a = PyGSL_matrix_check(cov_o, size, size, PyGSL_DARRAY_CINPUT(2),
+			       NULL, NULL, NULL);
+    if(cov_a == NULL)
+      return GSL_FAILURE;
+
+    self->cov_a = cov_a;
+    self->cov = gsl_matrix_view_array((double *) (cov_a->data), 
+				      cov_a->dimensions[0], 
+				      cov_a->dimensions[1]);
+    FUNC_MESS_END();
+    return GSL_SUCCESS;   
+
+  }
+SWIGINTERN gsl_error_flag_drop pygsl_bspline_eval_dep(struct pygsl_bspline *self,double const x,double *OUT){
+    int flag;     
+    if(self->coeffs_a == NULL || self->tmp_a == NULL){
+      PyGSL_ERROR("No coefficients set", GSL_EFAULT);
+    }
+
+    flag = _pygsl_bspline_eval_dep(self, x, OUT);
+    return flag;
+  }
+SWIGINTERN PyObject *pygsl_bspline_eval_dep_vector(struct pygsl_bspline *self,gsl_vector const *X){
+    PyArrayObject *a;
+    double * data, xt;
+    PyGSL_array_index_t size, i;
+    int flag;
+    
+    if(self->coeffs_a == NULL || self->tmp_a == NULL){
+      PyGSL_ERROR_NULL("No coefficients set", GSL_EFAULT);
+    }    
+    size = X->size;    
+    a = PyGSL_New_Array(1, &size, PyArray_DOUBLE);      
+
+    if(a == NULL)
+      return NULL;
+
+    data = (double *) a->data;
+    for(i = 0; i < size; ++i){
+      xt = gsl_vector_get(X, i);
+      flag = _pygsl_bspline_eval_dep(self, xt, &(data[i]));
+      if (flag != GSL_SUCCESS){
+	Py_DECREF(a);
+	return NULL;
+      }
+    }
+    return (PyObject *) a;
+  }
+SWIGINTERN gsl_error_flag_drop pygsl_bspline_eval_dep_yerr(struct pygsl_bspline *self,double const x,double *OUT,double *OUT2){
+    int flag;     
+    if(self->coeffs_a == NULL || self->tmp_a == NULL || self->cov_a == NULL){
+      PyGSL_ERROR("No coefficients or No covarince matrix set",
+		     GSL_EFAULT);
+    }
+    flag = _pygsl_bspline_eval_dep_yerr(self, x, OUT, OUT2);
+    return flag;
+  }
+SWIGINTERN PyObject *pygsl_bspline_eval_dep_yerr_vector(struct pygsl_bspline *self,gsl_vector const *X){
+    PyArrayObject *y_a = NULL, *yerr_a = NULL;
+    double *y_d, *yerr_d, xt;
+    PyGSL_array_index_t size, i;
+    int flag;
+
+    FUNC_MESS_BEGIN();
+    if(self->coeffs_a == NULL || self->tmp_a == NULL || self->cov_a == NULL){
+      PyGSL_ERROR_NULL("No coefficients of No covarince matrix set",
+		GSL_EFAULT);
+    }
+    size = X->size;
+    y_a = PyGSL_New_Array(1, &size, PyArray_DOUBLE);      
+    if(y_a == NULL)
+      goto fail;
+    yerr_a = PyGSL_New_Array(1, &size, PyArray_DOUBLE);      
+    if(yerr_a == NULL)
+      goto fail;
+
+    y_d = (double *) y_a->data;
+    yerr_d = (double *) yerr_a->data;
+    
+    for(i = 0; i < size; ++i){
+      xt = gsl_vector_get(X, i);
+      flag = _pygsl_bspline_eval_dep_yerr(self, xt, &(y_d[i]), &(yerr_d[i]));
+      if (flag != GSL_SUCCESS)
+	goto fail;
+    }
+    return Py_BuildValue("(OO)", y_a, yerr_a);
+
+  fail:
+    Py_XDECREF(y_a);
+    Py_XDECREF(yerr_a);
+    return NULL;
+
+  }
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGINTERN PyObject *_wrap_gsl_poly_solve_quadratic(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_bspline_cov_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  double arg1 ;
-  double arg2 ;
-  double arg3 ;
-  double *arg4 = (double *) 0 ;
-  double *arg5 = (double *) 0 ;
-  int result;
-  double val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  double temp4 ;
-  int res4 = SWIG_TMPOBJ ;
-  double temp5 ;
-  int res5 = SWIG_TMPOBJ ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  char *  kwnames[] = {
-    (char *) "A",(char *) "B",(char *) "C", NULL 
-  };
-  
-  arg4 = &temp4;
-  arg5 = &temp5;
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_poly_solve_quadratic",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  ecode1 = SWIG_AsVal_double(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_solve_quadratic" "', argument " "1"" of type '" "double""'");
-  } 
-  arg1 = (double)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gsl_poly_solve_quadratic" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gsl_poly_solve_quadratic" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)gsl_poly_solve_quadratic(arg1,arg2,arg3,arg4,arg5);
-  resultobj = SWIG_From_int((int)(result));
-  if (SWIG_IsTmpObj(res4)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg4)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res4) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg4), SWIGTYPE_p_double, new_flags));
-  }
-  if (SWIG_IsTmpObj(res5)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg5)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res5) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg5), SWIGTYPE_p_double, new_flags));
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_complex_solve_quadratic(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  double arg1 ;
-  double arg2 ;
-  double arg3 ;
-  gsl_complex *arg4 = (gsl_complex *) 0 ;
-  gsl_complex *arg5 = (gsl_complex *) 0 ;
-  int result;
-  double val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  gsl_complex temp4 ;
-  gsl_complex temp5 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  char *  kwnames[] = {
-    (char *) "A",(char *) "B",(char *) "C", NULL 
-  };
-  
-  
-  
-  
-  
-  {
-    FUNC_MESS_BEGIN();
-    arg4 = &temp4;
-    FUNC_MESS_END();
-  }
-  {
-    FUNC_MESS_BEGIN();
-    arg5 = &temp5;
-    FUNC_MESS_END();
-  }
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_poly_complex_solve_quadratic",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  ecode1 = SWIG_AsVal_double(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_complex_solve_quadratic" "', argument " "1"" of type '" "double""'");
-  } 
-  arg1 = (double)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gsl_poly_complex_solve_quadratic" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gsl_poly_complex_solve_quadratic" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)gsl_poly_complex_solve_quadratic(arg1,arg2,arg3,arg4,arg5);
-  resultobj = SWIG_From_int((int)(result));
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg4->dat[0],(double) arg4->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg5->dat[0],(double) arg5->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_solve_cubic(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  double arg1 ;
-  double arg2 ;
-  double arg3 ;
-  double *arg4 = (double *) 0 ;
-  double *arg5 = (double *) 0 ;
-  double *arg6 = (double *) 0 ;
-  int result;
-  double val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  double temp4 ;
-  int res4 = SWIG_TMPOBJ ;
-  double temp5 ;
-  int res5 = SWIG_TMPOBJ ;
-  double temp6 ;
-  int res6 = SWIG_TMPOBJ ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  char *  kwnames[] = {
-    (char *) "A",(char *) "B",(char *) "C", NULL 
-  };
-  
-  arg4 = &temp4;
-  arg5 = &temp5;
-  arg6 = &temp6;
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_poly_solve_cubic",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  ecode1 = SWIG_AsVal_double(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_solve_cubic" "', argument " "1"" of type '" "double""'");
-  } 
-  arg1 = (double)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gsl_poly_solve_cubic" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gsl_poly_solve_cubic" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)gsl_poly_solve_cubic(arg1,arg2,arg3,arg4,arg5,arg6);
-  resultobj = SWIG_From_int((int)(result));
-  if (SWIG_IsTmpObj(res4)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg4)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res4) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg4), SWIGTYPE_p_double, new_flags));
-  }
-  if (SWIG_IsTmpObj(res5)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg5)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res5) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg5), SWIGTYPE_p_double, new_flags));
-  }
-  if (SWIG_IsTmpObj(res6)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg6)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res6) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg6), SWIGTYPE_p_double, new_flags));
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_complex_solve_cubic(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  double arg1 ;
-  double arg2 ;
-  double arg3 ;
-  gsl_complex *arg4 = (gsl_complex *) 0 ;
-  gsl_complex *arg5 = (gsl_complex *) 0 ;
-  gsl_complex *arg6 = (gsl_complex *) 0 ;
-  int result;
-  double val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  gsl_complex temp4 ;
-  gsl_complex temp5 ;
-  gsl_complex temp6 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  char *  kwnames[] = {
-    (char *) "A",(char *) "B",(char *) "C", NULL 
-  };
-  
-  
-  
-  
-  
-  
-  
-  {
-    FUNC_MESS_BEGIN();
-    arg4 = &temp4;
-    FUNC_MESS_END();
-  }
-  {
-    FUNC_MESS_BEGIN();
-    arg5 = &temp5;
-    FUNC_MESS_END();
-  }
-  {
-    FUNC_MESS_BEGIN();
-    arg6 = &temp6;
-    FUNC_MESS_END();
-  }
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_poly_complex_solve_cubic",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  ecode1 = SWIG_AsVal_double(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_complex_solve_cubic" "', argument " "1"" of type '" "double""'");
-  } 
-  arg1 = (double)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gsl_poly_complex_solve_cubic" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gsl_poly_complex_solve_cubic" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)gsl_poly_complex_solve_cubic(arg1,arg2,arg3,arg4,arg5,arg6);
-  resultobj = SWIG_From_int((int)(result));
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg4->dat[0],(double) arg4->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg5->dat[0],(double) arg5->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg6->dat[0],(double) arg6->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_complex_workspace_alloc(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  size_t arg1 ;
-  gsl_poly_complex_workspace *result = 0 ;
-  size_t val1 ;
-  int ecode1 = 0 ;
-  PyObject * obj0 = 0 ;
-  char *  kwnames[] = {
-    (char *) "N", NULL 
-  };
-  
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_poly_complex_workspace_alloc",kwnames,&obj0)) SWIG_fail;
-  ecode1 = SWIG_AsVal_size_t(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_complex_workspace_alloc" "', argument " "1"" of type '" "size_t""'");
-  } 
-  arg1 = (size_t)(val1);
-  result = (gsl_poly_complex_workspace *)gsl_poly_complex_workspace_alloc(arg1);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_poly_complex_workspace, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_complex_workspace_free(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  gsl_poly_complex_workspace *arg1 = (gsl_poly_complex_workspace *) 0 ;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  gsl_matrix_view result;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:bspline_cov_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_cov_get" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  result =  ((arg1)->cov);
+  resultobj = SWIG_NewPointerObj((gsl_matrix_view *)memcpy((gsl_matrix_view *)malloc(sizeof(gsl_matrix_view)),&result,sizeof(gsl_matrix_view)), SWIGTYPE_p_gsl_matrix_view, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_coeffs_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  gsl_vector_view result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:bspline_coeffs_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_coeffs_get" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  result =  ((arg1)->coeffs);
+  {
+    PyArrayObject * out = NULL; 
+    gsl_vector_view vectmp; 
+    PyGSL_array_index_t tmp;
+    if(PyGSL_VECTORVIEW_COPY(out, result, gsl_vector_view, vectmp, tmp) != GSL_SUCCESS){
+      goto fail;
+    }
+    resultobj = PyGSL_array_return(out);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_tmp_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  gsl_vector_view result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:bspline_tmp_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_tmp_get" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  result =  ((arg1)->tmp);
+  {
+    PyArrayObject * out = NULL; 
+    gsl_vector_view vectmp; 
+    PyGSL_array_index_t tmp;
+    if(PyGSL_VECTORVIEW_COPY(out, result, gsl_vector_view, vectmp, tmp) != GSL_SUCCESS){
+      goto fail;
+    }
+    resultobj = PyGSL_array_return(out);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_w_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  gsl_bspline_workspace *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:bspline_w_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_w_get" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  result = (gsl_bspline_workspace *) ((arg1)->w);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_bspline_workspace, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_coeffs_a_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  PyArrayObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:bspline_coeffs_a_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_coeffs_a_get" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  result = (PyArrayObject *) ((arg1)->coeffs_a);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_PyArrayObject, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_cov_a_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  PyArrayObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:bspline_cov_a_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_cov_a_get" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  result = (PyArrayObject *) ((arg1)->cov_a);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_PyArrayObject, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_tmp_a_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  PyArrayObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:bspline_tmp_a_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_tmp_a_get" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  result = (PyArrayObject *) ((arg1)->tmp_a);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_PyArrayObject, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_bspline(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  size_t arg1 ;
+  size_t arg2 ;
+  struct pygsl_bspline *result = 0 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   char *  kwnames[] = {
-    (char *) "W", NULL 
+    (char *) "K",(char *) "NBREAK", NULL 
   };
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_poly_complex_workspace_free",kwnames,&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_poly_complex_workspace, 0 |  0 );
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:new_bspline",kwnames,&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_bspline" "', argument " "1"" of type '" "size_t""'");
+  } 
+  arg1 = (size_t)(val1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_bspline" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = (size_t)(val2);
+  result = (struct pygsl_bspline *)new_pygsl_bspline(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_pygsl_bspline, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_bspline(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_bspline",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gsl_poly_complex_workspace_free" "', argument " "1"" of type '" "gsl_poly_complex_workspace *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_bspline" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
   }
-  arg1 = (gsl_poly_complex_workspace *)(argp1);
-  gsl_poly_complex_workspace_free(arg1);
+  arg1 = (struct pygsl_bspline *)(argp1);
+  delete_pygsl_bspline(arg1);
+  
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -3004,50 +3095,536 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_bspline_knots(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  gsl_vector *arg2 = (gsl_vector *) 0 ;
+  gsl_error_flag_drop result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "BREAKPTS", NULL 
+  };
+  
+  
+  PyArrayObject * volatile _PyVector2 = NULL;
+  TYPE_VIEW_gsl_vector _vector2;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:bspline_knots",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_knots" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  
+  {
+    PyGSL_array_index_t stride=0;
+    if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+      goto fail;
+    }
+  }
+  
+  result = pygsl_bspline_knots(arg1,(gsl_vector const *)arg2);
+  {
+    /* 
+    	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+    	negative numbers.
+         */
+    if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+        __FUNCTION__, 74); 
+      goto fail;
+    }
+    Py_INCREF(Py_None);
+    resultobj = Py_None;
+  }
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  return resultobj;
+fail:
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_knots_uniform(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  double arg2 ;
+  double arg3 ;
+  gsl_error_flag_drop result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "a",(char *) "b", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:bspline_knots_uniform",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_knots_uniform" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "bspline_knots_uniform" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "bspline_knots_uniform" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  result = pygsl_bspline_knots_uniform(arg1,arg2,arg3);
+  {
+    /* 
+    	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+    	negative numbers.
+         */
+    if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+        __FUNCTION__, 74); 
+      goto fail;
+    }
+    Py_INCREF(Py_None);
+    resultobj = Py_None;
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_eval_vector(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  gsl_vector *arg2 = (gsl_vector *) 0 ;
+  PyObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "X", NULL 
+  };
+  
+  
+  PyArrayObject * volatile _PyVector2 = NULL;
+  TYPE_VIEW_gsl_vector _vector2;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:bspline_eval_vector",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_eval_vector" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  
+  {
+    PyGSL_array_index_t stride=0;
+    if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+      goto fail;
+    }
+  }
+  
+  result = (PyObject *)pygsl_bspline_eval_vector(arg1,(gsl_vector const *)arg2);
+  resultobj = result;
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  return resultobj;
+fail:
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_eval(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  double arg2 ;
+  PyObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "X", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:bspline_eval",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_eval" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "bspline_eval" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  result = (PyObject *)pygsl_bspline_eval(arg1,arg2);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_set_coefficients_and_covariance_matrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  PyObject *arg2 = (PyObject *) 0 ;
+  PyObject *arg3 = (PyObject *) 0 ;
+  gsl_error_flag_drop result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "coeffs_o",(char *) "cov_o", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:bspline_set_coefficients_and_covariance_matrix",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_set_coefficients_and_covariance_matrix" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  arg2 = obj1;
+  arg3 = obj2;
+  result = pygsl_bspline_set_coefficients_and_covariance_matrix(arg1,arg2,arg3);
+  {
+    /* 
+    	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+    	negative numbers.
+         */
+    if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+        __FUNCTION__, 74); 
+      goto fail;
+    }
+    Py_INCREF(Py_None);
+    resultobj = Py_None;
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_eval_dep(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  double arg2 ;
+  double *arg3 = (double *) 0 ;
+  gsl_error_flag_drop result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x",(char *) "OUT", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:bspline_eval_dep",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_eval_dep" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "bspline_eval_dep" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "bspline_eval_dep" "', argument " "3"" of type '" "double *""'"); 
+  }
+  arg3 = (double *)(argp3);
+  result = pygsl_bspline_eval_dep(arg1,arg2,arg3);
+  {
+    /* 
+    	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+    	negative numbers.
+         */
+    if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+        __FUNCTION__, 74); 
+      goto fail;
+    }
+    Py_INCREF(Py_None);
+    resultobj = Py_None;
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_eval_dep_vector(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  gsl_vector *arg2 = (gsl_vector *) 0 ;
+  PyObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "X", NULL 
+  };
+  
+  
+  PyArrayObject * volatile _PyVector2 = NULL;
+  TYPE_VIEW_gsl_vector _vector2;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:bspline_eval_dep_vector",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_eval_dep_vector" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  
+  {
+    PyGSL_array_index_t stride=0;
+    if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+      goto fail;
+    }
+  }
+  
+  result = (PyObject *)pygsl_bspline_eval_dep_vector(arg1,(gsl_vector const *)arg2);
+  resultobj = result;
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  return resultobj;
+fail:
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_eval_dep_yerr(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  double arg2 ;
+  double *arg3 = (double *) 0 ;
+  double *arg4 = (double *) 0 ;
+  gsl_error_flag_drop result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "x",(char *) "OUT",(char *) "OUT2", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:bspline_eval_dep_yerr",kwnames,&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_eval_dep_yerr" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "bspline_eval_dep_yerr" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "bspline_eval_dep_yerr" "', argument " "3"" of type '" "double *""'"); 
+  }
+  arg3 = (double *)(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "bspline_eval_dep_yerr" "', argument " "4"" of type '" "double *""'"); 
+  }
+  arg4 = (double *)(argp4);
+  result = pygsl_bspline_eval_dep_yerr(arg1,arg2,arg3,arg4);
+  {
+    /* 
+    	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+    	negative numbers.
+         */
+    if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+        __FUNCTION__, 74); 
+      goto fail;
+    }
+    Py_INCREF(Py_None);
+    resultobj = Py_None;
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_bspline_eval_dep_yerr_vector(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  struct pygsl_bspline *arg1 = (struct pygsl_bspline *) 0 ;
+  gsl_vector *arg2 = (gsl_vector *) 0 ;
+  PyObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "X", NULL 
+  };
+  
+  
+  PyArrayObject * volatile _PyVector2 = NULL;
+  TYPE_VIEW_gsl_vector _vector2;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:bspline_eval_dep_yerr_vector",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_pygsl_bspline, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bspline_eval_dep_yerr_vector" "', argument " "1"" of type '" "struct pygsl_bspline *""'"); 
+  }
+  arg1 = (struct pygsl_bspline *)(argp1);
+  
+  {
+    PyGSL_array_index_t stride=0;
+    if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+      goto fail;
+    }
+  }
+  
+  result = (PyObject *)pygsl_bspline_eval_dep_yerr_vector(arg1,(gsl_vector const *)arg2);
+  resultobj = result;
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  return resultobj;
+fail:
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *bspline_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O|swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_pygsl_bspline, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 static PyMethodDef SwigMethods[] = {
-	 { (char *)"gsl_poly_solve_quadratic", (PyCFunction) _wrap_gsl_poly_solve_quadratic, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_complex_solve_quadratic", (PyCFunction) _wrap_gsl_poly_complex_solve_quadratic, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_solve_cubic", (PyCFunction) _wrap_gsl_poly_solve_cubic, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_complex_solve_cubic", (PyCFunction) _wrap_gsl_poly_complex_solve_cubic, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_eval", pygsl_poly_eval, METH_VARARGS, NULL},
-	 { (char *)"gsl_poly_dd_init", pygsl_poly_dd_init, METH_VARARGS, NULL},
-	 { (char *)"gsl_poly_dd_eval", pygsl_poly_dd_eval, METH_VARARGS, NULL},
-	 { (char *)"gsl_poly_dd_taylor", pygsl_poly_dd_taylor, METH_VARARGS, NULL},
-	 { (char *)"gsl_poly_complex_workspace_alloc", (PyCFunction) _wrap_gsl_poly_complex_workspace_alloc, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_complex_workspace_free", (PyCFunction) _wrap_gsl_poly_complex_workspace_free, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_complex_solve", pygsl_poly_complex_solve, METH_VARARGS, NULL},
+	 { (char *)"bspline_cov_get", _wrap_bspline_cov_get, METH_VARARGS, NULL},
+	 { (char *)"bspline_coeffs_get", _wrap_bspline_coeffs_get, METH_VARARGS, NULL},
+	 { (char *)"bspline_tmp_get", _wrap_bspline_tmp_get, METH_VARARGS, NULL},
+	 { (char *)"bspline_w_get", _wrap_bspline_w_get, METH_VARARGS, NULL},
+	 { (char *)"bspline_coeffs_a_get", _wrap_bspline_coeffs_a_get, METH_VARARGS, NULL},
+	 { (char *)"bspline_cov_a_get", _wrap_bspline_cov_a_get, METH_VARARGS, NULL},
+	 { (char *)"bspline_tmp_a_get", _wrap_bspline_tmp_a_get, METH_VARARGS, NULL},
+	 { (char *)"new_bspline", (PyCFunction) _wrap_new_bspline, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"delete_bspline", _wrap_delete_bspline, METH_VARARGS, NULL},
+	 { (char *)"bspline_knots", (PyCFunction) _wrap_bspline_knots, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_knots_uniform", (PyCFunction) _wrap_bspline_knots_uniform, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_eval_vector", (PyCFunction) _wrap_bspline_eval_vector, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_eval", (PyCFunction) _wrap_bspline_eval, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_set_coefficients_and_covariance_matrix", (PyCFunction) _wrap_bspline_set_coefficients_and_covariance_matrix, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_eval_dep", (PyCFunction) _wrap_bspline_eval_dep, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_eval_dep_vector", (PyCFunction) _wrap_bspline_eval_dep_vector, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_eval_dep_yerr", (PyCFunction) _wrap_bspline_eval_dep_yerr, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_eval_dep_yerr_vector", (PyCFunction) _wrap_bspline_eval_dep_yerr_vector, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"bspline_swigregister", bspline_swigregister, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static swig_type_info _swigt__p_PyArrayObject = {"_p_PyArrayObject", "PyArrayObject *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_gsl_complex = {"_p_gsl_complex", "gsl_complex *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_gsl_poly_complex_workspace = {"_p_gsl_poly_complex_workspace", "gsl_poly_complex_workspace *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "unsigned int *|size_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_gsl_bspline_workspace = {"_p_gsl_bspline_workspace", "gsl_bspline_workspace *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_gsl_matrix_view = {"_p_gsl_matrix_view", "gsl_matrix_view *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_gsl_vector = {"_p_gsl_vector", "gsl_vector *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_pygsl_bspline = {"_p_pygsl_bspline", "pygsl_bspline *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_PyArrayObject,
   &_swigt__p_char,
   &_swigt__p_double,
-  &_swigt__p_gsl_complex,
-  &_swigt__p_gsl_poly_complex_workspace,
-  &_swigt__p_unsigned_int,
+  &_swigt__p_gsl_bspline_workspace,
+  &_swigt__p_gsl_matrix_view,
+  &_swigt__p_gsl_vector,
+  &_swigt__p_pygsl_bspline,
 };
 
+static swig_cast_info _swigc__p_PyArrayObject[] = {  {&_swigt__p_PyArrayObject, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_gsl_complex[] = {  {&_swigt__p_gsl_complex, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_gsl_poly_complex_workspace[] = {  {&_swigt__p_gsl_poly_complex_workspace, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_gsl_bspline_workspace[] = {  {&_swigt__p_gsl_bspline_workspace, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_gsl_matrix_view[] = {  {&_swigt__p_gsl_matrix_view, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_gsl_vector[] = {  {&_swigt__p_gsl_vector, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_pygsl_bspline[] = {  {&_swigt__p_pygsl_bspline, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_PyArrayObject,
   _swigc__p_char,
   _swigc__p_double,
-  _swigc__p_gsl_complex,
-  _swigc__p_gsl_poly_complex_workspace,
-  _swigc__p_unsigned_int,
+  _swigc__p_gsl_bspline_workspace,
+  _swigc__p_gsl_matrix_view,
+  _swigc__p_gsl_vector,
+  _swigc__p_pygsl_bspline,
 };
 
 
@@ -3550,6 +4127,9 @@ SWIGEXPORT void SWIG_init(void) {
   SWIG_InitializeModule(0);
   SWIG_InstallConstants(d,swig_const_table);
   
+  
+  
+  pygsl_module_for_error_treatment = m;
   
   
   init_pygsl();

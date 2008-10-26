@@ -2444,8 +2444,8 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 
 #define SWIGTYPE_p_char swig_types[0]
 #define SWIGTYPE_p_double swig_types[1]
-#define SWIGTYPE_p_gsl_complex swig_types[2]
-#define SWIGTYPE_p_gsl_poly_complex_workspace swig_types[3]
+#define SWIGTYPE_p_gsl_sum_levin_u_workspace swig_types[2]
+#define SWIGTYPE_p_gsl_sum_levin_utrunc_workspace swig_types[3]
 #define SWIGTYPE_p_unsigned_int swig_types[4]
 static swig_type_info *swig_types[6];
 static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
@@ -2461,11 +2461,11 @@ static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
 #endif
 
 /*-----------------------------------------------
-              @(target):= __poly.so
+              @(target):= _sum.so
   ------------------------------------------------*/
-#define SWIG_init    init__poly
+#define SWIG_init    init_sum
 
-#define SWIG_name    "__poly"
+#define SWIG_name    "_sum"
 
 #define SWIGVERSION 0x010329 
 
@@ -2474,14 +2474,23 @@ static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
 #define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),(void**)(a)) 
 
 
-#include <gsl/gsl_poly.h>
-#include <gsl/gsl_errno.h>
-#include <poly.ic>
+#include <gsl/gsl_sum.h>
+#include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
 
-
-#include <gsl/gsl_errno.h>
+   
 #include <pygsl/utils.h>
-#include <pygsl/complex_helpers.h>
+#include <pygsl/error_helpers.h>
+typedef int gsl_error_flag;
+typedef int gsl_error_flag_drop;
+PyObject *pygsl_module_for_error_treatment = NULL;
+                        
+
+
+#include <pygsl/block_helpers.h>
+#include <gsl/gsl_interp.h>
+#include <gsl/gsl_spline.h>
+#include <stdio.h>
 
 
 SWIGINTERN int
@@ -2525,19 +2534,6 @@ SWIG_AsVal_double (PyObject *obj, double *val)
   }
 #endif
   return res;
-}
-
-
-  #define SWIG_From_double   PyFloat_FromDouble 
-
-
-  #define SWIG_From_long   PyInt_FromLong 
-
-
-SWIGINTERNINLINE PyObject *
-SWIG_From_int  (int value)
-{    
-  return SWIG_From_long  (value);
 }
 
 
@@ -2630,373 +2626,100 @@ SWIG_AsVal_size_t (PyObject * obj, size_t *val)
   return res;
 }
 
+SWIGINTERN gsl_sum_levin_u_workspace *new_gsl_sum_levin_u_workspace(size_t const n){
+    return gsl_sum_levin_u_alloc(n);
+  }
+SWIGINTERN void delete_gsl_sum_levin_u_workspace(gsl_sum_levin_u_workspace *self){
+     gsl_sum_levin_u_free(self);
+  }
+
+  #define SWIG_From_double   PyFloat_FromDouble 
+
+SWIGINTERN int gsl_sum_levin_u_workspace_accel(gsl_sum_levin_u_workspace *self,double const *array,size_t const n,double *sum_accel,double *abserr){
+       return gsl_sum_levin_u_accel(array, n, self, sum_accel, abserr);
+  }
+SWIGINTERN size_t gsl_sum_levin_u_workspace_get_terms_used(gsl_sum_levin_u_workspace *self){
+       return self->terms_used;
+  }
+
+  #define SWIG_From_long   PyInt_FromLong 
+
+
+SWIGINTERNINLINE PyObject* 
+SWIG_From_unsigned_SS_long  (unsigned long value)
+{
+  return (value > LONG_MAX) ?
+    PyLong_FromUnsignedLong(value) : PyInt_FromLong((long)(value)); 
+}
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_size_t  (size_t value)
+{    
+  return SWIG_From_unsigned_SS_long  ((unsigned long)(value));
+}
+
+SWIGINTERN double gsl_sum_levin_u_workspace_sum_plain(gsl_sum_levin_u_workspace *self){
+       return self->sum_plain;
+  }
+SWIGINTERN gsl_sum_levin_utrunc_workspace *new_gsl_sum_levin_utrunc_workspace(size_t const n){
+    return gsl_sum_levin_utrunc_alloc(n);
+  }
+SWIGINTERN void delete_gsl_sum_levin_utrunc_workspace(gsl_sum_levin_utrunc_workspace *self){
+     gsl_sum_levin_utrunc_free(self);
+  }
+SWIGINTERN int gsl_sum_levin_utrunc_workspace_accel(gsl_sum_levin_utrunc_workspace *self,double const *array,size_t const n,double *sum_accel,double *abserr){
+       return gsl_sum_levin_utrunc_accel(array, n, self, sum_accel, abserr);
+  }
+SWIGINTERN size_t gsl_sum_levin_utrunc_workspace_get_terms_used(gsl_sum_levin_utrunc_workspace *self){
+       return self->terms_used;
+  }
+SWIGINTERN double gsl_sum_levin_utrunc_workspace_sum_plain(gsl_sum_levin_utrunc_workspace *self){
+       return self->sum_plain;
+  }
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGINTERN PyObject *_wrap_gsl_poly_solve_quadratic(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  double arg1 ;
-  double arg2 ;
-  double arg3 ;
-  double *arg4 = (double *) 0 ;
-  double *arg5 = (double *) 0 ;
-  int result;
-  double val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  double temp4 ;
-  int res4 = SWIG_TMPOBJ ;
-  double temp5 ;
-  int res5 = SWIG_TMPOBJ ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  char *  kwnames[] = {
-    (char *) "A",(char *) "B",(char *) "C", NULL 
-  };
-  
-  arg4 = &temp4;
-  arg5 = &temp5;
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_poly_solve_quadratic",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  ecode1 = SWIG_AsVal_double(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_solve_quadratic" "', argument " "1"" of type '" "double""'");
-  } 
-  arg1 = (double)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gsl_poly_solve_quadratic" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gsl_poly_solve_quadratic" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)gsl_poly_solve_quadratic(arg1,arg2,arg3,arg4,arg5);
-  resultobj = SWIG_From_int((int)(result));
-  if (SWIG_IsTmpObj(res4)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg4)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res4) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg4), SWIGTYPE_p_double, new_flags));
-  }
-  if (SWIG_IsTmpObj(res5)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg5)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res5) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg5), SWIGTYPE_p_double, new_flags));
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_complex_solve_quadratic(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  double arg1 ;
-  double arg2 ;
-  double arg3 ;
-  gsl_complex *arg4 = (gsl_complex *) 0 ;
-  gsl_complex *arg5 = (gsl_complex *) 0 ;
-  int result;
-  double val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  gsl_complex temp4 ;
-  gsl_complex temp5 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  char *  kwnames[] = {
-    (char *) "A",(char *) "B",(char *) "C", NULL 
-  };
-  
-  
-  
-  
-  
-  {
-    FUNC_MESS_BEGIN();
-    arg4 = &temp4;
-    FUNC_MESS_END();
-  }
-  {
-    FUNC_MESS_BEGIN();
-    arg5 = &temp5;
-    FUNC_MESS_END();
-  }
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_poly_complex_solve_quadratic",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  ecode1 = SWIG_AsVal_double(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_complex_solve_quadratic" "', argument " "1"" of type '" "double""'");
-  } 
-  arg1 = (double)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gsl_poly_complex_solve_quadratic" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gsl_poly_complex_solve_quadratic" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)gsl_poly_complex_solve_quadratic(arg1,arg2,arg3,arg4,arg5);
-  resultobj = SWIG_From_int((int)(result));
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg4->dat[0],(double) arg4->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg5->dat[0],(double) arg5->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_solve_cubic(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  double arg1 ;
-  double arg2 ;
-  double arg3 ;
-  double *arg4 = (double *) 0 ;
-  double *arg5 = (double *) 0 ;
-  double *arg6 = (double *) 0 ;
-  int result;
-  double val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  double temp4 ;
-  int res4 = SWIG_TMPOBJ ;
-  double temp5 ;
-  int res5 = SWIG_TMPOBJ ;
-  double temp6 ;
-  int res6 = SWIG_TMPOBJ ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  char *  kwnames[] = {
-    (char *) "A",(char *) "B",(char *) "C", NULL 
-  };
-  
-  arg4 = &temp4;
-  arg5 = &temp5;
-  arg6 = &temp6;
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_poly_solve_cubic",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  ecode1 = SWIG_AsVal_double(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_solve_cubic" "', argument " "1"" of type '" "double""'");
-  } 
-  arg1 = (double)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gsl_poly_solve_cubic" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gsl_poly_solve_cubic" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)gsl_poly_solve_cubic(arg1,arg2,arg3,arg4,arg5,arg6);
-  resultobj = SWIG_From_int((int)(result));
-  if (SWIG_IsTmpObj(res4)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg4)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res4) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg4), SWIGTYPE_p_double, new_flags));
-  }
-  if (SWIG_IsTmpObj(res5)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg5)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res5) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg5), SWIGTYPE_p_double, new_flags));
-  }
-  if (SWIG_IsTmpObj(res6)) {
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg6)));
-  } else {
-    int new_flags = SWIG_IsNewObj(res6) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
-    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg6), SWIGTYPE_p_double, new_flags));
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_complex_solve_cubic(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
-  PyObject *resultobj = 0;
-  double arg1 ;
-  double arg2 ;
-  double arg3 ;
-  gsl_complex *arg4 = (gsl_complex *) 0 ;
-  gsl_complex *arg5 = (gsl_complex *) 0 ;
-  gsl_complex *arg6 = (gsl_complex *) 0 ;
-  int result;
-  double val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  gsl_complex temp4 ;
-  gsl_complex temp5 ;
-  gsl_complex temp6 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  char *  kwnames[] = {
-    (char *) "A",(char *) "B",(char *) "C", NULL 
-  };
-  
-  
-  
-  
-  
-  
-  
-  {
-    FUNC_MESS_BEGIN();
-    arg4 = &temp4;
-    FUNC_MESS_END();
-  }
-  {
-    FUNC_MESS_BEGIN();
-    arg5 = &temp5;
-    FUNC_MESS_END();
-  }
-  {
-    FUNC_MESS_BEGIN();
-    arg6 = &temp6;
-    FUNC_MESS_END();
-  }
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_poly_complex_solve_cubic",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
-  ecode1 = SWIG_AsVal_double(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_complex_solve_cubic" "', argument " "1"" of type '" "double""'");
-  } 
-  arg1 = (double)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gsl_poly_complex_solve_cubic" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gsl_poly_complex_solve_cubic" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  result = (int)gsl_poly_complex_solve_cubic(arg1,arg2,arg3,arg4,arg5,arg6);
-  resultobj = SWIG_From_int((int)(result));
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg4->dat[0],(double) arg4->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg5->dat[0],(double) arg5->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  {
-    PyObject *out = NULL;
-    FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg6->dat[0],(double) arg6->dat[1]);
-    if(out == NULL){
-      PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
-    }
-    resultobj = SWIG_Python_AppendOutput(resultobj, out);
-    FUNC_MESS_END();
-  }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_gsl_poly_complex_workspace_alloc(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_new__levin(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   size_t arg1 ;
-  gsl_poly_complex_workspace *result = 0 ;
+  gsl_sum_levin_u_workspace *result = 0 ;
   size_t val1 ;
   int ecode1 = 0 ;
   PyObject * obj0 = 0 ;
   char *  kwnames[] = {
-    (char *) "N", NULL 
+    (char *) "n", NULL 
   };
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_poly_complex_workspace_alloc",kwnames,&obj0)) SWIG_fail;
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new__levin",kwnames,&obj0)) SWIG_fail;
   ecode1 = SWIG_AsVal_size_t(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "gsl_poly_complex_workspace_alloc" "', argument " "1"" of type '" "size_t""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new__levin" "', argument " "1"" of type '" "size_t""'");
   } 
   arg1 = (size_t)(val1);
-  result = (gsl_poly_complex_workspace *)gsl_poly_complex_workspace_alloc(arg1);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_poly_complex_workspace, 0 |  0 );
+  result = (gsl_sum_levin_u_workspace *)new_gsl_sum_levin_u_workspace(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_sum_levin_u_workspace, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_poly_complex_workspace_free(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_delete__levin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  gsl_poly_complex_workspace *arg1 = (gsl_poly_complex_workspace *) 0 ;
+  gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  char *  kwnames[] = {
-    (char *) "W", NULL 
-  };
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:gsl_poly_complex_workspace_free",kwnames,&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_poly_complex_workspace, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"O:delete__levin",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gsl_poly_complex_workspace_free" "', argument " "1"" of type '" "gsl_poly_complex_workspace *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete__levin" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
   }
-  arg1 = (gsl_poly_complex_workspace *)(argp1);
-  gsl_poly_complex_workspace_free(arg1);
+  arg1 = (gsl_sum_levin_u_workspace *)(argp1);
+  delete_gsl_sum_levin_u_workspace(arg1);
+  
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -3004,18 +2727,326 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap__levin_accel(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
+  double *arg2 = (double *) 0 ;
+  size_t arg3 ;
+  double *arg4 = (double *) 0 ;
+  double *arg5 = (double *) 0 ;
+  int result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double temp4 ;
+  int res4 = SWIG_TMPOBJ ;
+  double temp5 ;
+  int res5 = SWIG_TMPOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "array", NULL 
+  };
+  
+  
+  PyArrayObject *_PyVector2 = NULL;
+  
+  arg4 = &temp4;
+  arg5 = &temp5;
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:_levin_accel",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_accel" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
+  }
+  arg1 = (gsl_sum_levin_u_workspace *)(argp1);
+  {
+    int mysize = 0;
+    _PyVector2 = PyGSL_vector_check(obj1, -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
+    if (_PyVector2 == NULL)
+    goto fail;
+    
+    mysize = _PyVector2->dimensions[0];
+    arg2 = (double *)(_PyVector2->data);
+    arg3 = (size_t) mysize;
+  }
+  result = (int)gsl_sum_levin_u_workspace_accel(arg1,(double const *)arg2,arg3,arg4,arg5);
+  {
+    /* 
+    	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+    	negative numbers.
+         */
+    if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+        __FUNCTION__, 74); 
+      goto fail;
+    }
+    Py_INCREF(Py_None);
+    resultobj = Py_None;
+  }
+  if (SWIG_IsTmpObj(res4)) {
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg4)));
+  } else {
+    int new_flags = SWIG_IsNewObj(res4) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg4), SWIGTYPE_p_double, new_flags));
+  }
+  if (SWIG_IsTmpObj(res5)) {
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg5)));
+  } else {
+    int new_flags = SWIG_IsNewObj(res5) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg5), SWIGTYPE_p_double, new_flags));
+  }
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  return resultobj;
+fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap__levin_get_terms_used(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
+  size_t result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:_levin_get_terms_used",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_get_terms_used" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
+  }
+  arg1 = (gsl_sum_levin_u_workspace *)(argp1);
+  result = (size_t)gsl_sum_levin_u_workspace_get_terms_used(arg1);
+  resultobj = SWIG_From_size_t((size_t)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap__levin_sum_plain(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
+  double result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:_levin_sum_plain",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_sum_plain" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
+  }
+  arg1 = (gsl_sum_levin_u_workspace *)(argp1);
+  result = (double)gsl_sum_levin_u_workspace_sum_plain(arg1);
+  resultobj = SWIG_From_double((double)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_levin_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O|swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_gsl_sum_levin_u_workspace, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new__levin_utrunc(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  size_t arg1 ;
+  gsl_sum_levin_utrunc_workspace *result = 0 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  char *  kwnames[] = {
+    (char *) "n", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new__levin_utrunc",kwnames,&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new__levin_utrunc" "', argument " "1"" of type '" "size_t""'");
+  } 
+  arg1 = (size_t)(val1);
+  result = (gsl_sum_levin_utrunc_workspace *)new_gsl_sum_levin_utrunc_workspace(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete__levin_utrunc(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete__levin_utrunc",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete__levin_utrunc" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
+  }
+  arg1 = (gsl_sum_levin_utrunc_workspace *)(argp1);
+  delete_gsl_sum_levin_utrunc_workspace(arg1);
+  
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap__levin_utrunc_accel(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
+  double *arg2 = (double *) 0 ;
+  size_t arg3 ;
+  double *arg4 = (double *) 0 ;
+  double *arg5 = (double *) 0 ;
+  int result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double temp4 ;
+  int res4 = SWIG_TMPOBJ ;
+  double temp5 ;
+  int res5 = SWIG_TMPOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "array", NULL 
+  };
+  
+  
+  PyArrayObject *_PyVector2 = NULL;
+  
+  arg4 = &temp4;
+  arg5 = &temp5;
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:_levin_utrunc_accel",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_utrunc_accel" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
+  }
+  arg1 = (gsl_sum_levin_utrunc_workspace *)(argp1);
+  {
+    int mysize = 0;
+    _PyVector2 = PyGSL_vector_check(obj1, -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
+    if (_PyVector2 == NULL)
+    goto fail;
+    
+    mysize = _PyVector2->dimensions[0];
+    arg2 = (double *)(_PyVector2->data);
+    arg3 = (size_t) mysize;
+  }
+  result = (int)gsl_sum_levin_utrunc_workspace_accel(arg1,(double const *)arg2,arg3,arg4,arg5);
+  {
+    /* 
+    	assert(result >= 0);  assertion removed as PyGSL_error_flag can deal with
+    	negative numbers.
+         */
+    if(GSL_FAILURE == PyGSL_ERROR_FLAG(result)){
+      PyGSL_add_traceback(pygsl_module_for_error_treatment, "typemaps/gsl_error_typemap.i", 
+        __FUNCTION__, 74); 
+      goto fail;
+    }
+    Py_INCREF(Py_None);
+    resultobj = Py_None;
+  }
+  if (SWIG_IsTmpObj(res4)) {
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg4)));
+  } else {
+    int new_flags = SWIG_IsNewObj(res4) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg4), SWIGTYPE_p_double, new_flags));
+  }
+  if (SWIG_IsTmpObj(res5)) {
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg5)));
+  } else {
+    int new_flags = SWIG_IsNewObj(res5) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg5), SWIGTYPE_p_double, new_flags));
+  }
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  return resultobj;
+fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap__levin_utrunc_get_terms_used(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
+  size_t result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:_levin_utrunc_get_terms_used",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_utrunc_get_terms_used" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
+  }
+  arg1 = (gsl_sum_levin_utrunc_workspace *)(argp1);
+  result = (size_t)gsl_sum_levin_utrunc_workspace_get_terms_used(arg1);
+  resultobj = SWIG_From_size_t((size_t)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap__levin_utrunc_sum_plain(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
+  double result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:_levin_utrunc_sum_plain",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_utrunc_sum_plain" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
+  }
+  arg1 = (gsl_sum_levin_utrunc_workspace *)(argp1);
+  result = (double)gsl_sum_levin_utrunc_workspace_sum_plain(arg1);
+  resultobj = SWIG_From_double((double)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_levin_utrunc_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O|swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 static PyMethodDef SwigMethods[] = {
-	 { (char *)"gsl_poly_solve_quadratic", (PyCFunction) _wrap_gsl_poly_solve_quadratic, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_complex_solve_quadratic", (PyCFunction) _wrap_gsl_poly_complex_solve_quadratic, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_solve_cubic", (PyCFunction) _wrap_gsl_poly_solve_cubic, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_complex_solve_cubic", (PyCFunction) _wrap_gsl_poly_complex_solve_cubic, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_eval", pygsl_poly_eval, METH_VARARGS, NULL},
-	 { (char *)"gsl_poly_dd_init", pygsl_poly_dd_init, METH_VARARGS, NULL},
-	 { (char *)"gsl_poly_dd_eval", pygsl_poly_dd_eval, METH_VARARGS, NULL},
-	 { (char *)"gsl_poly_dd_taylor", pygsl_poly_dd_taylor, METH_VARARGS, NULL},
-	 { (char *)"gsl_poly_complex_workspace_alloc", (PyCFunction) _wrap_gsl_poly_complex_workspace_alloc, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_complex_workspace_free", (PyCFunction) _wrap_gsl_poly_complex_workspace_free, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"gsl_poly_complex_solve", pygsl_poly_complex_solve, METH_VARARGS, NULL},
+	 { (char *)"new__levin", (PyCFunction) _wrap_new__levin, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"delete__levin", _wrap_delete__levin, METH_VARARGS, NULL},
+	 { (char *)"_levin_accel", (PyCFunction) _wrap__levin_accel, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"_levin_get_terms_used", _wrap__levin_get_terms_used, METH_VARARGS, NULL},
+	 { (char *)"_levin_sum_plain", _wrap__levin_sum_plain, METH_VARARGS, NULL},
+	 { (char *)"_levin_swigregister", _levin_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new__levin_utrunc", (PyCFunction) _wrap_new__levin_utrunc, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"delete__levin_utrunc", _wrap_delete__levin_utrunc, METH_VARARGS, NULL},
+	 { (char *)"_levin_utrunc_accel", (PyCFunction) _wrap__levin_utrunc_accel, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"_levin_utrunc_get_terms_used", _wrap__levin_utrunc_get_terms_used, METH_VARARGS, NULL},
+	 { (char *)"_levin_utrunc_sum_plain", _wrap__levin_utrunc_sum_plain, METH_VARARGS, NULL},
+	 { (char *)"_levin_utrunc_swigregister", _levin_utrunc_swigregister, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -3024,29 +3055,29 @@ static PyMethodDef SwigMethods[] = {
 
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_gsl_complex = {"_p_gsl_complex", "gsl_complex *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_gsl_poly_complex_workspace = {"_p_gsl_poly_complex_workspace", "gsl_poly_complex_workspace *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_gsl_sum_levin_u_workspace = {"_p_gsl_sum_levin_u_workspace", "gsl_sum_levin_u_workspace *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_gsl_sum_levin_utrunc_workspace = {"_p_gsl_sum_levin_utrunc_workspace", "gsl_sum_levin_utrunc_workspace *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "unsigned int *|size_t *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
   &_swigt__p_double,
-  &_swigt__p_gsl_complex,
-  &_swigt__p_gsl_poly_complex_workspace,
+  &_swigt__p_gsl_sum_levin_u_workspace,
+  &_swigt__p_gsl_sum_levin_utrunc_workspace,
   &_swigt__p_unsigned_int,
 };
 
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_gsl_complex[] = {  {&_swigt__p_gsl_complex, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_gsl_poly_complex_workspace[] = {  {&_swigt__p_gsl_poly_complex_workspace, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_gsl_sum_levin_u_workspace[] = {  {&_swigt__p_gsl_sum_levin_u_workspace, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_gsl_sum_levin_utrunc_workspace[] = {  {&_swigt__p_gsl_sum_levin_utrunc_workspace, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_char,
   _swigc__p_double,
-  _swigc__p_gsl_complex,
-  _swigc__p_gsl_poly_complex_workspace,
+  _swigc__p_gsl_sum_levin_u_workspace,
+  _swigc__p_gsl_sum_levin_utrunc_workspace,
   _swigc__p_unsigned_int,
 };
 
@@ -3553,6 +3584,9 @@ SWIGEXPORT void SWIG_init(void) {
   
   
   init_pygsl();
+  
+  
+  pygsl_module_for_error_treatment = m;
   
 }
 

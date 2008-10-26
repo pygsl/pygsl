@@ -3179,7 +3179,7 @@ SWIG_From_unsigned_SS_int  (unsigned int value)
 	  size_t i, v_size;
 	  v_size = coef->size;
 	  if(v_size != s->order){
-	       GSL_ERROR("The number of coefficients does not match the specified order.", GSL_EBADLEN);
+	       PyGSL_ERROR("The number of coefficients does not match the specified order.", GSL_EBADLEN);
 	       return GSL_EBADLEN;
 	  }
 	  for (i=0; i<v_size; i++){
@@ -3599,6 +3599,10 @@ SWIGINTERN PyObject *_wrap_gsl_monte_plain_integrate(PyObject *SWIGUNUSEDPARM(se
       }
     }
   }
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
+  }
   return resultobj;
 fail:
   {
@@ -3612,6 +3616,10 @@ fail:
         p->buffer_is_set = 0;
       }
     }
+  }
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
   }
   return NULL;
 }
@@ -4153,6 +4161,10 @@ SWIGINTERN PyObject *_wrap_gsl_monte_miser_integrate(PyObject *SWIGUNUSEDPARM(se
       }
     }
   }
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
+  }
   return resultobj;
 fail:
   {
@@ -4166,6 +4178,10 @@ fail:
         p->buffer_is_set = 0;
       }
     }
+  }
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
   }
   return NULL;
 }
@@ -4946,6 +4962,10 @@ SWIGINTERN PyObject *_wrap_gsl_monte_vegas_integrate(PyObject *SWIGUNUSEDPARM(se
       }
     }
   }
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
+  }
   return resultobj;
 fail:
   {
@@ -4959,6 +4979,10 @@ fail:
         p->buffer_is_set = 0;
       }
     }
+  }
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
   }
   return NULL;
 }
@@ -13910,17 +13934,15 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_linear_est(PyObject *SWIGUNUSEDPARM(self
   double *arg4 = (double *) 0 ;
   double *arg5 = (double *) 0 ;
   gsl_error_flag_drop result;
-  void *argp4 = 0 ;
-  int res4 = 0 ;
-  void *argp5 = 0 ;
-  int res5 = 0 ;
+  double temp4 ;
+  int res4 = SWIG_TMPOBJ ;
+  double temp5 ;
+  int res5 = SWIG_TMPOBJ ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
-  PyObject * obj3 = 0 ;
-  PyObject * obj4 = 0 ;
   char *  kwnames[] = {
-    (char *) "IN",(char *) "IN",(char *) "IN",(char *) "Y",(char *) "Y_ERR", NULL 
+    (char *) "IN",(char *) "IN",(char *) "IN", NULL 
   };
   
   
@@ -13935,7 +13957,9 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_linear_est(PyObject *SWIGUNUSEDPARM(self
   PyArrayObject * _PyMatrix3 = NULL;
   TYPE_VIEW_gsl_matrix _matrix3;
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOOO:gsl_multifit_linear_est",kwnames,&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  arg4 = &temp4;
+  arg5 = &temp5;
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_multifit_linear_est",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
   
   {
     PyGSL_array_index_t stride=0;
@@ -13962,16 +13986,6 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_linear_est(PyObject *SWIGUNUSEDPARM(self
     goto fail;	  
   }
   
-  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_double, 0 |  0 );
-  if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "gsl_multifit_linear_est" "', argument " "4"" of type '" "double *""'"); 
-  }
-  arg4 = (double *)(argp4);
-  res5 = SWIG_ConvertPtr(obj4, &argp5,SWIGTYPE_p_double, 0 |  0 );
-  if (!SWIG_IsOK(res5)) {
-    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "gsl_multifit_linear_est" "', argument " "5"" of type '" "double *""'"); 
-  }
-  arg5 = (double *)(argp5);
   result = gsl_multifit_linear_est((gsl_vector const *)arg1,(gsl_vector const *)arg2,(gsl_matrix const *)arg3,arg4,arg5);
   {
     /* 
@@ -13985,6 +13999,18 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_linear_est(PyObject *SWIGUNUSEDPARM(self
     }
     Py_INCREF(Py_None);
     resultobj = Py_None;
+  }
+  if (SWIG_IsTmpObj(res4)) {
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg4)));
+  } else {
+    int new_flags = SWIG_IsNewObj(res4) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg4), SWIGTYPE_p_double, new_flags));
+  }
+  if (SWIG_IsTmpObj(res5)) {
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_From_double((*arg5)));
+  } else {
+    int new_flags = SWIG_IsNewObj(res5) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
+    resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg5), SWIGTYPE_p_double, new_flags));
   }
   {
     Py_XDECREF(_PyVector1);
@@ -14006,6 +14032,95 @@ fail:
   {
     Py_XDECREF(_PyVector1);
     _PyVector1 = NULL;
+    FUNC_MESS_END();
+  }
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  {
+    Py_XDECREF(_PyMatrix3);
+    _PyMatrix3 = NULL;
+    FUNC_MESS_END();
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_gsl_multifit_linear_est_matrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  gsl_matrix *arg1 = (gsl_matrix *) 0 ;
+  gsl_vector *arg2 = (gsl_vector *) 0 ;
+  gsl_matrix *arg3 = (gsl_matrix *) 0 ;
+  PyObject *result = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  char *  kwnames[] = {
+    (char *) "IN",(char *) "IN",(char *) "IN", NULL 
+  };
+  
+  
+  PyArrayObject * _PyMatrix1 = NULL;
+  TYPE_VIEW_gsl_matrix _matrix1;
+  
+  
+  PyArrayObject * volatile _PyVector2 = NULL;
+  TYPE_VIEW_gsl_vector _vector2;
+  
+  
+  PyArrayObject * _PyMatrix3 = NULL;
+  TYPE_VIEW_gsl_matrix _matrix3;
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:gsl_multifit_linear_est_matrix",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  
+  {
+    PyGSL_array_index_t stride;
+    if(PyGSL_MATRIX_CONVERT(obj0, arg1, _PyMatrix1, _matrix1,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 1, &stride) != GSL_SUCCESS)
+    goto fail;	  
+  }
+  
+  
+  {
+    PyGSL_array_index_t stride=0;
+    if(PyGSL_VECTOR_CONVERT(obj1, arg2, _PyVector2, _vector2,
+        PyGSL_INPUT_ARRAY, gsl_vector, 2, &stride) != GSL_SUCCESS){
+      goto fail;
+    }
+  }
+  
+  
+  {
+    PyGSL_array_index_t stride;
+    if(PyGSL_MATRIX_CONVERT(obj2, arg3, _PyMatrix3, _matrix3,
+        PyGSL_INPUT_ARRAY, gsl_matrix, 3, &stride) != GSL_SUCCESS)
+    goto fail;	  
+  }
+  
+  result = (PyObject *)gsl_multifit_linear_est_matrix((gsl_matrix const *)arg1,(gsl_vector const *)arg2,(gsl_matrix const *)arg3);
+  resultobj = result;
+  {
+    Py_XDECREF(_PyMatrix1);
+    _PyMatrix1 = NULL;
+    FUNC_MESS_END();
+  }
+  {
+    Py_XDECREF(_PyVector2);
+    _PyVector2 = NULL;
+    FUNC_MESS_END();
+  }
+  {
+    Py_XDECREF(_PyMatrix3);
+    _PyMatrix3 = NULL;
+    FUNC_MESS_END();
+  }
+  return resultobj;
+fail:
+  {
+    Py_XDECREF(_PyMatrix1);
+    _PyMatrix1 = NULL;
     FUNC_MESS_END();
   }
   {
@@ -14984,6 +15099,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"gsl_multifit_wlinear", (PyCFunction) _wrap_gsl_multifit_wlinear, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_multifit_wlinear_svd", (PyCFunction) _wrap_gsl_multifit_wlinear_svd, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_multifit_linear_est", (PyCFunction) _wrap_gsl_multifit_linear_est, METH_VARARGS | METH_KEYWORDS, NULL},
+	 { (char *)"gsl_multifit_linear_est_matrix", (PyCFunction) _wrap_gsl_multifit_linear_est_matrix, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_fit_linear", (PyCFunction) _wrap_gsl_fit_linear, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_fit_wlinear", (PyCFunction) _wrap_gsl_fit_wlinear, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"gsl_fit_linear_est", (PyCFunction) _wrap_gsl_fit_linear_est, METH_VARARGS | METH_KEYWORDS, NULL},

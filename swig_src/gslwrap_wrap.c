@@ -31910,8 +31910,16 @@ SWIGINTERN PyObject *_wrap_gsl_spline_init(PyObject *SWIGUNUSEDPARM(self), PyObj
     Py_INCREF(Py_None);
     resultobj = Py_None;
   }
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
+  }
   return NULL;
 }
 
@@ -32590,8 +32598,14 @@ SWIGINTERN PyObject *_wrap_gsl_interp_accel_find(PyObject *SWIGUNUSEDPARM(self),
   arg4 = (double)(val4);
   result = (size_t)gsl_interp_accel_find(arg1,(double const (*))arg2,arg3,arg4);
   resultobj = SWIG_From_size_t((size_t)(result));
+  {
+    Py_XDECREF(_PyVector2);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
   return NULL;
 }
 
@@ -32758,8 +32772,16 @@ SWIGINTERN PyObject *_wrap_gsl_interp_init(PyObject *SWIGUNUSEDPARM(self), PyObj
     Py_INCREF(Py_None);
     resultobj = Py_None;
   }
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector_12);
+    Py_XDECREF(_PyVector_22);
+  }
   return NULL;
 }
 
@@ -32906,8 +32928,20 @@ SWIGINTERN PyObject *_wrap_gsl_interp_eval_e(PyObject *SWIGUNUSEDPARM(self), PyO
     int new_flags = SWIG_IsNewObj(res6) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
     resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg6), SWIGTYPE_p_double, new_flags));
   }
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return NULL;
 }
 
@@ -32982,8 +33016,20 @@ SWIGINTERN PyObject *_wrap_gsl_interp_eval(PyObject *SWIGUNUSEDPARM(self), PyObj
   }
   result = (double)gsl_interp_eval((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5);
   resultobj = SWIG_From_double((double)(result));
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return NULL;
 }
 
@@ -33080,8 +33126,20 @@ SWIGINTERN PyObject *_wrap_gsl_interp_eval_deriv_e(PyObject *SWIGUNUSEDPARM(self
     int new_flags = SWIG_IsNewObj(res6) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
     resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg6), SWIGTYPE_p_double, new_flags));
   }
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return NULL;
 }
 
@@ -33156,8 +33214,20 @@ SWIGINTERN PyObject *_wrap_gsl_interp_eval_deriv(PyObject *SWIGUNUSEDPARM(self),
   }
   result = (double)gsl_interp_eval_deriv((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5);
   resultobj = SWIG_From_double((double)(result));
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return NULL;
 }
 
@@ -33254,8 +33324,20 @@ SWIGINTERN PyObject *_wrap_gsl_interp_eval_deriv2_e(PyObject *SWIGUNUSEDPARM(sel
     int new_flags = SWIG_IsNewObj(res6) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
     resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg6), SWIGTYPE_p_double, new_flags));
   }
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return NULL;
 }
 
@@ -33330,8 +33412,20 @@ SWIGINTERN PyObject *_wrap_gsl_interp_eval_deriv2(PyObject *SWIGUNUSEDPARM(self)
   }
   result = (double)gsl_interp_eval_deriv2((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5);
   resultobj = SWIG_From_double((double)(result));
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return NULL;
 }
 
@@ -33437,8 +33531,20 @@ SWIGINTERN PyObject *_wrap_gsl_interp_eval_integ_e(PyObject *SWIGUNUSEDPARM(self
     int new_flags = SWIG_IsNewObj(res7) ? (SWIG_POINTER_OWN |  0 ) :  0 ;
     resultobj = SWIG_Python_AppendOutput(resultobj, SWIG_NewPointerObj((void*)(arg7), SWIGTYPE_p_double, new_flags));
   }
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return NULL;
 }
 
@@ -33522,8 +33628,20 @@ SWIGINTERN PyObject *_wrap_gsl_interp_eval_integ(PyObject *SWIGUNUSEDPARM(self),
   }
   result = (double)gsl_interp_eval_integ((gsl_interp const *)arg1,(double const (*))arg2,(double const (*))arg3,arg4,arg5,arg6);
   resultobj = SWIG_From_double((double)(result));
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector2);
+  }
+  {
+    Py_XDECREF(_PyVector3);
+  }
   return NULL;
 }
 
@@ -33625,8 +33743,14 @@ SWIGINTERN PyObject *_wrap_gsl_interp_bsearch(PyObject *SWIGUNUSEDPARM(self), Py
   }
   result = (size_t)gsl_interp_bsearch((double const (*))arg1,arg2,arg3,arg4);
   resultobj = SWIG_From_size_t((size_t)(result));
+  {
+    Py_XDECREF(_PyVector1);
+  }
   return resultobj;
 fail:
+  {
+    Py_XDECREF(_PyVector1);
+  }
   return NULL;
 }
 
