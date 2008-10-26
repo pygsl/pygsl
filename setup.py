@@ -36,9 +36,9 @@ INSTALL_HEADERS = 1
 # is the more verbose the output gets. Please note that pygsl needs to be
 # completly rebuild if you hcange this parameter
 # No debug information
-DEBUG_LEVEL = 0
+#DEBUG_LEVEL = 0
 # dynamic debug information
-#DEBUG_LEVEL = 1
+DEBUG_LEVEL = 1
 # Compile time set debug level
 #DEBUG_LEVEL = 10
 #####
@@ -124,23 +124,23 @@ exts.append(SWIG_Extension("hankel",
                           )
             
             )
-# Basic implementation here but not working yet....
-#exts.append(gsl_Extension("_sum",
-#                          ["swig_src/sum_wrap.c"],
-#                          gsl_min_version=(1,0),
-#                          define_macros = macros,
-#                          python_min_version=(2,0),
-#                          )
-#            )
-#exts.append(SWIG_Extension("bspline",
-#                           ["src/bspline/bspline.i"],
-#                           include_dirs=["src/bspline"],
-#                           swig_include_dirs=["src/bspline"],
-#                           gsl_min_version=(1,9),
-#                           define_macros = macros,
-#                           python_min_version=(2,1),
-#                          )            
-#            )
+
+exts.append(SWIG_Extension("sum",
+                          ["src/sum/gsl_sum.i"],
+                          gsl_min_version=(1,0),
+                          define_macros = macros,
+                          python_min_version=(2,0),
+                          )
+            )
+exts.append(SWIG_Extension("bspline",
+                           ["src/bspline/bspline.i"],
+                           include_dirs=["src/bspline"],
+                           swig_include_dirs=["src/bspline"],
+                           gsl_min_version=(1,9),
+                           define_macros = macros,
+                           python_min_version=(2,1),
+                          )            
+            )
 
 exts.append(SWIG_Extension("_callback",
                            ["src/callback/gsl_callback.i"],
@@ -476,6 +476,7 @@ py_module_names = ['errors',
                    'qrng',
                    'roots',
                    'siman',
+                   'sum',
                    'spline',
                    'testing.__init__',
                    'vector',

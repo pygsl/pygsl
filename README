@@ -121,7 +121,6 @@ What is not implemented yet (versus gsl1.10):
 
      * GSL Capabilites partly implemented
 
-          * Series Acceleration
           * Discrete Hankel Transforms
 
    See also the [6]TODO file in the distribution.
@@ -181,10 +180,14 @@ Thanks:
      * Fabian Jakobs for blas, linalg and eigen
      * [10]Jochen Kuepper for pygsl.statistics functions
      * Leonardo Milano for rpm build support and test
+     * Michael Forbes for Series Acceleration
 
 Maintainers:
 
    PyGSL is currently maintained by [11]Achim Gaedke and [12]Pierre Schnizer.
+
+   Thanks to:
+   [13]SourceForge Logo
 
 References
 
@@ -201,3 +204,4 @@ References
   10. mailto:jochen@jochen-kuepper.de
   11. mailto:AchimGaedke@users.sourceforge.net
   12. mailto:schnizer@users.sourceforge.net
+  13. http://sourceforge.net/

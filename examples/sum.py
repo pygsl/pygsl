@@ -1,21 +1,23 @@
 #!/usr/bin/env python
-import pygsl._numobj as numx
-import pygsl.sum as sum
-print sum
-N = 20
-M_PI = numx.pi
-w = sum.gsl_sum_levin_u_workspace(N)
-zeta_2 = M_PI * M_PI / 6.0;
+"""Simple example from GSL documentation computing zeta(2)"""
+import math
+import pygsl.sum 
+print pygsl.sum
 
-np1 = numx.arange(N) + 1
-t = 1.0 / (np1 * np1)
-sum = numx.add.reduce(t)
-sum_accel, err = w.accel(t)     
-print "term-by-term sum = % .16f using %d terms" % (sum, N)     
-#print "term-by-term sum = % .16f using %d terms" % (w->sum_plain, w->terms_used)
-print "exact value      = % .16f" % zeta_2
-#print "accelerated sum  = % .16f using %d terms\n" % (sum_accel, w->terms_used);     
-print "estimated error  = % .16f\n" % err
-print "actual error     = % .16f\n" % (sum_accel - zeta_2)
+zeta_2 = math.pi**2/6.0
+
+terms = [1./(n**2) for n in range(1,21)]
+info_dict = {}
+sum_accel, err = pygsl.sum.levin_sum(terms, info_dict=info_dict)
+
+print("term-by-term sum = % .16f using %d terms"%
+      (sum(terms), len(terms)))
+print("term-by-term sum = % .16f using %d terms"%
+      (info_dict['sum_plain'], info_dict['terms_used']))
+print("exact value      = % .16f"%(zeta_2,))
+print("accelerated sum  = % .16f using %d terms"%
+      (sum_accel, info_dict['terms_used']))
+print("estimated error  = % .16f"%(err,))
+print("actual error     = % .16f"%(abs(sum_accel - zeta_2),))
 
 

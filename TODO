@@ -14,10 +14,6 @@ N-tuples
 
                       GSL Capabilites partly implemented
 
-Series Acceleration
-
-   SWIG wrapped, but do you know what it is supposed to do? If so write a
-   test and an example!
 
 Discrete Hankel Transforms
 
