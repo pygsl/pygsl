@@ -1,0 +1,81 @@
+\chapter[\protect\module{pygsl.poly} --- Polynomials]
+{\protect\module{pygsl.poly} \\ Polynomials}
+\label{cha:poly-module}
+
+Wrapper over the functions as described in Chaper 6 of the
+\GSL reference manual.
+
+There are routines for finding real  and complex roots of quadratic and cubic
+equations  using analytic  methods. An  iterative polynomial  solver  is also
+available for finding the roots of general polynomials with real coefficients
+(of any order). 
+
+\begin{funcdesc}{eval}{c, a}\index{poly.eval}
+  evaluate the equation
+  $c[0] + c[1] x + c[2] x^2 + \dots + c[len-1] x^{len-1}$
+  using Horner's method for stability at \var{x}. ``len'' is the number of coefficients 
+  (equal to the length of the python object)
+\end{funcdesc}
+
+
+\begin{classdesc}{dd}{xa,ya}\index{poly.dd}
+  This class computes a divided-difference representation of the
+  interpolating polynomial for the points (\var{xa}, \var{ya}). 
+
+\begin{methoddesc}{get_dd}{}\index{poly.dd.get_dd}
+  Get the devided-difference representation
+\end{methoddesc}
+
+\begin{methoddesc}{eval}{\var{x}}\index{poly.dd.eval}
+  evaluate the representation at \var{x}
+\end{methoddesc}
+
+\begin{methoddesc}{taylor}{\var{x}}\index{poly.dd.taylor}
+  convert the internal representation to a Taylor expansion
+\end{methoddesc}
+
+\end{classdesc}
+
+
+\begin{funcdesc}{solve\_quadratic}{a,b,c}\index{poly.solve_quadratic}
+  computes the real roots of the equation
+  $\var{a} \cdot x^2 + \var{b} \cdot x + \var{c} = 0$
+  all variables are real varibales using a ``C double type'' for internal representation.
+  returns the number of roots and their value.
+\end{funcdesc}
+
+
+\begin{funcdesc}{complex_solve\_quadratic}{a,b,c}\index{complex_solve_quadratic}
+  computes the complex roots of the equation
+  $\var{a} \cdot x^2 + \var{b} \cdot x + \var{c} = 0$.
+  all variables are complex varibales.
+  Returns the number of roots and their value.
+\end{funcdesc}
+
+\begin{funcdesc}{solve\_cubic}{a,b,c}\index{poly.solve_cubic}
+  computes the real roots of the equation
+  $x^3 + \var{a} \cdot x^2 + \var{b} \cdot x + \var{c} = 0$.
+  All variables are real varibales using a ``C double type'' for internal representation.
+  Returns the number of roots and their value.
+\end{funcdesc}
+
+
+\begin{funcdesc}{complex\_solve\_cubic}{a,b,c}\index{poly.solve_cubic}
+  computes the complex roots of the equation
+  $x^3 + \var{a} \cdot x^2 + \var{b} \cdot x + \var{c} = 0$.
+  all variables are complex variables.
+  returns the number of roots and their value.
+\end{funcdesc}
+
+\begin{classdesc}{poly_complex}{n}\index{poly_complex}
+  intialise the class giving the dimension of the problem
+  \begin{methoddesc}{solve}{a}
+    This method computes the roots of the general polynomial 
+    $P(x) = a_0 + a_1 x + a_2 x^2 + ... + a_{n-1} x^{n-1}$ using balanced-QR reduction
+    of the companion matrix. The  parameter n specifies the length of the
+    coefficient array. The coefficient of  the highest order term must be
+    non-zero.   The  n-1 roots are  returned in a complex array.
+    
+    The method raises GSL_EFAILED if the QR reduction does not converge.
+  \end{methoddesc}  
+\end{classdesc}
