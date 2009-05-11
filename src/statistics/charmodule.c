@@ -21,7 +21,7 @@
 
 #define STATMOD_APPEND_PY_TYPE(X) X ## Int
 
-#ifdef PyGSL_NUMARRAY
+#if (defined PyGSL_NUMARRAY) || (defined PyGSL_NUMERIC)
 #define STATMOD_APPEND_PYC_TYPE(X) X ## CHAR
 #else /* PyGSL_NUMARRAY */ 
 #define STATMOD_APPEND_PYC_TYPE(X) X ## BYTE
