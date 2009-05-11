@@ -30,7 +30,7 @@ PyGSL_Copy_Array(PyArrayObject *ob, int type)
      int nd;
      nd = ob->nd;
      if(!PyArray_Check((PyObject *) ob)){
-	  gsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
+	  pygsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
      }
      return (PyArrayObject *) NA_copy(ob);
@@ -68,7 +68,7 @@ PyGSL_nummarray_convert(PyObject *src, int array_type, int flag)
 	  line = __LINE__ - 1;
      } else {
 	  line =  __LINE__;
-	  gsl_error("Either Input of Output or InOut array must be sepecified",
+	  pygsl_error("Either Input of Output or InOut array must be sepecified",
 		    filename, line, GSL_ESANITY);
 	  goto fail;
      }
