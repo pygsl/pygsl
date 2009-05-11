@@ -1,6 +1,8 @@
 /**
- * author: Jochen K"upper
+ * original author: Jochen K"upper
+ * author: Pierre Schnizer
  * created: Jan 2002
+ * modified: May 2009
  * file: pygsl/src/statistics/longmodule.c
  * $Id$
  *
@@ -18,7 +20,13 @@
 /* include real functions for different data-types */
 
 #define STATMOD_APPEND_PY_TYPE(X) X ## Int
+
+#ifdef PyGSL_NUMARRAY
+#define STATMOD_APPEND_PYC_TYPE(X) X ## CHAR
+#else /* PyGSL_NUMARRAY */ 
 #define STATMOD_APPEND_PYC_TYPE(X) X ## BYTE
+#endif /* PyGSL_NUMARRAY */
+
 #define STATMOD_FUNC_EXT(X, Y) X ## _char ## Y
 #define STATMOD_PY_AS_C PyInt_AsLong
 #define STATMOD_C_TYPE char
@@ -33,6 +41,6 @@ PyGSL_STATISTICS_INIT(char, "char")
 /*
  * Local Variables:
  * mode: c
- * c-file-style: "Stroustrup"
+ * c-file-style: "python"
  * End:
  */
