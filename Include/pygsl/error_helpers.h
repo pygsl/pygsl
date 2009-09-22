@@ -5,12 +5,21 @@
 #include <gsl/gsl_errno.h>
 #include <pygsl/errorno.h>
 
+/*
+ * 22 Sep. 2009 Pierre Schnizer
+ * Uncomment only if trouble with the gsl error handler (e.g. when using
+ * Python with threading support (typical ufuncs). At the time of this writing
+ * the error handler would call python to find the approbriate python exception
+ *
+ * So I used to uncomment the macro as well as the function to ensure that 
+ * gsl_error was not called any more within the pygsl wrappper
+ */
+/*
 #undef GSL_ERROR
 #undef GSL_ERROR_VAL
 #undef GSL_ERROR_NULL
-#if 0
 #define gsl_error()
-#endif
+*/
 /*
  * handle gsl error flags.
  *
