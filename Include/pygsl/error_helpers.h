@@ -8,7 +8,9 @@
 #undef GSL_ERROR
 #undef GSL_ERROR_VAL
 #undef GSL_ERROR_NULL
+#if 0
 #define gsl_error()
+#endif
 /*
  * handle gsl error flags.
  *
