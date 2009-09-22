@@ -3,14 +3,22 @@ import string
 import os.path
 
 GSL_MAJOR_VERSION = 1
-GSL_MINOR_VERSION = 4
+GSL_MINOR_VERSION = 13
 if GSL_MAJOR_VERSION == 1 and GSL_MINOR_VERSION <= 3:
     constant_names =  ["M","CGS","MKS","NUM"]
     file_names = ["gsl_const_cgs.h","gsl_const_mks.h","gsl_const_num.h","gsl_math.h"]
+
+if GSL_MAJOR_VERSION == 1 and GSL_MINOR_VERSION >  5:
+    constant_names = ["M", "CGS", "MKS", "CGSM", "MKSA", "NUM"]
+    file_names = ["gsl_const_cgs.h", "gsl_const_mks.h",
+                  "gsl_const_cgsm.h","gsl_const_mksa.h",
+                  "gsl_const_num.h","gsl_math.h"]
+
 else:
     constant_names =  ["M","CGSM","MKSA","NUM"]
     file_names = ["gsl_const_cgsm.h","gsl_const_mksa.h","gsl_const_num.h","gsl_math.h"]
-    
+
+
 class constant_collector:
     """
     collect constants from headers
