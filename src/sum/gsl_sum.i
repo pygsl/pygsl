@@ -40,7 +40,7 @@ def levin_sum(a, truncate=False, info_dict=None):
           to be the first terms in a series.
       truncate: If True, then use a more efficient algorithm, but with
           a less accurate error estimate
-      info: If info_dict is provided, then two entries will
+      info_dict: If info_dict is provided, then two entries will
           be added: 'terms_used' will be the number of terms
           used and 'sum_plain' will be the sum of these terms
           without acceleration.
@@ -116,13 +116,14 @@ typedef struct {
   double sum_plain(){
        return self->sum_plain;
   }
-  /*
+  
   int minmax(const double *array, const size_t n, const size_t min_terms,
 	      const size_t max_terms, double *sum_accel, double *abserr){
        return gsl_sum_levin_u_minmax(array, n, min_terms, max_terms, self, sum_accel, abserr);
   }
+  /*
   int step(const double term, const size_t n, const size_t nmax, double *sum_accel){
-       return gsl_sum_levin_u_step(term, n, nmaxn sum_accel);
+       return gsl_sum_levin_u_step(term, n, nmax, self,  sum_accel);
   }
   */
 };
@@ -155,13 +156,13 @@ typedef struct {
   double sum_plain(){
        return self->sum_plain;
   }
-  /*
   int minmax(const double *array, const size_t n, const size_t min_terms,
 	      const size_t max_terms, double *sum_accel, double *abserr){
        return gsl_sum_levin_utrunc_minmax(array, n, min_terms, max_terms, self, sum_accel, abserr);
   }
+  /*
   int step(const double term, const size_t n, const size_t nmax, double *sum_accel){
-       return gsl_sum_levin_utrunc_step(term, n, nmaxn sum_accel);
+       return gsl_sum_levin_utrunc_step(term, n, nmax, self, sum_accel);
   }
   */
 };
