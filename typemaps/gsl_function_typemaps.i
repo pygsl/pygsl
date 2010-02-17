@@ -9,6 +9,12 @@
  * 
  * see gsl_functions_reference.txt for a compilation of the callbacks used
  * by GSL.
+ *
+ * 10. February 2010: added the check typemap for free. This pointer
+ *                    asignment was not made and thus the references were
+ *                    not freed. This bug was here for years and got by
+ *                    undetected. Thanks to Nor Pizal for reporting this
+ *                    bug!
  */
 /* ------------------------------------------------------------------------- 
    ------------------------------------------------------------------------- 
@@ -42,14 +48,27 @@
      if($1==NULL) goto fail;
 }
 
+/*
+ * This typemap to free is crucial! It ensures that the 
+ * pointer is passed to _function$argnum
+ */
+%typemap(check) gsl_function * FREE {
+     DEBUG_MESS(2, "gsl_function STORE IN ptr @ %p", $1);
+     if($1==NULL) goto fail;
+
+     _function$argnum = $1;
+}
+
 %typemap(freearg) gsl_function * FREE {
-     FUNC_MESS("gsl_function FREE BEGIN");
+     DEBUG_MESS(2, "gsl_function freeing %p", _function$argnum);
      if(_function$argnum){
 	  assert($1 == _function$argnum);
 	  PyGSL_params_free((callback_function_params *) $1->params);
 	  free($1);    
      }
-     FUNC_MESS("gsl_function FREE END");
+     _function$argnum = NULL;
+     DEBUG_MESS(2, "gsl_function freed %p", _function$argnum);
+
 }
 %typemap(freearg) gsl_function_fdf * FREE {
      if(_function$argnum){

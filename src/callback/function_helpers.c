@@ -428,40 +428,41 @@ PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2,
 void 
 PyGSL_params_free(callback_function_params *p)
 {
-     if(p != NULL){
-	  assert(p->function != NULL);
-	  assert(p->arguments != NULL);
-	  Py_DECREF(p->function);
-	  Py_DECREF(p->arguments);
-	  free(p);
-     }else{
-	  if(DEBUG){
-	       fprintf(stderr,"In %s at line % d, f->params = %p\n", 
-		       __FUNCTION__,__LINE__, (void *) p);
-	  }
-     }
+
+	DEBUG_MESS(10, "Freeing callback function parameters %p", p);
+	if(p != NULL){
+		assert(p->function != NULL);
+		assert(p->arguments != NULL);
+		Py_DECREF(p->function);
+		Py_DECREF(p->arguments);
+		free(p);
+	}else{		
+		DEBUG_MESS(2, "f->params = %p", (void *) p);
+	}	
   
 }
 
 void 
 PyGSL_params_free_fdf(callback_function_params_fdf *p)
 {
-       if(p != NULL){
-	    assert(p->f != NULL);
-	    assert(p->df != NULL);
-	    assert(p->fdf != NULL);
-	    assert(p->arguments != NULL);
-	    Py_DECREF(p->f);
-	    Py_DECREF(p->df);
-	    Py_DECREF(p->fdf);
-	    Py_DECREF(p->arguments);
-	    free(p);
-       } else {
-	    if(DEBUG){
-		 fprintf(stderr,"In %s at line % d,  f->params = %p\n", 
-			 __FUNCTION__,__LINE__, (void *)p);
-	    }
-       }
+
+	DEBUG_MESS(2, "Freeing callback function parameters %p", p);
+	if(p != NULL){
+		assert(p->f != NULL);
+		assert(p->df != NULL);
+		assert(p->fdf != NULL);
+		assert(p->arguments != NULL);
+		Py_DECREF(p->f);
+		Py_DECREF(p->df);
+		Py_DECREF(p->fdf);
+		Py_DECREF(p->arguments);
+		free(p);
+	} else {
+		if(DEBUG){
+			fprintf(stderr,"In %s at line % d,  f->params = %p\n", 
+				__FUNCTION__,__LINE__, (void *)p);
+		}
+	}
 }
 
 /* -------------------------------------------------------------------------
