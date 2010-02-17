@@ -66,10 +66,13 @@ PyObject *pygsl_module_for_error_treatment = NULL;
  */
 %typemap(out) gsl_error_flag_drop {
      /* 
-	assert($1 >= 0);  assertion removed as PyGSL_error_flag can deal with
-	negative numbers.
-     */
-     if(GSL_FAILURE == PyGSL_ERROR_FLAG($1)){
+      * assert($1 >= 0);  assertion removed as PyGSL_error_flag can deal with
+      *	negative numbers.
+      * 
+      * 17. February 2010. Check if it is not SUCCESS. If an error is found
+      * it returns the flag. This should have an impact on a lot of functions
+      */
+     if(GSL_SUCCESS != PyGSL_ERROR_FLAG($1)){
 	 PyGSL_add_traceback(pygsl_module_for_error_treatment, __FILE__, 
 			     __FUNCTION__, __LINE__); 
 	 goto fail;
