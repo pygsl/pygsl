@@ -102,7 +102,7 @@ def linear_svd(X, y, tol, work=None):
 
     return _callback.gsl_multifit_linear_svd(X, y, tol, work._ptr)
     
-def wlinear(X, y, w, work=None):
+def wlinear(X, w, y, work=None):
     """
     This function computes the best-fit parameters C of the model y =
     X c for the observations Y and the matrix of predictor variables
@@ -121,7 +121,7 @@ def wlinear(X, y, w, work=None):
     if work == None:
         work = linear_workspace(X.shape[0], X.shape[1])
 
-    return _callback.gsl_multifit_wlinear(X, y, w, work._ptr)
+    return _callback.gsl_multifit_wlinear(X, w, y, work._ptr)
 
 def wlinear_svd(X, y, w, work=None):
     """
