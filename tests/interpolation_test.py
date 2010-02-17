@@ -5,8 +5,8 @@ from pygsl import spline, interpolation, errors
 
 class _test_common(unittest.TestCase):
     def setUp(self):
-        x = Numeric.arange(100)
-        y  = 2*x + 1
+        x  = Numeric.arange(100)
+        y  = 2 * x + 1
         self.x  = x
         self.y1 = y[:80]
         self.interp = self._testtype(100)
@@ -21,7 +21,6 @@ class _test_common(unittest.TestCase):
        
     def test_eval_e(self):
         v = self.interp.eval_e(10)
-
         assert(v==21)
         
     def test_eval_deriv_e(self):
@@ -48,11 +47,11 @@ class _test_common(unittest.TestCase):
         assert(v==10)
         
     def test_bsearch(self):
-        v = self.interp.bsearch(10.5, 3, 30)
+        v = interpolation.bsearch(self.x, 10.5, 3, 30)
         assert(v==10)
 
-    def test_bsearch_0_false(self):
-        self.assertRaises(ValueError, self.interp.bsearch, 10.5, 3, 300)
+    #def test_bsearch_0_false(self):
+    #    self.assertRaises(ValueError, self.interp.bsearch, 10.5, 3, 300)
 
     #def test_bsearch_1_false(self):
     #    self.assertRaises(ValueError, self.interp.bsearch, 10.5, -3, 300)
@@ -82,6 +81,7 @@ class _interp_test(_test_common):
     def test_min_size(self):
         tmp = self.interp.min_size()
         assert(tmp>0)
+    pass
 
 class _spline_test(_test_common):
     pass
