@@ -1,3 +1,31 @@
+2010-02-17    Pierre Schnizer <schnizer@sourceforge.net>
+	* gsl_function_typemaps.i had a memory leak. Thanks for Nor Pirzkal
+	  for reporting this problem. Added the module callback function_test
+	  helping in debugging the callback function helpers
+	
+	* interpolation / splines: changed the internal representation
+	Now the memory managment is handled by python. Further the arrays are
+	only converted once when the interpolation is used ...
+
+	* fixed the order of variables for multifit.wlinear (not affected
+	real code but was confusing to the user as the names did not
+	match the meaning).
+
+	* gsl_error_typemaps.i: Fixed check of return from PyGSL_ERROR_FLAG
+
+	* rng: fixed the rng helper PyGSL_rng_uidA_to_uiA which handles the
+	  rng method multinomial
+
+	
+2009-09-22    Pierre Schnizer <schnizer@sourceforge.net>
+        * I used to undefine GSL_ERROR macros as well as define
+	  the GSL error function as a macro with 0 arguments to find
+	  usage of gsl_error within the wrapper. 
+	  This is uncommented as it created trouble within the code.
+
+	* Fixed the tool exporting constant functions. The const module was 
+	  updated to the constants of gsl version 1.13
+	
 2008-10-25    Pierre Schnizer <schnizer@sourceforge.net>
 	* Changed the default error handling within PyGSL
 	  Before I installed a gsl_error handler. This handler would then 
