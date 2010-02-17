@@ -20,6 +20,7 @@ struct pygsl_bspline
      gsl_vector_view coeffs;
      gsl_vector_view tmp;
      gsl_bspline_workspace *w;
+     PyArrayObject *knots_a;
      PyArrayObject *coeffs_a;
      PyArrayObject *cov_a;
      PyArrayObject *tmp_a;
@@ -37,6 +38,7 @@ struct pygsl_bspline
      gsl_vector_view coeffs;
      gsl_vector_view tmp;
      gsl_bspline_workspace *w;
+     PyArrayObject *knots_a;
      PyArrayObject *coeffs_a;
      PyArrayObject *cov_a;
      PyArrayObject *tmp_a;
@@ -58,6 +60,7 @@ struct pygsl_bspline
        tmp->w = gsl_bspline_alloc(K, NBREAK);
        tmp->coeffs_a = NULL;
        tmp->cov_a = NULL;
+       tmp->knots_a = NULL;
        return tmp;
   }
 
@@ -70,15 +73,51 @@ struct pygsl_bspline
        self->cov_a = NULL;
        Py_XDECREF(self->tmp_a);
        self->tmp_a = NULL;
+       Py_XDECREF(self->knots_a);
+       self->knots_a = NULL;
        free(self);
   }
 
+  PyObject * get_internal_knots(){
+       return (PyObject *) PyGSL_copy_gslvector_to_pyarray(self->w->knots);
 
-  gsl_error_flag_drop knots(const gsl_vector * BREAKPTS){
-       return gsl_bspline_knots(BREAKPTS, self->w);
+  }
+  gsl_error_flag_drop knots(PyObject * knots_o){       
+       PyGSL_array_index_t sample_len, stride;
+       PyArrayObject * knots_a = NULL; 
+       gsl_vector_view vec;
+       int flag = GSL_EINVAL;
+       
+       FUNC_MESS_BEGIN();
+       knots_a = PyGSL_vector_check(knots_o, self->w->knots->size, PyGSL_DARRAY_INPUT(1), &stride, NULL);
+       if(knots_a == NULL){
+	    flag =  GSL_EINVAL;
+	    goto fail;
+       }
+       sample_len = knots_a->dimensions[0];
+       vec = gsl_vector_view_array_with_stride((double *)(knots_a->data), stride, sample_len);
+       Py_XDECREF(self->knots_a);
+       /* pass the reference to knots_a */
+       self->knots_a = knots_a;
+       knots_a = NULL;
+       
+       DEBUG_MESS(2, "sample_len = %ld", (long) sample_len);
+       if(sample_len != self->w->nbreak){
+	    pygsl_error("Knots vector did not mach the number of break points!",
+			__FILE__, __LINE__ - 2, GSL_EBADLEN);
+	    return GSL_EBADLEN;
+       }       
+       flag =  gsl_bspline_knots(&(vec.vector), self->w);
+       return flag;
+       FUNC_MESS_END();       
+       
+  fail:
+       FUNC_MESS("FAIL");       
+       Py_XDECREF(knots_a);
+       return flag;
   }
 
-  gsl_error_flag_drop knots_uniform(const double a, const double b){
+  gsl_error_flag_drop knots_uniform(const double a, const double b){       
        return gsl_bspline_knots_uniform(a, b, self->w);
   }
 
@@ -86,27 +125,36 @@ struct pygsl_bspline
 %feature("autodoc") pygsl_bspline "calls eval for each element of the vector and returns a matrix", "XXX whats that";
   */
 
-  PyObject*  eval_vector(const gsl_vector *X){
+  PyObject*  eval_vector(const gsl_vector *IN){
        PyArrayObject *B_M_a = NULL;
        gsl_vector_view B_v;
-       PyGSL_array_index_t n, sample_len, tmp[2], i;       
+       PyGSL_array_index_t n, sample_len, tmp[2], i=0;
        double x;
        char * row_ptr;
        int flag=GSL_EFAILED;
 
        FUNC_MESS_BEGIN();
        n = self->w->n;
-       sample_len = X->size;
+       sample_len = IN->size;
+       DEBUG_MESS(2, "sample_len = %ld", (long) sample_len);
        tmp[0] = sample_len;
        tmp[1] = n;
        B_M_a = PyGSL_New_Array(2, tmp, PyArray_DOUBLE);
        if(B_M_a == NULL)
 	    return NULL;
 
+       DEBUG_MESS(2, "B_M_a = %p, strides = (%ld, %ld) size = (%ld, %ld)", 
+		  (void *) B_M_a,
+		  (long) B_M_a->strides[0], (long) B_M_a->strides[1],
+		  (long) B_M_a->dimensions[0], (long) B_M_a->dimensions[1]
+		  );
+       
        for(i = 0; i < sample_len; ++i){
-	 row_ptr = B_M_a->data + B_M_a->strides[0] * i;
-	 B_v = gsl_vector_view_array((double *) (row_ptr), (B_M_a->dimensions[1]));
-	 x = gsl_vector_get(X, i);
+	    row_ptr = B_M_a->data + B_M_a->strides[0] * i;
+	    B_v = gsl_vector_view_array((double *) (row_ptr), (B_M_a->dimensions[1]));
+	    x = gsl_vector_get(IN, i);
+	    DEBUG_MESS(5, "i  = %ld, x = %f row_ptr = %p, B_v = %p->data = %p", (long) i, x,
+		       (void *) row_ptr, (void *) &(B_v.vector), (void *)(B_v.vector.data));
 	 flag = gsl_bspline_eval(x, &(B_v.vector), self->w);
 	 if (PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
 	    goto fail;

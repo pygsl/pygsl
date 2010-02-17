@@ -13,8 +13,10 @@ def run():
     y = numx.sin(x)
 
 
-    b = bspline(20, nbreak)
-    b.knots_uniform(x[0], x[-1])
+    b = bspline(4, nbreak)
+    k = b.get_internal_knots()
+    pygsl.set_debug_level(10)
+    b.knots(k) 
     X = b.eval_vector(x)
     c, cov, chisq = multifit.linear(X, y)
 
