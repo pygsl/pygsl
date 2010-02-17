@@ -16,15 +16,15 @@ def f(x, p):
         return 0.75
 
      
-i = 10000;
-n = i
+n = 10000;
 
 cs = cheb_series(40)
 F = gsl_function(f, None)
 cs.init(F, 0.0, 1.0)
 
+nf = float(n)
 for i in range(100):
-    x = i * n / 100.
+    x = i / nf
     r10 = cs.eval_n(10, x)
     r40 = cs.eval(x)
     print "%g %g %g %g" % (x, f(x, None), r10, r40)
