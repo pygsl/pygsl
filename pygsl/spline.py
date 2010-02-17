@@ -11,6 +11,7 @@ kept as reference in the various objects,whereas the spline module copies these
 data into the internal C gsl_spline struct.
 """
 
+import errors
 import gslwrap
 import interpolation
 
@@ -24,20 +25,21 @@ _common           = interpolation._common
 #akima_periodic    = interpolation.akima_periodic  
 
 class _spline(_common):
-    def _alloc       (self, *args): return  gslwrap.gsl_spline_alloc(*args)
-    def _free        (self, *args): return  gslwrap.gsl_spline_free(*args)
-    def _eval        (self, *args): return  gslwrap.gsl_spline_eval(*args)
-    def _eval_deriv  (self, *args): return  gslwrap.gsl_spline_eval_deriv(*args)
-    def _eval_deriv2 (self, *args): return  gslwrap.gsl_spline_eval_deriv2(*args)
-    def _eval_deriv2_e(self, *args): return  gslwrap.gsl_spline_eval_deriv2_e(*args)
-    def _eval_deriv_e(self, *args): return  gslwrap.gsl_spline_eval_deriv_e(*args)
-    def _eval_e      (self, *args): return  gslwrap.gsl_spline_eval_e(*args)
-    def _eval_integ  (self, *args): return  gslwrap.gsl_spline_eval_integ(*args)
-    def _eval_integ_e(self, *args): return  gslwrap.gsl_spline_eval_integ_e(*args)
-    def _init        (self, *args): return  gslwrap.gsl_spline_init(*args)
     _type          = None
 
 
+    def __init__(self, n):
+        assert(self._type != None)
+        if n <= 0:
+            msg = "Number of elements must be positive but was %d!"
+            raise errors.gsl_InvalidArgumentError, msg % (n,)
+
+        tmp = gslwrap.pygsl_spline(self._type, n)
+        if tmp == None:
+            raise errors.gsl_GenericError, "Failed to allocate spline!"
+        self._object = tmp
+
+    
     def init(self, xa, ya):
         """
         input : xa, ya
@@ -51,18 +53,64 @@ class _spline(_common):
         always  assumed  to  be  strictly  ordered;  the  behavior  for  other
         arrangements is not defined.
         """
-        self._xa = xa
-        self._init(self._ptr, (xa,ya))
-        self._xyptr = (self._ptr,)
-        self.accel_reset()
+        self._object.init((xa,ya))
 
     def eval_vector(self, x):
         """
         input : x
                a vector of independent values
         """
-        return  gslwrap.gsl_spline_eval_vector(self._ptr, x, self._accel)
+        return  self._object.eval_vector(x)
+
+    def eval_e_vector(self, x):
+        """
+        input : x
+               a vector of independent values
+        """
+        return  self._object.eval_e_vector(x)
+
+    def eval_deriv_vector(self, x):
+        """
+        input : x
+               a vector of independent values
+        """
+        return  self._object.eval_deriv_vector(x)
+
+    def eval_deriv_e_vector(self, x):
+        """
+        input : x
+               a vector of independent values
+        """
+        return  self._object.eval_deriv_e_vector(x)
+
+    def eval_deriv2_vector(self, x):
+        """
+        input : x
+               a vector of independent values
+        """
+        return  self._object.eval_deriv2_vector(x)
+
+    def eval_deriv2_e_vector(self, x):
+        """
+        input : x
+               a vector of independent values
+        """
+        return  self._object.eval_deriv2_e_vector(x)
     
+    def eval_integ_vector(self, a, b):
+        """
+        input : a, b
+               two vector of independent values of same length
+        """
+        return  self._object.eval_deriv_vector(a, b)
+
+    def eval_integ_e_vector(self, a, b):
+        """
+        input : a, b
+               two vector of independent values of same length
+        """
+        return  self._object.eval_deriv_e_vector(a, b)
+
     def name(self):
         """
         Returns the name of the interpolation type used
@@ -74,13 +122,13 @@ class _spline(_common):
         """
         Useful when using GSL in C code.
         """
-        return self._ptr.tocobject()
+        raise pygsl_NotImplementedError
 
     def GetAccelCObject(self):
         """
         Useful when using GSL in C code.
         """
-        return self._accel.tocobject()
+        raise pygsl_NotImplementedError
 
 class linear(_spline):
     """

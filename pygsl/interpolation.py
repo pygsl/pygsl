@@ -12,32 +12,44 @@ data into the internal C gsl_spline struct.
 """
 
 import gslwrap
+from  pygsl import errors
+
+def bsearch(xa, x, index_lo, index_high):
+    """
+    input : x, index_lo, index_high
+    
+    This function returns the index i of the array X_ARRAY such that
+    `x_array[i] <= x < x_array[i+1]'.  The index is searched for in
+    the range [INDEX_LO,INDEX_HI].        
+    """
+    return gslwrap.gsl_interp_bsearch(xa, x, index_lo, index_high)
 
 class _acceleration:
     """
     This class is meant to be used together with the interpolation and the spline.
-
-    It expects the derived class to define the array _xa.
     """
-    def _accel_alloc (self, *args): return  gslwrap.gsl_interp_accel_alloc(*args)
-    def _accel_find  (self, *args): return  gslwrap.gsl_interp_accel_find(*args)
-    def _accel_free  (self, *args): return  gslwrap.gsl_interp_accel_free(*args)
-    def _accel_reset (self, *args): return  gslwrap.gsl_interp_accel_reset(*args)
 
     def __init__(self):
-        self._accel = None
-        assert(self._accel_alloc != None)
-        assert(self._accel_free != None)
-        self._accel= self._accel_alloc()
+        self._object = gslwrap.gsl_interp_accel()
+    
+    def reset(self):        
+        self._object.reset()
 
-    def __del__(self):                
-        if hasattr(self, '_accel'):
-            if self._accel != None:
-                self._accel_free(self._accel)
+    def find(self, xa, x):
+        """
+         This method performs a lookup action on the data array X_ARRAY
+         of size SIZE, using the given accelerator A.  This is how lookups
+         are performed during evaluation of an interpolation.  The function
+         returns an index i such that `xarray[i] <= x < xarray[i+1]'.
+         """
+        return self._object.find(xa, x)
 
     
+class _common:
+    _type          = None
+        
     def accel_reset(self):        
-        self._accel_reset(self._accel)
+        self._object.accel_reset()
 
     def accel_find(self, x):
         """
@@ -46,53 +58,117 @@ class _acceleration:
          are performed during evaluation of an interpolation.  The function
          returns an index i such that `xarray[i] <= x < xarray[i+1]'.
          """
-        return self._accel_find(self._accel, self._xa, x)
+        return self._object.accel_find(x)
 
-    def bsearch(self, x, index_lo, index_high):
+    def min_size(self):
         """
-        input : x, index_lo, index_high
-            
-        This function returns the index i of the array X_ARRAY such that
-        `x_array[i] <= x < x_array[i+1]'.  The index is searched for in
-        the range [INDEX_LO,INDEX_HI].        
+        This function returns the minimum number of points required by the
+        interpolation.
         """
-        return self._bsearch(self._xa, x, index_lo, index_high)
+        return self._object.min_size()
     
-class _common(_acceleration):
-    def _alloc        (self, *args): return  gslwrap.gsl_interp_alloc(*args)
-    def _free         (self, *args): return  gslwrap.gsl_interp_free(*args)
-    def _name         (self, *args): return  gslwrap.gsl_interp_name(*args)
-    def _bsearch      (self, *args): return  gslwrap.gsl_interp_bsearch(*args)
-    def _eval         (self, *args): return  gslwrap.gsl_interp_eval(*args)
-    def _eval_deriv   (self, *args): return  gslwrap.gsl_interp_eval_deriv(*args)
-    def _eval_deriv2  (self, *args): return  gslwrap.gsl_interp_eval_deriv2(*args)
-    def _eval_deriv2_e(self, *args): return  gslwrap.gsl_interp_eval_deriv2_e(*args)
-    def _eval_deriv_e (self, *args): return  gslwrap.gsl_interp_eval_deriv_e(*args)
-    def _eval_e       (self, *args): return  gslwrap.gsl_interp_eval_e(*args)
-    def _eval_integ   (self, *args): return  gslwrap.gsl_interp_eval_integ(*args)
-    def _eval_integ_e (self, *args): return  gslwrap.gsl_interp_eval_integ_e(*args)
-    def _init         (self, *args): return  gslwrap.gsl_interp_init(*args)
-    def _min_size     (self, *args): return  gslwrap.gsl_interp_min_size(*args)
-    def _name         (self, *args): return  gslwrap.gsl_interp_name(*args)
-    _type          = None
-    
-    def __init__(self, size):
-        self._ptr   = None
-        assert(self._alloc != None)
-        assert(self._free != None)
-        assert(self._type != None)
-        self._ptr = self._alloc(self._type, size)
-        _acceleration.__init__(self)
-        self._xa = None
-        self._xyptr = None
+    def name(self):
+        """
+        Returns the name of the interpolation type used
+        """
+        return self._object.name()
 
-    def __del__(self):        
-        if hasattr(self, '_ptr'):
-            if self._ptr != None:
-                self._free(self._ptr)
-        _acceleration.__del__(self)
+        
+    def eval(self, x):
+        """
+        input : x
+             x ... value of the independent variable
+        output : y
+             y ... returns the interpolated value at x  
+        
+        """
+        return self._object.eval(x)
 
     
+    def eval_e(self, x):
+        """
+        input : x
+             x ... value of the independent variable
+        output : flag, y
+             flag  error flag 
+             y ... returns the interpolated value at x  
+        
+        """
+        return self._object.eval_e(x)
+
+
+    def eval_deriv(self, x):
+        """
+        input : x
+             x ... value of the independent variable
+        output : y
+             y ... returns the  value of the derivative at x          
+        """
+        return self._object.eval_deriv(x)
+
+    
+    def eval_deriv_e(self, x):
+        """
+        input : x
+             x ... value of the independent variable
+        output : flag, y
+             flag  error flag 
+             y ... returns the  value of the derivative at x  
+        """
+        return self._object.eval_deriv_e(x)
+    
+    def eval_deriv2(self, x):
+        """
+        input : x
+             x ... value of the independent variable
+        output : y
+             y ... the value of the second derivative at x  
+        """
+        return self._object.eval_deriv2(x)
+    
+    def eval_deriv2_e(self, x):
+        """
+        input : x
+             x ... value of the independent variable
+        output : flag, y
+             flag  error flag 
+             y ... the value of the second derivative at x  
+        """
+        return self._object.eval_deriv2_e(x)
+
+
+    def eval_integ(self, a, b):
+        """
+        input : a, b,
+             a ... lower boundary
+             b ... upper boundary
+        output : y
+             y ... the integral of the object over the range [a,b]
+        """
+        return self._object.eval_integ(a, b)
+    
+    def eval_integ_e(self, a, b):
+        """
+        input : a, b,
+             a ... lower boundary
+             b ... upper boundary
+        output : flag, y
+             flag  error flag 
+             y ... the integral of the object over the range [a,b]
+        """
+        return self._object.eval_integ_e(a, b)
+
+
+class _interpolation(_common):
+    def __init__(self, n):
+        if n <= 0:
+            msg = "Number of elements must be positive but was %d!"
+            raise errors.gsl_InvalidArgumentError, msg % (n,)
+
+
+        self._object = gslwrap.pygsl_interp(self._type, n)
+
+
     def init(self, xa, ya):
         """
         input : xa, ya
@@ -107,106 +183,8 @@ class _common(_acceleration):
         The ya data array is always assumed to be strictly ordered; the
         behavior for other arrangements is not defined.
         """
-        self._init(self._ptr, (xa,ya))
-        self.accel_reset()
-        self._xa = xa
-        self._ya = ya
-        self._xyptr = (self._ptr, xa, ya)
+        return self._object.init(xa,ya)
         
-    def eval(self, x):
-        """
-        input : x
-             x ... value of the independent variable
-        output : y
-             y ... returns the interpolated value at x  
-        
-        """
-        return apply(self._eval, self._xyptr + (x, self._accel))
-    
-    def eval_e(self, x):
-        """
-        input : x
-             x ... value of the independent variable
-        output : flag, y
-             flag  error flag 
-             y ... returns the interpolated value at x  
-        
-        """
-        return apply(self._eval_e, self._xyptr + (x, self._accel))
-
-    def eval_deriv(self, x):
-        """
-        input : x
-             x ... value of the independent variable
-        output : y
-             y ... returns the  value of the derivative at x          
-        """
-        return apply(self._eval_deriv, self._xyptr + (x, self._accel))
-    
-    def eval_deriv_e(self, x):
-        """
-        input : x
-             x ... value of the independent variable
-        output : flag, y
-             flag  error flag 
-             y ... returns the  value of the derivative at x  
-        """
-        return apply(self._eval_deriv_e, self._xyptr + (x, self._accel))
-    
-    def eval_deriv2(self, x):
-        """
-        input : x
-             x ... value of the independent variable
-        output : y
-             y ... the value of the second derivative at x  
-        """
-        return apply(self._eval_deriv2, self._xyptr + (x, self._accel))
-    
-    def eval_deriv2_e(self, x):
-        """
-        input : x
-             x ... value of the independent variable
-        output : flag, y
-             flag  error flag 
-             y ... the value of the second derivative at x  
-        """
-        return apply(self._eval_deriv2_e, self._xyptr + (x, self._accel))
-
-    def eval_integ(self, a, b):
-        """
-        input : a, b,
-             a ... lower boundary
-             b ... upper boundary
-        output : y
-             y ... the integral of the object over the range [a,b]
-        """
-        return apply(self._eval_integ, self._xyptr + (a,b, self._accel))
-    
-    def eval_integ_e(self, a, b):
-        """
-        input : a, b,
-             a ... lower boundary
-             b ... upper boundary
-        output : flag, y
-             flag  error flag 
-             y ... the integral of the object over the range [a,b]
-        """
-        return apply(self._eval_integ_e, self._xyptr + (a,b, self._accel))
-
-class _interpolation(_common):
-    def min_size(self):
-        """
-        This function returns the minimum number of points required by the
-        interpolation.
-        """
-        return self._min_size(self._ptr)
-    
-    def name(self):
-        """
-        Returns the name of the interpolation type used
-        """
-        return self._name(self._ptr)
-
 
 
 class linear(_interpolation):
