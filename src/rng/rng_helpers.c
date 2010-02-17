@@ -1015,56 +1015,158 @@ PyGSL_rng_dA_to_dA(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_r
 }
 
 
+
 PyObject *
 PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args, 
 		    void (*evaluator)(const gsl_rng *, const size_t, const unsigned int, 
 				      const double * , unsigned int *))
 {
-     PyGSL_array_index_t dimension=1, dims[2], i;
-     PyObject *tmp, *tmp_N;
-     PyArrayObject *a_array_in =NULL, *a_array_out = NULL;
-     unsigned int  *data_out;
-     unsigned int N;
-     unsigned long int lN;
+     PyGSL_array_index_t dimension=0, dimension_check=-1, dimension_tmp, dims[2], 
+	     i,  stride2, stride_n, stride_phi;
+     PyGSL_array_info_t a_info;
+     PyObject *tmp_n, *tmp_phi, *dimension_o = NULL;
+     PyArrayObject *a_phi = NULL, *a_n =NULL, *a_array_out = NULL;
+     double * pd_phi;
+     int use_array_dimension = 0, iterate_over_parameters = 0, line_no = __LINE__;
+     unsigned int *data_out = NULL;
+     unsigned int  *pui_n = NULL;
 
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "OO|i", &tmp, &tmp_N, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "OO|O", &tmp_n, &tmp_phi, &dimension_o)){
 	  return NULL;
      }
-     if(PyGSL_PYLONG_TO_ULONG(tmp_N, &lN, NULL) != GSL_SUCCESS) goto fail;
-     N = lN;
+     
+     /* default: internal sampling rate not checked */
+     dimension = 0;
+     /* default: any array size allowed */
+     dimension_check = -1;
+     /* default: single values for the parameters */
+     stride_n = 0; 
+     stride_phi = 0;
 
-     a_array_in = PyGSL_vector_check(tmp, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
-     if(a_array_in == NULL)
-	  goto fail;
+
+     
+     a_info = PyGSL_BUILD_ARRAY_INFO(PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
+				     PyArray_UINT, sizeof(unsigned int), 1);
+     a_n = PyGSL_vector_check(tmp_n, dimension_check, a_info, &stride_n, NULL);
+     if(a_n == NULL){
+	     line_no = __LINE__ - 2;
+	     goto fail;
+     }
+     dimension_tmp = a_n->dimensions[0];
+     if(dimension_tmp == 1){
+	     ;
+     } else {
+	     dimension_check = dimension_tmp;
+     }
+
+
+     a_phi = PyGSL_matrix_check(tmp_phi, dimension_check, -1, PyGSL_DARRAY_CINPUT(2),
+				&stride_phi, &stride2, NULL);
+     if(a_phi == NULL){
+	     line_no = __LINE__ - 3;
+	     goto fail;
+     }
+
+     if(stride2 != 1){
+	     line_no = __LINE__ - 1;
+	     pygsl_error("the last dimension of the matrix phi must be contiguous",
+			 __FILE__, __LINE__, GSL_ESANITY);
+	     goto fail;
+     }
+
+     dimension_tmp = a_phi->dimensions[0];
+     if(dimension_tmp == 1){
+	     dimension_check = 1;
+     } else {
+	     dimension_check = dimension_tmp;
+     }
+
+     DEBUG_MESS(2, "Input data: pui_N: len(%ld) stride = %ld, "
+		"pd_phishape = (%ld,%ld), stride = %ld",
+		(long) a_n->dimensions[0], (long) stride_n, 
+		(long) a_phi->dimensions[0], (long) a_phi->dimensions[1],
+		(long) stride_phi);
+
+     DEBUG_MESS(2, "Found %ld samples ", (long) dimension_check);
+     if(dimension_o == NULL){
+	     dimension = dimension_check;
+     }else{
+	     unsigned long ultmp;
+	     if(PyGSL_PYLONG_TO_ULONG(dimension_o, &ultmp, NULL) != GSL_SUCCESS){
+		     line_no = __LINE__ - 1;
+		     goto fail;
+	     }
+	     if(ultmp == 0) {
+		     pygsl_error("the internal iteration number must be >= 1",
+				 __FILE__, __LINE__, GSL_ESANITY);
+		     line_no = __LINE__ - 3;
+		     goto fail;
+		     
+	     }
+	     dimension = ultmp;
+	     if(dimension_check != 1 && dimension != dimension_check){
+		     DEBUG_MESS(2, "optional sample argument was %lu array n = %ld array phi = %ld ", 
+				ultmp, (long) a_n->dimensions[0], (long) a_phi->dimensions[0]);
+		     pygsl_error("at least one of the arrays gave the number" 
+				 " of samples != 1 not matching the optional argument number of samples",
+				 __FILE__, __LINE__, GSL_ESANITY);
+		     line_no = __LINE__ - 3;
+		     goto fail;		     
+	     }
+     }
+
+     
+     /* clear up */
+     if (dimension == 0){
+	     /* no dimension found up to now ... */
+	     dimension = 1;
+     }
+
+     if(a_n->dimensions[0] == 1){
+	     stride_n = 0;
+     }
+
+     if(a_phi->dimensions[0] == 1){
+	     stride_phi = 0;
+     }
+
 
      dims[0] = dimension;
-     dims[1] = a_array_in->dimensions[0];
+     dims[1] = a_phi->dimensions[1];
      if(dimension <= 0){                                                    
 	  PyErr_SetString(PyExc_ValueError,                                  
 			  "The sample number must be positive!");            
+	  line_no = __LINE__ - 3;
 	  goto fail;                                                        
      }                                                                       
 
-     a_array_out = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_LONG);
-     if(a_array_out == NULL)
+     a_array_out = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_UINT);
+     if(a_array_out == NULL){
+	  line_no = __LINE__ - 2;
 	  goto fail;
+     }
 
+     
+     pd_phi = (double *) a_phi->data;
+     pui_n  = (unsigned int *) a_n->data;
 
      for(i=0; i<dimension; i++){
-	  data_out = (unsigned int *) (a_array_out->data + a_array_out->strides[0] * i);
-	  evaluator(rng->rng, (size_t) dims[1], (unsigned int) N, (double *) a_array_in->data, data_out);
+	  data_out = (unsigned int *) (a_array_out->data + a_array_out->strides[0] * i);	  
+	  evaluator(rng->rng, (size_t) dims[1], pui_n[stride_n * i], &(pd_phi[stride_phi * i]), data_out);
      }
-     Py_DECREF(a_array_in);
+     Py_DECREF(a_phi);
+     Py_DECREF(a_n);
      FUNC_MESS_END();
      return (PyObject *) a_array_out;
 
  fail:
      FUNC_MESS("FAIL");
-     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);  
-     Py_XDECREF(a_array_in);
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line_no);  
+     Py_XDECREF(a_n);
+     Py_XDECREF(a_phi);
      Py_XDECREF(a_array_out);
      return NULL;
 }
