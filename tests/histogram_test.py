@@ -371,7 +371,7 @@ class histogram2d_tests(unittest.TestCase):
 
 
 
-test=unittest.TestSuite([histogram_tests, histogram2d_tests])
+#test=unittest.TestSuite((histogram_tests, histogram2d_tests))
 
 if __name__ == "__main__":
     unittest.main()
