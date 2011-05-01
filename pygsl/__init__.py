@@ -147,7 +147,10 @@ def set_debug_level(level):
     except pygsl.errors.gsl_NotImplementedError:
         #print "Switchable debug information was not compiled in!"
         pass
-    
+
+#
+add_c_traceback_frames = init.add_c_traceback_frames
+
 def import_all():
     """
     PyGSL does not import all modules on statup. If you need it

@@ -137,6 +137,7 @@ static PyMethodDef initMethods[] = {
      {"float_transform_counter",   PyGSL_get_float_transform_counter  ,METH_NOARGS, NULL},
      {"register_exceptions",       PyGSL_register_exceptions,          METH_VARARGS,NULL},
      {"register_warnings",         PyGSL_register_warnings,            METH_VARARGS,NULL},
+     {"add_c_traceback_frames",    PyGSL_add_c_traceback_frames,       METH_VARARGS,add_c_traceback_frames_doc},
      {NULL,     NULL, 0, NULL}        /* Sentinel */
 };
 

@@ -10,6 +10,29 @@ enum handleflag {
      HANDLE_WARNING
 };
 
+static int add_c_tracebacks = 0;
+
+static const char add_c_traceback_frames_doc[]=
+"GSL solvers make callbacks to registered python functions at moments often\n\
+not expected. Therefore traceback frames were added which are automatically\n\
+inserted by the C Code\n\
+These traceback frames, however, create a memory leak in the current\n\
+implementation. So these are disabled by default and can be enabled by setting\n\
+a true value with this function. Setting to 0/False will disable it again\n";
+static PyObject *
+PyGSL_add_c_traceback_frames(PyObject * self, PyObject *args)
+{
+
+	FUNC_MESS_BEGIN();
+	if(!PyArg_ParseTuple(args, "i", &add_c_tracebacks))
+		return NULL;
+	
+	Py_INCREF(Py_None);
+	FUNC_MESS_END();
+	return Py_None;
+
+}
+
 static int
 PyGSL_internal_error_handler(const char *reason, /* name of function*/
 			     const char *file, /*from CPP*/
@@ -83,6 +106,11 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
      PyFrameObject *py_frame = NULL;
      
      FUNC_MESS_BEGIN();
+     DEBUG_MESS(2, "add_c_tracebacks = %d.  = 0 disabled; != 0 enabled",
+		add_c_tracebacks);
+     if (add_c_tracebacks == 0){
+	     return;
+     }
 
      if(filename == NULL)
 	  filename = "file ???";
@@ -130,6 +158,8 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 	  lineno,       /*int firstlineno,*/
 	  empty_string  /*PyObject *lnotab*/
 	  );
+
+     
      if (py_code == NULL) 
 	  goto fail;
 
@@ -319,7 +349,7 @@ PyGSL_register_exceptions(PyObject *self, PyObject *args)
 static PyObject *
 PyGSL_get_error_object(int the_errno, PyObject ** accel, int accel_max, PyObject *dict)
 {
-     PyObject *tmp;
+  PyObject *tmp = NULL, *ltmp = NULL;
 
      FUNC_MESS_BEGIN();
      assert(the_errno >= 0);
@@ -330,7 +360,13 @@ PyGSL_get_error_object(int the_errno, PyObject ** accel, int accel_max, PyObject
      }else{
 	  DEBUG_MESS(4, "Trying to get an error object from dictonary at %p",
 		     (void*) dict);
-	  tmp =  PyDict_GetItem(dict, PyInt_FromLong(the_errno));
+	  ltmp = PyInt_FromLong(the_errno);
+	  if(ltmp == NULL){	    
+	    DEBUG_MESS(4, "Failed to create python int from the_errno %d", the_errno);
+	    goto fail;
+	  }
+	  tmp =  PyDict_GetItem(dict, ltmp);
+	  Py_DECREF(ltmp);
      }
      if(tmp == NULL){
 	  DEBUG_MESS(3, "Could not find an error object for errno %d", the_errno);
@@ -339,6 +375,11 @@ PyGSL_get_error_object(int the_errno, PyObject ** accel, int accel_max, PyObject
      }
      FUNC_MESS_END();
      return tmp;
+
+ fail:
+     Py_XDECREF(ltmp);
+     Py_XDECREF(tmp);
+     return NULL;
 }
 
 static int 
@@ -386,6 +427,9 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
   /*
    * GSL_ENOMEM is special. I am out of memory. No fancy tricks here.
    */
+  DEBUG_MESS(5, "Recieved error message: %s @ %s.%d flag = %d\n",
+	     reason, file, line, gsl_error);
+
   if (GSL_ENOMEM == gsl_error){
        PyErr_NoMemory();
        return -1;
@@ -428,15 +472,13 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
   case HANDLE_ERROR:   
        assert(gsl_error > 0);
        gsl_error_object = PyGSL_get_error_object(gsl_error, errno_accel, PyGSL_ERRNO_MAX, error_dict);
-       Py_INCREF(gsl_error_object);  
-       PyErr_SetObject(gsl_error_object, PyString_FromString(error_text)); 
+       PyErr_SetString(gsl_error_object, error_text); 
        FUNC_MESS("Set Python error object");
        return -1;
        break;
   case HANDLE_WARNING:
        assert(gsl_error > 0);
        gsl_error_object = PyGSL_get_error_object(gsl_error, NULL, 0, warning_dict);
-       Py_INCREF(gsl_error_object);  
        FUNC_MESS("Returning python warning");
        return PyErr_Warn(gsl_error_object, error_text); 
        break;
