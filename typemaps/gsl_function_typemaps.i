@@ -15,6 +15,11 @@
  *                    not freed. This bug was here for years and got by
  *                    undetected. Thanks to Nor Pizal for reporting this
  *                    bug!
+ *
+ * 26. April    2011: when I added the check typemap I missed to correct 
+ *                    that the correct free function was used for the 
+ *                    fdf_function as well as the check functions.
+ *                    Thanks to Marcel T"unnisen for reporting this bug.
  */
 /* ------------------------------------------------------------------------- 
    ------------------------------------------------------------------------- 
@@ -59,6 +64,13 @@
      _function$argnum = $1;
 }
 
+%typemap(check) gsl_function_fdf * FREE {
+     DEBUG_MESS(2, "gsl_function_fdf STORE IN ptr @ %p", $1);
+     if($1==NULL) goto fail;
+
+     _function$argnum = $1;
+}
+
 %typemap(freearg) gsl_function * FREE {
      DEBUG_MESS(2, "gsl_function freeing %p", _function$argnum);
      if(_function$argnum){
@@ -71,11 +83,14 @@
 
 }
 %typemap(freearg) gsl_function_fdf * FREE {
+     DEBUG_MESS(2, "gsl_function_fdf freeing %p", _function$argnum);
      if(_function$argnum){
 	  assert($1 == _function$argnum);
 	  PyGSL_params_free_fdf((callback_function_params_fdf *) $1->params);
-	  free($1);    
+	  free($1);
      }
+     _function$argnum = NULL;
+     DEBUG_MESS(2, "gsl_function_fdf freed %p", _function$argnum);
 }
 
 /* -------------------------------------------------------------------------
@@ -241,13 +256,15 @@
 		             gsl_multimin_function       * STORE, 
 			     gsl_multimin_function_fdf   * STORE}
 
-%apply gsl_function * FREE  {gsl_function_fdf            * FREE,
-		             gsl_multiroot_function      * FREE, 
-		             gsl_multiroot_function_fdf  * FREE, 
+%apply gsl_function * FREE  {gsl_multiroot_function      * FREE, 
 		             gsl_multifit_function       * FREE, 
-		             gsl_multifit_function_fdf   * FREE, 
-		             gsl_multimin_function       * FREE, 
-		             gsl_multimin_function_fdf   * FREE}
+		             gsl_multimin_function       * FREE}
+
+
+%apply gsl_function_fdf * FREE {gsl_function_fdf            * FREE,
+		                gsl_multiroot_function_fdf  * FREE, 
+		                gsl_multifit_function_fdf   * FREE, 
+		                gsl_multimin_function_fdf   * FREE}
 
 
 %typemap(out)     gsl_multiroot_function_fdf_data *            = gsl_multiroot_solver_data  *;
