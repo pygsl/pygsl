@@ -39,10 +39,12 @@ typedef unsigned int size_t;
   void gsl_function_free(gsl_function * FREE)
   {
     /* Do Not need to do anything here. All done in the typemaps */
+    DEBUG_MESS(2, "Freeing gsl_function struct %p", (void *) FREE);
   }
   void gsl_function_free_fdf(gsl_function_fdf * FREE)
   {
     /* Do Not need to do anything here. All done in the typemaps */
+    DEBUG_MESS(2, "Freeing gsl_function_fdf struct %p", (void *) FREE);
   }
 
 %}
