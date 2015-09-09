@@ -4,6 +4,7 @@
 #include <pygsl/block_helpers.h>
 /* Not directly needed here, but provides a lot of convienience functions */
 #include <pygsl/error_helpers.h>
+#include <pygsl/string_helpers.h>
 #include <gsl/gsl_math.h>
 #include <setjmp.h>
 /*
@@ -303,7 +304,7 @@ PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_G
 #define PyGSL_solver_GetSet \
 (* (PyObject * (*) (PyObject *, PyObject *, void *, enum PyGSL_GETSET_typemode mode)) PyGSL_API[PyGSL_solver_getset_NUM])
 
-#define PyGSL_solver_check(ob) (((ob)->ob_type) == (PyGSL_API[PyGSL_solver_type_NUM]))
+#define PyGSL_solver_check(ob) ((Py_TYPE(ob)) == (PyGSL_API[PyGSL_solver_type_NUM]))
 
 #define import_pygsl_solver() \
 { \
@@ -316,7 +317,7 @@ PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_G
 }
 
 #else  /* _PyGSL_API_MODULE */
-#define PyGSL_solver_check(ob) ((ob)->ob_type == &PyGSL_solver_pytype)
+#define PyGSL_solver_check(ob) (Py_TYPE(ob) == &PyGSL_solver_pytype)
 #endif /* _PyGSL_API_MODULE */
 
 

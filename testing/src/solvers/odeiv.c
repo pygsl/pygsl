@@ -1,4 +1,5 @@
 #include <pygsl/solver.h>
+#include <pygsl/string_helpers.h>
 #include <pygsl/utils.h>
 #include <gsl/gsl_odeiv.h>
 
@@ -31,8 +32,7 @@ _mycontrol_free(mycontrol *c)
      FUNC_MESS_BEGIN();     
      gsl_odeiv_control_free(c->control);
      if(c->step_ob){
-	  DEBUG_MESS(3, "Decreasing step @ %p refcont %d", c->step_ob,
-		     c->step_ob->ob_refcnt);
+       DEBUG_MESS(3, "Decreasing step @ %p", c->step_ob);
 	  Py_DECREF(c->step_ob);
      }else{
 	  DEBUG_MESS(3, "Freeing GSL Step @ %p", c->step);
@@ -50,16 +50,14 @@ _myevolve_free(myevolve *c)
      FUNC_MESS_BEGIN();
      gsl_odeiv_evolve_free(c->evolve);
      if(c->control_ob){
-	  DEBUG_MESS(3, "Decreasing control @ %p refcont %d", c->control_ob,
-		     c->control_ob->ob_refcnt);
+	  DEBUG_MESS(3, "Decreasing control @ %p", c->control_ob);
 	  Py_DECREF(c->control_ob);
      }else{
 	  DEBUG_MESS(3, "Freeing GSL Control @ %p", c->control);
 	  gsl_odeiv_control_free(c->control);
      }
      if(c->step_ob){
-	  DEBUG_MESS(3, "Decreasing step @ %p refcont %d", c->step_ob,
-		     c->step_ob->ob_refcnt);
+	  DEBUG_MESS(3, "Decreasing step @ %p", c->step_ob);
 	  Py_DECREF(c->step_ob);
      }else{
 	  DEBUG_MESS(3, "Freeing GSL Step @ %p", c->step);
@@ -687,7 +685,7 @@ PyGSL_odeiv_control_init(PyObject *self, PyObject *args, void * type)
      if(!PyGSL_ODEIV_STEP_Check(step)){
 	  int flag;
 	  flag = PyGSL_solver_check(step);
-	  DEBUG_MESS(3, "is solver?  %d, %p %p ", flag,  PyGSL_API[PyGSL_solver_type_NUM], step->ob_type);
+	  DEBUG_MESS(3, "is solver?  %d, %p %p ", flag,  PyGSL_API[PyGSL_solver_type_NUM], Py_TYPE(step));
 	  if(flag){
 	       DEBUG_MESS(3, "solver = %s, %p !=  %p", step->mstatic->type_name, step->mstatic->type_name, 
 			  odeiv_step_type_name);
@@ -830,13 +828,41 @@ static PyMethodDef mMethods[] = {
      {NULL, NULL, 0, NULL}
 };
 
-void
-initodeiv(void)
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.testing.odeiv",
+        NULL,
+        -1,
+        mMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif 
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_odeiv(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
+DL_EXPORT(void) initodeiv(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
-     PyObject* m, *dict, *item;
+     PyObject* m = NULL, *dict, *item;
      FUNC_MESS_BEGIN();
 
-     m=Py_InitModule("odeiv", mMethods);
+#ifdef PyGSL_PY3K
+  m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */    
+  m=Py_InitModule("odeiv", mMethods);
+#endif /* PyGSL_PY3K */
+
+  if(!m)
+    goto fail;
+
      module = m;
      assert(m);
      dict = PyModule_GetDict(m);
@@ -848,7 +874,7 @@ initodeiv(void)
      assert(PyGSL_API);
 
 
-     if (!(item = PyString_FromString((char*)PyGSL_odeiv_module_doc))){
+     if (!(item = PyGSL_string_from_string((char*)PyGSL_odeiv_module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 
 			  "I could not generate module doc string!");
 	  goto fail;
@@ -860,8 +886,9 @@ initodeiv(void)
      }
      
      FUNC_MESS_END();
+     return RETVAL;
 
  fail:
      FUNC_MESS("FAIL");
-     return;
+     return RETVAL;
 }

@@ -16,6 +16,7 @@
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
+#include <pygsl/string_helpers.h>
 
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_ieee_utils.h>
@@ -44,6 +45,28 @@
  * Used as a buffer to generate error messages.
  */
 static char pygsl_error_str[512];
+#define PyGSL_string_as_string _PyGSL_string_as_string
+static char * 
+_PyGSL_string_as_string(PyObject * unicode_obj)
+{
+	PyObject * bytes_obj = NULL;
+	char *r = NULL;
+
+	FUNC_MESS_BEGIN();
+	bytes_obj = PyUnicode_AsASCIIString(unicode_obj);
+	if(bytes_obj == NULL) 
+		goto fail;
+	
+	r = PyBytes_AsString(bytes_obj);
+	FUNC_MESS_END();
+	return r;
+	
+  fail:
+	FUNC_MESS("FAIL");
+	Py_XDECREF(bytes_obj);
+	return NULL;
+}
+
 #include "profile.c"
 #include "error_helpers.c"
 #include "general_helpers.c"
@@ -53,6 +76,7 @@ static char pygsl_error_str[512];
 #include "rng_helpers.c"
 
 static PyObject * debuglist = NULL;
+
 
 
 static int 
@@ -123,7 +147,7 @@ PyGSL_get_debug_level(PyObject *self, PyObject *args)
 #else 
      tmp = DEBUG;
 #endif 
-     return PyInt_FromLong(tmp);
+     return PyLong_FromLong(tmp);
 }
 
 static void * _PyGSL_API[PyGSL_NENTRIES_NUM];
@@ -192,26 +216,51 @@ PyGSL_init_api(void)
      _PyGSL_API[PyGSL_vector_check_NUM                         ] = (void *) & PyGSL_vector_check                         ;
      _PyGSL_API[PyGSL_matrix_check_NUM                         ] = (void *) & PyGSL_matrix_check                         ;
      _PyGSL_API[PyGSL_array_check_NUM                          ] = (void *) & PyGSL_array_check                          ;
-
+     _PyGSL_API[PyGSL_string_as_string_NUM                     ] = (void *) &_PyGSL_string_as_string                     ;
 }
 
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.init",
+        NULL,
+        -1,
+        initMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif 
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_init(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) initinit(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
   PyObject *m = NULL, *d = NULL, *version=NULL, *date=NULL, *api = NULL;
 
+#ifdef PyGSL_PY3K
+  m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
   m = Py_InitModule("pygsl.init", initMethods);
+#endif /* PyGSL_PY3K */
+  
   import_array();
   
   
   if(m == NULL){
        fprintf(stderr, "I could not init pygsl.init!");
-       return;
+       return RETVAL;
   }
 
   d = PyModule_GetDict(m);
   if(d == NULL){
        fprintf(stderr, "I could not get the module dict for  pygsl.init!");
-       return;
+       return RETVAL;
   }
 
   PyGSL_init_api();
@@ -227,37 +276,37 @@ DL_EXPORT(void) initinit(void)
   if (PyDict_SetItemString(d, "_PYGSL_API", api) != 0){
        PyErr_SetString(PyExc_ImportError, 
 		       "I could not add  _PYGSL_API!");
-       return;
+       return RETVAL;
   }
 
-  version = PyString_FromString(GSL_VERSION);
+  version = PyGSL_string_from_string(GSL_VERSION);
   if(version == NULL){
        fprintf(stderr, "I could not create the version string for pygsl.init!");
-       return;
+       return RETVAL;
   }
   if(PyDict_SetItemString(d, "compiled_gsl_version", version) != 0){
        fprintf(stderr, "I could not add the compile version string to the module dict of pygsl.init!");
-       return;
+       return RETVAL;
   }
 
-  version = PyString_FromString(gsl_version);
+  version = PyGSL_string_from_string(gsl_version);
   if(version == NULL){
        fprintf(stderr, "I could not create the version string for pygsl.init!");
-       return;
+       return RETVAL;
   }
   if(PyDict_SetItemString(d, "run_gsl_version", version) != 0){
        fprintf(stderr, "I could not add the run version string to the module dict of pygsl.init!");
-       return;
+       return RETVAL;
   }
 
-  date = PyString_FromString(DATE " " TIME);
+  date = PyGSL_string_from_string(DATE " " TIME);
   if(version == NULL){
        fprintf(stderr, "I could not create the date string for pygsl.init!");
-       return;
+       return RETVAL;
   }
   if(PyDict_SetItemString(d, "compile_date", date) != 0){
        fprintf(stderr, "I could not add the date version string to the module dict of pygsl.init!");
-       return;
+       return RETVAL;
   }
 
   if((debuglist = PyList_New(0)) == NULL){
@@ -268,5 +317,5 @@ DL_EXPORT(void) initinit(void)
    * have to call them explicitly when needed.
    */
   
-  return;
+  return RETVAL;
 }

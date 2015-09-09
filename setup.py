@@ -58,7 +58,9 @@ import os
 pygsldir = os.path.dirname("__name__")
 # Get the version information
 versionfile = open(os.path.join(pygsldir, "pygsl", "_version.py"))
-exec(versionfile)
+versiontext = versionfile.read()
+exec(versiontext)
+del versiontext
 
 # Make sure that we use the new one ...
 gsldist_path = os.path.join(pygsldir, "gsl_dist")
@@ -84,7 +86,7 @@ exts = []
 def SWIG_Extension(*args, **kws):
     kws["py_dir"] = "pygsl"
     kws["c_dir"] = "swig_src"
-    return apply(_SWIG_Extension, args, kws)
+    return _SWIG_Extension(*args, **kws)
 
 
 
@@ -207,7 +209,7 @@ pygsl_transform = gsl_Extension("_transform",
                            gsl_min_version=(1,'0+'),
                            python_min_version=(2,1)
                            )
-exts.append(pygsl_transform)
+#exts.append(pygsl_transform)
 try:
     pygsl_rng=gsl_Extension("rng",
                             ['src/rng/rngmodule.c'],
@@ -215,7 +217,7 @@ try:
                             define_macros = macros,
                             python_min_version=(2,1)
                          )
-    exts.append(pygsl_rng)
+    #exts.append(pygsl_rng)
     
     
     exts.append(SWIG_Extension("gslwrap",
@@ -248,14 +250,14 @@ try:
                                   gsl_min_version=(1,'0+'),
                                   python_min_version=(2,2)
                                   )
-    exts.append(pygsl_histogram)    
+    #exts.append(pygsl_histogram)    
     pygsl_multimin=gsl_Extension("multimin",
                                   ['src/multiminmodule.c'],
                                  define_macros = macros,
                                   gsl_min_version=(1,'0+'),
                                   python_min_version=(2,2)
                                   )
-    exts.append(pygsl_multimin)    
+    #exts.append(pygsl_multimin)    
 except distutils.errors.DistutilsExecError:
     pass
 
@@ -266,7 +268,7 @@ pygsl_qrng=gsl_Extension("_qrng",
                          define_macros = macros,
                          python_min_version=(2,1)
                          )
-exts.append(pygsl_qrng)
+#exts.append(pygsl_qrng)
 
 pygsl_sf=gsl_Extension("sf",
 		       ['src/sfmodule.c'],
@@ -422,7 +424,7 @@ if BUILD_TESTING:
 
     num = str(gsl_numobj.nummodule)
     if num in ("numpy", "Numeric"):
-        print "Building testing ufuncs!"
+        sys.stdout.write("Building testing ufuncs!\n")
         sfarray=gsl_Extension("testing.sfarray",
                               ['testing/src/sf/sf__arrays.c'],
                               gsl_min_version=(1,),
@@ -438,8 +440,7 @@ if BUILD_TESTING:
                          )
         exts.append(sf)
     else:
-        print "Selected array object -->%s<--" % (num,)
-        print "No special ufuncs in testing"
+        sys.stdout.write("Selected array object -->%s<--\nNo special ufuncs in testing\n" % (num,))
     #exts.append(cheb)
     pass
 
@@ -487,9 +488,9 @@ gsldist = []
 headers = None
 if INSTALL_HEADERS == 1:
     headers = glob.glob("Include/pygsl/*.h")
-    gsldist = map(lambda x: 'gsl_dist.' + os.path.basename(x)[:-3], glob.glob("gsl_dist/*.py"))
+    gsldist = ['gsl_dist.' + os.path.basename(x)[:-3] for x in glob.glob("gsl_dist/*.py")]
 
-py_modules = map(lambda x : 'pygsl.' + x, py_module_names) + gsldist 
+py_modules = ['pygsl.' + x for x in py_module_names] + gsldist 
     
 extends = ""
 if "bdist" in sys.argv:

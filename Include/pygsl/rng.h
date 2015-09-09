@@ -20,8 +20,8 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object);
 (*(gsl_rng *  (*) (PyObject *)) PyGSL_API[PyGSL_gsl_rng_from_pyobject_NUM])
 #endif /* _PyGSL_API_MODULE */
 
-#define PyGSL_RNG_Check(op) \
-   ((op)->ob_type == (PyTypeObject *)PyGSL_API[PyGSL_RNG_ObjectType_NUM])
+#define PyGSL_RNG_Check(ob) \
+   (Py_TYPE(ob) == (PyTypeObject *)PyGSL_API[PyGSL_RNG_ObjectType_NUM])
 
 #define import_pygsl_rng() \
 { \

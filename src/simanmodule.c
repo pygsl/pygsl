@@ -647,18 +647,44 @@ static PyMethodDef simanMethods[] = {
 	{NULL, NULL} /* Sentinel */
 };
 
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.siman",
+        NULL,
+        -1,
+        simanMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif /* PyGSL_PY3K */
 
-
+#ifdef PyGSL_PY3K
+PyObject *PyInit__siman(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) init_siman(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
 	PyObject *m = NULL;
 	FUNC_MESS_BEGIN();
+
+#ifdef PyGSL_PY3K
+	m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
 	m = Py_InitModule("_siman", simanMethods);
+#endif /* PyGSL_PY3K */
+	if (m == NULL)
+		return RETVAL;
 	module = m;
+
 	init_pygsl();
 	import_pygsl_rng();
 	FUNC_MESS_END();
-	return;
+	return RETVAL;
 }
 
 

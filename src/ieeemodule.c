@@ -107,7 +107,7 @@ ieee_isnan(PyObject *self, PyObject *arg)
      double tmp;
      if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
 	  return NULL;
-     return PyInt_FromLong(gsl_isnan(tmp));
+     return PyLong_FromLong(gsl_isnan(tmp));
 }
 
 static PyObject* 
@@ -116,7 +116,7 @@ ieee_isinf(PyObject *self, PyObject *arg)
      double tmp;
      if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
 	  return NULL;
-     return PyInt_FromLong(gsl_isinf(tmp));
+     return PyLong_FromLong(gsl_isinf(tmp));
 
 }
 
@@ -126,7 +126,7 @@ ieee_finite(PyObject *self, PyObject *arg)
      double tmp;
      if(PyGSL_PYFLOAT_TO_DOUBLE(arg, &tmp, NULL) != GSL_SUCCESS)
 	  return NULL;
-     return PyInt_FromLong(gsl_finite(tmp));
+     return PyLong_FromLong(gsl_finite(tmp));
 
 }
 
@@ -183,13 +183,42 @@ static PyMethodDef ieeeMethods[] = {
   {NULL,     NULL}        /* Sentinel */
 };
 
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.rng",
+        NULL,
+        -1,
+	ieeeMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif /* PyGSL_PY3K */
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_ieee(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) initieee(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
   PyObject* m;
 
+#ifdef PyGSL_PY3K
+	m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
   m=Py_InitModule("ieee", ieeeMethods);
+#endif /* PyGSL_PY3K */
+
+  if (m == NULL)
+    return RETVAL;
+  
   init_pygsl();
   define_const_ints(m);
 
-  return;
+  return RETVAL;
 }

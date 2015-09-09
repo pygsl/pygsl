@@ -79,32 +79,32 @@ def switchpreference(array_preference):
 	#array_preference = 'numarray'
 	if array_preference != None:
 	    if array_preference == 'numpy':
-		if have_numpy == 1:
-		    use_numpy = 1
-	        else:
-		    print "Did not find the numpy module you asked for"            
+                if have_numpy == 1:
+                        use_numpy = 1
+                else:
+                        sys.stdout.write( "Did not find the numpy module you asked for")            
 
-	    if array_preference == 'Numeric':
-		if have_numeric == 1:
-		    use_numeric = 1
-		else:
-		    print "Did not find the Numeric module you asked for"            
-	    else:
-		if array_preference == 'numarray':
-		    if have_numarray == 1:
-			use_numarray = 1
-		    else:
-			print "Did not find the numarray module you asked for"
+#	    if array_preference == 'Numeric':
+#		if have_numeric == 1:
+#		    use_numeric = 1
+#		else:
+#                         sys.stdout.write("Did not find the Numeric module you asked for")          
+#	    else:
+#		if array_preference == 'numarray':
+#		    if have_numarray == 1:
+#			use_numarray = 1
+#		    else:
+#			sys.stdout.write( "Did not find the numarray module you asked for")
 
 	if use_numeric == 0 and use_numarray == 0 and use_numpy == 0:            
 	    if have_numpy == 1:
-		use_numpy = 1
+                    use_numpy = 1
 	    elif have_numarray == 1:
-		use_numarray = 1
+                    use_numarray = 1
 	    elif have_numeric == 1:
-		use_numeric = 1
+                    use_numeric = 1
 	    else:
-		raise  DistutilsModuleError, "I need either numpy, nummarray, or Numeric!"
+                    raise  DistutilsModuleError("I need either numpy, nummarray, or Numeric!")
 	
 	if use_numpy == 1:
 		use_numeric = 0
@@ -123,7 +123,7 @@ def switchpreference(array_preference):
 		use_numpy = 0
 		nummodule = "numarray"
 	else:
-		raise  DistutilsModuleError, "I need either numpy, nummarray or Numeric!"
+		raise  DistutilsModuleError( "I need either numpy, nummarray or Numeric!")
 	return nummodule
 
 def writenumobj(nummodule):
@@ -141,15 +141,15 @@ def writenumobj(nummodule):
 	file.close()
 	del file
 
-        file = open(os.path.join(gsl_dist, "array_includes.py"), "w")
+	file = open(os.path.join(gsl_dist, "array_includes.py"), "w")
 	file.write('"""\n')
 	file.write(warnmsg)
 	file.write('"""\n')
 	file.write('\n')
 	file.write('array_include_dirs = []\n')
 	if nummodule == "numpy":
-	    file.write('from numpy.distutils.misc_util import get_numpy_include_dirs\n')
-            file.write('array_include_dirs = get_numpy_include_dirs()\n')
+		file.write('from numpy.distutils.misc_util import get_numpy_include_dirs\n')
+		file.write('array_include_dirs = get_numpy_include_dirs()\n')
 	file.close()
 	del file
 
@@ -175,7 +175,7 @@ def writenumobj(nummodule):
 	elif nummodule == "numarray":
 		file.write('from numarray.linear_algebra.mlab import *\n')
 	else:
-		raise ValueError, ("Unknown array object %s" % nummodule)
+		raise ValueError("Unknown array object %s" % nummodule)
 	file.close()
 	del file
 
@@ -189,11 +189,12 @@ def read_numobj():
 	l = {}
 	module = None
 	try:
-		execfile(path, g, l)
+		pathtext =open(path).read()
+		exec(pathtext, g, l)
 		module = l["nummodule"]
 		return module
 	except IOError:
-		print "No array object was selected."
+		sys.stdout.write("No array object was selected.\n")
 		return None
 	except ImportError:
 		pass
@@ -201,7 +202,7 @@ def read_numobj():
 	# Try to find the name of the set module
 	line = open(path).readlines()[-1]
 	lastobject =  string.strip(string.split(line, "=")[1])
-	print "Array object %s found in pygsl._numobj can not be imported!" % (lastobject,)
+	sys.stdout.write("Array object %s found in pygsl._numobj can not be imported!\n" % (lastobject,))
 	return None
 
 def build_guess(selectedmodule):
@@ -215,18 +216,18 @@ def build_guess(selectedmodule):
 	if selectedmodule == "" and lastmodule != None:
 		return lastmodule
 
-	print "Looking for a suitable array module"
+	sys.stdout.write("Looking for a suitable array module")
 	# If given, find out if it can be used ...	
 	nummodule = switchpreference(selectedmodule)
 	
 	# find out if it is a change ...
 	if lastmodule == None or lastmodule != nummodule:
 		if lastmodule != nummodule:
-			print "SELECTED a NEW array module ->", nummodule
-			print "Please make sure that all modules are built with the same setting."
-			print "e.g. remove the build directory and start the build process again!"
+			sys.stdout.write( "SELECTED a NEW array module ->%s\n" % (nummodule,))
+			sys.stdout.write( "Please make sure that all modules are built with the same setting.\n")
+			sys.stdout.write( "e.g. remove the build directory and start the build process again!\n")
 		else:
-			print "SELECTED as array module ->", nummodule
+			sys.stdout.write("SELECTED as array module ->%s\n" %( nummodule,))
 		writenumobj(nummodule)
 	return nummodule
 
@@ -265,4 +266,4 @@ class _nummodule:
 
 		
 nummodule = _nummodule()
-print nummodule
+sys.stdout.write("%s\n" %(nummodule,))

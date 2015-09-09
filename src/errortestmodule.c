@@ -44,17 +44,45 @@ static PyMethodDef errortestMethods[] = {
      {NULL, NULL, 0, NULL}
 };
 
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.init",
+        NULL,
+        -1,
+        errortestMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif 
 
-DL_EXPORT(void) initerrortest(void)
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_errortest(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
+DL_EXPORT(void) init_errortest(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
      PyObject  *m=NULL;
-     
+
+#ifdef PyGSL_PY3K
+     m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
      m = Py_InitModule("errortest", errortestMethods);
+
+#endif /* PyGSL_PY3K */
+     if(m == NULL)
+       return RETVAL;
+     
      assert(m);
      module = m;
 
      init_pygsl();
      
-     return;
+     return RETVAL;
 }
 

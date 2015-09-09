@@ -47,14 +47,14 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 	 PyGSL_ERROR("Could not get the name of the callback!", GSL_EBADFUNC);
 	 goto fail;
      }
-     if(!PyString_Check(name_o)){
+     if(!PyGSL_string_check(name_o)){
 	  PyErr_SetString(PyExc_TypeError, 
 			  " For an errornous callback object,"  
 			  " the attribute '__name__' was not a Python string!");
 	 PyGSL_ERROR("Nameobject of the callback was not a string!", GSL_EBADFUNC);
 	 goto fail;
      }     
-     name = PyString_AsString(name_o);
+     name = PyGSL_string_as_string(name_o);
 
      /* A non completly standard but safe function. */
      FUNC_MESS("\tmakeing string");
@@ -150,7 +150,7 @@ PyGSL_pyint_to_int(PyObject *object, int *result, PyGSL_error_info *info)
      long tmp;
 
      FUNC_MESS_BEGIN();
-     object1 = PyNumber_Int(object);
+     object1 = PyNumber_Long(object);
      if(object1 == NULL){
 	 *result = INT_MIN;
 	 if(info){
@@ -161,7 +161,7 @@ PyGSL_pyint_to_int(PyObject *object, int *result, PyGSL_error_info *info)
 	 PyGSL_ERROR(msg, GSL_EINVAL);
      }
 
-     tmp = PyInt_AsLong(object1);
+     tmp = PyLong_AsLong(object1);
      if(tmp > INT_MAX)
 	  PyGSL_ERROR("Number too big for int", GSL_EINVAL);
      else if (tmp < INT_MIN)

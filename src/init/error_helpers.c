@@ -1,4 +1,5 @@
 #include <pygsl/error_helpers.h>
+#include <pygsl/string_helpers.h>
 #include <pygsl/utils.h>
 #include <gsl/gsl_errno.h>
 #include <compile.h>
@@ -91,7 +92,7 @@ PyGSL_error_flag_to_pyint(long flag)
      if(GSL_FAILURE == PyGSL_error_flag(flag)){
 	  return NULL;
      }
-     result = PyInt_FromLong((long) flag);
+     result = PyLong_FromLong((long) flag);
      FUNC_MESS_END();
 
      return result;
@@ -114,14 +115,14 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 
      if(filename == NULL)
 	  filename = "file ???";
-     py_srcfile = PyString_FromString(filename);
+     py_srcfile = PyGSL_string_from_string(filename);
      if (py_srcfile == NULL) 
 	  goto fail;
 
      if(funcname == NULL)
 	  funcname = "function ???";
 
-     py_funcname = PyString_FromString(funcname);
+     py_funcname = PyGSL_string_from_string(funcname);
      if (py_funcname == NULL) 
 	  goto fail;
 
@@ -138,10 +139,11 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
      if (empty_tuple == NULL) 
 	  goto fail;
 
-     empty_string = PyString_FromString("");
+     empty_string = PyGSL_string_from_string("");
      if (empty_string == NULL) 
 	  goto fail;
 
+#if Py3K_TRANSITION_DELAYED
      py_code = PyCode_New(
 	  0,            /*int argcount,*/
 	  0,            /*int nlocals,*/
@@ -174,6 +176,7 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 	  goto fail;
      py_frame->f_lineno = lineno;
      PyTraceBack_Here(py_frame);
+#endif
 
      FUNC_MESS_END();
      return;
@@ -264,10 +267,10 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
 
 	  if(name == NULL) 
 	       c_name = "unknown name";
-	  else if (!PyString_Check(name))
+	  else if (!PyGSL_string_check(name))
 	       c_name = "name not str object!";	       
 	  else	       
-	       c_name = PyString_AsString (name);
+	       c_name = PyGSL_string_as_string (name);
 
 	  fprintf(stderr, "failed to get errno from err_ob '%s' @ %p\n",
 		  c_name, (void *) err_ob);
@@ -277,7 +280,7 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
 	  return -1;
      }
      
-     if(!PyInt_CheckExact(tmp)){
+     if(!PyLong_CheckExact(tmp)){
 	  fprintf(stderr, "errno %p from err_ob %p was not an exact int!\n", 
 		  (void *) tmp, (void *) err_ob);
 	  PyErr_Format(PyExc_TypeError, "errno %p from err_ob %p was not an exact int!\n",
@@ -285,7 +288,7 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
 	  return -1;
      }
 
-     test_errno = PyInt_AsLong(tmp);
+     test_errno = PyLong_AsLong(tmp);
      if((dict == error_dict) && (test_errno < PyGSL_ERRNO_MAX)){
 	  flag = PyGSL_register_accel_err_object(err_ob, test_errno);
      }else{
@@ -360,7 +363,7 @@ PyGSL_get_error_object(int the_errno, PyObject ** accel, int accel_max, PyObject
      }else{
 	  DEBUG_MESS(4, "Trying to get an error object from dictonary at %p",
 		     (void*) dict);
-	  ltmp = PyInt_FromLong(the_errno);
+	  ltmp = PyLong_FromLong(the_errno);
 	  if(ltmp == NULL){	    
 	    DEBUG_MESS(4, "Failed to create python int from the_errno %d", the_errno);
 	    goto fail;

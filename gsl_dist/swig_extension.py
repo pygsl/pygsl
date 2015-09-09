@@ -9,6 +9,7 @@ from distutils.dep_util import newer_group
 from distutils.file_util import copy_file
 
 import os.path
+import sys
 import re
 import string
 remove_underscore=re.compile("_*(.*)")
@@ -79,7 +80,7 @@ class SWIG_Extension(gsl_Extension):
                 includes.append('-I' + i)
             cmd = [gsl_Location.get_swig(),] + swig_flags + includes
             cmd.extend(['-o', target] + sources)
-            print string.join(cmd, " ")
+            sys.stderr.write(" ".join(cmd) + "\n")
             spawn(cmd, 1, 1)
             dst = name
             src = name + '.py'

@@ -14,6 +14,9 @@
 #include <gsl/gsl_types.h>
 #include <stdio.h>
 #include <pygsl/error_helpers.h>
+
+static PyObject *module = NULL;
+
 %}
 
 %init {

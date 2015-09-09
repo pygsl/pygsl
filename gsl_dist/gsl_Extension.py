@@ -30,9 +30,9 @@ while pos<len(argv):
 	if gsl_prefix_match:
 		gsl_prefix_option=gsl_prefix_match.group(1)
 		gsl_prefix_option.strip()
-                argv[pos:pos+1]=[]
-                break
-        pos+=1
+		argv[pos:pos+1]=[]
+		break
+	pos+=1
 
 # Extension class adapted for gsl
 class _gsl_Location:
@@ -68,8 +68,8 @@ class _gsl_Location:
 		return self.version
 	
 	def _split_version(self, version):
-                if version[-1] == '+':
-                        version = version[:-1]
+		if version[-1] == '+':
+			version = version[:-1]
 		return re.split('\.',version)
 
 	def get_swig(self):
@@ -93,7 +93,7 @@ class _gsl_Location_gsl_config(_gsl_Location):
 		self.prefix = self.get_gsl_info('--prefix').strip()
 		self.cflags = self.get_gsl_info('--cflags').strip()
 		self.libs   = self.get_gsl_info('--libs').strip()
-                self.version = self._split_version(self.get_gsl_info('--version').strip())[:2]
+		self.version = self._split_version(self.get_gsl_info('--version').strip())[:2]
 		
 		# I am running on swig. I suppose that swig is in the path
 		self.swig = "swig"
@@ -110,8 +110,8 @@ class _gsl_Location_gsl_config(_gsl_Location):
 		gsl_command=os.popen(self.gsl_config_tool+' '+arguments)
 		gsl_output=gsl_command.readline()
 		gsl_command.close()
-                if not gsl_output:
-			raise DistutilsExecError,"could not start %s"%self.gsl_config_tool
+		if not gsl_output:
+			raise DistutilsExecError("could not start %s"%self.gsl_config_tool)
 		return  gsl_output
 
 	
@@ -120,19 +120,19 @@ class _gsl_Location_file(_gsl_Location):
 		_gsl_Location.__init__(self)
 		try:
 			import gsl_site
-		except ImportError, des:
+		except ImportError as des:
 			msg = "I do not know how to run gsl-config \n"+\
 			      "on this system. Therefore you must provide me with the information\n" +\
 			      "where to find the GSL library. I could not import `gsl_site'.\n" +\
 			      "Reason: %s. Copy gsl_site_example.py to gsl_site.py.\n"+\
 			      "Edit the variables in that file to reflect your installation."
-			raise DistutilsExecError, msg % des
+			raise DistutilsExecError(msg % des)
 		
 		self.prefix  = gsl_site.prefix 
 		self.cflags  = gsl_site.cflags 
 		self.libs    = gsl_site.libs   
 		self.swig    = gsl_site.swig
-                self.version = self._split_version(gsl_site.version)
+		self.version = self._split_version(gsl_site.version)
 
 if os.name == 'posix':
 	gsl_Location = _gsl_Location_gsl_config()
@@ -164,25 +164,23 @@ class gsl_Extension(Extension):
             # get real prefix
             self.gsl_prefix=self.get_gsl_prefix()
 
-	    gsl_major_version, gsl_minor_version = self.get_gsl_version()
+            gsl_major_version, gsl_minor_version = self.get_gsl_version()
             # check gsl version
             if gsl_min_version is not None and \
                not self.check_gsl_version(gsl_min_version):
-		    raise DistutilsExecError, \
-			  "min gsl version %s required"%repr(gsl_min_version)
+                    raise DistutilsExecError("min gsl version %s required"%repr(gsl_min_version))
 
             # check python version
             if python_min_version is not None and \
                not self.check_python_version(python_min_version):
-		    raise DistutilsExecError, \
-			  "min python version %s required"%repr(python_min_version)
+                    raise DistutilsExecError("min python version %s required"%repr(python_min_version))
 
             # prepend include directory
             if include_dirs is None: include_dirs=[]
-	    include_dirs.append('Include')
-	    include_dirs.append('.')
+            include_dirs.append('Include')
+            include_dirs.append('.')
             include_dirs[0:0]=[os.path.join(self.gsl_prefix,'include')]
-	    include_dirs= include_dirs + array_include_dirs
+            include_dirs= include_dirs + array_include_dirs
 
             # prepend library directory
             if library_dirs is None: library_dirs=[]
@@ -190,7 +188,7 @@ class gsl_Extension(Extension):
 
             # prepare lib list
             # split optionlist and strip blanks from each option
-            gsl_lib_list=map(string.strip,self.get_gsl_libs().split())
+            gsl_lib_list=map(lambda x: x.strip(),self.get_gsl_libs().split())
 
             # filter options with -l
             not_lib_opt=lambda a:a[:2]=="-l"
@@ -204,23 +202,25 @@ class gsl_Extension(Extension):
             libraries.extend(gsl_lib_list)
 
 	    # test if Numeric module is available
-	    if define_macros is None:
-		    define_macros=[]
-	    try:
-		    imp.find_module("Numeric")
-		    define_macros = define_macros + [("NUMERIC",1),]
-	    except ImportError:	    
-		    define_macros = define_macros + [("NUMERIC",0), ]
-	    if undef_macros == None:
-		    undef_macros = []
-	    if 'NDEBUG' not in undef_macros:
-                undef_macros.append('NDEBUG')
-	    tmp = map(lambda x: x[0], define_macros)
-	    if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
-		    define_macros = define_macros + [("PYGSL_GSL_MAJOR_VERSION", gsl_major_version),]
-	    if "PYGSL_GSL_MINOR_VERSION" not in tmp:
-		    #define_macros.append(("PYGSL_GSL_MINOR_VERSION", gsl_minor_version))
-		    define_macros = define_macros + [("PYGSL_GSL_MINOR_VERSION", gsl_minor_version),]
+            if define_macros is None:
+                  define_macros=[]
+            try:
+                    imp.find_module("Numeric")
+                    define_macros = define_macros + [("NUMERIC",1),]
+            except ImportError:	    
+                    define_macros = define_macros + [("NUMERIC",0), ]
+            if undef_macros == None:
+                    undef_macros = []
+            if 'NDEBUG' not in undef_macros:
+                    undef_macros.append('NDEBUG')
+            tmp = map(lambda x: x[0], define_macros)
+            if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
+                    define_macros = define_macros + [("PYGSL_GSL_MAJOR_VERSION", gsl_major_version),]
+
+            
+            if "PYGSL_GSL_MINOR_VERSION" not in tmp:
+                    #define_macros.append(("PYGSL_GSL_MINOR_VERSION", gsl_minor_version))
+                    define_macros = define_macros + [("PYGSL_GSL_MINOR_VERSION", gsl_minor_version),]
 
             Extension.__init__(self, name, sources,
                                include_dirs,
@@ -236,18 +236,19 @@ class gsl_Extension(Extension):
                                )
 
 	def check_version(self, required_version, this_version):
-		min_length=min(len(required_version),len(this_version))
-		for pos in range(min_length):
-			this_type=type(required_version[pos])
-			if  this_type== types.StringType:
-				if required_version[pos]>this_version[pos]: return 0
-			elif this_type == types.IntType:
-				if required_version[pos]>int(this_version[pos]): return 0
-			else:
-				raise DistutilsExecError,"incorrect version specification"
+                min_length=min(len(required_version),len(this_version))
+                for pos in range(min_length):
+                        this_type=type(required_version[pos])
+                        if  this_type== type(" "):
+                                if required_version[pos]>this_version[pos]: return 0
+                        elif this_type == type(1):
+                                if required_version[pos]>int(this_version[pos]): return 0
+                        else:
+                                raise DistutilsExecError("incorrect version specification")
                 # problematic: 0.9 < 0.9.0, but assures that 0.9.1 > 0.9
                 if len(required_version)>len(this_version): return 0
-		return 1
+                return 1
+                        
 
 
 	def check_gsl_version(self, version_array):
@@ -258,15 +259,15 @@ class gsl_Extension(Extension):
 			
 	# get gsl-prefix option
 	def get_gsl_info(self, arguments):
-		"""
-		executes gsl-config with given arguments
-		"""
-		gsl_command=os.popen(self.gsl_config_tool+' '+arguments)
-		gsl_output=gsl_command.readline()
-		gsl_command.close()
+                """
+                executes gsl-config with given arguments
+                """
+                gsl_command=os.popen(self.gsl_config_tool+' '+arguments)
+                gsl_output=gsl_command.readline()
+                gsl_command.close()
                 if not gsl_output:
-			raise DistutilsExecError,"could not start %s"%self.gsl_config_tool
-		return  gsl_output
+                       raise DistutilsExecError("could not start %s"%self.gsl_config_tool)
+                return  gsl_output
 
 	def get_gsl_prefix(self,):
 		return gsl_Location.get_gsl_prefix()

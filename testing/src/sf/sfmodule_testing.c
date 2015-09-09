@@ -3,6 +3,7 @@
  * created: June 2003
  */
 #include <pygsl/error_helpers.h>
+#include <pygsl/string_helpers.h>
 #include <pygsl/arrayobject.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_sf.h>
@@ -150,14 +151,42 @@ static char * sf_module_doc =
 Use print sf.<function>.__doc__ to get more information about the ufunc.\n\
 Help does not display the information stored there!\n";
 
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.testing.sf",
+        NULL,
+        -1,
+        sf_array_functions,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif 
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit__ufuncs(void)
+#define RETVAL sf_module
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) init_ufuncs(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
   PyObject* sf_module=NULL, *sf_dict=NULL;
   PyObject* f=NULL, *item=NULL;
 
   FUNC_MESS_BEGIN();
   DEBUG_MESS(2, "Module compiled at %s %s\n", __DATE__, __TIME__);
+
+#ifdef PyGSL_PY3K
+  sf_module = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */    
   sf_module=Py_InitModule("_ufuncs", sf_array_functions);
+#endif /* PyGSL_PY3K */
+  if(sf_module == NULL)
+    goto fail;
+  
   module = sf_module;
 
   import_array();
@@ -174,7 +203,7 @@ DL_EXPORT(void) init_ufuncs(void)
 
 
   sf_dict=PyModule_GetDict(sf_module);
-  if (!(item = PyString_FromString(sf_module_doc))){
+  if (!(item = PyGSL_string_from_string(sf_module_doc))){
        PyErr_SetString(PyExc_ImportError, 
 		       "I could not generate module doc string!");
        goto fail;
@@ -185,9 +214,9 @@ DL_EXPORT(void) init_ufuncs(void)
        goto fail;
   }
 
-  PyDict_SetItemString(sf_dict, "PREC_DOUBLE", PyInt_FromLong((long) GSL_PREC_DOUBLE));
-  PyDict_SetItemString(sf_dict, "PREC_SINGLE", PyInt_FromLong((long) GSL_PREC_SINGLE));
-  PyDict_SetItemString(sf_dict, "PREC_APPROX", PyInt_FromLong((long) GSL_PREC_APPROX));
+  PyDict_SetItemString(sf_dict, "PREC_DOUBLE", PyLong_FromLong((long) GSL_PREC_DOUBLE));
+  PyDict_SetItemString(sf_dict, "PREC_SINGLE", PyLong_FromLong((long) GSL_PREC_SINGLE));
+  PyDict_SetItemString(sf_dict, "PREC_APPROX", PyLong_FromLong((long) GSL_PREC_APPROX));
 
   DEBUG_MESS(1, "polar_to_rect %p", (void *)gsl_sf_polar_to_rect);
   f = PyUFunc_FromFuncAndData(PyGSL_sf_ufunc_qi_dd_D_one_data,
@@ -222,10 +251,12 @@ DL_EXPORT(void) init_ufuncs(void)
 #endif
 
   FUNC_MESS_END();
-  return;
+  return RETVAL;
 
  fail:
      if(!PyErr_Occurred()){
 	  PyErr_SetString(PyExc_ImportError, "I could not init sf module!");
      }
+     /* shold the module be derefed ?? */
+     return RETVAL;
 }

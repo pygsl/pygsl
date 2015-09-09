@@ -66,8 +66,8 @@ PyGSL_vector_refcount(PyObject *self, PyObject *args)
 	  goto fail;
      }
      
-     result = a->ob_refcnt;
-     ret = PyInt_FromLong(result);
+     result = PyGSL_PY_ARRAY_GET_REFCNT(a);
+     ret = PyLong_FromLong(result);
      Py_DECREF(a);
      FUNC_MESS_END();
      return ret;
@@ -116,15 +116,42 @@ static PyMethodDef inittestMethods[] = {
      {NULL,     NULL, 0, NULL}        /* sentinel */
 };  
 
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.inittest",
+        NULL,
+        -1,
+        inittestMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif 
+
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_inittest(void)
+#define RETVAL m
+#else
+#define RETVAL
 DL_EXPORT(void) initinittest(void)
+#endif
 {
   PyObject *m = NULL;
 
-  FUNC_MESS_BEGIN();
+#ifdef PyGSL_PY3K
+  m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
   m = Py_InitModule("pygsl.inittest", inittestMethods);
+#endif /* PyGSL_PY3K */
+
+  FUNC_MESS_BEGIN();
   module = m;
   init_pygsl();
 
   FUNC_MESS_END();
-  return;
+  return RETVAL;
 }

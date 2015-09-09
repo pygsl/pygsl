@@ -45,7 +45,7 @@ PyGSL_root_solver_test_interval(PyGSL_solver * self, PyObject *args)
      gsl_root_fsolver *s = (gsl_root_fsolver *) self->solver;
      if(!PyArg_ParseTuple(args, "dd", &epsabs, &epsrel))
 	  return NULL;
-     return PyInt_FromLong(gsl_root_test_interval(s->x_lower, s->x_upper, epsabs, epsrel));
+     return PyLong_FromLong(gsl_root_test_interval(s->x_lower, s->x_upper, epsabs, epsrel));
 }
 
 static PyObject* 
@@ -153,7 +153,7 @@ PyGSL_root_test_delta(PyObject * self, PyObject *args)
      double x_lower, x_upper, epsabs, epsrel;
      if(!PyArg_ParseTuple(args, "dddd", &x_lower, &x_upper, &epsabs, &epsrel))
 	  return NULL;
-     return PyInt_FromLong(gsl_root_test_delta(x_lower, x_upper, epsabs, epsrel));
+     return PyLong_FromLong(gsl_root_test_delta(x_lower, x_upper, epsabs, epsrel));
 }
 
 static PyObject*
@@ -162,7 +162,7 @@ PyGSL_root_test_interval(PyObject * self, PyObject *args)
      double x_lower, x_upper, epsabs, epsrel;
      if(!PyArg_ParseTuple(args, "dddd", &x_lower, &x_upper, &epsabs, &epsrel))
 	  return NULL;
-     return PyInt_FromLong(gsl_root_test_interval(x_lower, x_upper, epsabs, epsrel));
+     return PyLong_FromLong(gsl_root_test_interval(x_lower, x_upper, epsabs, epsrel));
 }
 
 static const char PyGSL_roots_module_doc [] = "XXX Missing ";
@@ -180,13 +180,37 @@ static PyMethodDef mMethods[] = {
      {NULL, NULL, 0, NULL}
 };
 
-void
-initroots(void)
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.testing.roots",
+        NULL,
+        -1,
+        mMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif 
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_roots(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
+DL_EXPORT(void) initroots(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
      PyObject* m, *dict, *item;
      FUNC_MESS_BEGIN();
 
+#ifdef PyGSL_PY3K
+  m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */    
      m=Py_InitModule("roots", mMethods);
+#endif /* PyGSL_PY3K */
      module = m;
      assert(m);
      dict = PyModule_GetDict(m);
@@ -198,7 +222,7 @@ initroots(void)
      assert(PyGSL_API);
 
 
-     if (!(item = PyString_FromString((char*)PyGSL_roots_module_doc))){
+     if (!(item = PyGSL_string_from_string((char*)PyGSL_roots_module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 
 			  "I could not generate module doc string!");
 	  goto fail;
@@ -211,8 +235,9 @@ initroots(void)
      }
      
      FUNC_MESS_END();
+     return RETVAL;
 
  fail:
      FUNC_MESS("FAIL");
-     return;
+     return RETVAL;
 }

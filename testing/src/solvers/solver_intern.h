@@ -22,7 +22,7 @@ struct _ElementAccessor{
 
 
 static PyTypeObject PyGSL_solver_pytype;
-#define PyGSL_solver_check(ob) ((ob)->ob_type == &PyGSL_solver_pytype)
+#define PyGSL_solver_check(ob) (Py_TYPE(ob) == &PyGSL_solver_pytype)
 #define _PyGSL_solver_n_init PyGSL_solver_n_init
 
 

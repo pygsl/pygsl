@@ -5,13 +5,14 @@
 #include <Python.h>
 #include <gsl/gsl_errno.h>
 #include <pygsl/errorno.h>
+#include <pygsl/transition.h>
 
 static int 
 add_errno(PyObject * dict, int num, char * name)
 {
      PyObject * item;
 
-     item = PyInt_FromLong(num);
+     item = PyLong_FromLong(num);
      if(item == NULL){
 	  fprintf(stderr, "Failed to generate PyInt with value %d for errno %s\n",
 		  num, name);
@@ -30,18 +31,45 @@ static PyMethodDef errornoMethods[] = {
      {NULL, NULL, 0, NULL}
 };
 
+
+#ifdef PyGSL_PY3K
+static PyModuleDef errnomodule = {
+    PyModuleDef_HEAD_INIT,
+    "pygsl.errno",
+    "export the error numbers",
+    -1,
+    errornoMethods
+};
+
+#endif 
+
+#ifdef PyGSL_PY3K
+PyMODINIT_FUNC
+PyInit_errno(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) initerrno(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
+
 {
-     PyObject *dict=NULL, *m=NULL;
+	PyObject *dict=NULL, *m=NULL;
+
+#ifdef PyGSL_PY3K
+	m = PyModule_Create(&errnomodule);
+#else /* PyGSL_PY3K */
+	m = Py_InitModule("pygsl.errno", errornoMethods);
+#endif /* PyGSL_PY3K */
      
-     m = Py_InitModule("errno", errornoMethods);
-     assert(m);
+	if(m == NULL)
+		return RETVAL;
+	assert(m);
 
-     dict = PyModule_GetDict(m);
-     if(!dict)
-	  goto fail;
+	dict = PyModule_GetDict(m);
+	if(!dict)
+		goto fail;
 
-     ADD_ERRNO(GSL_SUCCESS , "GSL_SUCCESS" );
+      ADD_ERRNO(GSL_SUCCESS , "GSL_SUCCESS" );
      ADD_ERRNO(GSL_FAILURE , "GSL_FAILURE" );
      ADD_ERRNO(GSL_CONTINUE, "GSL_CONTINUE");
      ADD_ERRNO(GSL_EDOM    , "GSL_EDOM"    );
@@ -80,8 +108,8 @@ DL_EXPORT(void) initerrno(void)
      
 
 
-     return;
+     return RETVAL;
  fail:
      fprintf(stderr, "Initialisation of module errorno failed!\n");
-     return;
+     return RETVAL;
 }

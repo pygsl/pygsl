@@ -56,7 +56,7 @@ statistics_t_A(PyObject *self, PyObject *args, STATMOD_C_TYPE (*pointer)(const S
     if(flag == PyArray_DOUBLE || flag == PyArray_FLOAT)
 	r = PyFloat_FromDouble((double) result);
     else
-	r = PyInt_FromLong((long) result);
+	r = PyLong_FromLong((long) result);
     FUNC_MESS_END();
     return r;
 }
@@ -94,8 +94,8 @@ statistics_tt_A(PyObject *self, PyObject *args, void (*pointer)(STATMOD_C_TYPE *
 	PyTuple_SET_ITEM(r, 0, PyFloat_FromDouble((double) result1));
 	PyTuple_SET_ITEM(r, 1, PyFloat_FromDouble((double) result2));
     }else{
-	PyTuple_SET_ITEM(r, 0, PyInt_FromLong((long) result1));
-	PyTuple_SET_ITEM(r, 1, PyInt_FromLong((long) result2));
+	PyTuple_SET_ITEM(r, 0, PyLong_FromLong((long) result1));
+	PyTuple_SET_ITEM(r, 1, PyLong_FromLong((long) result2));
     }
     FUNC_MESS_END();
     return r;
@@ -297,8 +297,31 @@ static PyMethodDef STATMOD_APPEND_PYC_TYPE(StatisticsMethods_)[] = {
 };
 
 
-
-
+#ifdef PyGSL_PY3K
+#define PyGSL_STATISTICS_INIT(type, typestr)         \
+static struct PyModuleDef moduledef = {              \
+        PyModuleDef_HEAD_INIT,			      \
+        "pygsl.statistics" typestr, 	              \
+        NULL,					      \
+        -1,					      \
+        STATMOD_APPEND_PYC_TYPE(StatisticsMethods_), \
+        NULL,					      \
+        NULL,					      \
+        NULL,					      \
+        NULL					      \
+};                                                   \
+PyObject * PyInit_ ## type (void)                    \
+{                                                    \
+    PyObject *m = NULL;                              \
+    FUNC_MESS_BEGIN();                               \
+    m = PyModule_Create(&moduledef);                 \
+    if(m == NULL) return NULL;                       \
+    init_pygsl();                                    \
+    import_pygsl_stats();                            \
+    FUNC_MESS_END();                                 \
+    return m;                                        \
+}
+#else  /* PyGSL_PY3K */
 /* initialization */
 #define PyGSL_STATISTICS_INIT(type, typestr) \
 DL_EXPORT(void) init ## type (void) \
@@ -310,7 +333,7 @@ DL_EXPORT(void) init ## type (void) \
     FUNC_MESS_END(); \
     return; \
 }
-
+#endif /* PyGSL_PY3K */
 
 /*
  * Local Variables:

@@ -1,6 +1,8 @@
 #include "solver_intern.h"
 #include <pygsl/general_helpers.h>
 #include <pygsl/block_helpers.h>
+#include <pygsl/error_helpers.h>
+#include <pygsl/string_helpers.h>
 #if 0
 #include <pygsl/function_helpers.h>
 #endif
@@ -52,7 +54,7 @@ PyGSL_solver_name(PyGSL_solver *self, PyObject *args)
      if(self->mstatic->cmethods.name == NULL)
 	  PyGSL_ERROR_NULL("Can not restart a solver of this type!", GSL_ESANITY);
      ctmp = self->mstatic->cmethods.name(self->solver);
-     tmp =  PyString_FromString(ctmp);
+     tmp =  PyGSL_string_from_string(ctmp);
      FUNC_MESS_END();
      return tmp;
 }
@@ -74,7 +76,7 @@ PyGSL_solver_iterate(PyGSL_solver *self, PyObject *args)
      if(PyGSL_ERROR_FLAG(tmp) != GSL_SUCCESS)
 	  return NULL;
 
-     return PyInt_FromLong((long) tmp);
+     return PyLong_FromLong((long) tmp);
 }
 
 
@@ -162,7 +164,7 @@ static PyObject *
 PyGSL_solver_type(PyGSL_solver * self, PyObject *unused)
 {
      assert(self->mstatic->type_name);
-     return PyString_FromString(self->mstatic->type_name);
+     return PyGSL_string_from_string(self->mstatic->type_name);
 }
 
 static PyMethodDef solver_methods[] = {
@@ -172,13 +174,15 @@ static PyMethodDef solver_methods[] = {
      {"type",    (PyCFunction) PyGSL_solver_type,    METH_NOARGS, NULL},
      {NULL, NULL, 0, NULL}
 };
+
+#ifndef PyGSL_PY3K
 static PyObject *
 PyGSL_solver_getattr(PyGSL_solver * self, char * name)
 {
      PyObject *tmp = NULL;
      FUNC_MESS_BEGIN();
      if(self->mstatic->pymethods)
-	  tmp = Py_FindMethod(self->mstatic->pymethods, (PyObject *) self, name);
+       tmp = Py_FindMethod(self->mstatic->pymethods, (PyObject *) self, name);
      if(tmp == NULL){
 	  PyErr_Clear();
 	  tmp = Py_FindMethod(solver_methods, (PyObject *) self, name);
@@ -186,7 +190,50 @@ PyGSL_solver_getattr(PyGSL_solver * self, char * name)
      FUNC_MESS_END();
      return tmp;
 }
+#endif /* PyGSL_PY3K */
 
+#ifdef PyGSL_PY3K
+static PyTypeObject PyGSL_solver_pytype = {
+	PyObject_HEAD_INIT(NULL)
+	"PyGSL_solver",                    /* tp_name */
+	sizeof(PyGSL_solver),              /* tp_basicsize */
+	0,                                          /* tp_itemsize */
+	(destructor) PyGSL_solver_dealloc, /* tp_dealloc */
+	0,                       /* tp_print */
+	0,                       /* tp_getattr */
+	0,                       /* tp_setattr */
+	0,                       /* tp_reserved */
+	0,                       /* tp_repr */
+	0,                       /* tp_as_number */
+	0,                       /* tp_as_sequence */
+	0,                       /* tp_as_mapping */
+	0,                       /* tp_hash */
+	0,                       /* tp_call */
+	0,                       /* tp_str */
+	0,                       /* tp_getattro */
+	0,                       /* tp_setattro */
+	0,                       /* tp_as_buffer */
+	Py_TPFLAGS_DEFAULT,      /* tp_flags */
+	(char *)PyGSL_solver_type_doc, /* tp_doc */
+	0,                       /* tp_traverse */
+	0,                       /* tp_clear */
+	0,                       /* tp_richcompare */
+	0,                       /* tp_weaklistoffset */
+	0,                       /* tp_iter */
+	0,                       /* tp_iternext */
+	solver_methods,          /* tp_methods */
+	0,                       /* tp_members */
+	0,                       /* tp_getset */
+	0,                       /* tp_base */
+	0,                       /* tp_dict */
+	0,                       /* tp_descr_get */
+	0,                       /* tp_descr_set */
+	0,                       /* tp_dictoffset */
+	0,                       /* tp_init */
+	0,                       /* tp_alloc */
+	0,                       /* tp_new */
+};
+#else /* PyGSL_PY3K */
 static PyTypeObject PyGSL_solver_pytype = {
   PyObject_HEAD_INIT(NULL)	 /* fix up the type slot in initcrng */
   0,				 /* ob_size */
@@ -217,6 +264,7 @@ static PyTypeObject PyGSL_solver_pytype = {
   0L,				/* tp_flags */
   (char *) PyGSL_solver_type_doc		/* tp_doc */
 };
+#endif /* PyGSL_PY3K */
 
 PyGSL_solver* 
 _PyGSL_solver_init(const struct _SolverStatic *mstatic) 
@@ -255,7 +303,6 @@ _PyGSL_solver_init(const struct _SolverStatic *mstatic)
 	  solver_o->problem_dimensions[i] = -1;
      }
 
-     DEBUG_MESS(3, "refcount = %d", solver_o->ob_refcnt);
      FUNC_MESS_END();
      return solver_o;
  fail:
@@ -885,7 +932,7 @@ PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_G
 	  ret = PyFloat_FromDouble(*((double *) address));
 	  break;
      case PyGSL_MODE_INT:
-	  ret = PyInt_FromLong(((long) *((int *) address)));
+          ret = PyLong_FromLong(((long) *((int *) address)));
 	  break;
      case PyGSL_MODE_SIZE_T:
 	  ret = PyLong_FromUnsignedLong(((unsigned long) *((size_t *) address)));
@@ -942,18 +989,52 @@ init_api(void)
      FUNC_MESS_END();
 }
 
-void
-initsolver(void)
+
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.testing.solver",
+        NULL,
+        -1,
+        solverMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif 
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_solver(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
+DL_EXPORT(void) initsolver(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
-  PyObject* m, *dict, *item;
+  PyObject* m = NULL, *dict, *item;
 
   FUNC_MESS_BEGIN();
+
+#ifdef PyGSL_PY3K
+  m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */    
   m=Py_InitModule("solver", solverMethods);
+#endif /* PyGSL_PY3K */
+
+  if(m == NULL)
+    goto fail;
+
   init_pygsl();
 
-
   /* init multimin type */
+#ifdef PyGSL_PY3K
+  if (PyType_Ready(&PyGSL_solver_pytype) < 0)
+		return NULL;
+#else /* PyGSL_PY3K */    
   PyGSL_solver_pytype.ob_type  = &PyType_Type;
+#endif /* PyGSL_PY3K */
 
   init_api();
 
@@ -966,7 +1047,7 @@ initsolver(void)
   if(!dict)
        goto fail;
   
-  if (!(item = PyString_FromString((char*)PyGSL_solver_module_doc))){
+  if (!(item = PyGSL_string_from_string((char*)PyGSL_solver_module_doc))){
        PyErr_SetString(PyExc_ImportError, 
 		       "I could not generate module doc string!");
        goto fail;
@@ -977,9 +1058,10 @@ initsolver(void)
        goto fail;
   }
   FUNC_MESS_END();
+  return RETVAL;
 
  fail:
   FUNC_MESS("FAIL");
-  return;
+  return RETVAL;
 
 }

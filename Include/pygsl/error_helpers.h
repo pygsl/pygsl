@@ -85,8 +85,16 @@ PyGSL_warning(const char *, const char*, int, int);
 (((long) flag == GSL_SUCCESS) && (!PyErr_Occurred())) ? GSL_SUCCESS :       \
                      PyGSL_error_flag((long) (flag))
 
+#ifdef PyGSL_PY3K
+#define PyGSL_ERROR_FLAG_TO_PYINT(flag)                                     \
+(((long) flag <= 0) && (!PyErr_Occurred())) ? PyLong_FromLong((long) flag) : \
+                     PyGSL_error_flag_to_pyint((long) (flag))
+#else /* PyGSL_PY3K */
 #define PyGSL_ERROR_FLAG_TO_PYINT(flag)                                     \
 (((long) flag <= 0) && (!PyErr_Occurred())) ? PyInt_FromLong((long) flag) : \
                      PyGSL_error_flag_to_pyint((long) (flag))
+#endif /* PyGSL_PY3K */
+
+
 
 #endif /* PyGSL_ERROR_HELPER_H  */

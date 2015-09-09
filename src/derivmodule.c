@@ -61,31 +61,58 @@ All have the same usage:\n\
                            It is optional. In this case None is passed as\n\
                            args to foo\n\
 ";
+
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.rng",
+        NULL,
+        -1,
+	derivMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif /* PyGSL_PY3K */
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_deriv(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) initderiv(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
 	PyObject *m = NULL, *dict = NULL, *item = NULL;
 
+#ifdef PyGSL_PY3K
+	m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
 	m = Py_InitModule("deriv", derivMethods);
+#endif /* PyGSL_PY3K */
+
 	init_pygsl();
 	if (m == NULL)
-		return;
+		return RETVAL;
 
 	dict = PyModule_GetDict(m);
 	if (dict == NULL)
-		return;
+		return  RETVAL;
 	
-	if (!(item = PyString_FromString(deriv_module_doc))){
+	if (!(item = PyGSL_string_from_string(deriv_module_doc))){
 		PyErr_SetString(PyExc_ImportError, 
 				"I could not generate module doc string!");
-		return;
+		return  RETVAL;
 	}
 	if (PyDict_SetItemString(dict, "__doc__", item) != 0){
 		PyErr_SetString(PyExc_ImportError, 
 				"I could not init doc string!");
-		return;
+		return  RETVAL;
 	}
 
-	return;
+	return  RETVAL;
 }
 
 

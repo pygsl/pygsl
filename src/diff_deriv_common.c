@@ -1,5 +1,6 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/function_helpers.h>
+#include <pygsl/string_helpers.h>
 #include <pygsl/pygsl_features.h>
 
 #ifdef PyGSL_DERIV_MODULE

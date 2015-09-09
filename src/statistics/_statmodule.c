@@ -55,7 +55,7 @@ PyGSL_statistics_l_A(PyObject *self, PyObject *args,
     n = data->dimensions[0]; 
     result = pointer((void *)data->data, (size_t) stride, (size_t) n);
     Py_DECREF(data);
-    return PyInt_FromLong(result);
+    return PyLong_FromLong(result);
 }
 
 
@@ -281,19 +281,43 @@ set_api_pointer(void)
 
 static PyMethodDef _statMethods[] = 
 {
-     {	NULL,     NULL} /* Sentinel */
+  {	NULL,     NULL} /* Sentinel */
 };
-                                                                                                                                                                         
 
 /* initialization */
 
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.init",
+        NULL,
+        -1,
+        _statMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif 
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit__stat(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) init_stat(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
-     PyObject *api, *dict, *m;
+     PyObject *api, *dict, *m = NULL;
 
      FUNC_MESS_BEGIN();
 
-     m = Py_InitModule("_stat", _statMethods);
+#ifdef PyGSL_PY3K
+     m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
+     m = Py_InitModule("pygsl.init", _statMethods);
+#endif /* PyGSL_PY3K */
+
      if(m == NULL)
 	  goto fail;
 
@@ -316,12 +340,14 @@ DL_EXPORT(void) init_stat(void)
 	  goto fail;
      }
      FUNC_MESS_END();
-     return;
+     return RETVAL;
+
  fail:
      FUNC_MESS("Failed");
      if(!PyErr_Occurred()){
 	  PyErr_SetString(PyExc_ImportError, "I could not init statistics._stat module!");
      }
+     return RETVAL;
 
 }
 

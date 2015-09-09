@@ -36,7 +36,7 @@ static long pygsl_profile_float_transform_counter = 0;
 
 #define GETCOUNTER(name) \
 static PyObject* PyGSL_get_ ## name(PyObject *self, PyObject *args) \
-     {return PyInt_FromLong((long) pygsl_profile_ ## name);}
+     {return PyLong_FromLong((long) pygsl_profile_ ## name);}
 
 GETCOUNTER(vector_transform_counter)
 GETCOUNTER(matrix_transform_counter)

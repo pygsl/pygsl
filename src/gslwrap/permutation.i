@@ -8,6 +8,7 @@
 
 %rename(Permutation) gsl_permutation_struct;
 
+#define INLINE_DECL
 %include gsl/gsl_permutation.h
 
 

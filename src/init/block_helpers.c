@@ -294,17 +294,18 @@ PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
      PyArrayObject *a_array = NULL;
 
      FUNC_MESS_BEGIN();
-     tmp = PyNumber_Int(src);
+     tmp = PyNumber_Long(src);
      if(!tmp){
 	  sprintf(pygsl_error_str, "I could not convert argument number % 3d. to an integer.",
 		  argnum);
 	 PyErr_SetString(PyExc_TypeError, pygsl_error_str);
 	 return NULL;
      }
-     dimension = PyInt_AS_LONG(src);
+     dimension = PyLong_AS_LONG(src);
      Py_DECREF(tmp);
      if(dimension <= 0){
-	  sprintf(pygsl_error_str, "Argument number % 3d is % 10ld< 0. Its the size of the vector and thus must be positive!",
+	  sprintf(pygsl_error_str, 
+		  "Argument number % 3d is % 10ld< 0. Its the size of the vector and thus must be positive!",
 		  argnum, (long)dimension);
 	 PyErr_SetString(PyExc_TypeError, pygsl_error_str);
 	 return NULL;
@@ -339,14 +340,14 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
      }
 
      for(i = 0; i<2; i++){
-	  tmp = PyNumber_Int(PySequence_GetItem(src, i));
+          tmp = PyNumber_Long(PySequence_GetItem(src, i));
 	  if(!tmp){
 	       sprintf(pygsl_error_str, "I could not convert argument number % 3d. for dimension %3d to an integer.",
 		       argnum, i);
 	       PyErr_SetString(PyExc_TypeError, pygsl_error_str);
 	       return NULL;
 	  }
-	  dimensions[i] = PyInt_AS_LONG(tmp);
+	  dimensions[i] = PyLong_AS_LONG(tmp);
 	  Py_DECREF(tmp);
 	  if(dimensions[i] <= 0){
 	       sprintf(pygsl_error_str, "Argument number % 3d is % 10ld< 0. Its the size of the vector and thus must be positive!",
@@ -646,7 +647,8 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 
      }/* number of tries */
      DEBUG_MESS(7, "Checking refcount src obj @ %p had %d cts and array @ %p has now %d cts", 
-		(void *) src, src->ob_refcnt, (void *)a_array, a_array->ob_refcnt);
+		(void *) src,  src->ob_refcnt, (void *)a_array, 
+		PyGSL_PY_ARRAY_GET_REFCNT(a_array));
     	  
     /* handling failed stride recalc */
      FUNC_MESS_END();

@@ -78,7 +78,7 @@ class SWIG_Extension(gsl_Extension):
                 includes.append('-I' + i)
             cmd = [gsl_Location.get_swig(),] + swig_flags + includes
             cmd.extend(['-o', target] + sources)
-            print string.join(cmd, " ")
+            sys.stderr.write( cmd.join(" ") + '\n')
             spawn(cmd, 1, 1)
             dst = name
             src = name + '.py'

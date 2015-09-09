@@ -13,6 +13,7 @@
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_const_num.h>
 #include <pygsl/pygsl_features.h>
+#include <pygsl/error_helpers.h>
 
 #ifdef _PYGSL_GSL_HAS_CGS
 #include <gsl/gsl_const_cgs.h>
@@ -94,10 +95,10 @@ add_constants(constConstants* constants, PyObject* m)
   }
 }
 
-DL_EXPORT(void) initconst(void)
-{
-  PyObject* const_module = Py_InitModule("const", constMethods);
 
+static int
+_init_const_module(PyObject * const_module)
+{
 #ifdef _PYGSL_GSL_HAS_MKS
   PyObject* mks_module   = PyImport_AddModule("pygsl.const.mks");
 #endif
@@ -138,6 +139,7 @@ DL_EXPORT(void) initconst(void)
   add_constants(num_array, num_module);
   add_constants(m_array  , math_module);
 
+
   PyModule_AddObject(const_module, "m",   math_module);
 #ifdef _PYGSL_GSL_HAS_CGS
   PyModule_AddObject(const_module, "cgs", cgs_module);
@@ -154,6 +156,46 @@ DL_EXPORT(void) initconst(void)
 #endif
 
   PyModule_AddObject(const_module, "num", num_module);
-  return;
+
+  return GSL_SUCCESS;
+}
+
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.const",
+        NULL,
+        -1,
+        constMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif /* PyGSL_PY3K */
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_const(void)
+#define RETVAL const_module
+#else /* PyGSL_PY3K */
+DL_EXPORT(void) initcont(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
+{
+	int status;
+	PyObject* const_module = NULL;
+
+#ifdef PyGSL_PY3K
+	const_module = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
+	const_module = Py_InitModule("const", constMethods);
+#endif /* PyGSL_PY3K */
+	
+	if(const_module == NULL)
+		return RETVAL;
+
+	status = _init_const_module(const_module); 
+	return RETVAL;
 }
 

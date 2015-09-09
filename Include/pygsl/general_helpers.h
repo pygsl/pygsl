@@ -92,11 +92,21 @@ PyGSL_clear_name(char *name, int size);
    ((*(result))   = (unsigned int) PyLong_AsUnsignedLong((object)), GSL_SUCCESS) \
   :  PyGSL_pylong_to_uint((object),  (result), (info))  
 
+
+#ifdef PyGSL_PY3K
+#define PyGSL_PYINT_TO_INT(object, result, info)        \
+  ( PyLong_Check((object)) )                               \
+  ?                                                        \
+   ((*(result))   = (int) PyLong_AsLong((object)), GSL_SUCCESS) \
+  :  PyGSL_pyint_to_int((object),  (result), (info))  
+#else /* PyGSL_PY3K */
 #define PyGSL_PYINT_TO_INT(object, result, info)        \
   ( PyInt_Check((object)) )                               \
   ?                                                        \
    ((*(result))   = (int) PyInt_AsLong((object)), GSL_SUCCESS) \
   :  PyGSL_pyint_to_int((object),  (result), (info))  
+#endif /* PyGSL_PY3K */
+
 
 #define PyGSL_PYFLOAT_TO_DOUBLE(object, result, info)      \
   ( PyFloat_Check((object)) )                              \

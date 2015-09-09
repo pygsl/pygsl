@@ -6,7 +6,7 @@
 
 
 #include <Python.h>
-
+#include <pygsl/transition.h>
 /*
 #define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 */
@@ -41,7 +41,7 @@ static void **PyGSL_API;
  * The version of the API. Allows to check if the used 
  * API is correct.
  */
-#define PyGSL_API_VERSION                     0x01
+#define PyGSL_API_VERSION       ((unsigned int) ( 0x01u))
 /* Functions found in the file <pygsl/error_helpers.h> */
 #define PyGSL_api_version_NUM                           0
 #define PyGSL_error_flag_NUM                            1
@@ -114,7 +114,9 @@ static void **PyGSL_API;
 #define PyGSL_error_string_for_callback_NUM            62
 
 #define PyGSL_pyint_to_int_NUM                         63
-#define PyGSL_NENTRIES_NUM                             64
+#define PyGSL_string_as_string_NUM                     64
+#define PyGSL_NENTRIES_NUM                             65
+
 #ifndef _PyGSL_API_MODULE
 #endif /* _PyGSL_API_MODULE */
 

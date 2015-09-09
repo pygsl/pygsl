@@ -7,6 +7,7 @@
 
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
+#include <pygsl/string_helpers.h>
 #include <pygsl/utils.h>
 
 #ifdef PyGSL_NO_IMPORT_API
@@ -31,43 +32,10 @@ static PyObject * rng_call(PyGSL_rng *self, PyObject *args);
 
 #undef PyGSL_RNG_Check
 
-#define PyGSL_RNG_Check(op) ((op)->ob_type == &PyGSL_rng_pytype)
-
-static PyObject *		/* on "instance.attr" */
-rng_getattr (PyGSL_rng *self, char *name);
+#define PyGSL_RNG_Check(ob) (Py_TYPE(ob) == &PyGSL_rng_pytype)
 
 
-PyTypeObject PyGSL_rng_pytype = {
-  PyObject_HEAD_INIT(NULL)	/* fix up the type slot in initcrng */
-  0,				/* ob_size */
-  "PyGSL_rng",			/* tp_name */
-  sizeof(PyGSL_rng),	        /* tp_basicsize */
-  0,				/* tp_itemsize */
-
-  /* standard methods */
-  (destructor)  rng_delete,       /* tp_dealloc  ref-count==0  */
-  (printfunc)   0,		   /* tp_print    "print x"     */
-  (getattrfunc) rng_getattr,       /* tp_getattr  "x.attr"      */
-  (setattrfunc) 0,		   /* tp_setattr  "x.attr=v"    */
-  (cmpfunc)     0,		   /* tp_compare  "x > y"       */
-  (reprfunc)    0,                 /* tp_repr     `x`, print x  */
-
-  /* type categories */
-  0,				/* tp_as_number   +,-,*,/,%,&,>>,pow...*/
-  0,				/* tp_as_sequence +,[i],[i:j],len, ...*/
-  0,				/* tp_as_mapping  [key], len, ...*/
-
-  /* more methods */
-  (hashfunc)     0,		/* tp_hash    "dict[x]" */
-  (ternaryfunc)  rng_call,      /* tp_call    "x()"     */
-  (reprfunc)     0,             /* tp_str     "str(x)"  */
-  (getattrofunc) 0,		/* tp_getattro */
-  (setattrofunc) 0,		/* tp_setattro */
-  0,				/* tp_as_buffer */
-  0L,				/* tp_flags */
-  rng_type_doc		/* tp_doc */
-};
-
+static PyTypeObject PyGSL_rng_pytype;
 
 
 
@@ -232,7 +200,7 @@ rng_name(PyGSL_rng *self, PyObject *args)
      assert(PyGSL_RNG_Check(self));
      if(0 == PyArg_ParseTuple(args, ":name"))
 	  return NULL;
-     tmp = PyString_FromString(gsl_rng_name(self->rng));
+     tmp = PyGSL_string_from_string(gsl_rng_name(self->rng));
      FUNC_MESS_END();
      return tmp;
 }
@@ -364,6 +332,7 @@ static struct PyMethodDef rng_methods[] = {
   {NULL, NULL}
 };
 
+#ifndef PyGSL_PY3K
 static PyObject *
 rng_getattr(PyGSL_rng *self, char *name)
 {
@@ -380,25 +349,116 @@ rng_getattr(PyGSL_rng *self, char *name)
      return tmp;
 }
 
+#endif /* PyGSL_PY3K */
 
+#ifdef PyGSL_PY3K
+static PyTypeObject PyGSL_rng_pytype = {
+	PyObject_HEAD_INIT(NULL)
+	"PyGSL_rng",                    /* tp_name */
+	sizeof(PyGSL_rng),              /* tp_basicsize */
+	0,                                          /* tp_itemsize */
+	(destructor) rng_delete, /* tp_dealloc */
+	0,                       /* tp_print */
+	0,                       /* tp_getattr */
+	0,                       /* tp_setattr */
+	0,                       /* tp_reserved */
+	0,                       /* tp_repr */
+	0,                       /* tp_as_number */
+	0,                       /* tp_as_sequence */
+	0,                       /* tp_as_mapping */
+	0,                       /* tp_hash */
+	(ternaryfunc)  rng_call, /* tp_call */
+	0,                       /* tp_str */
+	0,                       /* tp_getattro */
+	0,                       /* tp_setattro */
+	0,                       /* tp_as_buffer */
+	Py_TPFLAGS_DEFAULT,      /* tp_flags */
+	(char *)rng_type_doc, /* tp_doc */
+	0,                       /* tp_traverse */
+	0,                       /* tp_clear */
+	0,                       /* tp_richcompare */
+	0,                       /* tp_weaklistoffset */
+	0,                       /* tp_iter */
+	0,                       /* tp_iternext */
+	rng_methods,          /* tp_methods */
+	0,                       /* tp_members */
+	0,                       /* tp_getset */
+	0,                       /* tp_base */
+	0,                       /* tp_dict */
+	0,                       /* tp_descr_get */
+	0,                       /* tp_descr_set */
+	0,                       /* tp_dictoffset */
+	0,                       /* tp_init */
+	0,                       /* tp_alloc */
+	0,                       /* tp_new */
+};
+#else /* PyGSL_PY3K */
+static PyTypeObject PyGSL_rng_pytype = {
+  PyObject_HEAD_INIT(NULL)	/* fix up the type slot in initcrng */
+  0,				/* ob_size */
+  "PyGSL_rng",			/* tp_name */
+  sizeof(PyGSL_rng),	        /* tp_basicsize */
+  0,				/* tp_itemsize */
+
+  /* standard methods */
+  (destructor)  rng_delete,       /* tp_dealloc  ref-count==0  */
+  (printfunc)   0,		   /* tp_print    "print x"     */
+  (getattrfunc) rng_getattr,       /* tp_getattr  "x.attr"      */
+  (setattrfunc) 0,		   /* tp_setattr  "x.attr=v"    */
+  (cmpfunc)     0,		   /* tp_compare  "x > y"       */
+  (reprfunc)    0,                 /* tp_repr     `x`, print x  */
+
+  /* type categories */
+  0,				/* tp_as_number   +,-,*,/,%,&,>>,pow...*/
+  0,				/* tp_as_sequence +,[i],[i:j],len, ...*/
+  0,				/* tp_as_mapping  [key], len, ...*/
+
+  /* more methods */
+  (hashfunc)     0,		/* tp_hash    "dict[x]" */
+  (ternaryfunc)  rng_call,      /* tp_call    "x()"     */
+  (reprfunc)     0,             /* tp_str     "str(x)"  */
+  (getattrofunc) 0,		/* tp_getattro */
+  (setattrofunc) 0,		/* tp_setattro */
+  0,				/* tp_as_buffer */
+  0L,				/* tp_flags */
+  rng_type_doc		/* tp_doc */
+};
+#endif /* PyGSL_PY3K */
+
+
+
+#define BUF_LEN 256
 static PyObject *
 rng_create_list(PyObject *self, PyObject *args)
 {
      const gsl_rng_type** thisRNGType=gsl_rng_types_setup();
      PyObject* list = NULL, *item=NULL;
-     
+     char buffer[BUF_LEN], *tmp;
+     int size;
      FUNC_MESS_BEGIN();
      /* provide other rng types as subclasses of rng */
 
      list = PyList_New(0);
      while ((*thisRNGType)!=NULL) {
-	  item = PyString_FromString((*thisRNGType)->name);
-	  Py_INCREF(item);
-	  assert(item);
-	  PyGSL_clear_name(PyString_AsString(item), PyString_Size(item));
-	  if(PyList_Append(list, item) != 0)
-	       goto fail;
-	  thisRNGType++;
+	     tmp = (char *) ((*thisRNGType)->name);
+	     size = strlen(tmp);
+	     if(size > BUF_LEN - 1){
+		     pygsl_error("tmp buffer to small for clearing the name",
+				 __FILE__, __LINE__, GSL_ESANITY);
+	     }
+	     strcpy(buffer, tmp);
+	     PyGSL_clear_name(buffer, size);
+
+	     item = PyGSL_string_from_string(tmp);
+	     if(item == NULL)
+		     goto fail;
+	  
+	     Py_INCREF(item);
+	     assert(item);
+	     
+	     if(PyList_Append(list, item) != 0)
+		     goto fail;
+	     thisRNGType++;
      }
      FUNC_MESS_END();
      return list;
@@ -585,13 +645,41 @@ set_api_pointer(void)
      FUNC_MESS_END();
 }
 
-void 
-initrng(void)
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.rng",
+        NULL,
+        -1,
+	PyGSL_rng_module_functions,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif /* PyGSL_PY3K */
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_rng(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
+DL_EXPORT(void) initrng(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
      PyObject *m=NULL, *item=NULL, *dict=NULL;
      PyObject *api=NULL;
 
-     m = Py_InitModule("rng", PyGSL_rng_module_functions);
+#ifdef PyGSL_PY3K
+	m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
+	m = Py_InitModule("rng", PyGSL_rng_module_functions);
+#endif /* PyGSL_PY3K */
+
+	if(m == NULL)
+	  return RETVAL;
+	
      assert(m);
      /* import_array(); */
      init_pygsl();
@@ -603,7 +691,7 @@ initrng(void)
      if(!dict)
 	  goto fail;
      
-     if (!(item = PyString_FromString(rng_module_doc))){
+     if (!(item = PyGSL_string_from_string(rng_module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 
 			  "I could not generate module doc string!");
 	  goto fail;
@@ -614,11 +702,19 @@ initrng(void)
 	  goto fail;
      }
 
+#ifdef PyGSL_PY3K
+	if (PyType_Ready(&PyGSL_rng_pytype) < 0)
+		return NULL;
+#else /* PyGSL_PY3K */
      PyGSL_rng_pytype.ob_type = &PyType_Type;
+#endif /* PyGSL_PY3K */
 
 
      set_api_pointer();
      api = PyCObject_FromVoidPtr((void *) PyGSL_API, NULL);
+     if(api == NULL)
+       goto fail;
+     
      assert(api);
      if (PyDict_SetItemString(dict, "_PYGSL_RNG_API", api) != 0){
 	  PyErr_SetString(PyExc_ImportError, 
@@ -626,11 +722,11 @@ initrng(void)
 	  goto fail;
      }
      
-     return;
+     return RETVAL;
      
  fail:
      if(!PyErr_Occurred()){
 	  PyErr_SetString(PyExc_ImportError, "I could not init rng module!");
      }
-
+     return RETVAL;
 }
