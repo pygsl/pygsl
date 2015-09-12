@@ -4,12 +4,12 @@
  *  Date   : 1. July. 2003
  *
  */
-
 #include <pygsl/error_helpers.h>
+#include <pygsl/capsulethunk.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/string_helpers.h>
 #include <pygsl/utils.h>
-
+#include <pygsl/pygsl_features.h>
 #ifdef PyGSL_NO_IMPORT_API
 #undef PyGSL_NO_IMPORT_API
 #endif
@@ -22,7 +22,6 @@
  * All doc strings
  */
 static PyObject *module = NULL;
-
 #include "rng_helpers.c"
 #include "rngmodule_docs.h"
 
@@ -536,6 +535,8 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
      {"knuthran2"       , PyGSL_rng_init_knuthran2       , METH_NOARGS, NULL},
 #ifdef  _PYGSL_GSL_HAS_RNG_KNUTHRAN2002
      {"knuthran2002"    , PyGSL_rng_init_knuthran2002    , METH_NOARGS, NULL},
+#else
+#error "Should be defined by now ..."
 #endif
      {"lecuyer21"       , PyGSL_rng_init_lecuyer21       , METH_NOARGS, NULL},
      {"minstd"          , PyGSL_rng_init_minstd          , METH_NOARGS, NULL},
@@ -711,7 +712,7 @@ DL_EXPORT(void) initrng(void)
 
 
      set_api_pointer();
-     api = PyCObject_FromVoidPtr((void *) PyGSL_API, NULL);
+     api = PyCapsule_New((void *) PyGSL_API, _PyGSL_RNG_API_CAP, NULL);
      if(api == NULL)
        goto fail;
      

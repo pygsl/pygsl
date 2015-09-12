@@ -1002,6 +1002,11 @@ PyGSL_rng_dA_to_dA(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_r
      for(i=0; i<dimension; i++){
 	  data_out = (double *) (a_array_out->data + a_array_out->strides[0] * i);
 	  evaluator(rng->rng, (size_t) dims[1], (double *) a_array_in->data, data_out);
+	  
+	  if(PyErr_Occurred()){
+	       DEBUG_MESS(3, "Already a python error occured for dim %ld", i);
+	       goto fail;
+	  }
      }
      Py_DECREF(a_array_in);
      FUNC_MESS_END();
@@ -1206,7 +1211,7 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	  line = __LINE__ - 2;
 	  goto fail;
      }
-     DEBUG_MESS(4, "Built Matrix. Matrix Object @ %p with refcount %d!", (void *) array_n, array_n->ob_refcnt);
+     DEBUG_MESS(4, "Built Matrix. Object @ %p with refcount %d!", (void *) array_n, PyGSL_PY_ARRAY_GET_REFCNT(array_n));
      dimension = array_n->dimensions[0];
 
      FUNC_MESS("New Array ...");
