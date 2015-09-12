@@ -9,6 +9,8 @@
  * defines the PY_ARRAY_UNIQUE_SYMBOL.
  */		 
 %{
+#include <pygsl/intern.h>
+#include <pygsl/capsulethunk.h>  
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_interp.h>
 #include <gsl/gsl_spline.h>
@@ -144,7 +146,7 @@ typedef struct
 
      size_t find(const double x_array[], size_t size, double x);
      PyObject *tocobject(){
-	  return PyCObject_FromVoidPtrAndDesc((void* ) self, (void *) pygsl_accel_des, NULL);
+       return PyCapsule_New((void* ) self, (void *) pygsl_accel_des, NULL);
      }
 }
 
@@ -352,7 +354,7 @@ struct pygsl_spline{
      }
      
      PyObject *tocobject(){
-	  return PyCObject_FromVoidPtrAndDesc((void* ) self->spline, (void *) pygsl_spline_des, NULL);
+	  return PyCapsule_New((void* ) self->spline, (void *) pygsl_spline_des, NULL);
      }
 
      gsl_error_flag_drop init(const double xa[], const double ya[], size_t size){

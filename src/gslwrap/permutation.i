@@ -20,7 +20,7 @@
   gsl_permutation_struct(size_t n) {
     return gsl_permutation_calloc(n);
   }
-  ~gls_permutation_struct() {
+  ~gsl_permutation_struct() {
     gsl_permutation_free(self);
   }
   gsl_error_flag_drop _linear_to_canonical(struct gsl_permutation_struct *q){

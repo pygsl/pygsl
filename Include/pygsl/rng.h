@@ -23,6 +23,9 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object);
 #define PyGSL_RNG_Check(ob) \
    (Py_TYPE(ob) == (PyTypeObject *)PyGSL_API[PyGSL_RNG_ObjectType_NUM])
 
+static const char _pygsl_rng_api_cap_name[] = "_pygsl_rng_api"; 
+#define _PyGSL_RNG_API_CAP _pygsl_rng_api_cap_name
+
 #define import_pygsl_rng() \
 { \
    PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
@@ -30,9 +33,9 @@ PyGSL_gsl_rng_from_pyobject(PyObject * object);
       (pygsl = PyImport_ImportModule("pygsl.rng"))         != NULL && \
       (md = PyModule_GetDict(pygsl))                       != NULL && \
       (c_api = PyDict_GetItemString(md, "_PYGSL_RNG_API")) != NULL && \
-      (PyCObject_Check(c_api))                                        \
+      (PyCapsule_CheckExact(c_api))				      \
      ) { \
-	 PyGSL_API = (void **)PyCObject_AsVoidPtr(c_api); \
+     PyGSL_API = (void **)PyCapsule_GetPointer(c_api,_PyGSL_RNG_API_CAP); \
    } else { \
         PyGSL_API = NULL; \
    } \
