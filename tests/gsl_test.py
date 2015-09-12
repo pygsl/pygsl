@@ -1,4 +1,5 @@
 # Author : Fabian Jakobs
+from __future__ import print_function
 import types
 import unittest
 import pygsl.math 
@@ -19,16 +20,18 @@ def iscomplex_numpy(a):
 
         return isinstance(a,types.ComplexType)
 
+def isfloat_default(a):
+    return type(a) is float
+
 def isfloat_numpy(a):
     if type(a) == ArrayType:
         return a.dtypechar in typecodes["Float"]
     else:
-        if type(a) == types.FloatType:
+        if isfloat_default(a):
             return True
-        return isinstance(a,types.FloatType)
         
-def isfloat_default(a):
-    return type(a) is types.FloatType
+        return isinstance(a, type(1.0))
+        
 
 if nummodule == "numpy":
     iscomplex = iscomplex_numpy
@@ -61,8 +64,8 @@ def fpcompare(a, b, digits):
         test = 1
     finally:
         if test == 0:
-            print "a complex ?", ac, a, a.dtypechar in typecodes["Complex"]
-            print "b complex ?", bc, b, b.dtypechar in typecodes["Complex"]
+            print ("a complex ?", ac, a, a.dtypechar in typecodes["Complex"])
+            print ("b complex ?", bc, b, b.dtypechar in typecodes["Complex"])
     return result
 
 def arrayCompare(a, l, digits):
@@ -71,7 +74,7 @@ def arrayCompare(a, l, digits):
     for i in range(len(l)):
         result = result and fpcompare(a[i], l[i], digits)
         if not result:
-            print "Error: a = %s\t b = %s\t digits = %s" % (a[i], l[i], digits)
+            print ("Error: a = %s\t b = %s\t digits = %s" % (a[i], l[i], digits))
     return result
 
 def arrayIsZero(a):

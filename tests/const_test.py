@@ -3,7 +3,7 @@ import unittest
 import math
 import pygsl.const
 
-version = string.split(pygsl.compiled_gsl_version, '.')
+version = pygsl.compiled_gsl_version.split('.')
 major_version = version[0]
 minor_version = version[1]
 

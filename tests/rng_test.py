@@ -1,13 +1,22 @@
+from __future__ import print_function
 import types
 import unittest
 import math
 import copy
-import pygsl._numobj as Numeric
+
+import os
+import sys
+_local_dir = os.path.abspath(os.getcwd())
+print (_local_dir)
+sys.path.insert(0, _local_dir)
+import pygsl
+print(pygsl)
+
+numx =  pygsl._numobj
 import pygsl._mlab as MLab
 import pygsl.rng as rngmodule
 import sys
 sys.stdout = sys.stderr
-rng_types = rngmodule.list_available_rngs()
 from pygsl import Float, Int
 from array_check import array_check
 from gsl_test import isfloat, iscomplex
@@ -15,6 +24,21 @@ from gsl_test import isfloat, iscomplex
 class _rng_type:
     _type = None
 
+if sys.version_info.major >= 3:
+    _longtype = type(1)
+else:
+    _longtype = types.LongType
+    
+def convert_rng_names():
+    names = rngmodule.list_available_rngs()
+    result = []
+    for name in names:
+        tmp = name.replace('-', '_')
+        result.append(tmp)
+    result = tuple(result)
+    return result
+
+rng_types = convert_rng_names()
 
 
 class _rng_basics(unittest.TestCase):
@@ -27,8 +51,8 @@ class _rng_basics(unittest.TestCase):
         """
 
         rng=self._type()
-        self.failIf(rng.name()=="","name of rng was \"\"")
-        self.failIf(rng.name() is None,"name of rng was None")
+        self.assertFalse(rng.name()=="","name of rng was \"\"")
+        self.assertFalse(rng.name() is None,"name of rng was None")
         rng=None
 
     def test_uniform(self):
@@ -38,7 +62,7 @@ class _rng_basics(unittest.TestCase):
         rng=self._type()
         value=rng.uniform()
         rng=None
-        self.failIf(value<0 or value>=1.0,
+        self.assertFalse(value<0 or value>=1.0,
                     "value of %f not expected from uniform distribution"%value)
 
     def test_uniform_pos(self):
@@ -48,7 +72,7 @@ class _rng_basics(unittest.TestCase):
         rng=self._type()
         value=rng.uniform_pos()
         rng=None
-        self.failIf(value<0 or value>1.0,
+        self.assertFalse(value<0 or value>1.0,
                     "value of %f not expected from uniform distribution"%value)
 
 
@@ -58,14 +82,14 @@ class _rng_basics(unittest.TestCase):
         value1=rng.get()
         rng.set(1)
         value2=rng.get()
-        self.failIf(value1!=value2,"values from rng not reproducable")
+        self.assertFalse(value1!=value2,"values from rng not reproducable")
 
 class _rng_distributions(unittest.TestCase):
     """
     test different distributions
     """
     def setUp(self):
-        #print "Testing Class ", self.__class__.__name__
+        #print ("Testing Class ", self.__class__.__name__)
         sys.stdout.flush()
         sys.stderr.flush()
         self.rng=self._type()
@@ -76,11 +100,11 @@ class _rng_distributions(unittest.TestCase):
 
     def testMin(self):
         min = self.rng.min()
-        assert(type(min) == types.LongType)
+        assert(type(min) == _longtype)
         
     def testMax(self):
         max = self.rng.max()
-        assert(type(max) == types.LongType)
+        assert(type(max) == _longtype)
         
     def testMinMax(self):
         min = self.rng.min()
@@ -111,8 +135,8 @@ class _rng_distributions(unittest.TestCase):
                 test2 = 1
             finally:
                 if test2 == 0:
-                    print "called pdf method", pdf_method,
-                    print "with args", tmp
+                    print("called pdf method", pdf_method)
+                    print("with args", tmp)
 
             assert(isfloat(p))
             
@@ -127,11 +151,11 @@ class _rng_distributions(unittest.TestCase):
             array_check(pa, Float, (10,))
                 
     def _test_ui_return_one(self, method, pdf_method, *args):
-        self._test_generic_return_generic(method, pdf_method, types.LongType,
+        self._test_generic_return_generic(method, pdf_method, type(10),
                                           Int, *args)
         
     def _test_double_return_one(self, method, pdf_method, *args):
-        self._test_generic_return_generic(method, pdf_method, types.FloatType,
+        self._test_generic_return_generic(method, pdf_method, type(10),
                                           Float, *args)
             
                 
@@ -143,19 +167,19 @@ class _rng_distributions(unittest.TestCase):
             for i in d:
                 assert(isfloat(i))
             if pdf_method:
-                p = apply(pdf_method, tuple(d) + args)
+                p = pdf_method(*(tuple(d) + args))
                 assert(isfloat(p))
-            da = apply(method, args + (10,))
+            da = method( *(args + (10,)))
             array_check(da, Float, (10, n))
             if pdf_method:
                 x = da[:,0]
                 y = da[:,1]
-                pa = apply(pdf_method, (x, y) + args)
+                pa = pdf_method( *((x, y) + args))
                 array_check(da, Float, (10,2))
             test = 1   
         finally:
             if test == 0:
-                print "I was testing ", method, "with args", args
+                print( "I was testing ", method, "with args", args)
 
     def _test_ui_return(self, methods, *args):
         for i in methods:
@@ -182,8 +206,8 @@ class _rng_distributions(unittest.TestCase):
                 test = 1
             finally:
                 if test == 0:
-                    print "I was operating on method", i, "of rng", self.rng.name()
-                    print "using", tmp, "and", pdf
+                    print( "I was operating on method", i, "of rng", self.rng.name())
+                    print( "using", tmp, "and", pdf)
                     
     def _test_nd_return(self, methods, *args):       
         for i in methods:
@@ -196,7 +220,7 @@ class _rng_distributions(unittest.TestCase):
             self._test_nd_return_one(tmp, pdf, *args)
 
     def test_ui_to_double(self):        
-        self._test_double_return_one(self.rng.gamma_int, None, 1000L)
+        self._test_double_return_one(self.rng.gamma_int, None, 1000)
         
     def test_to_double(self):
         t = ('ugaussian',              
@@ -256,7 +280,7 @@ class _rng_distributions(unittest.TestCase):
 
     def test_uiuiui_to_ui(self):
         self._test_ui_return_one(self.rng.hypergeometric, rngmodule.hypergeometric_pdf,
-                                 4L, 2L, 56L)
+                                 4, 2, 56)
 
 
     def test_ddd_to_dd(self):
@@ -275,11 +299,11 @@ class _rng_distributions(unittest.TestCase):
         self._test_nd_return_one(self.rng.dir_nd, None, 6, 6)
 
     def test_dirichlet(self):
-        a = Numeric.arange(10) * .1 + .1
+        a = numx.arange(10) * .1 + .1
         d = self.rng.dirichlet(a)
         array_check(d, Float, (a.shape[0],))
-        ra = Numeric.reshape(a, (a.shape[0], -1))
-        ra = Numeric.transpose(ra)
+        ra = numx.reshape(a, (a.shape[0], -1))
+        ra = numx.transpose(ra)
         p = rngmodule.dirichlet_pdf(d,ra)
         d = self.rng.dirichlet(a,100)
         array_check(d, Float, (100, a.shape[0]))
@@ -292,12 +316,18 @@ class _rng_distributions(unittest.TestCase):
         count=0
         num=10000
         accepted_deviation=math.sqrt(num)*5.0
-        sum = Numeric.add.reduce(self.rng.gaussian(1.0, num))
-        self.failIf(abs(sum)>accepted_deviation,"the sum of %d gaussian values is %g"%(num,sum))
+        sum = numx.add.reduce(self.rng.gaussian(1.0, num))
+        self.assertFalse(abs(sum)>accepted_deviation,"the sum of %d gaussian values is %g"%(num,sum))
 
     def test_gaussian_tail(self):
         self.rng.gaussian_tail(1.0, 0.5, 1000)
 
+# I guess this is now supported by all available installations
+rng_notimplemented_types = [
+    "knuthran2002",
+    "slatec",
+    #"uni"
+]
 class TestIfAll(unittest.TestCase):
     """
     Now all different rng's have to be added by hand. GSL and its wrapper
@@ -306,48 +336,42 @@ class TestIfAll(unittest.TestCase):
 
     def test(self):
         refrng = rngmodule.rng()
-        mylist = rngmodule.list_available_rngs()
+        mylist = rng_types
         for i in mylist:
-            if i == "knuthran2002":
+            if i in rng_notimplemented_types:
+                print ("Not Testing for ", i)
                 continue
-            r = getattr(rngmodule, i)()
+
+            rngtypeinit = getattr(rngmodule, i)
+            r = rngtypeinit()
             test = 0
             try:
                 assert(type(r) == type(refrng))
                 test = 1
             finally:
                 if test == 0:
-                    print "r      = %s %s" % (type(r), repr(r))
-                    print "refrng = %s %s" % (type(refrng), repr(refrng))
+                    print( "r      = %s %s" % (type(r), repr(r)))
+                    print( "refrng = %s %s" % (type(refrng), repr(refrng)))
 
-##print "Last rng = ", rng_types[-1]
+
+#print (rng_types)
+#print (rng_notimplemented_types)
 for i in rng_types:
-    if i == "knuthran2002":
-        continue
-    #tmp = "class %s(_rng_type): _type = rngmodule.%s" % ((i,) * 2)
-    #xprint tmp
-    #exec(tmp)
-
-print rng_types
-for i in rng_types:
-    if i == "knuthran2002":
-        continue
-
-    if i != "zuf":
+    if i in rng_notimplemented_types:
         continue
     
     tmp = "class %s(_rng_type): _type = rngmodule.%s" % ((i,) * 2)
-    print tmp
+    #print(tmp)
     exec(tmp)
+    
     tmp = "class %s_rng_basics(%s, _rng_basics): pass" % ((i,) *2)
-    print tmp
+    #print(tmp)
     exec(tmp)
+    
     tmp = "class %s_rng_distributions(%s, _rng_distributions): pass" % ((i,) *2)
-    print tmp
+    #print(tmp)
     exec(tmp)
 
-    break
-#
 
 del _rng_basics
 del _rng_distributions
