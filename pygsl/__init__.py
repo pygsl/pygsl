@@ -41,6 +41,9 @@
 Warning: if you want to use setup from the environement you have to call
 pygsl.ieee.env_setup() and pygsl.rng.env_setup() explicitly!
 """
+
+import sys
+
 _init_import_errm ="""
 Did you try to import pygsl in the build directory?
 
@@ -58,7 +61,7 @@ try:
     __test = 1
 finally:
     if __test == 0:
-        print _init_import_errm
+        sys.stderr.write(_init_import_errm)
 
 # Central Module used by C callbacks. So a good idea to import it here to be
 # sure that  it exists from the very beginning!
@@ -67,7 +70,8 @@ import pygsl.errors
 pygsl.init.register_exceptions(*(pygsl.errors.get_exceptions()))
 pygsl.init.register_warnings(*(pygsl.errors.get_warnings()))
 
-from exceptions import Warning
+if sys.version_info.major < 3:
+    from exceptions import Warning
 
 # The gsl version which was used when this module was compiled.
 compiled_gsl_version = pygsl.init.compiled_gsl_version
@@ -78,9 +82,9 @@ run_gsl_version = pygsl.init.run_gsl_version
 # The compile date
 compile_date = pygsl.init.compile_date
 
-import _numobj
+from . import _numobj
 import errno
-import _version
+from . import _version
 version= _version.version
 
 
@@ -161,7 +165,7 @@ def import_all():
         try:
             __import__(name, globals(), locals(), [])
         except ImportError:
-            print "Import of %s failed!" % (name,)
+            sys.stderr.write("Import of %s failed!" % (name,))
 
 def _zeros_default(dimensions, array):
     """
@@ -184,4 +188,4 @@ _zeros = pygsl._numobj.zeros
 if compiled_gsl_version != run_gsl_version:
     txt = """This pygsl module was compiled for GSL version %s but it
 is used with version %s!"""
-    raise Warning,  txt % (compiled_gsl_version, run_gsl_version)
+    raise Warning(txt % (compiled_gsl_version, run_gsl_version))

@@ -7,11 +7,16 @@
 #       5. October 2003. Added various exceptions to cover the whole range of
 #       error numbers. Needed to translate error numbers to the approbriate
 #       exception. See Lib/error_helpers.c
-import exceptions
+import sys
+if sys.version_info.major < 3:
+    import exceptions
+    Exception = exceptions.Exception
+    Warning = exceptions.Warning
+    
 import types
 from pygsl import errno
 
-class gsl_Error(exceptions.Exception):
+class gsl_Error(Exception):
     """
     base of all gsl exceptions defined here
     """
@@ -20,14 +25,14 @@ class gsl_Error(exceptions.Exception):
     pass
 
 
-class gsl_Warning(exceptions.Warning):
+class gsl_Warning(Warning):
     """
     base of all gsl warnings defined here
     """
     errno = None
     pass
 
-class gsl_ArithmeticError(gsl_Error,exceptions.ArithmeticError):
+class gsl_ArithmeticError(gsl_Error,ArithmeticError):
     """
     base of all common arithmetic exceptions
     """
@@ -97,7 +102,7 @@ class gsl_MaximumIterationError(gsl_ArithmeticError):
     errno = errno.GSL_EMAXITER
     pass
 
-class gsl_ZeroDivisionError(gsl_Error,exceptions.ZeroDivisionError):
+class gsl_ZeroDivisionError(gsl_Error,ZeroDivisionError):
     """
     """
     errno = errno.GSL_EZERODIV
@@ -117,14 +122,14 @@ class gsl_ToleranceError(gsl_ArithmeticError):
     errno = errno.GSL_ETOL
     pass
 
-class gsl_UnderflowError(gsl_Error,exceptions.OverflowError):
+class gsl_UnderflowError(gsl_Error,OverflowError):
     """
     """
     errno = errno.GSL_EUNDRFLW
 
     pass
 
-class gsl_OverflowError(gsl_Error,exceptions.OverflowError):
+class gsl_OverflowError(gsl_Error,OverflowError):
     """
     """
     errno = errno.GSL_EOVRFLW
@@ -183,7 +188,7 @@ class gsl_NoHardwareSupportError(gsl_Error):
     errno = errno.GSL_EUNSUP
     pass
 
-class gsl_NotImplementedError(gsl_Error, exceptions.NotImplementedError):
+class gsl_NotImplementedError(gsl_Error, NotImplementedError):
     """
     requested feature not (yet) implemented 
     """
@@ -245,7 +250,7 @@ class gsl_ToleranceGradientError(gsl_ArithmeticError):
 
     pass
 
-class gsl_EOFError(gsl_Error, exceptions.EOFError):
+class gsl_EOFError(gsl_Error, EOFError):
     """
     end of file
     """
@@ -254,7 +259,7 @@ class gsl_EOFError(gsl_Error, exceptions.EOFError):
 
 
 
-class gsl_FloatingPointError(gsl_Error,exceptions.FloatingPointError):
+class gsl_FloatingPointError(gsl_Error,FloatingPointError):
     """
     """
     pass
@@ -284,7 +289,7 @@ class pygsl_StrideError(gsl_SanityCheckError):
 
     pass
 
-class pygsl_NotImplementedError(gsl_Error, exceptions.NotImplementedError):
+class pygsl_NotImplementedError(gsl_Error, NotImplementedError):
      """
      Base for all Errors, which are known but not implemented yet!
      """
@@ -310,7 +315,7 @@ def _get_exceptions(subclass):
         except AttributeError:
             continue
 
-        if type(t) != types.IntType:
+        if type(t) != type(1):
             continue
         
         int(t)
