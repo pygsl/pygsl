@@ -82,6 +82,7 @@ if USE_SWIG == 0:
     _SWIG_Extension = _SWIG_Extension_Nop
 
 exts = []
+extsOnly2 = []
 
 def SWIG_Extension(*args, **kws):
     kws["py_dir"] = "pygsl"
@@ -209,57 +210,55 @@ pygsl_transform = gsl_Extension("_transform",
                            gsl_min_version=(1,'0+'),
                            python_min_version=(2,1)
                            )
-#exts.append(pygsl_transform)
-try:
-    pygsl_rng=gsl_Extension("rng",
-                            ['src/rng/rngmodule.c'],
-                            gsl_min_version=(1,'0+'),
-                            define_macros = macros,
-                            python_min_version=(2,1)
-                         )
-    #exts.append(pygsl_rng)
-    
-    
-    exts.append(SWIG_Extension("gslwrap",
-                              ["src/gslwrap/gsl_gslwrap.i"],
-                               swig_include_dirs=["src/gslwrap/"],
-                              define_macros = macros,
-                              gsl_min_version=(1,10),
-                              python_min_version=(2,1)
-                              )
-                )
+extsOnly2.append(pygsl_transform)
 
-    pygsl_ieee=gsl_Extension("ieee",
-                             ['src/ieeemodule.c'],
-                             gsl_min_version=(1,),
-                             define_macros = macros,
-                             python_min_version=(2,1)
-                             )
-    exts.append(pygsl_ieee)
-    exts.append(SWIG_Extension("gslwrap",
-                              ["src/gslwrap/gsl_gslwrap.i"],
-                               swig_include_dirs=["src/gslwrap/"],
+pygsl_rng=gsl_Extension("rng",
+                        ['src/rng/rngmodule.c'],
+                        gsl_min_version=(1,'0+'),
+                        define_macros = macros,
+                        python_min_version=(2,1)
+                    )
+exts.append(pygsl_rng)
+    
+    
+exts.append(SWIG_Extension("gslwrap",
+                           ["src/gslwrap/gsl_gslwrap.i"],
+                           swig_include_dirs=["src/gslwrap/"],
+                           define_macros = macros,
+                           gsl_min_version=(1,10),
+                           python_min_version=(2,1)
+                       )
+        )
+
+pygsl_ieee=gsl_Extension("ieee",
+                         ['src/ieeemodule.c'],
+                         gsl_min_version=(1,),
+                         define_macros = macros,
+                         python_min_version=(2,1)
+)
+exts.append(pygsl_ieee)
+exts.append(SWIG_Extension("gslwrap",
+                           ["src/gslwrap/gsl_gslwrap.i"],
+                           swig_include_dirs=["src/gslwrap/"],
+                           define_macros = macros,
+                           gsl_min_version=(1,2),
+                           python_min_version=(2,1)
+                       )
+        )
+pygsl_histogram=gsl_Extension("histogram",
+                              ['src/histogram/histogrammodule.c'],
                               define_macros = macros,
-                              gsl_min_version=(1,2),
-                              python_min_version=(2,1)
-                              )
-                )
-    pygsl_histogram=gsl_Extension("histogram",
-                                  ['src/histogram/histogrammodule.c'],
-                                  define_macros = macros,
-                                  gsl_min_version=(1,'0+'),
-                                  python_min_version=(2,2)
-                                  )
-    #exts.append(pygsl_histogram)    
-    pygsl_multimin=gsl_Extension("multimin",
-                                  ['src/multiminmodule.c'],
-                                 define_macros = macros,
-                                  gsl_min_version=(1,'0+'),
-                                  python_min_version=(2,2)
-                                  )
-    #exts.append(pygsl_multimin)    
-except distutils.errors.DistutilsExecError:
-    pass
+                              gsl_min_version=(1,'0+'),
+                              python_min_version=(2,2)
+)
+extsOnly2.append(pygsl_histogram)    
+pygsl_multimin=gsl_Extension("multimin",
+                             ['src/multiminmodule.c'],
+                             define_macros = macros,
+                             gsl_min_version=(1,'0+'),
+                             python_min_version=(2,2)
+)
+extsOnly2.append(pygsl_multimin)    
 
 
 pygsl_qrng=gsl_Extension("_qrng",
@@ -268,7 +267,7 @@ pygsl_qrng=gsl_Extension("_qrng",
                          define_macros = macros,
                          python_min_version=(2,1)
                          )
-#exts.append(pygsl_qrng)
+extsOnly2.append(pygsl_qrng)
 
 pygsl_sf=gsl_Extension("sf",
 		       ['src/sfmodule.c'],
@@ -421,6 +420,7 @@ if BUILD_TESTING:
     #                     define_macros = macros + [("ONEFILE", 1)],
     #                     python_min_version=(2,0)
     #                 )
+    #exts.append(cheb)
 
     num = str(gsl_numobj.nummodule)
     if num in ("numpy", "Numeric"):
@@ -441,7 +441,6 @@ if BUILD_TESTING:
         exts.append(sf)
     else:
         sys.stdout.write("Selected array object -->%s<--\nNo special ufuncs in testing\n" % (num,))
-    #exts.append(cheb)
     pass
 
 py_module_names = ['errors',
@@ -491,11 +490,15 @@ if INSTALL_HEADERS == 1:
     gsldist = ['gsl_dist.' + os.path.basename(x)[:-3] for x in glob.glob("gsl_dist/*.py")]
 
 py_modules = ['pygsl.' + x for x in py_module_names] + gsldist 
-    
+
+if sys.version_info.major < 2:
+    exts = exts + exts_Only2
+
 extends = ""
 if "bdist" in sys.argv:
     extends = "_" + str(gsl_numobj.nummodule)
 
+    
 setup (name = "pygsl",
        version = version + extends,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
