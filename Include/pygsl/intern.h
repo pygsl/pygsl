@@ -193,6 +193,7 @@ static int pygsl_debug_level = 0;
 #define PyGSL_ERROR(reason, gsl_errno)      PyGSL_ERROR_VAL((reason), (gsl_errno), (gsl_errno))
 #define PyGSL_ERROR_NULL(reason, gsl_errno) PyGSL_ERROR_VAL((reason), (gsl_errno), NULL)
 
+static const char pygsl_api_name[] = "pygsl_api";
 #define init_pygsl()\
 { \
    PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
@@ -201,9 +202,9 @@ static int pygsl_debug_level = 0;
       (pygsl = PyImport_ImportModule("pygsl.init"))    != NULL && \
       (md = PyModule_GetDict(pygsl))                   != NULL && \
       (c_api = PyDict_GetItemString(md, "_PYGSL_API")) != NULL && \
-      (PyCObject_Check(c_api))                                    \
+      (PyCapsule_CheckExact(c_api))                                    \
      ) { \
-	 PyGSL_API = (void **)PyCObject_AsVoidPtr(c_api); \
+     PyGSL_API = (void **)PyCapsule_GetPointer(c_api, pygsl_api_name);		    \
          version = (unsigned int) PyGSL_API[PyGSL_api_version_NUM]; \
          if (PyGSL_API_VERSION != version ){ \
             fprintf(stderr, "Compiled for PyGSL_API_VERSION 0x%x but found 0x%x! In File %s\n", PyGSL_API_VERSION, version, __FILE__); \

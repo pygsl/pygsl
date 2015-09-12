@@ -13,7 +13,11 @@
  *     modules.    
  */
 #define  _PyGSL_API_MODULE 1
+static const char pygsl_debug_name[] = "pygsl_debug";
+#define _PyGSL_API_CAP_NAME pygsl_api_name
+#define _PyGSL_DEBUG_CAP_NAME pygsl_debug_name
 #include <pygsl/intern.h>
+#include <pygsl/capsulethunk.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/string_helpers.h>
@@ -85,7 +89,7 @@ PyGSL_register_debug_flag(int * ptr, const char * module_name)
 #if DEBUG == 1
      PyObject * cobj;
      FUNC_MESS_BEGIN();
-     if ((cobj = PyCObject_FromVoidPtr((void *) ptr, NULL)) == NULL){
+     if ((cobj = PyCapsule_New((void *) ptr, _PyGSL_DEBUG_CAP_NAME, NULL)) == NULL){
 	  fprintf(stderr, "Could not create PyCObject for ptr %p to debug flag for module %s\n",
 		  (void * ) ptr, module_name);
 	  return GSL_EFAILED;
@@ -126,7 +130,7 @@ PyGSL_set_debug_level(PyObject *self, PyObject *args)
 		       __FILE__, __LINE__, i);
 	       continue;
 	  }
-	  ptr = (int *)PyCObject_AsVoidPtr(o);
+	  ptr = (int *)PyCapsule_GetPointer(o, _PyGSL_DEBUG_CAP_NAME);
 	  DEBUG_MESS(2, "Setting info ptr %p", (void *) ptr);
 	  *ptr = tmp;
      }
@@ -271,7 +275,7 @@ DL_EXPORT(void) initinit(void)
   PyGSL_API = _PyGSL_API;
   PyGSL_SET_ERROR_HANDLER();
 
-  api = PyCObject_FromVoidPtr((void *) PyGSL_API, NULL);
+  api = PyCapsule_New((void *) PyGSL_API, _PyGSL_API_CAP_NAME,NULL);
   assert(api);
   if (PyDict_SetItemString(d, "_PYGSL_API", api) != 0){
        PyErr_SetString(PyExc_ImportError, 
