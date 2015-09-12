@@ -195,7 +195,15 @@ if BUILD_DEPRECATED:
                                gsl_min_version=(1,'0+'),
                                python_min_version=(2,1)
                                )
-    exts.append(pygsl_diff) 
+    exts.append(pygsl_diff)
+    pygsl_sf=gsl_Extension("sf",
+		       ['src/sfmodule.c'],
+		       gsl_min_version=(1,),
+                       define_macros = macros,
+                       python_min_version=(2,1)
+                       )
+    exts.append(pygsl_sf)
+
 
 pygsl_deriv = gsl_Extension("deriv",
                            ['src/derivmodule.c'],
@@ -269,13 +277,6 @@ pygsl_qrng=gsl_Extension("_qrng",
                          )
 extsOnly2.append(pygsl_qrng)
 
-pygsl_sf=gsl_Extension("sf",
-		       ['src/sfmodule.c'],
-		       gsl_min_version=(1,),
-                       define_macros = macros,
-                       python_min_version=(2,1)
-                       )
-exts.append(pygsl_sf)
 pygsl_statistics_basis=gsl_Extension("statistics._stat",
                                      ['src/statistics/_statmodule.c'],
                                      gsl_min_version=(1,),
@@ -357,7 +358,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    extsOnly2.append(solver)
 
     solver=gsl_Extension("testing.multiroot",
                          ['testing/src/solvers/multiroot.c'],
@@ -365,7 +366,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    extsOnly2.append(solver)
 
     solver=gsl_Extension("testing.multifit_nlin",
                          ['testing/src/solvers/multifit_nlin.c'],
@@ -373,7 +374,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    extsOnly2.append(solver)
 
     solver=gsl_Extension("testing.minimize",
                          ['testing/src/solvers/minimize.c'],
@@ -381,7 +382,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    extsOnly2.append(solver)
 
     solver=gsl_Extension("testing.roots",
                          ['testing/src/solvers/roots.c'],
@@ -389,7 +390,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    extsOnly2.append(solver)
 
     solver=gsl_Extension("testing.odeiv",
                          ['testing/src/solvers/odeiv.c'],
@@ -397,7 +398,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    exts.append(solver)
+    extsOnly2.append(solver)
 
     #solver=gsl_Extension("testing.monte",
     #                     ['testing/src/solvers/monte.c'],
@@ -491,9 +492,10 @@ if INSTALL_HEADERS == 1:
 
 py_modules = ['pygsl.' + x for x in py_module_names] + gsldist 
 
-if sys.version_info.major < 2:
-    exts = exts + exts_Only2
-
+if sys.version_info.major <= 2:
+    exts = exts + extsOnly2
+    sys.stdout.write("Bulding for '%s'\n" %(sys.version,))
+    
 extends = ""
 if "bdist" in sys.argv:
     extends = "_" + str(gsl_numobj.nummodule)
