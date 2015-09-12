@@ -159,7 +159,7 @@ def writenumobj(nummodule):
 	file.write(warnmsg)
 	file.write('*/\n')
 	#file.write('#include <%s/arrayobject.h>\n' % nummodule)
-	file.write('#define PyGSL_%s 1\n' % string.upper(nummodule))
+	file.write('#define PyGSL_%s 1\n' % (nummodule).upper())
 	file.close()
 	del file
 
