@@ -24,7 +24,7 @@ class math_const_test(unittest.TestCase):
         my_pi=pygsl.const.pi
 
     def test_sqrt_2(self):
-        self.failIf(abs(pygsl.const.sqrt2**2-2.0)>self.epsilon)
+        self.assertFalse(abs(pygsl.const.sqrt2**2-2.0)>self.epsilon)
 
 class sci_const_test(unittest.TestCase):
     """
@@ -37,10 +37,10 @@ class sci_const_test(unittest.TestCase):
         """
         is the factor 100 between meter and centimeter correct?
         """
-        self.failIf(cgs.speed_of_light/mks.speed_of_light!=100)
+        self.assertFalse(cgs.speed_of_light/mks.speed_of_light!=100)
 
     def test_default(self):
-        self.failIf(cgs.speed_of_light/pygsl.const.speed_of_light!=100)
+        self.assertFalse(cgs.speed_of_light/pygsl.const.speed_of_light!=100)
 
 if __name__ == "__main__":
     unittest.main()

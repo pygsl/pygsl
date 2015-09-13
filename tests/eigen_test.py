@@ -15,13 +15,13 @@ class EigenTestCase(GSLTestCase):
             res = dot(self.symm, evec[i])- evec[i]*eval[i]
             res = reshape(res, (-1,))
             result = result and arrayIsZero(res)
-        self.failUnless(result)
+        self.assertTrue(result)
 
     def testEigenvalues(self):
         a = self.symm
         eval1 = eigenvectors(a)[0]
         eval2 = eigenvalues(a)
-        self.failUnless(arrayIsZero(eval1-eval2))
+        self.assertTrue(arrayIsZero(eval1-eval2))
 
     def testHeigenvectors(self):
         a = self.herm
@@ -32,13 +32,13 @@ class EigenTestCase(GSLTestCase):
             res = dot(self.symm, evec[i])- evec[i]*eval[i]
             res = reshape(res, (-1,))
             result = result and arrayIsZero(res)
-        self.failUnless(result)
+        self.assertTrue(result)
 
     def testHeigenvalues(self):
         a = self.herm
         eval1 = Heigenvectors(a)[0]
         eval2 = Heigenvalues(a)
-        self.failUnless(arrayIsZero(eval1-eval2))
+        self.assertTrue(arrayIsZero(eval1-eval2))
     
             
 if __name__ == '__main__':
