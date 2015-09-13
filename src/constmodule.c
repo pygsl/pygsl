@@ -179,7 +179,7 @@ static struct PyModuleDef moduledef = {
 PyObject *PyInit_const(void)
 #define RETVAL const_module
 #else /* PyGSL_PY3K */
-DL_EXPORT(void) initcont(void)
+DL_EXPORT(void) initconst(void)
 #define RETVAL
 #endif /* PyGSL_PY3K */
 {

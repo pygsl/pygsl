@@ -63,7 +63,7 @@ static struct PyModuleDef moduledef = {
 PyObject *PyInit_errortest(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
-DL_EXPORT(void) init_errortest(void)
+DL_EXPORT(void) initerrortest(void)
 #define RETVAL
 #endif /* PyGSL_PY3K */
 {
