@@ -289,38 +289,43 @@ class pygsl_StrideError(gsl_SanityCheckError):
 
     pass
 
-class pygsl_NotImplementedError(gsl_Error, NotImplementedError):
+class pygsl_NotImplementedError(gsl_NotImplementedError):
      """
      Base for all Errors, which are known but not implemented yet!
      """
+     errno = errno.PyGSL_EUNIMPL
      pass
 
+_not_exported_exceptions = (
+gsl_Error,
+gsl_Warning,
+gsl_FloatingPointError,
+gsl_ArithmeticError,
+)
 def _get_exceptions(subclass):
     tmp = []
     globs = globals()
     for name in globs:
-        i = globs[name]
-        # Does not work with python2.5
-        # These classes are seen as  types
-        #if type(i) != types.ClassType:
-        #    print "%s is not a class" % (i,)
-        #    continue
+        the_exception = globs[name]
+
+        if the_exception in _not_exported_exceptions:
+            continue
+            
         try:
-            if not issubclass(i, subclass):
+            if not issubclass(the_exception, subclass):
                 continue
         except TypeError:
             continue
         try:
-            t = i.errno
+            t_errno = the_exception.errno
         except AttributeError:
             continue
 
-        if type(t) != type(1):
-            continue
-        
-        int(t)
+        assert(t_errno != None)
+
+        int(t_errno)
             
-        tmp.append(i)
+        tmp.append(the_exception)
     return tmp
 
 def get_exceptions():

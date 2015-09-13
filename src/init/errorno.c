@@ -69,7 +69,7 @@ DL_EXPORT(void) initerrno(void)
 	if(!dict)
 		goto fail;
 
-      ADD_ERRNO(GSL_SUCCESS , "GSL_SUCCESS" );
+     ADD_ERRNO(GSL_SUCCESS , "GSL_SUCCESS");
      ADD_ERRNO(GSL_FAILURE , "GSL_FAILURE" );
      ADD_ERRNO(GSL_CONTINUE, "GSL_CONTINUE");
      ADD_ERRNO(GSL_EDOM    , "GSL_EDOM"    );
@@ -105,6 +105,7 @@ DL_EXPORT(void) initerrno(void)
      ADD_ERRNO(GSL_ETOLG   , "GSL_ETOLG"   );
      ADD_ERRNO(GSL_EOF     , "GSL_EOF"     );
      ADD_ERRNO(PyGSL_ESTRIDE, "PyGSL_ESTRIDE");
+     ADD_ERRNO(PyGSL_EUNIMPL, "PyGSL_EUNIMPL");
      
 
 
