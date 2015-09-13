@@ -284,6 +284,12 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 #error "Neither numpy nor numarray nor numeric is defined!"
 #endif
 
+#ifdef PyGSL_PY3K
+#define _PyGSL_WRAP_LONG_FROM_PyObject(src) PyLong_AS_LONG(((src)))
+#else
+#define _PyGSL_WRAP_LONG_FROM_PyObject(src) PyInt_AS_LONG(((src)))
+#endif
+
 static PyArrayObject * 
 PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
 				       int array_type,
@@ -301,7 +307,7 @@ PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
 	 PyErr_SetString(PyExc_TypeError, pygsl_error_str);
 	 return NULL;
      }
-     dimension = PyLong_AS_LONG(src);
+     dimension = _PyGSL_WRAP_LONG_FROM_PyObject(src);
      Py_DECREF(tmp);
      if(dimension <= 0){
 	  sprintf(pygsl_error_str, 
@@ -347,7 +353,8 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 	       PyErr_SetString(PyExc_TypeError, pygsl_error_str);
 	       return NULL;
 	  }
-	  dimensions[i] = PyLong_AS_LONG(tmp);
+
+	  dimensions[i] = _PyGSL_WRAP_LONG_FROM_PyObject(tmp);
 	  Py_DECREF(tmp);
 	  if(dimensions[i] <= 0){
 	       sprintf(pygsl_error_str, "Argument number % 3d is % 10ld< 0. Its the size of the vector and thus must be positive!",
