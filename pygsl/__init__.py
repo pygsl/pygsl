@@ -83,7 +83,7 @@ run_gsl_version = pygsl.init.run_gsl_version
 compile_date = pygsl.init.compile_date
 
 from . import _numobj
-import errno
+from . import errno
 from . import _version
 version= _version.version
 
