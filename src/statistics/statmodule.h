@@ -91,6 +91,8 @@ static PyObject *  PyGSL_statistics_d_Add  PyGSL_STATISTICS_d_Add_PROTO;
 static PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;  
 
 #endif 
+
+#define _PyGSL_STAT_API  "pygsl_stat_api"
 #define import_pygsl_stats() \
 { \
    PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
@@ -98,9 +100,9 @@ static PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;
       (pygsl = PyImport_ImportModule("pygsl.statistics._stat"))   != NULL && \
       (md = PyModule_GetDict(pygsl))                              != NULL && \
       (c_api = PyDict_GetItemString(md, "_PYGSL_STATISTICS_API")) != NULL && \
-      (PyCObject_Check(c_api))                                        \
+      (PyCapsule_CheckExact(c_api))                                        \
      ) { \
-	 PyGSL_STATISTICS_API = (void **)PyCObject_AsVoidPtr(c_api); \
+     PyGSL_STATISTICS_API = (void **)PyCapsule_GetPointer(c_api, _PyGSL_STAT_API);	\
    } else { \
         fprintf(stderr, "Could not init pygsl.statistics._stat!\n"); \
         PyGSL_STATISTICS_API = NULL; \

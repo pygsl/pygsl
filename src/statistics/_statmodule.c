@@ -315,7 +315,7 @@ DL_EXPORT(void) init_stat(void)
 #ifdef PyGSL_PY3K
      m = PyModule_Create(&moduledef);
 #else /* PyGSL_PY3K */
-     m = Py_InitModule("pygsl.init", _statMethods);
+     m = Py_InitModule("_stat", _statMethods);
 #endif /* PyGSL_PY3K */
 
      if(m == NULL)
@@ -332,7 +332,7 @@ DL_EXPORT(void) init_stat(void)
      set_api_pointer();
    
      DEBUG_MESS(2, "PyGSL_STATISTICS_API @ %p\n", (void *) PyGSL_STATISTICS_API);
-     api = PyCObject_FromVoidPtr((void *) PyGSL_STATISTICS_API, NULL);
+     api = PyCapsule_New((void *) PyGSL_STATISTICS_API, _PyGSL_STAT_API, NULL);
      assert(api);
      if (PyDict_SetItemString(dict, "_PYGSL_STATISTICS_API", api) != 0){
 	  PyErr_SetString(PyExc_ImportError, 
