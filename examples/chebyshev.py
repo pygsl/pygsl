@@ -10,6 +10,25 @@ I have to find the paper describing this application.
 from pygsl import chebyshev
 from pygsl import _numobj as numx
 
+def run2():
+    def f(x, p):
+        if x < 0.5:
+            return 0.25
+        else:
+            return 0.75
+        
+     
+    cs = cheb_series(40)
+    F = gsl_function(f, None)
+    cs.init(F, 0.0, 1.0)
+    i = 10000;
+    n = i
+
+    for i in xrange(n):
+        x = i / float(n)
+        r10 = cs.eval_n(10, x)
+        r40 = cs.eval(x)
+        print ("%g %g %g %g" % (x, f(x, None), r10, r40))
 
 def run():
     # The geometric function
