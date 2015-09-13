@@ -44,8 +44,8 @@ And some functions from Section 8.
     min_index
     minmax_index
 """
-import _block
-import block
+from . import _block
+from . import block
 
 # Classes allow derivation, contrary to modules. So I wrap the basic type in a
 # generic class here, and use derived classes for the different types of

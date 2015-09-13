@@ -9,7 +9,7 @@ this is an abitrary python object.  See the doc strings of the various classes
 for further detail.
 
 """
-import _callback
+from . import _callback
 
 
 class _gsl_function:

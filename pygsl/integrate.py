@@ -11,11 +11,11 @@ reimplements the algorithms used  in QUADPACK, a numerical integration package
 written by Piessens, Doncker-Kapenga, Uberhuber and Kahaner.  Fortran code for
 QUADPACK is available on Netlib.
 """
-import _callback
+from . import _callback
 
 
-from  gsl_function import gsl_function
-from _generic_solver import _workspace
+from .gsl_function import gsl_function
+from ._generic_solver import _workspace
 
 GAUSS15 = _callback.GSL_INTEG_GAUSS15        # 15 point Gauss-Kronrod rule
 GAUSS21 = _callback.GSL_INTEG_GAUSS21        # 21 point Gauss-Kronrod rule

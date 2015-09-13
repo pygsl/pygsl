@@ -16,8 +16,8 @@ algebra.
 
 """
 import pygsl
-import _gslwrap
-import gslwrap
+from . import  _gslwrap
+from . import  gslwrap
 import pygsl._numobj as numx
 _float   = pygsl.Float
 _complex = pygsl.Complex

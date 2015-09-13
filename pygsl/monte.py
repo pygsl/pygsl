@@ -3,8 +3,8 @@
 Wrapper for the Monte carlo integrators provided by GSL.
 
 """
-import _callback
-import gsl_function
+from . import _callback
+from . import gsl_function
 gsl_monte_function = gsl_function.gsl_monte_function
 
 VEGAS_MODE_IMPORTANCE      = _callback.GSL_VEGAS_MODE_IMPORTANCE

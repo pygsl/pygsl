@@ -8,9 +8,9 @@ Routines for approximating a data set with a non linear function
 
 """
 
-import _callback
-from gsl_function import gsl_multifit_function_fdf, gsl_multifit_function
-from _generic_solver import _generic_solver
+from . import _callback
+from .gsl_function import gsl_multifit_function_fdf, gsl_multifit_function
+from ._generic_solver import _generic_solver
 
 class _fsolver(_generic_solver):
     type = None

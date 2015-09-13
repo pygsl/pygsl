@@ -46,8 +46,8 @@ value decomposition of the matrix X.
 # Author : Pierre Schnizer <pierre@itp.tu-graz.ac.at>
 #  Date  : January 2003
 
-import _callback
-from _generic_solver import _workspace
+from . import _callback
+from ._generic_solver import _workspace
 
 class linear_workspace(_workspace):
     """

@@ -31,10 +31,10 @@ while 1:
 print "Root Found =", root
 
 """
-import _callback
+from . import _callback
 
-from gsl_function import gsl_function_fdf, gsl_function
-from _generic_solver import _generic_solver
+from .gsl_function import gsl_function_fdf, gsl_function
+from ._generic_solver import _generic_solver
 
 class _fsolver(_generic_solver):
     type = None

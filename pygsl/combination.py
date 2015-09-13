@@ -22,5 +22,5 @@ Usage:
        c.next()
     Both return 0 in case of success and -1 in case of failure.   
 """
-import gslwrap
+from . import  gslwrap
 Combination = gslwrap.Combination

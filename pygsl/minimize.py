@@ -36,10 +36,10 @@ for iter in range(100):
 print "Minimum found at ", m
 
 """
-import _callback
+from . import _callback
 
-from gsl_function import gsl_function, gsl_function_fdf
-from _generic_solver import _generic_solver
+from .gsl_function import gsl_function, gsl_function_fdf
+from ._generic_solver import _generic_solver
 
 class _minsolver(_generic_solver):
     type = None

@@ -41,8 +41,8 @@ And some functions from Section 8.3.9
     minmax_index
 """
 
-import _block
-import block
+from . import  _block
+from . import  block
 
 class _generic(block._generic_block):
     _base = 'vector'

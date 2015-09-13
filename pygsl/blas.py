@@ -17,7 +17,7 @@ Functions that are naturally done using functions of the underlying numerical
 package are left out here.
 """
 
-import _gslwrap
+from . import _gslwrap
 import pygsl._numobj as Numeric
 import copy
 from pygsl import array_typed_copy, get_typecode, Float, Complex

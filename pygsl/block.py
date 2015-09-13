@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer 
-import _block
+from . import _block
 
 class _generic:    
     """

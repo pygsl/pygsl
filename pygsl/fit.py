@@ -13,7 +13,7 @@ for the parameters c_0, c_1.  For unweighted data the sum is computed
 with w_i = 1.
 """
 
-import _callback
+from . import _callback
 
 def linear(x, y):
     """

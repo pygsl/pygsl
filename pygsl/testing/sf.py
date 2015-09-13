@@ -1,7 +1,7 @@
 """
 Provides the various special functions as UFuncs
 """
-import _ufuncs
+from . import _ufuncs
 _token = "sf_"
 _tokl  = len(_token)
 

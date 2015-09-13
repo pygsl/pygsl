@@ -8,9 +8,9 @@ Routines for finding the root of a function depending on more than one
 variable.
 
 """
-import _callback
-from gsl_function import gsl_multiroot_function_fdf, gsl_multiroot_function
-from _generic_solver import _generic_solver
+from . import _callback
+from .gsl_function import gsl_multiroot_function_fdf, gsl_multiroot_function
+from ._generic_solver import _generic_solver
 
 class _fsolver(_generic_solver):
     type = None

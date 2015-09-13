@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer 
-import _callback
+from . import _callback
 
 class _workspace:
     _alloc = None
@@ -53,7 +53,7 @@ class _generic_solver:
         Iterate the solver towards to the solution.
         """
         if (self._isset == 0):
-            raise TypeError, "You must call the method set before you iterate!"
+            raise TypeError("You must call the method set before you iterate!")
         return self._iterate(self._ptr)
     
 

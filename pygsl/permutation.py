@@ -9,7 +9,7 @@ permutation which exchanges the last two elements of a four element
 vector.  The corresponding identity permutation is (0,1,2,3).
 """
 
-import gslwrap
+from . import gslwrap
 
 class Permutation(gslwrap.Permutation):
     def linear_to_canonical(self):
