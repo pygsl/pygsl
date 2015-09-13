@@ -1,11 +1,7 @@
 /**
- * author: Jochen K"upper
- * created: Jan 2002
  * file: pygsl/src/statisticsmodule.c
  * $Id$
- *
- * optional usage of Numeric module, available at http://numpy.sourceforge.net
- * "
+  * "
  */
 
 #include <pygsl/error_helpers.h>
