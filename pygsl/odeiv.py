@@ -63,7 +63,7 @@ while t<t1:
 # created: December 2002
 # file: pygsl/src/odeiv/odeiv.py
 
-import _callback
+from . import _callback
 
 class __step:
     """    
@@ -94,14 +94,14 @@ class __step:
         """
         self.ptr = None
         if not hasattr(self, 'type'):
-            raise TypeError, """You can not use step directly. You should use
-            one of the derived classes!"""
+            raise TypeError("""You can not use step directly. You should use
+            one of the derived classes!""")
         self.ptr = _callback.gsl_odeiv_step_alloc(self.type, dims)
         self.func = func
         if jac == None:
             if self.need_jacobian >= 1:
-                raise ValueError, """This step object must use an jacobian
-                matrix!"""
+                raise ValueError( """This step object must use an jacobian
+                matrix!""")
             self.jac = None
         else:
             self.jac = jac

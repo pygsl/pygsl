@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # Author : Pierre Schnizer 
 """
@@ -11,9 +12,9 @@ kept as reference in the various objects,whereas the spline module copies these
 data into the internal C gsl_spline struct.
 """
 
-import errors
-import gslwrap
-import interpolation
+from . import errors
+from . import gslwrap
+from . import interpolation
 
 _acceleration     = interpolation._acceleration
 _common           = interpolation._common
@@ -32,11 +33,11 @@ class _spline(_common):
         assert(self._type != None)
         if n <= 0:
             msg = "Number of elements must be positive but was %d!"
-            raise errors.gsl_InvalidArgumentError, msg % (n,)
+            raise errors.gsl_InvalidArgumentError(msg % (n,))
 
         tmp = gslwrap.pygsl_spline(self._type, n)
         if tmp == None:
-            raise errors.gsl_GenericError, "Failed to allocate spline!"
+            raise errors.gsl_GenericError("Failed to allocate spline!")
         self._object = tmp
 
     

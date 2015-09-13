@@ -12,7 +12,8 @@ All the doc strings were taken form the gsl reference document.
 """
 import pygsl
 import pygsl._numobj as Numeric
-import _poly
+import pygsl.errno
+from . import _poly
 
 get_typecode = pygsl.get_typecode
 
@@ -156,13 +157,13 @@ def solve_quadratic(*args):
         r1 ... first root
         r2 ... second root
     """
-    return apply(_poly.gsl_poly_solve_quadratic, args)
+    return _poly.gsl_poly_solve_quadratic(*args)
 
 def complex_solve_quadratic(*args):
     """
     The complex version of solve quadratic. See solve_quadratic for explanation.
     """
-    return apply(_poly.gsl_poly_complex_solve_quadratic, args)
+    return _poly.gsl_poly_complex_solve_quadratic(*args)
 
 def solve_cubic(*args):
     """
@@ -186,7 +187,7 @@ def solve_cubic(*args):
         r3 ... third root
 
     """
-    return apply(_poly.gsl_poly_solve_cubic, args)
+    return _poly.gsl_poly_solve_cubic(*args)
 
 def complex_solve_cubic(*args):
     """
@@ -209,5 +210,5 @@ def complex_solve_cubic(*args):
         r3 ... third root
 
     """
-    return apply(_poly.gsl_poly_complex_solve_cubic, args)
+    return _poly.gsl_poly_complex_solve_cubic(*args)
 

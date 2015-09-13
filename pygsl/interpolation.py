@@ -11,7 +11,7 @@ kept as reference in the various objects,whereas the spline module copies these
 data into the internal C gsl_spline struct.
 """
 
-import gslwrap
+from . import gslwrap
 from  pygsl import errors
 
 def bsearch(xa, x, index_lo, index_high):
@@ -163,7 +163,7 @@ class _interpolation(_common):
     def __init__(self, n):
         if n <= 0:
             msg = "Number of elements must be positive but was %d!"
-            raise errors.gsl_InvalidArgumentError, msg % (n,)
+            raise errors.gsl_InvalidArgumentError( msg % (n,))
 
 
         self._object = gslwrap.pygsl_interp(self._type, n)

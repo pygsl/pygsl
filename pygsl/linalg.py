@@ -12,8 +12,8 @@ as the standard package for linear algebra. It supports blocked algorithms,
 specialized data representations and other optimizations.
 """
 import pygsl
-import _gslwrap
-from permutation import Permutation
+from . import _gslwrap
+from .permutation import Permutation
 import pygsl._numobj as numx
 zeros = numx.zeros
 array = numx.array
@@ -56,8 +56,8 @@ of the matrix P is given by the k-th column of the identity matrix, where
     elif code == Float:
         signum = _gslwrap.gsl_linalg_LU_decomp(An, p)
     else:
-        print code, Float, Complex
-        raise TypeError, "LU must be of type Float or Complex"
+        #print code, Float, Complex
+        raise TypeError("LU must be of type Float or Complex")
     return (An, p, signum)
 
 
@@ -89,7 +89,7 @@ def LU_solve(LU, p, b):
     elif code == Float:
         _gslwrap.gsl_linalg_LU_solve(LU, p, b, x)
     else:
-        raise TypeError, "LU must be of type Float or Complex"
+        raise TypeError( "LU must be of type Float or Complex")
     return x
 
 
@@ -102,7 +102,7 @@ def LU_refine(A, LU, p, b, x):
     residual r = A x - b is also computed and stored in residual. 
     """
     code = get_typecode(LU)
-    raise NotImplementedError, "This function is not (yet implemented)"
+    raise NotImplementedError("This function is not (yet implemented)")
 #    if code == Numeric.Complex:
 #        _gslwrap.gsl_linalg_complex_LU_refine(A, LU, p, b, x, residual)
 #    elif code == Numeric.Float:
@@ -128,7 +128,7 @@ def LU_invert(LU, p):
     elif code == Float:
         _gslwrap.gsl_linalg_LU_invert(LU, p, inverse)
     else:
-        raise TypeError, "LU must be of type Float or Complex"
+        raise TypeError("LU must be of type Float or Complex")
     return inverse
 
 
@@ -146,7 +146,7 @@ def LU_det(LU, signum):
     elif code == Float:
         return _gslwrap.gsl_linalg_LU_det(LU, signum)
     else:
-        raise TypeError, "LU must be of type Float or Complex"
+        raise TypeError("LU must be of type Float or Complex")
 
 
 def LU_lndet(LU):
@@ -162,7 +162,7 @@ def LU_lndet(LU):
     elif code == Float:
         return _gslwrap.gsl_linalg_LU_lndet(LU)
     else:
-        raise TypeError, "LU must be of type Float or Complex"
+        raise TypeError("LU must be of type Float or Complex")
 
 
 def LU_sgndet(LU, signum):
@@ -176,7 +176,7 @@ def LU_sgndet(LU, signum):
     elif code == Float:
         return _gslwrap.gsl_linalg_LU_sgndet(LU, signum)
     else:
-        raise TypeError, "LU must be of type Float or Complex"
+        raise TypeError("LU must be of type Float or Complex")
     
 
 #
@@ -315,7 +315,7 @@ def QR_update(Q, R, w, v):
     where the output matrices Q' and R' are also orthogonal and right
     triangular. Note that Q and R are overwritten with Q' and R'!
     """
-    raise NotImplementedError, "Please verify the output of this function!"
+    raise NotImplementedError("Please verify the output of this function!")
     wn = array_typed_copy(w)
     _gslwrap.gsl_linalg_QR_update(Q, R, wn, v)
 
@@ -684,7 +684,7 @@ def bidiag_unpack_B(A):
     decomposition of A given by gsl_linalg_bidiag_decomp, into the diagonal
     vector diag and superdiagonal vector superdiag.
     """
-    raise NotImplementedError, "the GSL function for this is buggy!"    
+    raise NotImplementedError("the GSL function for this is buggy!"    )
     n = n = A.shape[1]
     code = get_typecode(A)
     diag = zeros(n, code)
