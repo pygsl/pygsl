@@ -5,6 +5,6 @@ typedef struct {
 	gsl_wavelet *wavelet;
 } PyGSL_wavelet;
 
-#define  PyGSL_WAVELET_CHECK(op) ((op)->ob_type == &PyGSL_wavelet_pytype)
+#define  PyGSL_WAVELET_CHECK(op) (Py_TYPE(op) == &PyGSL_wavelet_pytype)
 
 #endif /* _PyGSL_WAVELET_H_ */

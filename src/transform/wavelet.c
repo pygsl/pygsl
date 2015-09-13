@@ -5,9 +5,82 @@
 static void 
 PyGSL_wavelet_dealloc(PyGSL_wavelet *self);
 
+#define PYGSL_WAVLET_DEF(direction) \
+static PyObject * \
+PyGSL_wavelet_ ## direction(PyGSL_wavelet *self, PyObject *args);
+PYGSL_WAVLET_DEF(forward)
+PYGSL_WAVLET_DEF(inverse)
+
+#define PYGSL_WAVLET2D_DEF(type, direction) \
+static PyObject * \
+PyGSL_wavelet2d_ ## type ## direction(PyGSL_wavelet *self, PyObject *args);
+PYGSL_WAVLET2D_DEF(,forward)
+PYGSL_WAVLET2D_DEF(,inverse)
+PYGSL_WAVLET2D_DEF(ns,forward)
+PYGSL_WAVLET2D_DEF(ns,inverse)
+static PyObject *
+PyGSL_wavelet_get_n_py(PyGSL_wavelet *self, PyObject *unsused);
+
+
+static PyMethodDef PyGSL_wavelet_methods[] = {
+	{"transform_forward",     (PyCFunction)PyGSL_wavelet_forward,     METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
+	{"transform_inverse",     (PyCFunction)PyGSL_wavelet_inverse,     METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},
+	{"transform2d_forward",   (PyCFunction)PyGSL_wavelet2d_forward,   METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
+	{"transform2d_inverse",   (PyCFunction)PyGSL_wavelet2d_inverse,   METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},	
+	{"nstransform2d_forward", (PyCFunction)PyGSL_wavelet2d_nsforward, METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
+	{"nstransform2d_inverse", (PyCFunction)PyGSL_wavelet2d_nsinverse, METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},	
+	{"get_n",                 (PyCFunction)PyGSL_wavelet_get_n_py,    METH_NOARGS,  NULL},
+	{NULL, NULL, 0, NULL}           /* sentinel */
+};
+
+#ifndef PyGSL_PY3K
 static PyObject *
 PyGSL_wavelet_getattr(PyGSL_wavelet *self, const char * name);
+#endif
 
+#ifdef PyGSL_PY3K
+static PyTypeObject PyGSL_wavelet_pytype = {
+	PyObject_HEAD_INIT(NULL)
+	"PyGSL_wavelet",                    /* tp_name */
+	sizeof(PyGSL_wavelet),              /* tp_basicsize */
+	0,                                          /* tp_itemsize */
+	(destructor) PyGSL_wavelet_dealloc, /* tp_dealloc */
+	0,                       /* tp_print */
+	0,                       /* tp_getattr */
+	0,                       /* tp_setattr */
+	0,                       /* tp_reserved */
+	0,                       /* tp_repr */
+	0,                       /* tp_as_number */
+	0,                       /* tp_as_sequence */
+	0,                       /* tp_as_mapping */
+	0,                       /* tp_hash */
+	0,                       /* tp_call */
+	0,                       /* tp_str */
+	0,                       /* tp_getattro */
+	0,                       /* tp_setattro */
+	0,                       /* tp_as_buffer */
+	Py_TPFLAGS_DEFAULT,      /* tp_flags */
+	(char *) PyGSL_wavelet_type_doc, /* tp_doc */
+	0,                       /* tp_traverse */
+	0,                       /* tp_clear */
+	0,                       /* tp_richcompare */
+	0,                       /* tp_weaklistoffset */
+	0,                       /* tp_iter */
+	0,                       /* tp_iternext */
+	PyGSL_transform_generic_methods,          /* tp_methods */
+	0,                       /* tp_members */
+	0,                       /* tp_getset */
+	0,                       /* tp_base */
+	0,                       /* tp_dict */
+	0,                       /* tp_descr_get */
+	0,                       /* tp_descr_set */
+	0,                       /* tp_dictoffset */
+	0,                       /* tp_init */
+	0,                       /* tp_alloc */
+	0,                       /* tp_new */
+};
+#else /* PyGSL_PY3K */
+static
 PyTypeObject PyGSL_wavelet_pytype = {
 	PyObject_HEAD_INIT(NULL)	 /* fix up the type slot in init */
 	0,				 /* ob_size */
@@ -38,6 +111,8 @@ PyTypeObject PyGSL_wavelet_pytype = {
 	0L,				/* tp_flags */
 	(char *) PyGSL_wavelet_type_doc		/* tp_doc */
 };
+#endif /* PyGSL_PY3K */
+
 
 /*
 typedef int (complex_transform)(gsl_complex_packed_array
@@ -63,6 +138,8 @@ wavelet_info           = INIT_INFO(RealReal,  DOUBLE, , , 0, WAVELET, SINGLE_TYP
 static struct _pygsl_transform_func_rf_s wavelet_func = {(pygsl_transform_helpn_t *) gsl_wavelet_workspace_alloc,
 						      (pygsl_transform_help_t *)gsl_wavelet_workspace_free,
 						      NULL, NULL, WAVELET_WORKSPACE, NOSPACE};
+
+
 
 #define PYGSL_WAVLET(direction) \
 static PyObject * \
@@ -110,22 +187,12 @@ PyGSL_wavelet_get_n_py(PyGSL_wavelet *self, PyObject *unsused)
 	PyObject *tmp;
 	FUNC_MESS_BEGIN();
 	assert(PyGSL_WAVELET_CHECK(self));
-	tmp = PyInt_FromLong((long)self->wavelet->nc);
+	tmp = PyLong_FromLong((long)self->wavelet->nc);
 	FUNC_MESS_END();
 	return tmp;
 }
-static PyMethodDef PyGSL_wavelet_methods[] = {
-	{"transform_forward",     (PyCFunction)PyGSL_wavelet_forward,     METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
-	{"transform_inverse",     (PyCFunction)PyGSL_wavelet_inverse,     METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},
-	{"transform2d_forward",   (PyCFunction)PyGSL_wavelet2d_forward,   METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
-	{"transform2d_inverse",   (PyCFunction)PyGSL_wavelet2d_inverse,   METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},	
-	{"nstransform2d_forward", (PyCFunction)PyGSL_wavelet2d_nsforward, METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
-	{"nstransform2d_inverse", (PyCFunction)PyGSL_wavelet2d_nsinverse, METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},	
-	{"get_n",                 (PyCFunction)PyGSL_wavelet_get_n_py,    METH_NOARGS,  NULL},
-	{NULL, NULL, 0, NULL}           /* sentinel */
-};
 
-
+#ifndef PyGSL_PY3K
 static PyObject *
 PyGSL_wavelet_getattr(PyGSL_wavelet *self, const char * name)
 {
@@ -136,6 +203,8 @@ PyGSL_wavelet_getattr(PyGSL_wavelet *self, const char * name)
 	FUNC_MESS_END();
 	return tmp;
 }
+#endif /* PyGSL_PY3K */
+
 
 static PyObject *
 PyGSL_wavelet_init(PyObject *self, PyObject *args, const gsl_wavelet_type *type)

@@ -1,11 +1,14 @@
 /*
+ * $ Id: $
  * Author : Pierre Schnizer
  * Date   : February 2005
  *
+ * Updated : September 2015 for python3
  */
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/pygsl_features.h>
+#include <pygsl/string_helpers.h>
 #include <string.h>
 
 #include <gsl/gsl_fft.h>
@@ -148,38 +151,68 @@ init_helpers(void)
 
 }
 
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "_transform",
+        NULL,
+        -1,
+	transformMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif /* PyGSL_PY3K */
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit__transform(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) init_transform(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
      	PyObject *m = NULL, *dict = NULL, *item = NULL;
 	
 	FUNC_MESS_BEGIN();
-	PyGSL_transform_space_pytype.ob_type = &PyType_Type;
+ 
+	if (PyType_Ready(&PyGSL_transform_space_pytype) < 0)
+		return RETVAL;
+
 #ifdef _PYGSL_GSL_HAS_WAVELET
-	PyGSL_wavelet_pytype.ob_type = &PyType_Type;
+	if (PyType_Ready(&PyGSL_wavelet_pytype) < 0)
+		return RETVAL;
 #endif
+
+
+#ifdef PyGSL_PY3K
+	m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
 	m = Py_InitModule("_transform", transformMethods);
+#endif
 	module = m;
 	init_pygsl();
 	init_helpers();
 	if (m == NULL)
-		return;
+		return RETVAL;
 
 	dict = PyModule_GetDict(m);
 	if (dict == NULL)
-		return;
+		return RETVAL;
 	
-	if (!(item = PyString_FromString(transform_module_doc))){
+	if (!(item = PyGSL_string_from_string(transform_module_doc))){
 		PyErr_SetString(PyExc_ImportError, 
 				"I could not generate module doc string!");
-		return;
+		return RETVAL;
 	}
 	if (PyDict_SetItemString(dict, "__doc__", item) != 0){
 		PyErr_SetString(PyExc_ImportError, 
 				"I could not init doc string!");
-		return;
+		return RETVAL;
 	}
 	FUNC_MESS_END();
-	return;
+	return RETVAL;
 }
 
 

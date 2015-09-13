@@ -1,13 +1,16 @@
-import sys
-sys.stdout = sys.stderr
+from __future__ import print_function
+from __future__ import print_function
 import unittest
 import pygsl
 import pygsl.fft as fft
+import sys
+sys.stdout = sys.stderr
 pygsl.set_debug_level(0)
 import pygsl._numobj as numx
 import pygsl._mlab as MLab
 import string
 from pygsl.math import fcmp
+
 
 from array_check import array_check
 get_typecode = pygsl.get_typecode
@@ -34,12 +37,18 @@ def fcmp(a, b, eps):
 def printvec(array, value, eps):
     for i in range(len(array)):
         if fcmp(array[i]+1, value+1, eps) != 0:
-            print "v[%d]=%e   " % (i, array[i]),
-    print        
+            print ("v[%d]=%e   " % (i, array[i]),)
+    print()        
    
 class _ffttest(unittest.TestCase):
     # Type of the array
     typecode = None
+
+    def _GetN2(self):
+        n2 = int(self.n/2)
+        #print("n2", n2)
+        return n2
+    
     def _CheckSinResult(self, f, l):
         a = numx.absolute(f)
         test = 0
@@ -51,7 +60,9 @@ class _ffttest(unittest.TestCase):
             flag = fcmp(tmp1, tmp2, self._eps)
             assert(flag == 0)
             a[l] = 0
-            if(len(f) > self.n/2 + 1):
+
+            n2 = self._GetN2()
+            if(len(f) > n2 + 1):
                 # Only for the complex transform
                 tmp1 = f[self.n-l].imag
                 tmp2 = self.sin_n_l
@@ -61,10 +72,10 @@ class _ffttest(unittest.TestCase):
             test = 1
         finally:
             if test == 0:
-                print 
-                print "Check Sin Result len(f) = %s, self.n/2 = %s", len(f), self.n/2                
-                print f[l]
-                print "tmp1 = %s, tmp2 = %s, flag = %s" % (tmp1, tmp2, flag)
+                print()
+                print ("Check Sin Result len(f) = %s, self.n/2 = %s", len(f), self.n/2)
+                print (f[l])
+                print ("tmp1 = %s, tmp2 = %s, flag = %s" % (tmp1, tmp2, flag))
                 #print f[self.n-l]
                 
         # Take the maximum
@@ -75,7 +86,7 @@ class _ffttest(unittest.TestCase):
         finally:
             if test == 0:
                 printvec(a, 0, self._eps)
-                print MLab.max(a)
+                print( MLab.max(a))
 
     def _CheckCosResult(self, f, l):
         # Take all data
@@ -84,7 +95,8 @@ class _ffttest(unittest.TestCase):
         stmp = ["%s" % a[l]]
         a[l] = 0
         stmp.append("should be zero %s" % (a[l],))
-        if(len(f) > self.n/2 + 1):
+        n2 = self._GetN2()
+        if(len(f) > n2 + 1):
                 # Only for the complex transform
                 assert(fcmp(f[self.n-l].real, self.n/2, self._eps) == 0)
                 a[self.n-l] = 0
@@ -95,9 +107,9 @@ class _ffttest(unittest.TestCase):
             test = 1
         finally:
             if test == 0:
-                print "Check Cos Result",
+                print ("Check Cos Result",)
                 printvec(a, 0, self._eps)
-                print string.join(stmp)
+                print (string.join(stmp))
                 
     def SinOne(self, x, l, args=()):
         y = numx.sin(x * l)
@@ -113,12 +125,12 @@ class _ffttest(unittest.TestCase):
         
     def testSin(self):        
         x = numx.arange(self.n) * (2 * numx.pi / self.n)
-        for i in range(1,self.n/2):
+        for i in range(1, self._GetN2()):
            self.SinOne(x,i)
 
     def testCos(self):        
         x = numx.arange(self.n) * (2 * numx.pi / self.n)
-        for i in range(1,self.n/2):
+        for i in range(1, self._GetN2()):
             if self.__class__.__name__ == "testrealforwardfloat":
                 pygsl.set_debug_level(0)
             try:                
@@ -136,7 +148,7 @@ class _mixedradix(_ffttest):
         assert(space.get_n() == self.n)
         table = self.wavetable(self.n)
         assert(table.get_n() == self.n)
-        for i in range(1,self.n/2):
+        for i in range(1, self._GetN2()):
            self.SinOne(x,i, (space,table))
 
     def testCosSpace(self):        
@@ -145,7 +157,7 @@ class _mixedradix(_ffttest):
         assert(space.get_n() == self.n)
         table = self.wavetable(self.n)
         assert(table.get_n() == self.n)
-        for i in range(1,self.n/2):
+        for i in range(1, self._GetN2()):
            self.CosOne(x,i, (space,table))
 
 class _mixedradixcomplex(_mixedradix):
@@ -153,7 +165,7 @@ class _mixedradixcomplex(_mixedradix):
         space = self.workspace(self.n)
         table = self.wavetable(self.n)
         x = numx.arange(self.n) * ((2+0j) * numx.pi / self.n)
-        for i in range(1,self.n/2):
+        for i in range(1, self._GetN2()):
             y = numx.sin(x * i)
             tmp = self.convert(y)
             f = self.transform(tmp, space, table, tmp)
@@ -180,7 +192,7 @@ class FloatType:
         elif code in  numx.typecodes['Complex']:
             return y.astype(_complex32)
         else:
-            raise TypeError, "Not implemented for an array of type", code
+            raise TypeError("Not implemented for an array of type %s" % (code,))
         
 class number:
     n = 64

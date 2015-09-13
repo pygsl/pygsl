@@ -10,10 +10,8 @@ typedef struct {
 static void
 PyGSL_transform_space_dealloc(PyGSL_transform_space * self);
 
-static PyObject*
-PyGSL_transform_space_getattr(PyGSL_transform_space * self, char * name);
 
-#define PyGSL_transform_space_check(op) ((op)->ob_type == &PyGSL_transform_space_pytype)
+#define PyGSL_transform_space_check(op) (Py_TYPE(op) == &PyGSL_transform_space_pytype)
 #define PyGSL_complex_fft_work_space_check(op) \
          (PyGSL_transform_space_check(op) && ((PyGSL_transform_space *)op)->type == COMPLEX_WORKSPACE)
 #define PyGSL_complex_fft_wave_table_check(op) \
@@ -37,40 +35,7 @@ PyGSL_transform_space_getattr(PyGSL_transform_space * self, char * name);
          (PyGSL_transform_space_check(op) && ((PyGSL_transform_space *)op)->type == REAL_WAVETABLE_FLOAT)
 
 
-
-
-PyTypeObject PyGSL_transform_space_pytype = {
-  PyObject_HEAD_INIT(NULL)	 /* fix up the type slot in init */
-  0,				 /* ob_size */
-  "PyGSL_transform_space",		 /* tp_name */
-  sizeof(PyGSL_transform_space),	 /* tp_basicsize */
-  0,				 /* tp_itemsize */
-
-  /* standard methods */
-  (destructor)  PyGSL_transform_space_dealloc, /* tp_dealloc  ref-count==0  */
-  (printfunc)   0,		         /* tp_print    "print x"     */
-  (getattrfunc) PyGSL_transform_space_getattr,  /* tp_getattr  "x.attr"      */
-  (setattrfunc) 0,		 /* tp_setattr  "x.attr=v"    */
-  (cmpfunc)     0,		   /* tp_compare  "x > y"       */
-  (reprfunc)    0,                 /* tp_repr     `x`, print x  */
-
-  /* type categories */
-  0,				/* tp_as_number   +,-,*,/,%,&,>>,pow...*/
-  0,				/* tp_as_sequence +,[i],[i:j],len, ...*/
-  0,				/* tp_as_mapping  [key], len, ...*/
-
-  /* more methods */
-  (hashfunc)     0,		/* tp_hash    "dict[x]" */
-  (ternaryfunc)  0,      /* tp_call    "x()"     */
-  (reprfunc)     0,             /* tp_str     "str(x)"  */
-  (getattrofunc) 0,		/* tp_getattro */
-  (setattrofunc) 0,		/* tp_setattro */
-  0,				/* tp_as_buffer */
-  0L,				/* tp_flags */
-  (char *) PyGSL_transform_space_type_doc		/* tp_doc */
-};
-
-
+static PyTypeObject PyGSL_transform_space_pytype;
 /*
  * Get the size of the work space. Also used in C code. Thus split up
  * and a separate function, returning a PyInt.
@@ -106,14 +71,14 @@ PyGSL_transform_space_get_n(PyGSL_transform_space *self)
 static PyObject *
 PyGSL_transform_space_get_n_py(PyGSL_transform_space *self)
 {
-	return PyInt_FromLong((long) PyGSL_transform_space_get_n(self));
+	return PyLong_FromLong((long) PyGSL_transform_space_get_n(self));
 }
 
 /*
  * Get the factors of FFT wavetables....
  */
 static PyObject *
-PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyGSL_transform_space *args)
+PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyObject *args)
 {
 
        PyGSL_array_index_t nf, i;                                                           
@@ -188,11 +153,43 @@ PyGSL_transform_space_get_type(PyGSL_transform_space *self, PyObject *notused)
 	default: pygsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL;
 	}
 	FUNC_MESS_END();
-	return PyString_FromString(p);
+	return PyGSL_string_from_string(p);
 }
 
 static const char get_type[] = "get_type";
 static const char get_n[] = "get_n";
+
+
+static PyObject *
+PyGSL_transform_wavetable_get_factors(PyGSL_transform_space *self, PyObject *args)
+{
+	pygsl_error("Method not existing for wavelets (you see this as a "
+		    "result of a hack to be cleaned up)!", __FILE__, 
+		    __LINE__, GSL_EFAILED);
+	return NULL;
+}
+
+/* Py3K does not support the dynamic methods that directly ... */
+static PyObject * 
+PyGSL_transform_generic_get_factors(PyGSL_transform_space *self, PyObject *args)
+{
+     PyObject *tmp = NULL;
+     FUNC_MESS_BEGIN();
+     assert(PyGSL_transform_space_check(self));     
+     switch(self->type){
+     case  COMPLEX_WORKSPACE:
+     case  REAL_WORKSPACE:    
+     case  COMPLEX_WORKSPACE_FLOAT:
+     case  REAL_WORKSPACE_FLOAT:
+	     tmp = PyGSL_transform_space_get_factors(self, args);
+     default:
+	     tmp = PyGSL_transform_wavetable_get_factors(self, args);
+     }
+     FUNC_MESS_END();
+     return tmp;
+	
+}
+
 
 static PyMethodDef PyGSL_transform_wavetable_methods[] = {
 	{"get_factors",    (PyCFunction)PyGSL_transform_space_get_factors, METH_NOARGS,  (char *)PyGSL_transform_space_get_factors_doc},
@@ -251,6 +248,90 @@ PyGSL_transform_space_dealloc(PyGSL_transform_space * self)
      self->space.v = NULL;
      FUNC_MESS_END();
 }
+
+
+static PyMethodDef PyGSL_transform_generic_methods[] = {
+	{"get_factors", (PyCFunction)PyGSL_transform_generic_get_factors, METH_NOARGS,  (char *)PyGSL_transform_space_get_factors_doc},
+	{"get_type",    (PyCFunction)PyGSL_transform_space_get_type,      METH_NOARGS,  (char *)PyGSL_transform_space_get_type_doc},
+	{"get_n",       (PyCFunction)PyGSL_transform_space_get_n_py,      METH_NOARGS,  NULL},
+	{NULL, NULL, 0, NULL}           /* sentinel */
+};
+
+#ifdef PyGSL_PY3K
+static PyTypeObject PyGSL_transform_space_pytype = {
+	PyObject_HEAD_INIT(NULL)
+	"PyGSL_transform_space",                    /* tp_name */
+	sizeof(PyGSL_transform_space),              /* tp_basicsize */
+	0,                                          /* tp_itemsize */
+	(destructor) PyGSL_transform_space_dealloc, /* tp_dealloc */
+	0,                       /* tp_print */
+	0,                       /* tp_getattr */
+	0,                       /* tp_setattr */
+	0,                       /* tp_reserved */
+	0,                       /* tp_repr */
+	0,                       /* tp_as_number */
+	0,                       /* tp_as_sequence */
+	0,                       /* tp_as_mapping */
+	0,                       /* tp_hash */
+	0,                       /* tp_call */
+	0,                       /* tp_str */
+	0,                       /* tp_getattro */
+	0,                       /* tp_setattro */
+	0,                       /* tp_as_buffer */
+	Py_TPFLAGS_DEFAULT,      /* tp_flags */
+	(char *) PyGSL_transform_space_type_doc, /* tp_doc */
+	0,                       /* tp_traverse */
+	0,                       /* tp_clear */
+	0,                       /* tp_richcompare */
+	0,                       /* tp_weaklistoffset */
+	0,                       /* tp_iter */
+	0,                       /* tp_iternext */
+	PyGSL_transform_generic_methods,          /* tp_methods */
+	0,                       /* tp_members */
+	0,                       /* tp_getset */
+	0,                       /* tp_base */
+	0,                       /* tp_dict */
+	0,                       /* tp_descr_get */
+	0,                       /* tp_descr_set */
+	0,                       /* tp_dictoffset */
+	0,                       /* tp_init */
+	0,                       /* tp_alloc */
+	0,                       /* tp_new */
+};
+#else /* PyGSL_PY3K */
+static
+PyTypeObject PyGSL_transform_space_pytype = {
+  PyObject_HEAD_INIT(NULL)	 /* fix up the type slot in init */
+  0,				 /* ob_size */
+  "PyGSL_transform_space",		 /* tp_name */
+  sizeof(PyGSL_transform_space),	 /* tp_basicsize */
+  0,				 /* tp_itemsize */
+
+  /* standard methods */
+  (destructor)  PyGSL_transform_space_dealloc, /* tp_dealloc  ref-count==0  */
+  (printfunc)   0,		         /* tp_print    "print x"     */
+  (getattrfunc) PyGSL_transform_space_getattr,  /* tp_getattr  "x.attr"      */
+  (setattrfunc) 0,		 /* tp_setattr  "x.attr=v"    */
+  (cmpfunc)     0,		   /* tp_compare  "x > y"       */
+  (reprfunc)    0,                 /* tp_repr     `x`, print x  */
+
+  /* type categories */
+  0,				/* tp_as_number   +,-,*,/,%,&,>>,pow...*/
+  0,				/* tp_as_sequence +,[i],[i:j],len, ...*/
+  0,				/* tp_as_mapping  [key], len, ...*/
+
+  /* more methods */
+  (hashfunc)     0,		/* tp_hash    "dict[x]" */
+  (ternaryfunc)  0,      /* tp_call    "x()"     */
+  (reprfunc)     0,             /* tp_str     "str(x)"  */
+  (getattrofunc) 0,		/* tp_getattro */
+  (setattrofunc) 0,		/* tp_setattro */
+  0,				/* tp_as_buffer */
+  0L,				/* tp_flags */
+  (char *) PyGSL_transform_space_type_doc		/* tp_doc */
+};
+#endif/* PyGSL_PY3K */
+
 
 static PyObject* 
 PyGSL_transform_space_init(PyObject *self, PyObject *args, const enum pygsl_transform_space_type type)

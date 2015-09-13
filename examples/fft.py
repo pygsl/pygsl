@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 """
-
+# $ Id: $
 """
+from __future__ import print_function
 import pygsl._numobj as numx
 import pygsl.fft as fft
-print fft
+print(fft)
 def complex_example_simple():
     n = 16
     data = numx.arange(n) * (2 * numx.pi / n)
@@ -12,11 +13,12 @@ def complex_example_simple():
     space = fft.complex_workspace(n)
     wavetable = fft.complex_wavetable(n)
 
-    print data
+    print(data)
     #data[:11] = 1.0
     #data[11:] = 1.0
+    pygsl.init.set_debug_level(0)
     tmp = fft.complex_backward(data, space, wavetable)
-    print "tmp", tmp
+    print("tmp", tmp)
     #print data
     #fft.complex_backward(data)
     #fft.complex_inverse(data)
@@ -25,9 +27,9 @@ def complex_example():
     n = 630
     space = fft.complex_workspace(n)
     wavetable = fft.complex_wavetable(n)
-    print space.get_type()
-    print wavetable.get_type()
-    print wavetable.get_factors()
+    print (space.get_type())
+    print (wavetable.get_type())
+    print (wavetable.get_factors())
     data = numx.zeros((630,), numx.Complex)
     data[:11] = 1.0
     data[11:] = 1.0
@@ -38,9 +40,9 @@ def complex_example():
 def real_example_simple1():
     n = 32
     data = numx.cos(1*(numx.arange(n) * (2 * numx.pi / n))).astype(numx.Float32)
-    print data
+    print(data)
     result =  fft.real_transform_float(data)
-    print result
+    print(result)
     #result =  fft.halfcomplex_unpack_float(result)
     #print result
     
@@ -54,11 +56,12 @@ def real_example_simple():
     final = fft.halfcomplex_inverse(result, n)    
     #print final
     return
-    import Gnuplot
-    g = Gnuplot.Gnuplot()
-    g.plot(Gnuplot.Data(data, with='line'),
-           Gnuplot.Data(final, with='linespoints'),)
-    raw_input()
+
+#import Gnuplot
+#    g = Gnuplot.Gnuplot()
+#    g.plot(Gnuplot.Data(data, with='line'),
+#           Gnuplot.Data(final, with='linespoints'),)
+#    raw_input()
 
 def halfcomplex_radix2_unpack():
     n = 32   
@@ -66,8 +69,8 @@ def halfcomplex_radix2_unpack():
     c = numx.zeros((n,))
     c[1:n/2+1]=a[1::2]
     c[n/2+1:]=a[-2:1:-2]    
-    print c
-    print fft.halfcomplex_radix2_unpack(c)
+    print(c)
+    print(fft.halfcomplex_radix2_unpack(c))
     
 def doc():
     help(fft)
@@ -80,4 +83,4 @@ if __name__ == '__main__':
     real_example_simple()
     real_example_simple1()
     halfcomplex_radix2_unpack()
-    #doc()
+    doc()
