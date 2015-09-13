@@ -8,17 +8,21 @@ import pygsl._mlab as mlab
 from pygsl import Float, Complex, ArrayType
 fcmp = pygsl.math.fcmp
 
+_complexType = type(0+0j)
+_intType = type(0)
+_floatType=type(1.0)
+
 def iscomplex_default(a):
-    return type(a) is types.ComplexType
+    return type(a) == _complexType
 
 def iscomplex_numpy(a):
     if type(a) == ArrayType:
         return a.dtypechar in typecodes["Complex"]
     else:
-        if type(a) in (types.FloatType, types.IntType):
+        if type(a) in (_intType, _floatType):
             return False
 
-        return isinstance(a,types.ComplexType)
+        return isinstance(a ,_complexType)
 
 def isfloat_default(a):
     return type(a) is float

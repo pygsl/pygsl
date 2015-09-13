@@ -1,6 +1,7 @@
 from __future__ import print_function
 import pygsl
 import pygsl._numobj
+import pygsl.errors as errors
 nummodule = pygsl._numobj
 ArrayType = pygsl.ArrayType
 get_typecode = pygsl.get_typecode
@@ -11,6 +12,9 @@ def myord_numeric(obj):
 def myord_numpy(obj):
     if obj == "":
         return 0
+    if len(obj) == 0:
+        raise ValueError("Object length 0")
+
     return ord(obj)
 
 
@@ -56,13 +60,14 @@ def array_check(array, arraytype=None, thesize=None):
             assert(len(myshape) == lsize)
             srange = tuple(range(lsize))
             for cnt in srange:
-                test = 0
-                try:
-                    assert(thesize[cnt] == myshape[cnt])
-                    test = 1
-                finally:
-                    if test == 0:
-                        print("idx %d, lsize -->%s<-- type:%s srange -->%s<-- type:%s" %(cnt, myilsize, type(lsize), srange, type(srange)))
+                dim_target = thesize[cnt]
+                dim_found  = myshape[cnt]
+                if dim_target == dim_found:
+                    continue
+
+                msg = "cnt %d, lsize '%s' type:%s srange: '%s' type:%s; dim_target = %s, dim_found =%s"
+                msg = msg % (cnt, lsize, type(lsize), srange, type(srange), dim_target, dim_found)
+                raise errors.gsl_BadLength(msg)
                     
                 
         test = 1        
