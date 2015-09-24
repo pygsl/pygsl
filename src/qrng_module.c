@@ -18,13 +18,6 @@ static PyObject *module = NULL;
 #define PyGSL_STRING_LENGTH(obj)      PyString_Size(obj) 
 #endif
 
-static void			/* generic instance destruction */
-generic_dealloc (PyObject *self)
-{
-  DEBUG_MESS(1, " *** generic_dealloc %p\n", (void *) self);
-  PyObject_Del(self);
-}
-
 
 /*---------------------------------------------------------------------------*/
 typedef struct {
@@ -164,122 +157,7 @@ qrng_getattr (PyGSL_qrng *self, char *name){
 
 #endif /* PyGSL_PY3K */
 
-#if 0
-#ifdef PyGSL_PY3K
-static PyTypeObject PyGSL_qrng_pytype = {
-	PyObject_HEAD_INIT(NULL)
-	"PyGSL_qrng_type",           /* tp_name */
-	sizeof(PyGSL_qrng),    /* tp_basicsize */
-	0,                                          /* tp_itemsize */
-	(destructor) generic_dealloc, /* tp_dealloc */
-	0,                       /* tp_print */
-	0,                       /* tp_getattr */
-	0,                       /* tp_setattr */
-	0,                       /* tp_reserved */
-	0,                       /* tp_repr */
-	0,                       /* tp_as_number */
-	0,                       /* tp_as_sequence */
-	0,                       /* tp_as_mapping */
-	0,                       /* tp_hash */
-	(ternaryfunc)  qrng_get, /* tp_call */
-	0,                       /* tp_str */
-	0,                       /* tp_getattro */
-	0,                       /* tp_setattro */
-	0,                       /* tp_as_buffer */
-	Py_TPFLAGS_DEFAULT,      /* tp_flags */
-	(char *)0, /* tp_doc */
-	0,                       /* tp_traverse */
-	0,                       /* tp_clear */
-	0,                       /* tp_richcompare */
-	0,                       /* tp_weaklistoffset */
-	0,                       /* tp_iter */
-	0,                       /* tp_iternext */
-	0,          /* tp_methods */
-	0,                       /* tp_members */
-	0,                       /* tp_getset */
-	0,                       /* tp_base */
-	0,                       /* tp_dict */
-	0,                       /* tp_descr_get */
-	0,                       /* tp_descr_set */
-	0,                       /* tp_dictoffset */
-	0,                       /* tp_init */
-	0,                       /* tp_alloc */
-	0,                       /* tp_new */
-};
 
-#else  /* PyGSL_PY3K */ 
-static PyTypeObject PyGSL_qrng_pytype = {
-  PyObject_HEAD_INIT(NULL)	/* fix up the type slot in initcrng */
-  0,				/* ob_size */
-  "PyGSL_qrng_type",     	/* tp_name */
-  sizeof(PyGSL_qrng),       /* tp_basicsize */
-  0,				/* tp_itemsize */
-
-  /* standard methods */
-  (destructor)  generic_dealloc,   /* tp_dealloc  ref-count==0  */
-  (printfunc)   0,		   /* tp_print    "print x"     */
-  (getattrfunc) 0/*qrng_type_getattr*/, /* tp_getattr  "x.attr"      */
-  (setattrfunc) 0,		   /* tp_setattr  "x.attr=v"    */
-  (cmpfunc)     0,		   /* tp_compare  "x > y"       */
-  (reprfunc)    0,                 /* tp_repr     `x`, print x  */
-
-  /* type categories */
-  0,				/* tp_as_number   +,-,*,/,%,&,>>,pow...*/
-  0,				/* tp_as_sequence +,[i],[i:j],len, ...*/
-  0,				/* tp_as_mapping  [key], len, ...*/
-
-  /* more methods */
-  (hashfunc)     0,		/* tp_hash    "dict[x]" */
-  (ternaryfunc)  0,             /* tp_call    "x()"     */
-  (reprfunc)     0,             /* tp_str     "str(x)"  */
-  (getattrofunc) 0,		/* tp_getattro */
-  (setattrofunc) 0,		/* tp_setattro */
-  0,				/* tp_as_buffer */
-  0L,				/* tp_flags */
-  NULL/* PyGSL_qrng_type_pytype_doc*/       /* tp_doc */
-};
-#endif
-#endif
-
-
-#if 1
-static PyObject *
-PyGSL_qrng_init(PyObject *self, PyObject *args, const gsl_qrng_type * qrng_type)
-{
-
-     PyGSL_qrng *qrng = NULL;
-     int dimension = 0;
-
-
-     FUNC_MESS_BEGIN();
-     if(qrng_type == NULL){
-	  PyGSL_add_traceback(module, __FILE__, "qrng.__init__", __LINE__ - 2);
-	  return NULL;
-     }
-
-     if (0 == PyArg_ParseTuple(args, "i:qrng.__init__", &dimension)){
-	  PyGSL_add_traceback(module, __FILE__, "qrng.__init__", __LINE__ - 2);
-	  return NULL;
-     }
-
-     if (dimension <= 0){
-	  PyErr_SetString(PyExc_ValueError, "The sample number must be positive!");
-	  PyGSL_add_traceback(module, __FILE__, "qrng.__init__", __LINE__ - 2);
-	  return NULL;
-     }
-
-     qrng =  (PyGSL_qrng *) PyObject_NEW(PyGSL_qrng, &PyGSL_qrng_pytype);
-     if(qrng == NULL){
-	  return NULL;
-     }
-     qrng->qrng = NULL;
-     qrng->qrng = gsl_qrng_alloc(qrng_type, dimension);
-     /* XXX handle failure in allocation of qrng! ... */
-     
-     FUNC_MESS_END();
-     return (PyObject *) qrng;
-}
-#endif
  
 static PyObject *
 qrng_get(PyGSL_qrng *self, PyObject *args)
@@ -325,66 +203,9 @@ qrng_get(PyGSL_qrng *self, PyObject *args)
      return NULL;
 }
 
-#define RNG_ARNG(name)					\
-static PyObject* PyGSL_qrng_init_ ## name (PyObject *self, PyObject *args)    \
-{                                                                            \
-     PyObject *tmp = NULL;                                                   \
-     FUNC_MESS_BEGIN();                                                      \
-     tmp = PyGSL_qrng_init(self, args,  gsl_qrng_ ## name);                    \
-     if (tmp == NULL){                                                       \
-	  PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);     \
-     }                                                                       \
-     FUNC_MESS_END();                                                        \
-     return tmp;                                                             \
-}
-
-RNG_ARNG(niederreiter_2)
-RNG_ARNG(sobol)
-#if 0 
-void
-create_qrng_types(PyObject *module)
-{
-     PyGSL_qrng_type *a_rng = NULL;
-     const gsl_qrng_type* thisRNGType, 
-	  *types[3] = {gsl_qrng_niederreiter_2, gsl_qrng_sobol, NULL};
-     const char* gsl_qrng_names[3] = {"_qrng.niederreiter_2", "_qrng.sobol", NULL};
-	  
-     PyObject* module_dict=PyModule_GetDict(module);
-     PyObject* item = NULL;
-     char * a_string, *a_name;
-     int i, a_string_size;
-     
-     assert(module_dict);     
-     FUNC_MESS_BEGIN();
-     /* provide other rng types as subclasses of rng  */
-     for(i=0; types[i]!=NULL; i++){
-	  thisRNGType = types[i];
-	  a_rng =  PyObject_NEW(PyGSL_qrng_type, &PyGSL_qrng_pytype);
-	  a_rng->qrng_type = (gsl_qrng_type *) thisRNGType;
-	  a_name = (thisRNGType)->name;
-	  assert(item);
-	  a_string = PyGSL_STRING_AS_STRING(item);
-	  a_string_size = PyGSL_STRING_LENGTH(item);
-	  DEBUG_MESS(2, "Clearing string '%s' with length '%d'", a_string, a_string_size);
-	  PyGSL_clear_name(a_string, a_string_size);
-	  DEBUG_MESS(2, "Cleared string '%s' with length '%d'", a_string, a_string_size);
-	  assert(gsl_qrng_names[i]);
-	  a_rng->py_name = gsl_qrng_names[i];
-	  PyDict_SetItem(module_dict, item, (PyObject *) a_rng);
-	  Py_DECREF(item);
-	  item = NULL;	
-	  thisRNGType++;       
-     }
-     FUNC_MESS_END();
-}
-#endif
 
 /*---------------------------------------------------------------------------*/
 /* qrng */
-
-
-
-
 static void
 qrng_delete(PyGSL_qrng *self)
 {
@@ -425,29 +246,60 @@ qrng_clone(PyGSL_qrng *self, PyObject *args)
      return (PyObject *) qrng;
 }
 
-#if 0
-PyObject *
-qrng_init(PyObject *self, PyObject *args)
+
+static PyObject *
+PyGSL_qrng_init(PyObject *self, PyObject *args, const gsl_qrng_type * qrng_type)
 {
-     PyObject *type = NULL;
+
      PyGSL_qrng *qrng = NULL;
-     int dimension;
-     assert(args);
-     if (0 == PyArg_ParseTuple(args, "O!i:qrng.__init__", &PyGSL_qrng_pytype, 
-			       &type, &dimension)){
-	  PyGSL_add_traceback(module, __FILE__, "rng.__init__", __LINE__ - 2);
+     int dimension = 0;
+
+
+     FUNC_MESS_BEGIN();
+     if(qrng_type == NULL){
+	  PyGSL_add_traceback(module, __FILE__, "qrng.__init__", __LINE__ - 2);
 	  return NULL;
      }
+
+     if (0 == PyArg_ParseTuple(args, "i:qrng.__init__", &dimension)){
+	  PyGSL_add_traceback(module, __FILE__, "qrng.__init__", __LINE__ - 2);
+	  return NULL;
+     }
+
      if (dimension <= 0){
 	  PyErr_SetString(PyExc_ValueError, "The sample number must be positive!");
 	  PyGSL_add_traceback(module, __FILE__, "qrng.__init__", __LINE__ - 2);
 	  return NULL;
      }
+
      qrng =  (PyGSL_qrng *) PyObject_NEW(PyGSL_qrng, &PyGSL_qrng_pytype);
-     qrng->qrng = gsl_qrng_alloc(((PyGSL_qrng_type *)type)->qrng_type, dimension);
+     if(qrng == NULL){
+	  return NULL;
+     }
+     qrng->qrng = NULL;
+     qrng->qrng = gsl_qrng_alloc(qrng_type, dimension);
+     /* XXX handle failure in allocation of qrng! ... */
+     
+     FUNC_MESS_END();
      return (PyObject *) qrng;
 }
-#endif
+
+
+#define RNG_ARNG(name)					\
+static PyObject* PyGSL_qrng_init_ ## name (PyObject *self, PyObject *args)    \
+{                                                                            \
+     PyObject *tmp = NULL;                                                   \
+     FUNC_MESS_BEGIN();                                                      \
+     tmp = PyGSL_qrng_init(self, args,  gsl_qrng_ ## name);                    \
+     if (tmp == NULL){                                                       \
+	  PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__);     \
+     }                                                                       \
+     FUNC_MESS_END();                                                        \
+     return tmp;                                                             \
+}
+
+RNG_ARNG(niederreiter_2)
+RNG_ARNG(sobol)
 
 
 static PyMethodDef PyGSL_qrng_module_functions[] = {
