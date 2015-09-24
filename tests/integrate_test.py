@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer
-
+from __future__ import print_function
 import unittest
 import pygsl._numobj as Numeric
 import pygsl
@@ -57,7 +57,7 @@ class IntegrateTest(unittest.TestCase):
             test = 1
         finally:
             if test == 0:
-                print integrate.qagil(sys, -2, 1e-8, 1e-8, 1000000, self.w)
+                print (integrate.qagil(sys, -2, 1e-8, 1e-8, 1000000, self.w))
         assert(Numeric.absolute(result - expected) < 1e-7)
         assert(Numeric.absolute(error) < 1e-7)
         self.w.get_size()

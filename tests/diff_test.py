@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-
+from __future__ import print_function
 import unittest
 import pygsl.diff
 
@@ -15,7 +15,7 @@ def lfive(x, args):
 class _TestDiff(unittest.TestCase):
     func = None
     def test1(self):
-	self.failUnlessRaises(TypeError, self.func, lone, 1)
+        self.failUnlessRaises(TypeError, self.func, lone, 1)
 	
     def test2(self):
         tmp = self.func(ltwo, 1)
@@ -25,7 +25,7 @@ class _TestDiff(unittest.TestCase):
             test = 1
         finally:
             if test == 0:
-                print "I recieved %s. But it should be (3, ??)" % (tmp,)
+                print ("I recieved %s. But it should be (3, ??)" % (tmp,))
 
     def test3(self):
         tmp = self.func(lthree, 1, 2)
@@ -35,7 +35,7 @@ class _TestDiff(unittest.TestCase):
             test = 1
         finally:
             if test == 0:
-                print "I recieved %s. But it should be (3, ??)" % (tmp,)
+                print ("I recieved %s. But it should be (3, ??)" % (tmp,))
 
     def test4(self):
         """
@@ -63,4 +63,3 @@ class TestBackward(_TestDiff):
 del _TestDiff	
 if __name__ == '__main__':
     unittest.main()
-    print pygsl.diff.__doc__

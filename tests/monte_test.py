@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import print_function
+import sys
 import types
 import pygsl._numobj as Numeric
 import pygsl.monte as monte
@@ -6,6 +8,16 @@ import pygsl.rng
 
 import unittest
 
+_floatType = type(1.0)
+
+if sys.version_info.major <3:
+    _longType = types.LongType
+    _intType = types.IntType
+    #print("check int ", _intType)
+else:
+    _intType = type(1)
+    _longType = _intType
+    
 def g(k, params):
     return k[0]
 
@@ -49,7 +61,16 @@ class _Advanced(_Basis, unittest.TestCase):
         assert(self.s.get_alpha() == testvalue)
 
     def _checkvariable_readonly(self, getm, mytype, defaultvalue):
-        assert(type(getm()) == mytype)
+        check = getm()
+        checktype = type(check)
+
+        test = 0
+        try:
+            assert(checktype == mytype)
+            test = 1
+        finally:
+            if test == 0:
+                print("checktype = '%s' mytype '%s'" %(checktype, mytype))
         var = getm()
         try:
             test = 0
@@ -57,7 +78,7 @@ class _Advanced(_Basis, unittest.TestCase):
             test = 1
         finally:
             if test == 0:
-                print "Value of test variable was %s. I expected %s" %(var, defaultvalue)
+                print ("Value of test variable was %s. I expected %s" %(var, defaultvalue))
                 
 class _Plain:
     _implementation = monte.plain
@@ -80,24 +101,25 @@ class VegasSimple(_Vegas, _Simple):
 class PlainAdvanced(_Plain, _Advanced):
     pass
 
+
 class MiserAdvanced(_Miser, _Advanced):
     def test_alpha(self):
-        self._checkvariable(self.s.get_alpha, self.s.set_alpha, types.FloatType, 2.0, 1.0)
+        self._checkvariable(self.s.get_alpha, self.s.set_alpha, _floatType, 2.0, 1.0)
         
     def test_dither(self):
-        self._checkvariable(self.s.get_dither, self.s.set_dither, types.FloatType, 0.0, 0.1)
+        self._checkvariable(self.s.get_dither, self.s.set_dither, _floatType, 0.0, 0.1)
 
     def test_estimate_frac(self):
-        self._checkvariable(self.s.get_estimate_frac, self.s.set_estimate_frac, types.FloatType, 0.1, 2.1)
+        self._checkvariable(self.s.get_estimate_frac, self.s.set_estimate_frac, _floatType, 0.1, 2.1)
 
     def test_min_calls(self):
-        self._checkvariable(self.s.get_min_calls, self.s.set_min_calls, types.IntType, 16*1, 5000)
+        self._checkvariable(self.s.get_min_calls, self.s.set_min_calls, _longType, 16*1, 5000)
 
     def test_min_calls_positive(self):   
         self.assertRaises(ValueError, self.s.set_min_calls, -1)
 
     def test_min_calls_per_bisection(self):
-        self._checkvariable(self.s.get_min_calls_per_bisection, self.s.set_min_calls_per_bisection, types.IntType, 32*16*1, 5000)
+        self._checkvariable(self.s.get_min_calls_per_bisection, self.s.set_min_calls_per_bisection, _longType, 32*16*1, 5000)
 
     def test_min_calls_per_bisection_positive(self):   
         self.assertRaises(ValueError, self.s.set_min_calls_per_bisection, -1)
@@ -105,45 +127,50 @@ class MiserAdvanced(_Miser, _Advanced):
 class VegasAdvanced(_Vegas, _Advanced):
     def test_result(self):
         calls = 100
-	res, err = self.s.integrate(self.sys, self.xl, self.xu, calls,
-                                       self.r)
-        assert(type(self.s.get_result()) == types.FloatType)
+        res, err = self.s.integrate(self.sys, self.xl, self.xu, calls,
+                                    self.r)
+        assert(type(self.s.get_result()) == _floatType)
         assert(Numeric.absolute(self.s.get_result() - res) < 0.01)
         
     def test_alpha(self):
-        self._checkvariable(self.s.get_alpha, self.s.set_alpha, types.FloatType, 1.5, 1.9)
+        self._checkvariable(self.s.get_alpha, self.s.set_alpha, _floatType, 1.5, 1.9)
 
     def test_chisq(self):
-        self._checkvariable_readonly(self.s.get_chisq, types.FloatType, 0.0)
+        self._checkvariable_readonly(self.s.get_chisq, _floatType, 0.0)
         
     def test_iterations(self):
-        self._checkvariable(self.s.get_iterations, self.s.set_iterations, types.IntType, 5, 1)
+        self._checkvariable(self.s.get_iterations, self.s.set_iterations, _longType, 5, 1)
 
     def test_iterations_positive(self):   
         self.assertRaises(ValueError, self.s.set_iterations, -1)
 
     def test_mode(self):
-        self._checkvariable(self.s.get_mode, self.s.set_mode, types.IntType,
+        self._checkvariable(self.s.get_mode, self.s.set_mode, _intType,
                             monte.VEGAS_MODE_IMPORTANCE,
                             monte.VEGAS_MODE_IMPORTANCE_ONLY)
         
-        self._checkvariable(self.s.get_mode, self.s.set_mode, types.IntType,
+        self._checkvariable(self.s.get_mode, self.s.set_mode, _intType,
                             monte.VEGAS_MODE_IMPORTANCE,
                             monte.VEGAS_MODE_STRATIFIED)
 
     def test_stage(self):
-        self._checkvariable(self.s.get_stage, self.s.set_stage, types.IntType, 0, 2)
+        self._checkvariable(self.s.get_stage, self.s.set_stage, _intType, 0, 2)
 
     def test_verbose(self):
-        self._checkvariable(self.s.get_stage, self.s.set_stage, types.IntType, 0, 2)
+        self._checkvariable(self.s.get_stage, self.s.set_stage, _intType, 0, 2)
 
     def test_ostream(self):
         myfile = open('out', 'w')
         self.s.set_ostream(myfile)
+        myfile.close()
+        del myfile
 
         myfile = open('out', 'r')
+        myfile.close()
+        del myfile
         import sys
         self.s.set_ostream(sys.stderr)
+
         
 del _Simple
 del _Advanced

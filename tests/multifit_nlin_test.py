@@ -107,7 +107,7 @@ class DefaultCase(unittest.TestCase):
             #       )
             #raw_input()
         else:
-            raise ValueError, "Number of Iterations exceeded!"
+            raise ValueError("Number of Iterations exceeded!")
         #print "Convereged :"        
         #print "%5d % .7f % .7f  %.7f  % .7f" %(iter, x[0], x[1], x[2], fn)
         assert(Numeric.absolute(x[0] - self.A) < _eps)

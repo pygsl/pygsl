@@ -49,7 +49,7 @@ class DefaultCase(unittest.TestCase):
             if status == 0:
                 break
         else:
-            raise ValueError, "Number of Iterations exceeded!"
+            raise ValueError("Number of Iterations exceeded!")
     
         assert(Numeric.absolute(x[0] - 1)<1e-6)
         assert(Numeric.absolute(x[1] - 1)<1e-6)

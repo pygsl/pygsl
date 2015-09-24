@@ -47,7 +47,7 @@ class DefaultTest(unittest.TestCase):
             if status == 0:
                 break
         else:
-            raise ValueError, "Exeeded maximum number of iterations!"
+            raise ValueError("Exeeded maximum number of iterations!")
         assert(Numeric.absolute(r-r_expected) < _eps)
             #print "%5d [%.7f %.7f]  %.7f  % .6f % .6f" %(iter, x_lo, x_up, r, r -r_expected, x_up - x_lo)
         #print "Convereged :"    
@@ -101,7 +101,7 @@ class FdFTest(DefaultTest):
             if ok == 0:
                 break
         else:
-            raise ValueError, "Exeeded maximum number of iterations!"
+            raise ValueError("Exeeded maximum number of iterations!")
         assert(Numeric.absolute(r-r_expected) < _eps)
         
     def test_newton(self):

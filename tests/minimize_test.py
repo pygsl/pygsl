@@ -37,7 +37,7 @@ class MinTest(unittest.TestCase):
             if status == 0:
                 break
         else:
-            raise ValueError, "Number of Iterations exceeded!"
+            raise ValueError("Number of Iterations exceeded!")
         assert(Numeric.absolute(m - m_expected)<0.001)
         
     def test_brent(self):

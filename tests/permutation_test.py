@@ -9,7 +9,7 @@ class P(unittest.TestCase):
         self.p = permutation.Permutation(self.mylen)
 
     def testlen(self):
-        assert(type(len(self.p)) == types.IntType)
+        assert(type(len(self.p)) == type(1))
         assert(len(self.p) == self.mylen)
 
     def testinversions(self):

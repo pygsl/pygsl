@@ -1,4 +1,6 @@
+
 # Author : Pierre Schnizer 
+from __future__ import print_function
 import sys
 import pygsl._numobj as numx
 import pygsl
@@ -46,9 +48,6 @@ def test_evolve_bsimp():
     while t<t1:
         t, h, y = evolve.apply(t, t1, h, y)
 
-
-
-    sys.stdout = file
     h = 1
     t = 0.0
     t1 = 100.0
@@ -65,7 +64,7 @@ def test_evolve():
     t = 0.0
     t1 = 1.0
     y = numx.array([1.0, 0.0])
-    print  step.name(), step.order()
+    print(step.name(), step.order())
     while t<t1:
         t, h, y = evolve.apply(t, t1, h, y)
 
@@ -83,9 +82,9 @@ def test_evolve():
              odeiv.step_gear2)
     for s in steps:
         step = s(dimension, func, None, mu)
-        print  step.name(), step.order()
+        print(step.name(), step.order())
         control = odeiv.control_y_new(step, 1e-6, 1e-6)
-        print control.name()
+        print(control.name())
         evolve  = odeiv.evolve(step, control, dimension)
         h = 1
         t = 0.0
@@ -104,7 +103,7 @@ def test_evolve():
         evolve.reset()
         while t<t1:
             t, h, y = evolve.apply(t, t1, h, y)
-	    y = y
+            y = y
 
         
 def test_memory_usage():
