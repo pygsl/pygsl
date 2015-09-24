@@ -287,7 +287,7 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 #ifdef PyGSL_PY3K
 #define _PyGSL_WRAP_LONG_FROM_PyObject(src) PyLong_AS_LONG(((src)))
 #else
-#define _PyGSL_WRAP_LONG_FROM_PyObject(src) PyInt_AS_LONG(((src)))
+#define _PyGSL_WRAP_LONG_FROM_PyObject(src) ( PyInt_AsLong(((src))) )
 #endif
 
 static PyArrayObject * 
@@ -363,7 +363,10 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 	       return NULL;
 	  }
 
-     }     
+     }
+     DEBUG_MESS(2, "Creating an array for a matrix with dimensions %ld %ld",
+		(long) dimensions[0], (long) dimensions[1]);
+
      a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, array_type);
      if(NULL == a_array){
 	  return NULL;
