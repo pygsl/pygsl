@@ -3,16 +3,9 @@ import types
 import unittest
 import math
 import copy
-
-import os
-import sys
-_local_dir = os.path.abspath(os.getcwd())
-print (_local_dir)
-sys.path.insert(0, _local_dir)
 import pygsl
-print(pygsl)
-
 numx =  pygsl._numobj
+
 import pygsl._mlab as MLab
 import pygsl.rng as rngmodule
 import sys
