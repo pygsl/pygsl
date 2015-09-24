@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# Author : Pierre Schnizer 
+# Author : Pierre Schnizer
+from __future__ import print_function
 import types
 import tempfile
 import pygsl
@@ -79,7 +80,7 @@ class _DefaultTestCase(unittest.TestCase):
             return self._get_function_ui(suffix)
         else:
             tmp = str(self._retrieve)
-            raise ValueError, "Unknown switch for _retrieve: " + tmp
+            raise ValueError("Unknown switch for _retrieve: " + tmp)
         
     def test_0_matrixtype(self):
         test = 0
@@ -88,7 +89,7 @@ class _DefaultTestCase(unittest.TestCase):
             test = 1
         finally:
             if test == 0:
-                print "Expected a type of %s but got a type of %s" %(ArrayType, type(self.array))
+                print("Expected a type of %s but got a type of %s" %(ArrayType, type(self.array)))
     def tearDown(self):
         self._mytearDown()
 
@@ -278,42 +279,42 @@ class SetIdentityShortMatrixUITestCase(_ShortMatrixTestCase,
                                        ):
     pass
 
-class SetIdentityCharMatrixTestCase(_CharMatrixTestCase,
-                                    _UIAccess,
-                                    _SetIdentityMatrixTestCase,
-                                    ):
-    def test_2_diagonale(self):
-        for i in range(self.size):            
-            assert myord(self.array[i,i][0]) == 1, "Diagonale not one !"
+#class SetIdentityCharMatrixTestCase(_CharMatrixTestCase,
+#                                    _UIAccess,
+#                                    _SetIdentityMatrixTestCase,
+#                                    ):
+#    def test_2_diagonale(self):
+#        for i in range(self.size):            
+#            assert myord(self.array[i,i][0]) == 1, "Diagonale not one !"
+#
+#    def test_3_diagonale(self):
+#        for i in range(self.size):
+#            for j in range(self.size):
+#                if i == j :
+#                    continue
+#                test = 0
+#                try:
+#                    assert myord(self.array[i,j][0]) ==  0, "Of Diagonale not zero!"
+#                    test = 1
+#                finally:
+#                    if test == 0:
+#                        print(self.array)
+#                        print(self.array[i,j])
 
-    def test_3_diagonale(self):
-        for i in range(self.size):
-            for j in range(self.size):
-                if i == j :
-                    continue
-                test = 0
-                try:
-                    assert myord(self.array[i,j][0]) ==  0, "Of Diagonale not zero!"
-                    test = 1
-                finally:
-                    if test == 0:
-                        print self.array
-                        print self.array[i,j]
-
-class SetIdentityCharMatrixTestCase(_CharMatrixTestCase,
-                                    _DirectAccess,
-                                    _SetIdentityMatrixTestCase,
-                                    ):
-    def test_2_diagonale(self):
-        for i in range(self.size):
-            assert myorda(self.array[i,i]) == 1, "Diagonale not one !"
-            
-    def test_3_diagonale(self):
-        for i in range(self.size):
-            for j in range(self.size):
-                if i == j :
-                    continue                
-                assert myorda(self.array[i,j]) ==  0, "Of Diagonale not zero!"
+#class SetIdentityCharMatrixTestCase(_CharMatrixTestCase,
+#                                    _DirectAccess,
+#                                    _SetIdentityMatrixTestCase,
+#                                    ):
+#    def test_2_diagonale(self):
+#        for i in range(self.size):
+#            assert myorda(self.array[i,i]) == 1, "Diagonale not one !"
+#            
+#    def test_3_diagonale(self):
+#        for i in range(self.size):
+#            for j in range(self.size):
+#                if i == j :
+#                    continue                
+#                assert myorda(self.array[i,j]) ==  0, "Of Diagonale not zero!"
 
         
 class _SetZeroMatrixTestCase(_DefaultMatrixTestCase):
@@ -340,7 +341,7 @@ class _SetZeroMatrixTestCase(_DefaultMatrixTestCase):
             test = 1
         finally:
             if test == 0:
-                print self, tmp
+                print(self, tmp)
                 
         assert tmp(self.array)
         
@@ -430,35 +431,35 @@ class SetZeroShortMatrixUITestCase(_ShortMatrixTestCase,
                                  ):
     pass
 
-class SetZeroCharMatrixTestCase(_CharMatrixTestCase,
-                                _DirectAccess,
-                                _SetZeroMatrixTestCase,
-                                ):
-    def test_2_all(self):
-        for i in range(self.size):
-            for j in range(self.size):
-                test = 0
-                try:
-                    assert myorda(self.array[i,j]) ==  0, "Of Diagonale not zero!"
-                    test = 1
-                finally:
-                    if test == 0:
-                        print repr(self.array[i,j])
-                        
-class SetZeroCharMatrixUITestCase(_CharMatrixTestCase,
-                                _UIAccess,
-                                _SetZeroMatrixTestCase,
-                                ):
-    def test_2_all(self):
-        for i in range(self.size):
-            for j in range(self.size):
-                test = 0
-                try:
-                    assert myorda(self.array[i,j]) ==  0, "Of Diagonale not zero!"
-                    test = 1
-                finally:
-                    if test == 0:
-                        print repr(self.array[i,j])
+#class SetZeroCharMatrixTestCase(_CharMatrixTestCase,
+#                                _DirectAccess,
+#                                _SetZeroMatrixTestCase,
+#                                ):
+#    def test_2_all(self):
+#        for i in range(self.size):
+#            for j in range(self.size):
+#                test = 0
+#                try:
+#                    assert myorda(self.array[i,j]) ==  0, "Of Diagonale not zero!"
+#                    test = 1
+#                finally:
+#                    if test == 0:
+#                        print( repr(self.array[i,j]))
+#                        
+#class SetZeroCharMatrixUITestCase(_CharMatrixTestCase,
+#                                _UIAccess,
+#                                _SetZeroMatrixTestCase,
+#                                ):
+#    def test_2_all(self):
+#        for i in range(self.size):
+#            for j in range(self.size):
+#                test = 0
+#                try:
+#                    assert myorda(self.array[i,j]) ==  0, "Of Diagonale not zero!"
+#                    test = 1
+#                finally:
+#                    if test == 0:
+#                        print(repr(self.array[i,j]))
 
 
 
@@ -576,19 +577,19 @@ class _MatrixSetup:
             for j in range(self.size):
                 assert myorda(self.array[i,j]) == 137, "Of Diagonale not zero!"
     
-class SetAllCharMatrixTestCase(_CharMatrixTestCase,
-                               _DirectAccess,
-                               _MatrixSetup,
-                               _SetAllMatrixTestCase,
-                               ):
-    pass
-
-class SetAllCharMatrixUITestCase(_CharMatrixTestCase,
-                                 _UIAccess,
-                                 _MatrixSetup,
-                                 _SetAllMatrixTestCase,
-                                ):
-    pass
+#class SetAllCharMatrixTestCase(_CharMatrixTestCase,
+#                               _DirectAccess,
+#                               _MatrixSetup,
+#                               _SetAllMatrixTestCase,
+#                               ):
+#    pass
+#
+#class SetAllCharMatrixUITestCase(_CharMatrixTestCase,
+#                                 _UIAccess,
+#                                 _MatrixSetup,
+#                                 _SetAllMatrixTestCase,
+#                                ):
+#    pass
 
 class _DiagonalMatrixTestCase(_DefaultMatrixTestCase):
     size = 4
@@ -622,13 +623,13 @@ class _DiagonalMatrixTestCase(_DefaultMatrixTestCase):
         function = self._get_function('diagonal')
         tmp = function(self.array)
         for i in range(self.size):
-            msg = "Error in getting diagonal! tmp[+"+`i`+"] = " + `tmp`
+            msg = "Error in getting diagonal! tmp[%d] = %s" %(i, tmp)
             #assert tmp[i] ==  i, msg
 
     def test_4_diagonaltranspose(self):
         tmp = self._gettranspose()
         for i in range(self.size):
-            msg = "Error in getting diagonal! tmp[+"+`i`+"] = " + `tmp`
+            msg = "Error in getting diagonal! tmp[%d] = %s" %(i, tmp)
             #assert tmp[i,i] ==  i, msg
 
     def test_5_super_diagonal(self):
@@ -645,7 +646,7 @@ class _DiagonalMatrixTestCase(_DefaultMatrixTestCase):
         for j in range(1,self.size):
             tmp = function(array, j)
             for i in range(self.size - j):
-                msg = "Error in getting super diagonal! tmp[+"+`i`+"] = " + `tmp`
+                msg = "Error in getting super diagonal! tmp[%d] = '%s'" % (i, tmp)
                 #assert tmp[i,j] == i*1+j, msg
     
                 
@@ -1162,33 +1163,33 @@ class _CharVectorSetup:
     #        assert ord(self.array[i][0]) ==  0, \
     #               "Off Diagonale not zero!"
     
-class SetBasisCharVectorUITestCase(_CharVectorTestCase,
-                                   _UIAccess,
-                                   _CharVectorSetup,
-                                   _SetBasisVectorTestCase,
-                                 ):
-    def test_2_diagonale(self):
-        assert myord(self.array[self.basis]) == 1, "Basis not one !"
-
-    def test_3_diagonale(self):
-        for i in range(self.size):
-            if i == self.basis :
-                continue                
-            assert myord(self.array[i]) ==  0, "Basis not zero!"
-
-class SetBasisCharVectorTestCase(_CharVectorTestCase,
-                                 _DirectAccess,
-                                 _CharVectorSetup,
-                                 _SetBasisVectorTestCase,
-                                 ):
-    def test_2_diagonale(self):
-        assert myord(self.array[self.basis]) == 1, "Basis not one !"
-
-    def test_3_diagonale(self):
-        for i in range(self.size):
-            if i == self.basis :
-                continue                
-            assert myord(self.array[i]) ==  0, "Basis not zero!"
+#class SetBasisCharVectorUITestCase(_CharVectorTestCase,
+#                                   _UIAccess,
+#                                   _CharVectorSetup,
+#                                   _SetBasisVectorTestCase,
+#                                 ):
+#    def test_2_diagonale(self):
+#        assert myord(self.array[self.basis]) == 1, "Basis not one !"
+#
+#    def test_3_diagonale(self):
+#        for i in range(self.size):
+#            if i == self.basis :
+#                continue                
+#            assert myord(self.array[i]) ==  0, "Basis not zero!"
+#
+#class SetBasisCharVectorTestCase(_CharVectorTestCase,
+#                                 _DirectAccess,
+#                                 _CharVectorSetup,
+#                                 _SetBasisVectorTestCase,
+#                                 ):
+#    def test_2_diagonale(self):
+#        assert myord(self.array[self.basis]) == 1, "Basis not one !"
+#
+#    def test_3_diagonale(self):
+#        for i in range(self.size):
+#            if i == self.basis :
+#                continue                
+#            assert myord(self.array[i]) ==  0, "Basis not zero!"
 
         
 class _SetZeroVectorTestCase(_DefaultVectorTestCase):
@@ -1296,28 +1297,28 @@ class SetZeroShortVectorUITestCase(_ShortVectorTestCase,
                                  ):
     pass
 
-class SetZeroCharVectorTestCase(_CharVectorTestCase,
-                                _DirectAccess,
-                                _SetZeroVectorTestCase,
-                                ):
-    def test_2_all(self):
-        for i in range(self.size):
-            test = 0
-            cztmp = myorda(self.array[i])
-            try:
-                assert cztmp  ==  0, "Of Diagonale not zero!"
-                test = 1
-            finally:
-                if test == 0:
-                    print "Of Diagonale not zero (but %s) for class %s !" (cztmp, self)
+#class SetZeroCharVectorTestCase(_CharVectorTestCase,
+#                                _DirectAccess,
+#                                _SetZeroVectorTestCase,
+#                                ):
+#    def test_2_all(self):
+#        for i in range(self.size):
+#            test = 0
+#            cztmp = myorda(self.array[i])
+#            try:
+#                assert cztmp  ==  0, "Of Diagonale not zero!"
+#                test = 1
+#            finally:
+#                if test == 0:
+#                    print("Of Diagonale not zero (but %s) for class %s !" (cztmp, self))
                     
-class SetZeroCharVectorUITestCase(_CharVectorTestCase,
-                                _UIAccess,
-                                _SetZeroVectorTestCase,
-                                ):
-    def test_2_all(self):
-        for i in range(self.size):
-            assert myorda(self.array[i]) ==  0, "Of Diagonale not zero!"
+#class SetZeroCharVectorUITestCase(_CharVectorTestCase,
+#                                _UIAccess,
+#                                _SetZeroVectorTestCase,
+#                                ):
+#    def test_2_all(self):
+#        for i in range(self.size):
+#            assert myorda(self.array[i]) ==  0, "Of Diagonale not zero!"
 
 
 class _SetAllVectorTestCase(_DefaultVectorTestCase):
@@ -1340,8 +1341,8 @@ class _SetAllVectorTestCase(_DefaultVectorTestCase):
                 test = 1
             finally:
                 if test == 0:
-                    print type(self.array), get_typecode(self.array)
-                    print "self.array[%d]  was %s" %(i, tmp)
+                    print(type(self.array), get_typecode(self.array))
+                    print( "self.array[%d]  was %s" %(i, tmp))
         
     def _mytearDown(self):
         del self.array
@@ -1430,18 +1431,18 @@ class SetAllShortVectorUITestCase(_ShortVectorTestCase,
     pass
 
     
-class SetAllCharVectorTestCase(_CharVectorTestCase,
-                               _DirectAccess,
-                               _CharVectorSetup,
-                               _SetAllVectorTestCase,
-                               ):
-    pass
-class SetAllCharVectorUITestCase(_CharVectorTestCase,
-                                 _UIAccess,
-                                 _CharVectorSetup,
-                                 _SetAllVectorTestCase,
-                                ):
-    pass
+#class SetAllCharVectorTestCase(_CharVectorTestCase,
+#                               _DirectAccess,
+#                               _CharVectorSetup,
+#                               _SetAllVectorTestCase,
+#                               ):
+#    pass
+#class SetAllCharVectorUITestCase(_CharVectorTestCase,
+#                                 _UIAccess,
+#                                 _CharVectorSetup,
+#                                 _SetAllVectorTestCase,
+#                                ):
+#    pass
 
 
 class _MinMaxVectorTestCase(_DefaultVectorTestCase):
