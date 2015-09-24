@@ -24,7 +24,7 @@ def sobol(dimension):
     Saleev, `USSR Comput. Maths. Math. Phys.' 19, 252 (1980). It is
     valid up to 40 dimensions.
     """
-    return _qrng.qrng(_qrng.sobol, dimension)
+    return _qrng.sobol(dimension)
 
 
 def niederreiter_base_2(dimension):
@@ -33,4 +33,4 @@ def niederreiter_base_2(dimension):
     Niederreiter, `ACM Trans. Model. Comp. Sim.' 2, 195 (1992). It is
     valid up to 12 dimensions.
     """
-    return _qrng.qrng(_qrng.niederreiter_base_2, dimension)
+    return _qrng.niederreiter_2(dimension)

@@ -1,20 +1,24 @@
 #!/usr/bin/env python
+from __future__ import print_function
+import sys
 import pygsl
-
-
 import pygsl.qrng as qrng
 import unittest
 import pygsl._numobj as Numeric
-import types
 import string
 import copy
 from array_check import array_check
 Float = pygsl.Float
 
+if sys.version_info[0] == 2:
+    import types
+    _UniCodeType = types.UnicodeType
+else:
+    _UniCodeType = type("")
+    
+
 class _QrngTest(unittest.TestCase):
     _type = None
-    #def testType(self):
-    #    self.assertRaises(TypeError, qrng.qrng, 2, 2)
 
     def testDims(self):
         self.assertRaises(ValueError, self._type, -1)
@@ -23,15 +27,15 @@ class _QrngTest(unittest.TestCase):
     def testName(self):
         q = self._type(2)
         name = q.name()
-        assert(type(name) == types.StringType)
+        tmp = type(name)
         test = 0
-        name = string.replace(name, '-', '_')
+        name = name.replace('-', '_')
         try:
             assert(name == self._name)
             test = 1
         finally:
             if test == 0:
-                print "Expected name %s, but got name %s " % (name, self._name)
+                print ("Expected name %s, but got name %s " % (name, self._name))
 
     def testGet(self):
         """
