@@ -308,7 +308,7 @@ PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p
      data4 = (double *)PyArray_DATA(result4);
 
      ret =  eval(l_min, nmax, x, x1, data1, data2,
-		 data3, data3, &exponent1, &exponent2);
+		 data3, data4, &exponent1, &exponent2);
      FUNC_MESS_END();
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
