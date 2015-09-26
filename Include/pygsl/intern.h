@@ -41,7 +41,7 @@ static void **PyGSL_API;
  * The version of the API. Allows to check if the used 
  * API is correct.
  */
-#define PyGSL_API_VERSION       ((unsigned int) ( 0x01u))
+#define PyGSL_API_VERSION       ((unsigned long) ( 0x10u))
 /* Functions found in the file <pygsl/error_helpers.h> */
 #define PyGSL_api_version_NUM                           0
 #define PyGSL_error_flag_NUM                            1
@@ -197,7 +197,7 @@ static const char pygsl_api_name[] = "pygsl_api";
 #define init_pygsl()\
 { \
    PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
-   unsigned int version;\
+   unsigned long version;\
    if ( \
       (pygsl = PyImport_ImportModule("pygsl.init"))    != NULL && \
       (md = PyModule_GetDict(pygsl))                   != NULL && \
@@ -205,9 +205,9 @@ static const char pygsl_api_name[] = "pygsl_api";
       (PyCapsule_CheckExact(c_api))                                    \
      ) { \
      PyGSL_API = (void **)PyCapsule_GetPointer(c_api, pygsl_api_name);		    \
-         version = (unsigned int) PyGSL_API[PyGSL_api_version_NUM]; \
+     version = (unsigned long) PyGSL_API[PyGSL_api_version_NUM];		\
          if (PyGSL_API_VERSION != version ){ \
-            fprintf(stderr, "Compiled for PyGSL_API_VERSION 0x%x but found 0x%x! In File %s\n", PyGSL_API_VERSION, version, __FILE__); \
+            fprintf(stderr, "Compiled for PyGSL_API_VERSION 0x%lx but found 0x%lx! In File %s\n", PyGSL_API_VERSION, version, __FILE__); \
          } \
          PyGSL_SET_ERROR_HANDLER(); \
          PyGSL_CHECK_ERROR_HANDLER(); \
