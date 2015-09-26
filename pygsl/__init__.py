@@ -63,6 +63,9 @@ finally:
     if __test == 0:
         sys.stderr.write(_init_import_errm)
 
+from . import  _version
+version= _version.version
+
 # Central Module used by C callbacks. So a good idea to import it here to be
 # sure that  it exists from the very beginning!
 import pygsl.errors
@@ -70,7 +73,8 @@ import pygsl.errors
 pygsl.init.register_exceptions(*(pygsl.errors.get_exceptions()))
 pygsl.init.register_warnings(*(pygsl.errors.get_warnings()))
 
-if sys.version_info.major < 3:
+
+if sys.version_info[0] < 3:
     from exceptions import Warning
 
 # The gsl version which was used when this module was compiled.
@@ -84,8 +88,6 @@ compile_date = pygsl.init.compile_date
 
 from . import _numobj
 from . import errno
-from . import _version
-version= _version.version
 
 
 __all__=['blas', 'chebyshev', 'combination', 'const', 'deriv', 'eigen', 'fit',

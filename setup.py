@@ -492,7 +492,7 @@ if INSTALL_HEADERS == 1:
 
 py_modules = ['pygsl.' + x for x in py_module_names] + gsldist 
 
-if sys.version_info.major <= 2:
+if sys.version_info[0] <= 2:
     exts = exts + extsOnly2
     sys.stdout.write("Bulding for '%s'\n" %(sys.version,))
     

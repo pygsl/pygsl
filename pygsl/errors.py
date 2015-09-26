@@ -8,7 +8,8 @@
 #       error numbers. Needed to translate error numbers to the approbriate
 #       exception. See Lib/error_helpers.c
 import sys
-if sys.version_info.major < 3:
+
+if sys.version_info[0] < 3:
     import exceptions
     Exception = exceptions.Exception
     Warning = exceptions.Warning
