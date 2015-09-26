@@ -19,8 +19,8 @@ _pygsl_bspline_eval_dep(struct pygsl_bspline *self, double x,
 
 	flag = gsl_bspline_eval(x, &(self->tmp.vector), self->w);
 	if(flag != GSL_SUCCESS){
-		fprintf(stderr, "vector length %d workspace n coeffs %d\n",
-			self->tmp.vector.size, self->w->n);
+		fprintf(stderr, "vector length %ld workspace n coeffs %ld\n",
+			(long) self->tmp.vector.size, (long) self->w->n);
 		lineno = __LINE__ -2;
 		goto fail;
 	}

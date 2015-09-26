@@ -838,7 +838,7 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 	       goto fail;
 
 	  DEBUG_MESS(2, "Evaluating pdf at %p",   (void *) evaluator);
-	  DEBUG_MESS(2, "Evaluating array x at %p with data at %p and strides of %d", (void *) array_x, 
+	  DEBUG_MESS(2, "Evaluating array x at %p with data at %p and strides of %ld", (void *) array_x, 
 		     (void *) PyArray_DATA(array_x), PyArray_STRIDE(array_x, 0));
 	  for(i=0; i<dimension; i++){			
 	       DEBUG_MESS(2, "Evaluating element [%d]", i);
@@ -1204,14 +1204,14 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	  goto fail;	  
      }
      k = PyArray_DIM(array_p, 0);
-     DEBUG_MESS(4, "Building Matrix. Input Object @ %p with refcount %d!", (void *) tmp1, tmp1->ob_refcnt);
+     DEBUG_MESS(4, "Building Matrix. Input Object @ %p with refcount %ld!", (void *) tmp1, tmp1->ob_refcnt);
      ainfo = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, type_3darg, 1, 2);
      array_n = PyGSL_matrix_check(tmp1, -1, k, ainfo,  NULL, NULL, NULL);
      if(array_n == NULL){
 	  line = __LINE__ - 2;
 	  goto fail;
      }
-     DEBUG_MESS(4, "Built Matrix. Object @ %p with refcount %d!", (void *) array_n, PyGSL_PY_ARRAY_GET_REFCNT(array_n));
+     DEBUG_MESS(4, "Built Matrix. Object @ %p with refcount %ld!", (void *) array_n, PyGSL_PY_ARRAY_GET_REFCNT(array_n));
      dimension = PyArray_DIM(array_n, 0);
 
      FUNC_MESS("New Array ...");
@@ -1236,7 +1236,7 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
      default:
 	  assert(0);
      }
-     DEBUG_MESS(5, "array_n has %d dimensions. dim = [%d, %d] strides = [%d,%d]",
+     DEBUG_MESS(5, "array_n has %d dimensions. dim = [%ld, %ld] strides = [%ld,%ld]",
 		PyArray_NDIM(array_n), 
 		PyArray_DIM(array_n, 0), PyArray_DIM(array_n, 1),
 		PyArray_STRIDE(array_n, 0), PyArray_STRIDE(array_n, 1));

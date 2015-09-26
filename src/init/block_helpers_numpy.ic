@@ -101,7 +101,7 @@ PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
 	  line = __LINE__ - 1;
      }
 
-     DEBUG_MESS(4, "Got an array @ %p with refcnt %d", (void *)a_array, 
+     DEBUG_MESS(4, "Got an array @ %p with refcnt %ld", (void *)a_array, 
 		PyGSL_PY_ARRAY_GET_REFCNT(a_array));
      FUNC_MESS_END();
 
@@ -178,7 +178,7 @@ PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
      if(PyGSL_PyArray_Check(a_array, array_type, flag,  2, dimensions, argnum, info) != GSL_SUCCESS)
 	  goto fail;
 
-     DEBUG_MESS(3, "a_array @ %p is a matrix with refcnt %d", (void *) a_array, 
+     DEBUG_MESS(3, "a_array @ %p is a matrix with refcnt %ld", (void *) a_array, 
 		PyGSL_PY_ARRAY_GET_REFCNT(a_array));
      FUNC_MESS_END();
      return a_array;

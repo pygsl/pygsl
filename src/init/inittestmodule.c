@@ -8,7 +8,7 @@ static PyObject * module = NULL;
 static PyObject*
 PyGSL_test_GetPTR1(PyObject *self, PyObject *args)
 {
-	PyObject * tmp1, *tmp2=NULL;
+	PyObject * tmp1=NULL;
 	PyArrayObject * a = NULL;
 	void *v =NULL, *ptr1=NULL, *vtest=NULL, *ptr2=NULL;
 	char *cptr=NULL, *ctest;
@@ -39,10 +39,10 @@ PyGSL_test_GetPTR1(PyObject *self, PyObject *args)
 		ctest = cptr + stride * cnt;
 
 		if ((ptr1 == vtest) && (ptr1 == vtest)){	       	
-			DEBUG_MESS(2, "cnt = %3d:  ptr1 = data = bytes %p;",
-				   cnt, ptr1, ptr2);
+			DEBUG_MESS(2, "cnt = %3ld:  ptr1 = data = bytes %p;",
+				   cnt, ptr1);
 		} else{
-		DEBUG_MESS(2, "cnt = %3d:  ptr1 = %p, data = %p  (%s), bytes = %p (%s)",
+		DEBUG_MESS(2, "cnt = %3ld:  ptr1 = %p, data = %p  (%s), bytes = %p (%s)",
 			   cnt, (void *)ptr1,  (void *)vtest,
 			   ptr1 == vtest ? "TRUE" : "FALSE",
 			   (void *)ctest,
