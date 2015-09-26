@@ -218,7 +218,7 @@ pygsl_transform = gsl_Extension("_transform",
                            gsl_min_version=(1,'0+'),
                            python_min_version=(2,1)
                            )
-extsOnly2.append(pygsl_transform)
+exts.append(pygsl_transform)
 
 pygsl_rng=gsl_Extension("rng",
                         ['src/rng/rngmodule.c'],
@@ -275,7 +275,7 @@ pygsl_qrng=gsl_Extension("_qrng",
                          define_macros = macros,
                          python_min_version=(2,1)
                          )
-extsOnly2.append(pygsl_qrng)
+exts.append(pygsl_qrng)
 
 pygsl_statistics_basis=gsl_Extension("statistics._stat",
                                      ['src/statistics/_statmodule.c'],
