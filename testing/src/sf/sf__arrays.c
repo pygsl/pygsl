@@ -32,11 +32,11 @@ PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args,
 			  "Nmax must be bigger or equal to nmin!");
      }
      dimension = gsl_sf_legendre_array_size(lmax, m);
-     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
-     data = (double *) result->data;
+     data = (double *) PyArray_DATA(result);
      ret =  eval(lmax, m, x, data);
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
@@ -72,11 +72,11 @@ PyGSL_sf_array_evaluator_iid_ad(PyObject *self, PyObject *args,
 			  "Nmax must be bigger or equal to nmin!");
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
-     data = (double *) result->data;
+     data = (double *) PyArray_DATA(result);
      ret =  eval(nmin, nmax, x, data);
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
@@ -109,11 +109,11 @@ PyGSL_sf_array_evaluator_id_ad(PyObject *self, PyObject *args, array_p_evaluator
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
-     data = (double *) result->data;
+     data = (double *) PyArray_DATA(result);
      ret =  eval(nmax, x, data);
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
@@ -145,11 +145,11 @@ PyGSL_sf_array_evaluator_idd_ad(PyObject *self, PyObject *args, array_p_evaluato
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
-     data = (double *) result->data;
+     data = (double *) PyArray_DATA(result);
      ret =  eval(nmax, x, x1, data);
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
@@ -175,11 +175,11 @@ PyGSL_sf_array_evaluator_did_ad(PyObject *self, PyObject *args, array_p_evaluato
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
-     data = (double *) result->data;
+     data = (double *) PyArray_DATA(result);
      ret =  eval(nmax, x, x1, data);
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
@@ -211,11 +211,11 @@ PyGSL_sf_array_evaluator_didd_add(PyObject *self, PyObject *args, array_p_evalua
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
-     data = (double *) result->data;
+     data = (double *) PyArray_DATA(result);
      ret =  eval(l_min, nmax, x, x1, data, &exponent);
      FUNC_MESS_END();
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
@@ -246,15 +246,15 @@ PyGSL_sf_array_evaluator_didd_addadd(PyObject *self, PyObject *args, array_p_eva
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result1 = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result1 = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result1 == NULL)
 	  goto fail;
-     result2 = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result2 = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result2 == NULL)
 	  goto fail;
 
-     data1 = (double *) result1->data;
-     data2 = (double *) result2->data;
+     data1 = (double *) PyArray_DATA(result1);
+     data2 = (double *) PyArray_DATA(result2);
 
      ret =  eval(l_min, nmax, x, x1, data1, &exponent1, data2, &exponent2);
      FUNC_MESS_END();
@@ -276,7 +276,7 @@ PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p
 {
      PyArrayObject *result1 = NULL,*result2 = NULL, *result3=NULL,*result4=NULL;
      int nmin=0, nmax=0, dimension = 0, ret;
-     double x=0, x1=0, l_min, exponent1, exponent2;
+     double x=0, x1=0, l_min, exponent1, exponent2, *data1=NULL,*data2=NULL, *data3=NULL, *data4=NULL;
 
 
      FUNC_MESS_BEGIN();
@@ -289,22 +289,26 @@ PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result1 = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result1 = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result1 == NULL)
 	  goto fail;
-     result2 = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result2 = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result2 == NULL)
 	  goto fail;
-     result3 = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result3 = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result3 == NULL)
 	  goto fail;
-     result4 = (PyArrayObject *) PyArray_FromDims(1, &dimension, PyArray_DOUBLE);
+     result4 = (PyArrayObject *) PyArray_FromDims(1, &dimension, NPY_DOUBLE);
      if(result4 == NULL)
 	  goto fail;
 
+     data1 = (double *)PyArray_DATA(result1);
+     data2 = (double *)PyArray_DATA(result2);
+     data3 = (double *)PyArray_DATA(result3);
+     data4 = (double *)PyArray_DATA(result4);
 
-     ret =  eval(l_min, nmax, x, x1, (double *) result1->data, (double *)result2->data,
-		 (double *) result3->data, (double *)result4->data, &exponent1, &exponent2);
+     ret =  eval(l_min, nmax, x, x1, data1, data2,
+		 data3, data3, &exponent1, &exponent2);
      FUNC_MESS_END();
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;

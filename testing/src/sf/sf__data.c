@@ -1417,8 +1417,8 @@ static  char * PyGSL_sf_ufunc_pD_DD__one_doc =
 "     1 output args :  D \n";
 
 
-static char PyGSL_sf_ufunc_pD_DD__one_types [] = { PyArray_CDOUBLE, PyArray_CDOUBLE, PyArray_CDOUBLE, 
-                                                  PyArray_CDOUBLE, PyArray_CDOUBLE, PyArray_CDOUBLE };
+static char PyGSL_sf_ufunc_pD_DD__one_types [] = { NPY_CDOUBLE, NPY_CDOUBLE, NPY_CDOUBLE, 
+                                                  NPY_CDOUBLE, NPY_CDOUBLE, NPY_CDOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pD_D__one_data[] = {NULL, NULL};
 
@@ -1429,8 +1429,8 @@ static  char * PyGSL_sf_ufunc_pD_D__one_doc =
 "     1 output args :  D \n";
 
 
-static char PyGSL_sf_ufunc_pD_D__one_types [] = { PyArray_CDOUBLE, PyArray_CDOUBLE, 
-                                                 PyArray_CDOUBLE, PyArray_CDOUBLE };
+static char PyGSL_sf_ufunc_pD_D__one_types [] = { NPY_CDOUBLE, NPY_CDOUBLE, 
+                                                 NPY_CDOUBLE, NPY_CDOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pD_Dd__one_data[] = {NULL, NULL};
 
@@ -1441,8 +1441,8 @@ static  char * PyGSL_sf_ufunc_pD_Dd__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pD_Dd__one_types [] = { PyArray_CDOUBLE, PyArray_FLOAT, PyArray_CDOUBLE, 
-                                                  PyArray_CDOUBLE, PyArray_DOUBLE, PyArray_CDOUBLE };
+static char PyGSL_sf_ufunc_pD_Dd__one_types [] = { NPY_CDOUBLE, NPY_FLOAT, NPY_CDOUBLE, 
+                                                  NPY_CDOUBLE, NPY_DOUBLE, NPY_CDOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pD_d__one_data[] = {NULL, NULL};
 
@@ -1453,8 +1453,8 @@ static  char * PyGSL_sf_ufunc_pD_d__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pD_d__one_types [] = { PyArray_FLOAT, PyArray_CDOUBLE, 
-                                                 PyArray_DOUBLE, PyArray_CDOUBLE };
+static char PyGSL_sf_ufunc_pD_d__one_types [] = { NPY_FLOAT, NPY_CDOUBLE, 
+                                                 NPY_DOUBLE, NPY_CDOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pD_dd__one_data[] = {NULL, NULL};
 
@@ -1465,8 +1465,8 @@ static  char * PyGSL_sf_ufunc_pD_dd__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pD_dd__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_CDOUBLE, 
-                                                  PyArray_DOUBLE, PyArray_DOUBLE, PyArray_CDOUBLE };
+static char PyGSL_sf_ufunc_pD_dd__one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_CDOUBLE, 
+                                                  NPY_DOUBLE, NPY_DOUBLE, NPY_CDOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_D__one_data[] = {NULL, NULL};
 
@@ -1477,8 +1477,8 @@ static  char * PyGSL_sf_ufunc_pd_D__one_doc =
 "     1 output args :  D \n";
 
 
-static char PyGSL_sf_ufunc_pd_D__one_types [] = { PyArray_CDOUBLE, PyArray_FLOAT, 
-                                                 PyArray_CDOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_D__one_types [] = { NPY_CDOUBLE, NPY_FLOAT, 
+                                                 NPY_CDOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_d__one_data[] = {NULL, NULL};
 
@@ -1489,8 +1489,8 @@ static  char * PyGSL_sf_ufunc_pd_d__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pd_d__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, 
-                                                 PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_d__one_types [] = { NPY_FLOAT, NPY_FLOAT, 
+                                                 NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dd__one_data[] = {NULL, NULL};
 
@@ -1501,8 +1501,8 @@ static  char * PyGSL_sf_ufunc_pd_dd__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pd_dd__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                  PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_dd__one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                  NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_ddd__one_data[] = {NULL, NULL};
 
@@ -1513,8 +1513,8 @@ static  char * PyGSL_sf_ufunc_pd_ddd__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pd_ddd__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                   PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_ddd__one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                   NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dddd__one_data[] = {NULL, NULL};
 
@@ -1525,8 +1525,8 @@ static  char * PyGSL_sf_ufunc_pd_dddd__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pd_dddd__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                    PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_dddd__one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                    NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_ddddm__one_data[] = {NULL, NULL};
 
@@ -1540,8 +1540,8 @@ static  char * PyGSL_sf_ufunc_pd_ddddm__one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_pd_ddddm__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
-                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_ddddm__one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_INT, NPY_FLOAT, 
+                                                     NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_INT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dddm__one_data[] = {NULL, NULL};
 
@@ -1555,8 +1555,8 @@ static  char * PyGSL_sf_ufunc_pd_dddm__one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_pd_dddm__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
-                                                    PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_dddm__one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_INT, NPY_FLOAT, 
+                                                    NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_INT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_ddm__one_data[] = {NULL, NULL};
 
@@ -1570,8 +1570,8 @@ static  char * PyGSL_sf_ufunc_pd_ddm__one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_pd_ddm__one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
-                                                   PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_ddm__one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_INT, NPY_FLOAT, 
+                                                   NPY_DOUBLE, NPY_DOUBLE, NPY_INT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_di__one_data[] = {NULL, NULL};
 
@@ -1582,8 +1582,8 @@ static  char * PyGSL_sf_ufunc_pd_di__one_doc =
 "     1 output args :  i \n";
 
 
-static char PyGSL_sf_ufunc_pd_di__one_types [] = { PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
-                                                  PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_di__one_types [] = { NPY_FLOAT, NPY_INT, NPY_FLOAT, 
+                                                  NPY_DOUBLE, NPY_INT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dm__one_data[] = {NULL, NULL};
 
@@ -1597,8 +1597,8 @@ static  char * PyGSL_sf_ufunc_pd_dm__one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_pd_dm__one_types [] = { PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, 
-                                                  PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_dm__one_types [] = { NPY_FLOAT, NPY_INT, NPY_FLOAT, 
+                                                  NPY_DOUBLE, NPY_INT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_dui__one_data[] = {NULL, NULL};
 
@@ -1609,8 +1609,8 @@ static  char * PyGSL_sf_ufunc_pd_dui__one_doc =
 "     1 output args :  ui \n";
 
 
-static char PyGSL_sf_ufunc_pd_dui__one_types [] = { PyArray_FLOAT, PyArray_UINT, PyArray_FLOAT, 
-                                                   PyArray_DOUBLE, PyArray_UINT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_dui__one_types [] = { NPY_FLOAT, NPY_UINT, NPY_FLOAT, 
+                                                   NPY_DOUBLE, NPY_UINT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_i__one_data[] = {NULL, NULL};
 
@@ -1621,8 +1621,8 @@ static  char * PyGSL_sf_ufunc_pd_i__one_doc =
 "     1 output args :  i \n";
 
 
-static char PyGSL_sf_ufunc_pd_i__one_types [] = { PyArray_INT, PyArray_FLOAT, 
-                                                 PyArray_INT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_i__one_types [] = { NPY_INT, NPY_FLOAT, 
+                                                 NPY_INT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_id__one_data[] = {NULL, NULL};
 
@@ -1633,8 +1633,8 @@ static  char * PyGSL_sf_ufunc_pd_id__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pd_id__one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                  PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_id__one_types [] = { NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                  NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_idd__one_data[] = {NULL, NULL};
 
@@ -1645,8 +1645,8 @@ static  char * PyGSL_sf_ufunc_pd_idd__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pd_idd__one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                   PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_idd__one_types [] = { NPY_INT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                   NPY_INT, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_iid__one_data[] = {NULL, NULL};
 
@@ -1657,8 +1657,8 @@ static  char * PyGSL_sf_ufunc_pd_iid__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pd_iid__one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                   PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_iid__one_types [] = { NPY_INT, NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                   NPY_INT, NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_iidd__one_data[] = {NULL, NULL};
 
@@ -1669,8 +1669,8 @@ static  char * PyGSL_sf_ufunc_pd_iidd__one_doc =
 "     1 output args :  d \n";
 
 
-static char PyGSL_sf_ufunc_pd_iidd__one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                    PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_iidd__one_types [] = { NPY_INT, NPY_INT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                    NPY_INT, NPY_INT, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_iiiiii__one_data[] = {NULL, NULL};
 
@@ -1681,8 +1681,8 @@ static  char * PyGSL_sf_ufunc_pd_iiiiii__one_doc =
 "     1 output args :  i \n";
 
 
-static char PyGSL_sf_ufunc_pd_iiiiii__one_types [] = { PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_FLOAT, 
-                                                      PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_iiiiii__one_types [] = { NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_FLOAT, 
+                                                      NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_iiiiiiiii__one_data[] = {NULL, NULL};
 
@@ -1693,8 +1693,8 @@ static  char * PyGSL_sf_ufunc_pd_iiiiiiiii__one_doc =
 "     1 output args :  i \n";
 
 
-static char PyGSL_sf_ufunc_pd_iiiiiiiii__one_types [] = { PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_FLOAT, 
-                                                         PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_iiiiiiiii__one_types [] = { NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_FLOAT, 
+                                                         NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_ui__one_data[] = {NULL, NULL};
 
@@ -1705,8 +1705,8 @@ static  char * PyGSL_sf_ufunc_pd_ui__one_doc =
 "     1 output args :  ui \n";
 
 
-static char PyGSL_sf_ufunc_pd_ui__one_types [] = { PyArray_UINT, PyArray_FLOAT, 
-                                                  PyArray_UINT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_ui__one_types [] = { NPY_UINT, NPY_FLOAT, 
+                                                  NPY_UINT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_pd_uiui__one_data[] = {NULL, NULL};
 
@@ -1717,8 +1717,8 @@ static  char * PyGSL_sf_ufunc_pd_uiui__one_doc =
 "     1 output args :  ui \n";
 
 
-static char PyGSL_sf_ufunc_pd_uiui__one_types [] = { PyArray_UINT, PyArray_UINT, PyArray_FLOAT, 
-                                                    PyArray_UINT, PyArray_UINT, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_pd_uiui__one_types [] = { NPY_UINT, NPY_UINT, NPY_FLOAT, 
+                                                    NPY_UINT, NPY_UINT, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_d_rd_one_data[] = {NULL, NULL};
 
@@ -1733,8 +1733,8 @@ static  char * PyGSL_sf_ufunc_qi_d_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_d_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                   PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_d_rd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                   NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_d_rdd_one_data[] = {NULL, NULL};
 
@@ -1749,8 +1749,8 @@ static  char * PyGSL_sf_ufunc_qi_d_rdd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_d_rdd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                    PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_d_rdd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                    NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_ddd_one_data[] = {NULL, NULL};
 
@@ -1764,8 +1764,8 @@ static  char * PyGSL_sf_ufunc_qi_dd_ddd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dd_ddd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dd_ddd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                     NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_rd_one_data[] = {NULL, NULL};
 
@@ -1780,8 +1780,8 @@ static  char * PyGSL_sf_ufunc_qi_dd_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dd_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                    PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dd_rd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                    NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_rdd_one_data[] = {NULL, NULL};
 
@@ -1796,8 +1796,8 @@ static  char * PyGSL_sf_ufunc_qi_dd_rdd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dd_rdd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dd_rdd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                     NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_rdrd_one_data[] = {NULL, NULL};
 
@@ -1813,8 +1813,8 @@ static  char * PyGSL_sf_ufunc_qi_dd_rdrd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dd_rdrd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dd_rdrd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                      NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ddd_erd_one_data[] = {NULL, NULL};
 
@@ -1829,8 +1829,8 @@ static  char * PyGSL_sf_ufunc_qi_ddd_erd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_ddd_erd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, 
-                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT };
+static char PyGSL_sf_ufunc_qi_ddd_erd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_INT, 
+                                                      NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_INT };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ddd_rd_one_data[] = {NULL, NULL};
 
@@ -1845,8 +1845,8 @@ static  char * PyGSL_sf_ufunc_qi_ddd_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_ddd_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_ddd_rd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                     NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dddd_rd_one_data[] = {NULL, NULL};
 
@@ -1861,8 +1861,8 @@ static  char * PyGSL_sf_ufunc_qi_dddd_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dddd_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dddd_rd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                      NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ddddm_rd_one_data[] = {NULL, NULL};
 
@@ -1878,8 +1878,8 @@ static  char * PyGSL_sf_ufunc_qi_ddddm_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_ddddm_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                       PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_ddddm_rd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                       NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_data[] = {NULL, NULL};
 
@@ -1897,8 +1897,8 @@ static  char * PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                              PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_INT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                              NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_INT, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dddm_rd_one_data[] = {NULL, NULL};
 
@@ -1914,8 +1914,8 @@ static  char * PyGSL_sf_ufunc_qi_dddm_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dddm_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                      PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dddm_rd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                      NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ddm_rd_one_data[] = {NULL, NULL};
 
@@ -1931,8 +1931,8 @@ static  char * PyGSL_sf_ufunc_qi_ddm_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_ddm_rd_one_types [] = { PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                     PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_ddm_rd_one_types [] = { NPY_FLOAT, NPY_FLOAT, NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                     NPY_DOUBLE, NPY_DOUBLE, NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_di_rd_one_data[] = {NULL, NULL};
 
@@ -1947,8 +1947,8 @@ static  char * PyGSL_sf_ufunc_qi_di_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_di_rd_one_types [] = { PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                    PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_di_rd_one_types [] = { NPY_FLOAT, NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                    NPY_DOUBLE, NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dm_rd_one_data[] = {NULL, NULL};
 
@@ -1964,8 +1964,8 @@ static  char * PyGSL_sf_ufunc_qi_dm_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dm_rd_one_types [] = { PyArray_FLOAT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                    PyArray_DOUBLE, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dm_rd_one_types [] = { NPY_FLOAT, NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                    NPY_DOUBLE, NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dui_rd_one_data[] = {NULL, NULL};
 
@@ -1980,8 +1980,8 @@ static  char * PyGSL_sf_ufunc_qi_dui_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_dui_rd_one_types [] = { PyArray_FLOAT, PyArray_UINT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                     PyArray_DOUBLE, PyArray_UINT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_dui_rd_one_types [] = { NPY_FLOAT, NPY_UINT, NPY_FLOAT, NPY_FLOAT, 
+                                                     NPY_DOUBLE, NPY_UINT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_i_rd_one_data[] = {NULL, NULL};
 
@@ -1996,8 +1996,8 @@ static  char * PyGSL_sf_ufunc_qi_i_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_i_rd_one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                   PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_i_rd_one_types [] = { NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                   NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_id_rd_one_data[] = {NULL, NULL};
 
@@ -2012,8 +2012,8 @@ static  char * PyGSL_sf_ufunc_qi_id_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_id_rd_one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                    PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_id_rd_one_types [] = { NPY_INT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                    NPY_INT, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_idd_rd_one_data[] = {NULL, NULL};
 
@@ -2028,8 +2028,8 @@ static  char * PyGSL_sf_ufunc_qi_idd_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_idd_rd_one_types [] = { PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                     PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_idd_rd_one_types [] = { NPY_INT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                     NPY_INT, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iid_erd_one_data[] = {NULL, NULL};
 
@@ -2044,8 +2044,8 @@ static  char * PyGSL_sf_ufunc_qi_iid_erd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_iid_erd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_INT, 
-                                                      PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_INT };
+static char PyGSL_sf_ufunc_qi_iid_erd_one_types [] = { NPY_INT, NPY_INT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_INT, 
+                                                      NPY_INT, NPY_INT, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_INT };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iid_rd_one_data[] = {NULL, NULL};
 
@@ -2060,8 +2060,8 @@ static  char * PyGSL_sf_ufunc_qi_iid_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_iid_rd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                     PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_iid_rd_one_types [] = { NPY_INT, NPY_INT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                     NPY_INT, NPY_INT, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iidd_rd_one_data[] = {NULL, NULL};
 
@@ -2076,8 +2076,8 @@ static  char * PyGSL_sf_ufunc_qi_iidd_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_iidd_rd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                      PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_iidd_rd_one_types [] = { NPY_INT, NPY_INT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, NPY_FLOAT, 
+                                                      NPY_INT, NPY_INT, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iiiiii_rd_one_data[] = {NULL, NULL};
 
@@ -2092,8 +2092,8 @@ static  char * PyGSL_sf_ufunc_qi_iiiiii_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_iiiiii_rd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                        PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_iiiiii_rd_one_types [] = { NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                        NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_data[] = {NULL, NULL};
 
@@ -2108,8 +2108,8 @@ static  char * PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_types [] = { PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                           PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_INT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one_types [] = { NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_FLOAT, NPY_FLOAT, 
+                                                           NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_INT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_ui_rd_one_data[] = {NULL, NULL};
 
@@ -2124,8 +2124,8 @@ static  char * PyGSL_sf_ufunc_qi_ui_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_ui_rd_one_types [] = { PyArray_UINT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                    PyArray_UINT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_ui_rd_one_types [] = { NPY_UINT, NPY_FLOAT, NPY_FLOAT, 
+                                                    NPY_UINT, NPY_DOUBLE, NPY_DOUBLE };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_uiui_rd_one_data[] = {NULL, NULL};
 
@@ -2140,6 +2140,6 @@ static  char * PyGSL_sf_ufunc_qi_uiui_rd_one_doc =
 "\n";
 
 
-static char PyGSL_sf_ufunc_qi_uiui_rd_one_types [] = { PyArray_UINT, PyArray_UINT, PyArray_FLOAT, PyArray_FLOAT, 
-                                                      PyArray_UINT, PyArray_UINT, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_uiui_rd_one_types [] = { NPY_UINT, NPY_UINT, NPY_FLOAT, NPY_FLOAT, 
+                                                      NPY_UINT, NPY_UINT, NPY_DOUBLE, NPY_DOUBLE };
 

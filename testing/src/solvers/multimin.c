@@ -135,13 +135,13 @@ PyGSL_multimin_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	  goto fail;
      }
 
-     gsl_x = gsl_vector_view_array_with_stride((double *)(xa->data), stride_recalc, xa->dimensions[0]);
+     gsl_x = gsl_vector_view_array_with_stride((double *)(PyArray_DATA(xa)), stride_recalc, PyArray_DIM(xa, 0));
      stepsa =  PyGSL_vector_check(steps, n, PyGSL_DARRAY_INPUT(5), &stride_recalc, NULL);
      if (stepsa == NULL){
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  goto fail;
      }
-     gsl_steps = gsl_vector_view_array_with_stride((double *)(stepsa->data), stride_recalc, stepsa->dimensions[0]);
+     gsl_steps = gsl_vector_view_array_with_stride((double *)(PyArray_DATA(stepsa)), stride_recalc, PyArray_DIM(stepsa, 0));
 
      if (self->c_sys != NULL) {
 	  /* free the previous function and args */
@@ -230,7 +230,7 @@ PyGSL_multimin_set_fdf(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  goto fail;
      }
-     gsl_x = gsl_vector_view_array_with_stride((double *)(xa->data), stride_recalc, xa->dimensions[0]);
+     gsl_x = gsl_vector_view_array_with_stride((double *)(PyArray_DATA(xa)), stride_recalc, PyArray_DIM(xa, 0));
 
 
      if (self->c_sys != NULL) {

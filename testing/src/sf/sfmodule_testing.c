@@ -51,11 +51,11 @@ static PyObject* module = NULL; /*used by the backtrace*/
 static void * polar_to_rect_data [] = { (void *) gsl_sf_polar_to_rect, (void *) gsl_sf_polar_to_rect};
 static void * rect_to_polar_data [] = { (void *) gsl_sf_rect_to_polar, (void *) gsl_sf_rect_to_polar};
 
-static char PyGSL_sf_ufunc_qi_dd_D_one_types [] = { PyArray_FLOAT,  PyArray_FLOAT,  PyArray_CFLOAT, 
-                                                    PyArray_DOUBLE, PyArray_DOUBLE, PyArray_CDOUBLE };
+static char PyGSL_sf_ufunc_qi_dd_D_one_types [] = { NPY_FLOAT,  NPY_FLOAT,  NPY_CFLOAT, 
+                                                    NPY_DOUBLE, NPY_DOUBLE, NPY_CDOUBLE };
 
-static char PyGSL_sf_ufunc_qi_D_dd_one_types [] = { PyArray_CFLOAT,  PyArray_FLOAT,  PyArray_FLOAT, 
-                                                    PyArray_CDOUBLE, PyArray_DOUBLE, PyArray_DOUBLE };
+static char PyGSL_sf_ufunc_qi_D_dd_one_types [] = { NPY_CFLOAT,  NPY_FLOAT,  NPY_FLOAT, 
+                                                    NPY_CDOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 typedef int PyGSL_sf_ufunc_qi_dd_D_one(double, double, gsl_sf_result *, gsl_sf_result *);
 void  PyGSL_sf_ufunc_qi_dd_D(char **args, int *dimensions, int *steps, void *func)

@@ -677,8 +677,8 @@ PyGSL_solver_n_set(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
 	  line = __LINE__ - 2;
 	  goto fail;
      }
-     gsl_x = gsl_vector_view_array_with_stride((double *)(xa->data), stride,
-					       xa->dimensions[0]);
+     gsl_x = gsl_vector_view_array_with_stride((double *)PyArray_DATA(xa), stride,
+					       PyArray_DIM(xa, 0));
 
 
      if (self->c_sys != NULL) {
@@ -793,8 +793,8 @@ PyGSL_solver_vd_i(PyObject * self, PyObject *args, int_f_vd_t func)
 	  PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__ - 1);
 	  return NULL;
      }
-     gradient = gsl_vector_view_array_with_stride((double *)(ga->data), stride_recalc,
-						  ga->dimensions[0]);
+     gradient = gsl_vector_view_array_with_stride((double *)(PyArray_DATA(ga)), stride_recalc,
+						  PyArray_DIM(ga, 0));
      flag = func(&gradient.vector, epsabs);
      FUNC_MESS_END();
      return PyGSL_ERROR_FLAG_TO_PYINT(flag);
@@ -821,15 +821,16 @@ PyGSL_solver_vvdd_i(PyObject * self, PyObject * args, int_f_vvdd_t func)
 	  line = __LINE__ - 4;
 	  goto fail;
      }
-     dx = gsl_vector_view_array_with_stride((double *)(dx_a->data), stride, dx_a->dimensions[0]);
+     
+     dimension = PyArray_DIM(dx_a, 0);
+     dx = gsl_vector_view_array_with_stride((double *)(PyArray_DATA(dx_a)), stride, PyArray_DIM(dx_a, 0));
 
-     dimension = dx_a->dimensions[0];
      x_a = PyGSL_vector_check(x_o, dimension, PyGSL_DARRAY_CINPUT(2), &stride,  NULL);
      if(x_a == NULL){
 	  line = __LINE__ - 4;
 	  goto fail;
      }
-     x = gsl_vector_view_array_with_stride((double *)(x_a->data), stride, x_a->dimensions[0]);
+     x = gsl_vector_view_array_with_stride((double *)(PyArray_DATA(x_a)), stride, PyArray_DIM(x_a, 0));
      flag = func(&(dx.vector), &(x.vector), epsabs, epsrel);
      Py_DECREF(x_a);
      Py_DECREF(dx_a);

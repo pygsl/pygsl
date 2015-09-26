@@ -277,14 +277,14 @@ PyGSL_odeiv_step_apply(PyGSL_solver *self, PyObject *args)
     }else{
 	 dydt_in = PyGSL_vector_check(dydt_in_o, dimension, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
 	 if(dydt_in == NULL) goto fail;
-	 dydt_in_d = (double *) dydt_in->data;
+	 dydt_in_d = (double *) PyArray_DATA(dydt_in);
     }
 
 
-    dydt_out =  PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+    dydt_out =  PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
     if (dydt_out == NULL) goto fail;
 
-    yerr = PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+    yerr = PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
     if(yerr == NULL) goto fail;
 
 
@@ -303,10 +303,10 @@ PyGSL_odeiv_step_apply(PyGSL_solver *self, PyObject *args)
     }
     
     r = gsl_odeiv_step_apply(self->solver, t, h, 
-			     (double *) yout->data, 
-			     (double *) yerr->data, 
+			     (double *) PyArray_DATA(yout), 
+			     (double *) PyArray_DATA(yerr), 
 			     dydt_in_d, 
-			     (double *) dydt_out->data, 
+			     (double *) PyArray_DATA(dydt_out), 
 			     ((gsl_odeiv_system *)self->c_sys));
     self->isset = 0;
     if (GSL_SUCCESS != r){
@@ -378,9 +378,9 @@ PyGSL_odeiv_control_hadjust(PyGSL_solver *self, PyObject *args)
 
   c = (mycontrol *) self->solver;
   r = gsl_odeiv_control_hadjust(c->control, c->step, 
-				(double *) y0->data,
-				(double *) yerr->data,
-				(double *) dydt->data, &h);
+				(double *) PyArray_DATA(y0),
+				(double *) PyArray_DATA(yerr),
+				(double *) PyArray_DATA(dydt), &h);
 
   FUNC_MESS("      Function End");
   Py_DECREF(y0);       y0 = NULL;  
@@ -446,7 +446,7 @@ PyGSL_odeiv_evolve_apply(PyGSL_solver *self, PyObject *args)
 			       e->control, 
 			       e->step, 
 			       e->step_ob->c_sys, &t, t1, &h,
-			       (double * )yout->data); 
+			       (double * )PyArray_DATA(yout)); 
    e->step_ob->isset = 0;
     if (GSL_SUCCESS != r){
 	 goto fail;
