@@ -8,7 +8,8 @@ char *
 PyGSL_string_as_string(PyObject *);
 
 #ifndef _PyGSL_API_MODULE
-#define PyGSL_string_as_string  (*(PyObject (*)(PyObject *)) PyGSL_API[PyGSL_string_as_string_NUM]);
+/* uses PyBytes_AsString */
+#define PyGSL_string_as_string  (*(PyObject (*)(PyObject *)) PyGSL_API[PyGSL_string_as_string_NUM])
 #endif  /* _PyGSL_API_MODULE */
 
 #endif /* _PYGSL_STRING_HELPERS_H_ */
