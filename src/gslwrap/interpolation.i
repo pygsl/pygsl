@@ -10,7 +10,6 @@
  */		 
 %{
 #include <pygsl/intern.h>
-#include <pygsl/capsulethunk.h>  
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_interp.h>
 #include <gsl/gsl_spline.h>

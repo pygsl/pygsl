@@ -5,7 +5,6 @@
  *
  */
 #include <pygsl/error_helpers.h>
-#include <pygsl/capsulethunk.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/string_helpers.h>
 #include <pygsl/utils.h>

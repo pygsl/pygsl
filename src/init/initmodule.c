@@ -17,7 +17,6 @@ static const char pygsl_debug_name[] = "pygsl_debug";
 #define _PyGSL_API_CAP_NAME pygsl_api_name
 #define _PyGSL_DEBUG_CAP_NAME pygsl_debug_name
 #include <pygsl/intern.h>
-#include <pygsl/capsulethunk.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/string_helpers.h>
