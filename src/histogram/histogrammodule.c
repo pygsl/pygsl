@@ -11,6 +11,10 @@
  *    added CAST and GET macros to reduce code duplication
  * 
  *    Now the warnings are all handled by a separate function.   
+ *
+ * September 2005
+ *    Pierre Schnizer
+ *    replaced to NUMPY Macros
  */
 
 #include <pygsl/error_helpers.h>

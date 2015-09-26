@@ -2,7 +2,7 @@
 #define PYGSL_BLOCK_HELPERS_NUMARRAY_H 1
 #include <pygsl/transition.h>
 #ifndef CONTIGUOUS
-#define CONTIGUOUS NPY_CONTIGUOUS
+#define CONTIGUOUS NPY_ARRAY_C_CONTIGUOUS
 #endif
 
 #ifdef PyGSL_PY3K

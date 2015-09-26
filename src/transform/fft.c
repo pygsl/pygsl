@@ -15,8 +15,8 @@ static struct _pygsl_transform_func_rf_s complex_funcs, halfcomplex_funcs, real_
                         input_array_type, output_array_type, \
                         data_offset, radix2, packed}
 #define INIT_INFO(mode,  datatype,  inaugment, outaugment, data_offset, radix2, packed) \
-       _INIT_INFO(mode, MODE_ ## datatype, PyArray_ ## inaugment ## datatype, \
-                     PyArray_  ## outaugment ## datatype, data_offset, radix2, packed)
+       _INIT_INFO(mode, MODE_ ## datatype, NPY_ ## inaugment ## datatype, \
+		  NPY_  ## outaugment ## datatype, data_offset, radix2, packed)
 static struct _pygsl_transform_info_s
 complex_info                  = INIT_INFO(ComplexComplex,  DOUBLE, C, C, 0, RADIX_FREE, PACKED_TYPE),
 halfcomplex_info              = INIT_INFO(HalfComplexReal, DOUBLE, C,  , 0, RADIX_FREE, SINGLE_TYPE),

@@ -6,15 +6,15 @@ PyGSL_debug_mess_array(PyArrayObject * a, const char * name)
      double *dv;
      char * av;
 
-     mode = a->descr->type_num;
-     for(i=0; i<a->dimensions[0]; ++i){
-	  av   = (a->data + a->strides[0] *  (i));
+     mode = PyArray_TYPE(a);
+     for(i=0; i<PyArray_DIM(a, 0); ++i){
+       av   = (PyArray_DATA(a) + PyArray_STRIDE(a, 0) *  (i));
 	  switch(mode){
-	  case PyArray_CDOUBLE:
+	  case  NPY_CDOUBLE:
 	       dv = (double *) av;
 	       fprintf(stderr, "%s [%d] = %e + %e j\n", name, i, dv[0], dv[1]);
 	       break;
-	  case PyArray_CFLOAT:
+	  case NPY_CFLOAT:
 	       fv = (float *) av;
 	       fprintf(stderr, "%s [%d] = %e + %e j\n", name, i, fv[0], fv[1]);
 	       break;
@@ -33,24 +33,24 @@ PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src, enum pygsl_tr
 	int i, n, n_check, n_2, modulo=0;
 	void *srcv, *dstv;
 	double *srcd=NULL, *dstd=NULL;			
-	float  *srcf=NULL, *dstf=NULL;			
+	float  *srcf=NULL, *dstf=NULL;
 
 	FUNC_MESS_BEGIN();
-	n = src->dimensions[0];
-	n_check = dst->dimensions[0];
+	n = PyArray_DIM(src, 0);
+	n_check = PyArray_DIM(dst, 0);
 	
 	assert(src);
 	assert(dst);
-	assert(src->descr->type_num == PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_DOUBLE, PyArray_FLOAT));
-	assert(dst->descr->type_num == PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_CDOUBLE, PyArray_CFLOAT));
+	assert(PyArray_TYPE(src) == PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_DOUBLE, NPY_FLOAT));
+	assert(PyArray_TYPE(dst) == PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_CDOUBLE, NPY_CFLOAT));
 
 	/* Iterate over the source array and copy to the destination array. */
 	for(i = 0; i < n; ++i){
-		srcv   = (src->data + src->strides[0] *  (i));
+		srcv   = (PyArray_DATA(src) + PyArray_STRIDE(src, 0) *  (i));
 		n_2 = (i+1)/2;
 
 		/* complex array, only iterate every second */
-		dstv  = (dst->data + dst->strides[0] *  (n_2));
+		dstv  = (PyArray_DATA(dst) + PyArray_STRIDE(dst, 0) *  (n_2));
 		modulo = (i+1)%2;
 
 		if(n_2 >= n_check)
@@ -78,7 +78,7 @@ PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src, enum pygsl_tr
 
 	/* even length, last must be set ... */	     
 	DEBUG_MESS(4, "Setting the last to zero n=%d", n);
-	dstv  = (dst->data + dst->strides[0] *  (n/2));
+	dstv  = (PyArray_DATA(dst) + PyArray_STRIDE(dst, 0) *  (n/2));
 	switch(mode){
 	     case MODE_DOUBLE:
 		  dstd = (double *) dstv;
@@ -102,23 +102,24 @@ PyGSL_copy_halfcomplex_to_real(PyArrayObject *dst, PyArrayObject *src, double ep
 	int n, n_check, i, n_2;
 	double *srcd=NULL, *dstd=NULL;
 	float *srcf=NULL, *dstf=NULL;
+	void *srcv=NULL, *dstv=NULL;
 
 	FUNC_MESS_BEGIN();
 	assert(src);
 	assert(dst);
-	assert(src->descr->type_num == PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_CDOUBLE, PyArray_CFLOAT));
-	assert(dst->descr->type_num == PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_DOUBLE, PyArray_FLOAT));
+	assert(PyArray_TYPE(src) == PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_DOUBLE, NPY_FLOAT));
+	assert(PyArray_TYPE(dst) == PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_CDOUBLE, NPY_CFLOAT));
 
-	n_check = src->dimensions[0];
-	n = dst->dimensions[0];
+	n_check = PyArray_DIM(src, 0);
+	n = PyArray_DIM(dst, 0);
 
 	/* The first element is a bit special */
 	if(mode == MODE_DOUBLE){
-		srcd = (double *)(src->data);	
-		dstd = (double *)(dst->data);
+		srcd = (double *)PyArray_DATA(src);	
+		dstd = (double *)PyArray_DATA(dst);
 	} else {
-		srcf = (float *)(src->data);	
-		dstf = (float *)(dst->data);
+		srcf = (float *)PyArray_DATA(src);	
+		dstf = (float *)PyArray_DATA(dst);
 	}
 	/* Should be zero ... */
 	if(gsl_fcmp(PyGSL_TRANSFORM_MODE_SWITCH(mode, srcd[1], srcf[1]), 0,  eps) != 0)
@@ -131,14 +132,17 @@ PyGSL_copy_halfcomplex_to_real(PyArrayObject *dst, PyArrayObject *src, double ep
 		if(n_2 >= n_check){
 			PyGSL_ERROR("Sizes of the complex array too small!", GSL_ESANITY);
 		}
+		
+		srcv = PyArray_DATA(src) + PyArray_STRIDE(src, 0) * n_2;
+		dstv = PyArray_DATA(dst) + PyArray_STRIDE(dst, 0) * i;
 		if(mode == MODE_DOUBLE){
-			srcd = (double *)(src->data + src->strides[0] * n_2);
-			dstd = (double *)(dst->data + dst->strides[0] * i);
+			srcd = (double *)(srcv);
+			dstd = (double *)(dstv);
 			*dstd = srcd[(i+1)%2];
 			DEBUG_MESS(5, "C -> R [%d] srcd %e + %ej\t dstd %e", i, srcd[0], srcd[1], *dstd);
 		} else {
-			srcf = (float *)(src->data + src->strides[0] * n_2);
-			dstf = (float *)(dst->data + dst->strides[0] * i);
+			srcf = (float *)(srcv);
+			dstf = (float *)(dstv);
 			*dstf = srcf[(i+1)%2];
 			DEBUG_MESS(5, "C -> R [%d] srcf %e + %ej\t dstf %e", i, srcf[0], srcf[1], *dstf);
 		}
@@ -156,55 +160,58 @@ PyGSL_copy_array_to_array(PyArrayObject *dst, PyArrayObject *src,  enum pygsl_tr
 	gsl_vector_float_view f1, f2;
 	gsl_vector_complex_view z1, z2;
 	gsl_vector_complex_float_view c1, c2;
-	const enum PyArray_TYPES array_type = src->descr->type_num;
+	void *srcv=NULL, *dstv=NULL;
+	const enum NPY_TYPES array_type = PyArray_TYPE(src);
 
 	FUNC_MESS_BEGIN();
 	assert(src);
 	assert(dst);
-	assert(src->descr->type_num == dst->descr->type_num);
+	assert(PyArray_TYPE(src) == PyArray_TYPE(dst));
 
-	n = dst->dimensions[0];
-	n_check = src->dimensions[0];
+	n = PyArray_DIM(dst, 0);
+	n_check = PyArray_DIM(src, 0);
 	if(n_check != n){
 		PyGSL_ERROR("Sizes of the arrays did not match!", GSL_ESANITY);
 	}
 	
 	size = PyGSL_TRANSFORM_MODE_SWITCH(mode, sizeof(double), sizeof(float));
 
-	if(array_type == PyArray_CDOUBLE || array_type == PyArray_CFLOAT){
+	if(array_type == NPY_CDOUBLE || array_type == NPY_CFLOAT){
 	     size *= 2; /* Complex are two basis numbers */
 	     iscomplex=1;
 	}else{
 	     iscomplex=0;
 	}
 
-	if((flag = PyGSL_STRIDE_RECALC(src->strides[0], size, &stride1) != GSL_SUCCESS) || 
-	   (flag = PyGSL_STRIDE_RECALC(dst->strides[0], size, &stride2) != GSL_SUCCESS))
+	if((flag = PyGSL_STRIDE_RECALC(PyArray_STRIDE(src, 0), size, &stride1) != GSL_SUCCESS) || 
+	   (flag = PyGSL_STRIDE_RECALC(PyArray_STRIDE(dst, 0), size, &stride2) != GSL_SUCCESS))
 		return flag;
 
+	srcv = PyArray_DATA(src);
+	dstv = PyArray_DATA(dst);
 	if(iscomplex){
 	     switch(mode){
 	     case MODE_DOUBLE:  		
-		  z1 = gsl_vector_complex_view_array_with_stride((double *)dst->data, stride2, n);
-		  z2 = gsl_vector_complex_view_array_with_stride((double *)src->data, stride1, n);
+		  z1 = gsl_vector_complex_view_array_with_stride((double *)dstv, stride2, n);
+		  z2 = gsl_vector_complex_view_array_with_stride((double *)srcv, stride1, n);
 		  return gsl_blas_zcopy(&z2.vector, &z1.vector);
 		  break;
 	     case MODE_FLOAT:   
-		  c1 = gsl_vector_complex_float_view_array_with_stride((float *)dst->data, stride2, n);
-		  c2 = gsl_vector_complex_float_view_array_with_stride((float *)src->data, stride1, n);
+		  c1 = gsl_vector_complex_float_view_array_with_stride((float *)dstv, stride2, n);
+		  c2 = gsl_vector_complex_float_view_array_with_stride((float *)srcv, stride1, n);
 		  return gsl_blas_zcopy(&z2.vector, &z1.vector);
 		  break;
 	     }
 	}else{
 	     switch(mode){
 	     case MODE_DOUBLE:  		
-		  d1 = gsl_vector_view_array_with_stride((double *)dst->data, stride2, n);
-		  d2 = gsl_vector_view_array_with_stride((double *)src->data, stride1, n);
+		  d1 = gsl_vector_view_array_with_stride((double *)dstv, stride2, n);
+		  d2 = gsl_vector_view_array_with_stride((double *)srcv, stride1, n);
 		  return gsl_blas_dcopy(&d2.vector, &d1.vector);
 		  break;
 	     case MODE_FLOAT:   
-		  f1 = gsl_vector_float_view_array_with_stride((float *)dst->data, stride2, n);
-		  f2 = gsl_vector_float_view_array_with_stride((float *)src->data, stride1, n);
+		  f1 = gsl_vector_float_view_array_with_stride((float *)dstv, stride2, n);
+		  f2 = gsl_vector_float_view_array_with_stride((float *)srcv, stride1, n);
 		  return gsl_blas_scopy(&f2.vector, &f1.vector);
 		  break;
 	     }
@@ -222,11 +229,15 @@ PyGSL_fft_halfcomplex_unpack(PyArrayObject *a, int n_orig,  enum pygsl_transform
 {
 	double *d;
 	float *f;
+	void * v =NULL;
+	
 	FUNC_MESS_BEGIN();
 	assert(a);
-	assert(a->descr->type_num == PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_CDOUBLE, PyArray_CFLOAT));
+	assert(PyArray_TYPE(a) == PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_CDOUBLE, NPY_CFLOAT));
+
+	v = PyArray_DATA(a);
 	if(mode == MODE_DOUBLE){
-		d = (double *) a->data;
+		d = (double *)v;
 		d[0] = d[1];
 		d[1] = 0.0;
 		/* Set the last imaginary to zero for even length as it ought to be */
@@ -235,7 +246,7 @@ PyGSL_fft_halfcomplex_unpack(PyArrayObject *a, int n_orig,  enum pygsl_transform
 			d[n_orig] = 0.0; 
 		}
 	}else{
-		f = (float *) a->data;
+		f = (float *) v;
 		f[0] = f[1];
 		f[1] = 0.0;
 		/* Set the last imaginary to zero for even length as it ought to be */
@@ -263,7 +274,7 @@ _PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args, enum pygsl_
 	PyArrayObject *a=NULL, *r=NULL;
 	double *ddata, *dreal, *dimag;
         float *fdata, *freal, *fimag;
-	void *adata, *rdata;
+	void *adata, *rdata, *vdata, *vreal, *vimag;
 	PyGSL_array_info_t dinfo, finfo;
 	PyGSL_array_index_t n, rn, i;
 	FUNC_MESS_BEGIN();
@@ -271,27 +282,27 @@ _PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args, enum pygsl_
 		return NULL;
 	
 	dinfo = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY,
-				       PyArray_DOUBLE, sizeof(double), 1);
+				       NPY_DOUBLE, sizeof(double), 1);
 	finfo = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY,
-				       PyArray_FLOAT, sizeof(float), 1);
+				       NPY_FLOAT, sizeof(float), 1);
 	
 	a = PyGSL_vector_check(a_o, -1, PyGSL_TRANSFORM_MODE_SWITCH(mode, dinfo, finfo), NULL, NULL);
 	if(a == NULL)
 		goto fail;
-	n = a->dimensions[0];
+	n = PyArray_DIM(a, 0);
 	if(n%2 != 0){
 		pygsl_error("The length of the vector must be a multiple of two!",
 			  __FILE__, __LINE__, GSL_EDOM);		goto fail;
 	}
 	rn = n / 2 + 1;
-	if((r = (PyArrayObject *) PyGSL_New_Array(1, &rn, PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_CDOUBLE, PyArray_CFLOAT))) == NULL)
+	if((r = (PyArrayObject *) PyGSL_New_Array(1, &rn, PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_CDOUBLE, NPY_CFLOAT))) == NULL)
 		goto fail;
-	assert(r->dimensions[0] == rn);
+	assert(PyArray_DIM(r, 0) == rn);
 
 
 	/* first one special */
-	rdata = r->data;
-	adata = a->data;
+	rdata = PyArray_DATA(r);
+	adata = PyArray_DATA(a);
 	switch(mode){
 	  case MODE_DOUBLE: 
 		  ddata = (double *) rdata;
@@ -306,33 +317,38 @@ _PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args, enum pygsl_
 	}
 	for(i = 1; i < rn - 1; ++i){
 		assert(i>0 && i < n);
+		vdata = (PyArray_DATA(r) + PyArray_STRIDE(r, 0) * i);
+		vreal = (PyArray_DATA(a) + PyArray_STRIDE(a, 0) * i);
+		vimag = (PyArray_DATA(a) + PyArray_STRIDE(a, 0) * (n-i));
 		switch(mode){
 		case MODE_DOUBLE: 
-			ddata    = (double *)(r->data + r->strides[0] * i);
-			dreal    = (double *)(a->data + a->strides[0] * i);
-			dimag    = (double *)(a->data + a->strides[0] * (n-i));
+			ddata    = (double *)vdata;
+			dreal    = (double *)vreal;
+			dimag    = (double *)vimag;
 			ddata[0] = *dreal;
 			ddata[1] = *dimag;
 			break;
 		case MODE_FLOAT: 
-			fdata    = (float *)(r->data + r->strides[0] * i);
-			freal    = (float *)(a->data + a->strides[0] * i);
-			fimag    = (float *)(a->data + a->strides[0] * (n-i));
+			fdata    = (float *)vdata;
+			freal    = (float *)vreal;
+			fimag    = (float *)vimag;
 			fdata[0] = *freal;
 			fdata[1] = *fimag;
-
 			break;
 		}
 	}
+
+	vdata = PyArray_DATA(r) + PyArray_STRIDE(r, 0) * (rn-1);
+	vreal = PyArray_DATA(a) + PyArray_STRIDE(a, 0) * (n/2);
 	switch(mode){
 	case MODE_DOUBLE: 
-		ddata    =   (double *)(r->data + r->strides[0] * (rn-1));
-		ddata[0] = *((double *)(a->data + a->strides[0] * (n/2)));
+		ddata    =   (double *)vdata;
+		ddata[0] = *((double *)vreal);
 		ddata[1] = 0.0;
 		break;
 	case MODE_FLOAT: 
-		fdata    =   (float *)(r->data + r->strides[0] * (rn-1));
-		fdata[0] = *((float *)(a->data + a->strides[0] * (n/2)));
+		fdata    =   (float *)vdata;
+		fdata[0] = *((float *)vreal);
 		fdata[1] = 0.0;
 		break;
 	}
@@ -374,8 +390,8 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 {
 	PyArrayObject * ret = NULL, *s=NULL, *m=NULL;
 	int line = -1;
-	const int type1 = PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_CDOUBLE, PyArray_CFLOAT);
-	const int type2 = PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_DOUBLE, PyArray_FLOAT);
+	const int type1 = PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_CDOUBLE, NPY_CFLOAT);
+	const int type2 = PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_DOUBLE, NPY_FLOAT);
 	FUNC_MESS_BEGIN();
 	/* Check if I got a return array */
 	if(!PyGSL_array_check(master)){
@@ -385,7 +401,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 
 	m = (PyArrayObject *) master;
 	assert(m);
-	assert(m->descr->type_num == type1 || m->descr->type_num == type2);
+	assert(PyArray_TYPE(m) == type1 || PyArray_TYPE(m) == type2);
 
 	if(shadow == NULL){
 		FUNC_MESS("Generating an output array");
@@ -402,9 +418,9 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 			FUNC_MESS("Copying input to output array");
 			/* Check if it is an array of the approbriate size */
 			s = (PyArrayObject *) shadow;
-			if((PyGSL_array_check((PyObject *) s)) && (s->nd == 1) 
-			   && (s->descr->type_num == m->descr->type_num) 
-			   && (s->dimensions[0] == m->dimensions[0])){
+			if((PyGSL_array_check((PyObject *) s)) && (PyArray_NDIM(s) == 1) 
+			   && (PyArray_TYPE(s) == PyArray_TYPE(m)) 
+			   && (PyArray_DIM(s, 0) == PyArray_DIM(m, 0))){
 				Py_INCREF(s);
 				ret = (PyArrayObject *) s;
 			} else {
@@ -436,12 +452,12 @@ PyGSL_guess_halfcomplex_length(PyArrayObject *a, int length, double eps,  enum p
 	FUNC_MESS_BEGIN();
 
 	assert(a);
-	assert(a->descr->type_num == PyGSL_TRANSFORM_MODE_SWITCH(mode, PyArray_CDOUBLE, PyArray_CFLOAT));
+	assert(PyArray_TYPE(a) == PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_CDOUBLE, NPY_CFLOAT));
 
-	n = a->dimensions[0];
+	n = PyArray_DIM(a, 0);
 	if(length == -1){
 		/* length was not given, try to guess */
-		v = (a->data + a->strides[0] * (n - 1));
+		v = PyArray_DATA(a) + PyArray_STRIDE(a, 0) * (n - 1);
 		if(gsl_fcmp(PyGSL_TRANSFORM_MODE_SWITCH(mode, ((double *)v)[1], ((float *)v)[1]), 0,  eps) == 0){
 			call_n = n*2-2;
 		}else{
@@ -467,15 +483,17 @@ PyGSL_guess_halfcomplex_length(PyArrayObject *a, int length, double eps,  enum p
 static int
 PyGSL_Check_Array_Length(PyArrayObject *a, int call_n, int datamode, int n_type)
 {
-	int n_check = a->dimensions[0];
+	int n_check = PyArray_DIM(a, 0);
 
 	if (PyGSL_DEBUG_LEVEL()> 1)
 	{
-	     int i;
-	     DEBUG_MESS(4, "Array nd = %d", a->nd);
-	     for(i = 0; i < a->nd; ++i){
-		  DEBUG_MESS(5, "Array dim[i] = %d", a->dimensions[i]);
-	     }
+		int i, nd=0;
+		
+		nd = PyArray_NDIM(a);
+		DEBUG_MESS(4, "Array nd = %d", nd);
+		for(i = 0; i < nd; ++i){
+			DEBUG_MESS(5, "Array dim[i] = %d", PyArray_DIM(a, i));
+		}
 	}
 
 	DEBUG_MESS(3, "Call Length %d, Array Length %d n_type %d", call_n, n_check, n_type);
@@ -483,14 +501,14 @@ PyGSL_Check_Array_Length(PyArrayObject *a, int call_n, int datamode, int n_type)
 		PyGSL_ERROR("Array size was not big enough!", GSL_ESANITY);
 
 
-	DEBUG_MESS(3, "Check array type %d", a->descr->type_num);
+	DEBUG_MESS(3, "Check array type %d", PyArray_TYPE(a));
 	switch(datamode){
 	case MODE_DOUBLE:		
-		if(a->descr->type_num != PyArray_CDOUBLE &&  a->descr->type_num != PyArray_DOUBLE)
+		if(PyArray_TYPE(a) != NPY_CDOUBLE &&  PyArray_TYPE(a) != NPY_DOUBLE)
 			PyGSL_ERROR("Type not of (C)DOUBLE!", GSL_ESANITY);
 		break;
 	case MODE_FLOAT:
-		if(a->descr->type_num != PyArray_CFLOAT &&  a->descr->type_num != PyArray_FLOAT)
+		if(PyArray_TYPE(a) != NPY_CFLOAT &&  PyArray_TYPE(a) != NPY_FLOAT)
 			PyGSL_ERROR("Type not of (C)FLOAT!", GSL_ESANITY);
 		break;
 		PyGSL_ERROR("Unknown mode!", GSL_ESANITY);

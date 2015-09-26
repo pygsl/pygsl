@@ -49,7 +49,7 @@
      if(NULL == a_array){						     \
 	FUNC_MESS("FAIL"); return NULL;					     \
      }									     \
-     data = (DATA_TYPE *) a_array->data;			             \
+     data = (DATA_TYPE *) PyArray_DATA(a_array);  			     \
      for (i=0; i<dimension;i++){					     \
 	  data[i] = evaluator(rng->rng RNG_ARGUMENTS);			     \
      }									     \
@@ -72,15 +72,15 @@ PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS |PyGSL_INPUT_ARRAY, ARRAY_TYPE_IN, 1
 				   NULL, NULL);\
      if(array_in == NULL)						     \
 	  goto fail;							     \
-     dimension = array_in->dimensions[0];				     \
+     dimension = PyArray_DIM(array_in, 0);				     \
      array_out = (PyArrayObject *) PyGSL_New_Array(1, &dimension,            \
-						    PyArray_DOUBLE);         \
+						    NPY_DOUBLE);             \
 									     \
 									     \
-     data_out = (double *) array_out->data;				     \
+     data_out = (double *) PyArray_DATA(array_out);			     \
 									     \
      for(i=0; i<dimension; i++){					     \
-	  x = *((double *) (array_in->data + array_in->strides[0] * i));     \
+       x = *((double *) (PyArray_GETPTR1(array_in, i)));		\
 	  data_out[i] = evaluator(x RNG_ARGUMENTS);  		             \
      }									     \
 									     \
@@ -146,9 +146,9 @@ PyGSL_rng_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const gs
 
 #define RNG_ARGUMENTS
 #define DATA_TYPE     double
-#define ARRAY_TYPE    PyArray_DOUBLE
-#define ARRAY_TYPE_IN PyArray_DOUBLE
-#define ARRAY_TYPE_OUT PyArray_DOUBLE
+#define ARRAY_TYPE     NPY_DOUBLE
+#define ARRAY_TYPE_IN  NPY_DOUBLE
+#define ARRAY_TYPE_OUT NPY_DOUBLE
 #define TOPYOBJECT     PyFloat_FromDouble
 #define PyGSL_CONVERTER  PyGSL_PYFLOAT_TO_DOUBLE
 
@@ -357,7 +357,7 @@ PyGSL_rng_ui_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const
 	  goto fail;
 #define RNG_ARGUMENTS ,limit
 #define DATA_TYPE     double
-#define ARRAY_TYPE    PyArray_DOUBLE
+#define ARRAY_TYPE    NPY_DOUBLE
 #define TOPYOBJECT    PyFloat_FromDouble
 
 
@@ -395,11 +395,11 @@ PyGSL_pdf_ui_to_double(PyObject *self, PyObject *args, double (*evaluator)(unsig
 
 
 #define RNG_ARGUMENTS    ,d
-#define ARRAY_TYPE       PyArray_LONG
+#define ARRAY_TYPE       NPY_LONG
 #define PyGSL_CONVERTER  PyGSL_PYLONG_TO_UINT
 #define DATA_TYPE        unsigned int
-#define ARRAY_TYPE_IN    PyArray_LONG
-#define ARRAY_TYPE_OUT   PyArray_DOUBLE
+#define ARRAY_TYPE_IN    NPY_LONG
+#define ARRAY_TYPE_OUT   NPY_DOUBLE
      PDF_EVALUATOR
 
  fail:
@@ -430,7 +430,7 @@ PyGSL_rng_d_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(con
      }
 #define RNG_ARGUMENTS ,d
 #define DATA_TYPE     long
-#define ARRAY_TYPE    PyArray_LONG
+#define ARRAY_TYPE    NPY_LONG
 #define TOPYOBJECT    PyLong_FromUnsignedLong
 
 
@@ -466,11 +466,11 @@ PyGSL_pdf_d_to_ui(PyObject *self, PyObject *args, double (*evaluator)(unsigned i
 
 
 #define RNG_ARGUMENTS    ,d
-#define ARRAY_TYPE       PyArray_INT
+#define ARRAY_TYPE       NPY_INT
 #define PyGSL_CONVERTER  PyGSL_PYLONG_TO_UINT
 #define DATA_TYPE        unsigned int
-#define ARRAY_TYPE_IN    PyArray_LONG
-#define ARRAY_TYPE_OUT   PyArray_DOUBLE
+#define ARRAY_TYPE_IN    NPY_LONG
+#define ARRAY_TYPE_OUT   NPY_DOUBLE
 #define TOPYOBJECT       PyFloat_FromDouble
      PDF_EVALUATOR
 
@@ -508,7 +508,7 @@ PyGSL_rng_dui_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(c
 
 #define RNG_ARGUMENTS ,d ,limit
 #define DATA_TYPE     long
-#define ARRAY_TYPE    PyArray_LONG
+#define ARRAY_TYPE    NPY_LONG
 #define TOPYOBJECT    PyLong_FromUnsignedLong
 
 
@@ -548,12 +548,12 @@ PyGSL_pdf_dui_to_ui(PyObject *self, PyObject *args, double (*evaluator)(unsigned
 
 #undef PyGSL_CONVERTER
 #define RNG_ARGUMENTS    ,p ,n
-#define ARRAY_TYPE       PyArray_LONG
+#define ARRAY_TYPE       NPY_LONG
 #define PyGSL_CONVERTER  PyGSL_PYLONG_TO_UINT
 #define DATA_TYPE        unsigned int
 #define TOPYOBJECT       PyFloat_FromDouble
-#define ARRAY_TYPE_IN    PyArray_LONG
-#define ARRAY_TYPE_OUT   PyArray_DOUBLE
+#define ARRAY_TYPE_IN    NPY_LONG
+#define ARRAY_TYPE_OUT   NPY_DOUBLE
      PDF_EVALUATOR
 
  fail:
@@ -587,7 +587,7 @@ PyGSL_rng_dd_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(co
 
 #define RNG_ARGUMENTS ,d1 , d2
 #define DATA_TYPE     long
-#define ARRAY_TYPE    PyArray_LONG
+#define ARRAY_TYPE    NPY_LONG
 #define TOPYOBJECT    PyLong_FromUnsignedLong
 
 
@@ -621,12 +621,12 @@ PyGSL_pdf_dd_to_ui(PyObject *self, PyObject *args, double (*evaluator)(const uns
      }
 
 #define RNG_ARGUMENTS    ,d1 ,d2
-#define ARRAY_TYPE       PyArray_LONG
+#define ARRAY_TYPE       NPY_LONG
 #define PyGSL_CONVERTER  PyGSL_PYLONG_TO_UINT
 #define DATA_TYPE        unsigned int
 #define TOPYOBJECT       PyFloat_FromDouble
-#define ARRAY_TYPE_IN    PyArray_LONG
-#define ARRAY_TYPE_OUT   PyArray_DOUBLE
+#define ARRAY_TYPE_IN    NPY_LONG
+#define ARRAY_TYPE_OUT   NPY_DOUBLE
      PDF_EVALUATOR
 
  fail:
@@ -668,7 +668,7 @@ PyGSL_rng_uiuiui_to_ui(PyGSL_rng *rng, PyObject *args,
 
 #define RNG_ARGUMENTS ,u1, u2, u3
 #define DATA_TYPE     long
-#define ARRAY_TYPE    PyArray_LONG
+#define ARRAY_TYPE    NPY_LONG
 #define TOPYOBJECT    PyLong_FromUnsignedLong
 
 
@@ -709,12 +709,12 @@ PyGSL_pdf_uiuiui_to_ui(PyObject *self, PyObject *args,
 	  goto fail;
 
 #define RNG_ARGUMENTS    ,u1 ,u2 ,u3
-#define ARRAY_TYPE       PyArray_LONG
+#define ARRAY_TYPE       NPY_LONG
 #define PyGSL_CONVERTER  PyGSL_PYLONG_TO_UINT
 #define DATA_TYPE        unsigned int
 #define TOPYOBJECT       PyFloat_FromDouble
-#define ARRAY_TYPE_IN    PyArray_LONG
-#define ARRAY_TYPE_OUT   PyArray_DOUBLE
+#define ARRAY_TYPE_IN    NPY_LONG
+#define ARRAY_TYPE_OUT   NPY_DOUBLE
      PDF_EVALUATOR
 
  fail:     
@@ -753,9 +753,9 @@ PyGSL_rng_ddd_to_dd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_
      }                                                                       
 
      if(dimension == 1){
-	  a_array = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], NPY_DOUBLE);
      } else {
-	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, NPY_DOUBLE);
      }
 
      if(a_array == NULL){
@@ -764,7 +764,7 @@ PyGSL_rng_ddd_to_dd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_
      }
 
      for(i=0; i<dimension; i++){
-	  data = (double *) (a_array->data + a_array->strides[0] * i);
+	  data = (double *) (PyArray_GETPTR1(a_array, i));
 	  evaluator(rng->rng, d1, d2, d3, data, data+1);
      }
 
@@ -819,7 +819,7 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 	  array_x = PyGSL_vector_check(tmp1, -1, PyGSL_DARRAY_INPUT(1), NULL, NULL);
 	  if(array_x == NULL)
 	       goto fail;
-	  dimension = array_x->dimensions[0];
+	  dimension = PyArray_DIM(array_x, 0);
 	  /* 
 	   * PyGSL_PyArray_PREPARE_gsl_vector_view checks if the input can be converted. 
 	   * Dimension -1 means no check necessary
@@ -829,22 +829,22 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 	       goto fail;
 	  }
 	  if (dimension == -1)
-	       dimension = array_y->dimensions[0];
+	       dimension = PyArray_DIM(array_y, 0);
 	  else
-	       assert(array_y->dimensions[0] == dimension);
+	       assert(PyArray_DIM(array_y, 0) == dimension);
 	  
-	  array_out = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+	  array_out = (PyArrayObject *) PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
 	  if(array_out == NULL)
 	       goto fail;
 
 	  DEBUG_MESS(2, "Evaluating pdf at %p",   (void *) evaluator);
 	  DEBUG_MESS(2, "Evaluating array x at %p with data at %p and strides of %d", (void *) array_x, 
-		     (void *) array_x->data, array_x->strides[0]);
+		     (void *) PyArray_DATA(array_x), PyArray_STRIDE(array_x, 0));
 	  for(i=0; i<dimension; i++){			
 	       DEBUG_MESS(2, "Evaluating element [%d]", i);
-	       x =  *((double *)(array_x->data + array_x->strides[0] * i));
-	       y =  *((double *)(array_y->data + array_y->strides[0] * i));
-	       data_out = ((double *)(array_out->data + array_out->strides[0] * i));
+	       x =  *((double *)(PyArray_GETPTR1(array_x, i)));
+	       y =  *((double *)(PyArray_GETPTR1(array_y, i)));
+	       data_out = ((double *)(PyArray_GETPTR1(array_out, i)));
 	       *data_out =  evaluator(x, y, d1, d2, d3);
 	  }
 	  DEBUG_MESS(2, "Done %ld iterations", (long)dimension);
@@ -921,16 +921,16 @@ PyGSL_rng_to_generic_nd(PyGSL_rng *rng, PyObject *args, int type, void *evaluato
 
      /* In case only one item was requested, return a one dimensional array */
      if(dimension == 1){
-	  a_array = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], NPY_DOUBLE);
      } else {
-	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, NPY_DOUBLE);
      }
      if(a_array == NULL){
 	  FUNC_MESS("FAIL");
 	  return NULL;
      }
      for(i=0; i<dimension; i++){
-	  data = (double *) (a_array->data + a_array->strides[0] * i);
+	  data = (double *) (PyArray_GETPTR1(a_array, i));
 	  switch(type){
 	  case 2: evaluator_2(rng->rng, data, data+1); break;
 	  case 3: evaluator_3(rng->rng, data, data+1, data+2); break;
@@ -1054,13 +1054,13 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
 
      
      a_info = PyGSL_BUILD_ARRAY_INFO(PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
-				     PyArray_UINT, sizeof(unsigned int), 1);
+				     NPY_UINT, sizeof(unsigned int), 1);
      a_n = PyGSL_vector_check(tmp_n, dimension_check, a_info, &stride_n, NULL);
      if(a_n == NULL){
 	     line_no = __LINE__ - 2;
 	     goto fail;
      }
-     dimension_tmp = a_n->dimensions[0];
+     dimension_tmp = PyArray_DIM(a_n, 0);
      if(dimension_tmp == 1){
 	     ;
      } else {
@@ -1082,7 +1082,7 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
 	     goto fail;
      }
 
-     dimension_tmp = a_phi->dimensions[0];
+     dimension_tmp = PyArray_DIM(a_phi, 0);
      if(dimension_tmp == 1){
 	     dimension_check = 1;
      } else {
@@ -1091,8 +1091,8 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
 
      DEBUG_MESS(2, "Input data: pui_N: len(%ld) stride = %ld, "
 		"pd_phishape = (%ld,%ld), stride = %ld",
-		(long) a_n->dimensions[0], (long) stride_n, 
-		(long) a_phi->dimensions[0], (long) a_phi->dimensions[1],
+		(long) PyArray_DIM(a_n, 0), (long) stride_n, 
+		(long) PyArray_DIM(a_phi, 0), (long) PyArray_DIM(a_phi, 1),
 		(long) stride_phi);
 
      DEBUG_MESS(2, "Found %ld samples ", (long) dimension_check);
@@ -1114,7 +1114,7 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
 	     dimension = ultmp;
 	     if(dimension_check != 1 && dimension != dimension_check){
 		     DEBUG_MESS(2, "optional sample argument was %lu array n = %ld array phi = %ld ", 
-				ultmp, (long) a_n->dimensions[0], (long) a_phi->dimensions[0]);
+				ultmp, (long) PyArray_DIM(a_n, 0), (long) PyArray_DIM(a_phi, 0));
 		     pygsl_error("at least one of the arrays gave the number" 
 				 " of samples != 1 not matching the optional argument number of samples",
 				 __FILE__, __LINE__, GSL_ESANITY);
@@ -1130,17 +1130,17 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
 	     dimension = 1;
      }
 
-     if(a_n->dimensions[0] == 1){
+     if(PyArray_DIM(a_n, 0) == 1){
 	     stride_n = 0;
      }
 
-     if(a_phi->dimensions[0] == 1){
+     if(PyArray_DIM(a_phi, 0) == 1){
 	     stride_phi = 0;
      }
 
 
      dims[0] = dimension;
-     dims[1] = a_phi->dimensions[1];
+     dims[1] = PyArray_DIM(a_phi, 1);
      if(dimension <= 0){                                                    
 	  PyErr_SetString(PyExc_ValueError,                                  
 			  "The sample number must be positive!");            
@@ -1148,19 +1148,19 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
 	  goto fail;                                                        
      }                                                                       
 
-     a_array_out = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_UINT);
+     a_array_out = (PyArrayObject *) PyGSL_New_Array(2, dims, NPY_UINT);
      if(a_array_out == NULL){
 	  line_no = __LINE__ - 2;
 	  goto fail;
      }
 
      
-     pd_phi = (double *) a_phi->data;
-     pui_n  = (unsigned int *) a_n->data;
+     pd_phi = (double *) PyArray_DATA(a_phi);
+     pui_n  = (unsigned int *) PyArray_DATA(a_n);
 
      for(i=0; i<dimension; i++){
-	  data_out = (unsigned int *) (a_array_out->data + a_array_out->strides[0] * i);	  
-	  evaluator(rng->rng, (size_t) dims[1], pui_n[stride_n * i], &(pd_phi[stride_phi * i]), data_out);
+	     data_out = (unsigned int *) PyArray_GETPTR1(a_array_out, i);	  
+	     evaluator(rng->rng, (size_t) dims[1], pui_n[stride_n * i], &(pd_phi[stride_phi * i]), data_out);
      }
      Py_DECREF(a_phi);
      Py_DECREF(a_n);
@@ -1177,7 +1177,7 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
 }
 
 PyObject*
-PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enum PyArray_TYPES type_3darg)
+PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enum NPY_TYPES type_3darg)
 {
      PyObject *tmp, *tmp1;
      PyArrayObject *array_n = NULL, *array_p = NULL, *array_out = NULL;
@@ -1192,7 +1192,7 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 
      FUNC_MESS_BEGIN();
      assert(args && evaluator);
-     assert(type_3darg == PyArray_DOUBLE || type_3darg == PyArray_LONG);
+     assert(type_3darg == NPY_DOUBLE || type_3darg == NPY_LONG);
 
      if(0 == PyArg_ParseTuple(args, "OO", &tmp, &tmp1)){
 	  line = __LINE__ -1;
@@ -1203,7 +1203,7 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	  line = __LINE__ - 2;
 	  goto fail;	  
      }
-     k = array_p->dimensions[0];
+     k = PyArray_DIM(array_p, 0);
      DEBUG_MESS(4, "Building Matrix. Input Object @ %p with refcount %d!", (void *) tmp1, tmp1->ob_refcnt);
      ainfo = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, type_3darg, 1, 2);
      array_n = PyGSL_matrix_check(tmp1, -1, k, ainfo,  NULL, NULL, NULL);
@@ -1287,7 +1287,7 @@ PyGSL_pdf_dA_to_dA(PyObject *self, PyObject *args,
 {
 
      PyObject *r;
-     if((r = PyGSL_pdf_dA_to_uint_or_dA(self, args, (void *) evaluator, PyArray_DOUBLE)) == NULL)
+     if((r = PyGSL_pdf_dA_to_uint_or_dA(self, args, (void *) evaluator, NPY_DOUBLE)) == NULL)
 	  PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
      return r;
 
@@ -1298,7 +1298,7 @@ PyGSL_pdf_uidA_to_uiA(PyObject *self, PyObject *args,
 		      double (*evaluator) (const size_t, const double [], const unsigned int []))
 {
      PyObject *r;
-     if((r= PyGSL_pdf_dA_to_uint_or_dA(self, args, (void *) evaluator, PyArray_LONG)) == NULL)
+     if((r= PyGSL_pdf_dA_to_uint_or_dA(self, args, (void *) evaluator, NPY_LONG)) == NULL)
 	  PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
      return r;
 }
@@ -1327,7 +1327,7 @@ PyGSL_rng_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evaluator
 
 #define RNG_ARGUMENTS
 #define DATA_TYPE     unsigned long int
-#define ARRAY_TYPE    PyArray_LONG
+#define ARRAY_TYPE    NPY_LONG
 #define TOPYOBJECT    PyLong_FromUnsignedLong
 
 
@@ -1361,7 +1361,7 @@ PyGSL_rng_ul_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evalua
 
 #define RNG_ARGUMENTS ,limit
 #define DATA_TYPE     unsigned long int
-#define ARRAY_TYPE    PyArray_LONG
+#define ARRAY_TYPE    NPY_LONG
 #define TOPYOBJECT    PyLong_FromUnsignedLong
 
      RNG_EVALUATOR

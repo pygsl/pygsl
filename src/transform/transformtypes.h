@@ -190,8 +190,8 @@ struct _pygsl_transform_info_s {
 	enum transform_mode mode;
         /* float or double ? */
 	enum pygsl_transform_mode datatype; 
-	enum PyArray_TYPES input_array_type;
-	enum PyArray_TYPES output_array_type;
+	enum NPY_TYPES input_array_type;
+	enum NPY_TYPES output_array_type;
         /* 
 	 *  Do I need to add some additional offset to the data 
 	 *  pointer before

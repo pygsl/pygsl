@@ -41,7 +41,7 @@ typedef unsigned short ushort;
      &&  \
 	 ((PyGSL_STRIDE_RECALC(pyvector->strides[0], sizeof(basetype ## _basis_type), stride)) == GSL_SUCCESS)\
     ) ? \
-	 (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
+    (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) PyArray_DATA(pyvector), \
                                                            *(stride), pyvector->dimensions[0]),\
          output =  (basetype *) &(vectorview.vector), \
 	 GSL_SUCCESS) \
@@ -54,12 +54,12 @@ typedef unsigned short ushort;
        ((pyvector =  PyGSL_PyArray_PREPARE_gsl_matrix_view(input, basetype ## _py_array_type, \
 							  PyGSL_CONTIGUOUS | flag, -1, -1, argnum, NULL)) != NULL) \
      &&  \
-	 ((PyGSL_STRIDE_RECALC(pyvector->strides[1], sizeof(basetype ## _basis_type), stride)) == GSL_SUCCESS)\
+       ((PyGSL_STRIDE_RECALC(PyARRAY_STRIDE(pyvector, 1), sizeof(basetype ## _basis_type), stride)) == GSL_SUCCESS) \
      &&  \
-         ((*(stride) == 1)) \
+       ((*(stride) == 1))			\
     ) ? \
-	 (matrixview = TYPE_VIEW_ARRAY_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
-                                                    pyvector->dimensions[0], pyvector->dimensions[1]),\
+	 (matrixview = TYPE_VIEW_ARRAY_ ## basetype((basetype ## _basis_c_type *) PyArray_DATA(pyvector), \
+                                                    PyArray_DIM(pyvector,0), PyArray_DIM(pyvector,1)), \
          output =  (basetype *) &(matrixview.matrix), \
 	 GSL_SUCCESS) \
      : \
@@ -73,8 +73,8 @@ typedef unsigned short ushort;
                                          sizeof(basetype ## _basis_type), argnum), \
                   stride, NULL)) != NULL) \
  ? \
-	 (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
-                                                           *(stride), pyvector->dimensions[0]),\
+	 (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) PyArray_DATA(pyvector), \
+							    *(stride), PyArray_DIM(pyvector,0)), \
          output =  (basetype *) &(vectorview.vector), \
 	 GSL_SUCCESS) \
      : \
@@ -86,8 +86,8 @@ typedef unsigned short ushort;
 		   basetype ## _py_array_type, sizeof(basetype ## _basis_type), argnum), NULL, stride, NULL)) != NULL) &&\
          ((*(stride) == 1))) \
  ? \
-	 (matrixview = TYPE_VIEW_ARRAY_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
-                                                    pyvector->dimensions[0], pyvector->dimensions[1]),\
+	 (matrixview = TYPE_VIEW_ARRAY_ ## basetype((basetype ## _basis_c_type *) PyArray_DATA(pyvector), \
+                                                    PyArray_DIM(pyvector,0), PyArray_DIM(pyvector,1)), \
          output =  (basetype *) &(matrixview.matrix), \
 	 GSL_SUCCESS) \
      : \
@@ -97,11 +97,11 @@ typedef unsigned short ushort;
    ((\
      ((pyvector = PyGSL_PyArray_generate_gsl_vector_view(input,  basetype ## _py_array_type, argnum)) != NULL) \
    && \
-      ((PyGSL_STRIDE_RECALC(pyvector->strides[0], sizeof(basetype ## _basis_type), stride)) == GSL_SUCCESS) \
+     ((PyGSL_STRIDE_RECALC(PyArray_STRIDE(pyvector, 0), sizeof(basetype ## _basis_type), stride)) == GSL_SUCCESS) \
     )\
     ? \
-        (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
-                                                                    *(stride), pyvector->dimensions[0]),\
+        (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) PyArray_DATA(pyvector), \
+                                                                    *(stride), PyArray_DIM(pyvector,0)),\
          output =  (basetype *) &(vectorview.vector), \
 	 GSL_SUCCESS) \
     : \
@@ -111,13 +111,13 @@ typedef unsigned short ushort;
    ((\
      ((pyvector = PyGSL_PyArray_generate_gsl_matrix_view(input,  basetype ## _py_array_type, argnum)) != NULL) \
    && \
-      ((PyGSL_STRIDE_RECALC(pyvector->strides[1], sizeof(basetype ## _basis_type), stride)) == GSL_SUCCESS) \
+     ((PyGSL_STRIDE_RECALC(PyArray_STRIDE(pyvector, 1), sizeof(basetype ## _basis_type), stride)) == GSL_SUCCESS) \
    && \
       ((*(stride)) == 1) \
     )\
     ? \
-        (matrixview = TYPE_VIEW_ARRAY_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
-                                                  pyvector->dimensions[0],pyvector->dimensions[1]),\
+        (matrixview = TYPE_VIEW_ARRAY_ ## basetype((basetype ## _basis_c_type *) PyArray_DATA(pyvector), \
+                                                   PyArray_DIM(pyvector,0), PyArray_DIM(pyvector,1)), \
                        output =  (basetype *) &(matrixview.matrix), \
 	 GSL_SUCCESS) \
     : \
@@ -129,11 +129,11 @@ typedef unsigned short ushort;
      && \
        ((pyvector = (PyArrayObject *) PyGSL_New_Array(1, &tmp,  basetype ## _py_array_type)) != NULL)\
       && \
-        ((PyGSL_STRIDE_RECALC(pyvector->strides[0], sizeof(basetype ## _basis_type), &tmp)) == GSL_SUCCESS) \
+       ((PyGSL_STRIDE_RECALC(PyArray_STRIDE(pyvector,0), sizeof(basetype ## _basis_type), &tmp)) == GSL_SUCCESS) \
     )\
       ? \
-       (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) pyvector->data, \
-                                                                tmp, pyvector->dimensions[0]),     \
+       (vectorview = TYPE_VIEW_ARRAY_STRIDES_ ## basetype((basetype ## _basis_c_type *) PyArray_DATA(pyvector), \
+                                                                tmp,  PyArray_DIM(pyvector,0)),     \
        basetype ## _memcpy(&(vectorview.vector), &(myvector.vector)))\
     :  \
        	  (GSL_FAILURE))

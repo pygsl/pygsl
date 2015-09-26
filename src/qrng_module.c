@@ -182,14 +182,14 @@ qrng_get(PyGSL_qrng *self, PyObject *args)
      dims[0] = dimension;
      dims[1] = self->qrng->dimension;
      DEBUG_MESS(5, "Building return array with dimensions (%ld,%ld)", (long)dims[0], (long)dims[1]);
-     a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
+     a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, NPY_DOUBLE);
      if(a_array == NULL){lineno = __LINE__ - 1; goto fail;}
-     DEBUG_MESS(5, "Its strides are (%d,%d)", a_array->strides[0], a_array->strides[1]);
-     assert((a_array->strides[1] / sizeof(double)) == 1);
+     DEBUG_MESS(5, "Its strides are (%d,%d)", PyArray_STRIDE(a_array, 0), PyArray_STRIDE(a_array, 1));
+     assert((PyArray_STRIDE(a_array, 1) / sizeof(double)) == 1);
 
      for(i=0; i<dimension; i++){
 	  DEBUG_MESS(6, "Setting slice %d", i);
-	  data = (double *) (a_array->data + a_array->strides[0] * i);
+	  data = (double *) (PyArray_GETPTR1(a_array, i));
 	  DEBUG_MESS(6, "Data at %p", (void *) data);
 	  gsl_qrng_get(self->qrng, data);
      }

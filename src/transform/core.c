@@ -115,7 +115,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	PyGSL_wavelet *wavelet = NULL;
 	gsl_matrix_view mv;
 	const enum radix_mode  radix2 = helps->info->radix2;
-	const enum PyArray_TYPES  input_array_type=helps->info->input_array_type;	     
+	const enum NPY_TYPES  input_array_type=helps->info->input_array_type;	     
 	/* const int sizeoftype = sizeof(double) */;
 	int call_n, line=-1;
 
@@ -144,9 +144,9 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	if(m == NULL)
 	     goto fail;
 
-	mv = gsl_matrix_view_array((double *)m->data, m->dimensions[0], m->dimensions[1]);
+	mv = gsl_matrix_view_array((double *)PyArray_DATA(m), PyArray_DIM(m, 0),  PyArray_DIM(m, 1));
 	
-	call_n = m->dimensions[0] + m->dimensions[1];
+	call_n = PyArray_DIM(m, 0) +  PyArray_DIM(m, 1);
 	if (PyGSL_transform_helpers_alloc(s_o, NULL, helps->helpers, call_n) != GSL_SUCCESS){
 	     line = __LINE__ -1;
 	     goto fail;
@@ -194,7 +194,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 *  copies.
 	 */
 	PyGSL_array_index_t n=0, call_n=0, return_n=0, strides=0;
-	const enum PyArray_TYPES  input_array_type=helps->info->input_array_type, 
+	const enum NPY_TYPES  input_array_type=helps->info->input_array_type, 
 	     output_array_type=helps->info->output_array_type;
 
 	const enum transform_mode mode = helps->info->mode;
@@ -337,7 +337,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			goto fail;
 		}
 	}
-	n = a->dimensions[0];
+	n = PyArray_DIM(a, 0);
 
 	/* 
 	 * Calculate  the size of the return array and the call array
@@ -410,12 +410,12 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	/* make sure that the ntype was set */
 	assert(n_type > 0);
 	DEBUG_MESS(2, "Type(r) = %d, r->nd = %d, r->dimensions[0] = %d, Strides r->strides[0] %d", 
-		   r->descr->type_num, r->nd, r->dimensions[0], r->strides[0]);
-	if(PyGSL_STRIDE_RECALC(r->strides[0], n_type * sizeoftype, &strides) != GSL_SUCCESS){
+		   PyArray_TYPE(r), PyArray_NDIM(r), PyArray_DIM(r, 0), PyArray_STRIDE(r, 0));
+	if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(r, 0), n_type * sizeoftype, &strides) != GSL_SUCCESS){
 		line = __LINE__ -1;
 		goto fail;
 	}
-	DEBUG_MESS(2, "Strides r->strides[0] %ld strides = %ld", (long)r->strides[0], (long)strides);
+	DEBUG_MESS(2, "Strides r->strides[0] %ld strides = %ld", (long)PyArray_STRIDE(r, 0), (long)strides);
 	/* build the helpers if necessary */
 	switch(radix2){
 #ifdef _PYGSL_GSL_HAS_WAVELET
@@ -438,13 +438,13 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		goto fail;
 	}
 #endif 
-	vdata = (void *) r->data;
+	vdata = (void *) PyArray_DATA(r);
 	if(call_offset!=0){
 		switch(datatype){
-		case MODE_DOUBLE: vdata = (void *) (((double *) r->data) + call_offset); break;
-		case MODE_FLOAT:  vdata = (void *) (((float  *) r->data) + call_offset); break;
+		case MODE_DOUBLE: vdata = (void *) (((double *) PyArray_DATA(r)) + call_offset); break;
+		case MODE_FLOAT:  vdata = (void *) (((float  *) PyArray_DATA(r)) + call_offset); break;
 		}
-		DEBUG_MESS(3, "Original Pointer at %p new pointer at %p", r->data, vdata);
+		DEBUG_MESS(3, "Original Pointer at %p new pointer at %p", PyArray_DATA(r), vdata);
 	}
 	/* call the function */
 	switch(radix2){
@@ -461,7 +461,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 			goto fail;
 		}
 		DEBUG_MESS(3, "Transformed: r->data[0] = %f, strides = %ld, call_n = %ld", 
-			   *((double *)(r->data)), (long)strides, (long)call_n);
+			   *((double *)PyArray_DATA(r)), (long)strides, (long)call_n);
 		break;
 	case RADIX_TWO:
 		FUNC_MESS("Tranform radix2");

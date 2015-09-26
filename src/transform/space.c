@@ -105,13 +105,13 @@ PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyObject *args)
 	    break;
        }
 
-       a_array = (PyArrayObject *) PyGSL_New_Array(1, &nf, PyArray_LONG);
+       a_array = (PyArrayObject *) PyGSL_New_Array(1, &nf, NPY_LONG);
        if(a_array == NULL){
 	    lineno = __LINE__ - 1;
 	    goto fail;
        }
 
-       data = (long *) a_array->data;
+       data = (long *) PyArray_DATA(a_array);
 
        
        for(i=0; i<nf; i++){

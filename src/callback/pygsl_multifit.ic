@@ -27,21 +27,22 @@ PyGSL_gsl_multifit_gradient(PyObject *self, PyObject *args)
   if(J_a == NULL) goto fail;
 
   /* Numpy calculates strides in bytes, gsl in basis type */
-  f_a = PyGSL_vector_check(f_o, J_a->dimensions[0], PyGSL_DARRAY_CINPUT(2), &stride_recalc, NULL);
+  f_a = PyGSL_vector_check(f_o, PyArray_DIM(J_a, 0), PyGSL_DARRAY_CINPUT(2), &stride_recalc, NULL);
   if(f_a == NULL) goto fail;
 
-  if(J_a->dimensions[0] != f_a->dimensions[0]){
+  if(PyArray_DIM(J_a, 0) != PyArray_DIM(f_a,0)){
        PyErr_SetString(PyExc_ValueError, 
 		       "The length of the vector and the matrix do not fit!\n");
        goto fail;
   }
-  dimension = J_a->dimensions[1];
-  g_a = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+  dimension = PyArray_DIM(J_a, 1);
+  g_a = (PyArrayObject *) PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
   if(g_a == NULL) goto fail;
 
-  J = gsl_matrix_view_array((double *) J_a->data, J_a->dimensions[0], J_a->dimensions[1]);
-  f = gsl_vector_view_array_with_stride((double *) f_a->data, stride_recalc, f_a->dimensions[0]);
-  g = gsl_vector_view_array((double *) g_a->data, dimension);
+  J = gsl_matrix_view_array(PyArray_DATA(J_a), PyArray_DIM(J_a, 0), PyArray_DIM(J_a, 1));
+  f = gsl_vector_view_array_with_stride(PyArray_DATA(f_a), stride_recalc, PyArray_DIM(f_a, 0));
+  g = gsl_vector_view_array((double *) PyArray_DATA(g_a), dimension);
+
   gsl_multifit_gradient(&J.matrix, &f.vector, &g.vector);
   
   Py_DECREF(J_a);
@@ -73,13 +74,13 @@ PyGSL_gsl_multifit_covar(PyObject *self, PyObject *args)
   J_a = PyGSL_matrix_check(J_o, -1, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL, NULL);
   if(J_a == NULL) goto fail;
 
-  dimensions[0] = J_a->dimensions[1];
-  dimensions[1] = J_a->dimensions[1];
-  C_a = (PyArrayObject *) PyGSL_New_Array(2, dimensions, PyArray_DOUBLE);
+  dimensions[0] = PyArray_DIM(J_a, 1);
+  dimensions[1] = PyArray_DIM(J_a, 1);
+  C_a = (PyArrayObject *) PyGSL_New_Array(2, dimensions, NPY_DOUBLE);
   if(C_a == NULL) goto fail;
 
-  J = gsl_matrix_view_array((double *) J_a->data, J_a->dimensions[0], J_a->dimensions[1]);
-  C = gsl_matrix_view_array((double *) C_a->data, C_a->dimensions[0], C_a->dimensions[1]);
+  J = gsl_matrix_view_array((double *) PyArray_DATA(J_a), PyArray_DIM(J_a, 0), PyArray_DIM(J_a, 1));
+  C = gsl_matrix_view_array((double *) PyArray_DATA(C_a), PyArray_DIM(C_a, 0), PyArray_DIM(C_a, 1));
   
   gsl_multifit_covar(&J.matrix, epsrel, &C.matrix);
   
@@ -108,10 +109,10 @@ pygsl_multifit_create_return_arrays(PyGSL_array_index_t n,
 	PyArrayObject *ya = NULL, *ya_err = NULL;
 
 	FUNC_MESS_BEGIN();
-	ya = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+	ya = PyGSL_New_Array(1, &n, NPY_DOUBLE);
 	if(ya == NULL)
 		goto fail;
-	ya_err = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+	ya_err = PyGSL_New_Array(1, &n, NPY_DOUBLE);
 	if(ya_err == NULL)
 		goto fail;
 	
@@ -170,8 +171,8 @@ gsl_multifit_linear_est_matrix (const gsl_matrix * pars,
 	if(flag != GSL_SUCCESS)
 		goto fail;
 
-	yp = (double*)ya->data;
-	yp_err = (double*)ya_err->data;
+	yp = (double*)PyArray_DATA(ya);
+	yp_err = (double*)PyArray_DATA(ya_err);
 	for(i = 0; i < n; ++i){
 		gsl_vector_const_view v = gsl_matrix_const_row(pars, i);
 		flag = gsl_multifit_linear_est(&(v.vector), c, cov, &yt, &yt_err);

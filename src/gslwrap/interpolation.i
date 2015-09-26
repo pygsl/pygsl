@@ -54,14 +54,14 @@ struct pygsl_interp{
      if (_PyVector_1$argnum == NULL)
 	  goto fail;
 
-     mysize = _PyVector_1$argnum->dimensions[0];
+     mysize = PyArray_DIM(_PyVector_1$argnum, 0);
 
      _PyVector_2$argnum = PyGSL_vector_check(PySequence_Fast_GET_ITEM($input, 1), mysize, PyGSL_DARRAY_CINPUT($argnum+1), NULL, NULL);
      if (_PyVector_2$argnum == NULL)
 	  goto fail;
 
-     $1 = (double *)(_PyVector_1$argnum->data);
-     $2 = (double *)(_PyVector_2$argnum->data);
+     $1 = (double *)(PyArray_DATA(_PyVector_1$argnum));
+     $2 = (double *)(PyArray_DATA(_PyVector_2$argnum));
      $3 = (size_t) mysize;
 
 };
@@ -81,8 +81,8 @@ struct pygsl_interp{
      if (_PyVector$argnum == NULL)
 	  goto fail;
 
-     mysize = _PyVector$argnum->dimensions[0];
-     $1 = (double *)(_PyVector$argnum->data);
+     mysize = PyArray_DIM(_PyVector$argnum, 0);
+     $1 = (double *)(PyArray_DATA(_PyVector$argnum));
      $2 = (size_t) mysize;
 };
 /* Just to prevent that the check typemap below is applied. */
@@ -101,7 +101,7 @@ struct pygsl_interp{
      _PyVector$argnum = PyGSL_vector_check(_input$argnum, _gslinterp_size, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
-     $1 = (double *)(_PyVector$argnum->data);
+     $1 = (double *)(PyArray_DATA(_PyVector$argnum));
 };
 %typemap(freearg) (const double * array) {
      Py_XDECREF(_PyVector$argnum);
@@ -163,11 +163,11 @@ _pygsl_spline_eval_vector_generic(const gsl_spline * spline, const gsl_vector *x
 
      FUNC_MESS_BEGIN();
      n = x->size;
-     ret = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+     ret = PyGSL_New_Array(1, &n, NPY_DOUBLE);
      if(ret == NULL)
 	  return NULL;
      
-     data = (double *) ret->data;
+     data = (double *) PyArray_DATA(ret);
      for(i=0; i<n; ++i){
 	  data[i] = spline_method(spline, gsl_vector_get(x, i), acc);
      }
@@ -188,14 +188,14 @@ _pygsl_spline_eval_e_vector_generic(const gsl_spline * spline, const gsl_vector 
 
      FUNC_MESS_BEGIN();
      n = x->size;
-     ret = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+     ret = PyGSL_New_Array(1, &n, NPY_DOUBLE);
      if(ret == NULL){
 	  lineno = __LINE__ - 2;
 	  goto fail;
      }
 	  
      
-     data = (double *) ret->data;
+     data = (double *) PyArray_DATA(ret);
      for(i=0; i<n; ++i){
 	  ptr = &(data[i]);
 	  flag = spline_method(spline, gsl_vector_get(x, i), acc, ptr);
@@ -232,11 +232,11 @@ _pygsl_spline_eval_integ_vector(const gsl_spline * spline, const gsl_vector *a,
 	  return NULL;
  
      }
-     ret = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+     ret = PyGSL_New_Array(1, &n, NPY_DOUBLE);
      if(ret == NULL)
 	  return NULL;
      
-     data = (double *) ret->data;
+     data = (double *) PyArray_DATA(ret);
      for(i=0; i<n; ++i){
 	  data[i] = gsl_spline_eval_integ(spline, gsl_vector_get(a, i), gsl_vector_get(b, i), acc);
      }
@@ -264,13 +264,13 @@ _pygsl_spline_eval_integ_e_vector(const gsl_spline * spline, const gsl_vector *a
  
      }
 
-     ret = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+     ret = PyGSL_New_Array(1, &n, NPY_DOUBLE);
      if(ret == NULL){
 	  lineno = lineno - 2;
 	  goto fail;
      }
      
-     data = (double *) ret->data;
+     data = (double *) PyArray_DATA(ret);
      for(i=0; i<n; ++i){
 	  ptr = &(data[i]);
 	  flag = gsl_spline_eval_integ_e(spline, gsl_vector_get(a, i), gsl_vector_get(b, i), acc, ptr);
@@ -522,12 +522,12 @@ struct pygsl_interp{
        Py_XDECREF(self->x_array);
        self->xa = NULL;
        self->x_array = xa;
-       self->xa = (double *) xa->data;
+       self->xa = (double *) PyArray_DATA(xa);
 
        Py_XDECREF(self->y_array);
        self->ya = NULL;
        self->y_array = ya;
-       self->ya = (double *) ya->data;
+       self->ya = (double *)  PyArray_DATA(ya);
 
        flag = gsl_interp_init(self->interp, self->xa, self->ya, self->n);
        FUNC_MESS_END();
@@ -612,8 +612,8 @@ struct pygsl_interp{
      _PyVector$argnum = PyGSL_vector_check($input, -1, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
-     $1 = (double *)(_PyVector$argnum->data);
-     _PyVectorLength = _PyVector$argnum->dimensions[0];
+     $1 = (double *)( PyArray_DATA(_PyVector$argnum));
+     _PyVectorLength = PyArray_DIM(_PyVector$argnum, 0);
 };
 %typemap(check) (const double x_array[]) {
      ;

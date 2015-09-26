@@ -84,10 +84,10 @@ struct gsl_combination_struct
        PyGSL_array_index_t size, i;
 
        size = (int) gsl_combination_k(self);
-       a_array = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_LONG);
+       a_array = (PyArrayObject *) PyGSL_New_Array(1, &size, NPY_LONG);
        if(a_array == NULL)
 	    return NULL;
-       data = (long *) a_array->data;
+       data = (long *) PyArray_DATA(a_array);
        for(i=0; i<size; i++){
 	    data[i] = (long) gsl_combination_get(self, i);
        }

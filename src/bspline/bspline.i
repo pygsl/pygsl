@@ -94,8 +94,8 @@ struct pygsl_bspline
 	    flag =  GSL_EINVAL;
 	    goto fail;
        }
-       sample_len = knots_a->dimensions[0];
-       vec = gsl_vector_view_array_with_stride((double *)(knots_a->data), stride, sample_len);
+       sample_len = PyArray_DIM(knots_a,0);
+       vec = gsl_vector_view_array_with_stride((double *)PyArray_DATA(knots_a), stride, sample_len);
        Py_XDECREF(self->knots_a);
        /* pass the reference to knots_a */
        self->knots_a = knots_a;
@@ -128,7 +128,7 @@ struct pygsl_bspline
   PyObject*  eval_vector(const gsl_vector *IN){
        PyArrayObject *B_M_a = NULL;
        gsl_vector_view B_v;
-       PyGSL_array_index_t n, sample_len, tmp[2], i=0;
+       PyGSL_array_index_t n, sample_len, tmp[2], i=0, strides;
        double x;
        char * row_ptr;
        int flag=GSL_EFAILED;
@@ -139,25 +139,26 @@ struct pygsl_bspline
        DEBUG_MESS(2, "sample_len = %ld", (long) sample_len);
        tmp[0] = sample_len;
        tmp[1] = n;
-       B_M_a = PyGSL_New_Array(2, tmp, PyArray_DOUBLE);
+       B_M_a = PyGSL_New_Array(2, tmp, NPY_DOUBLE);
        if(B_M_a == NULL)
 	    return NULL;
 
        DEBUG_MESS(2, "B_M_a = %p, strides = (%ld, %ld) size = (%ld, %ld)", 
 		  (void *) B_M_a,
-		  (long) B_M_a->strides[0], (long) B_M_a->strides[1],
-		  (long) B_M_a->dimensions[0], (long) B_M_a->dimensions[1]
+		  (long) PyArray_STRIDE(B_M_a, 0), (long) PyArray_STRIDE(B_M_a, 1),
+		  (long) PyArray_DIM(B_M_a, 0), (long)  PyArray_DIM(B_M_a, 1)
 		  );
+
        
        for(i = 0; i < sample_len; ++i){
-	    row_ptr = B_M_a->data + B_M_a->strides[0] * i;
-	    B_v = gsl_vector_view_array((double *) (row_ptr), (B_M_a->dimensions[1]));
-	    x = gsl_vector_get(IN, i);
-	    DEBUG_MESS(5, "i  = %ld, x = %f row_ptr = %p, B_v = %p->data = %p", (long) i, x,
-		       (void *) row_ptr, (void *) &(B_v.vector), (void *)(B_v.vector.data));
-	 flag = gsl_bspline_eval(x, &(B_v.vector), self->w);
-	 if (PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
-	    goto fail;
+	       row_ptr = PyArray_DATA(B_M_a) + PyArray_STRIDE(B_M_a, 0) * i;
+	       B_v = gsl_vector_view_array((double *) (row_ptr), (PyArray_DIM(B_M_a, 1)));
+	       x = gsl_vector_get(IN, i);
+	       DEBUG_MESS(5, "i  = %ld, x = %f row_ptr = %p, B_v = %p->data = %p", (long) i, x,
+			  (void *) row_ptr, (void *) &(B_v.vector), (void *)(B_v.vector.data));
+	       flag = gsl_bspline_eval(x, &(B_v.vector), self->w);
+	       if (PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
+		       goto fail;
        }
        FUNC_MESS_END();
        return (PyObject *) B_M_a;
@@ -175,10 +176,10 @@ struct pygsl_bspline
        int flag=GSL_EFAILED;
 
        n = self->w->n;
-       B_a = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+       B_a = PyGSL_New_Array(1, &n, NPY_DOUBLE);
        if(B_a == NULL)
 	    return NULL;
-       B_v = gsl_vector_view_array((double *) (B_a->data), (B_a->dimensions[0]));
+       B_v = gsl_vector_view_array((double *) PyArray_DATA(B_a), PyArray_DIM(B_a,0));
        flag = gsl_bspline_eval(X, &(B_v.vector), self->w);
        if (PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS)
 	    goto fail;
@@ -211,24 +212,24 @@ struct pygsl_bspline
       return GSL_FAILURE;
 
     self->coeffs_a = coeffs_a;
-    self->coeffs = gsl_vector_view_array((double *) (coeffs_a->data),
-					 coeffs_a->dimensions[0]);
+    self->coeffs = gsl_vector_view_array((double *) PyArray_DATA(coeffs_a),
+					 PyArray_DIM(coeffs_a,0));
     coeffs_a = NULL;
 
     /* work array, does the size fit? */
-    if(self->tmp_a != NULL && self->tmp_a->dimensions[0] != size){
+    if(self->tmp_a != NULL && PyArray_DIM(self->tmp_a, 0) != size){
 	Py_DECREF(self->tmp_a);      
 	self->tmp_a = NULL;
     }
     if(self->tmp_a == NULL){
       PyGSL_array_index_t size_tmp = self->w->n;
-      self->tmp_a = PyGSL_New_Array(1, &size_tmp, PyArray_DOUBLE);      
+      self->tmp_a = PyGSL_New_Array(1, &size_tmp, NPY_DOUBLE);      
     }
     if(self->tmp_a == NULL){
       return GSL_ENOMEM;
     }
-    self->tmp = gsl_vector_view_array((double *) (self->tmp_a->data),
-				      self->tmp_a->dimensions[0]);
+    self->tmp = gsl_vector_view_array((double *) PyArray_DATA(self->tmp_a),
+				      PyArray_DIM(self->tmp_a, 0));
     if(cov_o == NULL){
       /* Nothing left to do ...*/
       Py_XDECREF(self->cov_a);
@@ -247,9 +248,9 @@ struct pygsl_bspline
       return GSL_FAILURE;
 
     self->cov_a = cov_a;
-    self->cov = gsl_matrix_view_array((double *) (cov_a->data), 
-				      cov_a->dimensions[0], 
-				      cov_a->dimensions[1]);
+    self->cov = gsl_matrix_view_array((double *) PyArray_DATA(cov_a), 
+				      PyArray_DIM(cov_a, 0), 
+				      PyArray_DIM(cov_a, 1));
     FUNC_MESS_END();
     return GSL_SUCCESS;   
 
@@ -275,12 +276,12 @@ struct pygsl_bspline
       PyGSL_ERROR_NULL("No coefficients set", GSL_EFAULT);
     }    
     size = X->size;    
-    a = PyGSL_New_Array(1, &size, PyArray_DOUBLE);      
+    a = PyGSL_New_Array(1, &size, NPY_DOUBLE);      
 
     if(a == NULL)
       return NULL;
 
-    data = (double *) a->data;
+    data = ((double *) PyArray_DATA(a));
     for(i = 0; i < size; ++i){
       xt = gsl_vector_get(X, i);
       flag = _pygsl_bspline_eval_dep(self, xt, &(data[i]));
@@ -314,15 +315,15 @@ struct pygsl_bspline
 		GSL_EFAULT);
     }
     size = X->size;
-    y_a = PyGSL_New_Array(1, &size, PyArray_DOUBLE);      
+    y_a = PyGSL_New_Array(1, &size, NPY_DOUBLE);      
     if(y_a == NULL)
       goto fail;
-    yerr_a = PyGSL_New_Array(1, &size, PyArray_DOUBLE);      
+    yerr_a = PyGSL_New_Array(1, &size, NPY_DOUBLE);      
     if(yerr_a == NULL)
       goto fail;
 
-    y_d = (double *) y_a->data;
-    yerr_d = (double *) yerr_a->data;
+    y_d = (double *) PyArray_DATA(y_a);
+    yerr_d = (double *) PyArray_DATA(yerr_a);
     
     for(i = 0; i < size; ++i){
       xt = gsl_vector_get(X, i);

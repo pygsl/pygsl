@@ -20,14 +20,14 @@ histogram_histogram_pdf_sample(PyObject *self, PyObject *args)
      sample = PyGSL_vector_or_double(o, PyGSL_DARRAY_CINPUT(1), -1, NULL);
      if(sample == NULL)
 	  goto fail;
-     dimension = sample->dimensions[0];
-     number = PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+     dimension = PyArray_DIM(sample, 0);
+     number = PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
      if(!number)
 	  goto fail;
      
-     dnumber = (double *) (number->data);
-     for(i=0; i<sample->dimensions[0]; ++i){
-	  dsample = (double *) (sample->data + sample->strides[0] * i);
+     dnumber = (double *) PyArray_DATA(number);
+     for(i=0; i<dimension; ++i){
+       dsample = (double *) (PyArray_GETPTR1(sample, i));
 	  dnumber[i] = gsl_histogram_pdf_sample(p->pdf, *dsample);
      }
 
@@ -68,24 +68,24 @@ histogram_histogram2d_pdf_sample(PyObject *self, PyObject *args)
      if(sample == NULL)
 	  goto fail;
 
-     dimension = sample->dimensions[0];
+     dimension = PyArray_DIM(sample, 0);
      sample2 = PyGSL_vector_or_double(o2, PyGSL_DARRAY_CINPUT(2), dimension, NULL);
      if(sample2 == NULL)
 	  goto fail;
 
-     number = PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+     number = PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
      if(!number)
 	  goto fail;
 
-     number2 = PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+     number2 = PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
      if(!number2)
 	  goto fail;
      
-     dnumber = (double *) (number->data);
-     dnumber2 = (double *) (number2->data);
-     for(i=0; i<sample->dimensions[0]; ++i){
-	  dsample  = (double *) (sample->data  + sample->strides[0]  * i);
-	  dsample2 = (double *) (sample2->data + sample2->strides[0] * i);
+     dnumber  = (double *) (PyArray_DATA(number));
+     dnumber2 = (double *) (PyArray_DATA(number2));
+     for(i=0; i<dimension; ++i){
+       dsample  = (double *) (PyArray_GETPTR1(sample, i));
+       dsample2 = (double *) (PyArray_GETPTR1(sample2, i));
 	  flag = gsl_histogram2d_pdf_sample(p->pdf, *dsample, *dsample2, dnumber + i, dnumber2 + i);
 	  if(flag != GSL_SUCCESS)
 	       goto fail;

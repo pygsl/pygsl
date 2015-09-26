@@ -74,8 +74,8 @@ histogram_histogram_increment(PyObject *self, PyObject *args)
   if((a = PyGSL_vector_or_double(x_o, PyGSL_DARRAY_CINPUT(1), -1, NULL)) == NULL)
        goto fail;
 
-  for(i = 0; i <a->dimensions[0]; ++i){
-       x = *((double *) (a->data + a->strides[0] * i));
+  for(i = 0; i <PyArray_DIM(a, 0); ++i){
+    x = *((double *) PyArray_GETPTR1(a, i));
        DEBUG_MESS(3, "x[%d] = %e", i, x);
        result=gsl_histogram_increment(histogram, x);
        if(PyGSL_HIST_EDOM_WARN(result) != GSL_SUCCESS)
@@ -109,13 +109,13 @@ histogram_histogram_accumulate(PyObject *self, PyObject *args)
 
   if((x_a= PyGSL_vector_or_double(x_o, PyGSL_DARRAY_CINPUT(1), -1, NULL)) == NULL)
        goto fail;
-  dimension = x_a->dimensions[0];
+  dimension = PyArray_DIM(x_a, 0);
   if((w_a= PyGSL_vector_or_double(w_o, PyGSL_DARRAY_CINPUT(2), dimension, NULL)) == NULL)
        goto fail;
 
   for(i = 0; i <dimension; ++i){
-       x = *((double *) (x_a->data + x_a->strides[0] * i));
-       w = *((double *) (w_a->data + w_a->strides[0] * i));
+    x = *((double *) (PyArray_GETPTR1(x_a, i)));
+    w = *((double *) (PyArray_GETPTR1(w_a, i)));
        result=gsl_histogram_accumulate(histogram,x,w);
        if(PyGSL_HIST_EDOM_WARN(result) != GSL_SUCCESS)
 	    goto fail;
@@ -242,7 +242,7 @@ histogram_histogram_set_ranges(PyObject *self, PyObject *ranges)
 	  goto fail;
 
      /* set ranges to gsl_histogram structure */
-     gsl_result=gsl_histogram_set_ranges(histogram, (double *)a_ranges->data, a_ranges->dimensions[0]);
+     gsl_result=gsl_histogram_set_ranges(histogram, (double *)PyArray_DATA(a_ranges), PyArray_DIM(a_ranges, 0));
      Py_DECREF(a_ranges);
      a_ranges = NULL;
      if (PyGSL_ERROR_FLAG(gsl_result) != GSL_SUCCESS)
@@ -275,17 +275,17 @@ histogram_histogram_plot_data(PyObject *self, PyObject *args)
      assert(n>0);
      dim[0] = n;
      dim[1] = 2;
-     x_a = PyGSL_New_Array(2, dim, PyArray_DOUBLE);
+     x_a = PyGSL_New_Array(2, dim, NPY_DOUBLE);
      DEBUG_MESS(3, "x_a = %p", (void *) x_a);
-     y_a = PyGSL_New_Array(1, &n, PyArray_DOUBLE);
+     y_a = PyGSL_New_Array(1, &n, NPY_DOUBLE);
      DEBUG_MESS(3, "y_a = %p", (void *) y_a);
      if(x_a == NULL || y_a == NULL)
 	  goto fail;
 
-     data = (double *) x_a->data;
+     data = (double *) PyArray_DATA(x_a);
      for(i = 0; i < n; ++i){
 	  gsl_histogram_get_range(histogram, i, &data[2*i], &data[2*i+1]);
-	  ((double *) (y_a->data))[i] = gsl_histogram_get(histogram, i);
+	  ((double *) PyArray_DATA(y_a))[i] = gsl_histogram_get(histogram, i);
      }
      FUNC_MESS_END();
      return  Py_BuildValue("(OO)", x_a, y_a);

@@ -64,27 +64,31 @@ struct gsl_dht_struct
        return self->size;
   }
   
-  PyObject * apply(PyObject *in){
+  PyObject * apply(PyObject *in_obj){
        PyArrayObject *a_in = NULL, *a_out = NULL;
        PyObject *resultobj = NULL, *returnobj = NULL;
        PyGSL_array_index_t size = -1;
        int result;
+       double *inptr=NULL, *outptr=NULL;
 
        size = (int) self->size;
 
-       a_in = PyGSL_vector_check(in, size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
-       if (a_in == NULL)        
+       a_in = PyGSL_vector_check(in_obj, size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
+       if (a_in == NULL){        
 	    goto fail;
+       }
 
-       a_out = (PyArrayObject *) PyGSL_New_Array(1, &size, PyArray_DOUBLE);
+       a_out = (PyArrayObject *) PyGSL_New_Array(1, &size, NPY_DOUBLE);
        if (a_out == NULL)
 	    goto fail;
        
-
-       result = gsl_dht_apply(self, (double *)a_in->data, (double *)a_out->data);
+       inptr = (double *) PyArray_DATA(a_in);
+       outptr = (double *) PyArray_DATA(a_out);
+       result = gsl_dht_apply(self, inptr, outptr);
        Py_DECREF(a_in);
        a_in = NULL;
-
+       inptr = NULL;
+       
        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
        if (resultobj == NULL) 
 	    goto fail;

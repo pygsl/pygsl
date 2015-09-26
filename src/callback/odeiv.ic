@@ -213,18 +213,18 @@ pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
     }else{
 	 dydt_in = PyGSL_vector_check(dydt_in_o,  dimension, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
 	 if(dydt_in == NULL) goto fail;
-	 dydt_in_d = (double *) dydt_in->data;
+	 dydt_in_d = (double *) PyArray_DATA(dydt_in);
     }
 
 
-    dydt_out = (PyArrayObject *)  PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+    dydt_out = (PyArrayObject *)  PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
     if (dydt_out == NULL) goto fail;
 
-    yerr = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+    yerr = (PyArrayObject *) PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
     if(yerr == NULL) goto fail;
 
 
-    /* yout = (PyArrayObject *) PyGSL_Copy_Array(y0, PyArray_DOUBLE, 1, 1); */
+    /* yout = (PyArrayObject *) PyGSL_Copy_Array(y0, NPY_DOUBLE, 1, 1); */
     yout = (PyArrayObject *) PyGSL_Copy_Array(y0);
     if(yout == NULL) goto fail;
 
@@ -265,10 +265,10 @@ pygsl_odeiv_step_apply(PyObject *self, PyObject *args)
      }
     
     r = gsl_odeiv_step_apply(s, t, h, 
-			     (double *) yout->data, 
-			     (double *) yerr->data, 
+			     (double *) PyArray_DATA(yout), 
+			     (double *) PyArray_DATA(yerr), 
 			     dydt_in_d, 
-			     (double *) dydt_out->data, 
+			     (double *) PyArray_DATA(dydt_out), 
 			     &sys);
     if (GSL_SUCCESS != r){
 	PyErr_SetString(PyExc_TypeError, "Error While evaluating gsl_odeiv");
@@ -455,11 +455,11 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
      }
 
 
-    if(PyGSL_STRIDE_RECALC(yout->strides[0], sizeof(double), &stride) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(yout, 0), sizeof(double), &stride) != GSL_SUCCESS){
 	 line = __LINE__ - 1;
 	 goto fail;
     }
-    DEBUG_MESS(2, "Raw Stride of yout was (%ld,%ld)\n", (long)yout->strides[0], (long)yout->strides[1]); 
+    DEBUG_MESS(2, "Raw Stride of yout was (%ld,%ld)\n", (long)PyArray_STRIDE(yout, 0), (long)PyArray_STRIDE(yout, 1)); 
     if(stride != 1){
 	 line = __LINE__ - 1;
 	 fprintf(stderr, "Stride of yout was %ld\n",  (long)stride); 
@@ -468,7 +468,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     }
 
     DEBUG_MESS(3, "\r step t = % 8.6e h = % 8.6e", t, h);
-    r = gsl_odeiv_evolve_apply(e, con, s, &sys, &t, t1, &h, (double *)(yout->data));
+    r = gsl_odeiv_evolve_apply(e, con, s, &sys, &t, t1, &h, (double *)PyArray_DATA(yout));
 
     DEBUG_MESS(3, "  stepped to  t = % 8.6e h = % 8.6e", t, h);
     if(r == GSL_EINVAL)
@@ -583,30 +583,30 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
 	 goto fail;
     }
 
-    if(PyGSL_STRIDE_RECALC(ts->strides[0], sizeof(double), &stride) != GSL_SUCCESS)
+    if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(ts, 0), sizeof(double), &stride) != GSL_SUCCESS)
 	 goto fail;
-    vts = gsl_vector_view_array_with_stride((double *) ts->data, stride, ts->dimensions[0]);
+    vts = gsl_vector_view_array_with_stride((double *) PyArray_DATA(ts), stride, PyArray_DIM(ts, 0));
 
     DEBUG_MESS(4, "Checking refcounts of objects: ts @ %p refcnt %d",
 	       (void *) ts, PyGSL_SAVE_REFCNT(ts));
 
 
-    /* yout = (PyArrayObject *)  PyGSL_Copy_Array((PyObject * ) y0, PyArray_DOUBLE, 1, 1); */    
-    dims[1] = y0->dimensions[0];
-    dims[0] = ts->dimensions[0];
+    /* yout = (PyArrayObject *)  PyGSL_Copy_Array((PyObject * ) y0, NPY_DOUBLE, 1, 1); */    
+    dims[1] = PyArray_DIM(y0, 0);
+    dims[0] = PyArray_DIM(ts, 0);
     assert(yout == NULL);
-    yout = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
+    yout = (PyArrayObject *) PyGSL_New_Array(2, dims, NPY_DOUBLE);
     if(yout == NULL){
 	 line = __LINE__ - 2;
 	 goto fail;
     }
     DEBUG_MESS(4, "Checking refcounts of objects: yout @ %p refcnt %d",
 	       (void *) yout, PyGSL_SAVE_REFCNT(yout));
-    if(PyGSL_STRIDE_RECALC(yout->strides[1], sizeof(double), &stride) != GSL_SUCCESS){
+    if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(yout, 1), sizeof(double), &stride) != GSL_SUCCESS){
 	 line = __LINE__ - 1;
 	 goto fail;
     }
-    DEBUG_MESS(2, "Raw Stride of yout was (%ld,%ld)\n", (long)yout->strides[0], (long)yout->strides[1]); 
+    DEBUG_MESS(2, "Raw Stride of yout was (%ld,%ld)\n", (long)PyArray_STRIDE(yout, 0), (long)PyArray_STRIDE(yout, 1)); 
     if(stride != 1){
 	 line = __LINE__ - 1;
 	 fprintf(stderr, "Stride of yout was %ld\n",  (long)stride); 
@@ -660,22 +660,22 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
     } else {
 	 direction = -1;
     }
-    for(i = 0; i < ts->dimensions[0]; ++i){
+    for(i = 0; i < PyArray_DIM(ts, 0); ++i){
 	 /* The integration direction does not need to be positive! */
 	 if(i == 0){
 	      /* Copy the start vector! */
-	      if(PyGSL_STRIDE_RECALC(y0->strides[0], sizeof(double), &stride) != GSL_SUCCESS){
+	   if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(y0, 0), sizeof(double), &stride) != GSL_SUCCESS){
 		   line = __LINE__ - 1;
 		   goto fail;
 	      }
-	      vy = gsl_vector_view_array_with_stride((double *) y0->data, stride, y0->dimensions[0]);
+	   vy = gsl_vector_view_array_with_stride((double *) PyArray_DATA(y0), stride,  PyArray_DIM(y0,0));
 	 }else{
 	      /* Copy the last result to the new position, as the data is modified in place */
 	      /* dimension must correspond to the dimension of the system! */
 	      assert(i>0);
-	      vy  = gsl_vector_view_array((double *)(yout->data + yout->strides[0] *  (i - 1)), yout->dimensions[1]);
+	      vy  = gsl_vector_view_array((double *)(PyArray_DATA(yout) + PyArray_STRIDE(yout, 0) *  (i - 1)), PyArray_DIM(yout, 1));
 	 }
-	 vy1 = gsl_vector_view_array((double *)(yout->data + yout->strides[0] *  i), yout->dimensions[1]);
+	 vy1 = gsl_vector_view_array((double *)(PyArray_DATA(yout) + PyArray_STRIDE(yout, 0) *  i), PyArray_DIM(yout, 1));
 	 if(gsl_blas_dcopy(&vy.vector, &vy1.vector) != GSL_SUCCESS){
 	      line = __LINE__ - 1;
 	      goto fail;    
@@ -807,9 +807,9 @@ pygsl_odeiv_control_hadjust(PyObject *self, PyObject *args)
   FUNC_MESS("      Array Pointers End");
 
   r = gsl_odeiv_control_hadjust(c, s, 
-				(double *) y0->data,
-				(double *) yerr->data,
-				(double *) dydt->data, &h);
+				(double *) PyArray_DATA(y0),
+				(double *) PyArray_DATA(yerr),
+				(double *) PyArray_DATA(dydt), &h);
 
   FUNC_MESS("      Function End");
   Py_DECREF(y0);       y0 = NULL;  

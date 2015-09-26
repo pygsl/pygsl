@@ -6,27 +6,27 @@
 import sys
 
 vector_dic = {
-"complex_long_double"  :   ("PyArray_NOTYPE  ","gsl_complex_long_double" ,"long double" ),
-"complex_double"       :   ("PyArray_CDOUBLE ","gsl_complex"             ,"double"      ),
-"complex_float"        :   ("PyArray_CFLOAT  ","gsl_complex_float"       ,"float"       ),
-"complex"              :   ("PyArray_CDOUBLE ","gsl_complex"             ,"double"      ),
+"complex_long_double"  :   ("NPY_NOTYPE  ","gsl_complex_long_double" ,"long double" ),
+"complex_double"       :   ("NPY_CDOUBLE ","gsl_complex"             ,"double"      ),
+"complex_float"        :   ("NPY_CFLOAT  ","gsl_complex_float"       ,"float"       ),
+"complex"              :   ("NPY_CDOUBLE ","gsl_complex"             ,"double"      ),
                                                                                                     
-"long_double"          :   ("PyArray_NOTYPE  ","long double"             ,"long double" ),
-"double"               :   ("PyArray_DOUBLE  ","double"                  ,"double"      ),
-"float"                :   ("PyArray_FLOAT   ","float"                   ,"float"       ),
-""                      :  ("PyArray_DOUBLE  ","double"                  ,"double"      ),
+"long_double"          :   ("NPY_NOTYPE  ","long double"             ,"long double" ),
+"double"               :   ("NPY_DOUBLE  ","double"                  ,"double"      ),
+"float"                :   ("NPY_FLOAT   ","float"                   ,"float"       ),
+""                      :  ("NPY_DOUBLE  ","double"                  ,"double"      ),
                                                                                         
-"ulong"                :   ("PyArray_NOTYPE  ","unsigned long"                   ,"unsigned long"),
-"long"                 :   ("PyArray_LONG    ","long"                    ,"long"        ),
+"ulong"                :   ("NPY_NOTYPE  ","unsigned long"                   ,"unsigned long"),
+"long"                 :   ("NPY_LONG    ","long"                    ,"long"        ),
                                                                                         
-"uint"                 :   ("PyArray_NOTYPE  ","unsigned int"                    ,"unsigned int"),
-"int"                  :   ("PyArray_INT     ","int"                     ,"int"         ),
+"uint"                 :   ("NPY_NOTYPE  ","unsigned int"                    ,"unsigned int"),
+"int"                  :   ("NPY_INT     ","int"                     ,"int"         ),
                                                                                         
-"ushort"               :   ("PyArray_NOTYPE  ","unsigned short"                  ,"unsigned short"),
-"short"                :   ("PyArray_SHORT   ","short"                   ,"short"       ),
+"ushort"               :   ("NPY_NOTYPE  ","unsigned short"                  ,"unsigned short"),
+"short"                :   ("NPY_SHORT   ","short"                   ,"short"       ),
                                                                                         
-"uchar"                :   ("PyArray_NOTYPE  ","unsigned char"                   ,"unsigned char"),
-"char"                 :   ("PyArray_CHAR    ","char"                    ,"char"        ),
+"uchar"                :   ("NPY_NOTYPE  ","unsigned char"                   ,"unsigned char"),
+"char"                 :   ("NPY_CHAR    ","char"                    ,"char"        ),
 }
 vector_tuple =(
 "complex_long_double",

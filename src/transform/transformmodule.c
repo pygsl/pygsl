@@ -134,10 +134,10 @@ init_helpers(void)
 	PYGSL_INIT_FUNCS_DF(real,        real_workspace,    real_wavetable, REAL_WORKSPACE, REAL_WAVETABLE)
 	PYGSL_INIT_FUNCS_DF(halfcomplex, real_workspace,    halfcomplex_wavetable, REAL_WORKSPACE, HALFCOMPLEX_WAVETABLE)
 
-        DEBUG_MESS(3, "PyArray_FLOAT   = %d ", PyArray_FLOAT  ); 
-	DEBUG_MESS(3, "PyArray_DOUBLE  = %d ", PyArray_DOUBLE );
-	DEBUG_MESS(3, "PyArray_CFLOAT  = %d ", PyArray_CFLOAT );
-	DEBUG_MESS(3, "PyArray_CDOUBLE = %d ", PyArray_CDOUBLE);
+       DEBUG_MESS(3, "PyArray_FLOAT   = %d ", NPY_FLOAT  ); 
+	DEBUG_MESS(3, "PyArray_DOUBLE  = %d ", NPY_DOUBLE );
+	DEBUG_MESS(3, "PyArray_CFLOAT  = %d ", NPY_CFLOAT );
+	DEBUG_MESS(3, "PyArray_CDOUBLE = %d ", NPY_CDOUBLE);
 
 #ifdef _PYGSL_GSL_HAS_WAVELET	
 	DEBUG_MESS(4, "%s @ %p", "daubechies", gsl_wavelet_daubechies);

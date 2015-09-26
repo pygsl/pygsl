@@ -119,7 +119,7 @@ enum PyGSL_Array_Flags {
 )
 
 #define PyGSL_DARRAY_INFO(array_flag, argnum)  \
-   PyGSL_BUILD_ARRAY_INFO(array_flag, PyArray_DOUBLE, sizeof(double), argnum) 
+   PyGSL_BUILD_ARRAY_INFO(array_flag, NPY_DOUBLE, sizeof(double), argnum) 
 #define PyGSL_DARRAY_CINPUT(argnum)  PyGSL_DARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_INPUT_ARRAY, argnum) 
 #define PyGSL_DARRAY_INPUT(argnum)   PyGSL_DARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, argnum) 
 

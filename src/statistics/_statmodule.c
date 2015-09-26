@@ -24,8 +24,8 @@ PyGSL_statistics_d_A(PyObject *self, PyObject *args,
     if(data == NULL)
 	 return NULL;
 
-    n = data->dimensions[0];
-    result = pointer((void *)data->data, (size_t) stride, (size_t) n);
+    n = PyArray_DIM(data, 0);
+    result = pointer((void *)(PyArray_DATA(data)), (size_t) stride, (size_t) n);
     Py_DECREF(data);
     FUNC_MESS_END();
     return PyFloat_FromDouble(result);
@@ -52,8 +52,8 @@ PyGSL_statistics_l_A(PyObject *self, PyObject *args,
 	 return NULL;
 
 
-    n = data->dimensions[0]; 
-    result = pointer((void *)data->data, (size_t) stride, (size_t) n);
+    n = PyArray_DIM(data, 0); 
+    result = pointer((void *)(PyArray_DATA(data)), (size_t) stride, (size_t) n);
     Py_DECREF(data);
     return PyLong_FromLong(result);
 }
@@ -81,8 +81,8 @@ PyGSL_statistics_d_Ad(PyObject *self, PyObject *args,
 
 
 
-    n = data->dimensions[0];
-    result = pointer((void *)data->data, (size_t) stride, (size_t) n, mean);
+    n = PyArray_DIM(data, 0);
+    result = pointer((void *)(PyArray_DATA(data)), (size_t) stride, (size_t) n, mean);
     Py_DECREF(data);
     return PyFloat_FromDouble(result);
 }
@@ -109,7 +109,7 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     if(data1 == NULL) 
 	 goto fail;
 
-    n1 = data1->dimensions[0];
+    n1 = PyArray_DIM(data1, 0);
 
     info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 2);
     data2 = PyGSL_vector_check(input2, n1, info, &stride2, NULL);
@@ -118,7 +118,7 @@ PyGSL_statistics_d_AA(PyObject *self, PyObject *args,
     }
 
     DEBUG_MESS(3, "basis_type_size %d\t stride1 %ld\t stride2 %ld", basis_type_size, (long) stride1, (long) stride2);
-    result = pointer((void *)data1->data, (size_t) stride1, (void *)data2->data, (size_t) stride2,  (size_t) n1);
+    result = pointer((void *)(PyArray_DATA(data1)), (size_t) stride1, (void *)(PyArray_DATA(data2)), (size_t) stride2,  (size_t) n1);
     DEBUG_MESS(2, "result = %e", result);
     Py_DECREF(data1); 
     Py_DECREF(data2); 
@@ -153,7 +153,7 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
 	return NULL;
     }
 
-    n1 = data1->dimensions[0];
+    n1 = PyArray_DIM(data1, 0);
     info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 2);
     data2 = PyGSL_vector_check(input2, n1, info, &stride2, NULL);
 
@@ -161,7 +161,7 @@ PyGSL_statistics_d_AAd(PyObject *self, PyObject *args,
 	Py_XDECREF(data1); 
 	return NULL;
     }
-    result = pointer((void *)data1->data, (size_t) stride1, (void *)data2->data, (size_t) stride2, (size_t) n1, mean);
+    result = pointer((void *)(PyArray_DATA(data1)), (size_t) stride1, (void *)(PyArray_DATA(data2)), (size_t) stride2, (size_t) n1, mean);
     Py_DECREF(data1); 
     Py_DECREF(data2); 
     return PyFloat_FromDouble(result); 
@@ -190,7 +190,7 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
 	return NULL;
     }
 
-    n1 = data1->dimensions[0];
+    n1 = PyArray_DIM(data1, 0);
     info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, array_type, basis_type_size, 2);
     data2 = PyGSL_vector_check(input2, n1, info, &stride2, NULL);
 
@@ -199,7 +199,7 @@ PyGSL_statistics_d_AAdd(PyObject *self, PyObject *args,
 	return NULL;
     }
 
-    result = pointer((void *)data1->data, (size_t) stride1, (void *)data2->data, (size_t) stride2, (size_t) n1, mean1, mean2);
+    result = pointer((void *)(PyArray_DATA(data1)), (size_t) stride1, (void *)(PyArray_DATA(data2)), (size_t) stride2, (size_t) n1, mean1, mean2);
     Py_DECREF(data1); 
     Py_DECREF(data2); 
     return PyFloat_FromDouble(result); 
@@ -227,8 +227,8 @@ PyGSL_statistics_d_Add(PyObject *self, PyObject *args,
 	return NULL;
     }
 
-    n = data->dimensions[0];
-    result = pointer((void *)data->data, (size_t) stride, (size_t) n, mean1, mean2);
+    n = PyArray_DIM(data, 0);
+    result = pointer((void *)(PyArray_DATA(data)), (size_t) stride, (size_t) n, mean1, mean2);
     Py_DECREF(data);
     return PyFloat_FromDouble(result);
 }
@@ -254,8 +254,8 @@ PyGSL_statistics_ll_A(PyObject *self, PyObject *args,
 	return NULL;
     }
 
-    n = data->dimensions[0];
-    pointer(&result1, &result2, (void *)data->data, (size_t) stride, (size_t) n);
+    n = PyArray_DIM(data, 0);
+    pointer(&result1, &result2, (void *)(PyArray_DATA(data)), (size_t) stride, (size_t) n);
     Py_DECREF(data);
     return Py_BuildValue("ll", (long) result1, (long) result2);
 }

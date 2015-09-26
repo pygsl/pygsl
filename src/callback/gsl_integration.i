@@ -152,8 +152,8 @@ int gsl_integration_qags (const gsl_function *  BUFFER,
      _PyVector$argnum = PyGSL_vector_check($input, -1, PyGSL_DARRAY_CINPUT($argnum), NULL, NULL);
      if (_PyVector$argnum == NULL)
 	  goto fail;
-     $1 = (double*)(_PyVector$argnum->data);
-     $2 = _PyVector$argnum->dimensions[0];
+     $1 = (double*)(PyArray_DATA(_PyVector$argnum));
+     $2 = PyArray_DIM(_PyVector$argnum, 0);
 %};
 %typemap(argout) (double *pts, 
 		  size_t npts) {

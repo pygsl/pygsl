@@ -34,14 +34,14 @@
      if (_PyVector_1$argnum == NULL)
 	  goto fail;
 
-     mysize = _PyVector_1$argnum->dimensions[0];
+     mysize = PyArray_DIM(_PyVector_1$argnum, 0);
 
      _PyVector_2$argnum = PyGSL_vector_check(PySequence_GetItem($input, 1), mysize, PyGSL_DARRAY_CINPUT($argnum+1), NULL, NULL);
      if (_PyVector_2$argnum == NULL)
 	  goto fail;
 
-     $1 = (double *)(_PyVector_1$argnum->data);
-     $2 = (double *)(_PyVector_2$argnum->data);
+     $1 = (double *)(PyArray_DATA(_PyVector_1$argnum));
+     $2 = (double *)(PyArray_DATA(_PyVector_2$argnum));
      $3 = (size_t) mysize;
 
 };
@@ -61,8 +61,8 @@
      if (_PyVector$argnum == NULL)
 	  goto fail;
 
-     mysize = _PyVector$argnum->dimensions[0];
-     $1 = (double *)(_PyVector$argnum->data);
+     mysize = PyArray_DIM(_PyVector$argnum, 0);
+     $1 = (double *)(PyArray_DATA(_PyVector$argnum));
      $2 = (size_t) mysize;
 };
 /* Just to prevent that the check typemap below is applied. */

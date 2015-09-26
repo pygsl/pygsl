@@ -34,17 +34,17 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 %typemap(check) gsl_vector * OUT {
           PyGSL_array_index_t stride;
 
-	  _PyVector$argnum = (PyArrayObject *) PyGSL_New_Array(1, &_work_provide_p_work_provide, PyArray_DOUBLE);
+	  _PyVector$argnum = (PyArrayObject *) PyGSL_New_Array(1, &_work_provide_p_work_provide, NPY_DOUBLE);
           if(NULL == _PyVector$argnum){
                goto fail;
           }
 	  
-	  if(PyGSL_STRIDE_RECALC(_PyVector$argnum->strides[0], sizeof(BASIS_TYPE($1_basetype)), &stride) != GSL_SUCCESS)
+	  if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(_PyVector$argnum, 0), sizeof(BASIS_TYPE($1_basetype)), &stride) != GSL_SUCCESS)
 	       goto fail;
 
-          _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype((BASIS_C_TYPE($1_basetype) *) _PyVector$argnum->data,
+          _vector$argnum  = TYPE_VIEW_ARRAY_STRIDES_$1_basetype((BASIS_C_TYPE($1_basetype) *) PyArray_DATA(_PyVector$argnum),
                                                                 stride,
-                                                                _PyVector$argnum->dimensions[0]);
+                                                                PyArray_DIM(_PyVector$argnum, 0));
           $1 = ($basetype *) &(_vector$argnum.vector);
 
 }
@@ -55,18 +55,18 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  PyGSL_array_index_t stride_recalc=0, dimensions[2];
 	  dimensions[0] = _work_provide_p_work_provide;
 	  dimensions[1] = _work_provide_p_work_provide;
-	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, PyArray_DOUBLE);
+	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, NPY_DOUBLE);
 	  if(NULL == a_array){
 	       goto fail;
 	  }
 	  _PyMatrix$argnum = a_array;
 
 
-	  if(PyGSL_STRIDE_RECALC(a_array->strides[0], sizeof(BASIS_TYPE($1_basetype)), &stride_recalc) != GSL_SUCCESS)
+	  if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(a_array, 0), sizeof(BASIS_TYPE($1_basetype)), &stride_recalc) != GSL_SUCCESS)
 	       goto fail;
 	  /* (BASIS_TYPE_$1_basetype *) */
-	  _matrix$argnum  = TYPE_VIEW_ARRAY_$1_basetype((BASIS_C_TYPE($1_basetype) *) a_array->data, 
-							a_array->dimensions[0], a_array->dimensions[1]);
+	  _matrix$argnum  = TYPE_VIEW_ARRAY_$1_basetype((BASIS_C_TYPE($1_basetype) *) PyArray_DATA(a_array), 
+							PyArray_DIM(a_array,0), PyArray_DIM(a_array, 1));
 
 	  $1 = ($basetype *) &(_matrix$argnum.matrix);
 }
@@ -107,9 +107,9 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
      if (_PyVector$argnum == NULL)
 	  goto fail;
 
-     $1 = (double *) (_PyVector$argnum->data);
+     $1 = (double *) PyArray_DATA(_PyVector$argnum);
      $2 = (size_t) strides;
-     _PyVectorLength$1_name = (size_t) _PyVector$argnum->dimensions[0];
+     _PyVectorLength$1_name = (size_t) PyArray_DIM(_PyVector$argnum, 0);
 };
 %typemap(argout) (double *, size_t ) {
      Py_XDECREF(_PyVector$argnum);

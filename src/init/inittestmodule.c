@@ -6,6 +6,61 @@
 static PyObject * module = NULL;
 
 static PyObject*
+PyGSL_test_GetPTR1(PyObject *self, PyObject *args)
+{
+	PyObject * tmp1, *tmp2=NULL;
+	PyArrayObject * a = NULL;
+	void *v =NULL, *ptr1=NULL, *vtest=NULL, *ptr2=NULL;
+	char *cptr=NULL, *ctest;
+	PyGSL_array_index_t stride = 0, dim=0, cnt;	
+	int line = __LINE__;
+	
+	if(!PyArg_ParseTuple(args, "O", &tmp1)){
+		line = __LINE__ - 1;
+		goto fail;
+	}
+
+	a = PyGSL_matrix_check(tmp1, -1, -1, PyGSL_DARRAY_INPUT(1), NULL, NULL, NULL);
+	if(a == NULL)
+		goto fail;
+
+	stride = PyArray_STRIDE(a, 0);
+	dim = PyArray_DIM(a, 0);
+
+	v = PyArray_DATA(a);
+	cptr = PyArray_BYTES(a);
+	ptr1 = PyArray_GETPTR1(a, 0);
+	ptr2 = PyArray_GETPTR2(a, 0,0);
+	DEBUG_MESS(2, "cnt = 0:  ptr1 = %p, data = %p, bytes = %p, ptr2=%p",
+		   (void *)ptr1, (void *)v, (void *)cptr, ptr2);
+	for(cnt = 0; cnt < dim; ++cnt){
+		ptr1 = PyArray_GETPTR1(a, cnt);
+		vtest = v + stride * cnt;
+		ctest = cptr + stride * cnt;
+
+		if ((ptr1 == vtest) && (ptr1 == vtest)){	       	
+			DEBUG_MESS(2, "cnt = %3d:  ptr1 = data = bytes %p;",
+				   cnt, ptr1, ptr2);
+		} else{
+		DEBUG_MESS(2, "cnt = %3d:  ptr1 = %p, data = %p  (%s), bytes = %p (%s)",
+			   cnt, (void *)ptr1,  (void *)vtest,
+			   ptr1 == vtest ? "TRUE" : "FALSE",
+			   (void *)ctest,
+			   ptr1 == ctest ? "TRUE" : "FALSE");
+		}
+	}
+	
+	Py_DECREF(a); a = NULL;
+	Py_INCREF(Py_None);
+	return Py_None;
+
+  fail:
+	Py_XDECREF(a);
+	PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line);
+	return NULL;
+
+}
+static PyObject*
 PyGSL_test_new_array(PyObject *self, PyObject *args)
 {
      PyGSL_array_index_t dimensions[2];
@@ -32,7 +87,7 @@ PyGSL_test_new_array(PyObject *self, PyObject *args)
 	  dimensions[1] = dim2;	  
      }
      DEBUG_MESS(4, "Creating an array with %d dimensions dim1 %lu and dim 2 with %lu", nd, dim1, dim2);
-     a = (PyArrayObject *) PyGSL_New_Array(nd, dimensions, PyArray_DOUBLE);	  
+     a = (PyArrayObject *) PyGSL_New_Array(nd, dimensions, NPY_DOUBLE);	  
      if (a == NULL)
 	  goto fail;
      FUNC_MESS_END();     
@@ -58,7 +113,7 @@ PyGSL_vector_refcount(PyObject *self, PyObject *args)
 	  goto fail;
      }
 
-     info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS |PyGSL_INPUT_ARRAY, PyArray_DOUBLE, 1, 1);
+     info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS |PyGSL_INPUT_ARRAY, NPY_DOUBLE, 1, 1);
      info = PyGSL_DARRAY_CINPUT(1);
      a = PyGSL_vector_check(tmp, -1, info, NULL, NULL);
      if(a == NULL){
@@ -109,10 +164,13 @@ static char new_array_doc[] = "create a vector or a matrix. Requires first\n\
 static char vector_or_double_doc[] = "Pass a vector or a double in. It will return\n\
 a Python Array Object\n";
 
+static char test_getptr1_doc[] = "Prints the offset calculated for the different cols for a matrix using stride or GetPtr1\n";
+
 static PyMethodDef inittestMethods[] = {
      {"vector_refcount", PyGSL_vector_refcount, METH_VARARGS, refcount_doc},
      {"new_array", PyGSL_test_new_array, METH_VARARGS, new_array_doc},
      {"vector_or_double", PyGSL_test_vector_or_double, METH_VARARGS, vector_or_double_doc},
+     {"test_getptr1",    PyGSL_test_GetPTR1, METH_VARARGS, test_getptr1_doc},
      {NULL,     NULL, 0, NULL}        /* sentinel */
 };  
 

@@ -42,18 +42,18 @@ statistics_t_A(PyObject *self, PyObject *args, STATMOD_C_TYPE (*pointer)(const S
 	return NULL;
 
     info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
-				  STATMOD_APPEND_PYC_TYPE(PyArray_), 
+				  STATMOD_APPEND_PYC_TYPE(NPY_), 
 				  sizeof(STATMOD_C_TYPE), 1);
     data = PyGSL_vector_check(input, -1, info, &stride, NULL);
     if(data == NULL)
 	 return NULL;
 
-    n = data->dimensions[0];
-    result = pointer((STATMOD_C_TYPE *)data->data, (size_t) stride, (size_t) n);
+    n = PyArray_DIM(data, 0);
+    result = pointer((STATMOD_C_TYPE *)PyArray_DATA(data), (size_t) stride, (size_t) n);
     Py_DECREF(data);
     
-    flag = STATMOD_APPEND_PYC_TYPE(PyArray_);
-    if(flag == PyArray_DOUBLE || flag == PyArray_FLOAT)
+    flag = STATMOD_APPEND_PYC_TYPE(NPY_);
+    if(flag == NPY_DOUBLE || flag == NPY_FLOAT)
 	r = PyFloat_FromDouble((double) result);
     else
 	r = PyLong_FromLong((long) result);
@@ -77,20 +77,20 @@ statistics_tt_A(PyObject *self, PyObject *args, void (*pointer)(STATMOD_C_TYPE *
 	return NULL;
 
     info = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, 
-				  STATMOD_APPEND_PYC_TYPE(PyArray_), 
+				  STATMOD_APPEND_PYC_TYPE(NPY_), 
 				  sizeof(STATMOD_C_TYPE), 1);
     data = PyGSL_vector_check(input, -1, info, &stride, NULL);
     if(data == NULL) 
 	return NULL;
 
 
-    n = data->dimensions[0];
-    pointer(&result1, &result2, (STATMOD_C_TYPE *)data->data, (size_t) stride, (size_t) n);
+    n = PyArray_DIM(data, 0);
+    pointer(&result1, &result2, (STATMOD_C_TYPE *)PyArray_DATA(data), (size_t) stride, (size_t) n);
     Py_DECREF(data); 
     
     r = PyTuple_New(2);
-    flag = STATMOD_APPEND_PYC_TYPE(PyArray_);
-    if(flag == PyArray_DOUBLE || flag == PyArray_FLOAT){
+    flag = STATMOD_APPEND_PYC_TYPE(NPY_);
+    if(flag == NPY_DOUBLE || flag == NPY_FLOAT){
 	PyTuple_SET_ITEM(r, 0, PyFloat_FromDouble((double) result1));
 	PyTuple_SET_ITEM(r, 1, PyFloat_FromDouble((double) result2));
     }else{
@@ -117,7 +117,7 @@ static PyObject *\
 STATMOD_FUNC_EXT(statistics_ ## name,)(PyObject * self, PyObject *args) \
 {\
      return PyGSL_statistics_## type(self, args, (void *) STATMOD_FUNC_EXT(gsl_stats,_ ## name),\
-				     STATMOD_APPEND_PYC_TYPE(PyArray_), sizeof(STATMOD_C_TYPE));\
+				     STATMOD_APPEND_PYC_TYPE(NPY_), sizeof(STATMOD_C_TYPE));\
 }
 
 #define STATMOD_FUNCTION_d_A(name)   STATMOD_FUNCTION_GENERIC(name, d_A)

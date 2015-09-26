@@ -317,8 +317,8 @@ histogram_histogram2d_set_ranges(PyObject *self, PyObject *ranges)
 
   /* set ranges to gsl_histogram structure */
   gsl_result=gsl_histogram2d_set_ranges(histogram,
-					(double*)xranges->data,(size_t)xranges->dimensions[0],
-					(double*)yranges->data,(size_t)yranges->dimensions[0]);
+					(double*)PyArray_DATA(xranges),(size_t)PyArray_DIM(xranges, 0),
+					(double*)PyArray_DATA(yranges),(size_t)PyArray_DIM(yranges, 0));
 
   Py_DECREF(xranges);
   Py_DECREF(yranges);
@@ -351,20 +351,20 @@ histogram_histogram2d_plot_data(PyObject *self, PyObject *args)
      ny = gsl_histogram2d_ny(histogram);
      dim[0] = nx;
      dim[1] = 2;
-     x_a = PyGSL_New_Array(2, dim, PyArray_DOUBLE);
+     x_a = PyGSL_New_Array(2, dim, NPY_DOUBLE);
      dim[0] = ny;
      dim[1] = 2;
-     y_a = PyGSL_New_Array(2, dim, PyArray_DOUBLE);
+     y_a = PyGSL_New_Array(2, dim, NPY_DOUBLE);
      dim[1] = nx;
-     h_a = PyGSL_New_Array(2, dim, PyArray_DOUBLE);
+     h_a = PyGSL_New_Array(2, dim, NPY_DOUBLE);
      if(x_a == NULL || y_a == NULL || h_a == NULL)
 	  goto fail;
 
      for(i = 0; i < nx; ++i){
-	  gsl_histogram2d_get_xrange(histogram, i, ((double *) x_a->data) + 2*i, ((double *) x_a->data) + 2*i+1);
+       gsl_histogram2d_get_xrange(histogram, i, ((double *) PyArray_DATA(x_a)) + 2*i, ((double *) PyArray_DATA(x_a)) + 2*i+1);
      }
      for(j = 0; j < ny; ++j){
-	  gsl_histogram2d_get_xrange(histogram, j, ((double *) y_a->data) + 2*j, ((double *) y_a->data) + 2*j+1);
+       gsl_histogram2d_get_xrange(histogram, j, ((double *) PyArray_DATA(y_a)) + 2*j, ((double *) PyArray_DATA(y_a)) + 2*j+1);
      }
      testsize = nx * ny;
      for(j = 0; j < ny; ++j){
@@ -374,7 +374,7 @@ histogram_histogram2d_plot_data(PyObject *self, PyObject *args)
 		    pygsl_error("h_a not big enough ?!?", __FILE__, __LINE__ - 1, GSL_ESANITY);
 		    goto fail;
 	       }
-	       ((double *) h_a->data)[index] = gsl_histogram2d_get(histogram, i, j);
+	       ((double *) PyArray_DATA(h_a))[index] = gsl_histogram2d_get(histogram, i, j);
 	  }
      }
      return  Py_BuildValue("(OO)", x_a, y_a, h_a);

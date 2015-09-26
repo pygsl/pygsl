@@ -39,14 +39,14 @@ pygsl_poly_eval(PyObject *self, PyObject *args)
 
   x =  PyGSL_vector_or_double(x_o, PyGSL_DARRAY_CINPUT(2), -1, NULL);
   if(x == NULL) goto fail;
-  dimension = x->dimensions[0];
-  y =  PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+  dimension = PyArray_DIM(x, 0);
+  y =  PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
   if(y == NULL) goto fail;
 
-  for(i = 0; i<x->dimensions[0]; i++){
-       input  = ((double *) (x->data + x->strides[0] * i));
-       output = ((double *) (y->data + y->strides[0] * i));
-       *output = gsl_poly_eval((double *) array->data, array->dimensions[0], *input);
+  for(i = 0; i<PyArray_DIM(x, 0); i++){
+    input  = ((double *) (PyArray_DATA(x) + PyArray_STRIDE(x, 0) * i));
+    output = ((double *) (PyArray_DATA(y) + PyArray_STRIDE(y, 0) * i));
+    *output = gsl_poly_eval((double *) PyArray_DATA(array), PyArray_DIM(array, 0), *input);
   }
   Py_DECREF(array);
   Py_DECREF(x);
@@ -81,15 +81,15 @@ pygsl_poly_dd_init(PyObject *self, PyObject *args)
   }
   xa = PyGSL_vector_check(xa_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if (xa == NULL) goto fail;
-  dimension = xa->dimensions[0];
+  dimension = PyArray_DIM(xa, 0);
   ya = PyGSL_vector_check(ya_o, dimension, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if (ya == NULL) goto fail;
-  dd = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+  dd = (PyArrayObject *) PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
   if (dd == NULL) goto fail;
 
-  r = gsl_poly_dd_init ((double *) dd->data, 
-			(double *) xa->data, 
-			(double *) ya->data, 
+  r = gsl_poly_dd_init ((double *) PyArray_DATA(dd), 
+			(double *) PyArray_DATA(xa), 
+			(double *) PyArray_DATA(ya), 
 			dimension);
 
   if (PyErr_Occurred())
@@ -128,13 +128,13 @@ pygsl_poly_dd_eval(PyObject *self, PyObject *args)
   FUNC_MESS("    xa");
   xa = PyGSL_vector_check(xa_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if (xa == NULL) goto fail;
-  dimension = xa->dimensions[0];
+  dimension = PyArray_DIM(xa, 0);
   FUNC_MESS("    dd");
   dd = PyGSL_vector_check(dd_o,  -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if (dd == NULL) goto fail;
   FUNC_MESS("    Call gsl");
-  y = gsl_poly_dd_eval ((double *) dd->data, 
-			(double *) xa->data, 
+  y = gsl_poly_dd_eval ((double *) PyArray_DATA(dd), 
+			(double *) PyArray_DATA(xa), 
 			dimension, x);
 
   FUNC_MESS("    Build value");
@@ -168,18 +168,18 @@ pygsl_poly_dd_taylor(PyObject *self, PyObject *args)
   }
   dd = PyGSL_vector_check(dd_o, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
   if (dd == NULL) {nline = __LINE__ -1; goto fail;}
-  dimension = dd->dimensions[0];
+  dimension = PyArray_DIM(dd, 0);
   xa = PyGSL_vector_check(xa_o, dimension, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if (xa == NULL)  {nline = __LINE__ -1; goto fail;}
   wa = PyGSL_vector_check(wa_o, dimension, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
   if (wa == NULL)  {nline = __LINE__ -1; goto fail;}
-  c = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+  c = (PyArrayObject *) PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
   if (c == NULL)  {nline = __LINE__ -1; goto fail;}
 
-  r = gsl_poly_dd_taylor(((double *) c->data), xp,
-			 ((double *) dd->data),
-			 ((double *) xa->data), 
-			 dimension, ((double *) wa->data));
+  r = gsl_poly_dd_taylor(((double *) PyArray_DATA(c)), xp,
+			 ((double *) PyArray_DATA(dd)),
+			 ((double *) PyArray_DATA(xa)), 
+			 dimension, ((double *)  PyArray_DATA(wa)));
 
   if(PyGSL_ERROR_FLAG(r) != GSL_SUCCESS){
        nline = __LINE__ - 6;
@@ -228,7 +228,7 @@ pygsl_poly_complex_solve(PyObject *self, PyObject *args)
 
   a = PyGSL_vector_check(a_o, -1, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
   if (a == NULL) goto fail;
-  dimension = a->dimensions[0];
+  dimension = PyArray_DIM(a, 0);
   za_dimension = dimension - 1;
   /* ws->nc stores the potenz of the highest coefficient */
   if(za_dimension != ws->nc){
@@ -238,12 +238,12 @@ pygsl_poly_complex_solve(PyObject *self, PyObject *args)
 		    " the size of the workspace!");
     goto fail;
   }
-  za = (PyArrayObject *) PyGSL_New_Array(1, &za_dimension, PyArray_CDOUBLE);
+  za = (PyArrayObject *) PyGSL_New_Array(1, &za_dimension, NPY_CDOUBLE);
   if (za == NULL) goto fail;
 
   
-  r = gsl_poly_complex_solve ((double *) a->data, (size_t) dimension, ws, 
-			      (gsl_complex_packed_ptr) za->data);
+  r = gsl_poly_complex_solve ((double *) PyArray_DATA(a), (size_t) dimension, ws, 
+			      (gsl_complex_packed_ptr) PyArray_DATA(za));
   if(PyGSL_ERROR_FLAG(r) != GSL_SUCCESS)
        goto fail;
 

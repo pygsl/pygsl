@@ -22,8 +22,9 @@ PyGSL_New_Array(int nd,  PyGSL_array_index_t *dimensions, int type)
 static PyArrayObject *
 PyGSL_Copy_Array(PyArrayObject *ob, int type)
 {
-     int nd;
-     nd = ob->nd;
+
+  /* int nd;
+     nd = PyArray_NDIM(ob); */
      if(!PyArray_Check((PyObject *) ob)){
 	  pygsl_error("This function only copies arrays!", filename, __LINE__, GSL_ESANITY);
 	  return NULL;
@@ -31,17 +32,18 @@ PyGSL_Copy_Array(PyArrayObject *ob, int type)
      return (PyArrayObject *) PyArray_Copy(ob);
 }
 
+
 #ifndef CONTIGUOUS
-#define CONTIGUOUS NPY_CONTIGUOUS
+#define CONTIGUOUS NPY_ARRAY_CONTIGUOUS
 #endif
 #ifndef NOTSWAPPED
-#define NOTSWAPPED NPY_NOTSWAPPED
+#define NOTSWAPPED NPY_ARRAY_NOTSWAPPED
 #endif
 #ifndef ALIGNED
-#define ALIGNED    NPY_ALIGNED
+#define ALIGNED    NPY_ARRAY_ALIGNED
 #endif
 #ifndef WRITEABLE
-#define WRITEABLE  NPY_WRITEABLE
+#define WRITEABLE  NPY_ARRAY_WRITEABLE
 #endif
 
 #define __PyGSL_ARRAY_FLAG(flag_bit, flag) ((flag & flag_bit) ==  flag_bit)
@@ -108,8 +110,8 @@ PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
  fail:
      PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, line);     
      DEBUG_MESS(3, "contiguous = %d, array_type = %d", contiguous, array_type);
-     DEBUG_MESS(4, "common array types: Double %d, CDouble %d", PyArray_DOUBLE, PyArray_CDOUBLE);
-     DEBUG_MESS(8, "Char type %d", PyArray_CHAR);
+     DEBUG_MESS(4, "common array types: Double %d, CDouble %d", NPY_DOUBLE, NPY_CDOUBLE);
+     DEBUG_MESS(8, "Char type %d", NPY_CHAR);
      return NULL;
 }
 
