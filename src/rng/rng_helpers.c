@@ -984,24 +984,24 @@ PyGSL_rng_dA_to_dA(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_r
 	  goto fail;
 
      dims[0] = dimension;
-     dims[1] = a_array_in->dimensions[0];
+     dims[1] = PyArray_DIM(a_array_in, 0);
      if(dimension <= 0){                                                    
 	  PyErr_SetString(PyExc_ValueError,                                  
 			  "The sample number must be positive!");            
 	  goto fail;                                                        
      }                                                                       
      if (dimension == 1){
-	  a_array_out = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], PyArray_DOUBLE);
+	  a_array_out = (PyArrayObject *) PyGSL_New_Array(1, &dims[1], NPY_DOUBLE);
      }else{
-	  a_array_out = (PyArrayObject *) PyGSL_New_Array(2, dims, PyArray_DOUBLE);
+	  a_array_out = (PyArrayObject *) PyGSL_New_Array(2, dims, NPY_DOUBLE);
      }
      if(a_array_out == NULL)
 	  goto fail;
 
 
      for(i=0; i<dimension; i++){
-	  data_out = (double *) (a_array_out->data + a_array_out->strides[0] * i);
-	  evaluator(rng->rng, (size_t) dims[1], (double *) a_array_in->data, data_out);
+	  data_out = (double *) PyArray_GETPTR1(a_array_out,  i);
+	  evaluator(rng->rng, (size_t) dims[1], (double *) PyArray_DATA(a_array_in), data_out);
 	  
 	  if(PyErr_Occurred()){
 	       DEBUG_MESS(3, "Already a python error occured for dim %ld", i);
@@ -1212,50 +1212,51 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	  goto fail;
      }
      DEBUG_MESS(4, "Built Matrix. Object @ %p with refcount %d!", (void *) array_n, PyGSL_PY_ARRAY_GET_REFCNT(array_n));
-     dimension = array_n->dimensions[0];
+     dimension = PyArray_DIM(array_n, 0);
 
      FUNC_MESS("New Array ...");
-     array_out = (PyArrayObject *) PyGSL_New_Array(1, &dimension, PyArray_DOUBLE);
+     array_out = (PyArrayObject *) PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
      FUNC_MESS("BUILT New Array");
      if(array_out == NULL){
 	  line = __LINE__ - 2;
 	  goto fail;
      }
-     data_p = (double *) array_p->data;
-     data_out = (double *) array_out->data;
+     data_p = (double *) PyArray_DATA(array_p);
+     data_out = (double *) PyArray_DATA(array_out);
 
      FUNC_MESS("SWITCHING callback");
-     assert(type_3darg == PyArray_DOUBLE || type_3darg == PyArray_LONG);
+     assert(type_3darg == NPY_DOUBLE || type_3darg == NPY_LONG);
      switch(type_3darg){
-     case PyArray_DOUBLE:      
+     case NPY_DOUBLE:      
 	  evaluator_double = (double (*) (const size_t, const double [], const double [])) evaluator;
 	  break;
-     case PyArray_LONG:      
+     case NPY_LONG:      
 	  evaluator_uint    = (double (*) (const size_t, const double [], const unsigned int [])) evaluator;
 	  break;
      default:
 	  assert(0);
      }
-     DEBUG_MESS(5, "array_n has %d dimensions. dim = [%d, %d] strides = [%d,%d]", array_n->nd, 
-		    array_n->dimensions[0], array_n->dimensions[1],
-		    array_n->strides[0], array_n->strides[1]);
+     DEBUG_MESS(5, "array_n has %d dimensions. dim = [%d, %d] strides = [%d,%d]",
+		PyArray_NDIM(array_n), 
+		PyArray_DIM(array_n, 0), PyArray_DIM(array_n, 1),
+		PyArray_STRIDE(array_n, 0), PyArray_STRIDE(array_n, 1));
      DEBUG_MESS(5, "array_out has %d dimensions. dim = [%ld]" 
-		    " strides = [%ld,], dimension = %ld, k = %ld", array_out->nd, 
-		    (long)array_out->dimensions[0], (long)array_out->strides[0], (long)dimension,(long) k);
+		" strides = [%ld,], dimension = %ld, k = %ld", PyArray_NDIM(array_out), 
+		(long)PyArray_DIM(array_out, 0), (long)PyArray_STRIDE(array_out, 0), (long)dimension,(long) k);
      FUNC_MESS("Evaluating callback");
-     assert(array_out->dimensions[0] >= dimension);
+     assert(PyArray_DIM(array_out, 0) >= dimension);
      for(i = 0; i < dimension; i++){
-	  if(type_3darg == PyArray_DOUBLE){
+	  if(type_3darg == NPY_DOUBLE){
 	       DEBUG_MESS(2, "Referenceing double element %ld", (long)i);
-	       data_theta = (double *)(array_n->data + array_n->strides[0]*i);
+	       data_theta = (double *)PyArray_GETPTR1(array_n, i);
 	       assert(evaluator_double != NULL);
 	       DEBUG_MESS(2, "Calling Function for element %ld", (long)i);
 	       tmp_data = evaluator_double((size_t) k, data_p, data_theta);
 	       DEBUG_MESS(2, "Storing in array_out %f", tmp_data);
 	       data_out[i] = tmp_data;
-	  }else if (type_3darg == PyArray_LONG){
+	  }else if (type_3darg == NPY_LONG){
 	       DEBUG_MESS(2, "Evaluating long element %ld", (long)i);
-	       data_n = (unsigned int *)((long *) (array_n->data + array_n->strides[0] * i));
+	       data_n = (unsigned int *)((long *) PyArray_GETPTR1(array_n, i));
 	       assert(evaluator_uint != NULL);
 	       data_out[i] = evaluator_uint((size_t) k, data_p, data_n);
 	  }else {
