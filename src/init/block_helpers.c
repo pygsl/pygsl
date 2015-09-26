@@ -396,9 +396,9 @@ static PyArrayObject *
 PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x)
 {     
      int i, j;
-     PyGSL_array_index_t *dimensions,  *strides;
+     PyGSL_array_index_t dimensions[2],  *strides;
      PyArrayObject *a_array = NULL;
-     double tmp, *dptr=NULL;
+     double tmp;
      char *myptr, *data=NULL;
 
      FUNC_MESS_BEGIN();
@@ -434,7 +434,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object,  PyGSL_array_in
      int i, argnum = -1;
      char *data;
      
-     PyGSL_array_index_t *dimensions,  *strides;
+     PyGSL_array_index_t *dimensions =NULL,  *strides = NULL;
 
      FUNC_MESS_BEGIN();
      if (info)
@@ -450,8 +450,8 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object,  PyGSL_array_in
      strides = PyArray_STRIDES(a_array);
      data = PyArray_DATA(a_array);
      
-     DEBUG_MESS(2, "\t\ta_array->dimensions[0] = %d\n\t\ta_array->strides[0] = %d",
-		dimensions[0], strides[0]);
+     DEBUG_MESS(2, "\t\ta_array->dimensions[0] = %ld\n\t\ta_array->strides[0] = %ld",
+		(long)dimensions[0], (long)strides[0]);
 
     for (i=0;i<n;i++){
 	 tmp = *((double *) (data + strides[0] * i));
@@ -669,7 +669,7 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 	  }
 
      }/* number of tries */
-     DEBUG_MESS(7, "Checking refcount src obj @ %p had %d cts and array @ %p has now %d cts", 
+     DEBUG_MESS(7, "Checking refcount src obj @ %p had %ld cts and array @ %p has now %ld cts", 
 		(void *) src,  src->ob_refcnt, (void *)a_array, 
 		PyGSL_PY_ARRAY_GET_REFCNT(a_array));
     	  

@@ -492,7 +492,7 @@ PyGSL_Check_Array_Length(PyArrayObject *a, int call_n, int datamode, int n_type)
 		nd = PyArray_NDIM(a);
 		DEBUG_MESS(4, "Array nd = %d", nd);
 		for(i = 0; i < nd; ++i){
-			DEBUG_MESS(5, "Array dim[i] = %d", PyArray_DIM(a, i));
+			DEBUG_MESS(5, "Array dim[i] = %ld", PyArray_DIM(a, i));
 		}
 	}
 
