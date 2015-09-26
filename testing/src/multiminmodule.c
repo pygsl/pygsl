@@ -5,6 +5,7 @@
  * $Id$
  */
 #include <setjmp.h>
+#include <pygsl/transition.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/function_helpers.h>
@@ -465,7 +466,7 @@ PyGSL_multimin_name(PyGSL_multimin *self, PyObject *args)
 	  name = gsl_multimin_fdfminimizer_name(self->min.fdf);
      }
      FUNC_MESS_END();
-     return PyString_FromString(name);
+     return PyGSL_string_from_string(name);
 }
 
 static PyObject* 
@@ -626,6 +627,7 @@ static PyMethodDef PyGSL_multimin_fdfmethods[] = {
      {"test_gradient",(PyCFunction)PyGSL_multimin_test_gradient_method,METH_VARARGS, (char *)multimin_test_gradient_doc},     
      {NULL, NULL, 0, NULL}           /* sentinel */
 };
+
 
 static PyObject* 
 PyGSL_multimin_init(PyObject *self, PyObject *args, 
@@ -828,8 +830,13 @@ static PyMethodDef multiminMethods[] = {
 
 
 
-void
-initmultimin(void)
+#ifdef PyGSL_PY3K
+PyObject *PyInit_multimin(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
+DL_EXPORT(void) inimultimin(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
   PyObject* m, *dict, *item;
   m=Py_InitModule("multimin", multiminMethods);
@@ -847,7 +854,7 @@ initmultimin(void)
   if(!dict)
        goto fail;
   
-  if (!(item = PyString_FromString((char*)PyGSL_multimin_module_doc))){
+  if (!(item = PyGSL_string_from_string((char*)PyGSL_multimin_module_doc))){
        PyErr_SetString(PyExc_ImportError, 
 		       "I could not generate module doc string!");
        goto fail;
@@ -858,6 +865,8 @@ initmultimin(void)
        goto fail;
   }
 
+  return RETVAL
+
  fail:
-  return;
+  return RETVAL;
 }

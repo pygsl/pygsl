@@ -519,7 +519,7 @@ initmultimin(void)
      assert(PyGSL_API);
 
 
-     if (!(item = PyString_FromString((char*)PyGSL_multimin_module_doc))){
+     if (!(item = PyGSL_string_from_string((char*)PyGSL_multimin_module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 
 			  "I could not generate module doc string!");
 	  goto fail;
