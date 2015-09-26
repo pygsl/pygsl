@@ -47,12 +47,12 @@ def array_check(array, arraytype=None, thesize=None):
     Check if the array is as expected
     """
     test = 0
-    shape = None
-    #assert(type(array) == ArrayType)
+    myshape = None
+
     try:
-        tmp = array.dtype
+        dtype = array.dtype
         if arraytype != None:
-            assert(tmp == arraytype)
+            assert(dtype == arraytype)
 
         if thesize != None:
             myshape = array.shape
@@ -65,19 +65,18 @@ def array_check(array, arraytype=None, thesize=None):
                 if dim_target == dim_found:
                     continue
 
-                msg = "cnt %d, lsize '%s' type:%s srange: '%s' type:%s; dim_target = %s, dim_found =%s"
-                msg = msg % (cnt, lsize, type(lsize), srange, type(srange), dim_target, dim_found)
+                msg = "cnt %d, lsize '%s' type:%s srange: '%s' type:%s dims %s; dim_target = %s, dim_found =%s"
+                msg = msg % (cnt, lsize, type(lsize), srange, type(srange), myshape, dim_target, dim_found)
                 raise errors.gsl_BadLength(msg)
                     
                 
         test = 1        
     finally:            
         if test == 0:
-            print() 
-            print( "Got an array of type", tmp,)
-            print( "With type '%s' and shape '%s'" % (get_typecode(array), shape))
-            print( "Expected an array of ", ArrayType,)
-            print( "With type '%s' and shape '%s'" % (arraytype, thesize))
+            print("Got an array of type '%s' with type '%s' and shape '%s'"
+                  % (dtype, get_typecode(array), myshape))
+            print("Expected an array of '%s' with type '%s' and shape '%s'"
+                  % (ArrayType, arraytype, thesize))
 
 
     
