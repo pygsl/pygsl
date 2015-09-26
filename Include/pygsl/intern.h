@@ -7,6 +7,7 @@
 
 #include <Python.h>
 #include <pygsl/transition.h>
+#include <pygsl/capsuletrunk.h>
 /*
 #define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 */

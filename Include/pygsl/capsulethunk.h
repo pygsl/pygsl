@@ -49,6 +49,7 @@
  */
 #define PyCapsule_GetName(capsule) NULL
 
+#if 0
 static int
 PyCapsule_SetName(PyObject *capsule, const char *unused)
 {
@@ -57,7 +58,7 @@ PyCapsule_SetName(PyObject *capsule, const char *unused)
         "can't use PyCapsule_SetName with CObjects");
     return 1;
 }
-
+#endif
 
 
 #define PyCapsule_GetContext(capsule) \
