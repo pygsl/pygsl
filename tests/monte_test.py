@@ -10,7 +10,7 @@ import unittest
 
 _floatType = type(1.0)
 
-if sys.version_info.major <3:
+if sys.version[0] <3:
     _longType = types.LongType
     _intType = types.IntType
     #print("check int ", _intType)

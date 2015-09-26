@@ -17,7 +17,7 @@ from gsl_test import isfloat, iscomplex
 class _rng_type:
     _type = None
 
-if sys.version_info.major >= 3:
+if sys.version_info[0] >= 3:
     _longtype = type(1)
 else:
     _longtype = types.LongType
