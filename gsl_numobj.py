@@ -84,13 +84,15 @@ def switchpreference(array_preference):
                 else:
                         sys.stdout.write( "Did not find the numpy module you asked for")            
 
-#	    if array_preference == 'Numeric':
+	    if array_preference == 'Numeric':
+		    sys.stdout.write("Numeric supported any longer. If you still need it write to pygsl-discuss@lists.sourceforge.net")
 #		if have_numeric == 1:
 #		    use_numeric = 1
 #		else:
 #                         sys.stdout.write("Did not find the Numeric module you asked for")          
-#	    else:
-#		if array_preference == 'numarray':
+	    else:
+		if array_preference == 'numarray':
+			sys.stdout.write("numarray supported any longer. If you still need it write to pygsl-discuss@lists.sourceforge.net")
 #		    if have_numarray == 1:
 #			use_numarray = 1
 #		    else:
