@@ -76,6 +76,10 @@ All have the same usage:\n\
                            It is optional. In this case None is passed as\n\
                            args to foo\n\
 ";
+#ifdef __cplusplus
+extern "C"
+#endif
+
 DL_EXPORT(void) initdiff(void)
 {
 	PyObject *m = NULL, *dict = NULL, *item = NULL;
