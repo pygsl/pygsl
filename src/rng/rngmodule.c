@@ -37,6 +37,92 @@ rng_delete(PyGSL_rng *self);
 
 static PyObject *	
 rng_call (PyGSL_rng *self, PyObject *args);
+static PyObject *
+rng_get(PyGSL_rng *self, PyObject *args);
+static PyObject *
+rng_set(PyGSL_rng *self, PyObject *args);
+static PyObject *
+rng_uniform_int (PyGSL_rng *self, PyObject *args);
+ static PyObject *
+rng_uniform_pos (PyGSL_rng *self, PyObject *args);
+
+static PyObject * rng_max(PyGSL_rng *self, PyObject *args);
+static PyObject * rng_min(PyGSL_rng *self, PyObject *args);
+static PyObject * rng_name(PyGSL_rng *self, PyObject *args);
+static PyObject * rng_clone(PyGSL_rng *self, PyObject *args);
+
+#define RNG_DISTRIBUTION(name, function)                                     \
+static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args);              
+#include "rng_distributions.h"
+#undef RNG_DISTRIBUTION
+
+/* Redefine to trigger emacs into correct coloring */
+/*
+ * This list is not optimized. I guess... Do you know how to optimize it?
+ */
+static struct PyMethodDef rng_methods[] = {
+  {"get", (PyCFunction) rng_get, METH_VARARGS, rng_get_doc},
+  {"set", (PyCFunction) rng_set, METH_VARARGS, rng_set_doc},
+  {"uniform", (PyCFunction) rng_call, METH_VARARGS, rng_uniform_doc},
+  {"uniform_pos", (PyCFunction) rng_uniform_pos, METH_VARARGS, rng_uniform_pos_doc},
+  {"uniform_int", (PyCFunction) rng_uniform_int, METH_VARARGS, rng_uniform_int_doc},
+  {"name", (PyCFunction) rng_name, METH_VARARGS, NULL},
+  {"max", (PyCFunction) rng_max, METH_VARARGS, rng_max_doc},
+  {"min", (PyCFunction) rng_min, METH_VARARGS, rng_min_doc},
+  {"clone", (PyCFunction) rng_clone, METH_VARARGS, rng_clone_doc},
+#if  (PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION == 3)
+  /* RNG clone can not be used to copy a rng type in python 2.3 No idea how to do that correctly */
+#else
+  {"__copy__", (PyCFunction) rng_clone, METH_VARARGS, rng_clone_doc},
+#endif
+  /* distributions */
+  {"gaussian", (PyCFunction) rng_gaussian,METH_VARARGS, rng_gaussian_doc},
+  {"gaussian_ratio_method", (PyCFunction) rng_gaussian_ratio_method,METH_VARARGS, rng_gaussian_ratio_doc},
+  {"ugaussian", (PyCFunction) rng_ugaussian,METH_VARARGS, rng_ugaussian_doc},
+  {"ugaussian_ratio_method",(PyCFunction) rng_ugaussian_ratio_method,METH_VARARGS, rng_ugaussian_ratio_doc},
+  {"gaussian_tail", (PyCFunction) rng_gaussian_tail,METH_VARARGS, rng_gaussian_tail_doc},
+  {"ugaussian_tail",(PyCFunction) rng_ugaussian_tail,METH_VARARGS, rng_ugaussian_tail_doc},
+  {"bivariate_gaussian", (PyCFunction) rng_bivariate_gaussian,METH_VARARGS, rng_bivariate_gaussian_doc},
+  {"exponential",(PyCFunction)rng_exponential,METH_VARARGS, rng_exponential_doc},
+  {"laplace",(PyCFunction)rng_laplace,METH_VARARGS, rng_laplace_doc},
+  {"exppow",(PyCFunction)rng_exppow,METH_VARARGS, rng_exppow_doc},
+  {"cauchy",(PyCFunction)rng_cauchy,METH_VARARGS, rng_cauchy_doc},
+  {"rayleigh",(PyCFunction)rng_rayleigh,METH_VARARGS, rng_rayleigh_doc},
+  {"rayleigh_tail",(PyCFunction)rng_rayleigh_tail,METH_VARARGS, rng_rayleigh_tail_doc},
+  {"levy",(PyCFunction)rng_levy,METH_VARARGS, rng_levy_doc},
+  {"levy_skew",(PyCFunction)rng_levy_skew,METH_VARARGS, rng_levy_skew_doc},
+  {"gamma",(PyCFunction)rng_gamma,METH_VARARGS, rng_gamma_doc},
+  {"gamma_int",(PyCFunction)rng_gamma_int,METH_VARARGS, NULL},
+  {"flat",(PyCFunction)rng_flat,METH_VARARGS, rng_flat_doc},
+  {"lognormal",(PyCFunction)rng_lognormal,METH_VARARGS, rng_lognormal_doc},
+  {"chisq",(PyCFunction)rng_chisq,METH_VARARGS, rng_chisq_doc},
+  {"fdist",(PyCFunction)rng_fdist,METH_VARARGS, rng_fdist_doc},
+  {"tdist",(PyCFunction)rng_tdist,METH_VARARGS, rng_tdist_doc},
+  {"beta",(PyCFunction)rng_beta,METH_VARARGS, rng_beta_doc},
+  {"logistic",(PyCFunction)rng_logistic,METH_VARARGS, rng_logistic_doc},
+  {"pareto",(PyCFunction)rng_pareto,METH_VARARGS, rng_pareto_doc},
+  {"dir_2d",(PyCFunction)rng_dir_2d,METH_VARARGS, rng_dir_2d_doc},
+  {"dir_2d_trig_method",(PyCFunction)rng_dir_2d_trig_method,METH_VARARGS, rng_dir_2d_trig_method_doc},
+  {"dir_3d",(PyCFunction)rng_dir_3d,METH_VARARGS, rng_dir_3d_doc},
+  {"dir_nd",(PyCFunction)rng_dir_nd,METH_VARARGS, rng_dir_nd_doc},
+  {"weibull",(PyCFunction)rng_weibull,METH_VARARGS, rng_weibull_doc},
+  {"gumbel1",(PyCFunction)rng_gumbel1,METH_VARARGS, rng_gumbel1_doc},
+  {"gumbel2",(PyCFunction)rng_gumbel2,METH_VARARGS, rng_gumbel2_doc},
+  {"poisson",(PyCFunction)rng_poisson,METH_VARARGS, rng_poisson_doc},
+  {"bernoulli",(PyCFunction)rng_bernoulli,METH_VARARGS, rng_bernoulli_doc},
+  {"binomial",(PyCFunction)rng_binomial,METH_VARARGS, rng_binomial_doc},
+  {"negative_binomial",(PyCFunction)rng_negative_binomial,METH_VARARGS, rng_negative_binomial_doc},
+  {"pascal",(PyCFunction)rng_pascal,METH_VARARGS, rng_pascal_doc},
+  {"geometric",(PyCFunction)rng_geometric,METH_VARARGS, rng_geometric_doc},
+  {"hypergeometric",(PyCFunction)rng_hypergeometric,METH_VARARGS, rng_hypergeometric_doc},
+  {"logarithmic",(PyCFunction)rng_logarithmic,METH_VARARGS, rng_logarithmic_doc},
+  {"landau",(PyCFunction)rng_landau,METH_VARARGS, rng_landau_doc},
+  {"erlang",(PyCFunction)rng_erlang,METH_VARARGS, NULL},  
+  {"multinomial",(PyCFunction)rng_multinomial,METH_VARARGS, multinomial_doc},
+  {"dirichlet",(PyCFunction)rng_dirichlet,METH_VARARGS, rng_dirichlet_doc},
+  {NULL, NULL}
+};
+
 
 #ifdef PyGSL_PY3K
 static PyTypeObject PyGSL_rng_pytype = {
@@ -211,6 +297,7 @@ rng_uniform_pos (PyGSL_rng *self, PyObject *args)
      return tmp;
 }
 
+
 static PyObject *
 rng_uniform_int (PyGSL_rng *self, PyObject *args)
 {
@@ -323,6 +410,7 @@ rng_clone(PyGSL_rng *self, PyObject *args)
      return (PyObject *) rng;
 }
 
+
 /*
  * Is #name a standard macro definition?
  */
@@ -342,72 +430,6 @@ static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args)              \
 
 #include "rng_distributions.h"
 
-/* Redefine to trigger emacs into correct coloring */
-/*
- * This list is not optimized. I guess... Do you know how to optimize it?
- */
-static struct PyMethodDef rng_methods[] = {
-  {"get", (PyCFunction) rng_get, METH_VARARGS, rng_get_doc},
-  {"set", (PyCFunction) rng_set, METH_VARARGS, rng_set_doc},
-  {"uniform", (PyCFunction) rng_call, METH_VARARGS, rng_uniform_doc},
-  {"uniform_pos", (PyCFunction) rng_uniform_pos, METH_VARARGS, rng_uniform_pos_doc},
-  {"uniform_int", (PyCFunction) rng_uniform_int, METH_VARARGS, rng_uniform_int_doc},
-  {"name", (PyCFunction) rng_name, METH_VARARGS, NULL},
-  {"max", (PyCFunction) rng_max, METH_VARARGS, rng_max_doc},
-  {"min", (PyCFunction) rng_min, METH_VARARGS, rng_min_doc},
-  {"clone", (PyCFunction) rng_clone, METH_VARARGS, rng_clone_doc},
-#if  (PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION == 3)
-  /* RNG clone can not be used to copy a rng type in python 2.3 No idea how to do that correctly */
-#else
-  {"__copy__", (PyCFunction) rng_clone, METH_VARARGS, rng_clone_doc},
-#endif
-  /* distributions */
-  {"gaussian", (PyCFunction) rng_gaussian,METH_VARARGS, rng_gaussian_doc},
-  {"gaussian_ratio_method", (PyCFunction) rng_gaussian_ratio_method,METH_VARARGS, rng_gaussian_ratio_doc},
-  {"ugaussian", (PyCFunction) rng_ugaussian,METH_VARARGS, rng_ugaussian_doc},
-  {"ugaussian_ratio_method",(PyCFunction) rng_ugaussian_ratio_method,METH_VARARGS, rng_ugaussian_ratio_doc},
-  {"gaussian_tail", (PyCFunction) rng_gaussian_tail,METH_VARARGS, rng_gaussian_tail_doc},
-  {"ugaussian_tail",(PyCFunction) rng_ugaussian_tail,METH_VARARGS, rng_ugaussian_tail_doc},
-  {"bivariate_gaussian", (PyCFunction) rng_bivariate_gaussian,METH_VARARGS, rng_bivariate_gaussian_doc},
-  {"exponential",(PyCFunction)rng_exponential,METH_VARARGS, rng_exponential_doc},
-  {"laplace",(PyCFunction)rng_laplace,METH_VARARGS, rng_laplace_doc},
-  {"exppow",(PyCFunction)rng_exppow,METH_VARARGS, rng_exppow_doc},
-  {"cauchy",(PyCFunction)rng_cauchy,METH_VARARGS, rng_cauchy_doc},
-  {"rayleigh",(PyCFunction)rng_rayleigh,METH_VARARGS, rng_rayleigh_doc},
-  {"rayleigh_tail",(PyCFunction)rng_rayleigh_tail,METH_VARARGS, rng_rayleigh_tail_doc},
-  {"levy",(PyCFunction)rng_levy,METH_VARARGS, rng_levy_doc},
-  {"levy_skew",(PyCFunction)rng_levy_skew,METH_VARARGS, rng_levy_skew_doc},
-  {"gamma",(PyCFunction)rng_gamma,METH_VARARGS, rng_gamma_doc},
-  {"gamma_int",(PyCFunction)rng_gamma_int,METH_VARARGS, NULL},
-  {"flat",(PyCFunction)rng_flat,METH_VARARGS, rng_flat_doc},
-  {"lognormal",(PyCFunction)rng_lognormal,METH_VARARGS, rng_lognormal_doc},
-  {"chisq",(PyCFunction)rng_chisq,METH_VARARGS, rng_chisq_doc},
-  {"fdist",(PyCFunction)rng_fdist,METH_VARARGS, rng_fdist_doc},
-  {"tdist",(PyCFunction)rng_tdist,METH_VARARGS, rng_tdist_doc},
-  {"beta",(PyCFunction)rng_beta,METH_VARARGS, rng_beta_doc},
-  {"logistic",(PyCFunction)rng_logistic,METH_VARARGS, rng_logistic_doc},
-  {"pareto",(PyCFunction)rng_pareto,METH_VARARGS, rng_pareto_doc},
-  {"dir_2d",(PyCFunction)rng_dir_2d,METH_VARARGS, rng_dir_2d_doc},
-  {"dir_2d_trig_method",(PyCFunction)rng_dir_2d_trig_method,METH_VARARGS, rng_dir_2d_trig_method_doc},
-  {"dir_3d",(PyCFunction)rng_dir_3d,METH_VARARGS, rng_dir_3d_doc},
-  {"dir_nd",(PyCFunction)rng_dir_nd,METH_VARARGS, rng_dir_nd_doc},
-  {"weibull",(PyCFunction)rng_weibull,METH_VARARGS, rng_weibull_doc},
-  {"gumbel1",(PyCFunction)rng_gumbel1,METH_VARARGS, rng_gumbel1_doc},
-  {"gumbel2",(PyCFunction)rng_gumbel2,METH_VARARGS, rng_gumbel2_doc},
-  {"poisson",(PyCFunction)rng_poisson,METH_VARARGS, rng_poisson_doc},
-  {"bernoulli",(PyCFunction)rng_bernoulli,METH_VARARGS, rng_bernoulli_doc},
-  {"binomial",(PyCFunction)rng_binomial,METH_VARARGS, rng_binomial_doc},
-  {"negative_binomial",(PyCFunction)rng_negative_binomial,METH_VARARGS, rng_negative_binomial_doc},
-  {"pascal",(PyCFunction)rng_pascal,METH_VARARGS, rng_pascal_doc},
-  {"geometric",(PyCFunction)rng_geometric,METH_VARARGS, rng_geometric_doc},
-  {"hypergeometric",(PyCFunction)rng_hypergeometric,METH_VARARGS, rng_hypergeometric_doc},
-  {"logarithmic",(PyCFunction)rng_logarithmic,METH_VARARGS, rng_logarithmic_doc},
-  {"landau",(PyCFunction)rng_landau,METH_VARARGS, rng_landau_doc},
-  {"erlang",(PyCFunction)rng_erlang,METH_VARARGS, NULL},  
-  {"multinomial",(PyCFunction)rng_multinomial,METH_VARARGS, multinomial_doc},
-  {"dirichlet",(PyCFunction)rng_dirichlet,METH_VARARGS, rng_dirichlet_doc},
-  {NULL, NULL}
-};
 
 #ifndef PyGSL_PY3K
 static PyObject *

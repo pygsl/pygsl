@@ -41,6 +41,24 @@ PyGSL_transform_space_dealloc(PyGSL_transform_space * self);
 static PyObject*
 PyGSL_transform_space_getattr(PyGSL_transform_space *self, char *name);
 
+static PyObject*
+PyGSL_transform_generic_get_factors(PyGSL_transform_space *self, PyObject *);
+static PyObject*
+PyGSL_transform_space_get_type(PyGSL_transform_space *self, PyObject *);
+static PyObject*
+PyGSL_transform_space_get_n_py(PyGSL_transform_space *self);
+
+static const char PyGSL_transform_space_get_factors_doc[] = " Get the factors ...";
+static const char PyGSL_transform_space_get_type_doc[] = " Get the type of this space";
+
+static PyMethodDef PyGSL_transform_generic_methods[] = {
+	{"get_factors", (PyCFunction)PyGSL_transform_generic_get_factors, METH_NOARGS,  (char *)PyGSL_transform_space_get_factors_doc},
+	{"get_type",    (PyCFunction)PyGSL_transform_space_get_type,      METH_NOARGS,  (char *)PyGSL_transform_space_get_type_doc},
+	{"get_n",       (PyCFunction)PyGSL_transform_space_get_n_py,      METH_NOARGS,  NULL},
+	{NULL, NULL, 0, NULL}           /* sentinel */
+};
+
+
 #ifdef PyGSL_PY3K
 static PyTypeObject PyGSL_transform_space_pytype = {
 	PyObject_HEAD_INIT(NULL)
@@ -205,8 +223,6 @@ PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyObject *args)
        return NULL;
 
 }
-static const char PyGSL_transform_space_get_factors_doc[] = " Get the factors ...";
-static const char PyGSL_transform_space_get_type_doc[] = " Get the type of this space";
 
 /* Allows the user to find out what is encapsulated over the method get_type */
 static PyObject *
@@ -284,6 +300,7 @@ static PyMethodDef PyGSL_transform_space_methods[] = {
 	{NULL, NULL, 0, NULL}           /* sentinel */
 };
 
+#ifndef PyGSL_PY3K
 static PyObject*
 PyGSL_transform_space_getattr(PyGSL_transform_space *self, char *name)
 {
@@ -302,6 +319,7 @@ PyGSL_transform_space_getattr(PyGSL_transform_space *self, char *name)
      FUNC_MESS_END();
      return tmp;
 }
+#endif
 
 static void
 PyGSL_transform_space_dealloc(PyGSL_transform_space * self)
@@ -329,13 +347,6 @@ PyGSL_transform_space_dealloc(PyGSL_transform_space * self)
      FUNC_MESS_END();
 }
 
-
-static PyMethodDef PyGSL_transform_generic_methods[] = {
-	{"get_factors", (PyCFunction)PyGSL_transform_generic_get_factors, METH_NOARGS,  (char *)PyGSL_transform_space_get_factors_doc},
-	{"get_type",    (PyCFunction)PyGSL_transform_space_get_type,      METH_NOARGS,  (char *)PyGSL_transform_space_get_type_doc},
-	{"get_n",       (PyCFunction)PyGSL_transform_space_get_n_py,      METH_NOARGS,  NULL},
-	{NULL, NULL, 0, NULL}           /* sentinel */
-};
 
 
 
