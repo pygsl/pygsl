@@ -148,7 +148,7 @@ PyGSL_multimin_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw)
 	  c_sys = self->c_sys;
      } else {
 	  /* allocate function space */
-	  c_sys=calloc(1, sizeof(gsl_multimin_function));
+       c_sys=(gsl_multimin_function *)calloc(1, sizeof(gsl_multimin_function));
 	  if (c_sys == NULL) {
 	       pygsl_error("Could not allocate the object for the minimizer function", 
 			 filename, __LINE__ - 3, GSL_ENOMEM);
@@ -500,6 +500,11 @@ static PyMethodDef mMethods[] = {
      {"test_gradient",    PyGSL_multimin_test_gradient,         METH_VARARGS, (char *)test_gradient_doc   },
      {NULL, NULL, 0, NULL}
 };
+
+#ifdef __cplusplus
+extern "C"
+#endif
+
 
 void
 initmultimin(void)

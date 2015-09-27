@@ -843,6 +843,11 @@ static struct PyModuleDef moduledef = {
 };
 #endif 
 
+
+#ifdef __cplusplus
+extern "C"
+#endif
+
 #ifdef PyGSL_PY3K
 PyObject *PyInit_odeiv(void)
 #define RETVAL m

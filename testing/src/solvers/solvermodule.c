@@ -590,11 +590,11 @@ PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
      
      /* initialize the function struct */
      if(isfdf == 0){
-	  f_sys = c_sys;
+          f_sys = (gsl_function *) c_sys;
 	  f_sys->function=PyGSL_gsl_function;
 	  f_sys->params=(void*)self;
      }else{
-	  fdf_sys = c_sys;
+	  fdf_sys = (gsl_function_fdf *) c_sys;
 	  fdf_sys->f=PyGSL_gsl_function;
 	  fdf_sys->df=PyGSL_gsl_function_df;
 	  fdf_sys->fdf=PyGSL_gsl_function_fdf;
@@ -605,10 +605,10 @@ PyGSL_solver_set_f(PyGSL_solver *self, PyObject *pyargs, PyObject *kw,
 	  self->isset = 1;
 	  if(isfdf == 0){
 	       DEBUG_MESS(3, "Calling f isfdf = %d", isfdf);
-	       flag = ((set_m_ddd_t) fptr)(self->solver, c_sys, x0, lower, upper);
+	       flag = ((set_m_ddd_t) fptr)(self->solver, f_sys, x0, lower, upper);
 	  }else{
 	       DEBUG_MESS(3, "Calling fdf isfdf = %d", isfdf);
-	       flag = ((set_m_d_t) fptr)(self->solver, c_sys, x0);
+	       flag = ((set_m_d_t) fptr)(self->solver, f_sys, x0);
 	  }
 	  if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
 	       goto fail;
@@ -1005,6 +1005,11 @@ static struct PyModuleDef moduledef = {
         NULL
 };
 #endif 
+
+#ifdef __cplusplus
+extern "C"
+#endif
+
 
 #ifdef PyGSL_PY3K
 PyObject *PyInit_solver(void)
