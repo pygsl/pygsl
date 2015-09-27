@@ -8,7 +8,7 @@
 #include <pygsl/transition.h>
 
 static int 
-add_errno(PyObject * dict, int num, char * name)
+add_errno(PyObject * dict, int num, const char * name)
 {
      PyObject * item;
 
@@ -43,6 +43,11 @@ static PyModuleDef errnomodule = {
 
 #endif 
 
+
+#ifdef __cplusplus
+extern "C"
+#endif
+
 #ifdef PyGSL_PY3K
 PyMODINIT_FUNC
 PyInit_errno(void)
@@ -51,7 +56,6 @@ PyInit_errno(void)
 DL_EXPORT(void) initerrno(void)
 #define RETVAL
 #endif /* PyGSL_PY3K */
-
 {
 	PyObject *dict=NULL, *m=NULL;
 

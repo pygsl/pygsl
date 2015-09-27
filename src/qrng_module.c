@@ -184,7 +184,7 @@ qrng_get(PyGSL_qrng *self, PyObject *args)
      DEBUG_MESS(5, "Building return array with dimensions (%ld,%ld)", (long)dims[0], (long)dims[1]);
      a_array = (PyArrayObject *) PyGSL_New_Array(2, dims, NPY_DOUBLE);
      if(a_array == NULL){lineno = __LINE__ - 1; goto fail;}
-     DEBUG_MESS(5, "Its strides are (%d,%d)", PyArray_STRIDE(a_array, 0), PyArray_STRIDE(a_array, 1));
+     DEBUG_MESS(5, "Its strides are (%ld,%ld)", PyArray_STRIDE(a_array, 0), PyArray_STRIDE(a_array, 1));
      assert((PyArray_STRIDE(a_array, 1) / sizeof(double)) == 1);
 
      for(i=0; i<dimension; i++){
@@ -322,6 +322,10 @@ static struct PyModuleDef moduledef = {
 };
 #endif /* PyGSL_PY3K */
 
+
+#ifdef __cplusplus
+extern "C"
+#endif
 
 
 #ifdef PyGSL_PY3K

@@ -59,6 +59,10 @@ static struct PyModuleDef moduledef = {
 #endif 
 
 
+#ifdef __cplusplus
+extern "C"
+#endif
+
 #ifdef PyGSL_PY3K
 PyObject *PyInit_errortest(void)
 #define RETVAL m
