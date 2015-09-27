@@ -145,7 +145,7 @@ typedef struct
 
      size_t find(const double x_array[], size_t size, double x);
      PyObject *tocobject(){
-       return PyCapsule_New((void* ) self, (void *) pygsl_accel_des, NULL);
+       return PyCapsule_New((void* ) self, pygsl_accel_des, NULL);
      }
 }
 
@@ -353,7 +353,7 @@ struct pygsl_spline{
      }
      
      PyObject *tocobject(){
-	  return PyCapsule_New((void* ) self->spline, (void *) pygsl_spline_des, NULL);
+	  return PyCapsule_New((void* ) self->spline, pygsl_spline_des, NULL);
      }
 
      gsl_error_flag_drop init(const double xa[], const double ya[], size_t size){

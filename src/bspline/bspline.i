@@ -53,7 +53,7 @@ struct pygsl_bspline
 %extend pygsl_bspline{
   pygsl_bspline(size_t K, size_t NBREAK) {
        struct pygsl_bspline *tmp;
-       tmp = calloc(1, sizeof(struct pygsl_bspline));
+       tmp = (struct pygsl_bspline *) calloc(1, sizeof(struct pygsl_bspline));
        if(tmp == NULL){
 	    return NULL;
        }	    

@@ -345,7 +345,7 @@ PyGSL_siman_print(void *xp)
 static void 
 PyGSL_siman_copy(void *src, void *dst)
 {
-	PyObject *callback=NULL, *new = NULL, *arglist = NULL;
+	PyObject *callback=NULL, *t_new = NULL, *arglist = NULL;
 	PyGSL_error_info info;
 	pygsl_siman_t *x, *y;
 	int flag=GSL_EFAILED;
@@ -362,7 +362,7 @@ PyGSL_siman_copy(void *src, void *dst)
 		goto fail;
 
 	arglist = PyTuple_New(0);
-	new = PyEval_CallObject(callback, arglist);
+	t_new = PyEval_CallObject(callback, arglist);
 	Py_DECREF(arglist);
 
 	info.callback = callback;
@@ -370,35 +370,35 @@ PyGSL_siman_copy(void *src, void *dst)
 	info.error_description = "???";
 	info.argnum = 1;
 
-	if((flag = PyGSL_CHECK_PYTHON_RETURN(new, 1, &info)) != GSL_SUCCESS){
+	if((flag = PyGSL_CHECK_PYTHON_RETURN(t_new, 1, &info)) != GSL_SUCCESS){
 		PyGSL_add_traceback(module, (const char*)filename, __FUNCTION__, __LINE__);
 		goto fail;
 	}
 	Py_XDECREF(y->x);
-	/* Py_INCREF(new);  Necessary? I don't think so. */
-	y->x = new;
+	/* Py_INCREF(t_new);  Necessary? I don't think so. */
+	y->x = t_new;
 	FUNC_MESS_END();
 	return;
 
   fail:
 	FUNC_MESS("Fail");
-	Py_XDECREF(new);
+	Py_XDECREF(t_new);
 	longjmp(x->func->buffer, flag);
 	
 }
 
 static void *
-PyGSL_siman_copy_construct(void *new)
+PyGSL_siman_copy_construct(void *t_new)
 {
 	pygsl_siman_t * ret, * n, *p;
 	int flag = GSL_ENOMEM;
 	
 	FUNC_MESS_BEGIN();
-	n   = (pygsl_siman_t *) new;
+	n   = (pygsl_siman_t *) t_new;
 
 	/* The pointers next and prev are checked against NULL */
 	ret = (pygsl_siman_t *) calloc(1, sizeof(pygsl_siman_t));
-	DEBUG_MESS(2, "New was %p, Constructed a new object at %p", new, (void *) ret);
+	DEBUG_MESS(2, "T_New was %p, Constructed a new object at %p", t_new, (void *) ret);
 	if(ret == NULL){
 		pygsl_error("Could not allocate the object for the linked list", 
 			  filename, __LINE__ - 3, GSL_ENOMEM);
@@ -627,13 +627,13 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 	DEBUG_MESS(2, "I found x0 at %p", x0);
 	result = ((pygsl_siman_t *) x0)->x;
 
-	PyGSL_siman_release_x(&myargs, x0);
+	PyGSL_siman_release_x(&myargs, (pygsl_siman_t *) x0);
 	FUNC_MESS_END();
 	return result;
 
   fail:
 	FUNC_MESS("In Fail");
-	PyGSL_siman_release_x(&myargs, x0);
+	PyGSL_siman_release_x(&myargs, (pygsl_siman_t *) x0);
 	Py_XDECREF(x_o);
 	PyGSL_error_flag(flag);
 	return NULL;
