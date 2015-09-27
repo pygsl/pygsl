@@ -158,37 +158,37 @@ class Argument:
         """
         if self._type == "double":
             if minor == 1:
-                return "PyArray_FLOAT"
-            return "PyArray_DOUBLE"
+                return "NPY_FLOAT"
+            return "NPY_DOUBLE"
 
         if self._type == "float":
-            return "PyArray_FLOAT"
+            return "NPY_FLOAT"
 
         if self._type == "gsl_mode_t":
-            return "PyArray_INT"
+            return "NPY_INT"
 
         if self._type == "unsigned int":
-            return "PyArray_UINT"
+            return "NPY_UINT"
 
         if self._type == "int":
-            return "PyArray_INT"
+            return "NPY_INT"
 
         if self._type == "gsl_complex":
             #if minor == 1:
-            #    return "PyArray_CFLOAT"
-            return "PyArray_CDOUBLE"
+            #    return "NPY_CFLOAT"
+            return "NPY_CDOUBLE"
         
         if self._type == "gsl_sf_result":
             if minor == 1:
-                return "PyArray_FLOAT"
-            return "PyArray_DOUBLE"
+                return "NPY_FLOAT"
+            return "NPY_DOUBLE"
         
         if self._type == "gsl_sf_result_e10":
             if argumentnumber == 2:
-                return "PyArray_INT"
+                return "NPY_INT"
             if minor == 1:
-                return "PyArray_FLOAT"
-            return "PyArray_DOUBLE"
+                return "NPY_FLOAT"
+            return "NPY_DOUBLE"
         raise ValueError, "Unknown type -->%s<-- for variable -->%s<-- " % (self._type, self._name)
         
         
@@ -560,8 +560,8 @@ static  char * %s =
 
         and the types of the different arguments
         e. g:
-            static char a_function_types[] = {PyArray_FLOAT,   PyArray_UINT,  PyArray_FLOAT,  PyArray_FLOAT,
-                                              PyArray_DOUBLE,  PyArray_UINT,  PyArray_DOUBLE, PyArray_DOUBLE};
+            static char a_function_types[] = {NPY_FLOAT,   NPY_UINT,  NPY_FLOAT,  NPY_FLOAT,
+                                              NPY_DOUBLE,  NPY_UINT,  NPY_DOUBLE, NPY_DOUBLE};
         """
         c = StringIO()
         save = sys.stdout
