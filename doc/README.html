@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=iso-8859-15"/>
     <meta name="generator" content="Emacs"/>
-    <meta name="author" content="Jochen K&uuml;pper"/>
+    <meta name="author" content="Achim G&aumlke, Pierre Schnizer, Jochen K&uuml;pper"/>
     <meta name="version" content="$Id$"/>
 
     <meta name="keywords" content="numeric, scientific, python,
@@ -42,6 +42,7 @@
   <li> <a href="http://numpy.sf.net">NumPy</a>, and</li>
   <li>a ANSI C compiler (i.e. gcc).</li>
   </ul>
+
 
 
   <h2>Retrieving the Interface:</h2>
@@ -105,6 +106,14 @@
  <p>
  but is supposed to compile and run on any posix platform
  </p>
+
+ <p>
+ Currently it is being tested using
+ <ul>
+     <li>python2.6, numpy1.4 and gsl-1.13 (on linux redhat) </li>
+     <li>python2.7  numpy1.8 and gsl-1.16 (on mac os x, fink) </li>
+     <li>python3.4  numpy1.8 and gsl-1.16 (on linux debian stable) </li>
+  </ul>
   <h2>Testing:</h2>
   
   The directory <tt>test</tt> will contain several testsuites, based

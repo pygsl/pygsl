@@ -25,7 +25,7 @@ You can download it here: \url{http://sourceforge.net/projects/pygsl}
 To build the interface, you will need
 \begin{itemize}
 \item \ulink{gsl-1.x}{http://sources.redhat.com/gsl},
-\item \ulink{python2.2}{http://www.python.org} or better,
+\item \ulink{python2.6}{http://www.python.org} or better,
 \item \ulink{NumPy}{http://numpy.sf.net}, and
 \item a c compiler (like \ulink{gcc}{http://gcc.gnu.org}).
 \end{itemize}
@@ -60,6 +60,18 @@ Ready....
 
 {\bf Do not test the interface in the distribution root or in the directories
  \file{src} or \file{pygsl}.}
+
+If you find unresolved symbols later on, delete the C source in the
+swig_src files. Check that swig can be called from the command line. 
+Then start the build process again. 
+
+In this case swig will rebuild the C files. The swig_src files
+distributed with pygsl are to an up to date version of GSL (1.16 as of
+this writing). Swig parses partly some header header files and builds
+the appropriate interface functions. If you have an older GSL version 
+locally installed, the sources in the swig_src directory can contain 
+links to symbols which are not defined by the locally installed GSL
+version.
 
 \subsection{Building on win32}
 
