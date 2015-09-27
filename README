@@ -2,19 +2,18 @@
 
 Status of GSL-Library:
 
-   The gsl-library is since version 1.0 stable and for general use. Read more
-   about it at the [1]GSL homepage.
+   The gsl-library is since version 1.0 stable and for general use. Read
+   more about it at the [1]GSL homepage.
 
 Status of this interface:
 
-   We are collecting implementations of parts of gsl. So the interface is not
-   complete. We are looking forward to contributions of new submodules, while
-   maintaining the awailabel code.
+   We are collecting implementations of parts of gsl. So the interface is
+   not complete. We are looking forward to contributions of new
+   submodules, while maintaining the awailabel code.
 
 Requirements:
 
    To build the interface, you will need
-
      * [2]gsl-1.2 or better,
      * [3]python2.2 or better and
      * [4]NumPy, and
@@ -27,13 +26,13 @@ Retrieving the Interface:
 Installing GSL interface:
 
    Uninstall the old version of pygsl
-
    gsl-config must be on your path
 
    gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
    cd pygsl-x.y.z
    #do this with your prefered python version
-   #to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl
+   #to set the gsl location explicitly use setup.py
+   --gsl-prefix=/path/to/gsl
    #If your are using cvs, remove your build directory.
    python setup.py build
    # Running only
@@ -48,10 +47,10 @@ Installing GSL interface:
 Using pygsl
 
    Do NOT test the interface in the distribution root directory! -- please
-   install it first and then change to the tests directory and execute python
-   run_test.py If you want to execute it in the distribution root directory,
-   please run python setup.py build_ext -i first! It will put the requried
-   binary files into the pygsl directory.
+   install it first and then change to the tests directory and execute
+   python run_test.py If you want to execute it in the distribution root
+   directory, please run python setup.py build_ext -i first! It will put
+   the requried binary files into the pygsl directory.
 
    Just write in python
    import pygsl.sf
@@ -77,6 +76,11 @@ Supported Platforms:
 
    but is supposed to compile and run on any posix platform
 
+   Currently it is being tested using
+     * python2.6, numpy1.4 and gsl-1.13 (on linux redhat)
+     * python2.7 numpy1.8 and gsl-1.16 (on mac os x, fink)
+     * python3.4 numpy1.8 and gsl-1.16 (on linux debian stable)
+
 Testing:
 
    The directory test will contain several testsuites, based on python
@@ -84,44 +88,41 @@ Testing:
 
 What is implemented (versus gsl1.10):
 
-        * Blas
-        * Chebyshev
-        * Combination
-        * Const
-        * Diff
-        * Eigen
-        * Fit
-        * Ieee
-        * Integrate
-        * Interpolation
-        * Linalg
-        * Math
-        * Minimize
-        * Multifit
-        * Multifit_nlin
-        * Multimin
-        * Multiroots
-        * Odeiv
-        * Permutation
-        * Poly
-        * Qrng
-        * Rng
-        * Roots
-        * Siman
-        * Sf
-        * Spline
-        * Statistics
+     * Blas
+     * Chebyshev
+     * Combination
+     * Const
+     * Diff
+     * Eigen
+     * Fit
+     * Ieee
+     * Integrate
+     * Interpolation
+     * Linalg
+     * Math
+     * Minimize
+     * Multifit
+     * Multifit_nlin
+     * Multimin
+     * Multiroots
+     * Odeiv
+     * Permutation
+     * Poly
+     * Qrng
+     * Rng
+     * Roots
+     * Siman
+     * Sf
+     * Spline
+     * Statistics
 
 What is not implemented yet (versus gsl1.10):
 
      * GSL Capabilites not yet wrapped by PyGSL
-
-          * Sorting
-          * N-tuples
-
+          + Sorting
+          + N-tuples
      * GSL Capabilites partly implemented
-
-          * Discrete Hankel Transforms
+          + Discrete Hankel Transforms
 
    See also the [6]TODO file in the distribution.
 
@@ -130,14 +131,14 @@ What is not implemented yet (versus gsl1.10):
    import pygsl.sf
    dir(pygsl.sf)
 
-   You can do this with the other modules, too. The naming scheme is the same
-   as in gsl.
+   You can do this with the other modules, too. The naming scheme is the
+   same as in gsl.
 
 Documentation:
 
-   There will be a small reference, but the function reference can be found
-   in the doc strings and at the gsl-reference. See also the "examples"
-   directory.
+   There will be a small reference, but the function reference can be
+   found in the doc strings and at the gsl-reference. See also the
+   "examples" directory.
 
 Support:
 
@@ -150,8 +151,8 @@ Developement:
    Type this to check out the actual version:
    cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login
    Hit return for no password.
-   cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co
-   pygsl
+   cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl
+   co pygsl
 
    The script tools/extract_tool.py generates most of the special function
    code.
@@ -162,8 +163,8 @@ ToDo:
 
 History:
 
-     * a gsl-interface for python was needed for a project at [9]center for
-       applied informatics cologne.
+     * a gsl-interface for python was needed for a project at [9]center
+       for applied informatics cologne.
      * pygsl-0.0.3 was released at May 23, 2001
      * pygsl-0.0.4 was released at January 8, 2002
      * pygsl-0.1 was released at August 28, 2002
@@ -178,26 +179,26 @@ History:
 Thanks:
 
      * Fabian Jakobs for blas, linalg and eigen
-     * [10]Jochen Kuepper for pygsl.statistics functions
+     * [10]Jochen Küpper for pygsl.statistics functions
      * Leonardo Milano for rpm build support and test
      * Michael Forbes for Series Acceleration
 
 Maintainers:
 
-   PyGSL is currently maintained by [11]Achim Gaedke and [12]Pierre Schnizer.
+   PyGSL is currently maintained by [11]Achim Gaedke and [12]Pierre
+   Schnizer.
 
    Thanks to:
    [13]SourceForge Logo
 
-References
+Verweise
 
-   Visible links
    1. http://sources.redhat.com/gsl/
    2. http://sources.redhat.com/gsl
    3. http://www.python.org/
    4. http://numpy.sf.net/
    5. http://pygsl.sourceforge.net/
-   6. file:///home2/schnizer/Devel/pygsl/doc/TODO.html
+   6. file:///home/schnizer/Devel/pygsl-cvs/doc/TODO.html
    7. mailto:pygsl-discuss@lists.sourceforge.net
    8. http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/
    9. http://www.zaik.uni-koeln.de/AFS
