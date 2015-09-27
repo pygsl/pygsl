@@ -673,9 +673,9 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
 	      /* Copy the last result to the new position, as the data is modified in place */
 	      /* dimension must correspond to the dimension of the system! */
 	      assert(i>0);
-	      vy  = gsl_vector_view_array((double *)(PyArray_DATA(yout) + PyArray_STRIDE(yout, 0) *  (i - 1)), PyArray_DIM(yout, 1));
+	      vy  = gsl_vector_view_array((double *)(PyArray_GETPTR1(yout, i - 1)), PyArray_DIM(yout, 1));
 	 }
-	 vy1 = gsl_vector_view_array((double *)(PyArray_DATA(yout) + PyArray_STRIDE(yout, 0) *  i), PyArray_DIM(yout, 1));
+	 vy1 = gsl_vector_view_array((double *)(PyArray_GETPTR1(yout, i)), PyArray_DIM(yout, 1));
 	 if(gsl_blas_dcopy(&vy.vector, &vy1.vector) != GSL_SUCCESS){
 	      line = __LINE__ - 1;
 	      goto fail;    

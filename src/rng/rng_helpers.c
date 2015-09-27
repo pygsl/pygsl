@@ -911,9 +911,9 @@ PyGSL_rng_to_generic_nd(PyGSL_rng *rng, PyObject *args, int type, void *evaluato
      dims[0] = dimension;
 
      switch(type){
-     case 2: dims[1] = 2;   evaluator_2 = evaluator; break;
-     case 3: dims[1] = 3;   evaluator_3 = evaluator; break;
-     case 0: dims[1] = ds;  evaluator_0 = evaluator; break;
+     case 2: dims[1] = 2;   evaluator_2 = (void (*) (const gsl_rng *, double *, double *)) evaluator; break;
+     case 3: dims[1] = 3;   evaluator_3 = (void (*) (const gsl_rng *, double *, double *, double *)) evaluator; break;
+     case 0: dims[1] = ds;  evaluator_0 = (void (*) (const gsl_rng *, size_t, double *)) evaluator; break;
      default: assert(0);
      }
 
@@ -947,19 +947,19 @@ PyGSL_rng_to_generic_nd(PyGSL_rng *rng, PyObject *args, int type, void *evaluato
 PyObject *
 PyGSL_rng_to_dd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_rng *, double *, double *))
 {
-     return PyGSL_rng_to_generic_nd(rng, args, 2, evaluator);
+  return PyGSL_rng_to_generic_nd(rng, args, 2, (void *) evaluator);
 }
 
 PyObject *
 PyGSL_rng_to_ddd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_rng *, double *, double *, double *))
 {
-     return PyGSL_rng_to_generic_nd(rng, args, 3, evaluator);
+  return PyGSL_rng_to_generic_nd(rng, args, 3, (void *) evaluator);
 }
 
 PyObject *
 PyGSL_rng_to_nd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_rng *, size_t n, double *))
 {
-     return PyGSL_rng_to_generic_nd(rng, args, 0, evaluator);
+  return PyGSL_rng_to_generic_nd(rng, args, 0, (void *) evaluator);
 }
 
 

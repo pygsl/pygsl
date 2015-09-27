@@ -21,7 +21,7 @@ struct _ElementAccessor{
 };
 
 
-static PyTypeObject PyGSL_solver_pytype;
+/* static PyTypeObject PyGSL_solver_pytype; */
 #define PyGSL_solver_check(ob) (Py_TYPE(ob) == &PyGSL_solver_pytype)
 #define _PyGSL_solver_n_init PyGSL_solver_n_init
 
@@ -32,7 +32,7 @@ _PyGSL_solver_init(const struct _SolverStatic *mstatic);
 
 
 static int
-PyGSL_solver_set_called(PyGSL_solver *self);
+ PyGSL_solver_set_called(PyGSL_solver *self);
 
 #define PyGSL_SOLVER_SET_CALLED(ob) \
         (((ob)->set_called == 1) ? GSL_SUCCESS: PyGSL_solver_set_called((ob)))

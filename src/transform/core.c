@@ -76,7 +76,7 @@ PyGSL_transform_helpers_alloc(PyObject *s_o, PyObject *t_o, struct _pygsl_transf
 
 #define PyGSL_TRANSFORM_HELPERS_FREE(helpers) \
         ((helpers != NULL) && ((helpers->free_table != 0) &&  (helpers->free_space != 0)) ? \
-        PyGSL_transform_helpers_free(helpers) : 0)
+	 _PyGSL_transform_helpers_free(helpers) : 0)
 
 static void
 PyGSL_transform_helpers_free(struct _pygsl_transform_help_rf_s * h)
@@ -101,6 +101,12 @@ PyGSL_transform_helpers_free(struct _pygsl_transform_help_rf_s * h)
 		h->free_space = 0;
 	}
 	FUNC_MESS_END();
+}
+static int
+_PyGSL_transform_helpers_free(struct _pygsl_transform_help_rf_s * h)
+{
+	PyGSL_transform_helpers_free(h);
+	return 0;
 }
 
 #ifdef _PYGSL_GSL_HAS_WAVELET
@@ -210,7 +216,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 * Double mode or float mode?
 	 * complex double or complex float ?
 	 */
-	const int datatype = helps->info->datatype;
+	const enum pygsl_transform_mode datatype = helps->info->datatype;
 	/* and its size */
 	const int sizeoftype = (datatype == MODE_DOUBLE) ? sizeof(double) : sizeof(float);	
 	/*
@@ -409,7 +415,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	a = NULL;
 	/* make sure that the ntype was set */
 	assert(n_type > 0);
-	DEBUG_MESS(2, "Type(r) = %d, r->nd = %d, r->dimensions[0] = %d, Strides r->strides[0] %d", 
+	DEBUG_MESS(2, "Type(r) = %d, r->nd = %d, r->dimensions[0] = %ld, Strides r->strides[0] %ld", 
 		   PyArray_TYPE(r), PyArray_NDIM(r), PyArray_DIM(r, 0), PyArray_STRIDE(r, 0));
 	if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(r, 0), n_type * sizeoftype, &strides) != GSL_SUCCESS){
 		line = __LINE__ -1;

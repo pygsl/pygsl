@@ -151,7 +151,7 @@ struct pygsl_bspline
 
        
        for(i = 0; i < sample_len; ++i){
-	       row_ptr = PyArray_DATA(B_M_a) + PyArray_STRIDE(B_M_a, 0) * i;
+	       row_ptr = (char *) PyArray_GETPTR1(B_M_a, i);
 	       B_v = gsl_vector_view_array((double *) (row_ptr), (PyArray_DIM(B_M_a, 1)));
 	       x = gsl_vector_get(IN, i);
 	       DEBUG_MESS(5, "i  = %ld, x = %f row_ptr = %p, B_v = %p->data = %p", (long) i, x,

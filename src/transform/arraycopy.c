@@ -4,11 +4,11 @@ PyGSL_debug_mess_array(PyArrayObject * a, const char * name)
      int mode, i;
      float *fv;
      double *dv;
-     char * av;
+     void * av;
 
      mode = PyArray_TYPE(a);
      for(i=0; i<PyArray_DIM(a, 0); ++i){
-       av   = (PyArray_DATA(a) + PyArray_STRIDE(a, 0) *  (i));
+       av   = PyArray_GETPTR1(a, i);
 	  switch(mode){
 	  case  NPY_CDOUBLE:
 	       dv = (double *) av;
@@ -46,11 +46,11 @@ PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src, enum pygsl_tr
 
 	/* Iterate over the source array and copy to the destination array. */
 	for(i = 0; i < n; ++i){
-		srcv   = (PyArray_DATA(src) + PyArray_STRIDE(src, 0) *  (i));
+		srcv   = PyArray_GETPTR1(src, i);
 		n_2 = (i+1)/2;
 
 		/* complex array, only iterate every second */
-		dstv  = (PyArray_DATA(dst) + PyArray_STRIDE(dst, 0) *  (n_2));
+		dstv  = PyArray_GETPTR1(dst, n_2);
 		modulo = (i+1)%2;
 
 		if(n_2 >= n_check)
@@ -78,7 +78,7 @@ PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src, enum pygsl_tr
 
 	/* even length, last must be set ... */	     
 	DEBUG_MESS(4, "Setting the last to zero n=%d", n);
-	dstv  = (PyArray_DATA(dst) + PyArray_STRIDE(dst, 0) *  (n/2));
+	dstv  = (PyArray_GETPTR1(dst, n/2));
 	switch(mode){
 	     case MODE_DOUBLE:
 		  dstd = (double *) dstv;
@@ -133,8 +133,8 @@ PyGSL_copy_halfcomplex_to_real(PyArrayObject *dst, PyArrayObject *src, double ep
 			PyGSL_ERROR("Sizes of the complex array too small!", GSL_ESANITY);
 		}
 		
-		srcv = PyArray_DATA(src) + PyArray_STRIDE(src, 0) * n_2;
-		dstv = PyArray_DATA(dst) + PyArray_STRIDE(dst, 0) * i;
+		srcv = PyArray_GETPTR1(src, n_2);
+		dstv = PyArray_GETPTR1(dst, i);
 		if(mode == MODE_DOUBLE){
 			srcd = (double *)(srcv);
 			dstd = (double *)(dstv);
@@ -161,7 +161,7 @@ PyGSL_copy_array_to_array(PyArrayObject *dst, PyArrayObject *src,  enum pygsl_tr
 	gsl_vector_complex_view z1, z2;
 	gsl_vector_complex_float_view c1, c2;
 	void *srcv=NULL, *dstv=NULL;
-	const enum NPY_TYPES array_type = PyArray_TYPE(src);
+	const enum NPY_TYPES array_type = (enum NPY_TYPES) PyArray_TYPE(src);
 
 	FUNC_MESS_BEGIN();
 	assert(src);
@@ -317,9 +317,9 @@ _PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args, enum pygsl_
 	}
 	for(i = 1; i < rn - 1; ++i){
 		assert(i>0 && i < n);
-		vdata = (PyArray_DATA(r) + PyArray_STRIDE(r, 0) * i);
-		vreal = (PyArray_DATA(a) + PyArray_STRIDE(a, 0) * i);
-		vimag = (PyArray_DATA(a) + PyArray_STRIDE(a, 0) * (n-i));
+		vdata = PyArray_GETPTR1(r, i);
+		vreal = PyArray_GETPTR1(a, i);
+		vimag = PyArray_GETPTR1(a, (n-i));
 		switch(mode){
 		case MODE_DOUBLE: 
 			ddata    = (double *)vdata;
@@ -338,8 +338,8 @@ _PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args, enum pygsl_
 		}
 	}
 
-	vdata = PyArray_DATA(r) + PyArray_STRIDE(r, 0) * (rn-1);
-	vreal = PyArray_DATA(a) + PyArray_STRIDE(a, 0) * (n/2);
+	vdata = PyArray_GETPTR1(r, rn-1);
+	vreal = PyArray_GETPTR1(a, n/2);
 	switch(mode){
 	case MODE_DOUBLE: 
 		ddata    =   (double *)vdata;
@@ -457,7 +457,7 @@ PyGSL_guess_halfcomplex_length(PyArrayObject *a, int length, double eps,  enum p
 	n = PyArray_DIM(a, 0);
 	if(length == -1){
 		/* length was not given, try to guess */
-		v = PyArray_DATA(a) + PyArray_STRIDE(a, 0) * (n - 1);
+		v = PyArray_GETPTR1(a, n - 1);
 		if(gsl_fcmp(PyGSL_TRANSFORM_MODE_SWITCH(mode, ((double *)v)[1], ((float *)v)[1]), 0,  eps) == 0){
 			call_n = n*2-2;
 		}else{

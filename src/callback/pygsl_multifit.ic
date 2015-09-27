@@ -39,8 +39,8 @@ PyGSL_gsl_multifit_gradient(PyObject *self, PyObject *args)
   g_a = (PyArrayObject *) PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
   if(g_a == NULL) goto fail;
 
-  J = gsl_matrix_view_array(PyArray_DATA(J_a), PyArray_DIM(J_a, 0), PyArray_DIM(J_a, 1));
-  f = gsl_vector_view_array_with_stride(PyArray_DATA(f_a), stride_recalc, PyArray_DIM(f_a, 0));
+  J = gsl_matrix_view_array((double *)PyArray_DATA(J_a), PyArray_DIM(J_a, 0), PyArray_DIM(J_a, 1));
+  f = gsl_vector_view_array_with_stride((double *)PyArray_DATA(f_a), stride_recalc, PyArray_DIM(f_a, 0));
   g = gsl_vector_view_array((double *) PyArray_DATA(g_a), dimension);
 
   gsl_multifit_gradient(&J.matrix, &f.vector, &g.vector);

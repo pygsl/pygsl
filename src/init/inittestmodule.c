@@ -35,7 +35,12 @@ PyGSL_test_GetPTR1(PyObject *self, PyObject *args)
 		   (void *)ptr1, (void *)v, (void *)cptr, ptr2);
 	for(cnt = 0; cnt < dim; ++cnt){
 		ptr1 = PyArray_GETPTR1(a, cnt);
-		vtest = v + stride * cnt;
+		vtest = 
+#ifdef __cplusplus 
+		  /* in c mode I want to test if it exists */
+		  (char *) 
+#endif
+		  v + stride * cnt;
 		ctest = cptr + stride * cnt;
 
 		if ((ptr1 == vtest) && (ptr1 == vtest)){	       	
@@ -189,6 +194,10 @@ static struct PyModuleDef moduledef = {
 };
 #endif 
 
+
+#ifdef __cplusplus
+extern "C"
+#endif
 
 #ifdef PyGSL_PY3K
 PyObject *PyInit_inittest(void)

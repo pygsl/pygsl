@@ -44,8 +44,8 @@ pygsl_poly_eval(PyObject *self, PyObject *args)
   if(y == NULL) goto fail;
 
   for(i = 0; i<PyArray_DIM(x, 0); i++){
-    input  = ((double *) (PyArray_DATA(x) + PyArray_STRIDE(x, 0) * i));
-    output = ((double *) (PyArray_DATA(y) + PyArray_STRIDE(y, 0) * i));
+    input  = (double *) PyArray_GETPTR1(x, i);
+    output = (double *) PyArray_GETPTR1(y, i);
     *output = gsl_poly_eval((double *) PyArray_DATA(array), PyArray_DIM(array, 0), *input);
   }
   Py_DECREF(array);

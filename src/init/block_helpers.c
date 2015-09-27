@@ -408,7 +408,7 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x)
      if (a_array == NULL) return NULL;
 
      strides = PyArray_STRIDES(a_array);
-     data = PyArray_DATA(a_array);
+     data = (char *) PyArray_DATA(a_array);
      for (i=0;i<dimensions[1];i++){
 	  for (j=0;j<dimensions[0];j++){
 	      myptr =  data + strides[0] * i + strides[1] * j;
@@ -448,7 +448,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object,  PyGSL_array_in
 
      dimensions = PyArray_DIMS(a_array);
      strides = PyArray_STRIDES(a_array);
-     data = PyArray_DATA(a_array);
+     data = (char *) PyArray_DATA(a_array);
      
      DEBUG_MESS(2, "\t\ta_array->dimensions[0] = %ld\n\t\ta_array->strides[0] = %ld",
 		(long)dimensions[0], (long)strides[0]);
@@ -502,7 +502,7 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object,  PyGSL_array_in
 
     strides = PyArray_STRIDES(a_array);
     dimensions = PyArray_DIMS(a_array);
-    data = PyArray_DATA(a_array);
+    data = (char *) PyArray_DATA(a_array);
 
     for (i=0;i<n;i++){
 	 for (j=0;j<p;j++){
