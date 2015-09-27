@@ -236,13 +236,28 @@ class gsl_Extension(Extension):
                                )
 
 	def check_version(self, required_version, this_version):
+                this_version = tuple(this_version)
+                #print("req '%s' this '%s'" %(required_version, this_version))
                 min_length=min(len(required_version),len(this_version))
                 for pos in range(min_length):
-                        this_type=type(required_version[pos])
+                        t_val = this_version[pos]
+                        test_val = required_version[pos]
+                        #print("\t %d: req '%s' this '%s'" %( pos, test_val, t_val))
+
+                        this_type=type(t_val)
                         if  this_type== type(" "):
-                                if required_version[pos]>this_version[pos]: return 0
-                        elif this_type == type(1):
-                                if required_version[pos]>int(this_version[pos]): return 0
+                                t_val = int(t_val)
+
+                        if  type(test_val)== type(" "):
+                                test_val = int(test_val)
+
+                        if t_val > test_val:
+                                # already larger
+                                return 1
+                        elif t_val == test_val:
+                                continue
+                        elif t_val < test_val:
+                                return 0
                         else:
                                 raise DistutilsExecError("incorrect version specification")
                 # problematic: 0.9 < 0.9.0, but assures that 0.9.1 > 0.9
