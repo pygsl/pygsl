@@ -192,7 +192,7 @@ if BUILD_DEPRECATED:
     pygsl_diff = gsl_Extension("diff",
                                ['src/diffmodule.c'],
                                define_macros = macros,
-                               gsl_min_version=(1,'0+'),
+                               gsl_min_version=(1,0),
                                python_min_version=(2,1)
                                )
     exts.append(pygsl_diff)
@@ -215,14 +215,14 @@ exts.append(pygsl_deriv)
 pygsl_transform = gsl_Extension("_transform",
                            ['src/transform/transformmodule.c'],
                            define_macros = macros,
-                           gsl_min_version=(1,'0+'),
+                           gsl_min_version=(1,0),
                            python_min_version=(2,1)
                            )
 exts.append(pygsl_transform)
 
 pygsl_rng=gsl_Extension("rng",
                         ['src/rng/rngmodule.c'],
-                        gsl_min_version=(1,'0+'),
+                        gsl_min_version=(1,0),
                         define_macros = macros,
                         python_min_version=(2,1)
                     )
@@ -256,14 +256,14 @@ exts.append(SWIG_Extension("gslwrap",
 pygsl_histogram=gsl_Extension("histogram",
                               ['src/histogram/histogrammodule.c'],
                               define_macros = macros,
-                              gsl_min_version=(1,'0+'),
+                              gsl_min_version=(1,0),
                               python_min_version=(2,2)
 )
 extsOnly2.append(pygsl_histogram)    
 pygsl_multimin=gsl_Extension("multimin",
                              ['src/multiminmodule.c'],
                              define_macros = macros,
-                             gsl_min_version=(1,'0+'),
+                             gsl_min_version=(1,0),
                              python_min_version=(2,2)
 )
 extsOnly2.append(pygsl_multimin)    
@@ -271,7 +271,7 @@ extsOnly2.append(pygsl_multimin)
 
 pygsl_qrng=gsl_Extension("_qrng",
                          ['src/qrng_module.c'],
-                         gsl_min_version=(1,'0+'),
+                         gsl_min_version=(1,0),
                          define_macros = macros,
                          python_min_version=(2,1)
                          )
@@ -346,7 +346,7 @@ if BUILD_DEPRECATED:
     pygsl_matrix=gsl_Extension("matrix",
                                ['src/matrixmodule.c'],
                                define_macros = macros,
-                               gsl_min_version=(1,'0+'),
+                               gsl_min_version=(1,0),
                                python_min_version=(2,2)
                                )
     exts.append(pygsl_matrix)    
