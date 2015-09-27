@@ -1,9 +1,26 @@
 #ifndef PyGSL_ERROR_HELPER_H
 #define PyGSL_ERROR_HELPER_H 1
+/*
+ * Author: Pierre Schnizer <schnizer@users.sourceforge.net>
+ */
+
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
 #include <gsl/gsl_errno.h>
 #include <pygsl/errorno.h>
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+
+__BEGIN_DECLS
 
 /*
  * 22 Sep. 2009 Pierre Schnizer
@@ -95,6 +112,6 @@ PyGSL_warning(const char *, const char*, int, int);
                      PyGSL_error_flag_to_pyint((long) (flag))
 #endif /* PyGSL_PY3K */
 
-
+__END_DECLS
 
 #endif /* PyGSL_ERROR_HELPER_H  */

@@ -4,6 +4,18 @@
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
 
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
+
 
 typedef struct 
 {
@@ -126,5 +138,5 @@ PyGSL_clear_name(char *name, int size);
  :                                                                                  \
    PyGSL_check_python_return((object), (nargs), (info))        
 
-
+__END_DECLS
 #endif /* PyGSL_GENERAL_HELPERS_H */

@@ -13,6 +13,17 @@
 #include <pygsl/utils.h>
 #include <pygsl/intern.h>
 
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+__BEGIN_DECLS
+
 
 #define PYGSL_PROFILE_INPUT 1
 
@@ -76,4 +87,5 @@ extern int pygsl_profile_float_transform_counter;
 
 #endif /* PYGSL_PROFILE_INPUT */
 
+__END_DECLS
 #endif /* PyGSL_TYPEMAPS_PROFILE_H */

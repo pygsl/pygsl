@@ -1,11 +1,5 @@
 #ifndef PyGSL_BLOCK_HELPERS_H
 #define PyGSL_BLOCK_HELPERS_H 1
-/*
- * Author:  Pierre Schnizer
- *
- *
- */
-
 /*****************************************************************************
  * The functions in this file are implemented in src/init/block_helpers*     *
  * These functions try to simplify the conversion between the PyArrayObjects *
@@ -20,6 +14,22 @@
  *       probable is only noticable on 64bit architectures.		     *
  *****************************************************************************/
 /*
+ * Author:  Pierre Schnizer
+ *
+ * $Id:
+ */
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+
+/*
 #define PY_ARRAY_UNIQUE_SYMBOL PyGSL_PY_ARRAY_API
 */
 
@@ -33,10 +43,14 @@
 #define NO_IMPORT_ARRAY
 #endif
 #endif  /* _PyGSL_API_MODULE */
+
+#include <limits.h>
 #include <pygsl/intern.h>
 #include <pygsl/utils.h>
 #include <pygsl/general_helpers.h>
-#include <limits.h>
+
+__BEGIN_DECLS
+
 /*
  * Build array info out of various parts.
  *
@@ -58,6 +72,9 @@ typedef int Py_ssize_t;
 #endif
 */
 #include <pygsl/arrayobject.h>
+#ifndef PyGSL_NUMPY
+#error "Only numpy interface supported any longer"
+#endif 
 #ifdef PyGSL_NUMPY
 #include <numpy/arrayobject.h>
 #endif
@@ -99,7 +116,7 @@ enum PyGSL_Array_Flags {
      /* Additional flags needed for numarray and numpy */
      PyGSL_INPUT_ARRAY = 2,
      PyGSL_OUTPUT_ARRAY = 4,
-     PyGSL_IO_ARRAY = 8,
+     PyGSL_IO_ARRAY = 8
 };
 
 /*
@@ -433,4 +450,5 @@ PyGSL_vector_check(src, size1, size2, PyArray_DOUBLE, sizeof(double), flag, argn
 #include <pygsl/block_helpers_numarray.h>
 #endif
 
+__END_DECLS
 #endif /* PyGSL_BLOCK_HELPERS_H */

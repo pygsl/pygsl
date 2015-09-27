@@ -1,6 +1,8 @@
 /**
  * Author : Pierre Schnizer
- * Date: January 2003
+ * Date: January 2003, 2015
+ *
+ * $Id:
  */
 #ifndef PyGSL_FUNCTION_HELPERS_H
 #define  PyGSL_FUNCTION_HELPERS_H 1
@@ -32,6 +34,19 @@
 #include <pygsl/function_helpers.h>
 #include <math.h>
 #include <setjmp.h>
+
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
 
 /* -------------------------------------------------------------------------
    Helper Structs
@@ -222,6 +237,9 @@ extern char * pygsl_monte_function;
 #define PyGSL_function_wrap_helper \
 (*(int (*) (double, double *, double *, PyObject *, PyObject *, const char *)) PyGSL_API[PyGSL_function_wrap_helper_NUM])
 #endif  /* _PyGSL_API_MODULE */
+
+__END_DECLS
+
 #endif  /* PyGSL_FUNCTION_HELPERS_H */
 
 

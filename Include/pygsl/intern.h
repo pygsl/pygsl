@@ -1,14 +1,28 @@
 /*
  * Author : Pierre Schnizer <schnizer@users.sourceforge.net>
+ *
+ * $Id:
  */
-#ifndef PyGSL_API_H
-#define PyGSL_API_H 1
-
-#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#ifndef PyGSL_API_INTERN_H
+#define PyGSL_API_INTERN_H 1
 
 #include <Python.h>
 #include <pygsl/transition.h>
 #include <pygsl/capsuletrunk.h>
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
+
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 /*
 #define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 */
@@ -43,7 +57,7 @@ static void **PyGSL_API;
  * The version of the API. Allows to check if the used 
  * API is correct.
  */
-#define PyGSL_API_VERSION       ((unsigned long) ( 0x10u))
+#define PyGSL_API_VERSION       ((unsigned long) ( 0x3))
 /* Functions found in the file <pygsl/error_helpers.h> */
 #define PyGSL_api_version_NUM                           0
 #define PyGSL_error_flag_NUM                            1
@@ -220,4 +234,7 @@ static const char pygsl_api_name[] = "pygsl_api";
         fprintf(stderr, "Import of pygsl.init Failed!!! File %s\n", __FILE__);\
    } \
 } 
-#endif  /*  PyGSL_API_H */
+
+__END_DECLS
+
+#endif  /*  PyGSL_API_INTERN_H */

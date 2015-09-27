@@ -2,6 +2,17 @@
 #define PyGSL_RNG_HELPERS_H 1
 #include <pygsl/rng.h>
 
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
 
 /*
  * Evaluators for various random distributions. They all parse the parameters to the number of available parameters.
@@ -101,6 +112,8 @@ PyGSL_pdf_dA_to_dA(PyObject *self, PyObject *args,
 PyGSL_API_EXTERN PyObject*
 PyGSL_pdf_uidA_to_uiA(PyObject *self, PyObject *args, 
 		      double (*evaluator) (const size_t, const double [], const unsigned int []));
+
+__END_DECLS
 #endif  /* PyGSL_RNG_HELPERS_H */
 
 

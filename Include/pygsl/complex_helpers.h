@@ -1,9 +1,26 @@
 #ifndef PyGSL_COMPLEX_HELPERS_H
 #define PyGSL_COMPLEX_HELPERS_H 1
+/*
+ * Author: Pierre Schnizer
+ *
+ * $Id:
+ */
 #include <pygsl/utils.h>
 #include <pygsl/intern.h>
 #include <gsl/gsl_complex.h>
 #include <gsl/gsl_errno.h>
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
 
 /*
  *  These macros convert a PyObect to  a complex if numeric 
@@ -53,4 +70,5 @@ PyGSL_PyComplex_to_gsl_complex_long_double(PyObject * src,
       GSL_SUCCESS)                                               \
      : PyGSL_PyComplex_to_gsl_complex_long_double(object, tmp)
 
+__END_DECLS
 #endif  /* PyGSL_COMPLEX_HELPERS_H */

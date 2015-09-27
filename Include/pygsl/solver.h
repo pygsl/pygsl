@@ -7,6 +7,19 @@
 #include <pygsl/string_helpers.h>
 #include <gsl/gsl_math.h>
 #include <setjmp.h>
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
+
 /*
  * Many functions are "just" accessor methods. These different methods are
  * listed here.
@@ -320,5 +333,6 @@ PyGSL_solver_GetSet(PyObject *self, PyObject *args, void * address, enum PyGSL_G
 #define PyGSL_solver_check(ob) (Py_TYPE(ob) == &PyGSL_solver_pytype)
 #endif /* _PyGSL_API_MODULE */
 
+__END_DECLS
 
 #endif /* _PYGSL_SOLVER_H_ */

@@ -1,8 +1,25 @@
 #ifndef PyGSL_RNG_H
 #define PyGSL_RNG_H 1
-
+/*
+ * Author: Pierre Schnizer
+ *
+ * $Id: 
+ */
 #include <pygsl/intern.h>
 #include <gsl/gsl_rng.h>
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+__BEGIN_DECLS
+
+
 typedef struct {
   PyObject_HEAD
   gsl_rng * rng;
@@ -41,6 +58,9 @@ static const char _pygsl_rng_api_cap_name[] = "_pygsl_rng_api";
    } \
    /* fprintf(stderr, "PyGSL_API points to %p\n", (void *) PyGSL_API); */ \
 }
+
+__END_DECLS
+
 #endif  /* PyGSL_RNG_H */
 
 

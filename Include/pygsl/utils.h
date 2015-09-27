@@ -1,8 +1,26 @@
 #ifndef PYGSL_UTIL_H
 #define PYGSL_UTIL_H
+/*
+ * Author: Pierre Schnizer <schnizer@users.sourceforge.net>
+ *
+ * $Id:
+ */
 #include <pygsl/compilers.h>
 #include <pygsl/intern.h>
 #include <stdio.h>
+
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+# define __BEGIN_DECLS extern "C" {
+# define __END_DECLS }
+#else
+# define __BEGIN_DECLS /* empty */
+# define __END_DECLS /* empty */
+#endif
+
+__BEGIN_DECLS
+
 /* Uncomment the following block to get DEBUG information */
 /*
 #ifndef DEBUG
@@ -43,5 +61,6 @@ fprintf(stderr,                                                      \
 #define DEBUG 0
 #endif
 
+__END_DECLS
 
 #endif /* PYGSL_UTIL_H */
