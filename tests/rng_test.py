@@ -317,8 +317,8 @@ class _rng_distributions(unittest.TestCase):
 
 # I guess this is now supported by all available installations
 rng_notimplemented_types = [
-    "knuthran2002",
-    "slatec",
+    #"knuthran2002",
+    #"slatec",
     #"uni"
 ]
 class TestIfAll(unittest.TestCase):
