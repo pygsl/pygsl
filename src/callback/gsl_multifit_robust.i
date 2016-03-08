@@ -3,7 +3,7 @@
  * author: Pierre Schnizer
  */
 %module multifit_robust
-%feature("autodoc", "4");
+%feature("autodoc", "3");
 %{
 #include <gsl/gsl_multifit.h>
 #include <pygsl/error_helpers.h>
@@ -30,7 +30,6 @@ typedef struct{
 typedef struct{
   %immutable;
  } gsl_multifit_robust_workspace;
-%feature("autodoc", "3");
 
 %extend gsl_multifit_robust_stats{
 	/*
