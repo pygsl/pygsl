@@ -1,0 +1,140 @@
+/* -*- C -*- */
+typedef struct
+{
+     size_t dimension;
+     PyObject *py_func;
+     PyObject *py_jac;
+     PyObject *arguments;
+     jmp_buf buffer;
+}
+PyGSL_odeiv_parameter_pass;
+
+/*---------------------------------------------------------------------------
+  Wrapper functions to push call the approbriate Python Objects
+  ---------------------------------------------------------------------------*/
+static
+int PyGSL_odeiv_func(double t, const double y[], double f[], void *params)
+{
+    int  flag = GSL_FAILURE;
+    PyGSL_array_index_t dimension;
+    PyObject *arglist = NULL, *result = NULL;
+    PyArrayObject *yo = NULL;
+    PyGSL_odeiv_parameter_pass * p;
+    gsl_vector_view yv, fv;
+    PyGSL_error_info  info;
+
+    FUNC_MESS_BEGIN();
+
+    p = (PyGSL_odeiv_parameter_pass *) params;
+    dimension =  p->dimension;
+
+    DEBUG_MESS(2, "Dimension = %ld", (long) dimension);
+
+    /* Do I need to copy the array ??? */
+    yv = gsl_vector_view_array((double *) y, dimension);
+    yo = PyGSL_copy_gslvector_to_pyarray(&yv.vector);
+    if (yo == NULL) goto fail;
+
+    FUNC_MESS("\t\tBuild args");
+    arglist = Py_BuildValue("(dOO)", t, yo, p->arguments);
+    FUNC_MESS("\t\tEnd Build args");
+
+    info.callback = p->py_func;
+    info.message  = "odeiv_func";
+    result  = PyEval_CallObject(p->py_func, arglist);
+
+
+    if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 1, &info)) != GSL_SUCCESS){
+	  goto fail;
+     }
+    info.argnum = 1;
+    fv = gsl_vector_view_array(f, dimension);
+    if((flag = PyGSL_copy_pyarray_to_gslvector(&fv.vector, result, dimension, 
+					       &info)) != GSL_SUCCESS){
+	  goto fail;
+     }     
+     
+
+    Py_DECREF(arglist);    arglist = NULL;
+    Py_DECREF(yo);         yo = NULL;
+    Py_DECREF(result);     result = NULL;
+    FUNC_MESS_END();
+    return GSL_SUCCESS;
+
+ fail:
+    FUNC_MESS("    IN Fail BEGIN");
+    Py_XDECREF(yo);
+    Py_XDECREF(result);
+    Py_XDECREF(arglist);
+    FUNC_MESS("    IN Fail END");
+    DEBUG_MESS(2, "Python func returned flag = %d", flag);
+    assert(flag != GSL_SUCCESS);
+    return GSL_EBADFUNC;
+
+}
+static
+int PyGSL_odeiv_jac(double t, const double y[], double *dfdy, double dfdt[], 
+		    void *params)
+{
+    int dimension, flag = GSL_FAILURE;
+    PyGSL_odeiv_parameter_pass *p;
+    PyGSL_error_info  info;
+    
+    PyObject *arglist = NULL, *result = NULL, *tmp=NULL;
+    PyArrayObject *yo = NULL;
+
+    gsl_vector_view yv, dfdtv;
+    gsl_matrix_view dfdyv;
+
+
+    FUNC_MESS_BEGIN();
+    
+    p = (PyGSL_odeiv_parameter_pass *) params;
+    dimension = p->dimension;
+
+
+
+    yv = gsl_vector_view_array((double *) y, dimension);
+    yo = PyGSL_copy_gslvector_to_pyarray(&yv.vector);
+    if (yo == NULL) goto fail;
+
+
+    arglist = Py_BuildValue("(dOO)", t, yo, p->arguments);
+
+
+    result  = PyEval_CallObject(p->py_jac, arglist);
+
+    info.callback = p->py_jac;
+    info.message  = "odeiv_jac";
+    if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 2, &info)) != GSL_SUCCESS){
+	  goto fail;
+     }
+
+    info.argnum = 1;
+    tmp = PyTuple_GET_ITEM(result, 0);
+    dfdyv = gsl_matrix_view_array((double *) dfdy, dimension, dimension);
+    if((flag = PyGSL_copy_pyarray_to_gslmatrix(&dfdyv.matrix, tmp, dimension, dimension, &info)) != GSL_SUCCESS){
+	  goto fail;
+    }     
+    
+    info.argnum = 2;
+    tmp = PyTuple_GET_ITEM(result, 1);
+    dfdtv = gsl_vector_view_array((double *) dfdt, dimension);
+    if((flag = PyGSL_copy_pyarray_to_gslvector(&dfdtv.vector, tmp, dimension, &info)) != GSL_SUCCESS){
+	  goto fail;
+    }     
+
+    
+
+      
+    Py_DECREF(arglist);    arglist = NULL;
+    Py_DECREF(result);     result = NULL;
+    Py_DECREF(yo);         yo = NULL;
+    FUNC_MESS_END();
+    return GSL_SUCCESS;
+ fail:
+    FUNC_MESS("IN Fail");
+    assert(flag != GSL_SUCCESS);
+    flag = GSL_EBADFUNC;
+    return flag;
+}
