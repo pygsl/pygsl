@@ -15,7 +15,10 @@ import string
 remove_underscore=re.compile("_*(.*)")
 
 gsl_include_dir = gsl_Location.get_gsl_prefix() + '/include'
-swig_flags = ['-python', '-keyword', '-shadow', '-Itypemaps', #'-cpperraswarn',
+swig_flags = ['-python', '-keyword', '-shadow', '-Itypemaps', 
+              # faster wrappers ... requires python 2.5 or greater
+              '-builtin', 
+              #'-cpperraswarn',
               '-I' + gsl_include_dir]
 
 
