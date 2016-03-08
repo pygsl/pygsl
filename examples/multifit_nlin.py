@@ -5,11 +5,12 @@ The python equivalent of the C example found in the GSL Reference document.
 
 The function run_fsolver shows how to use the fdfsolvers (e.g. lsmder).
 """
-
+from __future__ import print_function
 import random
 import pygsl
 from pygsl import multifit_nlin, errno
 from pygsl import _numobj as numx
+from pygsl import _version
 import copy
 
 
@@ -72,30 +73,30 @@ def run_fdfsolver():
 
     x = numx.array((1.0, 0.0, 0.0))
     solver.set(x)
-    print "# Testing solver ", solver.name() 
-    print "# %5s %9s %9s  %9s  %10s" % ("iter", "A", "lambda", "b", "|f(x)|")
+    print ("# Testing solver ", solver.name())
+    print ("# %5s %9s %9s  %9s  %10s" % ("iter", "A", "lambda", "b", "|f(x)|"))
     for iter in range(20):	    
         status = solver.iterate()
-	x  = solver.getx()
-	dx = solver.getdx()
-	f  = solver.getf()
-	J  = solver.getJ()
-	tdx = multifit_nlin.gradient(J, f)
-	status = multifit_nlin.test_delta(dx, x, 1e-8, 1e-8)
-	fn = numx.sqrt(numx.sum(f*f))
-	if status == errno.GSL_SUCCESS:
-		print "# Convereged :"
-	if status == errno.GSL_SUCCESS:
+        x  = solver.getx()
+        dx = solver.getdx()
+        f  = solver.getf()
+        J  = solver.getJ()
+        tdx = multifit_nlin.gradient(J, f)
+        status = multifit_nlin.test_delta(dx, x, 1e-8, 1e-8)
+        fn = numx.sqrt(numx.sum(f*f))
+        if status == errno.GSL_SUCCESS:
+                print ("# Convereged :")
+        if status == errno.GSL_SUCCESS:
                 break
-        print "  %5d % .7f % .7f  % .7f  % .7f" %(iter, x[0], x[1], x[2], fn)
+        print ("  %5d % .7f % .7f  % .7f  % .7f" %(iter, x[0], x[1], x[2], fn))
     else:
-	raise ValueError, "Number of Iterations exceeded!"
+        raise ValueError("Number of Iterations exceeded!")
 
     J = solver.getJ()
     covar =  multifit_nlin.covar(solver.getJ(), 0.0)
-    print "# A      = % .5f +/- % .5f" % (x[0], covar[0,0])
-    print "# lambda = % .5f +/- % .5f" % (x[1], covar[1,1])
-    print "# b      = % .5f +/- % .5f" % (x[2], covar[2,2])
+    print ("# A      = % .5f +/- % .5f" % (x[0], covar[0,0]))
+    print ("# lambda = % .5f +/- % .5f" % (x[1], covar[1,1]))
+    print ("# b      = % .5f +/- % .5f" % (x[2], covar[2,2]))
 
 
 
