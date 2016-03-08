@@ -17,8 +17,11 @@ import imp
 from sys import argv,version_info
 
 
-
-from array_includes import array_include_dirs
+try:
+        from array_includes import array_include_dirs
+        
+except ImportError:
+        from pygsl.gsl_dist.array_includes import array_include_dirs
 
 
 # steel --gsl-prefix from option list
@@ -209,6 +212,8 @@ class gsl_Extension(Extension):
                     define_macros = define_macros + [("NUMERIC",1),]
             except ImportError:	    
                     define_macros = define_macros + [("NUMERIC",0), ]
+            define_macros += [("PyGSL_SET_GSL_ERROR_HANDLER", 1),]
+
             if undef_macros == None:
                     undef_macros = []
             if 'NDEBUG' not in undef_macros:
