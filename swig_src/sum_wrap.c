@@ -10,6 +10,7 @@
 
 #define SWIGPYTHON
 #define SWIG_PYTHON_DIRECTOR_NO_VTABLE
+#define SWIGPYTHON_BUILTIN
 
 /* -----------------------------------------------------------------------------
  *  This section contains generic SWIG labels for method/variable
@@ -2900,6 +2901,521 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 }
 #endif
 
+#define SWIGPY_UNARYFUNC_CLOSURE(wrapper)	\
+SWIGINTERN PyObject *				\
+wrapper##_closure(PyObject *a) {		\
+  return wrapper(a, NULL);			\
+}
+
+#define SWIGPY_DESTRUCTOR_CLOSURE(wrapper)	\
+SWIGINTERN void					\
+wrapper##_closure(PyObject *a) {		\
+    SwigPyObject *sobj;				\
+    sobj = (SwigPyObject *)a;			\
+    if (sobj->own) {				\
+	PyObject *o = wrapper(a, NULL);		\
+	Py_XDECREF(o);				\
+    }						\
+    if (PyType_IS_GC(a->ob_type)) {		\
+	PyObject_GC_Del(a);			\
+    } else {					\
+	PyObject_Del(a);			\
+    }						\
+}
+
+#define SWIGPY_INQUIRY_CLOSURE(wrapper)				\
+SWIGINTERN int							\
+wrapper##_closure(PyObject *a) {				\
+    PyObject *pyresult;						\
+    int result;							\
+    pyresult = wrapper(a, NULL);				\
+    result = pyresult && PyObject_IsTrue(pyresult) ? 1 : 0;	\
+    Py_XDECREF(pyresult);					\
+    return result;						\
+}
+
+#define SWIGPY_BINARYFUNC_CLOSURE(wrapper)	\
+SWIGINTERN PyObject *				\
+wrapper##_closure(PyObject *a, PyObject *b) {	\
+    PyObject *tuple, *result;			\
+    tuple = PyTuple_New(1);			\
+    assert(tuple);				\
+    PyTuple_SET_ITEM(tuple, 0, b);		\
+    Py_XINCREF(b);				\
+    result = wrapper(a, tuple);			\
+    Py_DECREF(tuple);				\
+    return result;				\
+}
+
+typedef ternaryfunc ternarycallfunc;
+
+#define SWIGPY_TERNARYFUNC_CLOSURE(wrapper)			\
+SWIGINTERN PyObject *						\
+wrapper##_closure(PyObject *a, PyObject *b, PyObject *c) {	\
+    PyObject *tuple, *result;					\
+    tuple = PyTuple_New(2);					\
+    assert(tuple);						\
+    PyTuple_SET_ITEM(tuple, 0, b);				\
+    PyTuple_SET_ITEM(tuple, 1, c);				\
+    Py_XINCREF(b);						\
+    Py_XINCREF(c);						\
+    result = wrapper(a, tuple);					\
+    Py_DECREF(tuple);						\
+    return result;						\
+}
+
+#define SWIGPY_TERNARYCALLFUNC_CLOSURE(wrapper)			\
+SWIGINTERN PyObject *						\
+wrapper##_closure(PyObject *callable_object, PyObject *args, PyObject *) {	\
+    return wrapper(callable_object, args);			\
+}
+
+#define SWIGPY_LENFUNC_CLOSURE(wrapper)			\
+SWIGINTERN Py_ssize_t					\
+wrapper##_closure(PyObject *a) {			\
+    PyObject *resultobj;				\
+    Py_ssize_t result;					\
+    resultobj = wrapper(a, NULL);			\
+    result = PyNumber_AsSsize_t(resultobj, NULL);	\
+    Py_DECREF(resultobj);				\
+    return result;					\
+}
+
+#define SWIGPY_SSIZESSIZEARGFUNC_CLOSURE(wrapper)		\
+SWIGINTERN PyObject *						\
+wrapper##_closure(PyObject *a, Py_ssize_t b, Py_ssize_t c) {	\
+    PyObject *tuple, *result;					\
+    tuple = PyTuple_New(2);					\
+    assert(tuple);						\
+    PyTuple_SET_ITEM(tuple, 0, _PyLong_FromSsize_t(b));		\
+    PyTuple_SET_ITEM(tuple, 1, _PyLong_FromSsize_t(c));		\
+    result = wrapper(a, tuple);					\
+    Py_DECREF(tuple);						\
+    return result;						\
+}
+
+#define SWIGPY_SSIZESSIZEOBJARGPROC_CLOSURE(wrapper)			\
+SWIGINTERN int								\
+wrapper##_closure(PyObject *a, Py_ssize_t b, Py_ssize_t c, PyObject *d) { \
+    PyObject *tuple, *resultobj;					\
+    int result;								\
+    tuple = PyTuple_New(d ? 3 : 2);					\
+    assert(tuple);							\
+    PyTuple_SET_ITEM(tuple, 0, _PyLong_FromSsize_t(b));			\
+    PyTuple_SET_ITEM(tuple, 1, _PyLong_FromSsize_t(c));			\
+    if (d) {								\
+        PyTuple_SET_ITEM(tuple, 2, d);					\
+        Py_INCREF(d);							\
+    }									\
+    resultobj = wrapper(a, tuple);					\
+    result = resultobj ? 0 : -1;					\
+    Py_DECREF(tuple);							\
+    Py_XDECREF(resultobj);						\
+    return result;							\
+}
+
+#define SWIGPY_SSIZEARGFUNC_CLOSURE(wrapper)		\
+SWIGINTERN PyObject *					\
+wrapper##_closure(PyObject *a, Py_ssize_t b) {		\
+    PyObject *tuple, *result;				\
+    tuple = PyTuple_New(1);				\
+    assert(tuple);					\
+    PyTuple_SET_ITEM(tuple, 0, _PyLong_FromSsize_t(b));	\
+    result = wrapper(a, tuple);				\
+    Py_DECREF(tuple);					\
+    return result;					\
+}
+
+#define SWIGPY_FUNPACK_SSIZEARGFUNC_CLOSURE(wrapper)		\
+SWIGINTERN PyObject *					\
+wrapper##_closure(PyObject *a, Py_ssize_t b) {		\
+    PyObject *arg, *result;				\
+    arg = _PyLong_FromSsize_t(b);			\
+    result = wrapper(a, arg);				\
+    Py_DECREF(arg);					\
+    return result;					\
+}
+
+#define SWIGPY_SSIZEOBJARGPROC_CLOSURE(wrapper)			\
+SWIGINTERN int							\
+wrapper##_closure(PyObject *a, Py_ssize_t b, PyObject *c) {	\
+    PyObject *tuple, *resultobj;				\
+    int result;							\
+    tuple = PyTuple_New(2);					\
+    assert(tuple);						\
+    PyTuple_SET_ITEM(tuple, 0, _PyLong_FromSsize_t(b));		\
+    PyTuple_SET_ITEM(tuple, 1, c);				\
+    Py_XINCREF(c);						\
+    resultobj = wrapper(a, tuple);				\
+    result = resultobj ? 0 : -1;				\
+    Py_XDECREF(resultobj);					\
+    Py_DECREF(tuple);						\
+    return result;						\
+}
+
+#define SWIGPY_OBJOBJARGPROC_CLOSURE(wrapper)			\
+SWIGINTERN int							\
+wrapper##_closure(PyObject *a, PyObject *b, PyObject *c) {	\
+    PyObject *tuple, *resultobj;				\
+    int result;							\
+    tuple = PyTuple_New(c ? 2 : 1);				\
+    assert(tuple);						\
+    PyTuple_SET_ITEM(tuple, 0, b);				\
+    Py_XINCREF(b);						\
+    if (c) {							\
+        PyTuple_SET_ITEM(tuple, 1, c);				\
+        Py_XINCREF(c);						\
+    }								\
+    resultobj = wrapper(a, tuple);				\
+    result = resultobj ? 0 : -1;				\
+    Py_XDECREF(resultobj);					\
+    Py_DECREF(tuple);						\
+    return result;						\
+}
+
+#define SWIGPY_REPRFUNC_CLOSURE(wrapper)	\
+SWIGINTERN PyObject *				\
+wrapper##_closure(PyObject *a) {		\
+    return wrapper(a, NULL);			\
+}
+
+#define SWIGPY_HASHFUNC_CLOSURE(wrapper)	\
+SWIGINTERN long					\
+wrapper##_closure(PyObject *a) {		\
+    PyObject *pyresult;				\
+    long result;				\
+    pyresult = wrapper(a, NULL);		\
+    if (!pyresult || !PyLong_Check(pyresult))	\
+	return -1;				\
+    result = PyLong_AsLong(pyresult);		\
+    Py_DECREF(pyresult);			\
+    return result;				\
+}
+
+#define SWIGPY_ITERNEXT_CLOSURE(wrapper)	\
+SWIGINTERN PyObject *				\
+wrapper##_closure(PyObject *a) {		\
+    PyObject *result;				\
+    result = wrapper(a, NULL);			\
+    if (result && result == Py_None) {		\
+	Py_DECREF(result);			\
+	result = NULL;				\
+    }						\
+    return result;				\
+}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+SWIGINTERN int
+SwigPyBuiltin_BadInit(PyObject *self, PyObject *SWIGUNUSEDPARM(args), PyObject *SWIGUNUSEDPARM(kwds)) {
+  PyErr_Format(PyExc_TypeError, "Cannot create new instances of type '%.300s'", self->ob_type->tp_name);
+  return -1;
+}
+
+SWIGINTERN void
+SwigPyBuiltin_BadDealloc(PyObject *pyobj) {
+  SwigPyObject *sobj;
+  sobj = (SwigPyObject *)pyobj;
+  if (sobj->own) {
+    PyErr_Format(PyExc_TypeError, "Swig detected a memory leak in type '%.300s': no callable destructor found.", pyobj->ob_type->tp_name);
+  }
+}
+
+typedef struct {
+  PyCFunction get;
+  PyCFunction set;
+} SwigPyGetSet;
+
+SWIGINTERN PyObject *
+SwigPyBuiltin_GetterClosure (PyObject *obj, void *closure) {
+  SwigPyGetSet *getset;
+  PyObject *tuple, *result;
+  if (!closure)
+    return SWIG_Py_Void();
+  getset = (SwigPyGetSet *)closure;
+  if (!getset->get)
+    return SWIG_Py_Void();
+  tuple = PyTuple_New(0);
+  assert(tuple);
+  result = (*getset->get)(obj, tuple);
+  Py_DECREF(tuple);
+  return result;
+}
+
+SWIGINTERN PyObject *
+SwigPyBuiltin_FunpackGetterClosure (PyObject *obj, void *closure) {
+  SwigPyGetSet *getset;
+  PyObject *result;
+  if (!closure)
+    return SWIG_Py_Void();
+  getset = (SwigPyGetSet *)closure;
+  if (!getset->get)
+    return SWIG_Py_Void();
+  result = (*getset->get)(obj, NULL);
+  return result;
+}
+
+SWIGINTERN int
+SwigPyBuiltin_SetterClosure (PyObject *obj, PyObject *val, void *closure) {
+  SwigPyGetSet *getset;
+  PyObject *tuple, *result;
+  if (!closure) {
+    PyErr_Format(PyExc_TypeError, "Missing getset closure");
+    return -1;
+  }
+  getset = (SwigPyGetSet *)closure;
+  if (!getset->set) {
+    PyErr_Format(PyExc_TypeError, "Illegal member variable assignment in type '%.300s'", obj->ob_type->tp_name);
+    return -1;
+  }
+  tuple = PyTuple_New(1);
+  assert(tuple);
+  PyTuple_SET_ITEM(tuple, 0, val);
+  Py_XINCREF(val);
+  result = (*getset->set)(obj, tuple);
+  Py_DECREF(tuple);
+  Py_XDECREF(result);
+  return result ? 0 : -1;
+}
+
+SWIGINTERN int
+SwigPyBuiltin_FunpackSetterClosure (PyObject *obj, PyObject *val, void *closure) {
+  SwigPyGetSet *getset;
+  PyObject *result;
+  if (!closure) {
+    PyErr_Format(PyExc_TypeError, "Missing getset closure");
+    return -1;
+  }
+  getset = (SwigPyGetSet *)closure;
+  if (!getset->set) {
+    PyErr_Format(PyExc_TypeError, "Illegal member variable assignment in type '%.300s'", obj->ob_type->tp_name);
+    return -1;
+  }
+  result = (*getset->set)(obj, val);
+  Py_XDECREF(result);
+  return result ? 0 : -1;
+}
+
+SWIGINTERN void
+SwigPyStaticVar_dealloc(PyDescrObject *descr) {
+  _PyObject_GC_UNTRACK(descr);
+  Py_XDECREF(PyDescr_TYPE(descr));
+  Py_XDECREF(PyDescr_NAME(descr));
+  PyObject_GC_Del(descr);
+}
+
+SWIGINTERN PyObject *
+SwigPyStaticVar_repr(PyGetSetDescrObject *descr) {
+#if PY_VERSION_HEX >= 0x03000000
+
+  return PyUnicode_FromFormat("<class attribute '%S' of type '%s'>", PyDescr_NAME(descr), PyDescr_TYPE(descr)->tp_name);
+#else
+  return PyString_FromFormat("<class attribute '%s' of type '%s'>", PyString_AsString(PyDescr_NAME(descr)), PyDescr_TYPE(descr)->tp_name);
+#endif
+}
+
+SWIGINTERN int
+SwigPyStaticVar_traverse(PyObject *self, visitproc visit, void *arg) {
+  PyDescrObject *descr;
+  descr = (PyDescrObject *)self;
+  Py_VISIT((PyObject*) PyDescr_TYPE(descr));
+  return 0;
+}
+
+SWIGINTERN PyObject *
+SwigPyStaticVar_get(PyGetSetDescrObject *descr, PyObject *obj, PyObject *SWIGUNUSEDPARM(type)) {
+  if (descr->d_getset->get != NULL)
+    return descr->d_getset->get(obj, descr->d_getset->closure);
+#if PY_VERSION_HEX >= 0x03000000
+  PyErr_Format(PyExc_AttributeError, "attribute '%.300S' of '%.100s' objects is not readable", PyDescr_NAME(descr), PyDescr_TYPE(descr)->tp_name);
+#else
+  PyErr_Format(PyExc_AttributeError, "attribute '%.300s' of '%.100s' objects is not readable", PyString_AsString(PyDescr_NAME(descr)), PyDescr_TYPE(descr)->tp_name);
+#endif
+  return NULL;
+}
+
+SWIGINTERN int
+SwigPyStaticVar_set(PyGetSetDescrObject *descr, PyObject *obj, PyObject *value) {
+  if (descr->d_getset->set != NULL)
+    return descr->d_getset->set(obj, value, descr->d_getset->closure);
+#if PY_VERSION_HEX >= 0x03000000
+  PyErr_Format(PyExc_AttributeError, "attribute '%.300S' of '%.100s' objects is not writable", PyDescr_NAME(descr), PyDescr_TYPE(descr)->tp_name);
+#else
+  PyErr_Format(PyExc_AttributeError, "attribute '%.300s' of '%.100s' objects is not writable", PyString_AsString(PyDescr_NAME(descr)), PyDescr_TYPE(descr)->tp_name);
+#endif
+  return -1;
+}
+
+SWIGINTERN int
+SwigPyObjectType_setattro(PyTypeObject *type, PyObject *name, PyObject *value) {
+  PyObject *attribute;
+  descrsetfunc local_set;
+  attribute = _PyType_Lookup(type, name);
+  if (attribute != NULL) {
+    /* Implement descriptor functionality, if any */
+    local_set = attribute->ob_type->tp_descr_set;
+    if (local_set != NULL)
+      return local_set(attribute, (PyObject *)type, value);
+#if PY_VERSION_HEX >= 0x03000000
+    PyErr_Format(PyExc_AttributeError, "cannot modify read-only attribute '%.50s.%.400S'", type->tp_name, name);
+#else 
+    PyErr_Format(PyExc_AttributeError, "cannot modify read-only attribute '%.50s.%.400s'", type->tp_name, PyString_AS_STRING(name));
+#endif
+  } else {
+#if PY_VERSION_HEX >= 0x03000000
+    PyErr_Format(PyExc_AttributeError, "type '%.50s' has no attribute '%.400S'", type->tp_name, name);
+#else
+    PyErr_Format(PyExc_AttributeError, "type '%.50s' has no attribute '%.400s'", type->tp_name, PyString_AS_STRING(name));
+#endif
+  }
+
+  return -1;
+}
+
+SWIGINTERN PyTypeObject*
+SwigPyStaticVar_Type(void) {
+  static PyTypeObject staticvar_type;
+  static int type_init = 0;
+  if (!type_init) {
+    const PyTypeObject tmp = {
+      /* PyObject header changed in Python 3 */
+#if PY_VERSION_HEX >= 0x03000000
+      PyVarObject_HEAD_INIT(&PyType_Type, 0)
+#else
+      PyObject_HEAD_INIT(&PyType_Type)
+      0,
+#endif
+      "swig_static_var_getset_descriptor",
+      sizeof(PyGetSetDescrObject),
+      0,
+      (destructor)SwigPyStaticVar_dealloc,      /* tp_dealloc */
+      0,                                        /* tp_print */
+      0,                                        /* tp_getattr */
+      0,                                        /* tp_setattr */
+      0,                                        /* tp_compare */
+      (reprfunc)SwigPyStaticVar_repr,           /* tp_repr */
+      0,                                        /* tp_as_number */
+      0,                                        /* tp_as_sequence */
+      0,                                        /* tp_as_mapping */
+      0,                                        /* tp_hash */
+      0,                                        /* tp_call */
+      0,                                        /* tp_str */
+      PyObject_GenericGetAttr,                  /* tp_getattro */
+      0,                                        /* tp_setattro */
+      0,                                        /* tp_as_buffer */
+      Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_GC|Py_TPFLAGS_HAVE_CLASS, /* tp_flags */
+      0,                                        /* tp_doc */
+      SwigPyStaticVar_traverse,                 /* tp_traverse */
+      0,                                        /* tp_clear */
+      0,                                        /* tp_richcompare */
+      0,                                        /* tp_weaklistoffset */
+      0,                                        /* tp_iter */
+      0,                                        /* tp_iternext */
+      0,                                        /* tp_methods */
+      0,                                        /* tp_members */
+      0,                                        /* tp_getset */
+      0,                                        /* tp_base */
+      0,                                        /* tp_dict */
+      (descrgetfunc)SwigPyStaticVar_get,        /* tp_descr_get */
+      (descrsetfunc)SwigPyStaticVar_set,        /* tp_descr_set */
+      0,                                        /* tp_dictoffset */
+      0,                                        /* tp_init */
+      0,                                        /* tp_alloc */
+      0,                                        /* tp_new */
+      0,                                        /* tp_free */
+      0,                                        /* tp_is_gc */
+      0,                                        /* tp_bases */
+      0,                                        /* tp_mro */
+      0,                                        /* tp_cache */
+      0,                                        /* tp_subclasses */
+      0,                                        /* tp_weaklist */
+#if PY_VERSION_HEX >= 0x02030000
+      0,                                        /* tp_del */
+#endif
+#if PY_VERSION_HEX >= 0x02060000
+      0,                                        /* tp_version */
+#endif
+#ifdef COUNT_ALLOCS
+      0,0,0,0                                   /* tp_alloc -> tp_next */
+#endif
+    };
+    staticvar_type = tmp;
+    type_init = 1;
+#if PY_VERSION_HEX < 0x02020000
+    staticvar_type.ob_type = &PyType_Type;
+#else
+    if (PyType_Ready(&staticvar_type) < 0)
+      return NULL;
+#endif
+  }
+  return &staticvar_type;
+}
+
+SWIGINTERN PyGetSetDescrObject *
+SwigPyStaticVar_new_getset(PyTypeObject *type, PyGetSetDef *getset) {
+
+  PyGetSetDescrObject *descr;
+  descr = (PyGetSetDescrObject *)PyType_GenericAlloc(SwigPyStaticVar_Type(), 0);
+  assert(descr);
+  Py_XINCREF(type);
+  PyDescr_TYPE(descr) = type;
+  PyDescr_NAME(descr) = PyString_InternFromString(getset->name);
+  descr->d_getset = getset;
+  if (PyDescr_NAME(descr) == NULL) {
+    Py_DECREF(descr);
+    descr = NULL;
+  }
+  return descr;
+}
+
+SWIGINTERN void
+SwigPyBuiltin_InitBases (PyTypeObject *type, PyTypeObject **bases) {
+  int base_count = 0;
+  PyTypeObject **b;
+  PyObject *tuple;
+  int i;
+
+  if (!bases[0]) {
+    bases[0] = SwigPyObject_type();
+    bases[1] = NULL;
+  }
+  type->tp_base = bases[0];
+  Py_INCREF((PyObject *)bases[0]);
+  for (b = bases; *b != NULL; ++b)
+    ++base_count;
+  tuple = PyTuple_New(base_count);
+  for (i = 0; i < base_count; ++i) {
+    PyTuple_SET_ITEM(tuple, i, (PyObject *)bases[i]);
+    Py_INCREF((PyObject *)bases[i]);
+  }
+  type->tp_bases = tuple;
+}
+
+SWIGINTERN PyObject *
+SwigPyBuiltin_ThisClosure (PyObject *self, void *SWIGUNUSEDPARM(closure)) {
+  PyObject *result;
+  result = (PyObject *)SWIG_Python_GetSwigThis(self);
+  Py_XINCREF(result);
+  return result;
+}
+
+SWIGINTERN void
+SwigPyBuiltin_SetMetaType (PyTypeObject *type, PyTypeObject *metatype)
+{
+#if PY_VERSION_HEX >= 0x03000000
+    type->ob_base.ob_base.ob_type = metatype;
+#else
+    type->ob_type = metatype;
+#endif
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+
 
 
 #define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while(0) 
@@ -2910,13 +3426,14 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_char swig_types[0]
-#define SWIGTYPE_p_double swig_types[1]
-#define SWIGTYPE_p_gsl_sum_levin_u_workspace swig_types[2]
-#define SWIGTYPE_p_gsl_sum_levin_utrunc_workspace swig_types[3]
-#define SWIGTYPE_p_unsigned_int swig_types[4]
-static swig_type_info *swig_types[6];
-static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
+#define SWIGTYPE_p_SwigPyObject swig_types[0]
+#define SWIGTYPE_p_char swig_types[1]
+#define SWIGTYPE_p_double swig_types[2]
+#define SWIGTYPE_p_gsl_sum_levin_u_workspace swig_types[3]
+#define SWIGTYPE_p_gsl_sum_levin_utrunc_workspace swig_types[4]
+#define SWIGTYPE_p_unsigned_int swig_types[5]
+static swig_type_info *swig_types[7];
+static swig_module_info swig_module = {swig_types, 6, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2946,6 +3463,9 @@ static swig_module_info swig_module = {swig_types, 5, 0, 0, 0, 0};
 
 #define SWIG_as_voidptr(a) (void *)((const void *)(a)) 
 #define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),(void**)(a)) 
+
+
+  #include <stddef.h>
 
 
 #include <gsl/gsl_sum.h>
@@ -3175,40 +3695,39 @@ SWIGINTERN int gsl_sum_levin_utrunc_workspace_minmax(gsl_sum_levin_utrunc_worksp
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGINTERN PyObject *_wrap_new__levin(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN int _wrap_new__levin(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   size_t arg1 ;
   size_t val1 ;
   int ecode1 = 0 ;
-  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   char *  kwnames[] = {
     (char *) "n", NULL 
   };
   gsl_sum_levin_u_workspace *result = 0 ;
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new__levin",kwnames,&obj0)) SWIG_fail;
-  ecode1 = SWIG_AsVal_size_t(obj0, &val1);
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new__levin",kwnames,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(obj1, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new__levin" "', argument " "1"" of type '" "size_t""'");
   } 
   arg1 = (size_t)(val1);
   result = (gsl_sum_levin_u_workspace *)new_gsl_sum_levin_u_workspace(arg1);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_sum_levin_u_workspace, SWIG_POINTER_NEW |  0 );
-  return resultobj;
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_sum_levin_u_workspace, SWIG_BUILTIN_INIT |  0 );
+  return resultobj == Py_None ? -1 : 0;
 fail:
-  return NULL;
+  return -1;
 }
 
 
-SWIGINTERN PyObject *_wrap_delete__levin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_delete__levin(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:delete__levin",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, SWIG_POINTER_DISOWN |  0 );
+  if (args && PyTuple_Check(args) && PyTuple_GET_SIZE(args) > 0) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete__levin" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
   }
@@ -3221,7 +3740,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap__levin_accel(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap__levin_accel(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
   double *arg2 = (double *) 0 ;
@@ -3234,10 +3753,9 @@ SWIGINTERN PyObject *_wrap__levin_accel(PyObject *SWIGUNUSEDPARM(self), PyObject
   int res4 = SWIG_TMPOBJ ;
   double temp5 ;
   int res5 = SWIG_TMPOBJ ;
-  PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "array", NULL 
+    (char *) "array", NULL 
   };
   int result;
   
@@ -3246,8 +3764,8 @@ SWIGINTERN PyObject *_wrap__levin_accel(PyObject *SWIGUNUSEDPARM(self), PyObject
   
   arg4 = &temp4;
   arg5 = &temp5;
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:_levin_accel",kwnames,&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:_levin_accel",kwnames,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_accel" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
   }
@@ -3258,8 +3776,8 @@ SWIGINTERN PyObject *_wrap__levin_accel(PyObject *SWIGUNUSEDPARM(self), PyObject
     if (_PyVector2 == NULL)
     goto fail;
     
-    mysize = _PyVector2->dimensions[0];
-    arg2 = (double *)(_PyVector2->data);
+    mysize = PyArray_DIM(_PyVector2, 0);
+    arg2 = (double *)(PyArray_DATA(_PyVector2));
     arg3 = (size_t) mysize;
   }
   result = (int)gsl_sum_levin_u_workspace_accel(arg1,(double const *)arg2,arg3,arg4,arg5);
@@ -3303,16 +3821,15 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap__levin_get_terms_used(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap__levin_get_terms_used(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  PyObject * obj0 = 0 ;
   size_t result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:_levin_get_terms_used",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
+  if (args && PyTuple_Check(args) && PyTuple_GET_SIZE(args) > 0) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_get_terms_used" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
   }
@@ -3325,16 +3842,15 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap__levin_sum_plain(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap__levin_sum_plain(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  PyObject * obj0 = 0 ;
   double result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:_levin_sum_plain",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
+  if (args && PyTuple_Check(args) && PyTuple_GET_SIZE(args) > 0) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_sum_plain" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
   }
@@ -3347,7 +3863,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap__levin_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap__levin_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_sum_levin_u_workspace *arg1 = (gsl_sum_levin_u_workspace *) 0 ;
   double *arg2 = (double *) 0 ;
@@ -3366,12 +3882,11 @@ SWIGINTERN PyObject *_wrap__levin_minmax(PyObject *SWIGUNUSEDPARM(self), PyObjec
   int res6 = SWIG_TMPOBJ ;
   double temp7 ;
   int res7 = SWIG_TMPOBJ ;
-  PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "array",(char *) "min_terms",(char *) "max_terms", NULL 
+    (char *) "array",(char *) "min_terms",(char *) "max_terms", NULL 
   };
   int result;
   
@@ -3380,8 +3895,8 @@ SWIGINTERN PyObject *_wrap__levin_minmax(PyObject *SWIGUNUSEDPARM(self), PyObjec
   
   arg6 = &temp6;
   arg7 = &temp7;
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:_levin_minmax",kwnames,&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:_levin_minmax",kwnames,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_u_workspace, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_minmax" "', argument " "1"" of type '" "gsl_sum_levin_u_workspace *""'"); 
   }
@@ -3392,8 +3907,8 @@ SWIGINTERN PyObject *_wrap__levin_minmax(PyObject *SWIGUNUSEDPARM(self), PyObjec
     if (_PyVector2 == NULL)
     goto fail;
     
-    mysize = _PyVector2->dimensions[0];
-    arg2 = (double *)(_PyVector2->data);
+    mysize = PyArray_DIM(_PyVector2, 0);
+    arg2 = (double *)(PyArray_DATA(_PyVector2));
     arg3 = (size_t) mysize;
   }
   ecode4 = SWIG_AsVal_size_t(obj2, &val4);
@@ -3447,47 +3962,39 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_levin_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *obj;
-  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_gsl_sum_levin_u_workspace, SWIG_NewClientData(obj));
-  return SWIG_Py_Void();
-}
-
-SWIGINTERN PyObject *_wrap_new__levin_utrunc(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN int _wrap_new__levin_utrunc(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   size_t arg1 ;
   size_t val1 ;
   int ecode1 = 0 ;
-  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   char *  kwnames[] = {
     (char *) "n", NULL 
   };
   gsl_sum_levin_utrunc_workspace *result = 0 ;
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new__levin_utrunc",kwnames,&obj0)) SWIG_fail;
-  ecode1 = SWIG_AsVal_size_t(obj0, &val1);
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:new__levin_utrunc",kwnames,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(obj1, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new__levin_utrunc" "', argument " "1"" of type '" "size_t""'");
   } 
   arg1 = (size_t)(val1);
   result = (gsl_sum_levin_utrunc_workspace *)new_gsl_sum_levin_utrunc_workspace(arg1);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, SWIG_POINTER_NEW |  0 );
-  return resultobj;
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, SWIG_BUILTIN_INIT |  0 );
+  return resultobj == Py_None ? -1 : 0;
 fail:
-  return NULL;
+  return -1;
 }
 
 
-SWIGINTERN PyObject *_wrap_delete__levin_utrunc(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_delete__levin_utrunc(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:delete__levin_utrunc",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, SWIG_POINTER_DISOWN |  0 );
+  if (args && PyTuple_Check(args) && PyTuple_GET_SIZE(args) > 0) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete__levin_utrunc" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
   }
@@ -3500,7 +4007,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap__levin_utrunc_accel(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap__levin_utrunc_accel(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
   double *arg2 = (double *) 0 ;
@@ -3513,10 +4020,9 @@ SWIGINTERN PyObject *_wrap__levin_utrunc_accel(PyObject *SWIGUNUSEDPARM(self), P
   int res4 = SWIG_TMPOBJ ;
   double temp5 ;
   int res5 = SWIG_TMPOBJ ;
-  PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "array", NULL 
+    (char *) "array", NULL 
   };
   int result;
   
@@ -3525,8 +4031,8 @@ SWIGINTERN PyObject *_wrap__levin_utrunc_accel(PyObject *SWIGUNUSEDPARM(self), P
   
   arg4 = &temp4;
   arg5 = &temp5;
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:_levin_utrunc_accel",kwnames,&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O:_levin_utrunc_accel",kwnames,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_utrunc_accel" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
   }
@@ -3537,8 +4043,8 @@ SWIGINTERN PyObject *_wrap__levin_utrunc_accel(PyObject *SWIGUNUSEDPARM(self), P
     if (_PyVector2 == NULL)
     goto fail;
     
-    mysize = _PyVector2->dimensions[0];
-    arg2 = (double *)(_PyVector2->data);
+    mysize = PyArray_DIM(_PyVector2, 0);
+    arg2 = (double *)(PyArray_DATA(_PyVector2));
     arg3 = (size_t) mysize;
   }
   result = (int)gsl_sum_levin_utrunc_workspace_accel(arg1,(double const *)arg2,arg3,arg4,arg5);
@@ -3582,16 +4088,15 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap__levin_utrunc_get_terms_used(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap__levin_utrunc_get_terms_used(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  PyObject * obj0 = 0 ;
   size_t result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:_levin_utrunc_get_terms_used",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
+  if (args && PyTuple_Check(args) && PyTuple_GET_SIZE(args) > 0) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_utrunc_get_terms_used" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
   }
@@ -3604,16 +4109,15 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap__levin_utrunc_sum_plain(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap__levin_utrunc_sum_plain(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  PyObject * obj0 = 0 ;
   double result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:_levin_utrunc_sum_plain",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
+  if (args && PyTuple_Check(args) && PyTuple_GET_SIZE(args) > 0) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_utrunc_sum_plain" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
   }
@@ -3626,7 +4130,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap__levin_utrunc_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap__levin_utrunc_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_sum_levin_utrunc_workspace *arg1 = (gsl_sum_levin_utrunc_workspace *) 0 ;
   double *arg2 = (double *) 0 ;
@@ -3645,12 +4149,11 @@ SWIGINTERN PyObject *_wrap__levin_utrunc_minmax(PyObject *SWIGUNUSEDPARM(self), 
   int res6 = SWIG_TMPOBJ ;
   double temp7 ;
   int res7 = SWIG_TMPOBJ ;
-  PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "array",(char *) "min_terms",(char *) "max_terms", NULL 
+    (char *) "array",(char *) "min_terms",(char *) "max_terms", NULL 
   };
   int result;
   
@@ -3659,8 +4162,8 @@ SWIGINTERN PyObject *_wrap__levin_utrunc_minmax(PyObject *SWIGUNUSEDPARM(self), 
   
   arg6 = &temp6;
   arg7 = &temp7;
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOOO:_levin_utrunc_minmax",kwnames,&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO:_levin_utrunc_minmax",kwnames,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "_levin_utrunc_minmax" "', argument " "1"" of type '" "gsl_sum_levin_utrunc_workspace *""'"); 
   }
@@ -3671,8 +4174,8 @@ SWIGINTERN PyObject *_wrap__levin_utrunc_minmax(PyObject *SWIGUNUSEDPARM(self), 
     if (_PyVector2 == NULL)
     goto fail;
     
-    mysize = _PyVector2->dimensions[0];
-    arg2 = (double *)(_PyVector2->data);
+    mysize = PyArray_DIM(_PyVector2, 0);
+    arg2 = (double *)(PyArray_DATA(_PyVector2));
     arg3 = (size_t) mysize;
   }
   ecode4 = SWIG_AsVal_size_t(obj2, &val4);
@@ -3726,42 +4229,413 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_levin_utrunc_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *obj;
-  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_gsl_sum_levin_utrunc_workspace, SWIG_NewClientData(obj));
-  return SWIG_Py_Void();
-}
-
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
-	 { (char *)"new__levin", (PyCFunction) _wrap_new__levin, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"delete__levin", _wrap_delete__levin, METH_VARARGS, NULL},
-	 { (char *)"_levin_accel", (PyCFunction) _wrap__levin_accel, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"_levin_get_terms_used", _wrap__levin_get_terms_used, METH_VARARGS, NULL},
-	 { (char *)"_levin_sum_plain", _wrap__levin_sum_plain, METH_VARARGS, NULL},
-	 { (char *)"_levin_minmax", (PyCFunction) _wrap__levin_minmax, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"_levin_swigregister", _levin_swigregister, METH_VARARGS, NULL},
-	 { (char *)"new__levin_utrunc", (PyCFunction) _wrap_new__levin_utrunc, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"delete__levin_utrunc", _wrap_delete__levin_utrunc, METH_VARARGS, NULL},
-	 { (char *)"_levin_utrunc_accel", (PyCFunction) _wrap__levin_utrunc_accel, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"_levin_utrunc_get_terms_used", _wrap__levin_utrunc_get_terms_used, METH_VARARGS, NULL},
-	 { (char *)"_levin_utrunc_sum_plain", _wrap__levin_utrunc_sum_plain, METH_VARARGS, NULL},
-	 { (char *)"_levin_utrunc_minmax", (PyCFunction) _wrap__levin_utrunc_minmax, METH_VARARGS | METH_KEYWORDS, NULL},
-	 { (char *)"_levin_utrunc_swigregister", _levin_utrunc_swigregister, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
+
+SWIGPY_DESTRUCTOR_CLOSURE(_wrap_delete__levin)
+SWIGINTERN PyGetSetDef SwigPyBuiltin__gsl_sum_levin_u_workspace_getset[] = {
+    {NULL, NULL, NULL, NULL, NULL} /* Sentinel */
+};
+
+SWIGINTERN PyObject *
+SwigPyBuiltin__gsl_sum_levin_u_workspace_richcompare(PyObject *self, PyObject *other, int op) {
+  PyObject *result = NULL;
+  PyObject *tuple = PyTuple_New(1);
+  assert(tuple);
+  PyTuple_SET_ITEM(tuple, 0, other);
+  Py_XINCREF(other);
+  if (!result) {
+    if (SwigPyObject_Check(self) && SwigPyObject_Check(other)) {
+      result = SwigPyObject_richcompare((SwigPyObject *)self, (SwigPyObject *)other, op);
+    } else {
+      result = Py_NotImplemented;
+      Py_INCREF(result);
+    }
+  }
+  Py_DECREF(tuple);
+  return result;
+}
+
+SWIGINTERN PyMethodDef SwigPyBuiltin__gsl_sum_levin_u_workspace_methods[] = {
+  { "accel", (PyCFunction) _wrap__levin_accel, METH_VARARGS|METH_KEYWORDS, (char*) "" },
+  { "get_terms_used", (PyCFunction) _wrap__levin_get_terms_used, METH_VARARGS|METH_KEYWORDS, (char*) "" },
+  { "sum_plain", (PyCFunction) _wrap__levin_sum_plain, METH_VARARGS|METH_KEYWORDS, (char*) "" },
+  { "minmax", (PyCFunction) _wrap__levin_minmax, METH_VARARGS|METH_KEYWORDS, (char*) "" },
+  { NULL, NULL, 0, NULL } /* Sentinel */
+};
+
+static PyHeapTypeObject SwigPyBuiltin__gsl_sum_levin_u_workspace_type = {
+  {
+#if PY_VERSION_HEX >= 0x03000000
+    PyVarObject_HEAD_INIT(NULL, 0)
+#else
+    PyObject_HEAD_INIT(NULL)
+    0,                                        /* ob_size */
+#endif
+    "_levin",                                 /* tp_name */
+    sizeof(SwigPyObject),                     /* tp_basicsize */
+    0,                                        /* tp_itemsize */
+    (destructor) _wrap_delete__levin_closure, /* tp_dealloc */
+    (printfunc) 0,                            /* tp_print */
+    (getattrfunc) 0,                          /* tp_getattr */
+    (setattrfunc) 0,                          /* tp_setattr */
+#if PY_VERSION_HEX >= 0x03000000
+    0,                                        /* tp_compare */
+#else
+    (cmpfunc) 0,                              /* tp_compare */
+#endif
+    (reprfunc) 0,                             /* tp_repr */
+    &SwigPyBuiltin__gsl_sum_levin_u_workspace_type.as_number,      /* tp_as_number */
+    &SwigPyBuiltin__gsl_sum_levin_u_workspace_type.as_sequence,    /* tp_as_sequence */
+    &SwigPyBuiltin__gsl_sum_levin_u_workspace_type.as_mapping,     /* tp_as_mapping */
+    (hashfunc) 0,                             /* tp_hash */
+    (ternaryfunc) 0,                          /* tp_call */
+    (reprfunc) 0,                             /* tp_str */
+    (getattrofunc) 0,                         /* tp_getattro */
+    (setattrofunc) 0,                         /* tp_setattro */
+    &SwigPyBuiltin__gsl_sum_levin_u_workspace_type.as_buffer,      /* tp_as_buffer */
+#if PY_VERSION_HEX >= 0x03000000
+    Py_TPFLAGS_DEFAULT|Py_TPFLAGS_BASETYPE,   /* tp_flags */
+#else
+    Py_TPFLAGS_DEFAULT|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_CHECKTYPES, /* tp_flags */
+#endif
+    "::gsl_sum_levin_u_workspace",            /* tp_doc */
+    (traverseproc) 0,                         /* tp_traverse */
+    (inquiry) 0,                              /* tp_clear */
+    (richcmpfunc) SwigPyBuiltin__gsl_sum_levin_u_workspace_richcompare, /* feature:python:tp_richcompare */
+    0,                                        /* tp_weaklistoffset */
+    (getiterfunc) 0,                          /* tp_iter */
+    (iternextfunc) 0,                         /* tp_iternext */
+    SwigPyBuiltin__gsl_sum_levin_u_workspace_methods, /* tp_methods */
+    0,                                        /* tp_members */
+    SwigPyBuiltin__gsl_sum_levin_u_workspace_getset, /* tp_getset */
+    0,                                        /* tp_base */
+    0,                                        /* tp_dict */
+    (descrgetfunc) 0,                         /* tp_descr_get */
+    (descrsetfunc) 0,                         /* tp_descr_set */
+    (Py_ssize_t)offsetof(SwigPyObject, dict), /* tp_dictoffset */
+    (initproc) _wrap_new__levin,              /* tp_init */
+    (allocfunc) 0,                            /* tp_alloc */
+    (newfunc) 0,                              /* tp_new */
+    (freefunc) 0,                             /* tp_free */
+    (inquiry) 0,                              /* tp_is_gc */
+    (PyObject*) 0,                            /* tp_bases */
+    (PyObject*) 0,                            /* tp_mro */
+    (PyObject*) 0,                            /* tp_cache */
+    (PyObject*) 0,                            /* tp_subclasses */
+    (PyObject*) 0,                            /* tp_weaklist */
+    (destructor) 0,                           /* tp_del */
+#if PY_VERSION_HEX >= 0x02060000
+    (int) 0,                                  /* tp_version_tag */
+#endif
+  },
+  {
+    (binaryfunc) 0,                           /* nb_add */
+    (binaryfunc) 0,                           /* nb_subtract */
+    (binaryfunc) 0,                           /* nb_multiply */
+#if PY_VERSION_HEX < 0x03000000
+    (binaryfunc) 0,                           /* nb_divide */
+#endif
+    (binaryfunc) 0,                           /* nb_remainder */
+    (binaryfunc) 0,                           /* nb_divmod */
+    (ternaryfunc) 0,                          /* nb_power */
+    (unaryfunc) 0,                            /* nb_negative */
+    (unaryfunc) 0,                            /* nb_positive */
+    (unaryfunc) 0,                            /* nb_absolute */
+    (inquiry) 0,                              /* nb_nonzero */
+    (unaryfunc) 0,                            /* nb_invert */
+    (binaryfunc) 0,                           /* nb_lshift */
+    (binaryfunc) 0,                           /* nb_rshift */
+    (binaryfunc) 0,                           /* nb_and */
+    (binaryfunc) 0,                           /* nb_xor */
+    (binaryfunc) 0,                           /* nb_or */
+#if PY_VERSION_HEX < 0x03000000
+    (coercion) 0,                             /* nb_coerce */
+#endif
+    (unaryfunc) 0,                            /* nb_int */
+#if PY_VERSION_HEX >= 0x03000000
+    (void*) 0,                                /* nb_reserved */
+#else
+    (unaryfunc) 0,                            /* nb_long */
+#endif
+    (unaryfunc) 0,                            /* nb_float */
+#if PY_VERSION_HEX < 0x03000000
+    (unaryfunc) 0,                            /* nb_oct */
+    (unaryfunc) 0,                            /* nb_hex */
+#endif
+    (binaryfunc) 0,                           /* nb_inplace_add */
+    (binaryfunc) 0,                           /* nb_inplace_subtract */
+    (binaryfunc) 0,                           /* nb_inplace_multiply */
+#if PY_VERSION_HEX < 0x03000000
+    (binaryfunc) 0,                           /* nb_inplace_divide */
+#endif
+    (binaryfunc) 0,                           /* nb_inplace_remainder */
+    (ternaryfunc) 0,                          /* nb_inplace_power */
+    (binaryfunc) 0,                           /* nb_inplace_lshift */
+    (binaryfunc) 0,                           /* nb_inplace_rshift */
+    (binaryfunc) 0,                           /* nb_inplace_and */
+    (binaryfunc) 0,                           /* nb_inplace_xor */
+    (binaryfunc) 0,                           /* nb_inplace_or */
+    (binaryfunc) 0,                           /* nb_floor_divide */
+    (binaryfunc) 0,                           /* nb_true_divide */
+    (binaryfunc) 0,                           /* nb_inplace_floor_divide */
+    (binaryfunc) 0,                           /* nb_inplace_true_divide */
+#if PY_VERSION_HEX >= 0x02050000
+    (unaryfunc) 0,                            /* nb_index */
+#endif
+  },
+  {
+    (lenfunc) 0,                              /* mp_length */
+    (binaryfunc) 0,                           /* mp_subscript */
+    (objobjargproc) 0,                        /* mp_ass_subscript */
+  },
+  {
+    (lenfunc) 0,                              /* sq_length */
+    (binaryfunc) 0,                           /* sq_concat */
+    (ssizeargfunc) 0,                         /* sq_repeat */
+    (ssizeargfunc) 0,                         /* sq_item */
+#if PY_VERSION_HEX >= 0x03000000
+    (void*) 0,                                /* was_sq_slice */
+#else
+    (ssizessizeargfunc) 0,                    /* sq_slice */
+#endif
+    (ssizeobjargproc) 0,                      /* sq_ass_item */
+#if PY_VERSION_HEX >= 0x03000000
+    (void*) 0,                                /* was_sq_ass_slice */
+#else
+    (ssizessizeobjargproc) 0,                 /* sq_ass_slice */
+#endif
+    (objobjproc) 0,                           /* sq_contains */
+    (binaryfunc) 0,                           /* sq_inplace_concat */
+    (ssizeargfunc) 0,                         /* sq_inplace_repeat */
+  },
+  {
+#if PY_VERSION_HEX < 0x03000000
+    (readbufferproc) 0,                       /* bf_getreadbuffer */
+    (writebufferproc) 0,                      /* bf_getwritebuffer */
+    (segcountproc) 0,                         /* bf_getsegcount */
+    (charbufferproc) 0,                       /* bf_getcharbuffer */
+#endif
+#if PY_VERSION_HEX >= 0x02060000
+    (getbufferproc) 0,                        /* bf_getbuffer */
+    (releasebufferproc) 0,                    /* bf_releasebuffer */
+#endif
+  },
+    (PyObject*) 0,                            /* ht_name */
+    (PyObject*) 0,                            /* ht_slots */
+};
+
+SWIGINTERN SwigPyClientData SwigPyBuiltin__gsl_sum_levin_u_workspace_clientdata = {0, 0, 0, 0, 0, 0, (PyTypeObject *)&SwigPyBuiltin__gsl_sum_levin_u_workspace_type};
+
+SWIGPY_DESTRUCTOR_CLOSURE(_wrap_delete__levin_utrunc)
+SWIGINTERN PyGetSetDef SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_getset[] = {
+    {NULL, NULL, NULL, NULL, NULL} /* Sentinel */
+};
+
+SWIGINTERN PyObject *
+SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_richcompare(PyObject *self, PyObject *other, int op) {
+  PyObject *result = NULL;
+  PyObject *tuple = PyTuple_New(1);
+  assert(tuple);
+  PyTuple_SET_ITEM(tuple, 0, other);
+  Py_XINCREF(other);
+  if (!result) {
+    if (SwigPyObject_Check(self) && SwigPyObject_Check(other)) {
+      result = SwigPyObject_richcompare((SwigPyObject *)self, (SwigPyObject *)other, op);
+    } else {
+      result = Py_NotImplemented;
+      Py_INCREF(result);
+    }
+  }
+  Py_DECREF(tuple);
+  return result;
+}
+
+SWIGINTERN PyMethodDef SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_methods[] = {
+  { "accel", (PyCFunction) _wrap__levin_utrunc_accel, METH_VARARGS|METH_KEYWORDS, (char*) "" },
+  { "get_terms_used", (PyCFunction) _wrap__levin_utrunc_get_terms_used, METH_VARARGS|METH_KEYWORDS, (char*) "" },
+  { "sum_plain", (PyCFunction) _wrap__levin_utrunc_sum_plain, METH_VARARGS|METH_KEYWORDS, (char*) "" },
+  { "minmax", (PyCFunction) _wrap__levin_utrunc_minmax, METH_VARARGS|METH_KEYWORDS, (char*) "" },
+  { NULL, NULL, 0, NULL } /* Sentinel */
+};
+
+static PyHeapTypeObject SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_type = {
+  {
+#if PY_VERSION_HEX >= 0x03000000
+    PyVarObject_HEAD_INIT(NULL, 0)
+#else
+    PyObject_HEAD_INIT(NULL)
+    0,                                        /* ob_size */
+#endif
+    "_levin_utrunc",                          /* tp_name */
+    sizeof(SwigPyObject),                     /* tp_basicsize */
+    0,                                        /* tp_itemsize */
+    (destructor) _wrap_delete__levin_utrunc_closure, /* tp_dealloc */
+    (printfunc) 0,                            /* tp_print */
+    (getattrfunc) 0,                          /* tp_getattr */
+    (setattrfunc) 0,                          /* tp_setattr */
+#if PY_VERSION_HEX >= 0x03000000
+    0,                                        /* tp_compare */
+#else
+    (cmpfunc) 0,                              /* tp_compare */
+#endif
+    (reprfunc) 0,                             /* tp_repr */
+    &SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_type.as_number,      /* tp_as_number */
+    &SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_type.as_sequence,    /* tp_as_sequence */
+    &SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_type.as_mapping,     /* tp_as_mapping */
+    (hashfunc) 0,                             /* tp_hash */
+    (ternaryfunc) 0,                          /* tp_call */
+    (reprfunc) 0,                             /* tp_str */
+    (getattrofunc) 0,                         /* tp_getattro */
+    (setattrofunc) 0,                         /* tp_setattro */
+    &SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_type.as_buffer,      /* tp_as_buffer */
+#if PY_VERSION_HEX >= 0x03000000
+    Py_TPFLAGS_DEFAULT|Py_TPFLAGS_BASETYPE,   /* tp_flags */
+#else
+    Py_TPFLAGS_DEFAULT|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_CHECKTYPES, /* tp_flags */
+#endif
+    "::gsl_sum_levin_utrunc_workspace",       /* tp_doc */
+    (traverseproc) 0,                         /* tp_traverse */
+    (inquiry) 0,                              /* tp_clear */
+    (richcmpfunc) SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_richcompare, /* feature:python:tp_richcompare */
+    0,                                        /* tp_weaklistoffset */
+    (getiterfunc) 0,                          /* tp_iter */
+    (iternextfunc) 0,                         /* tp_iternext */
+    SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_methods, /* tp_methods */
+    0,                                        /* tp_members */
+    SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_getset, /* tp_getset */
+    0,                                        /* tp_base */
+    0,                                        /* tp_dict */
+    (descrgetfunc) 0,                         /* tp_descr_get */
+    (descrsetfunc) 0,                         /* tp_descr_set */
+    (Py_ssize_t)offsetof(SwigPyObject, dict), /* tp_dictoffset */
+    (initproc) _wrap_new__levin_utrunc,       /* tp_init */
+    (allocfunc) 0,                            /* tp_alloc */
+    (newfunc) 0,                              /* tp_new */
+    (freefunc) 0,                             /* tp_free */
+    (inquiry) 0,                              /* tp_is_gc */
+    (PyObject*) 0,                            /* tp_bases */
+    (PyObject*) 0,                            /* tp_mro */
+    (PyObject*) 0,                            /* tp_cache */
+    (PyObject*) 0,                            /* tp_subclasses */
+    (PyObject*) 0,                            /* tp_weaklist */
+    (destructor) 0,                           /* tp_del */
+#if PY_VERSION_HEX >= 0x02060000
+    (int) 0,                                  /* tp_version_tag */
+#endif
+  },
+  {
+    (binaryfunc) 0,                           /* nb_add */
+    (binaryfunc) 0,                           /* nb_subtract */
+    (binaryfunc) 0,                           /* nb_multiply */
+#if PY_VERSION_HEX < 0x03000000
+    (binaryfunc) 0,                           /* nb_divide */
+#endif
+    (binaryfunc) 0,                           /* nb_remainder */
+    (binaryfunc) 0,                           /* nb_divmod */
+    (ternaryfunc) 0,                          /* nb_power */
+    (unaryfunc) 0,                            /* nb_negative */
+    (unaryfunc) 0,                            /* nb_positive */
+    (unaryfunc) 0,                            /* nb_absolute */
+    (inquiry) 0,                              /* nb_nonzero */
+    (unaryfunc) 0,                            /* nb_invert */
+    (binaryfunc) 0,                           /* nb_lshift */
+    (binaryfunc) 0,                           /* nb_rshift */
+    (binaryfunc) 0,                           /* nb_and */
+    (binaryfunc) 0,                           /* nb_xor */
+    (binaryfunc) 0,                           /* nb_or */
+#if PY_VERSION_HEX < 0x03000000
+    (coercion) 0,                             /* nb_coerce */
+#endif
+    (unaryfunc) 0,                            /* nb_int */
+#if PY_VERSION_HEX >= 0x03000000
+    (void*) 0,                                /* nb_reserved */
+#else
+    (unaryfunc) 0,                            /* nb_long */
+#endif
+    (unaryfunc) 0,                            /* nb_float */
+#if PY_VERSION_HEX < 0x03000000
+    (unaryfunc) 0,                            /* nb_oct */
+    (unaryfunc) 0,                            /* nb_hex */
+#endif
+    (binaryfunc) 0,                           /* nb_inplace_add */
+    (binaryfunc) 0,                           /* nb_inplace_subtract */
+    (binaryfunc) 0,                           /* nb_inplace_multiply */
+#if PY_VERSION_HEX < 0x03000000
+    (binaryfunc) 0,                           /* nb_inplace_divide */
+#endif
+    (binaryfunc) 0,                           /* nb_inplace_remainder */
+    (ternaryfunc) 0,                          /* nb_inplace_power */
+    (binaryfunc) 0,                           /* nb_inplace_lshift */
+    (binaryfunc) 0,                           /* nb_inplace_rshift */
+    (binaryfunc) 0,                           /* nb_inplace_and */
+    (binaryfunc) 0,                           /* nb_inplace_xor */
+    (binaryfunc) 0,                           /* nb_inplace_or */
+    (binaryfunc) 0,                           /* nb_floor_divide */
+    (binaryfunc) 0,                           /* nb_true_divide */
+    (binaryfunc) 0,                           /* nb_inplace_floor_divide */
+    (binaryfunc) 0,                           /* nb_inplace_true_divide */
+#if PY_VERSION_HEX >= 0x02050000
+    (unaryfunc) 0,                            /* nb_index */
+#endif
+  },
+  {
+    (lenfunc) 0,                              /* mp_length */
+    (binaryfunc) 0,                           /* mp_subscript */
+    (objobjargproc) 0,                        /* mp_ass_subscript */
+  },
+  {
+    (lenfunc) 0,                              /* sq_length */
+    (binaryfunc) 0,                           /* sq_concat */
+    (ssizeargfunc) 0,                         /* sq_repeat */
+    (ssizeargfunc) 0,                         /* sq_item */
+#if PY_VERSION_HEX >= 0x03000000
+    (void*) 0,                                /* was_sq_slice */
+#else
+    (ssizessizeargfunc) 0,                    /* sq_slice */
+#endif
+    (ssizeobjargproc) 0,                      /* sq_ass_item */
+#if PY_VERSION_HEX >= 0x03000000
+    (void*) 0,                                /* was_sq_ass_slice */
+#else
+    (ssizessizeobjargproc) 0,                 /* sq_ass_slice */
+#endif
+    (objobjproc) 0,                           /* sq_contains */
+    (binaryfunc) 0,                           /* sq_inplace_concat */
+    (ssizeargfunc) 0,                         /* sq_inplace_repeat */
+  },
+  {
+#if PY_VERSION_HEX < 0x03000000
+    (readbufferproc) 0,                       /* bf_getreadbuffer */
+    (writebufferproc) 0,                      /* bf_getwritebuffer */
+    (segcountproc) 0,                         /* bf_getsegcount */
+    (charbufferproc) 0,                       /* bf_getcharbuffer */
+#endif
+#if PY_VERSION_HEX >= 0x02060000
+    (getbufferproc) 0,                        /* bf_getbuffer */
+    (releasebufferproc) 0,                    /* bf_releasebuffer */
+#endif
+  },
+    (PyObject*) 0,                            /* ht_name */
+    (PyObject*) 0,                            /* ht_slots */
+};
+
+SWIGINTERN SwigPyClientData SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_clientdata = {0, 0, 0, 0, 0, 0, (PyTypeObject *)&SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_type};
 
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static swig_type_info _swigt__p_SwigPyObject = {"_p_SwigPyObject", "SwigPyObject *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_gsl_sum_levin_u_workspace = {"_p_gsl_sum_levin_u_workspace", "gsl_sum_levin_u_workspace *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_gsl_sum_levin_utrunc_workspace = {"_p_gsl_sum_levin_utrunc_workspace", "gsl_sum_levin_utrunc_workspace *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_gsl_sum_levin_u_workspace = {"_p_gsl_sum_levin_u_workspace", "gsl_sum_levin_u_workspace *", 0, 0, (void*)&SwigPyBuiltin__gsl_sum_levin_u_workspace_clientdata, 0};
+static swig_type_info _swigt__p_gsl_sum_levin_utrunc_workspace = {"_p_gsl_sum_levin_utrunc_workspace", "gsl_sum_levin_utrunc_workspace *", 0, 0, (void*)&SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_clientdata, 0};
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "size_t *|unsigned int *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_SwigPyObject,
   &_swigt__p_char,
   &_swigt__p_double,
   &_swigt__p_gsl_sum_levin_u_workspace,
@@ -3769,6 +4643,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_unsigned_int,
 };
 
+static swig_cast_info _swigc__p_SwigPyObject[] = {  {&_swigt__p_SwigPyObject, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_gsl_sum_levin_u_workspace[] = {  {&_swigt__p_gsl_sum_levin_u_workspace, 0, 0, 0},{0, 0, 0, 0}};
@@ -3776,6 +4651,7 @@ static swig_cast_info _swigc__p_gsl_sum_levin_utrunc_workspace[] = {  {&_swigt__
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_SwigPyObject,
   _swigc__p_char,
   _swigc__p_double,
   _swigc__p_gsl_sum_levin_u_workspace,
@@ -3792,6 +4668,8 @@ static swig_const_info swig_const_table[] = {
 #ifdef __cplusplus
 }
 #endif
+static PyTypeObject *builtin_bases[2];
+
 /* -----------------------------------------------------------------------------
  * Type initialization:
  * This problem is tough by the requirement that no dynamic
@@ -4471,6 +5349,52 @@ SWIG_init(void) {
   
   pygsl_module_for_error_treatment = m;
   
+  
+  /* type '::gsl_sum_levin_u_workspace' */
+  builtin_pytype = (PyTypeObject *)&SwigPyBuiltin__gsl_sum_levin_u_workspace_type;
+  builtin_pytype->tp_dict = d = PyDict_New();
+  SwigPyBuiltin_SetMetaType(builtin_pytype, metatype);
+  builtin_pytype->tp_new = PyType_GenericNew;
+  builtin_base_count = 0;
+  builtin_bases[builtin_base_count] = NULL;
+  SwigPyBuiltin_InitBases(builtin_pytype, builtin_bases);
+  PyDict_SetItemString(d, "this", this_descr);
+  PyDict_SetItemString(d, "thisown", thisown_descr);
+  if (PyType_Ready(builtin_pytype) < 0) {
+    PyErr_SetString(PyExc_TypeError, "Could not create type '_levin'.");
+#if PY_VERSION_HEX >= 0x03000000
+    return NULL;
+#else
+    return;
+#endif
+  }
+  Py_INCREF(builtin_pytype);
+  PyModule_AddObject(m, "_levin", (PyObject*) builtin_pytype);
+  SwigPyBuiltin_AddPublicSymbol(public_interface, "_levin");
+  d = md;
+  
+  /* type '::gsl_sum_levin_utrunc_workspace' */
+  builtin_pytype = (PyTypeObject *)&SwigPyBuiltin__gsl_sum_levin_utrunc_workspace_type;
+  builtin_pytype->tp_dict = d = PyDict_New();
+  SwigPyBuiltin_SetMetaType(builtin_pytype, metatype);
+  builtin_pytype->tp_new = PyType_GenericNew;
+  builtin_base_count = 0;
+  builtin_bases[builtin_base_count] = NULL;
+  SwigPyBuiltin_InitBases(builtin_pytype, builtin_bases);
+  PyDict_SetItemString(d, "this", this_descr);
+  PyDict_SetItemString(d, "thisown", thisown_descr);
+  if (PyType_Ready(builtin_pytype) < 0) {
+    PyErr_SetString(PyExc_TypeError, "Could not create type '_levin_utrunc'.");
+#if PY_VERSION_HEX >= 0x03000000
+    return NULL;
+#else
+    return;
+#endif
+  }
+  Py_INCREF(builtin_pytype);
+  PyModule_AddObject(m, "_levin_utrunc", (PyObject*) builtin_pytype);
+  SwigPyBuiltin_AddPublicSymbol(public_interface, "_levin_utrunc");
+  d = md;
 #if PY_VERSION_HEX >= 0x03000000
   return m;
 #else

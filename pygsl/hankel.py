@@ -30,6 +30,7 @@ if version_info >= (2,6,0):
 else:
     import _hankel
 del version_info
+from _hankel import *
 try:
     _swig_property = property
 except NameError:
@@ -69,25 +70,6 @@ except AttributeError:
     _newclass = 0
 
 
-class DiscreteHankelTransform(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, DiscreteHankelTransform, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, DiscreteHankelTransform, name)
-    __repr__ = _swig_repr
-    def __init__(self, *args, **kwargs): 
-        this = _hankel.new_DiscreteHankelTransform(*args, **kwargs)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _hankel.delete_DiscreteHankelTransform
-    __del__ = lambda self : None;
-    def init(self, *args, **kwargs): return _hankel.DiscreteHankelTransform_init(self, *args, **kwargs)
-    def x_sample(self, *args, **kwargs): return _hankel.DiscreteHankelTransform_x_sample(self, *args, **kwargs)
-    def k_sample(self, *args, **kwargs): return _hankel.DiscreteHankelTransform_k_sample(self, *args, **kwargs)
-    def get_size(self): return _hankel.DiscreteHankelTransform_get_size(self)
-    def apply(self, *args, **kwargs): return _hankel.DiscreteHankelTransform_apply(self, *args, **kwargs)
-DiscreteHankelTransform_swigregister = _hankel.DiscreteHankelTransform_swigregister
-DiscreteHankelTransform_swigregister(DiscreteHankelTransform)
 
 # This file is compatible with both classic and new-style classes.
 

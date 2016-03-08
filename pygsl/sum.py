@@ -39,6 +39,7 @@ if version_info >= (2,6,0):
 else:
     import _sum
 del version_info
+from _sum import *
 try:
     _swig_property = property
 except NameError:
@@ -126,43 +127,7 @@ def levin_sum(a, truncate=False, info_dict=None):
     del l
     return ans
 
-class _levin(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, _levin, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, _levin, name)
-    __repr__ = _swig_repr
-    def __init__(self, *args, **kwargs): 
-        this = _sum.new__levin(*args, **kwargs)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _sum.delete__levin
-    __del__ = lambda self : None;
-    def accel(self, *args, **kwargs): return _sum._levin_accel(self, *args, **kwargs)
-    def get_terms_used(self): return _sum._levin_get_terms_used(self)
-    def sum_plain(self): return _sum._levin_sum_plain(self)
-    def minmax(self, *args, **kwargs): return _sum._levin_minmax(self, *args, **kwargs)
-_levin_swigregister = _sum._levin_swigregister
-_levin_swigregister(_levin)
 
-class _levin_utrunc(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, _levin_utrunc, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, _levin_utrunc, name)
-    __repr__ = _swig_repr
-    def __init__(self, *args, **kwargs): 
-        this = _sum.new__levin_utrunc(*args, **kwargs)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _sum.delete__levin_utrunc
-    __del__ = lambda self : None;
-    def accel(self, *args, **kwargs): return _sum._levin_utrunc_accel(self, *args, **kwargs)
-    def get_terms_used(self): return _sum._levin_utrunc_get_terms_used(self)
-    def sum_plain(self): return _sum._levin_utrunc_sum_plain(self)
-    def minmax(self, *args, **kwargs): return _sum._levin_utrunc_minmax(self, *args, **kwargs)
-_levin_utrunc_swigregister = _sum._levin_utrunc_swigregister
-_levin_utrunc_swigregister(_levin_utrunc)
 
 # This file is compatible with both classic and new-style classes.
 

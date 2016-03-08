@@ -10,6 +10,7 @@
 
 #define SWIGPYTHON
 #define SWIG_PYTHON_DIRECTOR_NO_VTABLE
+#define SWIGPYTHON_BUILTIN
 
 /* -----------------------------------------------------------------------------
  *  This section contains generic SWIG labels for method/variable
@@ -2900,6 +2901,521 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 }
 #endif
 
+#define SWIGPY_UNARYFUNC_CLOSURE(wrapper)	\
+SWIGINTERN PyObject *				\
+wrapper##_closure(PyObject *a) {		\
+  return wrapper(a, NULL);			\
+}
+
+#define SWIGPY_DESTRUCTOR_CLOSURE(wrapper)	\
+SWIGINTERN void					\
+wrapper##_closure(PyObject *a) {		\
+    SwigPyObject *sobj;				\
+    sobj = (SwigPyObject *)a;			\
+    if (sobj->own) {				\
+	PyObject *o = wrapper(a, NULL);		\
+	Py_XDECREF(o);				\
+    }						\
+    if (PyType_IS_GC(a->ob_type)) {		\
+	PyObject_GC_Del(a);			\
+    } else {					\
+	PyObject_Del(a);			\
+    }						\
+}
+
+#define SWIGPY_INQUIRY_CLOSURE(wrapper)				\
+SWIGINTERN int							\
+wrapper##_closure(PyObject *a) {				\
+    PyObject *pyresult;						\
+    int result;							\
+    pyresult = wrapper(a, NULL);				\
+    result = pyresult && PyObject_IsTrue(pyresult) ? 1 : 0;	\
+    Py_XDECREF(pyresult);					\
+    return result;						\
+}
+
+#define SWIGPY_BINARYFUNC_CLOSURE(wrapper)	\
+SWIGINTERN PyObject *				\
+wrapper##_closure(PyObject *a, PyObject *b) {	\
+    PyObject *tuple, *result;			\
+    tuple = PyTuple_New(1);			\
+    assert(tuple);				\
+    PyTuple_SET_ITEM(tuple, 0, b);		\
+    Py_XINCREF(b);				\
+    result = wrapper(a, tuple);			\
+    Py_DECREF(tuple);				\
+    return result;				\
+}
+
+typedef ternaryfunc ternarycallfunc;
+
+#define SWIGPY_TERNARYFUNC_CLOSURE(wrapper)			\
+SWIGINTERN PyObject *						\
+wrapper##_closure(PyObject *a, PyObject *b, PyObject *c) {	\
+    PyObject *tuple, *result;					\
+    tuple = PyTuple_New(2);					\
+    assert(tuple);						\
+    PyTuple_SET_ITEM(tuple, 0, b);				\
+    PyTuple_SET_ITEM(tuple, 1, c);				\
+    Py_XINCREF(b);						\
+    Py_XINCREF(c);						\
+    result = wrapper(a, tuple);					\
+    Py_DECREF(tuple);						\
+    return result;						\
+}
+
+#define SWIGPY_TERNARYCALLFUNC_CLOSURE(wrapper)			\
+SWIGINTERN PyObject *						\
+wrapper##_closure(PyObject *callable_object, PyObject *args, PyObject *) {	\
+    return wrapper(callable_object, args);			\
+}
+
+#define SWIGPY_LENFUNC_CLOSURE(wrapper)			\
+SWIGINTERN Py_ssize_t					\
+wrapper##_closure(PyObject *a) {			\
+    PyObject *resultobj;				\
+    Py_ssize_t result;					\
+    resultobj = wrapper(a, NULL);			\
+    result = PyNumber_AsSsize_t(resultobj, NULL);	\
+    Py_DECREF(resultobj);				\
+    return result;					\
+}
+
+#define SWIGPY_SSIZESSIZEARGFUNC_CLOSURE(wrapper)		\
+SWIGINTERN PyObject *						\
+wrapper##_closure(PyObject *a, Py_ssize_t b, Py_ssize_t c) {	\
+    PyObject *tuple, *result;					\
+    tuple = PyTuple_New(2);					\
+    assert(tuple);						\
+    PyTuple_SET_ITEM(tuple, 0, _PyLong_FromSsize_t(b));		\
+    PyTuple_SET_ITEM(tuple, 1, _PyLong_FromSsize_t(c));		\
+    result = wrapper(a, tuple);					\
+    Py_DECREF(tuple);						\
+    return result;						\
+}
+
+#define SWIGPY_SSIZESSIZEOBJARGPROC_CLOSURE(wrapper)			\
+SWIGINTERN int								\
+wrapper##_closure(PyObject *a, Py_ssize_t b, Py_ssize_t c, PyObject *d) { \
+    PyObject *tuple, *resultobj;					\
+    int result;								\
+    tuple = PyTuple_New(d ? 3 : 2);					\
+    assert(tuple);							\
+    PyTuple_SET_ITEM(tuple, 0, _PyLong_FromSsize_t(b));			\
+    PyTuple_SET_ITEM(tuple, 1, _PyLong_FromSsize_t(c));			\
+    if (d) {								\
+        PyTuple_SET_ITEM(tuple, 2, d);					\
+        Py_INCREF(d);							\
+    }									\
+    resultobj = wrapper(a, tuple);					\
+    result = resultobj ? 0 : -1;					\
+    Py_DECREF(tuple);							\
+    Py_XDECREF(resultobj);						\
+    return result;							\
+}
+
+#define SWIGPY_SSIZEARGFUNC_CLOSURE(wrapper)		\
+SWIGINTERN PyObject *					\
+wrapper##_closure(PyObject *a, Py_ssize_t b) {		\
+    PyObject *tuple, *result;				\
+    tuple = PyTuple_New(1);				\
+    assert(tuple);					\
+    PyTuple_SET_ITEM(tuple, 0, _PyLong_FromSsize_t(b));	\
+    result = wrapper(a, tuple);				\
+    Py_DECREF(tuple);					\
+    return result;					\
+}
+
+#define SWIGPY_FUNPACK_SSIZEARGFUNC_CLOSURE(wrapper)		\
+SWIGINTERN PyObject *					\
+wrapper##_closure(PyObject *a, Py_ssize_t b) {		\
+    PyObject *arg, *result;				\
+    arg = _PyLong_FromSsize_t(b);			\
+    result = wrapper(a, arg);				\
+    Py_DECREF(arg);					\
+    return result;					\
+}
+
+#define SWIGPY_SSIZEOBJARGPROC_CLOSURE(wrapper)			\
+SWIGINTERN int							\
+wrapper##_closure(PyObject *a, Py_ssize_t b, PyObject *c) {	\
+    PyObject *tuple, *resultobj;				\
+    int result;							\
+    tuple = PyTuple_New(2);					\
+    assert(tuple);						\
+    PyTuple_SET_ITEM(tuple, 0, _PyLong_FromSsize_t(b));		\
+    PyTuple_SET_ITEM(tuple, 1, c);				\
+    Py_XINCREF(c);						\
+    resultobj = wrapper(a, tuple);				\
+    result = resultobj ? 0 : -1;				\
+    Py_XDECREF(resultobj);					\
+    Py_DECREF(tuple);						\
+    return result;						\
+}
+
+#define SWIGPY_OBJOBJARGPROC_CLOSURE(wrapper)			\
+SWIGINTERN int							\
+wrapper##_closure(PyObject *a, PyObject *b, PyObject *c) {	\
+    PyObject *tuple, *resultobj;				\
+    int result;							\
+    tuple = PyTuple_New(c ? 2 : 1);				\
+    assert(tuple);						\
+    PyTuple_SET_ITEM(tuple, 0, b);				\
+    Py_XINCREF(b);						\
+    if (c) {							\
+        PyTuple_SET_ITEM(tuple, 1, c);				\
+        Py_XINCREF(c);						\
+    }								\
+    resultobj = wrapper(a, tuple);				\
+    result = resultobj ? 0 : -1;				\
+    Py_XDECREF(resultobj);					\
+    Py_DECREF(tuple);						\
+    return result;						\
+}
+
+#define SWIGPY_REPRFUNC_CLOSURE(wrapper)	\
+SWIGINTERN PyObject *				\
+wrapper##_closure(PyObject *a) {		\
+    return wrapper(a, NULL);			\
+}
+
+#define SWIGPY_HASHFUNC_CLOSURE(wrapper)	\
+SWIGINTERN long					\
+wrapper##_closure(PyObject *a) {		\
+    PyObject *pyresult;				\
+    long result;				\
+    pyresult = wrapper(a, NULL);		\
+    if (!pyresult || !PyLong_Check(pyresult))	\
+	return -1;				\
+    result = PyLong_AsLong(pyresult);		\
+    Py_DECREF(pyresult);			\
+    return result;				\
+}
+
+#define SWIGPY_ITERNEXT_CLOSURE(wrapper)	\
+SWIGINTERN PyObject *				\
+wrapper##_closure(PyObject *a) {		\
+    PyObject *result;				\
+    result = wrapper(a, NULL);			\
+    if (result && result == Py_None) {		\
+	Py_DECREF(result);			\
+	result = NULL;				\
+    }						\
+    return result;				\
+}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+SWIGINTERN int
+SwigPyBuiltin_BadInit(PyObject *self, PyObject *SWIGUNUSEDPARM(args), PyObject *SWIGUNUSEDPARM(kwds)) {
+  PyErr_Format(PyExc_TypeError, "Cannot create new instances of type '%.300s'", self->ob_type->tp_name);
+  return -1;
+}
+
+SWIGINTERN void
+SwigPyBuiltin_BadDealloc(PyObject *pyobj) {
+  SwigPyObject *sobj;
+  sobj = (SwigPyObject *)pyobj;
+  if (sobj->own) {
+    PyErr_Format(PyExc_TypeError, "Swig detected a memory leak in type '%.300s': no callable destructor found.", pyobj->ob_type->tp_name);
+  }
+}
+
+typedef struct {
+  PyCFunction get;
+  PyCFunction set;
+} SwigPyGetSet;
+
+SWIGINTERN PyObject *
+SwigPyBuiltin_GetterClosure (PyObject *obj, void *closure) {
+  SwigPyGetSet *getset;
+  PyObject *tuple, *result;
+  if (!closure)
+    return SWIG_Py_Void();
+  getset = (SwigPyGetSet *)closure;
+  if (!getset->get)
+    return SWIG_Py_Void();
+  tuple = PyTuple_New(0);
+  assert(tuple);
+  result = (*getset->get)(obj, tuple);
+  Py_DECREF(tuple);
+  return result;
+}
+
+SWIGINTERN PyObject *
+SwigPyBuiltin_FunpackGetterClosure (PyObject *obj, void *closure) {
+  SwigPyGetSet *getset;
+  PyObject *result;
+  if (!closure)
+    return SWIG_Py_Void();
+  getset = (SwigPyGetSet *)closure;
+  if (!getset->get)
+    return SWIG_Py_Void();
+  result = (*getset->get)(obj, NULL);
+  return result;
+}
+
+SWIGINTERN int
+SwigPyBuiltin_SetterClosure (PyObject *obj, PyObject *val, void *closure) {
+  SwigPyGetSet *getset;
+  PyObject *tuple, *result;
+  if (!closure) {
+    PyErr_Format(PyExc_TypeError, "Missing getset closure");
+    return -1;
+  }
+  getset = (SwigPyGetSet *)closure;
+  if (!getset->set) {
+    PyErr_Format(PyExc_TypeError, "Illegal member variable assignment in type '%.300s'", obj->ob_type->tp_name);
+    return -1;
+  }
+  tuple = PyTuple_New(1);
+  assert(tuple);
+  PyTuple_SET_ITEM(tuple, 0, val);
+  Py_XINCREF(val);
+  result = (*getset->set)(obj, tuple);
+  Py_DECREF(tuple);
+  Py_XDECREF(result);
+  return result ? 0 : -1;
+}
+
+SWIGINTERN int
+SwigPyBuiltin_FunpackSetterClosure (PyObject *obj, PyObject *val, void *closure) {
+  SwigPyGetSet *getset;
+  PyObject *result;
+  if (!closure) {
+    PyErr_Format(PyExc_TypeError, "Missing getset closure");
+    return -1;
+  }
+  getset = (SwigPyGetSet *)closure;
+  if (!getset->set) {
+    PyErr_Format(PyExc_TypeError, "Illegal member variable assignment in type '%.300s'", obj->ob_type->tp_name);
+    return -1;
+  }
+  result = (*getset->set)(obj, val);
+  Py_XDECREF(result);
+  return result ? 0 : -1;
+}
+
+SWIGINTERN void
+SwigPyStaticVar_dealloc(PyDescrObject *descr) {
+  _PyObject_GC_UNTRACK(descr);
+  Py_XDECREF(PyDescr_TYPE(descr));
+  Py_XDECREF(PyDescr_NAME(descr));
+  PyObject_GC_Del(descr);
+}
+
+SWIGINTERN PyObject *
+SwigPyStaticVar_repr(PyGetSetDescrObject *descr) {
+#if PY_VERSION_HEX >= 0x03000000
+
+  return PyUnicode_FromFormat("<class attribute '%S' of type '%s'>", PyDescr_NAME(descr), PyDescr_TYPE(descr)->tp_name);
+#else
+  return PyString_FromFormat("<class attribute '%s' of type '%s'>", PyString_AsString(PyDescr_NAME(descr)), PyDescr_TYPE(descr)->tp_name);
+#endif
+}
+
+SWIGINTERN int
+SwigPyStaticVar_traverse(PyObject *self, visitproc visit, void *arg) {
+  PyDescrObject *descr;
+  descr = (PyDescrObject *)self;
+  Py_VISIT((PyObject*) PyDescr_TYPE(descr));
+  return 0;
+}
+
+SWIGINTERN PyObject *
+SwigPyStaticVar_get(PyGetSetDescrObject *descr, PyObject *obj, PyObject *SWIGUNUSEDPARM(type)) {
+  if (descr->d_getset->get != NULL)
+    return descr->d_getset->get(obj, descr->d_getset->closure);
+#if PY_VERSION_HEX >= 0x03000000
+  PyErr_Format(PyExc_AttributeError, "attribute '%.300S' of '%.100s' objects is not readable", PyDescr_NAME(descr), PyDescr_TYPE(descr)->tp_name);
+#else
+  PyErr_Format(PyExc_AttributeError, "attribute '%.300s' of '%.100s' objects is not readable", PyString_AsString(PyDescr_NAME(descr)), PyDescr_TYPE(descr)->tp_name);
+#endif
+  return NULL;
+}
+
+SWIGINTERN int
+SwigPyStaticVar_set(PyGetSetDescrObject *descr, PyObject *obj, PyObject *value) {
+  if (descr->d_getset->set != NULL)
+    return descr->d_getset->set(obj, value, descr->d_getset->closure);
+#if PY_VERSION_HEX >= 0x03000000
+  PyErr_Format(PyExc_AttributeError, "attribute '%.300S' of '%.100s' objects is not writable", PyDescr_NAME(descr), PyDescr_TYPE(descr)->tp_name);
+#else
+  PyErr_Format(PyExc_AttributeError, "attribute '%.300s' of '%.100s' objects is not writable", PyString_AsString(PyDescr_NAME(descr)), PyDescr_TYPE(descr)->tp_name);
+#endif
+  return -1;
+}
+
+SWIGINTERN int
+SwigPyObjectType_setattro(PyTypeObject *type, PyObject *name, PyObject *value) {
+  PyObject *attribute;
+  descrsetfunc local_set;
+  attribute = _PyType_Lookup(type, name);
+  if (attribute != NULL) {
+    /* Implement descriptor functionality, if any */
+    local_set = attribute->ob_type->tp_descr_set;
+    if (local_set != NULL)
+      return local_set(attribute, (PyObject *)type, value);
+#if PY_VERSION_HEX >= 0x03000000
+    PyErr_Format(PyExc_AttributeError, "cannot modify read-only attribute '%.50s.%.400S'", type->tp_name, name);
+#else 
+    PyErr_Format(PyExc_AttributeError, "cannot modify read-only attribute '%.50s.%.400s'", type->tp_name, PyString_AS_STRING(name));
+#endif
+  } else {
+#if PY_VERSION_HEX >= 0x03000000
+    PyErr_Format(PyExc_AttributeError, "type '%.50s' has no attribute '%.400S'", type->tp_name, name);
+#else
+    PyErr_Format(PyExc_AttributeError, "type '%.50s' has no attribute '%.400s'", type->tp_name, PyString_AS_STRING(name));
+#endif
+  }
+
+  return -1;
+}
+
+SWIGINTERN PyTypeObject*
+SwigPyStaticVar_Type(void) {
+  static PyTypeObject staticvar_type;
+  static int type_init = 0;
+  if (!type_init) {
+    const PyTypeObject tmp = {
+      /* PyObject header changed in Python 3 */
+#if PY_VERSION_HEX >= 0x03000000
+      PyVarObject_HEAD_INIT(&PyType_Type, 0)
+#else
+      PyObject_HEAD_INIT(&PyType_Type)
+      0,
+#endif
+      "swig_static_var_getset_descriptor",
+      sizeof(PyGetSetDescrObject),
+      0,
+      (destructor)SwigPyStaticVar_dealloc,      /* tp_dealloc */
+      0,                                        /* tp_print */
+      0,                                        /* tp_getattr */
+      0,                                        /* tp_setattr */
+      0,                                        /* tp_compare */
+      (reprfunc)SwigPyStaticVar_repr,           /* tp_repr */
+      0,                                        /* tp_as_number */
+      0,                                        /* tp_as_sequence */
+      0,                                        /* tp_as_mapping */
+      0,                                        /* tp_hash */
+      0,                                        /* tp_call */
+      0,                                        /* tp_str */
+      PyObject_GenericGetAttr,                  /* tp_getattro */
+      0,                                        /* tp_setattro */
+      0,                                        /* tp_as_buffer */
+      Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_GC|Py_TPFLAGS_HAVE_CLASS, /* tp_flags */
+      0,                                        /* tp_doc */
+      SwigPyStaticVar_traverse,                 /* tp_traverse */
+      0,                                        /* tp_clear */
+      0,                                        /* tp_richcompare */
+      0,                                        /* tp_weaklistoffset */
+      0,                                        /* tp_iter */
+      0,                                        /* tp_iternext */
+      0,                                        /* tp_methods */
+      0,                                        /* tp_members */
+      0,                                        /* tp_getset */
+      0,                                        /* tp_base */
+      0,                                        /* tp_dict */
+      (descrgetfunc)SwigPyStaticVar_get,        /* tp_descr_get */
+      (descrsetfunc)SwigPyStaticVar_set,        /* tp_descr_set */
+      0,                                        /* tp_dictoffset */
+      0,                                        /* tp_init */
+      0,                                        /* tp_alloc */
+      0,                                        /* tp_new */
+      0,                                        /* tp_free */
+      0,                                        /* tp_is_gc */
+      0,                                        /* tp_bases */
+      0,                                        /* tp_mro */
+      0,                                        /* tp_cache */
+      0,                                        /* tp_subclasses */
+      0,                                        /* tp_weaklist */
+#if PY_VERSION_HEX >= 0x02030000
+      0,                                        /* tp_del */
+#endif
+#if PY_VERSION_HEX >= 0x02060000
+      0,                                        /* tp_version */
+#endif
+#ifdef COUNT_ALLOCS
+      0,0,0,0                                   /* tp_alloc -> tp_next */
+#endif
+    };
+    staticvar_type = tmp;
+    type_init = 1;
+#if PY_VERSION_HEX < 0x02020000
+    staticvar_type.ob_type = &PyType_Type;
+#else
+    if (PyType_Ready(&staticvar_type) < 0)
+      return NULL;
+#endif
+  }
+  return &staticvar_type;
+}
+
+SWIGINTERN PyGetSetDescrObject *
+SwigPyStaticVar_new_getset(PyTypeObject *type, PyGetSetDef *getset) {
+
+  PyGetSetDescrObject *descr;
+  descr = (PyGetSetDescrObject *)PyType_GenericAlloc(SwigPyStaticVar_Type(), 0);
+  assert(descr);
+  Py_XINCREF(type);
+  PyDescr_TYPE(descr) = type;
+  PyDescr_NAME(descr) = PyString_InternFromString(getset->name);
+  descr->d_getset = getset;
+  if (PyDescr_NAME(descr) == NULL) {
+    Py_DECREF(descr);
+    descr = NULL;
+  }
+  return descr;
+}
+
+SWIGINTERN void
+SwigPyBuiltin_InitBases (PyTypeObject *type, PyTypeObject **bases) {
+  int base_count = 0;
+  PyTypeObject **b;
+  PyObject *tuple;
+  int i;
+
+  if (!bases[0]) {
+    bases[0] = SwigPyObject_type();
+    bases[1] = NULL;
+  }
+  type->tp_base = bases[0];
+  Py_INCREF((PyObject *)bases[0]);
+  for (b = bases; *b != NULL; ++b)
+    ++base_count;
+  tuple = PyTuple_New(base_count);
+  for (i = 0; i < base_count; ++i) {
+    PyTuple_SET_ITEM(tuple, i, (PyObject *)bases[i]);
+    Py_INCREF((PyObject *)bases[i]);
+  }
+  type->tp_bases = tuple;
+}
+
+SWIGINTERN PyObject *
+SwigPyBuiltin_ThisClosure (PyObject *self, void *SWIGUNUSEDPARM(closure)) {
+  PyObject *result;
+  result = (PyObject *)SWIG_Python_GetSwigThis(self);
+  Py_XINCREF(result);
+  return result;
+}
+
+SWIGINTERN void
+SwigPyBuiltin_SetMetaType (PyTypeObject *type, PyTypeObject *metatype)
+{
+#if PY_VERSION_HEX >= 0x03000000
+    type->ob_base.ob_base.ob_type = metatype;
+#else
+    type->ob_type = metatype;
+#endif
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+
 
 
 #define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while(0) 
@@ -2911,33 +3427,34 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_FILE swig_types[0]
-#define SWIGTYPE_p_char swig_types[1]
-#define SWIGTYPE_p_double swig_types[2]
-#define SWIGTYPE_p_float swig_types[3]
-#define SWIGTYPE_p_gsl_complex swig_types[4]
-#define SWIGTYPE_p_gsl_complex_float swig_types[5]
-#define SWIGTYPE_p_gsl_matrix swig_types[6]
-#define SWIGTYPE_p_gsl_matrix_char swig_types[7]
-#define SWIGTYPE_p_gsl_matrix_complex swig_types[8]
-#define SWIGTYPE_p_gsl_matrix_complex_float swig_types[9]
-#define SWIGTYPE_p_gsl_matrix_float swig_types[10]
-#define SWIGTYPE_p_gsl_matrix_int swig_types[11]
-#define SWIGTYPE_p_gsl_matrix_long swig_types[12]
-#define SWIGTYPE_p_gsl_matrix_short swig_types[13]
-#define SWIGTYPE_p_gsl_vector swig_types[14]
-#define SWIGTYPE_p_gsl_vector_char swig_types[15]
-#define SWIGTYPE_p_gsl_vector_complex swig_types[16]
-#define SWIGTYPE_p_gsl_vector_complex_float swig_types[17]
-#define SWIGTYPE_p_gsl_vector_float swig_types[18]
-#define SWIGTYPE_p_gsl_vector_int swig_types[19]
-#define SWIGTYPE_p_gsl_vector_long swig_types[20]
-#define SWIGTYPE_p_gsl_vector_short swig_types[21]
-#define SWIGTYPE_p_int swig_types[22]
-#define SWIGTYPE_p_long swig_types[23]
-#define SWIGTYPE_p_short swig_types[24]
-#define SWIGTYPE_p_unsigned_int swig_types[25]
-static swig_type_info *swig_types[27];
-static swig_module_info swig_module = {swig_types, 26, 0, 0, 0, 0};
+#define SWIGTYPE_p_SwigPyObject swig_types[1]
+#define SWIGTYPE_p_char swig_types[2]
+#define SWIGTYPE_p_double swig_types[3]
+#define SWIGTYPE_p_float swig_types[4]
+#define SWIGTYPE_p_gsl_complex swig_types[5]
+#define SWIGTYPE_p_gsl_complex_float swig_types[6]
+#define SWIGTYPE_p_gsl_matrix swig_types[7]
+#define SWIGTYPE_p_gsl_matrix_char swig_types[8]
+#define SWIGTYPE_p_gsl_matrix_complex swig_types[9]
+#define SWIGTYPE_p_gsl_matrix_complex_float swig_types[10]
+#define SWIGTYPE_p_gsl_matrix_float swig_types[11]
+#define SWIGTYPE_p_gsl_matrix_int swig_types[12]
+#define SWIGTYPE_p_gsl_matrix_long swig_types[13]
+#define SWIGTYPE_p_gsl_matrix_short swig_types[14]
+#define SWIGTYPE_p_gsl_vector swig_types[15]
+#define SWIGTYPE_p_gsl_vector_char swig_types[16]
+#define SWIGTYPE_p_gsl_vector_complex swig_types[17]
+#define SWIGTYPE_p_gsl_vector_complex_float swig_types[18]
+#define SWIGTYPE_p_gsl_vector_float swig_types[19]
+#define SWIGTYPE_p_gsl_vector_int swig_types[20]
+#define SWIGTYPE_p_gsl_vector_long swig_types[21]
+#define SWIGTYPE_p_gsl_vector_short swig_types[22]
+#define SWIGTYPE_p_int swig_types[23]
+#define SWIGTYPE_p_long swig_types[24]
+#define SWIGTYPE_p_short swig_types[25]
+#define SWIGTYPE_p_unsigned_int swig_types[26]
+static swig_type_info *swig_types[28];
+static swig_module_info swig_module = {swig_types, 27, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2967,6 +3484,9 @@ static swig_module_info swig_module = {swig_types, 26, 0, 0, 0, 0};
 
 #define SWIG_as_voidptr(a) (void *)((const void *)(a)) 
 #define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),(void**)(a)) 
+
+
+  #include <stddef.h>
 
 
 #include <gsl/gsl_vector.h>
@@ -3546,7 +4066,7 @@ SWIG_From_char  (char c)
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGINTERN PyObject *_wrap_gsl_vector_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   PyObject * obj0 = 0 ;
@@ -3595,7 +4115,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   double arg2 ;
@@ -3653,7 +4173,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_set_basis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_set_basis(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   size_t arg2 ;
@@ -3719,7 +4239,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector *arg2 = (gsl_vector *) 0 ;
@@ -3791,7 +4311,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector *arg2 = (gsl_vector *) 0 ;
@@ -3854,7 +4374,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector *arg2 = (gsl_vector *) 0 ;
@@ -3926,7 +4446,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector *arg2 = (gsl_vector *) 0 ;
@@ -4001,7 +4521,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   PyObject * obj0 = 0 ;
@@ -4055,7 +4575,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   gsl_vector *arg2 = (gsl_vector *) 0 ;
@@ -4140,7 +4660,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_swap_elements(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_swap_elements(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   size_t arg2 ;
@@ -4212,7 +4732,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   PyObject * obj0 = 0 ;
@@ -4253,7 +4773,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   PyObject * obj0 = 0 ;
@@ -4294,7 +4814,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   double *arg2 = (double *) 0 ;
@@ -4354,7 +4874,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   PyObject * obj0 = 0 ;
@@ -4395,7 +4915,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   PyObject * obj0 = 0 ;
@@ -4436,7 +4956,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -4506,7 +5026,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector *arg1 = (gsl_vector *) 0 ;
   PyObject * obj0 = 0 ;
@@ -4547,7 +5067,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   PyObject * obj0 = 0 ;
@@ -4589,7 +5109,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   double arg2 ;
@@ -4640,7 +5160,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_set_identity(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_set_identity(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   PyObject * obj0 = 0 ;
@@ -4682,7 +5202,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix *arg2 = (gsl_matrix *) 0 ;
@@ -4747,7 +5267,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix *arg2 = (gsl_matrix *) 0 ;
@@ -4809,7 +5329,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix *arg2 = (gsl_matrix *) 0 ;
@@ -4874,7 +5394,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix *arg2 = (gsl_matrix *) 0 ;
@@ -4948,7 +5468,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   gsl_matrix *arg2 = (gsl_matrix *) 0 ;
@@ -5031,7 +5551,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_swap_rows(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_swap_rows(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   size_t arg2 ;
@@ -5102,7 +5622,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_swap_columns(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_swap_columns(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   size_t arg2 ;
@@ -5173,7 +5693,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_swap_rowcol(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_swap_rowcol(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   size_t arg2 ;
@@ -5244,7 +5764,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_transpose(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   PyObject * obj0 = 0 ;
@@ -5297,7 +5817,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   PyObject * obj0 = 0 ;
@@ -5337,7 +5857,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   PyObject * obj0 = 0 ;
@@ -5377,7 +5897,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   double *arg2 = (double *) 0 ;
@@ -5436,7 +5956,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -5505,7 +6025,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -5574,7 +6094,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -5673,7 +6193,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   PyObject * obj0 = 0 ;
@@ -5713,7 +6233,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_diagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_diagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   PyObject * obj0 = 0 ;
@@ -5761,7 +6281,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_subdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_subdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   size_t arg2 ;
@@ -5818,7 +6338,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_superdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_superdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix *arg1 = (gsl_matrix *) 0 ;
   size_t arg2 ;
@@ -5875,7 +6395,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -5914,7 +6434,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   float arg2 ;
@@ -5962,7 +6482,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_set_basis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_set_basis(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   size_t arg2 ;
@@ -6011,7 +6531,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_float *arg2 = (gsl_vector_float *) 0 ;
@@ -6066,7 +6586,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_float *arg2 = (gsl_vector_float *) 0 ;
@@ -6112,7 +6632,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_float *arg2 = (gsl_vector_float *) 0 ;
@@ -6167,7 +6687,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_float *arg2 = (gsl_vector_float *) 0 ;
@@ -6225,7 +6745,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -6262,7 +6782,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   gsl_vector_float *arg2 = (gsl_vector_float *) 0 ;
@@ -6320,7 +6840,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_swap_elements(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_swap_elements(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   size_t arg2 ;
@@ -6375,7 +6895,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -6406,7 +6926,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -6437,7 +6957,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   float *arg2 = (float *) 0 ;
@@ -6487,7 +7007,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -6518,7 +7038,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -6549,7 +7069,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -6609,7 +7129,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_float_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_float_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_float *arg1 = (gsl_vector_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -6640,7 +7160,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -6682,7 +7202,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   float arg2 ;
@@ -6733,7 +7253,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_set_identity(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_set_identity(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -6775,7 +7295,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_float *arg2 = (gsl_matrix_float *) 0 ;
@@ -6833,7 +7353,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_float *arg2 = (gsl_matrix_float *) 0 ;
@@ -6888,7 +7408,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_float *arg2 = (gsl_matrix_float *) 0 ;
@@ -6946,7 +7466,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_float *arg2 = (gsl_matrix_float *) 0 ;
@@ -7013,7 +7533,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   gsl_matrix_float *arg2 = (gsl_matrix_float *) 0 ;
@@ -7089,7 +7609,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_swap_rows(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_swap_rows(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   size_t arg2 ;
@@ -7153,7 +7673,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_swap_columns(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_swap_columns(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   size_t arg2 ;
@@ -7217,7 +7737,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_swap_rowcol(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_swap_rowcol(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   size_t arg2 ;
@@ -7281,7 +7801,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_transpose(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -7327,7 +7847,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -7367,7 +7887,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -7407,7 +7927,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   float *arg2 = (float *) 0 ;
@@ -7466,7 +7986,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -7535,7 +8055,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -7604,7 +8124,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -7703,7 +8223,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -7743,7 +8263,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_diagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_diagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -7791,7 +8311,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_subdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_subdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   size_t arg2 ;
@@ -7848,7 +8368,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_float_superdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_float_superdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_float *arg1 = (gsl_matrix_float *) 0 ;
   size_t arg2 ;
@@ -7905,7 +8425,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -7944,7 +8464,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   long arg2 ;
@@ -7992,7 +8512,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_set_basis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_set_basis(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   size_t arg2 ;
@@ -8041,7 +8561,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_long *arg2 = (gsl_vector_long *) 0 ;
@@ -8096,7 +8616,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_long *arg2 = (gsl_vector_long *) 0 ;
@@ -8142,7 +8662,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_long *arg2 = (gsl_vector_long *) 0 ;
@@ -8197,7 +8717,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_long *arg2 = (gsl_vector_long *) 0 ;
@@ -8255,7 +8775,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -8292,7 +8812,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   gsl_vector_long *arg2 = (gsl_vector_long *) 0 ;
@@ -8350,7 +8870,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_swap_elements(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_swap_elements(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   size_t arg2 ;
@@ -8405,7 +8925,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -8436,7 +8956,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -8467,7 +8987,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   long *arg2 = (long *) 0 ;
@@ -8517,7 +9037,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -8548,7 +9068,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -8579,7 +9099,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -8639,7 +9159,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_long_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_long_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_long *arg1 = (gsl_vector_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -8670,7 +9190,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -8712,7 +9232,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   long arg2 ;
@@ -8763,7 +9283,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_set_identity(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_set_identity(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -8805,7 +9325,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_long *arg2 = (gsl_matrix_long *) 0 ;
@@ -8863,7 +9383,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_long *arg2 = (gsl_matrix_long *) 0 ;
@@ -8918,7 +9438,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_long *arg2 = (gsl_matrix_long *) 0 ;
@@ -8976,7 +9496,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_long *arg2 = (gsl_matrix_long *) 0 ;
@@ -9043,7 +9563,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   gsl_matrix_long *arg2 = (gsl_matrix_long *) 0 ;
@@ -9119,7 +9639,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_swap_rows(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_swap_rows(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   size_t arg2 ;
@@ -9183,7 +9703,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_swap_columns(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_swap_columns(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   size_t arg2 ;
@@ -9247,7 +9767,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_swap_rowcol(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_swap_rowcol(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   size_t arg2 ;
@@ -9311,7 +9831,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_transpose(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -9357,7 +9877,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -9397,7 +9917,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -9437,7 +9957,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   long *arg2 = (long *) 0 ;
@@ -9496,7 +10016,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -9565,7 +10085,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -9634,7 +10154,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -9733,7 +10253,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -9773,7 +10293,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_diagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_diagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   PyObject * obj0 = 0 ;
@@ -9821,7 +10341,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_subdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_subdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   size_t arg2 ;
@@ -9878,7 +10398,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_long_superdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_long_superdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_long *arg1 = (gsl_matrix_long *) 0 ;
   size_t arg2 ;
@@ -9935,7 +10455,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -9974,7 +10494,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   int arg2 ;
@@ -10022,7 +10542,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_set_basis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_set_basis(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   size_t arg2 ;
@@ -10071,7 +10591,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_int *arg2 = (gsl_vector_int *) 0 ;
@@ -10126,7 +10646,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_int *arg2 = (gsl_vector_int *) 0 ;
@@ -10172,7 +10692,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_int *arg2 = (gsl_vector_int *) 0 ;
@@ -10227,7 +10747,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_int *arg2 = (gsl_vector_int *) 0 ;
@@ -10285,7 +10805,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -10322,7 +10842,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   gsl_vector_int *arg2 = (gsl_vector_int *) 0 ;
@@ -10380,7 +10900,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_swap_elements(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_swap_elements(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   size_t arg2 ;
@@ -10435,7 +10955,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -10466,7 +10986,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -10497,7 +11017,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   int *arg2 = (int *) 0 ;
@@ -10547,7 +11067,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -10578,7 +11098,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -10609,7 +11129,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -10669,7 +11189,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_int_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_int_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_int *arg1 = (gsl_vector_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -10700,7 +11220,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -10742,7 +11262,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   int arg2 ;
@@ -10793,7 +11313,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_set_identity(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_set_identity(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -10835,7 +11355,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_int *arg2 = (gsl_matrix_int *) 0 ;
@@ -10893,7 +11413,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_int *arg2 = (gsl_matrix_int *) 0 ;
@@ -10948,7 +11468,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_int *arg2 = (gsl_matrix_int *) 0 ;
@@ -11006,7 +11526,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_int *arg2 = (gsl_matrix_int *) 0 ;
@@ -11073,7 +11593,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   gsl_matrix_int *arg2 = (gsl_matrix_int *) 0 ;
@@ -11149,7 +11669,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_swap_rows(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_swap_rows(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   size_t arg2 ;
@@ -11213,7 +11733,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_swap_columns(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_swap_columns(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   size_t arg2 ;
@@ -11277,7 +11797,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_swap_rowcol(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_swap_rowcol(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   size_t arg2 ;
@@ -11341,7 +11861,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_transpose(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -11387,7 +11907,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -11427,7 +11947,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -11467,7 +11987,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   int *arg2 = (int *) 0 ;
@@ -11526,7 +12046,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -11595,7 +12115,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -11664,7 +12184,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -11763,7 +12283,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -11803,7 +12323,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_diagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_diagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   PyObject * obj0 = 0 ;
@@ -11851,7 +12371,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_subdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_subdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   size_t arg2 ;
@@ -11908,7 +12428,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_int_superdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_int_superdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_int *arg1 = (gsl_matrix_int *) 0 ;
   size_t arg2 ;
@@ -11965,7 +12485,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12004,7 +12524,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   short arg2 ;
@@ -12052,7 +12572,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_set_basis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_set_basis(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   size_t arg2 ;
@@ -12101,7 +12621,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_short *arg2 = (gsl_vector_short *) 0 ;
@@ -12156,7 +12676,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_short *arg2 = (gsl_vector_short *) 0 ;
@@ -12202,7 +12722,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_short *arg2 = (gsl_vector_short *) 0 ;
@@ -12257,7 +12777,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_short *arg2 = (gsl_vector_short *) 0 ;
@@ -12315,7 +12835,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12352,7 +12872,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   gsl_vector_short *arg2 = (gsl_vector_short *) 0 ;
@@ -12410,7 +12930,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_swap_elements(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_swap_elements(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   size_t arg2 ;
@@ -12465,7 +12985,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12496,7 +13016,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12527,7 +13047,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   short *arg2 = (short *) 0 ;
@@ -12577,7 +13097,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12608,7 +13128,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12639,7 +13159,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -12699,7 +13219,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_short_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_short_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_short *arg1 = (gsl_vector_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12730,7 +13250,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12772,7 +13292,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   short arg2 ;
@@ -12823,7 +13343,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_set_identity(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_set_identity(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -12865,7 +13385,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_short *arg2 = (gsl_matrix_short *) 0 ;
@@ -12923,7 +13443,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_short *arg2 = (gsl_matrix_short *) 0 ;
@@ -12978,7 +13498,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_short *arg2 = (gsl_matrix_short *) 0 ;
@@ -13036,7 +13556,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_short *arg2 = (gsl_matrix_short *) 0 ;
@@ -13103,7 +13623,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   gsl_matrix_short *arg2 = (gsl_matrix_short *) 0 ;
@@ -13179,7 +13699,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_swap_rows(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_swap_rows(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   size_t arg2 ;
@@ -13243,7 +13763,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_swap_columns(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_swap_columns(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   size_t arg2 ;
@@ -13307,7 +13827,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_swap_rowcol(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_swap_rowcol(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   size_t arg2 ;
@@ -13371,7 +13891,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_transpose(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -13417,7 +13937,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -13457,7 +13977,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -13497,7 +14017,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   short *arg2 = (short *) 0 ;
@@ -13556,7 +14076,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -13625,7 +14145,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -13694,7 +14214,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -13793,7 +14313,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -13833,7 +14353,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_diagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_diagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   PyObject * obj0 = 0 ;
@@ -13881,7 +14401,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_subdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_subdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   size_t arg2 ;
@@ -13938,7 +14458,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_short_superdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_short_superdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_short *arg1 = (gsl_matrix_short *) 0 ;
   size_t arg2 ;
@@ -13995,7 +14515,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14034,7 +14554,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   char arg2 ;
@@ -14082,7 +14602,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_set_basis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_set_basis(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   size_t arg2 ;
@@ -14131,7 +14651,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_char *arg2 = (gsl_vector_char *) 0 ;
@@ -14186,7 +14706,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_char *arg2 = (gsl_vector_char *) 0 ;
@@ -14232,7 +14752,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_char *arg2 = (gsl_vector_char *) 0 ;
@@ -14287,7 +14807,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_char *arg2 = (gsl_vector_char *) 0 ;
@@ -14345,7 +14865,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14382,7 +14902,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   gsl_vector_char *arg2 = (gsl_vector_char *) 0 ;
@@ -14440,7 +14960,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_swap_elements(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_swap_elements(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   size_t arg2 ;
@@ -14495,7 +15015,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14526,7 +15046,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14557,7 +15077,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -14607,7 +15127,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14638,7 +15158,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14669,7 +15189,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -14729,7 +15249,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_char_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_char_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_char *arg1 = (gsl_vector_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14760,7 +15280,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14802,7 +15322,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   char arg2 ;
@@ -14853,7 +15373,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_set_identity(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_set_identity(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -14895,7 +15415,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_char *arg2 = (gsl_matrix_char *) 0 ;
@@ -14953,7 +15473,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_char *arg2 = (gsl_matrix_char *) 0 ;
@@ -15008,7 +15528,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_char *arg2 = (gsl_matrix_char *) 0 ;
@@ -15066,7 +15586,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_char *arg2 = (gsl_matrix_char *) 0 ;
@@ -15133,7 +15653,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   gsl_matrix_char *arg2 = (gsl_matrix_char *) 0 ;
@@ -15209,7 +15729,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_swap_rows(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_swap_rows(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   size_t arg2 ;
@@ -15273,7 +15793,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_swap_columns(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_swap_columns(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   size_t arg2 ;
@@ -15337,7 +15857,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_swap_rowcol(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_swap_rowcol(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   size_t arg2 ;
@@ -15401,7 +15921,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_transpose(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -15447,7 +15967,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_max(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_max(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -15487,7 +16007,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_min(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -15527,7 +16047,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_minmax(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_minmax(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -15586,7 +16106,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_max_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_max_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -15655,7 +16175,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_min_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_min_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -15724,7 +16244,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_minmax_index(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_minmax_index(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   size_t *arg2 = (size_t *) 0 ;
@@ -15823,7 +16343,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -15863,7 +16383,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_diagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_diagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   PyObject * obj0 = 0 ;
@@ -15911,7 +16431,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_subdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_subdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   size_t arg2 ;
@@ -15968,7 +16488,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_char_superdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_char_superdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_char *arg1 = (gsl_matrix_char *) 0 ;
   size_t arg2 ;
@@ -16025,7 +16545,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex *arg1 = (gsl_vector_complex *) 0 ;
   PyObject * obj0 = 0 ;
@@ -16064,7 +16584,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex *arg1 = (gsl_vector_complex *) 0 ;
   gsl_complex arg2 ;
@@ -16111,7 +16631,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_set_basis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_set_basis(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex *arg1 = (gsl_vector_complex *) 0 ;
   size_t arg2 ;
@@ -16160,7 +16680,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_complex *arg2 = (gsl_vector_complex *) 0 ;
@@ -16215,7 +16735,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_complex *arg2 = (gsl_vector_complex *) 0 ;
@@ -16261,7 +16781,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_complex *arg2 = (gsl_vector_complex *) 0 ;
@@ -16316,7 +16836,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_complex *arg2 = (gsl_vector_complex *) 0 ;
@@ -16374,7 +16894,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex *arg1 = (gsl_vector_complex *) 0 ;
   PyObject * obj0 = 0 ;
@@ -16411,7 +16931,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex *arg1 = (gsl_vector_complex *) 0 ;
   gsl_vector_complex *arg2 = (gsl_vector_complex *) 0 ;
@@ -16469,7 +16989,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_swap_elements(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_swap_elements(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex *arg1 = (gsl_vector_complex *) 0 ;
   size_t arg2 ;
@@ -16524,7 +17044,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex *arg1 = (gsl_vector_complex *) 0 ;
   PyObject * obj0 = 0 ;
@@ -16555,7 +17075,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   PyObject * obj0 = 0 ;
@@ -16597,7 +17117,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   gsl_complex arg2 ;
@@ -16647,7 +17167,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_set_identity(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_set_identity(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   PyObject * obj0 = 0 ;
@@ -16689,7 +17209,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_complex *arg2 = (gsl_matrix_complex *) 0 ;
@@ -16747,7 +17267,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_complex *arg2 = (gsl_matrix_complex *) 0 ;
@@ -16802,7 +17322,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_complex *arg2 = (gsl_matrix_complex *) 0 ;
@@ -16860,7 +17380,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_complex *arg2 = (gsl_matrix_complex *) 0 ;
@@ -16927,7 +17447,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   gsl_matrix_complex *arg2 = (gsl_matrix_complex *) 0 ;
@@ -17003,7 +17523,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_swap_rows(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_swap_rows(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   size_t arg2 ;
@@ -17067,7 +17587,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_swap_columns(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_swap_columns(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   size_t arg2 ;
@@ -17131,7 +17651,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_swap_rowcol(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_swap_rowcol(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   size_t arg2 ;
@@ -17195,7 +17715,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_transpose(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   PyObject * obj0 = 0 ;
@@ -17241,7 +17761,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   PyObject * obj0 = 0 ;
@@ -17281,7 +17801,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_diagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_diagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   PyObject * obj0 = 0 ;
@@ -17329,7 +17849,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_subdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_subdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   size_t arg2 ;
@@ -17386,7 +17906,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_superdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_superdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex *arg1 = (gsl_matrix_complex *) 0 ;
   size_t arg2 ;
@@ -17443,7 +17963,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex_float *arg1 = (gsl_vector_complex_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -17482,7 +18002,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex_float *arg1 = (gsl_vector_complex_float *) 0 ;
   gsl_complex_float arg2 ;
@@ -17529,7 +18049,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_set_basis(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_set_basis(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex_float *arg1 = (gsl_vector_complex_float *) 0 ;
   size_t arg2 ;
@@ -17578,7 +18098,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_complex_float *arg2 = (gsl_vector_complex_float *) 0 ;
@@ -17633,7 +18153,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_complex_float *arg2 = (gsl_vector_complex_float *) 0 ;
@@ -17679,7 +18199,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_complex_float *arg2 = (gsl_vector_complex_float *) 0 ;
@@ -17734,7 +18254,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_vector_complex_float *arg2 = (gsl_vector_complex_float *) 0 ;
@@ -17792,7 +18312,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_reverse(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_reverse(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex_float *arg1 = (gsl_vector_complex_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -17829,7 +18349,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex_float *arg1 = (gsl_vector_complex_float *) 0 ;
   gsl_vector_complex_float *arg2 = (gsl_vector_complex_float *) 0 ;
@@ -17887,7 +18407,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_swap_elements(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_swap_elements(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex_float *arg1 = (gsl_vector_complex_float *) 0 ;
   size_t arg2 ;
@@ -17942,7 +18462,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_vector_complex_float_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_vector_complex_float *arg1 = (gsl_vector_complex_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -17973,7 +18493,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_set_zero(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_set_zero(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -18015,7 +18535,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_set_all(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_set_all(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   gsl_complex_float arg2 ;
@@ -18065,7 +18585,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_set_identity(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_set_identity(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -18107,7 +18627,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_fread(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_fread(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_complex_float *arg2 = (gsl_matrix_complex_float *) 0 ;
@@ -18165,7 +18685,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_fwrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_fwrite(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_complex_float *arg2 = (gsl_matrix_complex_float *) 0 ;
@@ -18220,7 +18740,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_fscanf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_fscanf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_complex_float *arg2 = (gsl_matrix_complex_float *) 0 ;
@@ -18278,7 +18798,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_fprintf(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_fprintf(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   FILE *arg1 = (FILE *) 0 ;
   gsl_matrix_complex_float *arg2 = (gsl_matrix_complex_float *) 0 ;
@@ -18345,7 +18865,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_swap(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_swap(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   gsl_matrix_complex_float *arg2 = (gsl_matrix_complex_float *) 0 ;
@@ -18421,7 +18941,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_swap_rows(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_swap_rows(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   size_t arg2 ;
@@ -18485,7 +19005,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_swap_columns(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_swap_columns(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   size_t arg2 ;
@@ -18549,7 +19069,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_swap_rowcol(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_swap_rowcol(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   size_t arg2 ;
@@ -18613,7 +19133,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_transpose(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -18659,7 +19179,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_isnull(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_isnull(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -18699,7 +19219,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_diagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_diagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   PyObject * obj0 = 0 ;
@@ -18747,7 +19267,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_subdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_subdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   size_t arg2 ;
@@ -18804,7 +19324,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_superdiagonal(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+SWIGINTERN PyObject *_wrap_gsl_matrix_complex_float_superdiagonal(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   gsl_matrix_complex_float *arg1 = (gsl_matrix_complex_float *) 0 ;
   size_t arg2 ;
@@ -19158,6 +19678,7 @@ static PyMethodDef SwigMethods[] = {
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
 static swig_type_info _swigt__p_FILE = {"_p_FILE", "FILE *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_SwigPyObject = {"_p_SwigPyObject", "SwigPyObject *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_float = {"_p_float", "float *", 0, 0, (void*)0, 0};
@@ -19186,6 +19707,7 @@ static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "size_t *|uns
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_FILE,
+  &_swigt__p_SwigPyObject,
   &_swigt__p_char,
   &_swigt__p_double,
   &_swigt__p_float,
@@ -19214,6 +19736,7 @@ static swig_type_info *swig_type_initial[] = {
 };
 
 static swig_cast_info _swigc__p_FILE[] = {  {&_swigt__p_FILE, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SwigPyObject[] = {  {&_swigt__p_SwigPyObject, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_float[] = {  {&_swigt__p_float, 0, 0, 0},{0, 0, 0, 0}};
@@ -19242,6 +19765,7 @@ static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0,
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_FILE,
+  _swigc__p_SwigPyObject,
   _swigc__p_char,
   _swigc__p_double,
   _swigc__p_float,

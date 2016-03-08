@@ -30,6 +30,7 @@ if version_info >= (2,6,0):
 else:
     import __poly
 del version_info
+from __poly import *
 try:
     _swig_property = property
 except NameError:
@@ -69,35 +70,6 @@ except AttributeError:
     _newclass = 0
 
 
-
-def gsl_poly_solve_quadratic(*args, **kwargs):
-  return __poly.gsl_poly_solve_quadratic(*args, **kwargs)
-gsl_poly_solve_quadratic = __poly.gsl_poly_solve_quadratic
-
-def gsl_poly_complex_solve_quadratic(*args, **kwargs):
-  return __poly.gsl_poly_complex_solve_quadratic(*args, **kwargs)
-gsl_poly_complex_solve_quadratic = __poly.gsl_poly_complex_solve_quadratic
-
-def gsl_poly_solve_cubic(*args, **kwargs):
-  return __poly.gsl_poly_solve_cubic(*args, **kwargs)
-gsl_poly_solve_cubic = __poly.gsl_poly_solve_cubic
-
-def gsl_poly_complex_solve_cubic(*args, **kwargs):
-  return __poly.gsl_poly_complex_solve_cubic(*args, **kwargs)
-gsl_poly_complex_solve_cubic = __poly.gsl_poly_complex_solve_cubic
-
-def gsl_poly_complex_workspace_alloc(*args, **kwargs):
-  return __poly.gsl_poly_complex_workspace_alloc(*args, **kwargs)
-gsl_poly_complex_workspace_alloc = __poly.gsl_poly_complex_workspace_alloc
-
-def gsl_poly_complex_workspace_free(*args, **kwargs):
-  return __poly.gsl_poly_complex_workspace_free(*args, **kwargs)
-gsl_poly_complex_workspace_free = __poly.gsl_poly_complex_workspace_free
 # This file is compatible with both classic and new-style classes.
 
-gsl_poly_eval = __poly.gsl_poly_eval
-gsl_poly_dd_init = __poly.gsl_poly_dd_init
-gsl_poly_dd_eval = __poly.gsl_poly_dd_eval
-gsl_poly_dd_taylor = __poly.gsl_poly_dd_taylor
-gsl_poly_complex_solve = __poly.gsl_poly_complex_solve
 

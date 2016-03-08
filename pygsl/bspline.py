@@ -30,6 +30,7 @@ if version_info >= (2,6,0):
 else:
     import _bspline
 del version_info
+from _bspline import *
 try:
     _swig_property = property
 except NameError:
@@ -69,78 +70,6 @@ except AttributeError:
     _newclass = 0
 
 
-class bspline(_object):
-    """Proxy of C pygsl_bspline struct"""
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, bspline, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, bspline, name)
-    __repr__ = _swig_repr
-    __swig_getmethods__["cov"] = _bspline.bspline_cov_get
-    if _newclass:cov = _swig_property(_bspline.bspline_cov_get)
-    __swig_getmethods__["coeffs"] = _bspline.bspline_coeffs_get
-    if _newclass:coeffs = _swig_property(_bspline.bspline_coeffs_get)
-    __swig_getmethods__["tmp"] = _bspline.bspline_tmp_get
-    if _newclass:tmp = _swig_property(_bspline.bspline_tmp_get)
-    __swig_getmethods__["w"] = _bspline.bspline_w_get
-    if _newclass:w = _swig_property(_bspline.bspline_w_get)
-    __swig_getmethods__["knots_a"] = _bspline.bspline_knots_a_get
-    if _newclass:knots_a = _swig_property(_bspline.bspline_knots_a_get)
-    __swig_getmethods__["coeffs_a"] = _bspline.bspline_coeffs_a_get
-    if _newclass:coeffs_a = _swig_property(_bspline.bspline_coeffs_a_get)
-    __swig_getmethods__["cov_a"] = _bspline.bspline_cov_a_get
-    if _newclass:cov_a = _swig_property(_bspline.bspline_cov_a_get)
-    __swig_getmethods__["tmp_a"] = _bspline.bspline_tmp_a_get
-    if _newclass:tmp_a = _swig_property(_bspline.bspline_tmp_a_get)
-    def __init__(self, *args, **kwargs): 
-        """__init__(pygsl_bspline self, size_t K, size_t NBREAK) -> bspline"""
-        this = _bspline.new_bspline(*args, **kwargs)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _bspline.delete_bspline
-    __del__ = lambda self : None;
-    def get_internal_knots(self):
-        """get_internal_knots(bspline self) -> PyObject *"""
-        return _bspline.bspline_get_internal_knots(self)
-
-    def knots(self, *args, **kwargs):
-        """knots(bspline self, PyObject * knots_o) -> gsl_error_flag_drop"""
-        return _bspline.bspline_knots(self, *args, **kwargs)
-
-    def knots_uniform(self, *args, **kwargs):
-        """knots_uniform(bspline self, double const a, double const b) -> gsl_error_flag_drop"""
-        return _bspline.bspline_knots_uniform(self, *args, **kwargs)
-
-    def eval_vector(self, *args, **kwargs):
-        """eval_vector(bspline self, gsl_vector const * IN) -> PyObject *"""
-        return _bspline.bspline_eval_vector(self, *args, **kwargs)
-
-    def eval(self, *args, **kwargs):
-        """eval(bspline self, double const X) -> PyObject *"""
-        return _bspline.bspline_eval(self, *args, **kwargs)
-
-    def set_coefficients_and_covariance_matrix(self, *args, **kwargs):
-        """set_coefficients_and_covariance_matrix(bspline self, PyObject * coeffs_o, PyObject * cov_o) -> gsl_error_flag_drop"""
-        return _bspline.bspline_set_coefficients_and_covariance_matrix(self, *args, **kwargs)
-
-    def eval_dep(self, *args, **kwargs):
-        """eval_dep(bspline self, double const x, double * OUT) -> gsl_error_flag_drop"""
-        return _bspline.bspline_eval_dep(self, *args, **kwargs)
-
-    def eval_dep_vector(self, *args, **kwargs):
-        """eval_dep_vector(bspline self, gsl_vector const * X) -> PyObject *"""
-        return _bspline.bspline_eval_dep_vector(self, *args, **kwargs)
-
-    def eval_dep_yerr(self, *args, **kwargs):
-        """eval_dep_yerr(bspline self, double const x, double * OUT, double * OUT2) -> gsl_error_flag_drop"""
-        return _bspline.bspline_eval_dep_yerr(self, *args, **kwargs)
-
-    def eval_dep_yerr_vector(self, *args, **kwargs):
-        """eval_dep_yerr_vector(bspline self, gsl_vector const * X) -> PyObject *"""
-        return _bspline.bspline_eval_dep_yerr_vector(self, *args, **kwargs)
-
-bspline_swigregister = _bspline.bspline_swigregister
-bspline_swigregister(bspline)
 
 # This file is compatible with both classic and new-style classes.
 

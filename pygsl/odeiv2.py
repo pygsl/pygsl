@@ -15,22 +15,22 @@ if version_info >= (2,6,0):
         import imp
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_multifit_robust', [dirname(__file__)])
+            fp, pathname, description = imp.find_module('_odeiv2', [dirname(__file__)])
         except ImportError:
-            import _multifit_robust
-            return _multifit_robust
+            import _odeiv2
+            return _odeiv2
         if fp is not None:
             try:
-                _mod = imp.load_module('_multifit_robust', fp, pathname, description)
+                _mod = imp.load_module('_odeiv2', fp, pathname, description)
             finally:
                 fp.close()
             return _mod
-    _multifit_robust = swig_import_helper()
+    _odeiv2 = swig_import_helper()
     del swig_import_helper
 else:
-    import _multifit_robust
+    import _odeiv2
 del version_info
-from _multifit_robust import *
+from _odeiv2 import *
 try:
     _swig_property = property
 except NameError:
@@ -68,6 +68,9 @@ try:
 except AttributeError:
     class _object : pass
     _newclass = 0
+
+
+
 
 
 
