@@ -412,7 +412,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 
 
     DEBUG_MESS(2, "Checking refcounts of objects: y0_o @ %p refcnt %ld", 
-	       (void *) y0_o, y0_o->ob_refcnt);
+	       (void *) y0_o, (long) y0_o->ob_refcnt);
 
     y0 = PyGSL_vector_check(y0_o, dimension, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
     if(y0 == NULL){
@@ -420,7 +420,7 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
 	 goto fail;
     }
     DEBUG_MESS(2, "Checking refcounts of objects: y0 @ %p refcnt %ld", 
-	       (void *) y0, PyGSL_PY_ARRAY_GET_REFCNT(y0));
+	       (void *) y0, (long) PyGSL_PY_ARRAY_GET_REFCNT(y0));
 
 
     yout = (PyArrayObject *)  PyGSL_Copy_Array(y0);
@@ -481,8 +481,8 @@ pygsl_odeiv_evolve_apply(PyObject *self, PyObject *args)
     assert(yout != NULL);
     DEBUG_MESS(2, "Checking refcounts of objects: yout @ %p refcnt %ld,"
 	       " y0 @ %p refcnt %ld", 
-	       (void *) yout, PyGSL_PY_ARRAY_GET_REFCNT(yout),
-	       (void *) y0, PyGSL_PY_ARRAY_GET_REFCNT(y0));
+	       (void *) yout, (long) PyGSL_PY_ARRAY_GET_REFCNT(yout),
+	       (void *) y0, (long) PyGSL_PY_ARRAY_GET_REFCNT(y0));
     
     result = Py_BuildValue("(ddO)", t, h, yout);
 
@@ -555,7 +555,7 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
     FUNC_MESS("SWIG END");
 
     DEBUG_MESS(4, "Checking refcounts of objects: y0_o @ %p refcnt %ld", 
-	       (void *) y0_o, (y0_o == NULL) ? -1 : y0_o->ob_refcnt);
+	       (void *) y0_o, (y0_o == NULL) ? -1 :  (long)y0_o->ob_refcnt);
 
     assert(y0 == NULL);
     y0 = PyGSL_vector_check(y0_o, dimension, PyGSL_DARRAY_CINPUT(7), NULL, NULL);
@@ -564,7 +564,7 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
 	 goto fail;
     }
     DEBUG_MESS(4, "Checking refcounts of objects: y0 @ %p refcnt %ld",
-	       (void *) y0, PyGSL_SAVE_REFCNT(y0));
+	       (void *) y0,  (long) PyGSL_SAVE_REFCNT(y0));
 
     FUNC_MESS("Y0 END");
     FUNC_MESS("T BEGIN");
@@ -588,7 +588,7 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
     vts = gsl_vector_view_array_with_stride((double *) PyArray_DATA(ts), stride, PyArray_DIM(ts, 0));
 
     DEBUG_MESS(4, "Checking refcounts of objects: ts @ %p refcnt %ld",
-	       (void *) ts, PyGSL_SAVE_REFCNT(ts));
+	       (void *) ts,  (long) PyGSL_SAVE_REFCNT(ts));
 
 
     /* yout = (PyArrayObject *)  PyGSL_Copy_Array((PyObject * ) y0, NPY_DOUBLE, 1, 1); */    
@@ -601,7 +601,7 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
 	 goto fail;
     }
     DEBUG_MESS(4, "Checking refcounts of objects: yout @ %p refcnt %ld",
-	       (void *) yout, PyGSL_SAVE_REFCNT(yout));
+	       (void *) yout,  (long) PyGSL_SAVE_REFCNT(yout));
     if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(yout, 1), sizeof(double), &stride) != GSL_SUCCESS){
 	 line = __LINE__ - 1;
 	 goto fail;
@@ -717,9 +717,9 @@ pygsl_odeiv_evolve_apply_vector(PyObject *self, PyObject *args)
     
     DEBUG_MESS(4, "Checking refcounts of objects: y0 @ %p refcnt %ld ts @ %p refcnt %ld\
                    yout @ %p refcnt %ld",
-	       (void *) y0,   PyGSL_SAVE_REFCNT(y0), 
-	       (void *) ts,   PyGSL_SAVE_REFCNT(ts), 
-	       (void *) yout, PyGSL_SAVE_REFCNT(yout));    
+	       (void *) y0,   (long) PyGSL_SAVE_REFCNT(y0), 
+	       (void *) ts,   (long) PyGSL_SAVE_REFCNT(ts), 
+	       (void *) yout, (long) PyGSL_SAVE_REFCNT(yout));    
 
     /* Deleting the arrays */
     Py_DECREF(y0);       y0=NULL;
