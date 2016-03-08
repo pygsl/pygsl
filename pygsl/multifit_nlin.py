@@ -130,7 +130,25 @@ class lmsder(_fdfsolver):
      unlikely to change the solution from its current value.
 
     """
-    type = _callback.cvar.gsl_multifit_fdfsolver_lmsder 
+    type = _callback.cvar.gsl_multifit_fdfsolver_lmsder
+
+class lmniel(_fdfsolver):
+    """
+    This is a Levenberg-Marquardt solver based on a smoother updating procedure for
+    the damping parameter mu proposed by Nielsen, 1999. It does not use a trust region
+    approach and only performs rudimentary scaling and is therefore not as robust as
+    lmsder. However, on each iteration it solves the normal equation system to compute
+    the next step:
+    /  T          \        T 
+    | J   J + mu I |  = - J   f
+    \              / 
+    which makes it a much more practical method for problems with a large number of
+    residuals (n >> p), since only the p-by-p matrix J^T J is decomposed rather than the
+    full n-by-p Jacobian. This makes a significant difference in efficiency when solving
+    systems with large amounts of data. While not as robust as lmsder, this algorithm
+    has proven effective on a wide class of problems.
+    """    
+    type = _callback.cvar.gsl_multifit_fdfsolver_lmniel
 
 def test_delta(dx, x, epsabs, epsrel):
     """
