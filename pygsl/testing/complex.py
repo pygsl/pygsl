@@ -1,4 +1,4 @@
-import _ufuncs
+from . import _ufuncs
 _token = "complex_"
 _tokl  = len(_token)
 
