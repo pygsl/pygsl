@@ -155,6 +155,26 @@ exts.append(SWIG_Extension("_callback",
                           )            
             )
 
+exts.append(SWIG_Extension("multifit_robust",
+                           ["src/callback/gsl_multifit_robust.i"],
+                           include_dirs=["src/callback"],
+                           swig_include_dirs=["src/callback"],
+                           gsl_min_version=(1,2),
+                           define_macros = macros,
+                           python_min_version=(2,1),
+                          )            
+            )
+
+exts.append(SWIG_Extension("odeiv2",
+                           ["src/callback/gsl_odeiv2.i"],
+                           include_dirs=["src/callback"],
+                           swig_include_dirs=["src/callback"],
+                           gsl_min_version=(1,2),
+                           define_macros = macros,
+                           python_min_version=(2,1),
+                          )            
+            )
+
 exts.append(SWIG_Extension("_poly",
                           ["src/poly/gsl_poly.i"],
                           include_dirs=["src/poly"],
@@ -440,6 +460,15 @@ if BUILD_TESTING:
                          python_min_version=(2,0)
                          )
         exts.append(sf)
+        #sftest=gsl_Extension("testing.sftest",
+        #                 ['testing/src/sf/sf_test.c'],
+        #                 gsl_min_version=(1,),
+        #                 define_macros = macros,
+        #                 python_min_version=(2,0)
+        #                 )
+        #exts.append(sftest)
+
+        
     else:
         sys.stdout.write("Selected array object -->%s<--\nNo special ufuncs in testing\n" % (num,))
     pass
