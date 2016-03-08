@@ -107,8 +107,8 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
      PyFrameObject *py_frame = NULL;
      
      FUNC_MESS_BEGIN();
-     DEBUG_MESS(2, "add_c_tracebacks = %d.  = 0 disabled; != 0 enabled",
-		add_c_tracebacks);
+     DEBUG_MESS(2, "add_c_tracebacks = %d = %s",
+		add_c_tracebacks, (add_c_tracebacks == 0)? "disabled" : "enabled");
      if (add_c_tracebacks == 0){
 	     return;
      }
