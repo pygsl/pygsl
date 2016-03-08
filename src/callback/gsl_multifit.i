@@ -7,9 +7,43 @@
 #include <gsl/gsl_fit.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
+#include <pygsl/pygsl_features.h>
+
+#define  _PyGSL_TO_ARRAY_INDEX_CAST(arg) ((PyGSL_array_index_t) (arg))
+  
+#if (PYGSL_GSL_MAJOR_VERSION == 2)
+#define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->nmax))
+#define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->pmax))
+#if (PYGSL_GSL_MINOR_VERSION == 0)
+  /* fix a bug in multifit_wlinear ... */
+#define _PyGSL_MULTIFIT_WORKSPACE_SET(s) s->n = s->nmax; (s->p = s->pmax);
+#else /* (PYGSL_GSL_MINOR_VERSION == 0) */
+#define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
+#endif /* (PYGSL_GSL_MINOR_VERSION == 0) */
+#else
+#define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->n))
+#define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->p))
+#endif
 %}
 %include typemaps.i
 %include gsl_block_typemaps.i
+
+%typemap(arginit) const gsl_matrix *  IN_AND_SIZE %{
+	  PyArrayObject * _PyMatrix$argnum = NULL;
+	  TYPE_VIEW_$1_basetype _matrix$argnum;
+	  PyGSL_array_index_t _mat_dim0_arg$argnum = -1;
+	  PyGSL_array_index_t _mat_dim1_arg$argnum = -1;
+	  
+%}
+%typemap(check) const gsl_matrix *  IN_AND_SIZE  %{
+          assert(_PyMatrix$argnum != NULL);
+          _mat_dim0_arg$argnum =  PyArray_DIM(_PyMatrix$argnum, 0);
+          _mat_dim1_arg$argnum =  PyArray_DIM(_PyMatrix$argnum, 1);
+%}
+
+%typemap(in)      gsl_matrix * IN_AND_SIZE  = gsl_matrix * IN;
+%typemap(freearg) gsl_matrix * IN_AND_SIZE  = gsl_matrix * IN;
+
 
 gsl_multifit_linear_workspace *
 gsl_multifit_linear_alloc (size_t n, size_t p);
@@ -21,20 +55,30 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
      PyGSL_array_index_t _work_provide_n_$1_name = -1;
      PyGSL_array_index_t _work_provide_p_$1_name = -1;
 %}
+
 %typemap( in) gsl_multifit_linear_workspace *  work_provide {
      if ((SWIG_ConvertPtr($input, (void **) &$1, SWIGTYPE_p_gsl_multifit_linear_workspace,1)) == -1){
 	  goto fail;
      }
-     _work_provide_n_$1_name = (int) $1->n;
-     _work_provide_p_$1_name = (int) $1->p;
+     _work_provide_n_$1_name = _PyGSL_MULTIFIT_GET_NMAX($1);
+     _work_provide_p_$1_name = _PyGSL_MULTIFIT_GET_PMAX($1);
+     _PyGSL_MULTIFIT_WORKSPACE_SET($1);
+    DEBUG_MESS(2, "work->n  = %ld work ->p = %ld work->nmax = %ld, work->pmax = %ld",
+		(long) _work_provide_n_$1_name, (long) _work_provide_p_$1_name,
+		(long) $1->nmax, (long) $1->pmax);
 };
+
 %typemap( in, numinputs = 0) gsl_vector * OUT %{
      /* All done in check as the workspace stores the information about the required size */
 %}
-%typemap(check) gsl_vector * OUT {
-          PyGSL_array_index_t stride;
 
-	  _PyVector$argnum = (PyArrayObject *) PyGSL_New_Array(1, &_work_provide_p_work_provide, NPY_DOUBLE);
+%typemap(check) gsl_vector * OUT {
+          PyGSL_array_index_t stride, lvec;
+	  lvec = _work_provide_p_work_provide;
+	  lvec = _mat_dim1_arg1;
+
+	  DEBUG_MESS(2, "out vector length = %ld not %ld", lvec, _work_provide_p_work_provide);
+	  _PyVector$argnum = (PyArrayObject *) PyGSL_New_Array(1, &lvec, NPY_DOUBLE);
           if(NULL == _PyVector$argnum){
                goto fail;
           }
@@ -51,10 +95,12 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 %typemap( in) gsl_matrix * OUT = gsl_vector * OUT;
 %typemap(check) gsl_matrix * OUT {
 	  PyArrayObject * a_array;
-
+	  BASIS_C_TYPE($1_basetype)  *data = NULL;
 	  PyGSL_array_index_t stride_recalc=0, dimensions[2];
-	  dimensions[0] = _work_provide_p_work_provide;
-	  dimensions[1] = _work_provide_p_work_provide;
+
+	       
+	  dimensions[0] = _mat_dim1_arg1;
+	  dimensions[1] = _mat_dim1_arg1;
 	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, NPY_DOUBLE);
 	  if(NULL == a_array){
 	       goto fail;
@@ -65,10 +111,16 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(a_array, 0), sizeof(BASIS_TYPE($1_basetype)), &stride_recalc) != GSL_SUCCESS)
 	       goto fail;
 	  /* (BASIS_TYPE_$1_basetype *) */
-	  _matrix$argnum  = TYPE_VIEW_ARRAY_$1_basetype((BASIS_C_TYPE($1_basetype) *) PyArray_DATA(a_array), 
-							PyArray_DIM(a_array,0), PyArray_DIM(a_array, 1));
-
+	  data = (BASIS_C_TYPE($1_basetype)  *) PyArray_DATA(a_array);
+	  assert(data != NULL);
+	  _matrix$argnum  = TYPE_VIEW_ARRAY_$1_basetype(data, PyArray_DIM(a_array,0), PyArray_DIM(a_array, 1));
+	  assert(_matrix$argnum.matrix.data != NULL);
 	  $1 = ($basetype *) &(_matrix$argnum.matrix);
+	  DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", _matrix$argnum.matrix.data,
+		     (long) _matrix$argnum.matrix.size1,
+		     (long) _matrix$argnum.matrix.size2
+		     );
+
 }
 %typemap(argout) gsl_vector * OUT{
      $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyVector$argnum);
@@ -134,26 +186,38 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 		       double * Y_ERR};
 
 gsl_error_flag_drop
-gsl_multifit_linear (const gsl_matrix * IN,
+gsl_multifit_linear (const gsl_matrix * IN_AND_SIZE,
                      const gsl_vector * IN,
                      gsl_vector * OUT,
                      gsl_matrix * OUT,
                      double * chisq,
                      gsl_multifit_linear_workspace * work_provide);
 
+#if 0
+#if PyGSL_GSL_MAJOR_VERSION >= 2
+/* needs works space ... implement ... */
+#error "Work space needs to be correctly implemented "
 gsl_error_flag_drop
 gsl_multifit_linear_svd (const gsl_matrix * IN,
-	           const gsl_vector * IN,
+			 gsl_multifit_linear_workspace * work_provide);
+gsl_error_flag_drop
+gsl_multifit_linear_bsvd (const gsl_matrix * IN,
+			 gsl_multifit_linear_workspace * work_provide);
+#else /* PyGSL_GSL_MAJOR_VERSION >= 2 */
+gsl_error_flag_drop
+gsl_multifit_linear_svd (const gsl_matrix * IN,
+			 const gsl_vector * IN,
 			 double TOL,
 			 size_t * OUTPUT,
-                     gsl_vector * OUT,
-                     gsl_matrix * OUT,
-                     double * chisq,
-                     gsl_multifit_linear_workspace * work_provide);
-
+			 gsl_vector * OUT,
+			 gsl_matrix * OUT2,
+			 double * chisq,
+			 gsl_multifit_linear_workspace * work_provide);
+#endif /* PyGSL_GSL_MAJOR_VERSION >= 2 */
+#endif
 
 gsl_error_flag_drop
-gsl_multifit_wlinear (const gsl_matrix * IN,
+gsl_multifit_wlinear (const gsl_matrix * IN_AND_SIZE,
                       const gsl_vector * IN,
                       const gsl_vector * IN,
                       gsl_vector * OUT,
@@ -163,7 +227,7 @@ gsl_multifit_wlinear (const gsl_matrix * IN,
 
 
 gsl_error_flag_drop
-gsl_multifit_wlinear_svd (const gsl_matrix * IN,
+gsl_multifit_wlinear_svd (const gsl_matrix * IN_AND_SIZE,
                           const gsl_vector * IN,
                           const gsl_vector * IN,
 			 double TOL,
@@ -175,9 +239,17 @@ gsl_multifit_wlinear_svd (const gsl_matrix * IN,
 
 gsl_error_flag_drop
 gsl_multifit_linear_est (const gsl_vector * IN, 
-	          const gsl_vector * IN, 
-	          const gsl_matrix * IN, 
+			 const gsl_vector * IN, 
+			 const gsl_matrix * IN, 
 			 double * Y, double *Y_ERR);
+
+/*
+gsl_error_flag_drop
+gsl_multifit_linear_residuals(const gsl_matrix * IN, 
+			      const gsl_vector * IN, 
+			      const gsl_vector * IN, 
+			      const gsl_vector * OUT);
+*/
 
 
 
