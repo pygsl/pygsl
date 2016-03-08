@@ -89,5 +89,6 @@
 
 %ignore gsl_linalg_R_svx;
 
+/* this include does not work for gsl version 2.1 */
 %include gsl/gsl_linalg.h
 
