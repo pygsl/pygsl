@@ -394,7 +394,7 @@ if BUILD_TESTING:
                          define_macros = macros, 
                          python_min_version=(2,0)
                          )
-    extsOnly2.append(solver)
+    #extsOnly2.append(solver)
 
     solver=gsl_Extension("testing.minimize",
                          ['testing/src/solvers/minimize.c'],
