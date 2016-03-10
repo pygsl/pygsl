@@ -36,8 +36,7 @@ def LU_decomp(A):
     and are not stored.
     
     The permutation matrix P is encoded in the permutation p. The j-th column
-su
-of the matrix P is given by the k-th column of the identity matrix, where
+    of the matrix P is given by the k-th column of the identity matrix, where
     k = p_j the j-th element of the permutation vector. The sign of the
     permutation is given by signum. It has the value (-1)^n, where n is the
     number of interchanges in the permutation.
