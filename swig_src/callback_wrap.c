@@ -4195,12 +4195,18 @@ SWIG_FromCharPtr(const char *cptr)
        return s->f;
   }
   /* How to ensure  GSL Version is only evaluated at C code compilation time? */  
-  #if PyGSL_GSL_MAJOR_VERSION == 1
-  gsl_multifit_solver_matrix * gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
+  #if PYGSL_GSL_MAJOR_VERSION == 1
+  PyObject * gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
   {
-       return s->J;
+
+       PyArrayObject *j_a = NULL;
+       
+       j_a = PyGSL_copy_gslmatrix_to_pyarray(s->J);
+
+       DEBUG_MESS(2, "Jacobian=%p ->  py_array=%p", (void *) s->J, (void*) j_a);
+       return (PyObject *) j_a;
   }
-  #else /* PyGSL_GSL_MAJOR_VERSION == 1 */
+  #else /* PYGSL_GSL_MAJOR_VERSION == 1 */
   PyObject * gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
   {
     int flag;
@@ -4227,7 +4233,7 @@ SWIG_FromCharPtr(const char *cptr)
     Py_XDECREF(J_a);
     return NULL;
   }  
-  #endif /* PyGSL_GSL_MAJOR_VERSION == 1 */
+  #endif /* PYGSL_GSL_MAJOR_VERSION == 1 */
   void gsl_multifit_function_free(gsl_multifit_function * FREE)
   {
     /* Do Not need to do anything here. All done in the typemaps */
@@ -4344,10 +4350,11 @@ SWIGINTERNINLINE PyObject*
 #else /* (PYGSL_GSL_MINOR_VERSION == 0) */
 #define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
 #endif /* (PYGSL_GSL_MINOR_VERSION == 0) */
-#else
+#else /* (PYGSL_GSL_MAJOR_VERSION == 2) */
+#define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
 #define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->n))
 #define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->p))
-#endif
+#endif /* (PYGSL_GSL_MAJOR_VERSION == 2) */
 
 #ifdef __cplusplus
 extern "C" {
@@ -10827,22 +10834,6 @@ SWIGINTERN PyObject *Swig_var_gsl_multifit_fdfsolver_lmsder_get(void) {
 }
 
 
-SWIGINTERN int Swig_var_gsl_multifit_fdfsolver_lmniel_set(PyObject *_val SWIGUNUSED) {
-  SWIG_Error(SWIG_AttributeError,"Variable gsl_multifit_fdfsolver_lmniel is read-only.");
-  return 1;
-}
-
-
-SWIGINTERN PyObject *Swig_var_gsl_multifit_fdfsolver_lmniel_get(void) {
-  PyObject *pyobj = 0;
-  PyObject *self = 0;
-  
-  (void)self;
-  pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(gsl_multifit_fdfsolver_lmniel), SWIGTYPE_p_gsl_multifit_fdfsolver_type,  0 );
-  return pyobj;
-}
-
-
 SWIGINTERN PyObject *_wrap_gsl_integration_workspace_alloc(PyObject *self, PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   size_t arg1 ;
@@ -14470,9 +14461,13 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, P
     _work_provide_n_work_provide = _PyGSL_MULTIFIT_GET_NMAX(arg6);
     _work_provide_p_work_provide = _PyGSL_MULTIFIT_GET_PMAX(arg6);
     _PyGSL_MULTIFIT_WORKSPACE_SET(arg6);
-    DEBUG_MESS(2, "work->n  = %ld work ->p = %ld work->nmax = %ld, work->pmax = %ld",
-      (long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide,
-      (long) arg6->nmax, (long) arg6->pmax);
+    DEBUG_MESS(2, "work->n  = %ld work ->p = %ld",
+      (long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide);
+    /*
+        DEBUG_MESS(2, "work->n  = %ld work ->p = %ld work->nmax = %ld, work->pmax = %ld",
+    		(long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide,
+    		(long) arg6->nmax, (long) arg6->pmax);
+         */
   }
   
   assert(_PyMatrix1 != NULL);
@@ -14484,7 +14479,7 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, P
     lvec = _work_provide_p_work_provide;
     lvec = _mat_dim1_arg1;
     
-    DEBUG_MESS(2, "out vector length = %ld not %ld", lvec, _work_provide_p_work_provide);
+    DEBUG_MESS(2, "out vector length = %ld not %ld", (long) lvec, (long) _work_provide_p_work_provide);
     _PyVector3 = (PyArrayObject *) PyGSL_New_Array(1, &lvec, NPY_DOUBLE);
     if(NULL == _PyVector3){
       goto fail;
@@ -14522,7 +14517,7 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_linear(PyObject *self, PyObject *args, P
     _matrix4  = TYPE_VIEW_ARRAY_gsl_matrix(data, PyArray_DIM(a_array,0), PyArray_DIM(a_array, 1));
     assert(_matrix4.matrix.data != NULL);
     arg4 = (gsl_matrix *) &(_matrix4.matrix);
-    DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", _matrix4.matrix.data,
+    DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", (void *) _matrix4.matrix.data,
       (long) _matrix4.matrix.size1,
       (long) _matrix4.matrix.size2
       );
@@ -14693,9 +14688,13 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, 
     _work_provide_n_work_provide = _PyGSL_MULTIFIT_GET_NMAX(arg7);
     _work_provide_p_work_provide = _PyGSL_MULTIFIT_GET_PMAX(arg7);
     _PyGSL_MULTIFIT_WORKSPACE_SET(arg7);
-    DEBUG_MESS(2, "work->n  = %ld work ->p = %ld work->nmax = %ld, work->pmax = %ld",
-      (long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide,
-      (long) arg7->nmax, (long) arg7->pmax);
+    DEBUG_MESS(2, "work->n  = %ld work ->p = %ld",
+      (long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide);
+    /*
+        DEBUG_MESS(2, "work->n  = %ld work ->p = %ld work->nmax = %ld, work->pmax = %ld",
+    		(long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide,
+    		(long) arg7->nmax, (long) arg7->pmax);
+         */
   }
   
   assert(_PyMatrix1 != NULL);
@@ -14707,7 +14706,7 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, 
     lvec = _work_provide_p_work_provide;
     lvec = _mat_dim1_arg1;
     
-    DEBUG_MESS(2, "out vector length = %ld not %ld", lvec, _work_provide_p_work_provide);
+    DEBUG_MESS(2, "out vector length = %ld not %ld", (long) lvec, (long) _work_provide_p_work_provide);
     _PyVector4 = (PyArrayObject *) PyGSL_New_Array(1, &lvec, NPY_DOUBLE);
     if(NULL == _PyVector4){
       goto fail;
@@ -14745,7 +14744,7 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_wlinear(PyObject *self, PyObject *args, 
     _matrix5  = TYPE_VIEW_ARRAY_gsl_matrix(data, PyArray_DIM(a_array,0), PyArray_DIM(a_array, 1));
     assert(_matrix5.matrix.data != NULL);
     arg5 = (gsl_matrix *) &(_matrix5.matrix);
-    DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", _matrix5.matrix.data,
+    DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", (void *) _matrix5.matrix.data,
       (long) _matrix5.matrix.size1,
       (long) _matrix5.matrix.size2
       );
@@ -14939,9 +14938,13 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_wlinear_svd(PyObject *self, PyObject *ar
     _work_provide_n_work_provide = _PyGSL_MULTIFIT_GET_NMAX(arg9);
     _work_provide_p_work_provide = _PyGSL_MULTIFIT_GET_PMAX(arg9);
     _PyGSL_MULTIFIT_WORKSPACE_SET(arg9);
-    DEBUG_MESS(2, "work->n  = %ld work ->p = %ld work->nmax = %ld, work->pmax = %ld",
-      (long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide,
-      (long) arg9->nmax, (long) arg9->pmax);
+    DEBUG_MESS(2, "work->n  = %ld work ->p = %ld",
+      (long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide);
+    /*
+        DEBUG_MESS(2, "work->n  = %ld work ->p = %ld work->nmax = %ld, work->pmax = %ld",
+    		(long) _work_provide_n_work_provide, (long) _work_provide_p_work_provide,
+    		(long) arg9->nmax, (long) arg9->pmax);
+         */
   }
   
   assert(_PyMatrix1 != NULL);
@@ -14953,7 +14956,7 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_wlinear_svd(PyObject *self, PyObject *ar
     lvec = _work_provide_p_work_provide;
     lvec = _mat_dim1_arg1;
     
-    DEBUG_MESS(2, "out vector length = %ld not %ld", lvec, _work_provide_p_work_provide);
+    DEBUG_MESS(2, "out vector length = %ld not %ld", (long) lvec, (long) _work_provide_p_work_provide);
     _PyVector6 = (PyArrayObject *) PyGSL_New_Array(1, &lvec, NPY_DOUBLE);
     if(NULL == _PyVector6){
       goto fail;
@@ -14991,7 +14994,7 @@ SWIGINTERN PyObject *_wrap_gsl_multifit_wlinear_svd(PyObject *self, PyObject *ar
     _matrix7  = TYPE_VIEW_ARRAY_gsl_matrix(data, PyArray_DIM(a_array,0), PyArray_DIM(a_array, 1));
     assert(_matrix7.matrix.data != NULL);
     arg7 = (gsl_matrix *) &(_matrix7.matrix);
-    DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", _matrix7.matrix.data,
+    DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", (void *) _matrix7.matrix.data,
       (long) _matrix7.matrix.size1,
       (long) _matrix7.matrix.size2
       );
@@ -17263,9 +17266,6 @@ SWIG_init(void) {
   SWIG_addvarlink(SWIG_globals(),(char*)"gsl_multifit_fdfsolver_lmsder",Swig_var_gsl_multifit_fdfsolver_lmsder_get, Swig_var_gsl_multifit_fdfsolver_lmsder_set);
   PyDict_SetItemString(md, (char*)"gsl_multifit_fdfsolver_lmsder", PyObject_GetAttrString(SWIG_globals(), "gsl_multifit_fdfsolver_lmsder"));
   SwigPyBuiltin_AddPublicSymbol(public_interface, "gsl_multifit_fdfsolver_lmsder");
-  SWIG_addvarlink(SWIG_globals(),(char*)"gsl_multifit_fdfsolver_lmniel",Swig_var_gsl_multifit_fdfsolver_lmniel_get, Swig_var_gsl_multifit_fdfsolver_lmniel_set);
-  PyDict_SetItemString(md, (char*)"gsl_multifit_fdfsolver_lmniel", PyObject_GetAttrString(SWIG_globals(), "gsl_multifit_fdfsolver_lmniel"));
-  SwigPyBuiltin_AddPublicSymbol(public_interface, "gsl_multifit_fdfsolver_lmniel");
   SWIG_Python_SetConstant(d, d == md ? public_interface : NULL, "GSL_INTEG_COSINE",SWIG_From_int((int)(GSL_INTEG_COSINE)));
   SWIG_Python_SetConstant(d, d == md ? public_interface : NULL, "GSL_INTEG_SINE",SWIG_From_int((int)(GSL_INTEG_SINE)));
   SWIG_Python_SetConstant(d, d == md ? public_interface : NULL, "GSL_INTEG_GAUSS15",SWIG_From_int((int)(GSL_INTEG_GAUSS15)));
