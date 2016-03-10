@@ -51,12 +51,18 @@
        return s->f;
   }
   /* How to ensure  GSL Version is only evaluated at C code compilation time? */  
-  #if PyGSL_GSL_MAJOR_VERSION == 1
-  gsl_multifit_solver_matrix * gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
+  #if PYGSL_GSL_MAJOR_VERSION == 1
+  PyObject * gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
   {
-       return s->J;
+
+       PyArrayObject *j_a = NULL;
+       
+       j_a = PyGSL_copy_gslmatrix_to_pyarray(s->J);
+
+       DEBUG_MESS(2, "Jacobian=%p ->  py_array=%p", (void *) s->J, (void*) j_a);
+       return (PyObject *) j_a;
   }
-  #else /* PyGSL_GSL_MAJOR_VERSION == 1 */
+  #else /* PYGSL_GSL_MAJOR_VERSION == 1 */
   PyObject * gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
   {
     int flag;
@@ -83,7 +89,7 @@
     Py_XDECREF(J_a);
     return NULL;
   }  
-  #endif /* PyGSL_GSL_MAJOR_VERSION == 1 */
+  #endif /* PYGSL_GSL_MAJOR_VERSION == 1 */
   void gsl_multifit_function_free(gsl_multifit_function * FREE)
   {
     /* Do Not need to do anything here. All done in the typemaps */
@@ -145,4 +151,7 @@ int gsl_multifit_test_gradient (const gsl_vector * IN, double epsabs);
 
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmder;
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmsder;
+
+#if PYGSL_GSL_MAJOR_VERSION >= 2			    
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmniel;
+#endif
