@@ -1,6 +1,5 @@
 import unittest
 import math
-import pygsl.histogram
 import warnings
 import exceptions
 import pygsl.errors
