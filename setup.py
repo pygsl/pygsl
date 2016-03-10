@@ -27,6 +27,10 @@ BUILD_DEPRECATED = 0
 #
 INSTALL_HEADERS = 1
 #
+# SWIG 2.0 or above generates faster wrappers ... requires python 2.5 or greater
+#'-builtin',
+# Currently testing if it works for all modules
+SWIG_USE_BUILTIN = 1 
 #
 #####
 # PyGSL comes with a lot of debug information. This can be either disabled
@@ -78,23 +82,29 @@ from swig_extension import SWIG_Extension_Nop as _SWIG_Extension_Nop
 from distutils import sysconfig
 #from common_objects import libpygsl
 
+
+
 if USE_SWIG == 0:
     _SWIG_Extension = _SWIG_Extension_Nop
 
-exts = []
-extsOnly2 = []
 
 def SWIG_Extension(*args, **kws):
     kws["py_dir"] = "pygsl"
     kws["c_dir"] = "swig_src"
     return _SWIG_Extension(*args, **kws)
 
-
-
+if SWIG_USE_BUILTIN:
+    swig_flags = ["-builtin"]
+else:
+    swig_flags = []
+    
 check_macros = [('GSL_DISABLE_DEPRECATED', 1)]
 macros = [('SWIG_COBJECT_TYPES', 1)] #+ check_macros
 macros = macros + [('DEBUG', DEBUG_LEVEL)]
 debug_macros = macros + [('DEBUG', 1)]
+
+exts = []
+extsOnly2 = []
 
 pygsl_errno=gsl_Extension("errno",
 			 ['src/init/errorno.c'],
@@ -121,6 +131,7 @@ exts.append(pygsl_init)
 exts.append(SWIG_Extension("hankel",                           
                            ["src/hankel/gsl_hankel.i"],
                            swig_include_dirs=["src/hankel"],
+                           swig_flags = swig_flags,
                            gsl_min_version=(1,0),
                            define_macros = macros,
                            python_min_version=(2,0),
@@ -131,6 +142,7 @@ exts.append(SWIG_Extension("hankel",
 exts.append(SWIG_Extension("sum",
                           ["src/sum/gsl_sum.i"],
                           gsl_min_version=(1,0),
+                          swig_flags = swig_flags,
                           define_macros = macros,
                           python_min_version=(2,0),
                           )
@@ -139,6 +151,7 @@ exts.append(SWIG_Extension("bspline",
                            ["src/bspline/bspline.i"],
                            include_dirs=["src/bspline"],
                            swig_include_dirs=["src/bspline"],
+                           swig_flags = swig_flags,
                            gsl_min_version=(1,9),
                            define_macros = macros,
                            python_min_version=(2,1),
@@ -149,6 +162,7 @@ exts.append(SWIG_Extension("_callback",
                            ["src/callback/gsl_callback.i"],
                            include_dirs=["src/callback"],
                            swig_include_dirs=["src/callback"],
+                           swig_flags = swig_flags,
                            gsl_min_version=(1,2),
                            define_macros = macros,
                            python_min_version=(2,1),
@@ -159,6 +173,7 @@ exts.append(SWIG_Extension("multifit_robust",
                            ["src/callback/gsl_multifit_robust.i"],
                            include_dirs=["src/callback"],
                            swig_include_dirs=["src/callback"],
+                           swig_flags = swig_flags,
                            gsl_min_version=(1,2),
                            define_macros = macros,
                            python_min_version=(2,1),
@@ -169,6 +184,7 @@ exts.append(SWIG_Extension("odeiv2",
                            ["src/callback/gsl_odeiv2.i"],
                            include_dirs=["src/callback"],
                            swig_include_dirs=["src/callback"],
+                           swig_flags = swig_flags,
                            gsl_min_version=(1,2),
                            define_macros = macros,
                            python_min_version=(2,1),
@@ -178,6 +194,7 @@ exts.append(SWIG_Extension("odeiv2",
 exts.append(SWIG_Extension("_poly",
                           ["src/poly/gsl_poly.i"],
                           include_dirs=["src/poly"],
+                           swig_flags = swig_flags,
                           define_macros = macros,
                           gsl_min_version=(1,2),
                           python_min_version=(2,1)
@@ -188,6 +205,7 @@ exts.append(SWIG_Extension("_block",
                           ["src/block/gsl_block.i"],
                            swig_include_dirs=["src/block"],
                           define_macros = macros,
+                           swig_flags = swig_flags,
                            gsl_min_version=(1,2),
                           python_min_version=(2,1)
                           )
@@ -247,11 +265,11 @@ pygsl_rng=gsl_Extension("rng",
                         python_min_version=(2,1)
                     )
 exts.append(pygsl_rng)
-    
-    
+        
 exts.append(SWIG_Extension("gslwrap",
                            ["src/gslwrap/gsl_gslwrap.i"],
                            swig_include_dirs=["src/gslwrap/"],
+                           swig_flags = swig_flags,                           
                            define_macros = macros,
                            gsl_min_version=(1,10),
                            python_min_version=(2,1)
@@ -265,14 +283,7 @@ pygsl_ieee=gsl_Extension("ieee",
                          python_min_version=(2,1)
 )
 exts.append(pygsl_ieee)
-exts.append(SWIG_Extension("gslwrap",
-                           ["src/gslwrap/gsl_gslwrap.i"],
-                           swig_include_dirs=["src/gslwrap/"],
-                           define_macros = macros,
-                           gsl_min_version=(1,2),
-                           python_min_version=(2,1)
-                       )
-        )
+
 pygsl_histogram=gsl_Extension("histogram",
                               ['src/histogram/histogrammodule.c'],
                               define_macros = macros,

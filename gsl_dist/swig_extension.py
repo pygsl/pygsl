@@ -15,9 +15,9 @@ import string
 remove_underscore=re.compile("_*(.*)")
 
 gsl_include_dir = gsl_Location.get_gsl_prefix() + '/include'
-swig_flags = ['-python', '-keyword', '-shadow', '-Itypemaps', 
+swig_flags_default = ['-python', '-keyword', '-shadow', '-Itypemaps', 
               # faster wrappers ... requires python 2.5 or greater
-              '-builtin', 
+              #'-builtin', 
               #'-cpperraswarn',
               '-I' + gsl_include_dir]
 
@@ -39,6 +39,7 @@ class SWIG_Extension(gsl_Extension):
                  python_min_version=None,
                  swig_include_dirs=[],
                  swig_dependencies=[],
+                 swig_flags=[],
                  c_dir=None,
                  py_dir=None
                  ):
@@ -56,7 +57,7 @@ class SWIG_Extension(gsl_Extension):
         if c_dir:
             target = c_dir + "/" + target
 
-        self._run_swig(sources, swig_dependencies, target, swig_include_dirs, py_dir, c_dir, name)    
+        self._run_swig(sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name)    
 
         #spawn(cmd, search_path, verbose, dry_run)
         # SWIG generates two files. A py proxy file and a .so. The so appends a _ to the module name.
@@ -76,12 +77,13 @@ class SWIG_Extension(gsl_Extension):
                                python_min_version)
         return
     
-    def _run_swig(self, sources, swig_dependencies, target, swig_include_dirs, py_dir, c_dir, name):
+    def _run_swig(self, sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name):
         if newer_group(sources + swig_dependencies, target):
             includes = []
             for i in swig_include_dirs:
                 includes.append('-I' + i)
-            cmd = [gsl_Location.get_swig(),] + swig_flags + includes
+            t_swig_flags = swig_flags_default + swig_flags
+            cmd = [gsl_Location.get_swig(),] + t_swig_flags + includes
             cmd.extend(['-o', target] + sources)
             sys.stderr.write(" ".join(cmd) + "\n")
             spawn(cmd, 1, 1)
