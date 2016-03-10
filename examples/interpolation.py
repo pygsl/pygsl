@@ -28,7 +28,7 @@ print "#m=1,S=0"
 # Generation of the spline object ...  Acceleration is handled internally
 myspline = spline.cspline(n)
 myspline = spline.linear(n)
-acc = myspline._object.get_accel_object()
+#acc = myspline._object.get_accel_object()
 #print "Accel object", dir(acc)
 # initalise with the vector of the independent and the dependent
 myspline.init(x,y)
