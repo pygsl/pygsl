@@ -20,10 +20,11 @@
 #else /* (PYGSL_GSL_MINOR_VERSION == 0) */
 #define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
 #endif /* (PYGSL_GSL_MINOR_VERSION == 0) */
-#else
+#else /* (PYGSL_GSL_MAJOR_VERSION == 2) */
+#define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
 #define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->n))
 #define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->p))
-#endif
+#endif /* (PYGSL_GSL_MAJOR_VERSION == 2) */
 %}
 %include typemaps.i
 %include gsl_block_typemaps.i
@@ -63,9 +64,13 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
      _work_provide_n_$1_name = _PyGSL_MULTIFIT_GET_NMAX($1);
      _work_provide_p_$1_name = _PyGSL_MULTIFIT_GET_PMAX($1);
      _PyGSL_MULTIFIT_WORKSPACE_SET($1);
+    DEBUG_MESS(2, "work->n  = %ld work ->p = %ld",
+	       (long) _work_provide_n_$1_name, (long) _work_provide_p_$1_name);
+     /*
     DEBUG_MESS(2, "work->n  = %ld work ->p = %ld work->nmax = %ld, work->pmax = %ld",
 		(long) _work_provide_n_$1_name, (long) _work_provide_p_$1_name,
 		(long) $1->nmax, (long) $1->pmax);
+     */
 };
 
 %typemap( in, numinputs = 0) gsl_vector * OUT %{
@@ -77,7 +82,7 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  lvec = _work_provide_p_work_provide;
 	  lvec = _mat_dim1_arg1;
 
-	  DEBUG_MESS(2, "out vector length = %ld not %ld", lvec, _work_provide_p_work_provide);
+	  DEBUG_MESS(2, "out vector length = %ld not %ld", (long) lvec, (long) _work_provide_p_work_provide);
 	  _PyVector$argnum = (PyArrayObject *) PyGSL_New_Array(1, &lvec, NPY_DOUBLE);
           if(NULL == _PyVector$argnum){
                goto fail;
@@ -116,7 +121,7 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  _matrix$argnum  = TYPE_VIEW_ARRAY_$1_basetype(data, PyArray_DIM(a_array,0), PyArray_DIM(a_array, 1));
 	  assert(_matrix$argnum.matrix.data != NULL);
 	  $1 = ($basetype *) &(_matrix$argnum.matrix);
-	  DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", _matrix$argnum.matrix.data,
+	  DEBUG_MESS(2, "matrix: data %p size = [%ld, %ld]", (void *) _matrix$argnum.matrix.data,
 		     (long) _matrix$argnum.matrix.size1,
 		     (long) _matrix$argnum.matrix.size2
 		     );
