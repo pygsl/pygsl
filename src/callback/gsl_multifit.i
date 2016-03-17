@@ -2,6 +2,12 @@
 /**
  * author: Pierre Schnizer
  */
+
+/*
+ * The gsl_multifit_linear_workspace structre was changed from GSL 1.X to 
+ * GSL 2.X.
+ * setup checks for that and then appropriate measures are taken
+ */
 %{
 #include <gsl/gsl_multifit.h>
 #include <gsl/gsl_fit.h>
@@ -10,21 +16,26 @@
 #include <pygsl/pygsl_features.h>
 
 #define  _PyGSL_TO_ARRAY_INDEX_CAST(arg) ((PyGSL_array_index_t) (arg))
+#if PYGSL_GSL_MAJOR_VERSION == 2
+#if PYGSL_GSL_MINOR_VERSION == 0
+#error GSL 2.0 implementation of multifit has a bug in multifit_wliner
+#endif /* PYGSL_GSL_MINOR_VERSION == 0 */
+#endif /* PYGSL_GSL_MAJOR_VERSION == 2 */
   
-#if (PYGSL_GSL_MAJOR_VERSION == 2)
+#ifdef _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX
 #define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->nmax))
 #define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->pmax))
-#if (PYGSL_GSL_MINOR_VERSION == 0)
   /* fix a bug in multifit_wlinear ... */
 #define _PyGSL_MULTIFIT_WORKSPACE_SET(s) s->n = s->nmax; (s->p = s->pmax);
-#else /* (PYGSL_GSL_MINOR_VERSION == 0) */
-#define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
-#endif /* (PYGSL_GSL_MINOR_VERSION == 0) */
-#else /* (PYGSL_GSL_MAJOR_VERSION == 2) */
+#else /*  _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX */
+#ifndef _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P
+#error "I expected that if nmax and pmax is not found that n and p are always"  
+#error "found"
+#endif /* _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P */
 #define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
 #define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->n))
 #define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->p))
-#endif /* (PYGSL_GSL_MAJOR_VERSION == 2) */
+#endif /* _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX */
 %}
 %include typemaps.i
 %include gsl_block_typemaps.i
