@@ -20,6 +20,8 @@ swig_flags_default = ['-python', '-keyword', '-shadow', '-Itypemaps',
               #'-builtin', 
               #'-cpperraswarn',
               '-I' + gsl_include_dir]
+swig_flags = ['-python', '-builtin', '-modern', '-keyword', '-O', '-Itypemaps', #'-cpperraswarn',
+              '-I' + gsl_include_dir]
 
 
 class SWIG_Extension(gsl_Extension):
