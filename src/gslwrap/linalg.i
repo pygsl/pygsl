@@ -1,7 +1,7 @@
 /* -*- C -*- */
 /*
  * Author: Fabian Jakobs
- * Modified by : Pierre Schnizer Feburary 2003
+ * Modified by : Pierre Schnizer Feburary 2003, 2016
  */		 
 %{
 #include <gsl/gsl_linalg.h>
@@ -89,6 +89,7 @@
 
 %ignore gsl_linalg_R_svx;
 
-/* this include does not work for gsl version 2.1 */
+/* as for permutation / combination */
+#define INLINE_DECL
 %include gsl/gsl_linalg.h
 
