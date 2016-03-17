@@ -1,6 +1,12 @@
 #ifndef _PYGSL_FEATURES_H_
 #define _PYGSL_FEATURES_H_ 1
 
+#include <pygsl/pygsl_features_config.h>
+#if 0
+/*
+** Old Version .... now using config command to determine what is available 
+**
+ */
 /*
  * Common place to put the conditional defines for the various features added
  * to GSL during the development.
@@ -69,5 +75,5 @@
 #define _PYGSL_GSL_HAS_MKSA 1
 #endif
 
-
+#endif
 #endif /* _PYGSL_FEATURES_H_ */
