@@ -21,50 +21,50 @@ while pos<len(argv):
 
 # Extension class adapted for gsl
 class _gsl_Location:
-	"""
-	Wrapper for the location of the gsl library.
+        """
+        Wrapper for the location of the gsl library.
 
-	On unix one can run gsl-config to find the locations. On other systems
-	one has to revert to other ways to find the configuration.
-	"""
-	def __init__(self):
-		self.prefix = None
-		self.cflags = None
-		self.libs   = None
-		self.version = None
-		self.swig = None
-		
-	def get_gsl_prefix(self):
-		assert(self.prefix != None)
-		return self.prefix
-			
-	def get_gsl_cflags(self):
-		assert(self.cflags != None)
-		return self.cflags
-	
-	def get_gsl_libs(self):
-		#print self.libs
-		assert(self.libs != None)
-		return self.libs
-	
-	
-	def get_gsl_version(self):
-		assert(self.version != None)
-		return self.version
-	
-	def get_gsl_config_version(self):
-		"Which version string gsl-config --version returned "
-		assert(self.config_version != None)
-		return self.config_version
-	
-	def _split_version(self, version):
-		if version[-1] == '+':
-			version = version[:-1]
-		return re.split('\.',version)
+        On unix one can run gsl-config to find the locations. On other systems
+        one has to revert to other ways to find the configuration.
+        """
+        def __init__(self):
+                self.prefix = None
+                self.cflags = None
+                self.libs   = None
+                self.version = None
+                self.swig = None
 
-	def get_swig(self):
-		assert(self.swig)
-		return self.swig
+        def get_gsl_prefix(self):
+                assert(self.prefix != None)
+                return self.prefix
+
+        def get_gsl_cflags(self):
+                assert(self.cflags != None)
+                return self.cflags
+
+        def get_gsl_libs(self):
+                #print self.libs
+                assert(self.libs != None)
+                return self.libs
+
+
+        def get_gsl_version(self):
+                assert(self.version != None)
+                return self.version
+
+        def get_gsl_config_version(self):
+                "Which version string gsl-config --version returned "
+                assert(self.config_version != None)
+                return self.config_version
+
+        def _split_version(self, version):
+                if version[-1] == '+':
+                        version = version[:-1]
+                return re.split('\.',version)
+
+        def get_swig(self):
+                assert(self.swig)
+                return self.swig
 
         # Originaly in GSL extension:
         # Now used by gsl_Config and gsl_Extension so given here to be available to both
@@ -79,7 +79,7 @@ class _gsl_Location:
             t_prefix_lib_dir = os.path.join(prefix, "lib")
             library_dirs =[t_prefix_lib_dir]
             return library_dirs
-            
+
         def get_gsl_lib_list(self):            
             # prepare lib list
             # split optionlist and strip blanks from each option

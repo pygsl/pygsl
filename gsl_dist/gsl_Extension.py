@@ -70,13 +70,13 @@ class gsl_Extension(Extension):
 
             # prepend library directory
             if library_dirs is None: library_dirs=[]
-	    library_dirs = gsl_Location.get_gsl_library_dirs() + library_dirs
+            library_dirs = gsl_Location.get_gsl_library_dirs() + library_dirs
 
             if libraries is None: libraries=[]
-	    #libraries.append('pygsl')
+            #libraries.append('pygsl')
             libraries.extend(gsl_Location.get_gsl_lib_list())
 
-	    # test if Numeric module is available
+            # test if Numeric module is available
             if define_macros is None:
                   define_macros=[]
             try:
@@ -92,11 +92,11 @@ class gsl_Extension(Extension):
                     undef_macros.append('NDEBUG')
             tmp = map(lambda x: x[0], define_macros)
 
-	    # Now config will test of GSL_MAJOR_VERSION and GSL_MINOR_VERSION is defined 
+            # Now config will test of GSL_MAJOR_VERSION and GSL_MINOR_VERSION is defined 
             #if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
             #        define_macros = define_macros + [("PYGSL_GSL_MAJOR_VERSION", gsl_major_version),]
 
-            
+
             #if "PYGSL_GSL_MINOR_VERSION" not in tmp:
             #        #define_macros.append(("PYGSL_GSL_MINOR_VERSION", gsl_minor_version))
             #        define_macros = define_macros + [("PYGSL_GSL_MINOR_VERSION", gsl_minor_version),]
