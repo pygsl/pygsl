@@ -362,8 +362,14 @@ register_type(PyTypeObject *p, char *name)
      PyModule_AddObject(module, name, (PyObject*)p);     
 }
 
-void
-inithistogram(void)
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_histogram(void)
+#define RETVAL m
+#else /* PyGSL_PY3K */
+DL_EXPORT(void) inithistogram(void)
+#define RETVAL
+#endif /* PyGSL_PY3K */
 {
   PyObject* m;
   m=Py_InitModule("histogram", histogramMethods);
@@ -377,4 +383,6 @@ inithistogram(void)
   register_type(&histogram_histogram_pdfType, "histogram_pdf");
   register_type(&histogram_histogram2dType, "histogram2d");
   register_type(&histogram_histogram2d_pdfType, "histogram2d_pdf");
+
+  return RETVAL;
 }
