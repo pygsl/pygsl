@@ -23,6 +23,12 @@ recursive-include testing/src *.h
 recursive-include testing/src *.ic
 recursive-include testing *.py
 
+
+exclude Include/pygsl/block_helpers_numarray.h
+exclude Include/pygsl/block_helpers_numeric.h
+exclude src/init/block_helpers_numarray.ic
+exclude src/init/block_helpers_numeric.ic
+
 #include gsl_Extension.py
 include gsl_numobj.py
 #include swig_extension.py
