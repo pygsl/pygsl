@@ -171,32 +171,48 @@ class vector_bfgs(_fdfsolver):
     type = _callback.cvar.gsl_multimin_fdfminimizer_vector_bfgs    
 
 
+_t_type = _callback.cvar.gsl_multimin_fdfminimizer_vector_bfgs2
+if _t_type:
+    class vector_bfgs2(_fdfsolver):
+        type = _t_type
 
-class nmsimplex(_fsolver):
-    """
-     This is the Simplex algorithm by Nelder and Mead. It constructs n
-     vectors p_i from the starting vector X as follows:
+_t_type = _callback.cvar.gsl_multimin_fminimizer_nmsimplex
+if _t_type:
+    class nmsimplex(_fsolver):
+        """
+This is the Simplex algorithm by Nelder and Mead. It constructs n
+vectors p_i from the starting vector X as follows:
 
-     that form the n+1 vertices of a simplex in n dimensions.  In each
-     iteration step the algorithm tries to improve the parameter vector
-     p_i corresponding to the highest, i. e.  worst, function value by
-     simple geometrical transformations.  These are reflection,
-     reflection followed by expansion, contraction and multiple
-     contraction. Using these transformations the simplex moves through
-     the parameter space towards the minimum, where it contracts itself.
+that form the n+1 vertices of a simplex in n dimensions.  In each
+iteration step the algorithm tries to improve the parameter vector
+p_i corresponding to the highest, i. e.  worst, function value by
+simple geometrical transformations.  These are reflection,
+reflection followed by expansion, contraction and multiple
+contraction. Using these transformations the simplex moves through
+the parameter space towards the minimum, where it contracts itself.
 
-     After each iteration, the best vertex is returned.  Note, that due
-     to the nature of the algorithm (getting rid of the worst
-     estimate), every iteration doesn't necessarily improve the current
-     best parameter vector.  Usually several iterations are required.
+After each iteration, the best vertex is returned.  Note, that due
+to the nature of the algorithm (getting rid of the worst
+estimate), every iteration doesn't necessarily improve the current
+best parameter vector.  Usually several iterations are required.
 
-     The routine calculates the minimizer specific characteristic size
-     as the average distance from the geometrical center of the simplex
-     to all its vertices.  This size can be used as a stopping
-     criteria, as the simplex contracts itself near the minimum. The
-     size is returned by the function `gsl_multimin_fminimizer_size'.
-     """
-    type = _callback.cvar.gsl_multimin_fminimizer_nmsimplex
+The routine calculates the minimizer specific characteristic size
+as the average distance from the geometrical center of the simplex
+to all its vertices.  This size can be used as a stopping
+criteria, as the simplex contracts itself near the minimum. The
+size is returned by the function `gsl_multimin_fminimizer_size'.
+"""
+        type = _t_type
+
+_t_type = _callback.cvar.gsl_multimin_fminimizer_nmsimplex2
+if _t_type:
+    class nmsimplex2(_fsolver):
+        type = _t_type
+
+_t_type = _callback.cvar.gsl_multimin_fminimizer_nmsimplex2rand
+if _t_type:
+    class nmsimplex2rand(_fsolver):
+        type = _t_type
     
 def test_gradient(g, epsabs):
     """
