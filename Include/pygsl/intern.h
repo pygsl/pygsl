@@ -182,6 +182,8 @@ static int pygsl_debug_level = 0;
 
 
 /* #define PyGSL_SET_GSL_ERROR_HANDLER 1 */
+/* define the following variable if you want to have the old style error handler */
+/* #define _PyGSL_MODULE_ERROR_HANDLER_OLD_STYLE 1 */
 #define _PyGSL_MODULE_ERROR_HANDLER_FUNC \
     (*(void (*)(const char *, const char *, int, int))PyGSL_API[PyGSL_module_error_handler_NUM])
 #ifdef PyGSL_SET_GSL_ERROR_HANDLER 

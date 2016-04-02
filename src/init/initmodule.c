@@ -165,9 +165,10 @@ static PyMethodDef initMethods[] = {
      {"register_exceptions",       PyGSL_register_exceptions,          METH_VARARGS,NULL},
      {"register_warnings",         PyGSL_register_warnings,            METH_VARARGS,NULL},
      {"add_c_traceback_frames",    PyGSL_add_c_traceback_frames,       METH_VARARGS,add_c_traceback_frames_doc},
-     {NULL,     NULL, 0, NULL}        /* Sentinel */
+     {"error_handler_state_reset", PyGSL_pygsl_error_handler_save_reset, METH_NOARGS, NULL},
+     {"error_handler_state_get",   PyGSL_get_gsl_error_handler_saved_state, METH_NOARGS, NULL},
+    {NULL,     NULL, 0, NULL}        /* Sentinel */
 };
-
 
 static void
 PyGSL_init_api(void)

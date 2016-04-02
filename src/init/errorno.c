@@ -110,6 +110,7 @@ DL_EXPORT(void) initerrno(void)
      ADD_ERRNO(GSL_EOF     , "GSL_EOF"     );
      ADD_ERRNO(PyGSL_ESTRIDE, "PyGSL_ESTRIDE");
      ADD_ERRNO(PyGSL_EUNIMPL, "PyGSL_EUNIMPL");
+     ADD_ERRNO(PyGSL_EINIT  , "PyGSL_EINIT");
      
 
 

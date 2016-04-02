@@ -10,6 +10,22 @@
 
 static char trigger_doc [] = "Calls gsl_error with the passed error number";
 static PyObject *module;
+static PyObject*
+trigger_save_state(PyObject *self, PyObject *args)
+{
+	int gsl_errno = GSL_SUCCESS;
+
+	FUNC_MESS_BEGIN();
+	if (0 == PyArg_ParseTuple(args, "i", &gsl_errno)){
+		PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__ - 1);
+		return NULL;
+	}
+	pygsl_error("Triggered safe test!",
+		  __FILE__, __LINE__, gsl_errno);
+	FUNC_MESS_END();
+	Py_INCREF(Py_None);
+	return (Py_None);
+}
 
 static PyObject*
 trigger(PyObject *self, PyObject *args)
@@ -41,6 +57,7 @@ trigger(PyObject *self, PyObject *args)
 static PyMethodDef errortestMethods[] = {
      /*densities*/
      {"trigger", trigger, METH_VARARGS, trigger_doc},
+     {"trigger_save_test", trigger_save_state, METH_VARARGS, NULL},
      {NULL, NULL, 0, NULL}
 };
 

@@ -26,7 +26,11 @@ enum{
 			  *  Can not convert the stride from a Python array
 			  *  object to a GSL Vector/Matrix stride 
 			  */
-     PyGSL_EUNIMPL = 65,
+     PyGSL_EUNIMPL = 65,  /*
+			   * the version of GSL compiled against did not 
+			   * provide this feature
+			   */
+     PyGSL_EINIT   = 66,  /* pygsl gsl-error state was not initisalised */
 };
 
 __END_DECLS

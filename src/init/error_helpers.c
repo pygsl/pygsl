@@ -40,13 +40,114 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
 			     int line,   /*from CPP*/
 			     int gsl_error,
 			     enum handleflag flag);
+/*
+ * Allows storing the information without calling python states
+ * UFuncs release GIL .
+ */
+struct _pygsl_error_state{
+  const char * reason;
+  const char * file;
+  int line;
+  int gsl_errno;  
+}; 
+
+typedef struct _pygsl_error_state pygsl_error_state_t;
+
+pygsl_error_state_t save_error_state = {NULL, NULL, -1, PyGSL_EINIT};
+
+static void
+PyGSL_gsl_error_handler_save_reset(void)  
+{
+	FUNC_MESS_BEGIN();
+	save_error_state.reason = "state resetted";
+	save_error_state.file = __FILE__;
+	save_error_state.line = -1;
+	save_error_state.gsl_errno = PyGSL_EINIT;
+	FUNC_MESS_END();	
+}
+
+static PyObject *
+PyGSL_pygsl_error_handler_save_reset(PyObject *src, PyObject *args)  
+{
+	PyGSL_gsl_error_handler_save_reset();
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+
+static PyObject *
+PyGSL_get_gsl_error_handler_saved_state(PyObject *src, PyObject *args)
+{
+	PyObject *result = NULL, *r_o = NULL, *f_o = NULL, *l_o = NULL, *e_o = NULL;
+
+	l_o = PyLong_FromLong((long) save_error_state.line);
+	if(l_o == NULL){goto fail;}
+
+	e_o = PyLong_FromLong((long) save_error_state.gsl_errno);
+	if(e_o == NULL){goto fail;}
+
+	if(save_error_state.reason){
+		r_o = PyGSL_string_from_string(save_error_state.reason);
+		if(r_o == NULL){goto fail;}
+	} else {
+		Py_INCREF(Py_None);
+		r_o = Py_None;
+	}
+
+	if(save_error_state.file){
+		f_o = PyGSL_string_from_string(save_error_state.file);
+		if(f_o == NULL){goto fail;}
+	} else {
+		Py_INCREF(Py_None);
+		f_o = Py_None;
+	}
+
+	result = PyTuple_New(4);
+	if(result == NULL){
+		goto fail;
+	}
+	PyTuple_SET_ITEM(result, 0, (PyObject *) r_o);
+	PyTuple_SET_ITEM(result, 1, (PyObject *) f_o);
+	PyTuple_SET_ITEM(result, 2, (PyObject *) l_o);
+	PyTuple_SET_ITEM(result, 3, (PyObject *) e_o);
+	
+	return result;
+
+  fail:
+	DEBUG_MESS(2, "Failed: reason = %p", r_o);
+	Py_XDECREF(r_o);
+	Py_XDECREF(f_o);
+	Py_XDECREF(l_o);
+	Py_XDECREF(e_o);
+	return NULL;
+}
+
+static void
+PyGSL_gsl_error_handler_save(const char *reason, /* name of function*/
+			     const char *file, /*from CPP*/
+			     int line,   /*from CPP*/
+			     int gsl_error)			     
+{
+	FUNC_MESS_BEGIN();	
+	save_error_state.reason = reason;
+	save_error_state.file = file;
+	save_error_state.line = line;
+	save_error_state.gsl_errno = gsl_error;
+	
+	DEBUG_MESS(2, "Storing GSL error %s@%d: %d, %s",
+		   save_error_state.file, save_error_state.line,
+		   save_error_state.gsl_errno, save_error_state.reason
+		);
+	FUNC_MESS_END();
+}
+
 
 static int  
 PyGSL_error_flag(long flag)
 {
      FUNC_MESS_BEGIN();
      if(PyGSL_DEBUG_LEVEL() > 2){
-	  fprintf(stderr,"I got an Error %ld\n", flag);
+	     fprintf(stderr,"I got an Error %ld\n", flag);
      }
      if(PyErr_Occurred()){
 	     DEBUG_MESS(3, "Already a python error registered for flag %ld", flag);
@@ -71,9 +172,23 @@ PyGSL_error_flag(long flag)
 	  /*
 	   * gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__, 
 	   *	    __LINE__, flag);
-	  */
-	  PyGSL_internal_error_handler("Unknown Reason. It was not set by GSL",  __FILE__, 
-				       __LINE__, flag, HANDLE_ERROR);
+	   */
+	   /*
+	    * better instead: store the info here statically. This is open to
+	    * all sorts of race conditions if more than one thread is active.
+	    * But still better than no info or crashing the python interpreter
+	    */
+	  if(save_error_state.gsl_errno == flag){
+		  PyGSL_internal_error_handler(save_error_state.reason, 
+					       save_error_state.file, 
+					       save_error_state.line, 
+					       save_error_state.gsl_errno, 
+					       HANDLE_ERROR);
+		  PyGSL_gsl_error_handler_save_reset();
+	  } else {
+		  PyGSL_internal_error_handler("Unknown Reason. It was not set by GSL",  __FILE__, 
+					       __LINE__, flag, HANDLE_ERROR);
+	  }
 	  /* 
 	   * So lets keep the flag to return ... who knows what it will be used for...
 	   * return GSL_FAILURE;
@@ -144,6 +259,7 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 	  goto fail;
 
 #if Py3K_TRANSITION_DELAYED
+#error "Should not compile!"
      py_code = PyCode_New(
 	  0,            /*int argcount,*/
 	  0,            /*int nlocals,*/
@@ -391,6 +507,8 @@ PyGSL_init_errno(void)
      int i;
      FUNC_MESS_BEGIN();
 
+     PyGSL_gsl_error_handler_save_reset();
+
      for(i = 0; i< PyGSL_ERRNO_MAX; ++i){
 	  DEBUG_MESS(3, "setting errno_accel[%d] to NULL; was %p", 
 		     i, (void*) (errno_accel[i]));
@@ -408,8 +526,6 @@ PyGSL_init_errno(void)
      FUNC_MESS_END();
      return 0;
 }
-
-
 
 /*
  * Warnings return a flag, so one can see if the warning raises an exception
@@ -501,7 +617,13 @@ PyGSL_module_error_handler(const char *reason, /* name of function*/
 			   int gsl_error) /* real "reason" */
 {
      FUNC_MESS_BEGIN();
+
+#ifdef _PyGSL_MODULE_ERROR_HANDLER_OLD_STYLE
+/* #error "Should not use now ... " */
      PyGSL_internal_error_handler(reason, file, line,  gsl_error, HANDLE_ERROR);
+#else  /* _PyGSL_MODULE_ERROR_HANDLER_OLD_STYLE */
+     PyGSL_gsl_error_handler_save(reason, file, line,  gsl_error);
+#endif /* _PyGSL_MODULE_ERROR_HANDLER_OLD_STYLE */
      FUNC_MESS_END();
 }
 
@@ -513,6 +635,7 @@ PyGSL_warning(const char *reason, /* name of function*/
 {
      int tmp;
      FUNC_MESS_BEGIN();
+
      tmp =  PyGSL_internal_error_handler(reason, file, line,  gsl_error, HANDLE_WARNING);
      FUNC_MESS_END();
      return tmp;

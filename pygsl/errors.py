@@ -15,7 +15,7 @@ if sys.version_info[0] < 3:
     Warning = exceptions.Warning
     
 import types
-from pygsl import errno
+from pygsl import errno, init
 
 class gsl_Error(Exception):
     """
@@ -290,12 +290,24 @@ class pygsl_StrideError(gsl_SanityCheckError):
 
     pass
 
+
 class pygsl_NotImplementedError(gsl_NotImplementedError):
      """
      Base for all Errors, which are known but not implemented yet!
      """
      errno = errno.PyGSL_EUNIMPL
      pass
+
+class pygsl_NotInitalised(gsl_SanityCheckError):
+    """
+    gsl_error calls a c callback, which saves the reason, file name, line number
+    and the GSL errno.
+
+    This errno is stored when the save state is initalised and flags that
+    gsl_error was not yet called.
+    """
+    errno = errno.PyGSL_EINIT
+    pass
 
 _not_exported_exceptions = (
 gsl_Error,
@@ -334,3 +346,24 @@ def get_exceptions():
 
 def get_warnings():
     return _get_exceptions(gsl_Warning)
+
+class _ErrorSafeState:
+    """If PyGSL does not set gsl_error handler to off, the installed error
+handler will store the arguments passed by gsl_error_handler to a single static 
+variable in the initmodule. This variable is exported to python space
+by this class.
+
+If pygsl raises an exception, this state here should be automatically reset.
+""" 
+
+    def get(self):
+        "Get the currently stored variables"
+        tmp = init.error_handler_state_get()
+        dic = {'reason' : tmp[0], 'file' : tmp[1], 'line' : tmp[2], 'errno' : tmp[3]}
+        return dic
+
+    def reset(self):
+        "Reset the state"
+        return init.error_handler_state_reset()
+
+error_safe_state = _ErrorSafeState()
