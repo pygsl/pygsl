@@ -384,6 +384,17 @@ the config process was run.
             name = "gsl_linalg_" + func
             self._check_and_flag_method(name, headers)
 
+    def _check_eigen(self):
+        headers = ["gsl/gsl_eigen.h"]
+
+        funcs =(
+            "francis_workspace",
+            "nonsymm_params",
+            )
+        for func in funcs:
+            name = "gsl_eigen_" + func
+            self._check_and_flag_method(name, headers)
+
     def _check_rngs(self):
         flag = self.check_func("gsl_rng_knuthran2002", headers=("gsl/gsl_rng.h",))
         self._add_header_variables_dict("_PYGSL_GSL_HAS_RNG_KNUTHRAN2002", flag)
@@ -467,6 +478,7 @@ the config process was run.
         
         self._check_permutation()
         self._check_linalg()
+        self._check_eigen()
         
     def run(self):
 
