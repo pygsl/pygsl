@@ -50,16 +50,23 @@ exts.append(SWIG_Extension("sum",
                           python_min_version=(2,0),
                           )
             )
-exts.append(SWIG_Extension("bspline",
-                           ["src/bspline/bspline.i"],
-                           include_dirs=["src/bspline"],
-                           swig_include_dirs=["src/bspline"],
-                           swig_flags = swig_flags,
-                           #gsl_min_version=(1,9),
-                           define_macros = macros,
-                           python_min_version=(2,1),
-                          )            
-            )
+flag = 0
+try:
+    flag = gsl_features.bspline
+except AttributeError:
+    pass
+
+if flag:
+	exts.append(SWIG_Extension("bspline",
+				   ["src/bspline/bspline.i"],
+				   include_dirs=["src/bspline"],
+				   swig_include_dirs=["src/bspline"],
+				   swig_flags = swig_flags,
+				   #gsl_min_version=(1,9),
+				   define_macros = macros,
+				   python_min_version=(2,1),
+				   )            
+		)
 
 flag = 0
 try:
@@ -398,7 +405,7 @@ if BUILD_TESTING:
                          define_macros = macros,
                          python_min_version=(2,0)
                          )
-        exts.append(sf)
+	#exts.append(sf)
         #sftest=gsl_Extension("testing.sftest",
         #                 ['testing/src/sf/sf_test.c'],
         #                 gsl_min_version=(1,),

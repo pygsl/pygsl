@@ -246,6 +246,10 @@ the config process was run.
         flag = self.check_func("gsl_multifit_robust_type", headers=("gsl/gsl_multifit.h",))
         self._handle_found_module("multfit_robust", flag)
         
+    def _check_module_bspline(self):
+        flag = self.check_header("gsl/gsl_bspline.h")
+        self._handle_found_module("bspline", flag)
+
     def _check_module_odeiv2(self):
         flag = self.check_header("gsl/gsl_odeiv2.h")
         self._handle_found_module("odeiv2", flag)
@@ -352,6 +356,34 @@ the config process was run.
             name = "gsl_permutation_" + method
             self._check_and_flag_method(name, headers)
 
+    def _check_linalg(self):
+        headers = ["gsl/gsl_linalg.h"]
+
+        funcs =(
+            "complex_householder_mh",
+            "hessenberg_decomp",
+            "hessenberg_unpack",
+            "hessenberg_unpack_accum",
+            "hessenberg_set_zero",
+            "hessenberg_submatrix",
+            "hessenberg",
+            "hesstri_decomp",
+            "SV_leverage",
+            "QR_QTmat",
+            "QR_matQ",
+            "cholesky_invert",
+            "complex_cholesky_decomp",
+            "complex_cholesky_solve",
+            "complex_cholesky_svx",
+            "complex_cholesky_invert",
+            "balance_matrix",
+            "balance_accum",
+            )
+        
+        for func in funcs:
+            name = "gsl_linalg_" + func
+            self._check_and_flag_method(name, headers)
+
     def _check_rngs(self):
         flag = self.check_func("gsl_rng_knuthran2002", headers=("gsl/gsl_rng.h",))
         self._add_header_variables_dict("_PYGSL_GSL_HAS_RNG_KNUTHRAN2002", flag)
@@ -429,10 +461,12 @@ the config process was run.
         self._check_module_wavelet()
         self._check_module_interp2d()
 
+        self._check_module_bspline()
         self._check_module_odeiv2()
         self._check_module_multfit_robust()
         
         self._check_permutation()
+        self._check_linalg()
         
     def run(self):
 
