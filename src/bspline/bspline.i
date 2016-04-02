@@ -5,7 +5,7 @@
  */		 
 
 %module bspline
-%feature("autodoc") bspline "XXX missing bspline documenttation" "XXX yes! missing";
+%feature("autodoc", 3);
 %include gsl_error_typemap.i
 %include gsl_block_typemaps.i
 %{
