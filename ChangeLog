@@ -1,3 +1,40 @@
+2016-04          Pierre Schnizer <schnizer@user.sourceforge.net>
+	* Added interpolation2d
+	* Modified the pygsl error handler: 
+	If PyGSL does not set gsl_error handler to off, the installed error
+	handler will now store the arguments passed by gsl_error_handler to a
+	single static variable in the initmodule.
+	The variable errors.error_safe_state allows retrieving the information
+	or resetting it.
+	
+	Normally the status of all functions are converted to python exceptions.
+	During this process the saved state is reset to zero. This conversion
+	checks if the to be returned gsl errno is identical to the stored one.
+
+	This is not thread safe but should not crash the python interpreter for
+	functions releasing the GIL (e.g UFUNC's).
+
+
+2016-03          Pierre Schnizer <schnizer@user.sourceforge.net>
+	* Added multfit_robust
+	* Added config option for setup.py. Now it is necessary to run first 
+	  "python setup.py config", which will check what the used GSL library
+	 provides. Only the found modules are built then.
+	
+2015-09          Pierre Schnizer <schnizer@user.sourceforge.net>
+	* Ported code base to python 3. Examples and test files expect
+	   a python2 version providing the print function. The C code
+	   should fit to any python2
+
+	* Adapted the code to the new NumPy (macro) interface. The code
+	  should work at least with numpy 1.4. Numeric or numarray are not
+	  supported any tested. If you need this code write ti the maintainers
+	  immediatley (called of 5 years ago)
+
+	* Made the interface header files compatible with c++. The pygsl
+	  code itself should best be compiled with a C compiler. 
+	
+
 2010-02-17    Pierre Schnizer <schnizer@sourceforge.net>
 	* gsl_function_typemaps.i had a memory leak. Thanks for Nor Pirzkal
 	  for reporting this problem. Added the module callback function_test
