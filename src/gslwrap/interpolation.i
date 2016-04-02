@@ -22,7 +22,8 @@ struct pygsl_spline{
      gsl_spline * spline;
      gsl_interp_accel *acc;     
 };
- 
+
+
 struct pygsl_interp{
    gsl_interp * interp;
    double * xa;
@@ -33,7 +34,6 @@ struct pygsl_interp{
    size_t n;
  };
 %}
-
 
 %typemap(arginit) (const double *, const double *, size_t ) %{
      PyArrayObject *_PyVector_1$argnum = NULL;
@@ -156,14 +156,15 @@ static PyObject *
 _pygsl_spline_eval_vector_generic(const gsl_spline * spline, const gsl_vector *x, gsl_interp_accel * acc,
 				double (*spline_method)(const gsl_spline *, double, gsl_interp_accel *))
 {
-     size_t i;
-     PyGSL_array_index_t n;
+     size_t n, i;
+     PyGSL_array_index_t n_a;
      double  *data;
      PyArrayObject * ret = NULL;
 
      FUNC_MESS_BEGIN();
      n = x->size;
-     ret = PyGSL_New_Array(1, &n, NPY_DOUBLE);
+     n_a = n;
+     ret = PyGSL_New_Array(1, &n_a, NPY_DOUBLE);
      if(ret == NULL)
 	  return NULL;
      
@@ -180,15 +181,16 @@ static PyObject *
 _pygsl_spline_eval_e_vector_generic(const gsl_spline * spline, const gsl_vector *x, gsl_interp_accel * acc,
 				  int (*spline_method)(const gsl_spline *, double, gsl_interp_accel * , double *))
 {
-     size_t i;
+     size_t i, n;
      int flag, lineno = -1;
-     PyGSL_array_index_t n;
+     PyGSL_array_index_t n_a;
      double  *data, *ptr;
      PyArrayObject * ret = NULL;
 
      FUNC_MESS_BEGIN();
      n = x->size;
-     ret = PyGSL_New_Array(1, &n, NPY_DOUBLE);
+     n_a = n;
+     ret = PyGSL_New_Array(1, &n_a, NPY_DOUBLE);
      if(ret == NULL){
 	  lineno = __LINE__ - 2;
 	  goto fail;
@@ -219,8 +221,8 @@ static PyObject *
 _pygsl_spline_eval_integ_vector(const gsl_spline * spline, const gsl_vector *a,
 				const gsl_vector *b, gsl_interp_accel * acc)
 {
-     size_t i;
-     PyGSL_array_index_t n;
+     size_t i, n;
+     PyGSL_array_index_t n_a;
      double  *data;
      PyArrayObject * ret = NULL;
 
@@ -232,7 +234,8 @@ _pygsl_spline_eval_integ_vector(const gsl_spline * spline, const gsl_vector *a,
 	  return NULL;
  
      }
-     ret = PyGSL_New_Array(1, &n, NPY_DOUBLE);
+     n_a = n;
+     ret = PyGSL_New_Array(1, &n_a, NPY_DOUBLE);
      if(ret == NULL)
 	  return NULL;
      
@@ -249,9 +252,9 @@ static PyObject *
 _pygsl_spline_eval_integ_e_vector(const gsl_spline * spline, const gsl_vector *a,
 				  const gsl_vector *b, gsl_interp_accel * acc)
 {
-     size_t i;
+     size_t i, n;
      int flag, lineno = -1;
-     PyGSL_array_index_t n;
+     PyGSL_array_index_t n_a;
      double  *data, *ptr;
      PyArrayObject * ret = NULL;
 
@@ -264,7 +267,7 @@ _pygsl_spline_eval_integ_e_vector(const gsl_spline * spline, const gsl_vector *a
  
      }
 
-     ret = PyGSL_New_Array(1, &n, NPY_DOUBLE);
+     ret = PyGSL_New_Array(1, &n_a, NPY_DOUBLE);
      if(ret == NULL){
 	  lineno = lineno - 2;
 	  goto fail;
@@ -636,3 +639,4 @@ struct pygsl_interp{
 %apply(size_t index){size_t index_lo, size_t index_hi};
 size_t gsl_interp_bsearch(const double x_array[], double x,
                           size_t index_lo, size_t index_hi);
+
