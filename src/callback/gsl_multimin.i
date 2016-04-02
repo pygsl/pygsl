@@ -1,6 +1,7 @@
 /* -*- C -*- */
 /**
  * author: Pierre Schnizer
+ * $Id: *
  */
 %{
 #include <gsl/gsl_multimin.h>
@@ -144,38 +145,37 @@ gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_conjugate_fr;
 extern const 
 gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs;
 
+
+
+%inline %{
+#include <pygsl/pygsl_features.h>
+	/* 
+	 * config process checked the available minimizers.
+	 * If not available define them as NULL
+	 */
 #ifdef _PYGSL_GSL_HAS_MULTIMIN_FDFMINIMIZER_VECTOR_BFGS2
 extern const
 	       gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs2;
 #else
-	  gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs2 = NULL;
+const	  gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs2 = NULL;
 #endif
-
-
-%inline %{
-	  /* 
-	   * Try to find what level of GSL I am running. If less than zero, 
-	   * give a NULL. The overlying wrapper must check for NULL and raise 
-           * an approbriate error message.
-	   */
-#include <pygsl/pygsl_features.h>
 #ifdef _PYGSL_GSL_HAS_MULTIMIN_FMINIMIZER_NMSIMPLEX
 	  extern const
 	       gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex;
 #else
-	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex = NULL;
+const	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex = NULL;
 #endif
 #ifdef _PYGSL_GSL_HAS_MULTIMIN_FMINIMIZER_NMSIMPLEX2
 	  extern const
 	       gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2;
 #else
-	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2 = NULL;
+const	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2 = NULL;
 #endif
 #ifdef _PYGSL_GSL_HAS_MULTIMIN_FMINIMIZER_NMSIMPLEX2RAND
 	  extern const
 	       gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2rand;
 #else
-	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2rand = NULL;
+const	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2rand = NULL;
 #endif
 %}
 
