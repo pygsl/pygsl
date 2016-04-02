@@ -15,19 +15,19 @@
 #include <pygsl/pygsl_features.h>
 #include <pygsl/error_helpers.h>
 
-#ifdef _PYGSL_GSL_HAS_CGS
+#ifdef _PYGSL_GSL_HAS_CONST_CGS
 #include <gsl/gsl_const_cgs.h>
 #endif
 
-#ifdef _PYGSL_GSL_HAS_CGSM
+#ifdef _PYGSL_GSL_HAS_CONST_CGSM
 #include <gsl/gsl_const_cgsm.h>
 #endif
 
-#ifdef _PYGSL_GSL_HAS_MKS
+#ifdef _PYGSL_GSL_HAS_CONST_MKS
 #include <gsl/gsl_const_mks.h>
 #endif
 
-#ifdef _PYGSL_GSL_HAS_MKSA
+#ifdef _PYGSL_GSL_HAS_CONST_MKSA
 #include <gsl/gsl_const_mksa.h>
 #endif
 
@@ -47,28 +47,28 @@ constConstants m_array[]={
 {NULL,0,NULL}
 };
 
-#ifdef _PYGSL_GSL_HAS_MKS
+#ifdef _PYGSL_GSL_HAS_CONST_MKS
 constConstants mks_array[]={
 #include "const_mks_array.c"
   {NULL,0,NULL}
 };
 #endif
 
-#ifdef _PYGSL_GSL_HAS_CGS
+#ifdef _PYGSL_GSL_HAS_CONST_CGS
 constConstants cgs_array[]={
 #include "const_cgs_array.c"
   {NULL,0,NULL}
 };
 #endif
 
-#ifdef _PYGSL_GSL_HAS_MKSA
+#ifdef _PYGSL_GSL_HAS_CONST_MKSA
 constConstants mksa_array[]={
 #include "const_mksa_array.c"
   {NULL,0,NULL}
 };
 #endif
 
-#ifdef _PYGSL_GSL_HAS_CGSM
+#ifdef _PYGSL_GSL_HAS_CONST_CGSM
 constConstants cgsm_array[]={
 #include "const_cgsm_array.c"
   {NULL,0,NULL}
@@ -99,17 +99,17 @@ add_constants(constConstants* constants, PyObject* m)
 static int
 _init_const_module(PyObject * const_module)
 {
-#ifdef _PYGSL_GSL_HAS_MKS
+#ifdef _PYGSL_GSL_HAS_CONST_MKS
   PyObject* mks_module   = PyImport_AddModule("pygsl.const.mks");
 #endif
-#ifdef _PYGSL_GSL_HAS_CGS
+#ifdef _PYGSL_GSL_HAS_CONST_CGS
   PyObject* cgs_module   = PyImport_AddModule("pygsl.const.cgs");
 #endif
 
-#ifdef _PYGSL_GSL_HAS_MKSA
+#ifdef _PYGSL_GSL_HAS_CONST_MKSA
   PyObject* mksa_module   = PyImport_AddModule("pygsl.const.mksa");
 #endif
-#ifdef _PYGSL_GSL_HAS_CGSM
+#ifdef _PYGSL_GSL_HAS_CONST_CGSM
   PyObject* cgsm_module   = PyImport_AddModule("pygsl.const.cgsm");
 #endif
 
@@ -120,19 +120,19 @@ _init_const_module(PyObject * const_module)
   add_constants(m_array  , const_module);
   add_constants(num_array, const_module);
 
-#ifdef _PYGSL_GSL_HAS_MKS
+#ifdef _PYGSL_GSL_HAS_CONST_MKS
   add_constants(mks_array, const_module);
   add_constants(mks_array, mks_module);
 #endif
-#ifdef _PYGSL_GSL_HAS_CGS
+#ifdef _PYGSL_GSL_HAS_CONST_CGS
   add_constants(cgs_array, cgs_module);
 #endif
 
-#ifdef _PYGSL_GSL_HAS_MKSA
+#ifdef _PYGSL_GSL_HAS_CONST_MKSA
   add_constants(mksa_array, const_module);
   add_constants(mksa_array, mksa_module);
 #endif
-#ifdef _PYGSL_GSL_HAS_CGSM
+#ifdef _PYGSL_GSL_HAS_CONST_CGSM
   add_constants(cgsm_array, cgsm_module);
 #endif
 
@@ -141,17 +141,17 @@ _init_const_module(PyObject * const_module)
 
 
   PyModule_AddObject(const_module, "m",   math_module);
-#ifdef _PYGSL_GSL_HAS_CGS
+#ifdef _PYGSL_GSL_HAS_CONST_CGS
   PyModule_AddObject(const_module, "cgs", cgs_module);
 #endif
-#ifdef _PYGSL_GSL_HAS_MKS
+#ifdef _PYGSL_GSL_HAS_CONST_MKS
   PyModule_AddObject(const_module, "mks", mks_module);
 #endif
    
-#ifdef _PYGSL_GSL_HAS_CGSM
+#ifdef _PYGSL_GSL_HAS_CONST_CGSM
   PyModule_AddObject(const_module, "cgsm", cgsm_module);
 #endif
-#ifdef _PYGSL_GSL_HAS_MKSA
+#ifdef _PYGSL_GSL_HAS_CONST_MKSA
   PyModule_AddObject(const_module, "mksa", mksa_module);
 #endif
 
