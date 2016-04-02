@@ -15,7 +15,9 @@
 %}
 
 %{
-  #ifdef _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC
+#include <pygsl/pygsl_features.h>
+  
+#ifdef _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC
   PyObject * _gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
   {
     int flag;
@@ -29,7 +31,7 @@
     dims[1] = s->fdf->p;
     
     J_a = PyGSL_New_Array(2, dims, NPY_DOUBLE);
-    J = gsl_matrix_view_array(PyArray_DATA(J_a), PyArray_DIM(J_a, 0), PyArray_DIM(J_a, 1));
+    J = gsl_matrix_view_array((double *) PyArray_DATA(J_a), PyArray_DIM(J_a, 0), PyArray_DIM(J_a, 1));
     
     flag = gsl_multifit_fdfsolver_jac(s, &J.matrix);
     if (PyGSL_error_flag(flag) !=  GSL_SUCCESS){
@@ -165,6 +167,9 @@ int gsl_multifit_test_gradient (const gsl_vector * IN, double epsabs);
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmder;
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmsder;
 
+%inline %{			    
+#include <pygsl/pygsl_features.h>
 #ifdef _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_LMNIEL
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmniel;
 #endif
+%}

@@ -129,9 +129,9 @@ typedef struct{
 		if(cov_a == NULL){
 			goto fail;
 		}
-	
-		c = gsl_vector_view_array(PyArray_DATA(c_a), PyArray_DIM(c_a, 0));
-		cov = gsl_matrix_view_array(PyArray_DATA(cov_a), PyArray_DIM(cov_a, 0), PyArray_DIM(cov_a, 1));
+		
+		c = gsl_vector_view_array((double *)PyArray_DATA(c_a), PyArray_DIM(c_a, 0));
+		cov = gsl_matrix_view_array((double *)PyArray_DATA(cov_a), PyArray_DIM(cov_a, 0), PyArray_DIM(cov_a, 1));
 
 		status = gsl_multifit_robust(X, y, &c.vector, &cov.matrix, self);
 		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(status)){

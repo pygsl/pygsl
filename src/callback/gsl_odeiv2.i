@@ -240,7 +240,7 @@ typedef struct{
 			if(dydt_in_a == NULL){
 				line = __LINE__ - 2; goto fail;
 			}
-			dydt_in = PyArray_DATA(dydt_in_a);
+			dydt_in = (double *)PyArray_DATA(dydt_in_a);
 		}
 
 		if(dydt_out_o != Py_None){
@@ -248,14 +248,14 @@ typedef struct{
 			if(dydt_out_a == NULL){
 				line = __LINE__ - 2; goto fail;
 			}
-			dydt_out = PyArray_DATA(dydt_out_a);
+			dydt_out =  (double *) PyArray_DATA(dydt_out_a);
 		}
 
-		y = PyArray_DATA(y_out_a);
+		y =  (double *) PyArray_DATA(y_out_a);
 		if(y == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
-		yerr = PyArray_DATA(yerr_a);		
+		yerr =  (double *) PyArray_DATA(yerr_a);		
 		if(yerr == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -340,7 +340,7 @@ typedef struct{
 		double * s_abs;
 		pygsl_odeiv2_control * r = NULL;
 
-		r = PyMem_Malloc(sizeof(pygsl_odeiv2_control));
+		r = (pygsl_odeiv2_control *) PyMem_Malloc(sizeof(pygsl_odeiv2_control));
 		if(r == NULL){
 			goto fail;
 		}
@@ -417,9 +417,9 @@ typedef struct{
 			goto fail;
 		}
 
-		y    = PyArray_DATA(y_a);
-		yerr = PyArray_DATA(yerr_a);
-		dydt = PyArray_DATA(dydt_a);
+		y    = (double *) PyArray_DATA(y_a);
+		yerr = (double *) PyArray_DATA(yerr_a);
+		dydt = (double *) PyArray_DATA(dydt_a);
 
 		h = h_in;
 		flag = gsl_odeiv2_control_hadjust(self->control, s, y, yerr, dydt, &h);
@@ -524,7 +524,7 @@ typedef struct{
 		Py_DECREF(y_in_a);
 		y_in_a = NULL;
 
-		y = PyArray_DATA(y_out_a);
+		y =  (double *) PyArray_DATA(y_out_a);
 		if(y == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -610,7 +610,7 @@ typedef struct{
 		Py_DECREF(y_in_a);
 		y_in_a = NULL;
 
-		y = PyArray_DATA(y_out_a);
+		y =  (double *) PyArray_DATA(y_out_a);
 		if(y == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -732,7 +732,7 @@ typedef struct{
 		}
 		d->scale = scale_abs_a;
 		scale_abs_a = NULL;
-		scale_abs = PyArray_DATA(d->scale);
+		scale_abs =  (double *) PyArray_DATA(d->scale);
 		d->driver =  gsl_odeiv2_driver_alloc_scaled_new(sys, T, hstart, epsabs, epsrel, a_y, a_dydt, scale_abs);     
 		if(d->driver == NULL){
 			goto fail;
@@ -790,7 +790,7 @@ typedef struct{
 		Py_DECREF(y_in_a);
 		y_in_a = NULL;
 
-		y = PyArray_DATA(y_out_a);
+		y =  (double *) PyArray_DATA(y_out_a);
 		if(y == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -842,7 +842,7 @@ typedef struct{
 		Py_DECREF(y_in_a);
 		y_in_a = NULL;
 
-		y = PyArray_DATA(y_out_a);
+		y =  (double *) PyArray_DATA(y_out_a);
 		if(y == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
