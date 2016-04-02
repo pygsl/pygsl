@@ -80,6 +80,19 @@
      }
 }
 
+%ignore gsl_eigen_nonsymmv_params;
+%{
+  static int
+  pygsl_eigen_nonsymm_params (const int t, const int balance, gsl_eigen_nonsymm_workspace * self)
+  {
+#ifdef _PYGSL_GSL_HAS_GSL_EIGEN_NONSYMM_PARAMS
+  gsl_eigen_nonsymm_params (t, balance, self);
+  return GSL_SUCCESS;
+#else
+	 PyGSL_ERROR_UNIMPL
+#endif 
+	   }
+%}
 %extend gsl_eigen_nonsymm_workspace {
   gsl_eigen_nonsymm_workspace(const size_t n) {
     return gsl_eigen_nonsymm_alloc(n);
@@ -87,15 +100,12 @@
   ~gsl_eigen_nonsymm_workspace() {
     gsl_eigen_nonsymm_free(self);
   }
-};
 
-%extend gsl_eigen_nonsymmv_workspace {
-  gsl_eigen_nonsymmv_workspace(const size_t n) {
-    return gsl_eigen_nonsymmv_alloc(n);
-  }
-  ~gsl_eigen_nonsymmv_workspace() {
-    gsl_eigen_nonsymmv_free(self);
-  }
+  gsl_error_flag_drop
+    params(const int compute_t, const int balance)
+    {
+      return pygsl_eigen_nonsymm_params (compute_t, balance, self);      
+    }
 };
 
 
@@ -117,5 +127,6 @@
     gsl_eigen_genv_free(self);
   }
 };
+
 
 %include gsl/gsl_eigen.h

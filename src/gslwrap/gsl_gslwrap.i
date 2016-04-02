@@ -17,6 +17,10 @@
 
 static PyObject *module = NULL;
 
+static const char _pygsl_gsl_unimpl_feature[] =  "Feature not implemented in your version of GSL";
+#define _PyGSL_ERROR_UNIMPL pygsl_error(_pygsl_gsl_unimpl_feature, __FILE__, __LINE__, GSL_EUNIMPL)
+#define PyGSL_ERROR_UNIMPL      do{_PyGSL_ERROR_UNIMPL; return GSL_EUNIMPL; }while(0);
+#define PyGSL_ERROR_UNIMPL_NULL do{_PyGSL_ERROR_UNIMPL; return GSL_EUNIMPL; }while(0);
 %}
 
 %init {
@@ -33,8 +37,8 @@ typedef int size_t;
 
 
 %immutable;
-%include linalg.i 
 %include permutation.i
+%include linalg.i 
 %include combination.i
 %include math.i
 %typemap (out) int = gsl_error_flag_drop;
@@ -47,7 +51,3 @@ typedef int size_t;
 /* %include complex.i */
 /* %include matrix.i */
 /* %include vector.i */
-
-
-
-
