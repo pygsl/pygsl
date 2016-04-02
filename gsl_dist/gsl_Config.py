@@ -261,6 +261,9 @@ the config process was run.
     def _check_multimin_solvers(self):
         headers = ["gsl/gsl_multimin.h"]
 
+        flag = self.check_func("gsl_multimin_fsolver",      headers = headers)
+        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIMIN_FSOLVER", flag)
+
         flag = self.check_func("gsl_multimin_fminimizer_nmsimplex",      headers = headers)
         self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIMIN_FMINIMIZER_NMSIMPLEX", flag)
         
@@ -325,7 +328,30 @@ the config process was run.
 
         self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P", flag)
         del flag, flag_n, flag_p
+
+    def _check_and_flag_method(self, method_name, headers):
+        cpp_define = "_PYGSL_GSL_HAS_"
+        cpp_define += method_name.upper()
+
+        flag = self.check_func(method_name, headers)
+        self._add_header_variables_dict(cpp_define, flag)
+    
+    def _check_permutation(self):
+        headers = ["gsl/gsl_permutation.h"]
         
+        methods = (
+            "linear_to_canonical",
+            "canonical_to_linear",
+            "inversions",
+            "canonical_cycles",
+            "linear_cycles",
+            "mul",
+            )
+        
+        for method in methods:
+            name = "gsl_permutation_" + method
+            self._check_and_flag_method(name, headers)
+
     def _check_rngs(self):
         flag = self.check_func("gsl_rng_knuthran2002", headers=("gsl/gsl_rng.h",))
         self._add_header_variables_dict("_PYGSL_GSL_HAS_RNG_KNUTHRAN2002", flag)
@@ -394,19 +420,19 @@ the config process was run.
         self._check_rngs()
         
         self._check_module_deriv()
+
         self._check_multifit_nlin_lmniel()
-        
+        self._check_multifit_nlin_jacobian()        
+        self._check_multifit_linear_workspace()
         self._check_multimin_solvers()
+        
         self._check_module_wavelet()
         self._check_module_interp2d()
-
-        self._check_multifit_nlin_jacobian()
 
         self._check_module_odeiv2()
         self._check_module_multfit_robust()
         
-        self._check_multifit_linear_workspace()
-
+        self._check_permutation()
         
     def run(self):
 
