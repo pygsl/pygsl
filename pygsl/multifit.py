@@ -101,6 +101,15 @@ def linear_svd(X, y, tol, work=None):
         work = linear_workspace(X.shape[0], X.shape[1])
 
     return _callback.gsl_multifit_linear_svd(X, y, tol, work._ptr)
+
+
+def linear_usvd(X, y, tol, work=None):
+    """
+    """
+    if work == None:
+        work = linear_workspace(X.shape[0], X.shape[1])
+
+    return _callback.gsl_multifit_linear_usvd(X, y, tol, work._ptr)
     
 def wlinear(X, w, y, work=None):
     """
@@ -131,7 +140,17 @@ def wlinear_svd(X, y, w, work=None):
     if work == None:
         work = linear_workspace(X.shape[0], X.shape[1])
 
-    return _callback.gsl_multifit_wlinear(X, y, w, work._ptr)
+    return _callback.gsl_multifit_wlinear_svd(X, y, w, work._ptr)
+
+def wlinear_usvd(X, y, w, work=None):
+    """
+    Similar to wlinear, except that this function returns
+    
+    """
+    if work == None:
+        work = linear_workspace(X.shape[0], X.shape[1])
+
+    return _callback.gsl_multifit_wlinear_usvd(X, y, w, tol, work._ptr)
 
 def linear_est(x, c, cov):
     """
@@ -139,7 +158,6 @@ def linear_est(x, c, cov):
     c and their covariance matrix cov to compute the fitted function
     value y and its standard deviation y_err for the model y = x.c at
     the point X.
-
     """
     return _callback.gsl_multifit_linear_est(x, c, cov)
 
@@ -149,3 +167,5 @@ def linear_est_matrix(X, c, cov):
     over a matrix X 
     """
     return _callback.gsl_multifit_linear_est_matrix(X, c, cov)
+
+linear_residuals = _callback.pygsl_multifit_linear_residuals
