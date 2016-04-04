@@ -157,7 +157,9 @@ gsl_multifit_fdfsolver_free (gsl_multifit_fdfsolver * s);
 const char * gsl_multifit_fdfsolver_name (const gsl_multifit_fdfsolver * s);
 gsl_vector * gsl_multifit_fdfsolver_position (const gsl_multifit_fdfsolver * s);
 
-int gsl_multifit_test_delta (const gsl_vector * IN, const gsl_vector * IN, 
+%apply gsl_vector *IN {gsl_vector *dx};
+%apply gsl_vector *IN {gsl_vector *x};
+int gsl_multifit_test_delta (const gsl_vector * dx, const gsl_vector * x, 
                              double epsabs, double epsrel);
 
 int gsl_multifit_test_gradient (const gsl_vector * IN, double epsabs);
@@ -167,9 +169,15 @@ int gsl_multifit_test_gradient (const gsl_vector * IN, double epsabs);
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmder;
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmsder;
 
-%inline %{			    
+%inline %{
 #include <pygsl/pygsl_features.h>
-#ifdef _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_LMNIEL
+	/* 
+	 * config process checked the available minimizers.
+	 * If not available define them as NULL
+	 */
+#ifdef _PYGSL_GSL_HAS_MULTFIT_FDFSOLVER_LMNIEL
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmniel;
+#else
+const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmniel = NULL;
 #endif
 %}

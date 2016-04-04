@@ -232,10 +232,15 @@ gsl_multifit_linear_svd (const gsl_matrix * IN,
 #endif /* PyGSL_GSL_MAJOR_VERSION >= 2 */
 #endif
 
+%apply gsl_vector *IN {gsl_vector *y};
+%apply gsl_vector *IN {gsl_vector *w};
+%apply gsl_vector *IN {gsl_vector *c};
+%apply gsl_matrix *IN {gsl_matrix *x};
+%apply gsl_matrix *IN {gsl_matrix *cov};
 gsl_error_flag_drop
 gsl_multifit_wlinear (const gsl_matrix * IN_AND_SIZE,
-                      const gsl_vector * IN,
-                      const gsl_vector * IN,
+                      const gsl_vector * w,
+                      const gsl_vector * y,
                       gsl_vector * OUT,
                       gsl_matrix * OUT,
                       double * chisq,
@@ -244,8 +249,8 @@ gsl_multifit_wlinear (const gsl_matrix * IN_AND_SIZE,
 
 gsl_error_flag_drop
 gsl_multifit_wlinear_svd (const gsl_matrix * IN_AND_SIZE,
-                          const gsl_vector * IN,
-                          const gsl_vector * IN,
+                          const gsl_vector * w,
+                          const gsl_vector * y,
 			 double TOL,
 			 size_t * OUTPUT,
                           gsl_vector * OUT,
@@ -254,8 +259,8 @@ gsl_multifit_wlinear_svd (const gsl_matrix * IN_AND_SIZE,
                           gsl_multifit_linear_workspace * work_provide);
 
 gsl_error_flag_drop
-gsl_multifit_linear_est (const gsl_vector * IN, 
-			 const gsl_vector * IN, 
+gsl_multifit_linear_est (const gsl_vector * x, 
+			 const gsl_vector * c, 
 			 const gsl_matrix * IN, 
 			 double * Y, double *Y_ERR);
 
@@ -270,9 +275,9 @@ gsl_multifit_linear_residuals(const gsl_matrix * IN,
 
 
 PyObject *
-gsl_multifit_linear_est_matrix (const gsl_matrix * IN, 
-				const gsl_vector * IN, 
-				const gsl_matrix * IN);
+gsl_multifit_linear_est_matrix (const gsl_matrix * x, 
+				const gsl_vector * c, 
+				const gsl_matrix * cov);
 
 
 

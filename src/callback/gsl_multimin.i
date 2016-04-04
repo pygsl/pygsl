@@ -64,11 +64,13 @@ gsl_multimin_fminimizer *
 gsl_multimin_fminimizer_alloc(const gsl_multimin_fminimizer_type *T,
                                 size_t n);
 
+%apply gsl_vector *IN {gsl_vector *x};
+%apply gsl_vector *IN {gsl_vector *step_size};
 int 
 gsl_multimin_fminimizer_set (gsl_multimin_fminimizer * s,
                              gsl_multimin_function * BUFFER,
-                             const gsl_vector * IN,
-                             const gsl_vector * IN);
+                             const gsl_vector * x,
+                             const gsl_vector * step_size);
 
 void
 gsl_multimin_fminimizer_free(gsl_multimin_fminimizer *s);
@@ -147,7 +149,7 @@ gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs;
 
 
 
-%inline %{
+%{
 #include <pygsl/pygsl_features.h>
 	/* 
 	 * config process checked the available minimizers.

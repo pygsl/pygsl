@@ -83,7 +83,9 @@ gsl_multiroot_fdfsolver_free (gsl_multiroot_fdfsolver * s);
 const char * gsl_multiroot_fdfsolver_name (const gsl_multiroot_fdfsolver * s);
 gsl_vector * gsl_multiroot_fdfsolver_root (const gsl_multiroot_fdfsolver * s);
 
-int gsl_multiroot_test_delta (const gsl_vector * IN, const gsl_vector * IN, 
+%apply gsl_vector *IN {gsl_vector *dx};
+%apply gsl_vector *IN {gsl_vector *x};
+int gsl_multiroot_test_delta (const gsl_vector * dx, const gsl_vector * x, 
                               double epsabs, double epsrel);
 
 int gsl_multiroot_test_residual (const gsl_vector * IN, double epsabs);
