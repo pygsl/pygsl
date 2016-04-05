@@ -235,6 +235,7 @@ gsl_multifit_linear_svd (const gsl_matrix * IN,
 %apply gsl_vector *IN {gsl_vector *y};
 %apply gsl_vector *IN {gsl_vector *w};
 %apply gsl_vector *IN {gsl_vector *c};
+%apply gsl_vector *IN {gsl_vector *r};
 %apply gsl_matrix *IN {gsl_matrix *x};
 %apply gsl_matrix *IN {gsl_matrix *cov};
 gsl_error_flag_drop
@@ -267,11 +268,11 @@ gsl_multifit_linear_est (const gsl_vector * x,
 /*
 gsl_error_flag_drop
 gsl_multifit_linear_residuals(const gsl_matrix * IN, 
-			      const gsl_vector * IN, 
-			      const gsl_vector * IN, 
-			      const gsl_vector * OUT);
-*/
+			      const gsl_vector * y, 
+			      const gsl_vector * c, 
+			      gsl_vector * r);
 
+*/
 
 
 PyObject *
@@ -279,7 +280,42 @@ gsl_multifit_linear_est_matrix (const gsl_matrix * x,
 				const gsl_vector * c, 
 				const gsl_matrix * cov);
 
+PyObject *
+pygsl_multifit_linear_residuals (const gsl_matrix *X, const gsl_vector *y,
+                               const gsl_vector *c);
 
+%{
+PyObject *
+pygsl_multifit_linear_residuals (const gsl_matrix *X, const gsl_vector *y,
+                               const gsl_vector *c)
+{
+
+	int flag, line = __LINE__;
+
+	PyArrayObject *r_a = NULL;
+	gsl_vector_view r;
+	PyGSL_array_index_t dim = 0;
+	FUNC_MESS_BEGIN();
+
+	dim = y->size;
+	r_a = PyGSL_New_Array(1, &dim, NPY_DOUBLE);
+	if(r_a == NULL){
+		goto fail;
+	}
+	r = gsl_vector_view_array(PyArray_DATA(r_a), PyArray_DIM(r_a, 0)); 
+	flag = gsl_multifit_linear_residuals(X, y, c, &r.vector);
+	if(GSL_SUCCESS != PyGSL_ERROR_FLAG(flag)){
+		goto fail;
+	}
+	FUNC_MESS_END();
+
+	return (PyObject *) r_a;
+  fail:
+	FUNC_MESS("Fail");
+	Py_XDECREF(r_a);	
+	return NULL;
+}
+%}
 
 %apply (double *, size_t){(const double * x, const size_t xstride),
 			  (const double * y, const size_t ystride),
