@@ -180,5 +180,8 @@ const	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2 = NULL;
 const	  gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2rand = NULL;
 #endif
 %}
-
+const gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex;
+const gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2;
+const gsl_multimin_fminimizer_type *gsl_multimin_fminimizer_nmsimplex2rand;
+const gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs2;
 
