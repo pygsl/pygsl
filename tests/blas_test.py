@@ -3,9 +3,9 @@ import unittest
 from gsl_test import *
 from pygsl._numobj import *
 from pygsl.errors import gsl_Error
+import pygsl.blas as blas
 from pygsl.blas import *
 from pygsl import  _gslwrap, Float, Complex
-import pygsl.blas
 #print pygsl.blas
 #print pygsl.blas._gslwrap
 
@@ -113,10 +113,10 @@ class BlasTestCase(GSLTestCase):
         b = array([1,2,3,4.0])
         x = dtrmv(A, b)
         res = arrayCompare(x, [1,4,7,10], 8)
-        x = dtrmv(A, b, Uplo=_gslwrap.CblasUpper)
+        x = dtrmv(A, b, Uplo=blas.CblasUpper)
         res = res and arrayCompare(x, [5,8,11,4], 8)
         A[2,2] = 22
-        x = dtrmv(A, b, Diag=_gslwrap.CblasUnit)
+        x = dtrmv(A, b, Diag=blas.CblasUnit)
         res = res and arrayCompare(x, [1,4,7,10], 8)
         self.assertTrue(res)
 
@@ -128,10 +128,10 @@ class BlasTestCase(GSLTestCase):
         b = array([1,2,3,4.0], Complex)
         x = ztrmv(A, b)
         res = arrayCompare(x, [1+3j,4,7,10], 8)
-        x = ztrmv(A, b, Uplo=_gslwrap.CblasUpper)
+        x = ztrmv(A, b, Uplo=blas.CblasUpper)
         res = res and arrayCompare(x, [5+3j,8,11,4], 8)
         A[2,2] = 22
-        x = ztrmv(A, b, Diag=_gslwrap.CblasUnit)
+        x = ztrmv(A, b, Diag=blas.CblasUnit)
         res = res and arrayCompare(x, [1,4,7,10], 8)
         self.assertTrue(res)
 

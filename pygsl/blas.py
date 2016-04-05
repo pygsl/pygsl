@@ -17,6 +17,7 @@ Functions that are naturally done using functions of the underlying numerical
 package are left out here.
 """
 
+from . import gslwrap
 from . import _gslwrap
 import pygsl._numobj as Numeric
 import copy
@@ -24,19 +25,18 @@ from pygsl import array_typed_copy, get_typecode, Float, Complex
 #
 # constants
 #
-
-CblasRowMajor = _gslwrap.CblasRowMajor
-CblasColMajor = _gslwrap.CblasColMajor
-CblasNoTrans = _gslwrap.CblasNoTrans
-CblasTrans = _gslwrap.CblasTrans
-CblasConjTrans = _gslwrap.CblasConjTrans
-CblasUpper = _gslwrap.CblasUpper
-CblasLower = _gslwrap.CblasLower
-CblasNonUnit = _gslwrap.CblasNonUnit
-CblasUnit = _gslwrap.CblasUnit
-CblasLeft = _gslwrap.CblasLeft
-CblasRight = _gslwrap.CblasRight
-gsl_blas_sdsdot = _gslwrap.gsl_blas_sdsdot
+CblasRowMajor = gslwrap.CblasRowMajor
+CblasColMajor = gslwrap.CblasColMajor
+CblasNoTrans = gslwrap.CblasNoTrans
+CblasTrans = gslwrap.CblasTrans
+CblasConjTrans = gslwrap.CblasConjTrans
+CblasUpper = gslwrap.CblasUpper
+CblasLower = gslwrap.CblasLower
+CblasNonUnit = gslwrap.CblasNonUnit
+CblasUnit = gslwrap.CblasUnit
+CblasLeft = gslwrap.CblasLeft
+CblasRight = gslwrap.CblasRight
+gsl_blas_sdsdot = gslwrap.gsl_blas_sdsdot
 
 #
 # Level 1
