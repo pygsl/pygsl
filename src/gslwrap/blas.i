@@ -3,23 +3,17 @@
  */   
 %{
 #include <gsl/gsl_blas.h>
-#define _PyGSL_HIDE_UNION_ELEMENT(name)  _PyGSL_ ## name name
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasRowMajor)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasColMajor)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasNoTrans)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasTrans)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasConjTrans)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasUpper)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasLower)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasNonUnit)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasUnit)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasLeft)
-#define _PyGSL_HIDE_UNION_ELEMENT(CblasRight)
-  /*
-    
-    CblasTrans
-    CblasConjTrans
-  */
+#define _PyGSL_CblasRowMajor  CblasRowMajor   
+#define _PyGSL_CblasColMajor  CblasColMajor
+#define _PyGSL_CblasNoTrans   CblasNoTrans
+#define _PyGSL_CblasTrans     CblasTrans
+#define _PyGSL_CblasConjTrans CblasConjTrans
+#define _PyGSL_CblasUpper     CblasUpper
+#define _PyGSL_CblasLower     CblasLower
+#define _PyGSL_CblasNonUnit   CblasNonUnit
+#define _PyGSL_CblasUnit      CblasUnit
+#define _PyGSL_CblasLeft      CblasLeft
+#define _PyGSL_CblasRight     CblasRight
 %}
 
 #define _PyGSL_USE_HIDDEN(name) name = _PyGSL_ ## name
