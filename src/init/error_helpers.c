@@ -157,6 +157,10 @@ PyGSL_error_flag(long flag)
 	  /* 
 	   * How can I end here without an Python error? 
 	   *
+	   * 3. April 2016
+	   * Or the new PyGSL_gsl_error_handler_save is used. So now the appropriate
+	   * message needs to be set up
+	   *
 	   * 25. October 2008
 	   * Well, very simply when the GSL_ERROR_HANDLER is set to off. 
 	   *
