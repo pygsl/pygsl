@@ -6,13 +6,17 @@
  */		 
 %{
 #include <gsl/gsl_linalg.h>
+#include <gsl/gsl_matrix_complex_double.h>
+#include <gsl/gsl_matrix.h>
 %}
-
+%import permutation.i
 /* 
    The function gsl_linalg_LU_sgndet uses int as a normal return value. 
    Therefore I can not map int to gsl_error_flag. So I apply it to all 
    but the one function.
 */
+%ignore gsl_linalg_complex_LU_decomp;
+%ignore gsl_linalg_LU_decomp;
 %apply gsl_error_flag_drop {
 		       int gsl_linalg_matmult,
 		       int gsl_linalg_matmult_mod,
@@ -37,7 +41,6 @@
  		       int gsl_linalg_LU_invert,
  		       int gsl_linalg_LU_det,
  		       int gsl_linalg_LU_lndet,
- 		       int gsl_linalg_complex_LU_decomp,
  		       int gsl_linalg_complex_LU_solve,
  		       int gsl_linalg_complex_LU_svx,
  		       int gsl_linalg_complex_LU_refine,
@@ -93,7 +96,11 @@
 int 
 pygsl_linalg_complex_householder_mh (gsl_complex tau, const gsl_vector_complex * v, gsl_matrix_complex * A){
 #ifdef _PYGSL_GSL_HAS_GSL_LINALG_COMPLEX_HOUSEHOLDER_MH
-  return gsl_linalg_complex_householder_mh(tau, v, A);
+  int status;
+  FUNC_MESS_BEGIN();
+  status = gsl_linalg_complex_householder_mh(tau, v, A);
+  FUNC_MESS_END();
+  return status;
 #else
   PyGSL_ERROR_UNIMPL;
 #endif
@@ -109,7 +116,11 @@ int
 pygsl_linalg_hessenberg_decomp(gsl_matrix * A, gsl_vector * tau)
 {
 #ifdef _PYGSL_GSL_HAS_GSL_LINALG_HESSENBERG_DECOMP
-  return gsl_linalg_hessenberg_decomp (A, tau);
+  int status;
+  FUNC_MESS_BEGIN();
+  status = gsl_linalg_hessenberg_decomp (A, tau);
+  FUNC_MESS_END();
+  return status;
 #else
   PyGSL_ERROR_UNIMPL
 #endif  
@@ -125,13 +136,16 @@ int
 pygsl_linalg_complex_cholesky_invert(gsl_matrix_complex * cholesky)
 {
 #ifdef _PYGSL_GSL_HAS_GSL_LINALG_COMPLEX_CHOLESKY_INVERT
-  return gsl_linalg_complex_cholesky_invert(cholesky);
+  int status;
+  FUNC_MESS_BEGIN();
+  status = gsl_linalg_complex_cholesky_invert(cholesky);
+  FUNC_MESS_END();
+  return status;
 #else
   PyGSL_ERROR_UNIMPL
 #endif  
 }
 %}
-
 int 
 pygsl_linalg_complex_cholesky_invert(gsl_matrix_complex * cholesky);
 
@@ -146,4 +160,45 @@ pygsl_linalg_complex_cholesky_invert(gsl_matrix_complex * cholesky);
 %ignore gsl_linalg_givens;
 %ignore gsl_linalg_givens_gv;
 %include gsl/gsl_linalg.h
+
+%apply gsl_matrix *INOUT {gsl_matrix *A};
+%apply gsl_matrix *INOUT {gsl_matrix_complex *A};
+%{
+gsl_error_flag_drop 
+	pygsl_linalg_LU_decomp (gsl_matrix * A, struct gsl_permutation_struct * p, int *signum)
+{
+	int status = GSL_EFAILED;
+	gsl_permutation * p2 = NULL;
+
+	FUNC_MESS_BEGIN();
+	/*
+	p2  = gsl_permutation_calloc(A->size2);
+	if(p2 == NULL){
+		goto fail;
+	}
+	*/
+	status =  gsl_linalg_LU_decomp(A, p, signum);
+	FUNC_MESS_END();
+	
+  fail:
+	/* if(p2)
+	   gsl_permutation_free(p2); */
+	return status;
+
+}
+
+gsl_error_flag_drop
+pygsl_linalg_complex_LU_decomp (gsl_matrix_complex * A, gsl_permutation * p, int *signum)
+{
+	int status = GSL_EFAILED;
+	FUNC_MESS_BEGIN();
+	status =  gsl_linalg_complex_LU_decomp(A, p, signum);
+	FUNC_MESS_END();
+	return status;	
+}
+%}
+gsl_error_flag_drop 
+pygsl_linalg_LU_decomp (gsl_matrix * A, gsl_permutation * p, int *signum);
+gsl_error_flag_drop
+pygsl_linalg_complex_LU_decomp (gsl_matrix_complex * A, gsl_permutation * p, int *signum);
 
