@@ -3,20 +3,29 @@ static PyArrayObject *
 PyGSL_New_Array(int nd,  PyGSL_array_index_t *dimensions, int type)
 {
      PyGSL_array_index_t tmp[2];
+     int status = GSL_EFAILED;
+
+
      if (nd > 2){
-	  pygsl_error("This function must not be called to create an array with more than two dimensions!",
-		    filename, __LINE__, GSL_ESANITY);
-	  return NULL;
+          status = GSL_ESANITY;
+          pygsl_error("This function must not be called to create an array with more than two dimensions!",
+		    filename, __LINE__, status);	  
+	  goto fail;
      }
      if(nd <= 0){
+          status = GSL_ESANITY;
 	  pygsl_error("Dimesions must be 1 or 2!",
-		    filename, __LINE__, GSL_ESANITY);
-	  return NULL;
+		    filename, __LINE__, status);
+	  goto fail;
      }
      tmp[0] = dimensions[0];
      if(nd == 2)
 	  tmp[1] = dimensions[1];
+
      return (PyArrayObject *) PyArray_SimpleNew(nd, tmp, type);
+
+ fail:
+     return NULL;
 }
 
 static PyArrayObject *
@@ -62,12 +71,11 @@ PyGSL_Copy_Array(PyArrayObject *ob, int type)
 #define PyGSL_MATRIX_CONVERT(src, array_type, flag) \
          PyGSL_ARRAY_CONVERT(src, array_type, 2, flag)
           
-static 
+static
+ 
 #ifdef HAVE_INLINE
 inline
 #endif
-
-
 PyArrayObject * 
 PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
 {
