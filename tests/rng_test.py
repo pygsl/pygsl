@@ -6,13 +6,12 @@ import copy
 import pygsl
 numx =  pygsl._numobj
 
-import pygsl._mlab as MLab
 import pygsl.rng as rngmodule
 import sys
 sys.stdout = sys.stderr
 from pygsl import Float, Int
 from array_check import array_check
-from gsl_test import isfloat, iscomplex
+from gsl_test import isfloat, iscomplex, array_max
 
 class _rng_type:
     _type = None
@@ -351,6 +350,7 @@ class TestIfAll(unittest.TestCase):
 #print (rng_notimplemented_types)
 for i in rng_types:
     if i in rng_notimplemented_types:
+        print ("Skipping rng type", i)
         continue
     
     tmp = "class %s(_rng_type): _type = rngmodule.%s" % ((i,) * 2)
