@@ -1,5 +1,6 @@
-2016-04          Pierre Schnizer <schnizer@user.sourceforge.net>
+2016-04          Pierre Schnizer <schnizer@user.sourceforge.net>	
 	* Added interpolation2d
+	* Started compiling against gsl-2.1.
 	* Modified the pygsl error handler: 
 	If PyGSL does not set gsl_error handler to off, the installed error
 	handler will now store the arguments passed by gsl_error_handler to a
