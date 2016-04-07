@@ -1,3 +1,8 @@
+#include <Python.h>
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#include <numpy/arrayobject.h>
+
+#include <pygsl/pygsl_features_config.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
@@ -353,8 +358,13 @@ SF_ARRAY(coulomb_wave_FG_array, didd_addadd);
 SF_ARRAY(coulomb_wave_FGp_array, didd_adadadaddd);
 SF_ARRAY(coulomb_CL_array, did_ad);
 SF_ARRAY(legendre_Pl_array, id_ad);
+
+#ifdef _PYGSL_GSL_HAS_GSL_SF_LEGENDRE_PLM_ARRAY
 SF_ARRAY(legendre_Plm_array, legendre_iid_ad);
+#endif
+#ifdef _PYGSL_GSL_HAS_GSL_SF_LEGENDRE_SPHPLM_ARRAY
 SF_ARRAY(legendre_sphPlm_array, legendre_iid_ad);
+#endif
 
 
 static PyMethodDef sf_array_functions[] = {
@@ -376,8 +386,12 @@ static PyMethodDef sf_array_functions[] = {
      {"coulomb_wave_FGp_array",  (PyCFunction) sf_coulomb_wave_FGp_array,  METH_VARARGS, NULL},
      {"coulomb_CL_array",        (PyCFunction) sf_coulomb_CL_array,        METH_VARARGS, NULL},
      {"legendre_Pl_array",       (PyCFunction) sf_legendre_Pl_array,       METH_VARARGS, NULL},
-     {"legendre_Plm_array",      (PyCFunction) sf_legendre_Plm_array,      METH_VARARGS, NULL},
-     {"legendre_sphPlm_array",   (PyCFunction) sf_legendre_sphPlm_array,   METH_VARARGS, NULL},
+#ifdef _PYGSL_GSL_HAS_GSL_SF_LEGENDRE_PLM_ARRAY
+      {"legendre_Plm_array",      (PyCFunction) sf_legendre_Plm_array,      METH_VARARGS, NULL}, 
+#endif
+#ifdef _PYGSL_GSL_HAS_GSL_SF_LEGENDRE_SPHPLM_ARRAY
+     {"legendre_sphPlm_array",   (PyCFunction) sf_legendre_sphPlm_array,   METH_VARARGS, NULL}, 
+#endif
      {NULL, NULL, 0}
 };
 
@@ -387,7 +401,7 @@ DL_EXPORT(void) initsfarray(void)
 {
      module = Py_InitModule("sfarray", sf_array_functions);
      import_array();
-       init_pygsl();
+     init_pygsl();
        
 }
 #endif
