@@ -19,8 +19,8 @@ static PyObject *module = NULL;
 
 static const char _pygsl_gsl_unimpl_feature[] =  "Feature not implemented in your version of GSL";
 #define _PyGSL_ERROR_UNIMPL pygsl_error(_pygsl_gsl_unimpl_feature, __FILE__, __LINE__, GSL_EUNIMPL)
-#define PyGSL_ERROR_UNIMPL      do{_PyGSL_ERROR_UNIMPL; return GSL_EUNIMPL; }while(0);
-#define PyGSL_ERROR_UNIMPL_NULL do{_PyGSL_ERROR_UNIMPL; return GSL_EUNIMPL; }while(0);
+#define PyGSL_ERROR_UNIMPL      do{_PyGSL_ERROR_UNIMPL; PyGSL_ERROR_FLAG(GSL_EUNIMPL); return GSL_EUNIMPL; }while(0);
+#define PyGSL_ERROR_UNIMPL_NULL do{_PyGSL_ERROR_UNIMPL; PyGSL_ERROR_FLAG(GSL_EUNIMPL); return GSL_EUNIMPL; }while(0);
 %}
 
 %init {
@@ -46,6 +46,8 @@ typedef int size_t;
 %include blas.i
 %include eigen.i
 %include interpolation.i
+
+
 
 /* %include error.i */
 /* %include complex.i */
