@@ -7,7 +7,7 @@ import sys
 sys.stdout = sys.stderr
 pygsl.set_debug_level(0)
 import pygsl._numobj as numx
-import pygsl._mlab as MLab
+#import pygsl._mlab as MLab
 import string
 from pygsl.math import fcmp
 
@@ -34,6 +34,7 @@ except AttributeError:
 def fcmp(a, b, eps):
     return _fcmp(float(a), float(b), eps)
 
+
 def printvec(array, value, eps):
     for i in range(len(array)):
         if fcmp(array[i]+1, value+1, eps) != 0:
@@ -48,6 +49,15 @@ class _ffttest(unittest.TestCase):
         n2 = int(self.n/2)
         #print("n2", n2)
         return n2
+
+    def _CalculateAbsMax(self, an_array):
+        tmp = an_array.ravel()
+        result = tmp.max()
+        result = numx.absolute(result)
+        
+        l_shape = len(result.shape)
+        self.assertEqual(l_shape, 0, "max array shape too long")
+        return result
     
     def _CheckSinResult(self, f, l):
         a = numx.absolute(f)
@@ -57,8 +67,7 @@ class _ffttest(unittest.TestCase):
         try:
             tmp1 = f[l].imag
             tmp2 = self.sin_n
-            flag = fcmp(tmp1, tmp2, self._eps)
-            assert(flag == 0)
+            self.assertAlmostEqual(tmp1, tmp2, places=4)
             a[l] = 0
 
             n2 = self._GetN2()
@@ -66,8 +75,7 @@ class _ffttest(unittest.TestCase):
                 # Only for the complex transform
                 tmp1 = f[self.n-l].imag
                 tmp2 = self.sin_n_l
-                flag = fcmp(tmp1, tmp2, self._eps)
-                assert(flag == 0)
+                self.assertAlmostEqual(tmp1, tmp2, places=4)
                 a[self.n-l] = 0
             test = 1
         finally:
@@ -79,37 +87,26 @@ class _ffttest(unittest.TestCase):
                 #print f[self.n-l]
                 
         # Take the maximum
-        test = 0
-        try:
-            assert(MLab.max(a) < self._eps)
-            test = 1
-        finally:
-            if test == 0:
-                printvec(a, 0, self._eps)
-                print( MLab.max(a))
+        test_val = self._CalculateAbsMax(a)
+        self.assertAlmostEqual(1+test_val, 1, places=4)
 
     def _CheckCosResult(self, f, l):
         # Take all data
         a = numx.absolute(f)
-        assert(fcmp(f[l].real, self.n/2, self._eps) == 0)
+        
+        self.assertAlmostEqual(f[l].real, self.n/2, places=4)
         stmp = ["%s" % a[l]]
         a[l] = 0
         stmp.append("should be zero %s" % (a[l],))
         n2 = self._GetN2()
         if(len(f) > n2 + 1):
-                # Only for the complex transform
-                assert(fcmp(f[self.n-l].real, self.n/2, self._eps) == 0)
-                a[self.n-l] = 0
+            # Only for the complex transform
+            self.assertAlmostEqual(f[self.n-l].real, self.n/2, places=4)
+            a[self.n-l] = 0
         # Take the maximum
         test = 0
-        try:
-            assert(MLab.max(a) < self._eps)
-            test = 1
-        finally:
-            if test == 0:
-                print ("Check Cos Result",)
-                printvec(a, 0, self._eps)
-                print (string.join(stmp))
+        test_val = self._CalculateAbsMax(a)
+        self.assertAlmostEqual(1+test_val, 1, places=4)
                 
     def SinOne(self, x, l, args=()):
         y = numx.sin(x * l)
@@ -145,18 +142,18 @@ class _mixedradix(_ffttest):
     def testSinSpace(self):        
         x = numx.arange(self.n) * (2 * numx.pi / self.n)
         space = self.workspace(self.n)
-        assert(space.get_n() == self.n)
+        self.assertEqual(space.get_n(), self.n)
         table = self.wavetable(self.n)
-        assert(table.get_n() == self.n)
+        self.assertEqual(table.get_n(), self.n)
         for i in range(1, self._GetN2()):
            self.SinOne(x,i, (space,table))
 
     def testCosSpace(self):        
         x = numx.arange(self.n) * (2 * numx.pi / self.n)
         space = self.workspace(self.n)
-        assert(space.get_n() == self.n)
+        self.assertEqual(space.get_n(), self.n)
         table = self.wavetable(self.n)
-        assert(table.get_n() == self.n)
+        self.assertEqual(table.get_n(), self.n)
         for i in range(1, self._GetN2()):
            self.CosOne(x,i, (space,table))
 

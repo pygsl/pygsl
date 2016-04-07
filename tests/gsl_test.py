@@ -4,13 +4,20 @@ import types
 import unittest
 import pygsl.math 
 from pygsl._numobj import *
-import pygsl._mlab as mlab
+import pygsl._numobj as numx
 from pygsl import Float, Complex, ArrayType
 fcmp = pygsl.math.fcmp
 
 _complexType = type(0+0j)
 _intType = type(0)
 _floatType=type(1.0)
+
+def array_max(an_array):
+    tmp = an_array.ravel()
+    result = tmp.max()
+    result = numx.absolute(result)
+        
+    return result
 
 def iscomplex_default(a):
     return type(a) == _complexType
@@ -83,7 +90,8 @@ def arrayCompare(a, l, digits):
 
 def arrayIsZero(a):
     result = 1
-    return mlab.max(absolute(ravel(a))) < 1e-8
+    tmp = array_max(a)
+    return tmp < 1e-8
 
 
 def herm(A):
