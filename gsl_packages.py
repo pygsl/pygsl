@@ -23,7 +23,8 @@ exts.append(pygsl_init)
 exts.append(SWIG_Extension("gslwrap",
                            ["src/gslwrap/gsl_gslwrap.i"],
                            swig_include_dirs=["src/gslwrap/"],
-                           swig_flags = swig_flags,                           
+                           # -builtin does not yet work for gslwrap
+                           # swig_flags = swig_flags,
                            define_macros = macros,
                            #gsl_min_version=(1,10),
                            python_min_version=(2,1)
@@ -174,7 +175,8 @@ exts.append(SWIG_Extension("_callback",
                            ["src/callback/gsl_callback.i"],
                            include_dirs=["src/callback"],
                            swig_include_dirs=["src/callback"],
-                           swig_flags = swig_flags,
+                           # -builtin can still have problems for some functions
+                           #swig_flags = swig_flags,
                            #gsl_min_version=(1,2),
                            define_macros = macros,
                            python_min_version=(2,1),
@@ -389,32 +391,28 @@ if BUILD_TESTING:
     #                 )
     #exts.append(cheb)
 
-    num = str(gsl_numobj.nummodule)
-    if num in ("numpy", "Numeric"):
-        sys.stdout.write("Building testing ufuncs!\n")
-        sfarray=gsl_Extension("testing.sfarray",
-                              ['testing/src/sf/sf__arrays.c'],
-                              gsl_min_version=(1,),
-                              define_macros = macros,
-                              python_min_version=(2,0)
-                              )
-        #exts.append(sfarray)        
-        sf=gsl_Extension("testing._ufuncs",
-                         ['testing/src/sf/sfmodule_testing.c'],
-                         gsl_min_version=(1,),
-                         define_macros = macros,
-                         python_min_version=(2,0)
-                         )
-	#exts.append(sf)
-        #sftest=gsl_Extension("testing.sftest",
-        #                 ['testing/src/sf/sf_test.c'],
-        #                 gsl_min_version=(1,),
-        #                 define_macros = macros,
-        #                 python_min_version=(2,0)
-        #                 )
-        #exts.append(sftest)
+    sys.stdout.write("Building testing ufuncs!\n")
+    sfarray=gsl_Extension("testing.sfarray",
+                          ['testing/src/sf/sf__arrays.c'],
+                          gsl_min_version=(1,),
+                          define_macros = macros,
+                          python_min_version=(2,0)
+                          )
+    #exts.append(sfarray)        
+    sf=gsl_Extension("testing._ufuncs",
+                     ['testing/src/sf/sfmodule_testing.c'],
+                     gsl_min_version=(1,),
+                     define_macros = macros,
+                     python_min_version=(2,0)
+                     )
+    exts.append(sf)
+    #sftest=gsl_Extension("testing.sftest",
+    #                 ['testing/src/sf/sf_test.c'],
+    #                 gsl_min_version=(1,),
+    #                 define_macros = macros,
+    #                 python_min_version=(2,0)
+    #                 )
+    #exts.append(sftest)
 
         
-    else:
-        sys.stdout.write("Selected array object -->%s<--\nNo special ufuncs in testing\n" % (num,))
-    pass
+    
