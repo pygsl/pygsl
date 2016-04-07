@@ -398,6 +398,30 @@ the config process was run.
     def _check_rngs(self):
         flag = self.check_func("gsl_rng_knuthran2002", headers=("gsl/gsl_rng.h",))
         self._add_header_variables_dict("_PYGSL_GSL_HAS_RNG_KNUTHRAN2002", flag)
+        
+    def _check_sf(self):
+    
+        headers = ["gsl/gsl_sf.h",]
+        funcs = (
+            "legendre_Plm_array",
+            "legendre_sphPlm_array",
+            )
+
+        # Defined in the header files but does not necessarly exist
+        # thus we have to link ....
+        # for func in funcs:
+        #    name = "gsl_sf_" + func
+        #    self._check_and_flag_method(name, headers)
+        # qreturn
+            
+        for func in funcs:
+            method_name = "gsl_sf_" + func
+            cpp_define = "_PYGSL_GSL_HAS_LINK_"
+            cpp_define += method_name.upper()
+       
+            method_name += "(0, 0, 0.0, NULL)"
+            flag = self.check_func(method_name, headers)
+            self._add_header_variables_dict(cpp_define, flag)
 
     def _gsl_location_get_gsl_version(self):
         info = self._gsl_config_version_info
@@ -479,6 +503,8 @@ the config process was run.
         self._check_permutation()
         self._check_linalg()
         self._check_eigen()
+        
+        self._check_sf()
         
     def run(self):
 
