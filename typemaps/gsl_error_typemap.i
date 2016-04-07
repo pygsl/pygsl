@@ -4,6 +4,7 @@
  * Date  : December 2002
  */
 %{   
+#include <stddef.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 typedef int gsl_error_flag;
@@ -64,14 +65,15 @@ PyObject *pygsl_module_for_error_treatment = NULL;
  *  3.) All positive results indicate some error. These are turned into an
  *      exception. So it is not necessary to return the flag.
  */
+/* 
+ * assert($1 >= 0);  assertion removed as PyGSL_error_flag can deal with
+ *	negative numbers.
+ * 
+ * 17. February 2010. Check if it is not SUCCESS. If an error is found
+ * it returns the flag. This should have an impact on a lot of functions
+ */
 %typemap(out) gsl_error_flag_drop {
-     /* 
-      * assert($1 >= 0);  assertion removed as PyGSL_error_flag can deal with
-      *	negative numbers.
-      * 
-      * 17. February 2010. Check if it is not SUCCESS. If an error is found
-      * it returns the flag. This should have an impact on a lot of functions
-      */
+     DEBUG_MESS(5, "dropping error flag %ld", (long) $1);
      if(GSL_SUCCESS != PyGSL_ERROR_FLAG($1)){
 	 PyGSL_add_traceback(pygsl_module_for_error_treatment, __FILE__, 
 			     __FUNCTION__, __LINE__); 
@@ -80,4 +82,3 @@ PyObject *pygsl_module_for_error_treatment = NULL;
      Py_INCREF(Py_None);
      $result = Py_None;
 }
-
