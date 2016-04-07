@@ -271,6 +271,7 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 
  fail:
      PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
+     PyGSL_ERROR_FLAG(error_flag);
      DEBUG_MESS(4, "common array types: Double %d, CDouble %d", NPY_DOUBLE, NPY_CDOUBLE);
      DEBUG_MESS(4, "integer: Long %d, Int %d, Short %d", NPY_LONG, NPY_INT, NPY_SHORT);
      /* DEBUG_MESS(8, "Char type %d  Byte type %d String type %d", PyArray_CHAR, PyArray_BYTE, PyArray_STRING); */
@@ -517,7 +518,7 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object,  PyGSL_array_in
     return GSL_SUCCESS;
  fail:
     PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
-    FUNC_MESS("  Failure");
+    FUNC_MESS_FAILED();
     Py_XDECREF(a_array);
     return GSL_FAILURE;
 }
@@ -525,21 +526,23 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object,  PyGSL_array_in
 static PyArrayObject * 
 PyGSL_vector_or_double(PyObject *src, PyGSL_array_info_t ainfo, PyGSL_array_index_t size, PyGSL_error_info * info)
 {
-     int line = -1;
+  int line = -1, status = GSL_EFAILED;
      PyArrayObject * r = NULL;
      PyGSL_array_index_t dim = 1;
 
      FUNC_MESS_BEGIN();
      if (PyGSL_GET_ARRAYTYPE(ainfo) != NPY_DOUBLE){
 	  line = __LINE__ - 1;
+	  status = GSL_ESANITY;
 	  pygsl_error("Array request for vector or double is not a double array!",
-		    __FILE__, line, GSL_ESANITY);
+		    __FILE__, line, status);
 	  goto fail;
      }
      if (PyGSL_GET_TYPESIZE(ainfo)  != sizeof(double)){
 	  line = __LINE__ - 1;
+	  status = GSL_ESANITY;
 	  pygsl_error("Type size passed for vector or double is not of sizeof(double)!",
-		    __FILE__, line, GSL_ESANITY);
+		    __FILE__, line, status);
 	  goto fail;
      }
 	  
@@ -567,9 +570,10 @@ PyGSL_vector_or_double(PyObject *src, PyGSL_array_info_t ainfo, PyGSL_array_inde
      return r;
 
  fail:
-     PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
+     FUNC_MESS_FAILED();
      Py_XDECREF(r);
-     FUNC_MESS("Fail");
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
+     PyGSL_ERROR_FLAG(status);
      return NULL;
 }
 
@@ -580,7 +584,7 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 		   PyGSL_array_index_t *stride, PyGSL_error_info * info)
 {
 
-     int line=-1, tries;
+  int line=-1, tries, status = GSL_EFAILED;
      PyArrayObject * a_array = NULL;
      int array_type, flag,  argnum, type_size;
 
@@ -641,8 +645,9 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 		    if(PyGSL_DEBUG_LEVEL() > 0){
 			 if(*stride != 1){
 			      line = __LINE__ - 1;
+			      status = GSL_ESANITY;
 			      pygsl_error("Stride not one for a contiguous array!",
-					filename, line, GSL_ESANITY);
+					filename, line, status);
 			      goto fail;
 			 } /* stride */
 		    }/*debug level */
@@ -657,8 +662,9 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 
 	  if((flag & PyGSL_CONTIGUOUS) == 1){
 	       line = __LINE__ - 1;
+	       status = GSL_ESANITY;
 	       pygsl_error("Why does the stride recalc fail for a contigous array?",
-			 filename, line, GSL_ESANITY);
+			 filename, line, status);
 	       goto fail;
 	  } else {
 	       /* keep the flags, but demand contiguous this time */
@@ -675,11 +681,12 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
     	  
     /* handling failed stride recalc */
      FUNC_MESS_END();
-
+    
      return a_array;
      
  fail:
      FUNC_MESS("Fail");
+     PyGSL_ERROR_FLAG(status);
      PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
      Py_XDECREF(a_array);
      return NULL;
