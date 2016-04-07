@@ -54,7 +54,9 @@ with the path of the pygsl_dir
     def check_func(self, *args, **kws):
 
         kws = self._handle_include_dir_kw(kws)
-        kws = self._handle_library_dir_kw(kws)        
+        kws = self._handle_library_dir_kw(kws)
+        kws = self._handle_libraries_kw(kws)
+        
         return conf.check_func(self, *args, **kws)
 
     def initialize_options(self):
@@ -76,6 +78,9 @@ with the path of the pygsl_dir
         dirs = gsl_loc.get_gsl_library_dirs()
         return dirs
 
+    def _get_gsl_lib_list(self):
+        return gsl_loc.get_gsl_lib_list()
+
     def _handle_include_dir_kw(self, kws):
         include_dirs = "include_dirs"
         dirs = kws.pop(include_dirs, None)
@@ -87,6 +92,19 @@ with the path of the pygsl_dir
         gsl_dirs = self._get_gsl_include_dirs()
         dirs.extend(gsl_dirs)
         kws[include_dirs] = dirs
+        return kws
+
+    def _handle_libraries_kw(self, kws):
+        key = "libraries"
+        dirs = kws.pop(key, None)
+        if dirs == None:
+            dirs = []
+        else:
+            dirs = list(dirs)
+
+        gsl_dirs = self._get_gsl_lib_list()
+        dirs.extend(gsl_dirs)
+        kws[key] = dirs
         return kws
 
     def _handle_library_dir_kw(self, kws):
