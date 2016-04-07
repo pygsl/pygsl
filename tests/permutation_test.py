@@ -12,8 +12,8 @@ class P(unittest.TestCase):
         assert(type(len(self.p)) == type(1))
         assert(len(self.p) == self.mylen)
 
-    def testinversions(self):
-        self.p.inversions()
+    def testinverse(self):
+        self.p.inverse()
 
     def testlinearcycles(self):
         self.p.linear_cycles()
