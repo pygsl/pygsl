@@ -35,6 +35,9 @@ class _multiminminimize_tests(unittest.TestCase):
     _start_point = numx.array((5., 7.), )
     _initial_steps = numx.array((0.1, 0.1), )
 
+    def _assertIsNotNone(self, val):
+        self.assertNotEqual(val, None)
+
     def _checkPos(self, pos):
         x  = pos[0]
         y  = pos[1]
@@ -48,7 +51,7 @@ class _multiminminimize_tests(unittest.TestCase):
 class _multiminminimize_f_solver_tests(_multiminminimize_tests):
 
     def setUp(self):
-        self.assertIsNotNone(self._t_type)
+        self._assertIsNotNone(self._t_type)
         tmp = numx.array((1., 2.), )
         self._dim = 2
         self._sys = multiminimize.gsl_multimin_function(my_f, tmp, self._dim)
@@ -89,7 +92,7 @@ class _multiminminimize_f_solver_tests(_multiminminimize_tests):
 class _multiminminimize_fdf_solver_tests(_multiminminimize_tests):
 
     def setUp(self):
-        self.assertIsNotNone(self._t_type)
+        self._assertIsNotNone(self._t_type)
 
         self._dim = 2        
         params = numx.array((1., 2.), )        
