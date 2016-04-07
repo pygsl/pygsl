@@ -132,7 +132,8 @@ class lmsder(_fdfsolver):
     """
     type = _callback.cvar.gsl_multifit_fdfsolver_lmsder
 
-try:
+_t_type = _callback.cvar.gsl_multifit_fdfsolver_lmniel
+if _t_type:
     # Only available for GSL 2. or above
     class lmniel(_fdfsolver):
         """
@@ -150,10 +151,8 @@ try:
         systems with large amounts of data. While not as robust as lmsder, this algorithm
         has proven effective on a wide class of problems.
         """
-        type = _callback.cvar.gsl_multifit_fdfsolver_lmniel
+        type = _t_type
         
-except NameError:
-    pass
 
 def test_delta(dx, x, epsabs, epsrel):
     """
@@ -219,3 +218,6 @@ def covar(J, epsrel):
        epsrel  
     """
     return _callback.gsl_multifit_covar(J, epsrel)
+
+#fsolver_driver = _callback.gsl_multifit_fsolver_driver
+#fdfsolver_driver = _callback.gsl_multifit_fdfsolver_driver
