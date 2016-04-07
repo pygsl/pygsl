@@ -1,16 +1,17 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import unittest
-import Numeric
+import pygsl._numobj as numx
 import sys
 sys.stdout = sys.stderr
-print "Importing sf ...",
+print ("Importing sf ...",)
 import pygsl.testing.sf as sf
-print "done"
+print ("done")
 
 class _basis_f(unittest.TestCase):
     def _makearray(self, j):
         j = j+1
-        return   Numeric.arange(100) / (1. * j) + .1
+        return   numx.arange(100) / (1. * j) + .1
     
     def testone(self):
         a = 1
