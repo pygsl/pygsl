@@ -30,8 +30,23 @@ INSTALL_HEADERS = 1
 # SWIG 2.1? or above generates faster wrappers ... requires python 2.5 or greater
 #'-builtin',
 # Currently testing if it works for all modules
-SWIG_USE_BUILTIN = 0
+SWIG_USE_BUILTIN = 1
 #
+
+## Which gsl error handler to install?
+# set the error handler to off: only the integer return value will be available
+# This is the safest version. But then information useful to the user could be
+# lost.
+GSL_ERROR_HANDLER = 0
+# Use the store version of the error handler: when GSL calls the error handler
+# the information passed (which file, at which line, which reason) are stored
+# at a static location. This information is then used for functions which
+# return a status. When a non success status is turned in a python exception
+# the stored information is used to add this to the exception.
+# If more than one thread is running it could happen that the wrong information
+# is returned. Only the type of exception is then correct.
+GSL_ERROR_HANDLER = 1
+
 #####
 # PyGSL comes with a lot of debug information. This can be either disabled
 # setting DEBUG_LEVEL to 0 at compile time, swtiched on and off at run time
@@ -97,14 +112,26 @@ def SWIG_Extension(*args, **kws):
     return _SWIG_Extension(*args, **kws)
 
 if SWIG_USE_BUILTIN:
-    swig_flags = ["-builtin"]
+    swig_flags = ["-builtin", "-O", "-Wall"]
 else:
     swig_flags = []
-    
+
+
+macros = [
+    ('SWIG_COBJECT_TYPES', 1),
+    ('DEBUG', DEBUG_LEVEL)
+    ]
+
+if GSL_ERROR_HANDLER == 0:
+    # If the macro below is not set the error handler will be set to off.
+    pass
+elif GSL_ERROR_HANDLER == 1:
+    macros += [("PyGSL_SET_GSL_ERROR_HANDLER", 1),]
+else:
+    raise ValueError("Expected a value of 0|1 but got '%s'" %(GSL_ERROR_HANDLER))
+
+macros = macros + []
 check_macros = [('GSL_DISABLE_DEPRECATED', 1)]
-macros = [('SWIG_COBJECT_TYPES', 1)] #+ check_macros
-macros = macros + [('DEBUG', DEBUG_LEVEL)]
-debug_macros = macros + [('DEBUG', 1)]
 
 import gsl_Config
 # config has to be run before any other "build" or "install" commmand
