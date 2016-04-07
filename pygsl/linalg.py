@@ -11,6 +11,7 @@ routines found in LAPACK. The Fortran version of LAPACK is recommended
 as the standard package for linear algebra. It supports blocked algorithms,
 specialized data representations and other optimizations.
 """
+from __future__ import print_function
 import pygsl
 from . import _gslwrap
 from .permutation import Permutation
@@ -51,9 +52,9 @@ def LU_decomp(A):
     if code == Complex:
         # Now all error flags are turned into python exceptions. So no
         # unpack necessary any longer.
-        signum = _gslwrap.gsl_linalg_complex_LU_decomp(An, p)
+        signum = _gslwrap.pygsl_linalg_complex_LU_decomp(An, p)
     elif code == Float:
-        signum = _gslwrap.gsl_linalg_LU_decomp(An, p)
+        signum = _gslwrap.pygsl_linalg_LU_decomp(An, p)
     else:
         #print code, Float, Complex
         raise TypeError("LU must be of type Float or Complex")
