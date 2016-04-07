@@ -25,7 +25,10 @@ int gsl_vector_double_fprintf (FILE * stream, const gsl_vector_double * IN,
 
 int gsl_vector_double_reverse (gsl_vector_double * INOUT);
 
-int gsl_vector_double_swap (gsl_vector_double * INOUT, gsl_vector_double * INOUT);
+
+%apply gsl_vector_double *INOUT {gsl_vector_double *v};
+%apply gsl_vector_double *INOUT {gsl_vector_double *w};
+int gsl_vector_double_swap (gsl_vector_double * v, gsl_vector_double * w);
 
 
 int gsl_vector_double_swap_elements (gsl_vector_double * INOUT, const size_t i, 
@@ -68,7 +71,9 @@ int gsl_matrix_double_fprintf (FILE * stream, const gsl_matrix_double * IN,
 /*
  * int gsl_matrix_memcpy(gsl_matrix * dest, const gsl_matrix * src);
  */
-int gsl_matrix_double_swap(gsl_matrix_double * INOUT, gsl_matrix_double * INOUT);
+%apply gsl_matrix_double *INOUT {gsl_matrix_double *v};
+%apply gsl_matrix_double *INOUT {gsl_matrix_double *w};
+int gsl_matrix_double_swap(gsl_matrix_double * v, gsl_matrix_double * w);
 
 int gsl_matrix_double_swap_rows(gsl_matrix_double * INOUT, const size_t i, const size_t j);
 int gsl_matrix_double_swap_columns(gsl_matrix_double * INOUT, const size_t i, 

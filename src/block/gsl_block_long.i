@@ -1,4 +1,8 @@
 /* -*- C -*- */
+%apply gsl_vector_long *INOUT {gsl_vector_long *v};
+%apply gsl_vector_long *INOUT {gsl_vector_long *w};
+%apply gsl_matrix_long *INOUT {gsl_matrix_long *v};
+%apply gsl_matrix_long *INOUT {gsl_matrix_long *w};
 /* -------------------------------------------------------------------------
    -------------------------------------------------------------------------
                      Vector functions
@@ -25,7 +29,7 @@ int gsl_vector_long_fprintf (FILE * stream, const gsl_vector_long * IN,
 
 int gsl_vector_long_reverse (gsl_vector_long * INOUT);
 
-int gsl_vector_long_swap (gsl_vector_long * INOUT, gsl_vector_long * INOUT);
+int gsl_vector_long_swap (gsl_vector_long * v, gsl_vector_long * w);
 
 
 int gsl_vector_long_swap_elements (gsl_vector_long * INOUT, const size_t i, 
@@ -68,7 +72,7 @@ int gsl_matrix_long_fprintf (FILE * stream, const gsl_matrix_long * IN,
 /*
  * int gsl_matrix_memcpy(gsl_matrix * dest, const gsl_matrix * src);
  */
-int gsl_matrix_long_swap(gsl_matrix_long * INOUT, gsl_matrix_long * INOUT);
+int gsl_matrix_long_swap(gsl_matrix_long * v, gsl_matrix_long * w);
 
 int gsl_matrix_long_swap_rows(gsl_matrix_long * INOUT, const size_t i, const size_t j);
 int gsl_matrix_long_swap_columns(gsl_matrix_long * INOUT, const size_t i, 

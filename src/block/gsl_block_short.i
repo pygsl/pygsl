@@ -1,4 +1,9 @@
 /* -*- C -*- */
+%apply gsl_vector_short *INOUT {gsl_vector_short *v};
+%apply gsl_vector_short *INOUT {gsl_vector_short *w};
+%apply gsl_matrix_short *INOUT {gsl_matrix_short *v};
+%apply gsl_matrix_short *INOUT {gsl_matrix_short *w};
+
 /* -------------------------------------------------------------------------
    -------------------------------------------------------------------------
                      Vector functions
@@ -25,7 +30,7 @@ int gsl_vector_short_fprintf (FILE * stream, const gsl_vector_short * IN,
 
 int gsl_vector_short_reverse (gsl_vector_short * INOUT);
 
-int gsl_vector_short_swap (gsl_vector_short * INOUT, gsl_vector_short * INOUT);
+int gsl_vector_short_swap (gsl_vector_short * v, gsl_vector_short * w);
 
 
 int gsl_vector_short_swap_elements (gsl_vector_short * INOUT, const size_t i, 
@@ -68,7 +73,7 @@ int gsl_matrix_short_fprintf (FILE * stream, const gsl_matrix_short * IN,
 /*
  * int gsl_matrix_memcpy(gsl_matrix * dest, const gsl_matrix * src);
  */
-int gsl_matrix_short_swap(gsl_matrix_short * INOUT, gsl_matrix_short * INOUT);
+int gsl_matrix_short_swap(gsl_matrix_short * v, gsl_matrix_short * w);
 
 int gsl_matrix_short_swap_rows(gsl_matrix_short * INOUT, const size_t i, const size_t j);
 int gsl_matrix_short_swap_columns(gsl_matrix_short * INOUT, const size_t i, 

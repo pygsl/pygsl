@@ -1,4 +1,8 @@
 /* -*- C -*- */
+%apply gsl_vector_complex_float *INOUT {gsl_vector_complex_float *v};
+%apply gsl_vector_complex_float *INOUT {gsl_vector_complex_float *w};
+%apply gsl_matrix_complex_float *INOUT {gsl_matrix_complex_float *v};
+%apply gsl_matrix_complex_float *INOUT {gsl_matrix_complex_float *w};
 /* -------------------------------------------------------------------------
    -------------------------------------------------------------------------
                      Vector functions
@@ -25,7 +29,7 @@ int gsl_vector_complex_float_fprintf (FILE * stream, const gsl_vector_complex_fl
 
 int gsl_vector_complex_float_reverse (gsl_vector_complex_float * INOUT);
 
-int gsl_vector_complex_float_swap (gsl_vector_complex_float * INOUT, gsl_vector_complex_float * INOUT);
+int gsl_vector_complex_float_swap (gsl_vector_complex_float * v, gsl_vector_complex_float * w);
 
 
 int gsl_vector_complex_float_swap_elements (gsl_vector_complex_float * INOUT, const size_t i, 
@@ -68,7 +72,7 @@ int gsl_matrix_complex_float_fprintf (FILE * stream, const gsl_matrix_complex_fl
 /*
  * int gsl_matrix_memcpy(gsl_matrix * dest, const gsl_matrix * src);
  */
-int gsl_matrix_complex_float_swap(gsl_matrix_complex_float * INOUT, gsl_matrix_complex_float * INOUT);
+int gsl_matrix_complex_float_swap(gsl_matrix_complex_float * v, gsl_matrix_complex_float * w);
 
 int gsl_matrix_complex_float_swap_rows(gsl_matrix_complex_float * INOUT, const size_t i, const size_t j);
 int gsl_matrix_complex_float_swap_columns(gsl_matrix_complex_float * INOUT, const size_t i, 
