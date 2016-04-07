@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-# Author : Pierre Schnizer 
+# Author : Pierre Schnizer
+# $Id$
+
+from __future__ import print_function
 import sys
 import unittest
 import pygsl._numobj as Numeric
@@ -8,10 +11,8 @@ import pygsl
 from pygsl import Float
 from pygsl import multifit_nlin
 import copy
-#import Gnuplot
 
 exp = Numeric.exp
-#g = Gnuplot.Gnuplot()
 _eps = 1e-7
 
 def testfunc(t, A = 1., _lambda = .1, b=.5):
@@ -74,17 +75,8 @@ class DefaultCase(unittest.TestCase):
                                                            self._getp())
 
     def _run(self, solver):
-        #x = Numeric.array((1.0, .4, .1))
         x = Numeric.array((1.0, 0.0, 0.0))
         solver.set(x)
-        #g.title('Start')
-        #g.plot(Gnuplot.Data(self.data[0], self.data[1]),
-        #       Gnuplot.Data(self.data[0], testfunc(self.data[0]),
-        #                    with = 'line'),
-        #       )
-        #raw_input()
-        #print "Testing solver ", solver.name() 
-        #print "%5s %9s %9s  %9s  %10s" % ("iter", "A", "lambda", "b", "|f(x)|")
         for iter in range(20):
             status = solver.iterate()
             assert(status == 0 or status == -2)
@@ -94,40 +86,15 @@ class DefaultCase(unittest.TestCase):
             J  = solver.getJ()
             tdx = multifit_nlin.gradient(J, f)
             status = multifit_nlin.test_delta(dx, x, 1e-8, 1e-8)
-            #status = multifit_nlin.test_gradient(dx, 1e-4)
             fn = Numeric.sqrt(Numeric.sum(f*f))
-            #g.title('Iteration')
             if status == 0:
                 break
-            #print "%5d % .7f % .7f  % .7f  % .7f" %(iter, x[0], x[1], x[2], fn)
-            #g.plot(Gnuplot.Data(self.data[0], self.data[1]),
-            #       Gnuplot.Data(self.data[0],
-            #                    testfunc(self.data[0], x[0], x[1], x[2]),
-            #                    with = 'line', title='iteration ' + str(iter)),
-            #       )
-            #raw_input()
         else:
             raise ValueError("Number of Iterations exceeded!")
-        #print "Convereged :"        
-        #print "%5d % .7f % .7f  %.7f  % .7f" %(iter, x[0], x[1], x[2], fn)
         assert(Numeric.absolute(x[0] - self.A) < _eps)
         assert(Numeric.absolute(x[1] - self.lambda_) < _eps)
         assert(Numeric.absolute(x[2] - self.b) < _eps)
-        #J = solver.getJ()
-        #print "shape = ", J.shape
         covar =  multifit_nlin.covar(solver.getJ(), 0.0)
-        #print J
-        #print covar       
-        #print "A      = % .5f +/- % .5f" % (x[0], covar[0,0])
-        #print "lambda = % .5f +/- % .5f" % (x[1], covar[1,1])
-        #print "b      = % .5f +/- % .5f" % (x[2], covar[2,2])
-        #g.title('Converged!')
-        #g.plot(Gnuplot.Data(self.data[0], self.data[1]),
-        #       Gnuplot.Data(self.data[0],
-        #                    testfunc(self.data[0], x[0], x[1], x[2]),
-        #                    with = 'line', title='iteration ' + str(iter)),
-        #       )
-        #raw_input()
         
     def test_lmsder(self):
         solver = multifit_nlin.lmsder(self.sys, self._getn(), self._getp())
@@ -136,6 +103,16 @@ class DefaultCase(unittest.TestCase):
     def test_lmder(self):
         solver = multifit_nlin.lmder(self.sys, self._getn(), self._getp())
         self._run(solver)
+	
+    def test_lmniel(self):
+        try:
+             _type = multifit_nlin.lmniel
+        except AttributeError:
+             print("Solver lmniel not available for your GSL version")
+
+        solver = _type(self.sys, self._getn(), self._getp())
+        self._run(solver)
+
 
 if __name__ == '__main__':
     unittest.main()
