@@ -562,8 +562,6 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
      {"knuthran2"       , PyGSL_rng_init_knuthran2       , METH_NOARGS, NULL},
 #ifdef  _PYGSL_GSL_HAS_RNG_KNUTHRAN2002
      {"knuthran2002"    , PyGSL_rng_init_knuthran2002    , METH_NOARGS, NULL},
-#else
-#error "Should be defined by now ..."
 #endif
      {"lecuyer21"       , PyGSL_rng_init_lecuyer21       , METH_NOARGS, NULL},
      {"minstd"          , PyGSL_rng_init_minstd          , METH_NOARGS, NULL},
