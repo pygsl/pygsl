@@ -1,3 +1,4 @@
+from __future__ import print_function
 import pygsl
 from pygsl import bspline, multifit
 import pygsl._numobj as numx
@@ -26,7 +27,7 @@ def run():
     res_y, res_y_err = b.eval_dep_yerr_vector(res_x)
     #res_y = b.eval_dep_vector(res_x)
 
-    print res_y
+    print(res_y)
     pylab.plot(x,y, '-')
     pylab.errorbar(res_x, res_y, fmt='g-', xerr=res_y_err)    
 
