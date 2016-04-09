@@ -260,6 +260,12 @@ DL_EXPORT(void) initerrortest(void)
      return RETVAL;
 
  fail:
+     
+#ifdef PyGSL_PY3K
      return NULL;
+#else 
+     /* void function no return value*/
+     return;
+#endif 
 }
 
