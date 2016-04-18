@@ -1,4 +1,6 @@
 2016-04          Pierre Schnizer <schnizer@user.sourceforge.net>	
+	* Started refurbishment of gsl sf interface generators
+	* Added sf tests: translated from gsl source
 	* Added interpolation2d
 	* Started compiling against gsl-2.1.
 	* Modified the pygsl error handler: 
