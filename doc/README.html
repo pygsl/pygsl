@@ -24,8 +24,7 @@
   <h2>Status of GSL-Library:</h2>
 
   The gsl-library is since version 1.0 stable and for general use.
-  Read more about it at the <a
-  href="http://sources.redhat.com/gsl/">GSL homepage</a>.
+  Read more about it at the <a href="http://www.gnu.org/software/gsl/">GSL homepage</a>.
 
   <h2>Status of this interface:</h2>
 
@@ -37,12 +36,25 @@
 
   To build the interface, you will need
   <ul>
-  <li> <a href="http://sources.redhat.com/gsl">gsl-1.2</a> or better,</li>
-  <li> <a href="http://www.python.org">python2.2</a> or better and</li>
+  <li> <a href="http://www.gnu.org/software/gsl/">gsl-1.13</a> or better,</li>
+  <li> <a href="http://www.python.org">python2.6</a> or better and</li>
   <li> <a href="http://numpy.sf.net">NumPy</a>, and</li>
   <li>a ANSI C compiler (i.e. gcc).</li>
   </ul>
 
+  Currently it is being tested:
+
+  <ul>
+    <li> python3.5  numpy1.9.2 and gsl-2.1 (on mac os x, fink) </li>
+  </ul>
+
+   The version 2.2.1 was tested with
+  <ul>
+    <li> python2.6, numpy1.4 and gsl-1.13 (on linux redhat) </li>
+    <li> python2.7  numpy1.8 and gsl-1.16 (on mac os x, fink) </li>
+    <li> python3.4  numpy1.8 and gsl-1.16 (on linux debian stable) </li>
+    </ul>
+  
 
 
   <h2>Retrieving the Interface:</h2>
@@ -123,10 +135,11 @@
   not failures of the functions.
   -->
 
-  <h2>What is implemented  (versus gsl1.10):</h2>
+  <h2>What is implemented  (versus gsl2.1):</h2>
   <ul>
   <ul>
       <li>Blas</li>
+      <li>BSplines</li>
       <li>Chebyshev</li>
       <li>Combination</li>
       <li>Const</li>
@@ -136,6 +149,7 @@
       <li>Ieee</li>
       <li>Integrate</li>
       <li>Interpolation</li>
+      <li>Interpolation2D</li>
       <li>Linalg</li>
       <li>Math</li>
       <li>Minimize</li>
