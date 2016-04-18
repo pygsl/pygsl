@@ -9,13 +9,13 @@ Status of this interface:
 
    We are collecting implementations of parts of gsl. So the interface is
    not complete. We are looking forward to contributions of new
-   submodules, while maintaining the awailabel code.
+   submodules, while maintaining the available code.
 
 Requirements:
 
    To build the interface, you will need
-     * [2]gsl-1.2 or better,
-     * [3]python2.2 or better and
+     * [2]gsl-1.13 or better,
+     * [3]python2.6 or better and
      * [4]NumPy, and
      * a ANSI C compiler (i.e. gcc).
 
@@ -30,15 +30,16 @@ Installing GSL interface:
 
    gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
    cd pygsl-x.y.z
-   #do this with your prefered python version
+   #do this with your preferred python version
    #to set the gsl location explicitly use setup.py
    --gsl-prefix=/path/to/gsl
    #If your are using cvs, remove your build directory.
+   python setup.py config
    python setup.py build
    # Running only
    python setup.py
-   # can result in an error. So if you see an error runing setup.py please
-   run python setup.py build
+   # can result in an error. So if you see an error running setup.py
+   please run python setup.py build
    # change to a id, that is allowed to do installation
    python setup.py install
 
@@ -50,7 +51,7 @@ Using pygsl
    install it first and then change to the tests directory and execute
    python run_test.py If you want to execute it in the distribution root
    directory, please run python setup.py build_ext -i first! It will put
-   the requried binary files into the pygsl directory.
+   the required binary files into the pygsl directory.
 
    Just write in python
    import pygsl.sf
@@ -75,8 +76,10 @@ Supported Platforms:
      * Win32 with python2.* and gsl-1.x
 
    but is supposed to compile and run on any posix platform
+   Currently it is being tested:
+     * python3.5 numpy1.9.2 and gsl-2.1 (on mac os x, fink)
 
-   Currently it is being tested using
+   The version 2.1.1 was tested with
      * python2.6, numpy1.4 and gsl-1.13 (on linux redhat)
      * python2.7 numpy1.8 and gsl-1.16 (on mac os x, fink)
      * python3.4 numpy1.8 and gsl-1.16 (on linux debian stable)
@@ -86,9 +89,10 @@ Testing:
    The directory test will contain several testsuites, based on python
    unittest. Change to this directory to run the tests.
 
-What is implemented (versus gsl1.10):
+What is implemented (versus gsl2.1):
 
      * Blas
+     * BSplines
      * Chebyshev
      * Combination
      * Const
@@ -98,6 +102,7 @@ What is implemented (versus gsl1.10):
      * Ieee
      * Integrate
      * Interpolation
+     * Interpolation2D
      * Linalg
      * Math
      * Minimize
@@ -169,12 +174,12 @@ History:
      * pygsl-0.0.4 was released at January 8, 2002
      * pygsl-0.1 was released at August 28, 2002
      * pygsl-0.1b was released at May 17, 2003
-     * oygsl-0.3.0 was released
-     * oygsl-0.3.1 was released
-     * oygsl-0.3.3 was released
-     * oygsl-0.9.0 was released
-     * oygsl-0.9.3 was released on 15. June 2008
-     * oygsl-0.9.4 will be released soon
+     * pygsl-0.3.0 was released
+     * pygsl-0.3.1 was released
+     * pygsl-0.3.3 was released
+     * pygsl-0.9.0 was released
+     * pygsl-0.9.3 was released on 15. June 2008
+     * pygsl-2.2.0 was released 18. April 2016
 
 Thanks:
 
@@ -193,10 +198,10 @@ Maintainers:
 
 Verweise
 
-   1. http://sources.redhat.com/gsl/
-   2. http://sources.redhat.com/gsl
+   1. http://www.gnu.org/software/gsl/
+   2. http://www.gnu.org/software/gsl/
    3. http://www.python.org/
-   4. http://numpy.sf.net/
+   4. http://www.numpy.org/
    5. http://pygsl.sourceforge.net/
    6. file:///home/schnizer/Devel/pygsl-cvs/doc/TODO.html
    7. mailto:pygsl-discuss@lists.sourceforge.net
