@@ -10,6 +10,7 @@ arguments as UFuncs. This involves the following steps:
       different types.
       
 """
+from __future__ import print_function
 import re
 import string
 import os.path
@@ -30,6 +31,7 @@ class prototype_collector:
         self.exclude_list = []
 
     def set_exclude_list(self, mylist):
+        "The functions not to include in the list"
         self.exclude_list = mylist
 
     def make_wrapper_and_index_file(self, filename, *search_patterns):
@@ -63,7 +65,9 @@ class prototype_collector:
 
         for p in  prototypes[:]:
             if p.get_name() in self.exclude_list:
+                # Skip the excluded functions            
                 continue
+            
             index_entry=p.make_function_entry()
             if index_entry is not None:
                 try:
@@ -76,22 +80,22 @@ class prototype_collector:
                         test = 1
                     finally:
                         if test == 0:
-                            print "I was working on prototype", p.get_name()
+                            print( "I was working on prototype", p.get_name())
                     #objects_file.write("}\n")
                     index_file.write(index_entry+",\n")
-                except RuntimeError, message:
-                    print message
+                except RuntimeError as message:
+                    print(message)
 
                 # Collect the various differnt  ufuncs objects. These will
                 # iterate over the functions
                 ufunc_names = a_py_ufunc.GetPyUFuncEvaluatorNames()    
                 for name in ufunc_names:
-                    print name
+                    print (name)
                     if not ufunc_names_dic.has_key(name):
                         ufunc_names_dic[name] = []
                     ufunc_names_dic[name].append(a_py_ufunc)                  
             else:
-                print "No index entry for", p.get_name()
+                print ("No index entry for", p.get_name())
                     
         index_file.close()
 
@@ -114,7 +118,7 @@ class prototype_collector:
                 obj = ufunc_names_dic[i][0]
                 if not fake:        
                     #evaluators.write("\n/* obj name = ->%s<-, name = ->%s<- */\n" % (obj.GetName(), i))
-                    for m in methods[1:]:
+                    for m in methods[1:]:                        
                         methods[0].write(m(obj) + "\n")
                         
         objects_file.close()
@@ -142,7 +146,7 @@ class prototype_collector:
         file_name_list=self.determine_headers(*patterns)
         all_prototypes=[]
         for file_name in file_name_list:
-            print "Processing file %s" %(file_name, )
+            print( "Processing file %s" %(file_name, ))
             new_prototypes=self.get_prototypes_from_file(file_name)
             all_prototypes.extend(new_prototypes)
         return all_prototypes
@@ -165,7 +169,7 @@ class prototype_collector:
 
             #test if exists
             if not os.path.isfile(general_include_file_name):
-                raise Exception,"could not find general header file '%s'" % (general_include_file_name,)
+                raise Exception("could not find general header file '%s'" % (general_include_file_name,))
 
             #parse file for includes
             general_include_file=file(general_include_file_name,"r")
@@ -215,12 +219,12 @@ class prototype_collector:
         prototype_list=[]
         for match in match_list:            
             tmp = sf_prototype(match)
-            print "Found function prototype", tmp.get_name(), 
+            msg = "Found function prototype " + tmp.get_name()
             if tmp.get_name() not in self.exclude_list:
-                print "excluded"
                 prototype_list.append(tmp)
             else:
-                print
+                msg += " excluded"
+                print(msg)
         return prototype_list
                 
 class sf_prototype:
@@ -234,7 +238,7 @@ class sf_prototype:
         declaration_pattern=re.compile("(?P<comment>/\*.*?\*/\s*)?\s*(?P<return_value>\w+\s+)(?P<name>\w+\s*)\((?P<parameters>[^\)]*)\)\s*;")
         declaration_match=declaration_pattern.search(characters)
         if declaration_match is None:
-            raise Exception, "could not evaluate definition"
+            raise Exception( "could not evaluate definition")
 
         # prepare comment for __doc__
         comment=declaration_match.group('comment')
@@ -320,7 +324,7 @@ class sf_prototype:
         for p in self.parameters:
             arg_match=argument_type_pattern.match(p)
             if arg_match is None:
-                raise RuntimeError,"%s: can not interpret parameter %s"%(self.name, p)
+                raise RuntimeError("%s: can not interpret parameter %s"%(self.name, p))
             arg_type=arg_match.group('type')
             arg_name=arg_match.group('name')
             arg_qualifier=arg_match.group('qualifier')
@@ -332,5 +336,5 @@ class sf_prototype:
             
         func="/* wrapper for "+self.original_declaration()+"  return = "+ self.return_value + " */\n" 
 
-        
+        a_pyufunc.AllParametersHandled()
         return a_pyufunc
