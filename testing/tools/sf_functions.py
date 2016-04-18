@@ -9,12 +9,20 @@ Then the method generates the files.
 
 """
 import string
-from extract_tool_ufunc import *
 import sys
+import os.path
+
+_base_dir = os.path.abspath(os.path.dirname(__file__))
+_t_dir = os.path.join(_base_dir, "generate_interface")
+sys.path.append(_t_dir)
+
+from extract_tool_ufunc import *
+
 pipe = os.popen("gsl-config --prefix")
 prefix = pipe.readlines()[0]
 prefix = os.path.join(string.strip(prefix), 'include')
 p = prototype_collector(prefix)
+
 # Functions to exclude from the whole list.
 exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and output. not properly recognized.
                 # use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
@@ -29,9 +37,10 @@ exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and ou
                 #Deprecated functions
                 'gsl_sf_coupling_6j_INCORRECT_e',
                 'gsl_sf_coupling_INCORRECT_6j',
-                # Functions returning arrays are not mapped currently.
+                # Not a direct map
                 'gsl_sf_polar_to_rect',
                 'gsl_sf_rect_to_polar',
+                # Functions returning arrays are not mapped currently.
                 'gsl_sf_bessel_sequence_Jnu_e',
                 'gsl_sf_bessel_Jn_array',
                 'gsl_sf_bessel_Yn_array',
@@ -57,7 +66,20 @@ exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and ou
                 'gsl_sf_legendre_sphPlm_array',
                 'gsl_sf_legendre_sphPlm_deriv_array',
                 'gsl_sf_legendre_array_size',
-                'gsl_sf_legendre_H3d_array',		
+                'gsl_sf_legendre_H3d_array',
+		'gsl_sf_legendre_array',
+		'gsl_sf_legendre_array_e',
+		'gsl_sf_legendre_deriv_array_e',
+		'gsl_sf_legendre_deriv_array',
+		'gsl_sf_legendre_deriv_alt_array',
+		'gsl_sf_legendre_deriv_alt_array_e',
+		'gsl_sf_legendre_deriv2_array',
+		'gsl_sf_legendre_deriv2_array_e',
+		'gsl_sf_legendre_deriv2_alt_array',
+		'gsl_sf_legendre_deriv2_alt_array_e',
+		'gsl_sf_legendre_array_n',
+		'gsl_sf_legendre_array_index',
+                'gsl_sf_legendre_nlm',
 		'gsl_sf_mathieu_ce_array',
 		'gsl_sf_mathieu_se_array',
 		'gsl_sf_mathieu_Mc_array',
