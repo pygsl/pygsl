@@ -30,7 +30,7 @@
 
   We are collecting implementations of parts of gsl. So the interface
   is not complete. We are looking forward to contributions of new
-  submodules, while maintaining the awailabel code.
+  submodules, while maintaining the available code.
 
   <h2>Requirements:</h2>
 
@@ -38,22 +38,10 @@
   <ul>
   <li> <a href="http://www.gnu.org/software/gsl/">gsl-1.13</a> or better,</li>
   <li> <a href="http://www.python.org">python2.6</a> or better and</li>
-  <li> <a href="http://numpy.sf.net">NumPy</a>, and</li>
+  <li> <a href="http://www.numpy.org">NumPy</a>, and</li>
   <li>a ANSI C compiler (i.e. gcc).</li>
   </ul>
 
-  Currently it is being tested:
-
-  <ul>
-    <li> python3.5  numpy1.9.2 and gsl-2.1 (on mac os x, fink) </li>
-  </ul>
-
-   The version 2.2.1 was tested with
-  <ul>
-    <li> python2.6, numpy1.4 and gsl-1.13 (on linux redhat) </li>
-    <li> python2.7  numpy1.8 and gsl-1.16 (on mac os x, fink) </li>
-    <li> python3.4  numpy1.8 and gsl-1.16 (on linux debian stable) </li>
-    </ul>
   
 
 
@@ -71,13 +59,14 @@
 
   <p><tt>gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-</tt>
   <br><tt>cd pygsl-x.y.z</tt>
-  <br><tt>#do this with your prefered python version</tt>
+  <br><tt>#do this with your preferred python version</tt>
   <br><tt>#to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl</tt>
   <br><tt>#If your are using cvs, remove your <i>build</i> directory. </tt>
+  <br><tt>python setup.py config</tt>
   <br><tt>python setup.py build</tt>
   <br><tt># Running only </tt>
   <br><tt>python setup.py</tt>
-  <br><tt># can result in an error. So if you see an error runing setup.py
+  <br><tt># can result in an error. So if you see an error running setup.py
    please run python setup.py build </tt>
   <br><tt># change to a id, that is allowed to do installation</tt>
   <br><tt>python setup.py install</tt>
@@ -90,7 +79,7 @@
   install it first and then change to the tests directory and 
   execute  <tt>python run_test.py</tt></b> If you want to execute it in the
   distribution root directory, please run python setup.py build_ext -i first!
-  It will put the requried binary files into the pygsl directory.
+  It will put the required binary files into the pygsl directory.
   
   <p>Just write in python
   <br><tt>import pygsl.sf</tt>
@@ -119,14 +108,21 @@
  but is supposed to compile and run on any posix platform
  </p>
 
- <p>
- Currently it is being tested using
- <ul>
-     <li>python2.6, numpy1.4 and gsl-1.13 (on linux redhat) </li>
-     <li>python2.7  numpy1.8 and gsl-1.16 (on mac os x, fink) </li>
-     <li>python3.4  numpy1.8 and gsl-1.16 (on linux debian stable) </li>
+   Currently it is being tested:
+
+  <ul>
+    <li> python3.5  numpy1.9.2 and gsl-2.1 (on mac os x, fink) </li>
   </ul>
-  <h2>Testing:</h2>
+
+   The version 2.1.1 was tested with
+  <ul>
+    <li> python2.6, numpy1.4 and gsl-1.13 (on linux redhat) </li>
+    <li> python2.7  numpy1.8 and gsl-1.16 (on mac os x, fink) </li>
+    <li> python3.4  numpy1.8 and gsl-1.16 (on linux debian stable) </li>
+    </ul>
+
+
+    <h2>Testing:</h2>
   
   The directory <tt>test</tt> will contain several testsuites, based
   on python <tt>unittest</tt>. Change to this directory to run the tests.
@@ -232,12 +228,12 @@
   <li>pygsl-0.0.4 was released at January 8, 2002</li>
   <li>pygsl-0.1 was released at  August 28, 2002</li>
   <li>pygsl-0.1b was released at May 17, 2003</li>
-  <li>oygsl-0.3.0 was released  </li>
-  <li>oygsl-0.3.1 was released  </li>
-  <li>oygsl-0.3.3 was released  </li>
-  <li>oygsl-0.9.0 was released  </li>
-  <li>oygsl-0.9.3 was released on 15. June 2008</li>
-  <li>oygsl-0.9.4 will be released soon</li>
+  <li>pygsl-0.3.0 was released  </li>
+  <li>pygsl-0.3.1 was released  </li>
+  <li>pygsl-0.3.3 was released  </li>
+  <li>pygsl-0.9.0 was released  </li>
+  <li>pygsl-0.9.3 was released on 15. June 2008</li>
+  <li>pygsl-2.2.0 was released 18. April 2016</li>
   </ul>
 
   <h2>Thanks:</h2>
