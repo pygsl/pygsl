@@ -1,7 +1,7 @@
 """
 Provides the various special functions as UFuncs
 """
-from . import _ufuncs
+from pygsl.testing import _ufuncs
 _token = "sf_"
 _tokl  = len(_token)
 
@@ -11,6 +11,9 @@ for _name in dir(_ufuncs):
         _cmd = "%s = _ufuncs.%s" % (_shortname, _name)
         #printy cmd
         exec(_cmd)
+
+from pygsl.testing._ufuncs import PREC_DOUBLE, PREC_SINGLE, PREC_APPROX
+
 del _token
 del _tokl
 del _shortname
