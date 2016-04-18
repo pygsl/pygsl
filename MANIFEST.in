@@ -53,6 +53,7 @@ include CREDITS
 include TODO
 include ChangeLog
 include setup.py
+include gsl_packages.py
 include setup.cfg
 include MANIFEST.in
 include MANIFEST
