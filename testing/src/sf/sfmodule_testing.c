@@ -17,11 +17,6 @@
 #include <numpy/ufuncobject.h>
 #define _PyGSL_UFUNC_SUPPORTED
 #endif
-#ifdef PyGSL_NUMERIC
-#include <Numeric/arrayobject.h>
-#include <Numeric/ufuncobject.h>
-#define _PyGSL_UFUNC_SUPPORTED
-#endif
 #ifndef _PyGSL_UFUNC_SUPPORTED
 #error "UFUNCs not supported by the selected/found array module!"
 #endif
@@ -32,8 +27,47 @@
 
 static PyObject* module = NULL; /*used by the backtrace*/
 
+#define _PyGSL_NAN GSL_NAN
+
 #define IMPORTALL 1
 
+static inline int
+_pygsl_sf_long_to_int(long val, int * result)
+{
+	int status = GSL_EFAILED;
+	if (val > (long) INT_MAX){
+		status = GSL_EINVAL;
+		*result = INT_MAX;
+	} else if (val < (long) INT_MIN){
+		status = GSL_EINVAL;
+		*result = INT_MIN;
+	} else {
+		status = GSL_SUCCESS;
+		*result = (int) val;
+	}
+	return status;
+}
+
+static inline int
+_pygsl_sf_long_to_unsigned_int(long val, unsigned int * result)
+{
+	int status = GSL_EFAILED;
+
+	if (val > (long) UINT_MAX){
+		status = GSL_EINVAL;
+		*result = UINT_MAX;
+	} else if (val < 0){
+		status = GSL_EINVAL;
+		*result = 0;
+	} else {
+		status = GSL_SUCCESS;
+		*result = (int) val;
+	}
+	return status;
+}
+
+#define _PyGSL_SF_L_TO_I(val, result) _pygsl_sf_long_to_int(val, result)
+#define _PyGSL_SF_L_TO_U(val, result) _pygsl_sf_long_to_unsigned_int(val, result)
 
 /* I add the evaluate functions types by hand to have an extra check */
 #ifdef IMPORTALL
