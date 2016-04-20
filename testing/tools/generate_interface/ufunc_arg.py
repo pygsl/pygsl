@@ -8,6 +8,9 @@ Provides converters from each ufunc pointer type to the appropriate C types
 Gives the code for the appropriate temporary variables.
 """
 
+class NotImplementedMethod(Exception):
+    pass
+
 class BasisClass(Exception):
     pass
 
@@ -43,15 +46,27 @@ class _UFuncArgument(_UFuncPosNum):
     
     Then the code given within this class will provide the appropriate 
     converters for the standard cases.
+
+    The code given in this base class shall not cover the array pointer 
+    conversions. These are defined in the derived classes
+        * _NoTemporaryVariables : for all types that do not need temporary 
+                                  variables
+        * _NeedsTemporaryVariables : for all types that need a single temporary
+                                  variable of some "atomic" type
     """
-    # The C type that is wrapped
+    
+    # The C type that is wrapped, i.e the type the called function expects
     _c_type = None
+
     # its assosicated numpy code.
     _numpy_type_code = None
+    
     # The standard letter for it 
     _type_letter = None
+    
     # What value it should be set to if in fail mode
     _value_for_failed = None
+    
     # sometimes a c sub type is needed:
     # e.g. a complex value is built up from double values
     _c_sub_type = None
@@ -62,14 +77,54 @@ class _UFuncArgument(_UFuncPosNum):
 	self._input_argument = None
 	self._output_argument = None
 	self._return_argument = None
-	
+	self._verbose = True
+        
     def _CheckMemberNotNone(self, member_name):        
         member = getattr(self, member_name)
         if member == None:
             args = (self.__class__.__name__, member_name)
             raise ValueError("%s.%s == None" % args)
         return member
+
+    def Verbose(self):
+        " will emit extra description comments in the code"
+        self._verbose = True
         
+    def NoVerbose(self):
+        self._verbose = False
+        
+        
+    def GetTmpVariableLabel(self):
+	if self._input_argument:
+	    label = "i"
+	elif self._output_argument:
+	    label = "o"
+	elif self._return_argument:
+	    label = "r"
+	else:
+            msg = "%s: Don't know if I am input, output or return variable"
+            msg = msg %(self.__class__.__name__)
+	    raise ValueError(msg)
+
+	return label
+        
+    def _GetTmpVariableName(self):
+        "Create a temporary variable name"
+        
+        pos = self.GetPyUFuncPosNumber()
+        label = self.GetTmpVariableLabel()
+        letter = self.GetTypeLetter()
+
+	name = "tmp%s%d" % (label, pos)
+	return name
+
+    def _NoCodeForMethod(self, msg):
+        if self._verbose:
+            name = self._GetTmpVariableName()
+            return ["/* %s %s: no code for %s */ " %(self.__class__.__name__,  name, msg)]
+        return [""]
+
+    
     def GetCType(self):
         "The C type associated with this UFunc argument"
         return self._CheckMemberNotNone("_c_type")
@@ -79,7 +134,10 @@ class _UFuncArgument(_UFuncPosNum):
         e.g. a complex is made of two doubles
         """
         return self._CheckMemberNotNone("_c_sub_type")
-    
+
+    def NeedFailLabel(self):
+        return False
+
     def GetNumpyTypeCode(self):
         "The numpy type code: e.g. for a 'double' value it is NPY_DOUBLE"
         return self._CheckMemberNotNone("_numpy_type_code")
@@ -106,49 +164,45 @@ class _UFuncArgument(_UFuncPosNum):
 
     def SetReturnArgument(self):
         "This argument is an return argument"
-	self._return_argument = True
+	self._return_argument = True   
 
-    def GetTmpVariableLabel(self):
-	if self._input_argument:
-	    label = "i"
-	elif self._output_argument:
-	    label = "o"
-	elif self._return_argument:
-	    label = "r"
-	else:
-	    raise ValueError("Don't know if I am input, output or return variable")
+    def GetFunctionReturnCast(self):
+        """
+        Function: cast of return to return variable
 
-	return label
-        
-    def _GetTmpVariableName(self):
-        "Create a temporary variable name"
-        pos = self.GetPyUFuncPosNumber()
-        label = self.GetTmpVariableLabel()
-        letter = self.GetTypeLetter()
-
-	name = "tmp%s%d" % (label, pos)
-	return name
+        Warning: must return only valid C code!
+        """
+        return [""]
 	
+    def GetInputConversion(self):
+        raise NotImplementedMethod
         
-    def NeedFailLabel(self):
-        return False
+        return self._NoCodeForMethod("input conversion ")
 
-    def GetTmpVariables(self):
-        "Code for declaring temporary assignments"
-        return [""]
+    def GetOutputConversion(self):
 
-    def GetInputTmpVariablesAssignment(self):
-        "Setting temporary variables from input"
-        return [""]   
+        t_type = self.GetCType()
+        pos = self.GetPyUFuncPosNumber()
+        code = "*((%s *) op%d)" % (t_type, pos)
+        if self._verbose:
+            code += " /**/"
+        return code
 
-    def GetOutputTmpVariablesAssignment(self):
-        "Setting output from temporary variables"
-        return [""]
 
-    def GetReturnTmpVariablesAssignment(self):
-        "Setting output from temporary variables"
-        return [""]
+    def GetOutVarsSetOnError(self):
+        """
+        If an error occurs set the error
+        """
+	code = self.GetOutputConversion()
+	val = self.GetValueForFailedVariable()
+	code = "%s = %s;" %(code, val)
+	return [code]
 
+class _NoTemporaryVariables(_UFuncArgument):
+    """
+    An UFunc which only needs to cast the array pointers
+    """
+    
     def GetInputCallArgument(self):
         "Function call: input arguments"
 	pos = self.GetPyUFuncPosNumber()
@@ -162,82 +216,79 @@ class _UFuncArgument(_UFuncPosNum):
 	ct = self.GetCType()
 	code = ["((%s *) op%d)" % (ct, pos)]
 	return code
-   
 
-    def GetFunctionReturnCast(self):
-        "Function: cast of return to return variable"
-        return [""]
-    
-	mi = self._minor_ins
-	if mi:
-	    ct = mi.GetCType()
-	    code = ["%s" % (ct,)]
-	    return code
-	else:
-	    pass
-	
     def GetReturnCallArgument(self):
 	"""
         Return variable
 	"""
 	pos = self.GetPyUFuncPosNumber()
 	ct = self.GetCType()
-	code = [
-            "*((%s *) op%d)" % (ct, pos)
-	]
-	return code
-
-    def GetInputConversion(self):
-        return ["/* no input conversion for type  '%s' */" %(self.__class__.__name__,)]
-
-    def GetOutputConversion(self):
-        t_type = self.GetCType()
-        pos = self.GetPyUFuncPosNumber()
-        code = "*((%s *) op%d)" % (t_type, pos)
-        return code
-
-
-    def GetOutVarsSetOnError(self):
-        """
-        If an error occurs set the error
-        """
-	code = self.GetOutputConversion()
-	val = self.GetValueForFailedVariable()
-	code = "%s = %s;" %(code, val)
+	code = "*((%s *) op%d)" % (ct, pos)
+	if self._verbose:
+            code = "/* %s: return variable */ %s" %(self.__class__.__name__, code)
 	return [code]
+
+    def GetTmpVariables(self):
+        "Code for declaring temporary assignments"
+        return self._NoCodeForMethod("get tmp var")
+
+    def GetInputTmpVariablesAssignment(self):
+        "Setting temporary variables from input"
+        return self._NoCodeForMethod("input tmp var")
+
+    def GetOutputTmpVariablesAssignment(self):
+        "Setting output from temporary variables"
+        return self._NoCodeForMethod("output tmp var")
+
+    def GetReturnTmpVariablesAssignment(self):
+        "Setting output from temporary variables"
+        return self._NoCodeForMethod("return tmp var")
 
 class _NeedsTemporaryVariables(_UFuncArgument):
     """
     A ufunc that needs temporary variables for the call
     """
+    def _GetCTypeForUFunc(self):
+        "For this class it is the same"
+        return self.GetCtype()
+    
     def GetTmpVariables(self):
 	name = self._GetTmpVariableName()	
         code = "%s %s;" %(self.GetCType(), name)
+        if self._verbose:
+            args = (self.__class__.__name__, self._c_type)
+            code += " /* %s: _c_type %s */" % args
+
         return [code]
 
     def GetInputConversion(self):
-        t_type = self.GetCType()
+        raise NotImplementedMethod
+
+        t_type = self.GetCTypeForUFunc()
         pos = self.GetPyUFuncPosNumber()
-        code = "*((%s *) ip%d)" % (t_type, pos)
+        code = "/*in conv*/ *((%s *) ip%d)" % (t_type, pos)
         return code
 
     def GetReturnArgumentConversion(self):
 	name = self._GetTmpVariableName()	            
-        return [""]
-
+        return self._NoCodeForMethod("Return Argument Conversion")
 
     def GetInputTmpVariablesAssignment(self):
 	name = self._GetTmpVariableName()	    
 	pos = self.GetPyUFuncPosNumber()
-        code = "%s = *((%s *) ip%d);" %(name, self.GetCType(), pos)
+        t_type = self.GetCTypeForUFunc()
+        code = "%s = *((%s *) ip%d);" %(name, t_type, pos)
         return [code]
 
     def GetReturnTmpVariablesAssignment(self):
         "Setting return from temporary variables to Ufunc arrays"
 	name = self._GetTmpVariableName()	    
 	pos = self.GetPyUFuncPosNumber()
-	code = ["(*((%s *) op%d)) = %s" %(self.GetCType(), pos, name)]
-	return code
+        t_type = self.GetCTypeForUFunc()
+	code = "(*((%s *) op%d)) = %s;" %(t_type, pos, name)
+        if self._verbose:
+            code += " /* %s: return assignment */" % (self.__class__.__name__,)
+	return [code]
 
     def GetOutputTmpVariablesAssignment(self):
 	name = self._GetTmpVariableName()	    
@@ -263,23 +314,39 @@ class _NeedsTemporaryVariables(_UFuncArgument):
 	name = self._GetTmpVariableName()	            
 	code = [name]
 	return code
-
     
     #def GetFunctionReturnCast(self):
     #    "Function: cast of return to return variable"
-    #    return [""]
+    #    c_type = self._GetCType()
+    #    return ["(%s)" %(c_type,)]
 
     def GetOutVarsSetOnError(self):
 	code = self.GetOutputConversion()
 	val = self.GetValueForFailedVariable()
 	code = "%s = %s;" %(code, val)
 	return [code]
+
+class _UFuncArgumentToCast(_NeedsTemporaryVariables):
+    """
+    this type is a minor to a major type ...
+    """
+    _c_type_of_ufunc = None
+
+    def GetCTypeForUFunc(self):
+        "The C type the ufunc has ...."
+        return self._CheckMemberNotNone("_c_type_of_ufunc")
+    
     
 class _UFuncArgumentWithMinor(_UFuncArgument):
     """
-    This can be used as a minor
+    Used to define a minor type. 
+
+    Be aware that any subclass must/should also subclass 
+    _NoTemporaryVariables
+    _NeedsTemporaryVariables
     """
     _minor = None
+
     def __init__(self):
 	_UFuncArgument.__init__(self)
 
@@ -287,21 +354,39 @@ class _UFuncArgumentWithMinor(_UFuncArgument):
 	if self._minor != None:
 	    self._minor_ins = self._minor()
 
+    def _AssertMinorInstance(self):
+        if self._minor_ins == None:
+            msg = "%s: Should have a minor instance, but it was not created!"
+            msg = msg % (self.__class__.__name__)
+            raise NoMinor(msg)
+        
     def GetMinorInstance(self):
-	minor = self._minor_ins
-	if minor != None:
-	    return minor
-
-        msg = "no minor found for an instance of cls '%s'"
-        raise NoMinor(msg, self.__class__.__name__)
+        self._AssertMinorInstance()
+        return self._minor_ins
 
     def SetPyUFuncPosNumber(self, num):
-	_UFuncPosNum.SetPyUFuncPosNumber(self, num)
-	if self._minor_ins != None:
-	    self._minor_ins.SetPyUFuncPosNumber(num)
-
+        self._AssertMinorInstance()        
+        self._minor_ins.SetPyUFuncPosNumber(num)
+	_UFuncPosNum.SetPyUFuncPosNumber(self, num)        
     
-class _LongArgument(_UFuncArgument):
+    def SetInputArgument(self):
+        self._AssertMinorInstance()        
+        _UFuncArgument.SetInputArgument(self)
+        self._minor_ins.SetInputArgument()
+        
+    def SetOutputArgument(self):
+        self._AssertMinorInstance()        
+        _UFuncArgument.SetOutputArgument(self)
+        self._minor_ins.SetOutputArgument()
+        
+    def SetReturnArgument(self):
+        self._AssertMinorInstance()        
+        _UFuncArgument.SetReturnArgument(self)
+        self._minor_ins.SetReturnArgument()
+    
+#del _UFuncArgument
+    
+class _LongArgument(_UFuncArgumentToCast):
     """
     py3 integers are longs. Thus a number of integer values should handle
     NPY_LONG as input.
@@ -309,8 +394,7 @@ class _LongArgument(_UFuncArgument):
     But these need macros to convert the values. A negative unsigned int or a
     too large long should not be passed to the gsl function
     """
-    _c_type = "long"
-    _type_letter = "l"
+    _c_type_of_ufunc = "long"
     _numpy_type_code = "NPY_LONG"
     _value_for_failed = "LONG_MIN"
     _input_conversion_macro = None
@@ -380,10 +464,11 @@ class _FloatArgumentInfo:
     def GetValueForFailedVariable(self):
         return "_PyGSL_NAN"
 
-class _FloatArgumentAsMinor( _FloatArgumentInfo, _NeedsTemporaryVariables):
-    pass
+class _FloatArgumentAsMinor( _FloatArgumentInfo, _UFuncArgumentToCast):
+    _c_type = "double"
+    _c_type_of_ufunc = "float"
     
-class DoubleArgument(_UFuncArgumentWithMinor):
+class DoubleArgument(_UFuncArgumentWithMinor, _NoTemporaryVariables):
     _c_type = "double"
     _type_letter = "d"
     _value_for_failed = "_PyGSL_NAN"
@@ -411,34 +496,52 @@ class _GSLComplexFloatArgumentInfo:
     _c_sub_type = "float"
 
 
-
-class GSLComplexFloatArgumentAsMinor( _GSLComplexFloatArgumentInfo, _NeedsTemporaryVariables):
+class _GSLComplexTmpVarAssignment:
+    " Just to save code dublication "
     def GetInputTmpVariablesAssignment(self):
-        name = self.GetTmpVariableName()
+        name = self._GetTmpVariableName()
 	pos = self.GetPyUFuncPosNumber()
-	t_vars = (name, mi.GetCSubType(), self.GetCSubType(), pos)
+	t_vars = (name, self.GetCSubType(), pos)
 	code = [
-	    "%s.dat[0] = (%s) (* (%s *) ip%d);"      % t_vars,
-	    "%s.dat[1] = (%s) (*((%s *) ip%d) + 1);" % t_vars
+	    "%s.dat[0] = *  ((%s *) ip%d);"      % t_vars,
+	    "%s.dat[1] = *( ((%s *) ip%d) + 1);" % t_vars
 	    ]
 	return code
 
+    def _GetOutReturnVariablesAssignment(self):
+        name = self._GetTmpVariableName()
+	pos = self.GetPyUFuncPosNumber()
+        c_type = self.GetCSubType()
+	t_vars = (c_type,  pos, name)
+	code = [
+	     "*  ((%s *) op%d)      = %s.dat[0];" % t_vars,
+	     "*( ((%s *) op%d) + 1) = %s.dat[1];" % t_vars
+	    ]
+	return code
+    
+    def GetReturnTmpVariablesAssignment(self):
+        return self._GetOutReturnVariablesAssignment()
+    
     def GetOutputTmpVariablesAssignment(self):
-        name = self.GetTmpVariableName()
-	pos = self.GetPyUFuncPosNumber()
-	t_vars = (mi.GetCSubType(), name, pos)
-	code = [
-	     "(* (%s *) op%d)      = %s.dat[0];" % t_vars,
-	     "(*((%s *) op%d) + 1) = %s.dat[1];" % t_vars
-	    ]
-	return code
+        return self._GetOutReturnVariablesAssignment()
 
+    def GetReturnTmpVariablesAssignment(self):
+        return self._GetOutReturnVariablesAssignment()
+    
+    def GetOutputTmpVariablesAssignment(self):
+        return self._GetOutReturnVariablesAssignment()
+    
     def GetReturnCallArgument(self):
-	label = self.GetTmpVariableName()
+	name = self._GetTmpVariableName()
 	code = [name]
 	return code
     
-class GSLComplexArgument(_NeedsTemporaryVariables, _UFuncArgumentWithMinor):
+class GSLComplexFloatArgumentAsMinor(_GSLComplexTmpVarAssignment, _GSLComplexFloatArgumentInfo,  _UFuncArgumentToCast):
+    _c_type = "gsl_complex"
+    _c_type_of_ufunc = "gsl_complex_float"
+    
+    
+class GSLComplexArgument(_GSLComplexTmpVarAssignment, _UFuncArgumentWithMinor, _NeedsTemporaryVariables):
     _minor = GSLComplexFloatArgumentAsMinor
 
     _c_type = "gsl_complex"
@@ -446,14 +549,8 @@ class GSLComplexArgument(_NeedsTemporaryVariables, _UFuncArgumentWithMinor):
     _value_for_failed = ["_PyGSL_NAN", "_PyGSL_NAN"]
     _numpy_type_code = "NPY_CDOUBLE"
     _c_sub_type = "double"
-    
-    def GetReturnTmpVariablesAssignment(self):
-        "Setting return from temporary variables to Ufunc arrays"
-	name = self._GetTmpVariableName()	    
-	pos = self.GetPyUFuncPosNumber()
-        c_type = self.GetCSubType()
-	code = [
-            "*(( (%s *) op%d)    ) = %s.dat[0];" %(c_type, pos, name),
-            "*(( (%s *) op%d) + 1) = %s.dat[1];" %(c_type, pos, name),
-        ]
-	return code
+
+    def __init__(self, *args, **kws):
+        _UFuncArgumentWithMinor.__init__(self, *args, **kws)
+        assert(self._minor_ins != None)
+        
