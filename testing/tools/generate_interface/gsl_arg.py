@@ -1,7 +1,8 @@
 from __future__ import print_function
+import copy
 import ufunc_arg
 
-_bcls = ufunc_arg._UFuncArgument
+_bcls = ufunc_arg._NeedsTemporaryVariables
 class _GSLSfResult(_bcls):
     """
     These are not classical UFunc argumets: These need more than
@@ -154,7 +155,7 @@ class GSLSfResultE(_GSLSfResult):
             self._sub_types[2].GetNumpyTypeCode()
         ]
 
-class Argument:
+class _Argument:
     """
     Descirbes one argument.
 
@@ -180,8 +181,6 @@ class Argument:
         self._operator = None
         self._name = None
 
-	self._gsl_pos_number = None
-
         # Can I use a direct C subtype
 	self._sub_types = None
         
@@ -189,20 +188,12 @@ class Argument:
 	self._gsl_sub_types = None
         
         self._py_ufunc_pos_number = None
+	self._gsl_pos_number = None
 
         self._input_argument = None
         self._output_argument = None
         self._return_argument = None
-
-    def _CheckMemberNotNone(self, member_name):        
-        member = getattr(self, member_name)
-        if member == None:
-            args = (self.__class__.__name__, member_name)
-            raise ValueError("%s.%s == None" % args)
-        return member
         
-    def SetGSLPosNumber(self, num):
-	self._gsl_pos_number = int(num)
 
     def GetGSLPosNumber(self):
 	num = self._gsl_pos_number
@@ -212,31 +203,6 @@ class Argument:
     def GetGSLType(self):
         return self._type
 
-    def SetPyUFuncPosNumber(self, num):
-	self._py_ufunc_pos_number = int(num)
-
-        assert(self._sub_types != None or self._gsl_sub_types != None)
-
-        
-        if self._gsl_sub_types != None:
-            cnt = 0
-            for s in self._gsl_sub_types:
-                s.SetPyUFuncPosNumber(num)
-                cnt += 1
-            assert(cnt == 1)
-            return
-        
-                
-        l = len(self._sub_types)
-
-        test = self.GetNumberOutArgs()
-        assert(test == l)
-        
-        for cnt in range(l):
-            st = self._sub_types[cnt]
-            #print("%s setting to %s" %( self.__class__.__name__, st.__class__.__name__))
-            i = num + cnt
-            st.SetPyUFuncPosNumber(i)
         
     def GetPyUFuncPosNumber(self):
 	num = self._py_ufunc_pos_number
@@ -245,101 +211,21 @@ class Argument:
 	    raise ValueError(msg)
 
 	return num
-	
-    def SetName(self, name):
-        """
-        The name of the argument.
-        """
-        self._name = name
-
-    def SetOperator(self, operator):
-        """
-        XXX ??? Perhaps a qualifier ???
-        """
-        self._operator = operator
-
-    
-    def SetType(self, mytype):
-        """
-        The type of the argument
-        """
-        self._type = mytype
-
-	sub_types = []
-	gsl_sub_types = []
         
-	if self._type == "int":
-	    sub_types.append(ufunc_arg.IntArgument())
-            
-        elif self._type == "unsigned int":
-	    sub_types.append(ufunc_arg.UnsignedIntArgument())
-            
-        elif self._type == "double":
-	    sub_types.append(ufunc_arg.DoubleArgument())
-            
-        elif self._type == "gsl_complex":
-	    sub_types.append(ufunc_arg.GSLComplexArgument())
-            
-        elif self._type == "gsl_mode_t":
-	    sub_types.append(ufunc_arg.GSLModeTArgument())
-            
-        elif self._type == "gsl_sf_result":
-            gsl_sub_types.append(GSLSfResult())
+    def _CheckMemberNotNone(self, member_name):        
+        member = getattr(self, member_name)
+        if member == None:
+            args = (self.__class__.__name__, member_name)
+            raise ValueError("%s.%s == None" % args)
+        return member
 
-        elif self._type == "gsl_sf_result_e10":
-            gsl_sub_types.append(GSLSfResultE())
-            
-        else:
-            raise ValueError("type '%s' not known" %(mytype,))
-
-        if len(sub_types) == 0:
-            self._sub_types = None            
-        else:
-            self._sub_types = sub_types
-
-        if len(gsl_sub_types) == 0:
-            self._gsl_sub_types = None            
-        else:
-            self._gsl_sub_types = gsl_sub_types
-
-            
-        if self._sub_types == None:
-            assert(self._gsl_sub_types != None)
-            
-        if self._gsl_sub_types == None:
-            assert(self._sub_types != None)
-
-
-    def _SetArgumentType(self, method_name):
-        if self._gsl_sub_types != None:
-            for s in self._gsl_sub_types:
-                method = getattr(s, method_name)
-                method()
-            return
         
-        for s in self._sub_types:
-            method = getattr(s, method_name)
-            method()
-        
-    def SetInputArgument(self):
-        "Argument is an input argument"
-        self._SetArgumentType("SetInputArgument")
-
-        self._input_argument = True
-
-    def SetOutputArgument(self):
-        "Argument is an input argument"
-        self._SetArgumentType("SetOutputArgument")
-
-        self._output_argument = True
-
-    def SetReturnArgument(self):
-        "Argument is an input argument"
-        self._SetArgumentType("SetReturnArgument")
-
-        self._return_argument = True
-
     def _GetSubTypesToUse(self):
+        if self._gsl_sub_types == None:
+            if self._sub_types == None:
+                msg = "Either sub types or gsl sub types must be defined!"
+                raise ValueError(msg)            
+
         if self._gsl_sub_types != None:
             sub_types = self._gsl_sub_types
         else:
@@ -347,6 +233,8 @@ class Argument:
 
         assert(sub_types != None)
         return sub_types
+                
+
     
     def _CollectCode(self, method_name):
 
@@ -407,6 +295,8 @@ class Argument:
         assert(l == 1)
         return result
 
+    def GetTmpVariables(self):
+        return self._CollectCode("GetTmpVariables")
     
     def GetInputTmpVariablesAssignment(self):
         self._CheckMemberNotNone("_input_argument")
@@ -515,8 +405,8 @@ class Argument:
             return "d"
 
         if self._type == "gsl_complex":
-            #if minor == 1:
-            #    return "F"
+            if minor == 1:
+                return "F"
             return "D"
 
         #if self._type == "gsl_complex_float":
@@ -617,3 +507,186 @@ class Argument:
         return "variable : %s\n   type : %s\n    op : %s\n" %(self._name, self._type, self._operator)
 
 
+class Argument(_Argument):
+    """
+    Subclass as Minor instance 
+    """
+    def __init__(self):
+        _Argument.__init__(self)
+        self.__minor_ins = None
+
+    def _CreateArgumentCopy(self):
+        cp = _Argument()
+        cp._type                = self._type               
+        cp._operator            = self._operator           
+        cp._name                = self._name
+        
+	cp._gsl_pos_number      = self._gsl_pos_number     
+	cp._sub_types           = self._sub_types          
+	cp._gsl_sub_types       = self._gsl_sub_types      
+        cp._py_ufunc_pos_number = self._py_ufunc_pos_number
+
+        cp._input_argument      = self._input_argument     
+        cp._output_argument     = self._output_argument    
+        cp._return_argument     = self._return_argument    
+        return cp
+    
+    def _CreateMinorInstance(self):
+        """
+        """
+        sub_arg = self._CreateArgumentCopy()
+        sub_types = self._GetSubTypesToUse()
+
+        result = []
+        for t in sub_types:
+            gsl_type = t.GetCType()
+            try:
+                tmp = t.GetMinorInstance()
+            except ufunc_arg.NoMinor as nm:
+                if gsl_type in ("double", "gsl_complex"):
+                    raise nm
+                
+                tmp = t
+                
+            result.append(tmp)            
+        result = tuple(result)
+
+        if self._gsl_sub_types != None:
+            sub_arg._gsl_sub_types = result
+        else:            
+            sub_arg._sub_types = result
+
+        self.__minor_ins = sub_arg
+        
+    def GetMinorInstance(self):
+        """
+        """
+        if self.__minor_ins == None:
+            self._CreateMinorInstance()
+
+        assert(self.__minor_ins)
+        return self.__minor_ins
+
+    def GetMinorInstanceNoFail(self):
+        return self.GetMinorInstance()
+
+    # Minor instance shall not be settable
+    def SetPyUFuncPosNumber(self, num):
+	self._py_ufunc_pos_number = int(num)
+        
+        if self._gsl_sub_types != None:
+            cnt = 0
+            for s in self._gsl_sub_types:
+                s.SetPyUFuncPosNumber(num)
+                cnt += 1
+            assert(cnt == 1)
+            return
+        
+                
+        l = len(self._sub_types)
+
+        test = self.GetNumberOutArgs()
+        assert(test == l)
+        
+        for cnt in range(l):
+            st = self._sub_types[cnt]
+            #print("%s setting to %s" %( self.__class__.__name__, st.__class__.__name__))
+            i = num + cnt
+            st.SetPyUFuncPosNumber(i)
+            
+    def SetGSLPosNumber(self, num):
+	self._gsl_pos_number = int(num)
+	
+    def SetName(self, name):
+        """
+        The name of the argument.
+        """
+        self._name = name
+
+    def SetOperator(self, operator):
+        """
+        XXX ??? Perhaps a qualifier ???
+        """
+        self._operator = operator
+
+    
+    def SetType(self, mytype):
+        """
+        The type of the argument
+        """
+        self._type = mytype
+
+	sub_types = []
+	gsl_sub_types = []
+        
+	if self._type == "int":
+	    sub_types.append(ufunc_arg.IntArgument())
+            
+        elif self._type == "unsigned int":
+	    sub_types.append(ufunc_arg.UnsignedIntArgument())
+            
+        elif self._type == "double":
+	    sub_types.append(ufunc_arg.DoubleArgument())
+            
+        elif self._type == "gsl_complex":
+	    sub_types.append(ufunc_arg.GSLComplexArgument())
+            
+        elif self._type == "gsl_mode_t":
+	    sub_types.append(ufunc_arg.GSLModeTArgument())
+            
+        elif self._type == "gsl_sf_result":
+            gsl_sub_types.append(GSLSfResult())
+
+        elif self._type == "gsl_sf_result_e10":
+            gsl_sub_types.append(GSLSfResultE())
+            
+        else:
+            raise ValueError("type '%s' not known" %(mytype,))
+
+        if len(sub_types) == 0:
+            self._sub_types = None            
+        else:
+            self._sub_types = sub_types
+
+        if len(gsl_sub_types) == 0:
+            self._gsl_sub_types = None            
+        else:
+            self._gsl_sub_types = gsl_sub_types
+
+            
+        if self._sub_types == None:
+            assert(self._gsl_sub_types != None)
+            
+        if self._gsl_sub_types == None:
+            assert(self._sub_types != None)
+
+
+    def _SetArgumentType(self, method_name):
+        if self._gsl_sub_types != None:
+            for s in self._gsl_sub_types:
+                method = getattr(s, method_name)
+                method()
+            return
+        
+        for s in self._sub_types:
+            method = getattr(s, method_name)
+            method()
+        
+    def SetInputArgument(self):
+        "Argument is an input argument"
+        self._SetArgumentType("SetInputArgument")
+
+        self._input_argument = True
+
+    def SetOutputArgument(self):
+        "Argument is an input argument"
+        self._SetArgumentType("SetOutputArgument")
+
+        self._output_argument = True
+
+    def SetReturnArgument(self):
+        "Argument is an input argument"
+        self._SetArgumentType("SetReturnArgument")
+
+        self._return_argument = True
+    
