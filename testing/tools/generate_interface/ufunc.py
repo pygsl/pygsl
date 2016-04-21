@@ -9,8 +9,8 @@ import pprint
 import string
 from cStringIO import StringIO
 
+import ufunc_arg
 import gsl_arg
-
 
 #from StringIO import StringIO
 Argument = gsl_arg.Argument
@@ -663,42 +663,60 @@ static  char * %s =
         print ("\t\t}")
 
 
-    def function_call_without_flag2(self):
+    def function_call_without_flag(self):
         """
-        Use all the art of the 
+        Write the iterator evaluator 
+
+        Now arguments are implemented in an OO fashion.
         """
         stream = sys.stdout
 
+        verbose = True
+        if verbose:
+            def add_comment(comment):
+                stream.write(comment)
+        else:
+            def add_comment(comment):
+                pass
+            
         # Construct a call in minor mode?
         minor = self.evaluator_mode
 
+        # Then get the arguments aranged that way ... 
+        if minor:
+            in_args = map(lambda x: x.GetMinorInstanceNoFail(), self.in_args)
+            out_args = map(lambda x: x.GetMinorInstanceNoFail(), self.out_args)
+            return_arg = self.return_arg.GetMinorInstanceNoFail()
+            
+        else:
+            in_args = self.in_args
+            out_args = self.out_args
+            return_arg = self.return_arg
 
-        all_args = self.in_args + (self.return_arg,) + self.out_args
-        stream.write("\t\t/* temporary variables */\n")        
+        in_args  = tuple(in_args)
+        out_args = tuple(out_args)
+        
+        all_args = in_args + (return_arg,) + out_args
+        
+        add_comment("\t\t/* temporary variables */\n")        
         # create temporary variables
         cnt = 0
         for arg in all_args:
-            if minor:
-                try:
-                    arg = arg.GetMinor()
-                except AttributeError:
-                    pass
             gsl_type = arg.GetGSLType()
-            stream.write("\t\t/* arg %d tmp variables for type '%s' */\n" %(cnt, gsl_type))
+                    
+            add_comment("\t\t/* arg %d tmp variables for type '%s' */\n" %(cnt, gsl_type))
             code = arg.GetTmpVariables()
             for line in code:
                 stream.write("\t\t%s\n" % (line,))
             cnt += 1
         
-        stream.write("\t\t/* temp vars: input assignment */\n")
         # create temporary variables assignment
+        # here the execution of the loop starts ... 
+        stream.write('\t\tDEBUG_MESS(2, "Evaluating element %ld", (long)i);\n')
+
+        add_comment("\n\t\t/* tmp vars: input assignment */\n")
         cnt = 0
-        for arg in self.in_args:
-            if minor:
-                try:
-                    arg = arg.GetMinor()
-                except AttributeError:
-                    pass
+        for arg in in_args:
             gsl_type = arg.GetGSLType()
             stream.write("\t\t/* arg %d tmp variables for type '%s' */\n" %(cnt, gsl_type))
             code = arg.GetInputTmpVariablesAssignment()
@@ -712,37 +730,18 @@ static  char * %s =
         # first collect the code for all arguments    
         in_args_code = []
         # function arguments: input
-        stream.write("\t\t/* temp vars: input call  */\n")
-        for arg in self.in_args:
-            if minor:
-                try:
-                    arg = arg.GetMinor()
-                except AttributeError:
-                    pass
-
+        for arg in in_args:
             code = arg.GetInputCallArgument()
             in_args_code.extend(code)
-        # function arguments: output
-        stream.write("\t\t/* temp vars: output call */\n")
-        out_args_code = []
-        for arg in self.out_args:
-            if minor:
-                try:
-                    arg = arg.GetMinor()
-                except AttributeError:
-                    pass
 
+        # function arguments: output
+        out_args_code = []
+        for arg in out_args:
             code = arg.GetOutputCallArgument()
             out_args_code.extend(code)
 
-        stream.write("\t\t/* temp vars: return call */\n")
-        arg = self.return_arg
-        if minor:
-            try:
-                arg = arg.GetMinor()
-            except AttributeError:
-                pass
-
+        
+        arg = return_arg
         # return variable, cast, function call
         ret_cast_args = arg.GetFunctionReturnCast()
         # Only if text in args:
@@ -751,14 +750,15 @@ static  char * %s =
             ret_cast = ""
         else:
             ret_cast = " ".join(ret_cast_args)
-            ret_cast = "/*ret cast '%s'*/ (%s)" %(ret_cast_args, ret_cast)
+            ret_cast = "(%s)" %(ret_cast,)
+            if verbose:
+                ret_cast = "/* ret cast args '%s' */ %s" % (ret_cast_args, ret_cast)
         code = arg.GetReturnCallArgument()
         code = " ".join(code)
         # now we can construct the function call code
-        stream.write("\t\t/* function call */\n")
-        stream.write('\t\tDEBUG_MESS(2, "Evaluating element %ld", (long)i);\n')
-        stream.write("\t\t/* input  args: %s */\n" %(in_args_code,))
-        stream.write("\t\t/* output args: %s */\n" %(out_args_code,))
+        add_comment("\n\t\t/* function call */\n")
+        add_comment("\t\t/* input  args: %s */\n" %(in_args_code,))
+        add_comment("\t\t/* output args: %s */\n" %(out_args_code,))
         test = 0
         all_args = in_args_code + out_args_code
         try:
@@ -767,87 +767,41 @@ static  char * %s =
         finally:
             if test == 0:
                 sys.stderr.write("code for args: in '%s' out '%s'\n" % (in_args_code, out_args_code))
-        stream.write("\t\t %s = %s ((%s *) func)(%s);\n"  %(code, ret_cast, self.funccast, args_str))
-        stream.write("\t\t/* end function call */\n")
+        add_comment("\t\t %s = %s ((%s *) func)(%s);\n"  %(code, ret_cast, self.funccast, args_str))
+        add_comment("\t\t/* end function call */\n")
         
         # ------------------------------------------------------------------------------
         # Handle tmp variables for output if required
-        code = self.return_arg.GetReturnTmpVariablesAssignment()
+        add_comment("\n\t\t/* tmp vars: return assignment */\n")
+        code = return_arg.GetReturnTmpVariablesAssignment()
         for line in code:
             stream.write("\t\t%s\n" %(line,))
         
-        l = len(self.out_args)
-        stream.write("\t\t/* output conversion for %d args */\n" %(l,))
-        for arg in self.out_args:
+        l = len(out_args)
+        add_comment("\t\t/* output assignement for %d args */\n" %(l,))
+        for arg in out_args:
             code = arg.GetOutputTmpVariablesAssignment()
             for line in code:
                 stream.write("\t\t%s\n" %(line,))
                 
         # Handle the failue case
         flag = self.NeedFailLabel()
-        stream.write("\t\t /* needs fail %d */\n" %(flag,))
+        add_comment("\t\t/* needs fail %d */\n" %(flag,))
         if flag:
             stream.write("\t\tcontinue;\n\n\t fail:\n")
-            code_l = self.return_arg.GetOutVarsSetOnError()
+            code_l = return_arg.GetOutVarsSetOnError()
             for code in code_l:
                 stream.write("\t\t%s\n" %(code,))
 
-            for arg in self.out_args:                
+            for arg in out_args:                
                 gsl_type = arg.GetGSLType()
-                stream.write("\t\t/* type: %s*/\n" %(gsl_type,))
+                add_comment("\t\t/* type: %s*/\n" %(gsl_type,))
                 code_l = arg.GetOutVarsSetOnError()
                 for code in code_l:
                     stream.write("\t\t%s\n" %(code,))
                     
-        stream.write("\t\t/* end loop */\n")        
+        add_comment("\t\t/* end loop */\n")        
                     
-
-                
-                
-    def function_call_without_flag(self):
-        """
-        """
-        stream = sys.stdout
-
-        # Add integer conversions 
-        self.iterator_loop_integer_conversion()
-
-        mytype = self.return_arg.GetType(0, 0)
-        fake = self.return_arg.GetFakeType(0, self.evaluator_mode)
-        if fake:
-            stream.write( "\t\t*((%s *)op0) = (%s)((%s *) func)(" %  (fake, fake, self.funccast))
-        else:
-            stream.write( "\t\t*((%s *)op0) = ((%s *) func)(" % (mytype, self.funccast))
-        self.add_in_types()
-        stream.write (");\n")
-
-        # Handle the failue case
-        flag = self.NeedFailLabel()
-        stream.write("\t\t /* needs fail %d */\n" %(flag,))
-        if flag:
-            stream.write("\t\tcontinue;\n\n\t fail:\n")
-            code_l = self.return_arg.GetOutVarsSetOnError()
-            for code in code_l:
-                stream.write("\t\t%s\n" %(code,))
-
-            #stream.write("\t\t*((%s *)op0) = gsl_nan();\n" % (t_type,))
-
-            code_l = []
-            cnt = 0
-            stream.write("\t\t/*n out arg %d*/\n" %(len(self.out_args),))
-            for arg in self.out_args:
-                stream.write("\t\t/*out arg %d*/\n" %(cnt,))
-                cnt += 1
-                code_l.extend(arg.GetOutVarsSetOnError())
-                #for j in range(i.GetNumberOutArgs()):
-                #    line = "\t\t\t*(%s *) op%d = (%s) gsl_nan();" %(i.GetType(self.evaluator_mode, j), out_counter,
-                #                                                i.GetType(self.evaluator_mode, j))
-                #    stream.write(line + "\n")
-                #    out_counter += 1
-            for code in code_l:
-                stream.write("\t\t%s\n" %(code,))
-
-        
     def GetEvaluator(self):    
         self.evaluator_mode = 0
 
@@ -973,8 +927,6 @@ static  char * %s =
                 stream.write("\t\tunsigned int uival%d;\n" % (cnt,))
                 
                 
-        #print "x = (float*)ip1;"
-        #print "mode = (int *) ip2;"
         funccast =  self.funccast
         use_error_flag = 0
         if self.return_is_error_flag:
@@ -982,27 +934,7 @@ static  char * %s =
             self.function_call_with_flag()
         else:
             test = 0
-            ##sys.stderr.write("Wrapping %s! self.out_args = '%s'\n" % (funccast, self.out_args))
-            #if len(self.out_args) != 0:
-            #    print("/* Not wrapping  %s! self.out_args = '%s' */" %  (funccast, self.out_args))
-            #    #sys.stderr.write("Not wrapping %s! self.out_args = '%s'\n" % (funccast, self.out_args))
-            #else:
-            #    pass
-            self.function_call_without_flag2()
+            self.function_call_without_flag()
         print ("\t}")
-            # uses gsl_sf_result or gsl_sf_result_e10_
-        #print "flag = ((PyGSL_DOUBLE_FUNC_di_dd *)func)((double)*x, (gsl_mode_t) *mode, &result);"
-
-        # Use some heuristics to guess the out type.
-
-        #if (flag == GSL_SUCCESS){
-        #    *(float *)op1 = (float)result.val;
-        #    *(float *)op2 = (float)result.err;
-        #    } else {             
-        #    *(float *)op1 = (float)gsl_nan();
-        #    *(float *)op2 = (float)gsl_nan();
-        #    invoke_error_handler(__FILE__, __FUNCTION__, i, flag);
-        #    }
-        #}
 
         print ("}")
