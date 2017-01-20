@@ -151,6 +151,7 @@ class _gsl_Location_file(_gsl_Location):
 		self.cflags  = gsl_site.cflags 
 		self.libs    = gsl_site.libs   
 		self.swig    = gsl_site.swig
+		self.config_version = gsl_site.version
 		self.version = self._split_version(gsl_site.version)
 
 if os.name == 'posix':
