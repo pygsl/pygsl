@@ -1,4 +1,5 @@
 /* -*- C -*- */
+#include <setjmp.h>
 typedef struct
 {
      size_t dimension;
