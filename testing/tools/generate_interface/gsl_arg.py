@@ -1,15 +1,17 @@
 from __future__ import print_function
-import copy
 import ufunc_arg
+import common
+import copy
 
-_bcls = ufunc_arg._NeedsTemporaryVariables
-class _GSLSfResult(_bcls):
+_bcls = ufunc_arg._UFuncArgumentWithMinor
+class _GSLSfResultBasis(_bcls):
     """
     These are not classical UFunc argumets: These need more than
     one UFunc array for their data.
 
     assuming currently that these are only out arguments
     """
+    __slots__ = ["_sub_types", ]
     _cls_s = None
     def __init__(self):
         assert(self._cls_s != None)
@@ -17,8 +19,11 @@ class _GSLSfResult(_bcls):
 
         sub_types = map(lambda x: x(), self._cls_s)
         sub_types = tuple(sub_types)
-        self._sub_types = sub_types
 
+        ids = map(lambda x: id(x), sub_types)
+        s = set(ids)
+        assert(len(s) == len(sub_types))
+        self._sub_types = sub_types
 
     def GetArrayType(self, argumentnumber, minor = None):
         s = self._sub_types[argumentnumber]
@@ -34,8 +39,8 @@ class _GSLSfResult(_bcls):
 
     def GetTmpVariables(self):
         pos = self.GetPyUFuncPosNumber()
-	label = self.GetTmpVariableLabel()
-        c_type = self.GetCType()
+        label = self.GetTmpVariableLabel()
+        c_type = self.GetCalledFunctionCType()
         code = [
             "%s tmp%s%d;" %(c_type, label, pos)
         ]
@@ -43,12 +48,15 @@ class _GSLSfResult(_bcls):
 
     def GetOutputCallArgument(self):
         pos = self.GetPyUFuncPosNumber()
-	label = self.GetTmpVariableLabel()
+        label = self.GetTmpVariableLabel()
         code = ["&tmp%s%d" %(label, pos)]
         return code
     
     def GetNumberOutArgs(self):
-        self._CheckMemberNotNone("_output_argument")        
+        #assert(self.IsOutputArgument())
+        #if not self.IsOutputArgument():            
+        #    return 0
+        
         l = len(self._sub_types)
         return l
 
@@ -64,14 +72,29 @@ class _GSLSfResult(_bcls):
     def GetInputTmpVariablesAssignment(self):
         raise ValueError("not implemented")
 
-         
-class GSLSfResult(_GSLSfResult):
-    _c_type = "gsl_sf_result"
-    _type_letter = "rd"
-    _value_for_failed = ["_PyGSL_NAN", "_PyGSL_NAN"]
+class _GSLSfResultFloatArgumentInfo:
+    _c_type = "gsl_sf_result_float"
+    _type_letter = "rf"
+    _value_for_failed = "_PyGSL_NAN"
+    _numpy_type_code = "NPY_FLOAT"
 
-    _cls_s = (ufunc_arg.DoubleArgument,) * 2
+    def GetTypeLetter(self):
+        return "f"
 
+    #def GetNumpyTypeCode(self):
+    #    return "NPY_FLOAT"
+
+    def GetCType(self):
+        return "float"
+
+    def GetValueForFailedVariable(self):
+        return "_PyGSL_NAN"
+
+class _GSLSfResult(_GSLSfResultBasis):
+
+    def GetNumpyTypeCode(self):
+        assert(self._numpy_type_code != None)
+        return [self._numpy_type_code] * 2
 
     def GetOutputTmpVariablesAssignment(self):
         pos = self.GetPyUFuncPosNumber()
@@ -87,7 +110,7 @@ class GSLSfResult(_GSLSfResult):
 
         return [val, err]
 
-    def GetOutVarsSetOnError(self):
+    def GetOutputVariablesSetOnError(self):
         pos = self.GetPyUFuncPosNumber()
         t_type0 = self._sub_types[0].GetCType()
         t_type1 = self._sub_types[1].GetCType()
@@ -99,21 +122,59 @@ class GSLSfResult(_GSLSfResult):
         ]
         return code
     
-
-
     def GetValueForFailedVariable(self):
         return "{_PyGSL_NAN,_PyGSL_NAN}"
 
 
+    def GetStrideVariable(self):
+        label = self.GetTmpVariableLabel()
+        pos = self.GetPyUFuncPosNumber()
+        
+        fmt = "%ss%%d" %(label,)
+        code = [
+            fmt %(pos, ),
+            fmt %(pos +1 ),
+        ]
+        return code
 
-    
-class GSLSfResultE(_GSLSfResult):
-    _c_type = "gsl_sf_result_e"
-    _type_letter = "erd"
+    def GetArrayPointerVariables(self):
+        label = self.GetTmpVariableLabel()
+        pos = self.GetPyUFuncPosNumber()
+        
+        fmt = "%sp%%d" %(label,)
+        code = [
+            fmt %(pos, ),
+            fmt %(pos +1 ),
+        ]
+        return code
+
+class _GSLSfFloatArgumentAsMinor( _GSLSfResultFloatArgumentInfo, _GSLSfResult):
+    _cls_s = (ufunc_arg._FloatArgumentAsMinor,) * 2
+    def GetCalledFunctionCType(self):
+        return "gsl_sf_result"
+
+         
+class GSLSfResult(_GSLSfResult):
+    _c_type = "gsl_sf_result"
+    _type_letter = "rd"
+    _numpy_type_code = "NPY_DOUBLE"
     _value_for_failed = ["_PyGSL_NAN", "_PyGSL_NAN"]
 
-    _cls_s = (ufunc_arg.DoubleArgument,) * 2 + (ufunc_arg.IntArgument,)
+    _cls_s = (ufunc_arg.DoubleArgument,) * 2
+    _minor = _GSLSfFloatArgumentAsMinor
 
+
+        
+class _GSLSfResultE(_GSLSfResultBasis):
+
+    def NeedFailLabel(self):
+        """Does not require one
+
+        The last subtype is an int ... but that is an output so it does not need
+        to be set as fail
+        """
+        return False
+    
     def GetOutputTmpVariablesAssignment(self):
         pos = self.GetPyUFuncPosNumber()
         label = self.GetTmpVariableLabel()
@@ -133,7 +194,7 @@ class GSLSfResultE(_GSLSfResult):
 
         return [val, err, e10]
 
-    def GetOutVarsSetOnError(self):
+    def GetOutputVariablesSetOnError(self):
         pos = self.GetPyUFuncPosNumber()
         t_type0 = self._sub_types[0].GetCType()
         t_type1 = self._sub_types[1].GetCType()
@@ -144,20 +205,40 @@ class GSLSfResultE(_GSLSfResult):
         code = [
             fmt %(t_type0, pos, ),
             fmt %(t_type1, pos +1 ),
-            fmt %(t_type2, pos +2)
+            fmt2 %(t_type2, pos +2)
         ]
         return code
     
-    def GetNumpyTypeCode(self):        
-        return [
-            self._sub_types[0].GetNumpyTypeCode(),
-            self._sub_types[1].GetNumpyTypeCode(),
-            self._sub_types[2].GetNumpyTypeCode()
+    def GetArrayPointerVariables(self):
+        label = self.GetTmpVariableLabel()
+        pos = self.GetPyUFuncPosNumber()
+        
+        fmt = "%sp%%d" %(label,)
+        code = [
+            fmt %(pos, ),
+            fmt %(pos +1 ),
+            fmt %(pos +2 ),
         ]
+        return code
 
-class _Argument:
+    def GetNumpyTypeCode(self):
+        l = []
+        for t in self._sub_types:
+            tmp = t.GetNumpyTypeCode()
+            l.extend(tmp)
+        return l
+    
+class GSLSfResultE(_GSLSfResultE):
+    _c_type = "gsl_sf_result_e10"
+    _type_letter = "erd"
+    _value_for_failed = ["_PyGSL_NAN", "_PyGSL_NAN"]
+
+    _cls_s = (ufunc_arg.DoubleArgument,) * 2 + (ufunc_arg.IntArgument,)
+
+
+class _Argument(common._ArgumentType):
     """
-    Descirbes one argument.
+    Descirbes one argument to the prototype
 
     Also handles the different type casts. e.g a function handling doubles can
     be also evaluated with arrays of floats.
@@ -176,56 +257,182 @@ class _Argument:
     q   ... use return as error flag to print warning or raise error
             ("quality" :-)
     """
+
+    __slots__ = ['_type', '_operator', '_name', '_gsl_pos_number', '_sub_types', '_gsl_sub_types', '_py_ufunc_pos_number',
+                 '_is_prepared_for_emitting_code', '_as_minor'
+                 ]
+
+    _type_dic = None
+    # XXX why to destinquish ... perhaps a clear up candidate
+    _gsl_type_dic = None
+    
     def __init__(self):
+        super().__init__()
         self._type = None
         self._operator = None
         self._name = None
 
+        self._gsl_pos_number = None
+        
         # Can I use a direct C subtype
-	self._sub_types = None
+        self._sub_types = None
         
         # or shall it be a GSL subtype
-	self._gsl_sub_types = None
+        self._gsl_sub_types = None
         
         self._py_ufunc_pos_number = None
-	self._gsl_pos_number = None
 
-        self._input_argument = None
-        self._output_argument = None
-        self._return_argument = None
+        self._is_prepared_for_emitting_code = False
+
+        self._as_minor = False
+
+    def AsMinor(self):
+
+        def get_minor(obj):
+            try:
+                ins = obj.GetMinorInstance()
+            except ufunc_arg.NoMinor:
+                return obj
+            return ins
         
+        cpy = copy.copy(self)
+        if cpy._sub_types is None:
+            pass
+        else:
+            n_sub_types = map(get_minor, cpy._sub_types)
+            cpy._sub_types = tuple(n_sub_types)
+
+        if cpy._gsl_sub_types is None:
+            pass
+        else:
+            n_gsl_sub_types = map(get_minor, cpy._gsl_sub_types)
+            cpy._gsl_sub_types = tuple(n_gsl_sub_types)
+        return cpy
+
+    def SetGSLPosNumber(self, num):
+        self._gsl_pos_number = int(num)
 
     def GetGSLPosNumber(self):
-	num = self._gsl_pos_number
-	assert(num != None)
-	return num
+        num = self._gsl_pos_number
+        assert(num != None)
+        return num
 
     def GetGSLType(self):
         return self._type
 
+    def SetPyUFuncPosNumber(self, num):
+        """Pass this position number on to the arguments
+
+        What is that doing?
+        
+        """
+        self._py_ufunc_pos_number = int(num)
+        
+        assert(self._sub_types != None or self._gsl_sub_types != None)
+        
+        if self._gsl_sub_types != None:
+            cnt = 0
+            for s in self._gsl_sub_types:
+                s.SetPyUFuncPosNumber(num)
+                cnt += 1
+            assert(cnt == 1)
+            return        
+                
+        l = len(self._sub_types)
+        if self.IsInputArgument():
+            test = self.GetNumberInArgs()
+        elif self.IsOutputArgument():
+            test = self.GetNumberOutArgs()
+        elif self.IsReturnArgument():
+            test = self.GetNumberReturnArgs()
+
+            
+        else:
+            raise ValueError("Should not end up here")
+            
+            
+        if l == test:
+            pass
+        else:
+            raise ValueError("n outargs expected to be '%s' but is '%s'" %(l, test))
+        assert(test == l)
+        
+        for cnt in range(l):
+            st = self._sub_types[cnt]
+            #print("%s setting to %s" %( self.__class__.__name__, st.__class__.__name__))
+            i = num + cnt
+            st.SetPyUFuncPosNumber(i)
         
     def GetPyUFuncPosNumber(self):
-	num = self._py_ufunc_pos_number
+        num = self._py_ufunc_pos_number
         if num == None:
             msg = "%s: Getting PyUFunc pos number to %s" %(self.__class__.__name__, num)
-	    raise ValueError(msg)
+            raise ValueError(msg)
 
-	return num
-        
-    def _CheckMemberNotNone(self, member_name):        
-        member = getattr(self, member_name)
-        if member == None:
-            args = (self.__class__.__name__, member_name)
-            raise ValueError("%s.%s == None" % args)
-        return member
+        return num
+	
+    def SetName(self, name):
+        """
+        The name of the argument.
+        """
+        self._name = name
 
+    def SetOperator(self, operator):
+        """
+        XXX ??? Perhaps a qualifier ???
+        """
+        self._operator = operator
+
+    
+    def SetType(self, mytype):
+        """
+        The type of the argument
+        """
+        self._type = mytype
+
+        sub_types = []
+        gsl_sub_types = []
+
+
+        assert(self._type_dic is not None)
+
+        standard_type = False
+        try:
+            a_type = self._type_dic[self._type]
+            standard_type = True
+        except KeyError:
+            pass
+
+        if standard_type == True:
+            assert(a_type is not None)
+            tmp = a_type()
+            sub_types.append(tmp)            
+        else:
+            assert(self._gsl_type_dic is not None)
+            a_type = self._gsl_type_dic[self._type]
+            tmp = a_type()
+            gsl_sub_types.append(tmp)
         
-    def _GetSubTypesToUse(self):
+        if len(sub_types) == 0:
+            self._sub_types = None            
+        else:
+            self._sub_types = sub_types
+
+        if len(gsl_sub_types) == 0:
+            self._gsl_sub_types = None            
+        else:
+            self._gsl_sub_types = gsl_sub_types
+
+
+        if self._sub_types == None:
+            assert(self._gsl_sub_types != None)
+
         if self._gsl_sub_types == None:
-            if self._sub_types == None:
-                msg = "Either sub types or gsl sub types must be defined!"
-                raise ValueError(msg)            
+            assert(self._sub_types != None)
 
+
+
+    def _GetSubTypesToUse(self):
         if self._gsl_sub_types != None:
             sub_types = self._gsl_sub_types
         else:
@@ -233,11 +440,16 @@ class _Argument:
 
         assert(sub_types != None)
         return sub_types
-                
 
-    
     def _CollectCode(self, method_name):
+        """Iterate over the subtypes and collect the returned code
 
+        Args:
+             method_name : the name of the method
+        """
+        if not self._is_prepared_for_emitting_code:
+            self.PrepareForEmittingCode()
+            
         # Number not needed here ... but see if it was already set for the
         # sub types
         self.GetPyUFuncPosNumber()
@@ -268,117 +480,182 @@ class _Argument:
     def GetOutVarsSetOnError(self):
         return self._CollectCode("GetOutVarsSetOnError")
 
+    def GetStrideVariable(self):
+        return self._CollectCode("GetStrideVariable")
 
+    def GetStrideDeclaration(self):
+        return self._CollectCode("GetStrideDeclaration")
+
+    def GetStrideAssignment(self):
+        return self._CollectCode("GetStrideAssignment")
+
+    def GetArrayPointerDeclaration(self):
+        return self._CollectCode("GetArrayPointerDeclaration")
+
+    def GetNumpyTypeCode(self):
+        return self._CollectCode("GetNumpyTypeCode")
+
+    def GetArrayPointerStepping(self):
+        return self._CollectCode("GetArrayPointerStepping")
+    
     def GetInputCallArgument(self):
-        self._CheckMemberNotNone("_input_argument")
+        assert(self.IsInputArgument())
         return self._CollectCode("GetInputCallArgument")
 
     def GetOutputCallArgument(self):
-        self._CheckMemberNotNone("_output_argument")
+        assert(self.IsOutputArgument())
         return self._CollectCode("GetOutputCallArgument")
 
     def GetFunctionReturnCast(self):
         """
         Currently I see that only a single function cast makes sense
         """
-        self._CheckMemberNotNone("_return_argument")
+        assert(self.IsReturnArgument())
+
         result =  self._CollectCode("GetFunctionReturnCast")
         l = len(result)
         assert(l == 1)
         return result
-    
+
     def GetReturnCallArgument(self):
-        self._CheckMemberNotNone("_return_argument")
-        
+        assert(self.IsReturnArgument())
+
         result = self._CollectCode("GetReturnCallArgument")
         l = len(result)
         assert(l == 1)
         return result
 
-    def GetTmpVariables(self):
-        return self._CollectCode("GetTmpVariables")
-    
+
     def GetInputTmpVariablesAssignment(self):
-        self._CheckMemberNotNone("_input_argument")
+        assert(self.IsInputArgument())
         return self._CollectCode("GetInputTmpVariablesAssignment")
 
     def GetReturnTmpVariablesAssignment(self):
-        self._CheckMemberNotNone("_return_argument")
+        assert(self.IsReturnArgument())
         return self._CollectCode("GetReturnTmpVariablesAssignment")
 
     def GetOutputTmpVariablesAssignment(self):
-        self._CheckMemberNotNone("_output_argument")
+        assert(self.IsOutputArgument())
         return self._CollectCode("GetOutputTmpVariablesAssignment")
-    
+
+    def GetOutputVariablesSetOnError(self):
+        return self._CollectCode("GetOutputVariablesSetOnError")
+
     def GetNumberInArgs(self):
         """
         returns how many input arguments are needed for the represented type
         """
+        if not self.IsInputArgument():
+            return 0
+        
         l = len(self._sub_types)
         assert(l == 1)
         return 1
-    
+
+    def GetNumberReturnArgs(self):
+        if not self.IsReturnArgument():
+            return 0
+
+        l = len(self._sub_types)
+        assert(l == 1)
+        return 1
+        
     def GetNumberOutArgs(self):
         """
         returns how many output  arguments are needed for the represented type
         """
+        if not self.IsOutputArgument():
+            return 0
 
         if self._gsl_sub_types != None:
             assert(len(self._gsl_sub_types) == 1)
             s = self._gsl_sub_types[0]
             return s.GetNumberOutArgs()
-        
+
         l = len(self._sub_types)
         assert(l == 1)        
         return 1
 
     def IsComplex(self):
         return self._type == "gsl_complex"
-    
+
     def IsResult(self):
         return self._type == "gsl_sf_result"
 
     def IsGSLMode(self):
         return self._type == "gsl_mode_t"
-    
+
     def IsResulte10(self):
         return self._type == "gsl_sf_result_e10"
 
-    def GetFakeType(self, argnumber, minor):
+    #def GetFakeType(self, argnumber, minor):
+    #    """
+    #    Currently I only fake float as double .... 
+    #    """
+    #    if minor and self._type == 'double':
+    #        return 'float'
+    #    #if minor and self._type == 'gsl_complex':
+    #    #    return 'gsl_complex_float'
+    #    return None
+
+
+    #def GetBasisType(self):        
+    #    if self._operator:
+    #        return  self._type + ' ' +  self._operator
+    #    return self._type
+
+
+    def PrepareForEmittingCode(self):
+        """Tell everthing to get ready to emit code
+
+        or to put it differently .. the variable has been set up
         """
-        Currently I only fake float as double .... 
-        """
-        if minor and self._type == 'double':
-            return 'float'
-        #if minor and self._type == 'gsl_complex':
-        #    return 'gsl_complex_float'
-        return None
+        # Inform subtypes on code type
+        
+        if self._sub_types is None:
+            assert(self._gsl_sub_types is not None)
+            sub_types = self._gsl_sub_types
+        else:
+            sub_types = self._sub_types
 
-    
-    def GetBasisType(self):        
-        if self._operator:
-            return  self._type + ' ' +  self._operator
-        return self._type
+        if self.IsInputArgument():
+            for t in sub_types:
+                t.SetInputArgument()
+                
+        if self.IsOutputArgument():
+            for t in sub_types:
+                t.SetOutputArgument()
+                
+        if self.IsReturnArgument():
+            for t in sub_types:
+                t.SetReturnArgument()
+            
+        self._is_prepared_for_emitting_code = True
 
-    
-    def GetType(self, minor, argnum):
-        if self._type == "gsl_sf_result":
-            if minor == 1:
-                return "float"
-            else:
-                return "double"
-
-        if self._type == "gsl_sf_result_e10":
-            if argnum == 2:
-                return "int"
-            else:
-                if minor == 1:            
-                    return "float"
-                else:
-                    return "double"
-
-        return self._type
-
+        
+        
+#    def GetType(self, minor, argnum):
+#        """I guess that is an obsolete method
+#        """
+#        raise ValueError("shoud we still use that?")
+#    
+#        if self._type == "gsl_sf_result":
+#            if minor == 1:
+#                return "float"
+#            else:
+#                return "double"
+#
+#        if self._type == "gsl_sf_result_e10":
+#            if argnum == 2:
+#                return "int"
+#            else:
+#                if minor == 1:            
+#                    return "float"
+#                else:
+#                    return "double"
+#
+#        return self._type
+#
     #def GetErrorValueAssignment(self, minor, argnum):
     #    num = self.GetPyUFuncPosNumber()
     #
@@ -397,296 +674,154 @@ class _Argument:
     #                return "double"
     #
     #    return self._type
-	
-    def GetTypeLetter(self, minor):            
-        if self._type == "double":
-            if minor == 1:
-                return "f"
-            return "d"
 
-        if self._type == "gsl_complex":
-            if minor == 1:
-                return "F"
-            return "D"
-
-        #if self._type == "gsl_complex_float":
-        #    return "F"
-
-        if self._type == "float":
-            return "f"
-
-        if self._type == "gsl_mode_t":
-            return "m"
-
-        if self._type == "unsigned int":
-            return "ui"
-
-        if self._type == "int":
-            return "i"
-
-        if self._type == "gsl_sf_result":
-            if minor == 1:
-                return "rf"
-            return "rd"
-        
-        if self._type == "gsl_sf_result_e10":
-            if minor == 1:
-                return "erf"
-            return "erd"
-
-        raise ValueError("No known Type defined")
-        
-    def GetArrayType(self, argumentnumber, minor=None):
-        """
-        Get the type for the approbriate argument number.
-        """
-
-        if self._gsl_sub_types != None:
-            l = len(self._gsl_sub_types)
-            assert(l == 1)            
-            s = self._gsl_sub_types[0]
-            return s.GetArrayType(argumentnumber, minor = minor)
-            
-        l = len(self._sub_types)
-        assert(l == 1)
-
-        if argumentnumber != 0:
-            raise ValueError("argumentnumber = %d != 0" %(argumentnumber,))
-        
-        t_type = self._sub_types[argumentnumber]
+    def GetTypeLetter(self, minor=None):
+    
+        if self._gsl_sub_types is None:
+            types =  self._sub_types 
+        else:
+            types =  self._gsl_sub_types 
+    
+        assert(len(types) == 1)
+        obj = types[0]
         if minor:
-            try:
-                t_type = t_type.GetMinorInstance()
-            except ufunc_arg.NoMinor:
-                pass
-            
-        return t_type.GetNumpyTypeCode()
+            obj = self.GetMinor()
+        return obj.GetTypeLetter()
+    #
+    #def GetTypeLetter(self, minor):            
+    #    if self._type == "double":
+    #        if minor == 1:
+    #            return "f"
+    #        return "d"
+    #
+    #    if self._type == "gsl_complex":
+    #        #if minor == 1:
+    #        #    return "F"
+    #        return "D"
+    #
+    #    #if self._type == "gsl_complex_float":
+    #    #    return "F"
+    #
+    #    if self._type == "float":
+    #        return "f"
+    #
+    #    if self._type == "gsl_mode_t":
+    #        return "m"
+    #
+    #    if self._type == "unsigned int":
+    #        return "ui"
+    #
+    #    if self._type == "int":
+    #        return "i"
+    #
+    #    if self._type == "gsl_sf_result":
+    #        if minor == 1:
+    #            return "rf"
+    #        return "rd"
+    #
+    #    if self._type == "gsl_sf_result_e10":
+    #        if minor == 1:
+    #            return "erf"
+    #        return "erd"
+    #
+    #    raise ValueError("No known Type defined")
 
-        ## Old code ... before refacturing
-        #if self._type == "double":
-        #    if minor == 1:
-        #        return "NPY_FLOAT"
-        #    return "NPY_DOUBLE"
-        #
-        #if self._type == "float":
-        #    return "NPY_FLOAT"
-        #
-        ## Next three ... standard pyton ints are mapped to C longs 
-        #if self._type == "gsl_mode_t":
-        #    #return "NPY_INT"
-        #    return "NPY_LONG"
-        #
-        #if self._type == "unsigned int":
-        #    #return "NPY_UINT"
-        #    return "NPY_LONG"
-        #
-        #if self._type == "int":
-        #    #return "NPY_INT"
-        #    return "NPY_LONG"
-        #
-        #if self._type == "gsl_complex":
-        #    #if minor == 1:
-        #    #    return "NPY_CFLOAT"
-        #    return "NPY_CDOUBLE"
-        #
-        #if self._type == "gsl_sf_result":
-        #    if minor == 1:
-        #        return "NPY_FLOAT"
-        #    return "NPY_DOUBLE"
-        #
-        #if self._type == "gsl_sf_result_e10":
-        #    if argumentnumber == 2:
-        #        return "NPY_INT"
-        #    if minor == 1:
-        #        return "NPY_FLOAT"
-        #    return "NPY_DOUBLE"
-        #raise ValueError("Unknown type -->%s<-- for variable -->%s<-- " % (self._type, self._name))
+    #def GetArrayType(self, argumentnumber, minor=None):
+    #    """
+    #    Get the type for the approbriate argument number.
+    #    """
+    #
+    #    if self._gsl_sub_types != None:
+    #        l = len(self._gsl_sub_types)
+    #        assert(l == 1)            
+    #        s = self._gsl_sub_types[0]
+    #        return s.GetArrayType(argumentnumber, minor = minor)
+    #
+    #    l = len(self._sub_types)
+    #    assert(l == 1)
+    #
+    #    if argumentnumber != 0:
+    #        raise ValueError("argumentnumber = %d != 0" %(argumentnumber,))
+    #
+    #    t_type = self._sub_types[argumentnumber]
+    #    if minor:
+    #        try:
+    #            t_type = t_type.GetMinorInstance()
+    #        except ufunc_arg.NoMinor:
+    #            pass
+    #
+    #    return t_type.GetNumpyTypeCode()
+    #
+    #    ## Old code ... before refacturing
+    #    #if self._type == "double":
+    #    #    if minor == 1:
+    #    #        return "NPY_FLOAT"
+    #    #    return "NPY_DOUBLE"
+    #    #
+    #    #if self._type == "float":
+    #    #    return "NPY_FLOAT"
+    #    #
+    #    ## Next three ... standard pyton ints are mapped to C longs 
+    #    #if self._type == "gsl_mode_t":
+    #    #    #return "NPY_INT"
+    #    #    return "NPY_LONG"
+    #    #
+    #    #if self._type == "unsigned int":
+    #    #    #return "NPY_UINT"
+    #    #    return "NPY_LONG"
+    #    #
+    #    #if self._type == "int":
+    #    #    #return "NPY_INT"
+    #    #    return "NPY_LONG"
+    #    #
+    #    #if self._type == "gsl_complex":
+    #    #    #if minor == 1:
+    #    #    #    return "NPY_CFLOAT"
+    #    #    return "NPY_CDOUBLE"
+    #    #
+    #    #if self._type == "gsl_sf_result":
+    #    #    if minor == 1:
+    #    #        return "NPY_FLOAT"
+    #    #    return "NPY_DOUBLE"
+    #    #
+    #    #if self._type == "gsl_sf_result_e10":
+    #    #    if argumentnumber == 2:
+    #    #        return "NPY_INT"
+    #    #    if minor == 1:
+    #    #        return "NPY_FLOAT"
+    #    #    return "NPY_DOUBLE"
+    #    #raise ValueError("Unknown type -->%s<-- for variable -->%s<-- " % (self._type, self._name))
+
+    def __str__(self):
+        op = self._operator
+        t_type = self._type
+        name = self._name
         
+        if op is None:
+            rep = "%s %s" %(t_type, name)
+        else:
+            rep = "%s %s %s" %(t_type, op, name)
+        return rep
         
     def __repr__(self):
-        return "variable : %s\n   type : %s\n    op : %s\n" %(self._name, self._type, self._operator)
+        fmt = "%s:%s variable: %s; type: %s; op: %s;"
+        args = (__file__, self.__class__.__name__,self._name, self._type, self._operator)
+        return fmt % args
+
 
 
 class Argument(_Argument):
-    """
-    Subclass as Minor instance 
-    """
-    def __init__(self):
-        _Argument.__init__(self)
-        self.__minor_ins = None
-
-    def _CreateArgumentCopy(self):
-        cp = _Argument()
-        cp._type                = self._type               
-        cp._operator            = self._operator           
-        cp._name                = self._name
-        
-	cp._gsl_pos_number      = self._gsl_pos_number     
-	cp._sub_types           = self._sub_types          
-	cp._gsl_sub_types       = self._gsl_sub_types      
-        cp._py_ufunc_pos_number = self._py_ufunc_pos_number
-
-        cp._input_argument      = self._input_argument     
-        cp._output_argument     = self._output_argument    
-        cp._return_argument     = self._return_argument    
-        return cp
+    _type_dic = {
+        "int":          ufunc_arg.LongArgumentAsMajor,        
+        "unsigned int": ufunc_arg.UnsignedIntArgument,
+        "size_t":       ufunc_arg.SizeTArgument,
+        "double":       ufunc_arg.DoubleArgument,
+        "gsl_complex":  ufunc_arg.GSLComplexArgument,
+        "gsl_mode_t":   ufunc_arg.GSLModeTArgument,
+        }
     
-    def _CreateMinorInstance(self):
-        """
-        """
-        sub_arg = self._CreateArgumentCopy()
-        sub_types = self._GetSubTypesToUse()
+    _gsl_type_dic = {
+        "gsl_sf_result":     GSLSfResult,
+        "gsl_sf_result_e10": GSLSfResultE,
+        }
 
-        result = []
-        for t in sub_types:
-            gsl_type = t.GetCType()
-            try:
-                tmp = t.GetMinorInstance()
-            except ufunc_arg.NoMinor as nm:
-                if gsl_type in ("double", "gsl_complex"):
-                    raise nm
-                
-                tmp = t
-                
-            result.append(tmp)            
-        result = tuple(result)
-
-        if self._gsl_sub_types != None:
-            sub_arg._gsl_sub_types = result
-        else:            
-            sub_arg._sub_types = result
-
-        self.__minor_ins = sub_arg
-        
-    def GetMinorInstance(self):
-        """
-        """
-        if self.__minor_ins == None:
-            self._CreateMinorInstance()
-
-        assert(self.__minor_ins)
-        return self.__minor_ins
-
-    def GetMinorInstanceNoFail(self):
-        return self.GetMinorInstance()
-
-    # Minor instance shall not be settable
-    def SetPyUFuncPosNumber(self, num):
-	self._py_ufunc_pos_number = int(num)
-        
-        if self._gsl_sub_types != None:
-            cnt = 0
-            for s in self._gsl_sub_types:
-                s.SetPyUFuncPosNumber(num)
-                cnt += 1
-            assert(cnt == 1)
-            return
-        
-                
-        l = len(self._sub_types)
-
-        test = self.GetNumberOutArgs()
-        assert(test == l)
-        
-        for cnt in range(l):
-            st = self._sub_types[cnt]
-            #print("%s setting to %s" %( self.__class__.__name__, st.__class__.__name__))
-            i = num + cnt
-            st.SetPyUFuncPosNumber(i)
-            
-    def SetGSLPosNumber(self, num):
-	self._gsl_pos_number = int(num)
-	
-    def SetName(self, name):
-        """
-        The name of the argument.
-        """
-        self._name = name
-
-    def SetOperator(self, operator):
-        """
-        XXX ??? Perhaps a qualifier ???
-        """
-        self._operator = operator
-
-    
-    def SetType(self, mytype):
-        """
-        The type of the argument
-        """
-        self._type = mytype
-
-	sub_types = []
-	gsl_sub_types = []
-        
-	if self._type == "int":
-	    sub_types.append(ufunc_arg.IntArgument())
-            
-        elif self._type == "unsigned int":
-	    sub_types.append(ufunc_arg.UnsignedIntArgument())
-            
-        elif self._type == "double":
-	    sub_types.append(ufunc_arg.DoubleArgument())
-            
-        elif self._type == "gsl_complex":
-	    sub_types.append(ufunc_arg.GSLComplexArgument())
-            
-        elif self._type == "gsl_mode_t":
-	    sub_types.append(ufunc_arg.GSLModeTArgument())
-            
-        elif self._type == "gsl_sf_result":
-            gsl_sub_types.append(GSLSfResult())
-
-        elif self._type == "gsl_sf_result_e10":
-            gsl_sub_types.append(GSLSfResultE())
-            
-        else:
-            raise ValueError("type '%s' not known" %(mytype,))
-
-        if len(sub_types) == 0:
-            self._sub_types = None            
-        else:
-            self._sub_types = sub_types
-
-        if len(gsl_sub_types) == 0:
-            self._gsl_sub_types = None            
-        else:
-            self._gsl_sub_types = gsl_sub_types
-
-            
-        if self._sub_types == None:
-            assert(self._gsl_sub_types != None)
-            
-        if self._gsl_sub_types == None:
-            assert(self._sub_types != None)
-
-
-    def _SetArgumentType(self, method_name):
-        if self._gsl_sub_types != None:
-            for s in self._gsl_sub_types:
-                method = getattr(s, method_name)
-                method()
-            return
-        
-        for s in self._sub_types:
-            method = getattr(s, method_name)
-            method()
-        
-    def SetInputArgument(self):
-        "Argument is an input argument"
-        self._SetArgumentType("SetInputArgument")
-
-        self._input_argument = True
-
-    def SetOutputArgument(self):
-        "Argument is an input argument"
-        self._SetArgumentType("SetOutputArgument")
-
-        self._output_argument = True
-
-    def SetReturnArgument(self):
-        "Argument is an input argument"
-        self._SetArgumentType("SetReturnArgument")
-
-        self._return_argument = True
-    
