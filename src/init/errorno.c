@@ -6,12 +6,14 @@
 #include <gsl/gsl_errno.h>
 #include <pygsl/errorno.h>
 #include <pygsl/transition.h>
+#include <pygsl/error_helpers.h>
 
 static int 
 add_errno(PyObject * dict, int num, const char * name)
 {
      PyObject * item;
 
+     FUNC_MESS_BEGIN();
      item = PyLong_FromLong(num);
      if(item == NULL){
 	  fprintf(stderr, "Failed to generate PyInt with value %d for errno %s\n",
@@ -23,26 +25,34 @@ add_errno(PyObject * dict, int num, const char * name)
 		  (void *) item, num, (void *) dict, name);
 	  return -1;
      }
+     FUNC_MESS_END();
      return 0;
 }   
-#define ADD_ERRNO(ERRNO, ERRNOSTR) if(add_errno(dict, ERRNO, ERRNOSTR) != 0) goto fail
+#define ADD_ERRNO(ERRNO, ERRNOSTR)  if(add_errno(dict, ERRNO, ERRNOSTR) != 0) goto fail
 
 static PyMethodDef errornoMethods[] = {
-     {NULL, NULL, 0, NULL}
+  {NULL, NULL, 0, NULL} /*sentinel */
 };
 
+static const char pygsl_errno_doc[] = "The error numbers as provided by GSL.\n"
+  "Typically the error numbers are converted to exceptions. These exceptions\n"
+  "are listed in :py:mod:`pygsl.errors`. Some functions (e.g. iterators or steppers)\n"
+  "use return values to show that progress can be made (e.g. :c:data:`GSL_CONTINUE`). \n\n"
+  "See also `<gsl/gsl_errno.h>`\n";
 
 #ifdef PyGSL_PY3K
 static PyModuleDef errnomodule = {
     PyModuleDef_HEAD_INIT,
     "pygsl.errno",
-    "export the error numbers",
+    pygsl_errno_doc,
     -1,
-    errornoMethods
+    errornoMethods,
+    NULL,
+    NULL,
+    NULL,
+    NULL
 };
-
 #endif 
-
 
 #ifdef __cplusplus
 extern "C"
@@ -59,6 +69,7 @@ DL_EXPORT(void) initerrno(void)
 {
 	PyObject *dict=NULL, *m=NULL;
 
+	FUNC_MESS_BEGIN();
 #ifdef PyGSL_PY3K
 	m = PyModule_Create(&errnomodule);
 #else /* PyGSL_PY3K */
@@ -113,6 +124,7 @@ DL_EXPORT(void) initerrno(void)
      ADD_ERRNO(PyGSL_EINIT  , "PyGSL_EINIT");
      
 
+	FUNC_MESS_END();
 
      return RETVAL;
  fail:
