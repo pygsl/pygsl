@@ -5,6 +5,11 @@
 %{
 #include <gsl/gsl_chebyshev.h>
 %}
+%define CHEBDOCSTRING
+"Wrapper for the chebchechev module"
+%enddef
+
+%feature ("autodoc", "1");
 
 %include typemaps.i
 %include gsl_function_typemaps.i

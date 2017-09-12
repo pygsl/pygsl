@@ -5,17 +5,17 @@ PyGSL's reference documentation
    :maxdepth: 6
    :caption: Contents:
 
-   copyright.rst
-   install.rst
-   readme_distributors.rst
-   interfacedesign.rst
-   errors.rst
-   ieee.rst   
-   const.rst
-   chebyshev.rst
-   rng.rst
-   sf.rst
-   freedoc.rst
+   copyright
+   install
+   readme_distributors
+   interfacedesign
+   errors
+   ieee
+   const
+   chebyshev
+   rng
+   sf
+   freedoc
 
    
 Front Matter

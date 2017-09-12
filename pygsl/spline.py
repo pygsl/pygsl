@@ -6,10 +6,9 @@ Wrapper for the splines  of gsl. This solver wraps all features as described
 in Chapter 26 of the gsl documentation.
 
 Difference between spline and interpolation module:
---------------------------------------------------
-In the interpolation module the data for the independent and dependent data are
-kept as reference in the various objects,whereas the spline module copies these
-data into the internal C gsl_spline struct.
+    In the interpolation module the data for the independent and dependent data are
+    kept as reference in the various objects,whereas the spline module copies these
+    data into the internal C gsl_spline struct.
 """
 
 from . import errors

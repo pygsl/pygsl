@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer
-"""
-Wrapper for the interpolations of gsl. This solver wraps all features as described
-in Chapter 26 of the gsl documentation.
+"""Wrapper for the interpolations of gsl. This solver wraps all features as described
+in :ref:`sec_interpolation`
 
 Difference between spline and interpolation module:
---------------------------------------------------
+
 In the interpolation module the data for the independent and dependent data are
 kept as reference in the various objects,whereas the spline module copies these
 data into the internal C gsl_spline struct.
@@ -61,37 +60,40 @@ class _common:
         return self._object.accel_find(x)
 
     def min_size(self):
-        """
-        This function returns the minimum number of points required by the
+        """Returns the minimum number of points required by the
         interpolation.
         """
         return self._object.min_size()
     
     def name(self):
-        """
-        Returns the name of the interpolation type used
+        """Returns the name of the interpolation type used
         """
         return self._object.name()
 
         
     def eval(self, x):
-        """
-        input : x
-             x ... value of the independent variable
-        output : y
-             y ... returns the interpolated value at x  
+        """eval the interpolation at point x
+
+        Args: 
+             x: value of the independent variable
+
+        
+        Returns:
+             y:  the interpolated value at x  
         
         """
         return self._object.eval(x)
 
     
     def eval_e(self, x):
-        """
-        input : x
-             x ... value of the independent variable
-        output : flag, y
-             flag  error flag 
-             y ... returns the interpolated value at x  
+        """evaluate and flag error if it occurs
+
+        Args:
+             x: value of the independent variable
+
+        Returns:
+             flag:  error flag 
+             y:    interpolated value at x  
         
         """
         return self._object.eval_e(x)
@@ -138,12 +140,14 @@ class _common:
 
 
     def eval_integ(self, a, b):
-        """
-        input : a, b,
-             a ... lower boundary
-             b ... upper boundary
-        output : y
-             y ... the integral of the object over the range [a,b]
+        """Evaluate the integral
+
+        Args:
+             a: lower boundary
+             b: upper boundary
+
+        Returns:
+             y: the integral of the object over the range [a,b]
         """
         return self._object.eval_integ(a, b)
     
@@ -170,8 +174,9 @@ class _interpolation(_common):
 
 
     def init(self, xa, ya):
-        """
-        input : xa, ya
+        """Initalise the interpolation object
+
+        Args : xa, ya
             xa ... array of independent values
             ya ... array of dependent values
             
@@ -188,14 +193,14 @@ class _interpolation(_common):
 
 
 class linear(_interpolation):
-    """
-    Linear interpolation. 
+    """Linear interpolation. 
     """
     _type = gslwrap.cvar.gsl_interp_linear
 
 class polynomial(_interpolation):
-    """    
-    Polynomial   interpolation.   This   method  should   only  be   used  for
+    """Polynomial   interpolation.   
+
+    This   method  should   only  be   used  for
     interpolating  small numbers  of points  because  polynomial interpolation
     introduces large oscillations, even for well-behaved datasets.  The number
     of terms in the interpolating polynomial is equal to the number of points.    
@@ -203,26 +208,22 @@ class polynomial(_interpolation):
     _type = gslwrap.cvar.gsl_interp_polynomial
     
 class cspline(_interpolation):
-    """
-    Cubic spline with natural boundary conditions.
+    """Cubic spline with natural boundary conditions.
     """
     _type = gslwrap.cvar.gsl_interp_cspline
     
 class cspline_periodic(_interpolation):
-    """
-    Cubic spline with periodic boundary conditions
+    """Cubic spline with periodic boundary conditions
     """
     _type = gslwrap.cvar.gsl_interp_cspline_periodic
     
 class akima(_interpolation):
-    """
-    Akima spline with natural boundary conditions
+    """Akima spline with natural boundary conditions
     """
     _type = gslwrap.cvar.gsl_interp_akima
     
 class akima_periodic(_interpolation):
-    """
-    Akima spline with periodic boundary conditions
+    """Akima spline with periodic boundary conditions
     """
     _type = gslwrap.cvar.gsl_interp_akima_periodic
 

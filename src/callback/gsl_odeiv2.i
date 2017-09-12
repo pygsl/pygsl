@@ -8,8 +8,12 @@
  * wrappers for the callback. See odeiv_func2.ic
  *
  */
-%module odeiv2
-%feature ("autodoc", "3");
+%define ODEIV2DOCSTRING
+"Wrapper for the ODEIV2 module"
+%enddef
+
+%module(docstring=ODEIV2DOCSTRING)odeiv2
+%feature ("autodoc", "1");
 %init{
   init_pygsl();
 }
@@ -96,7 +100,16 @@ static int _pygsl_odeiv2_system_set_dimension(pygsl_odeiv2_system *self, size_t 
 typedef struct{
 	%immutable;
 }pygsl_odeiv2_system;
+%define ODEIV2SYSTEMCLS
+"Odeiv2 system instance
 
+It provides the following methods:
+* set_func
+* set_jacobian
+* set_dimension
+"
+%enddef
+%feature("autodoc", ODEIV2SYSTEMCLS) system;
 
 %extend pygsl_odeiv2_system{
 	gsl_error_flag_drop set_func(PyObject * cb){

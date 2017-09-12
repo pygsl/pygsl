@@ -1,6 +1,5 @@
 # Author : Fabian Jakobs
-r"""
-BLAS - Basic Linear Algebra Subprograms
+r"""BLAS - Basic Linear Algebra Subprograms
 
 GSL provides dense vector and matrix objects, based on the relevant built-in
 types. The library provides an interface to the BLAS operations which apply to
@@ -43,65 +42,56 @@ gsl_blas_sdsdot = gslwrap.gsl_blas_sdsdot
 #
 
 def ddot(x, y):
-    """
-    This function computes the scalar product \M{x^T y} for the vectors x and y,
+    """This function computes the scalar product \M{x^T y} for the vectors x and y,
     returning the result. 
     """
     return _gslwrap.gsl_blas_ddot(x, y)#[1]
 
 
 def zdotu(x, y):
-    """
-    This function computes the complex scalar product \M{x^T y} for the
+    """This function computes the complex scalar product \M{x^T y} for the
     vectors x and y, returning the result.
     """
     return _gslwrap.gsl_blas_zdotu(x, y, 1j)#[1]
 
 
 def zdotc(x, y):
-    """
-    This function computes the complex conjugate scalar product \M{x^H y} for the
+    """This function computes the complex conjugate scalar product \M{x^H y} for the
     vectors x and y, returning the result. 
     """
     return _gslwrap.gsl_blas_zdotc(x, y, 1j)#[1]
 
 
 def dnrm2(x):
-    """
-    This function computes the Euclidean norm \M{||x||_2 = \sqrt {\sum x_i^2}}
+    """This function computes the Euclidean norm \M{||x||_2 = \sqrt {\sum x_i^2}}
     of the vector x. 
     """
     return _gslwrap.gsl_blas_dnrm2(x)
 
 
 def dznrm2(x):
-    """
-    This function computes the Euclidean norm of the complex vector x,
+    """This function computes the Euclidean norm of the complex vector x,
     \M{||x||_2 = \sqrt {\sum (\Re(x_i)^2 + \Im(x_i)^2)}}.
-
     """
     return _gslwrap.gsl_blas_dznrm2(x)
 
 
 def dasum(x):
-    """
-    This function computes the absolute sum \M{\sum |x_i|} of the elements
+    """This function computes the absolute sum \M{\sum |x_i|} of the elements
     of the vector x. 
     """
     return _gslwrap.gsl_blas_dasum(x)
 
 
 def dzasum(x):
-    """
-    This function computes the absolute sum \M{\sum |\Re(x_i)| + |\Im(x_i)|}
+    """This function computes the absolute sum \M{\sum |\Re(x_i)| + |\Im(x_i)|}
     of the elements of the vector x. 
     """
     return _gslwrap.gsl_blas_dzasum(x)
 
 
 def idamax(x):
-    """
-    This function returns the index of the largest element of the vector x.
+    """This function returns the index of the largest element of the vector x.
     The largest element is determined by its absolute magnitude. If the
     largest value occurs several times then the index of the first occurrence
     is returned.
@@ -110,8 +100,7 @@ def idamax(x):
 
 
 def izamax(x):
-    """
-    This function returns the index of the largest element of the vector x.
+    """This function returns the index of the largest element of the vector x.
     The largest element is determined by the sum of the magnitudes of the
     real and imaginary parts \M{|\Re(x_i)| + |\Im(x_i)|}. If the largest value
     occurs several times then the index of the first occurrence is returned. 
@@ -120,8 +109,7 @@ def izamax(x):
 
 
 def daxpy(alpha, x, y):
-    """
-    This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
+    """This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     yn = array_typed_copy(y, Float)
     _gslwrap.gsl_blas_daxpy(alpha, x, yn)
@@ -129,15 +117,13 @@ def daxpy(alpha, x, y):
 
 
 def daxpy_cr(alpha, x, y_CR):
-    """
-    This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
+    """This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     _gslwrap.gsl_blas_daxpy(alpha, x, y_CR)
     
 
 def zaxpy(alpha, x, y):
-    """
-    This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
+    """This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     yn = array_typed_copy(y, Complex)
     _gslwrap.gsl_blas_zaxpy(alpha, x, yn)
@@ -145,15 +131,13 @@ def zaxpy(alpha, x, y):
 
 
 def zaxpy_cr(alpha, x, y_CR):
-    """
-    This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
+    """This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     _gslwrap.gsl_blas_zaxpy(alpha, x, y_CR)
  
 
 def drot(x, y, c, s):
-    """
-    This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
+    """This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
     to the vectors x, y.
     """
     xn = array_typed_copy(x, Float)
@@ -163,8 +147,7 @@ def drot(x, y, c, s):
 
 
 def drot_cr(x_CR, y_CR, c, s):
-    """
-    This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
+    """This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
     to the vectors x, y.
     """
     _gslwrap.gsl_blas_drot(x_CR, y_CR, c, s)
@@ -175,8 +158,7 @@ def drot_cr(x_CR, y_CR, c, s):
 #
 
 def dgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
-    """
-    This function computes the matrix-vector product and
+    """This function computes the matrix-vector product and
     sum \M{y = S{alpha} op(A) x + S{beta} y}, where op(A) = \M{A, A^T, A^H} for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
@@ -186,8 +168,7 @@ def dgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
     
 
 def zgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
-    """
-    This function computes the matrix-vector product and
+    """This function computes the matrix-vector product and
     sum \M{y = S{alpha} op(A) x + S{beta} y}, where \M{op(A) = A, A^T, A^H} for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
@@ -201,7 +182,7 @@ def dtrmv(A,
           Uplo=CblasLower,
           TransA=CblasNoTrans,
           Diag=CblasNonUnit):
-    """
+    """This function computes the matrix-vector product
     returns x'
     
     This function computes the matrix-vector product and
@@ -247,7 +228,6 @@ def dtrsv(A,
           TransA=CblasNoTrans,
           Diag=CblasNonUnit):
     """
-    returns x'
 
     This function computes inv(op(A)) x for x, where op(A) = A, A^T, A^H
     for TransA = CblasNoTrans, CblasTrans, CblasConjTrans. When Uplo is
@@ -256,6 +236,11 @@ def dtrsv(A,
     CblasNonUnit then the diagonal of the matrix is used, but if Diag
     is CblasUnit then the diagonal elements of the matrix A are taken
     as unity and are not referenced. 
+
+
+    
+    Returns:
+           x: 
     """
     xn = array_typed_copy(x)
     _gslwrap.gsl_blas_dtrsv(Uplo, TransA, Diag, A, xn)
@@ -766,7 +751,9 @@ def zher2k(alpha, A, B, beta, C,
     half or lower half need to be stored. When Uplo is CblasUpper then
     the upper triangle and diagonal of C are used, and when Uplo is
     CblasLower then the lower triangle and diagonal of C are used.
-    The imaginary elements of the diagonal are automatically set to zero. 
+    The imaginary elements of the diagonal are automatically set to zero.
+
+    Calls function: 
     """
     cn = array_typed_copy(C)
     _gslwrap.gsl_blas_zher2k(Uplo, Trans, alpha, A, B, beta, cn)

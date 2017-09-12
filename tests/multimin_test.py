@@ -1,7 +1,7 @@
 import unittest
 import math
 import warnings
-import exceptions
+#import exceptions
 import pygsl.errors
 import tempfile
 import os

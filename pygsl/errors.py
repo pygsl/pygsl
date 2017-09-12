@@ -1,12 +1,20 @@
-# author: Achim Gaedke
+# authors: Achim Gaedke, Pierre Schnizer
 # created: May 2001
+# modified : August 2017
 # file: pygsl/errors.py
-# $Id$
+# $Id:$
 #
 # Changes:
 #       5. October 2003. Added various exceptions to cover the whole range of
 #       error numbers. Needed to translate error numbers to the approbriate
 #       exception. See Lib/error_helpers.c
+"""Exceptions raised by pygsl
+
+GSL error codes are translated to python exceptions. These exceptions are listed 
+here. As far as appropriate the exceptions are derived from python exceptions.
+
+The GSL error codes can be accessed from :mod:`pygsl.errno`
+"""
 import sys
 
 if sys.version_info[0] < 3:
@@ -15,11 +23,10 @@ if sys.version_info[0] < 3:
     Warning = exceptions.Warning
     
 import types
-from pygsl import errno, init
+from pygsl import errno as errno_m
 
 class gsl_Error(Exception):
-    """
-    base of all gsl exceptions defined here
+    """base of all gsl exceptions
     """
     IsA = 'gsl_Error'
     errno = None
@@ -27,294 +34,299 @@ class gsl_Error(Exception):
 
 
 class gsl_Warning(Warning):
-    """
-    base of all gsl warnings defined here
+    """base of all gsl warnings
     """
     errno = None
     pass
 
 class gsl_ArithmeticError(gsl_Error,ArithmeticError):
-    """
-    base of all common arithmetic exceptions
+    """base of all common arithmetic exceptions
     """
     pass
 
 class gsl_RangeError(gsl_ArithmeticError):
+    """output range error, e.g. exp(1e100)
     """
-    output range error, e.g. exp(1e100)
-    """
-    errno = errno.GSL_ERANGE
+    errno = errno_m.GSL_ERANGE
+    """gsl error number :data:`pygsl.errno.GSL_ERANGE`"""
+
     pass
 
 class gsl_PointerError(gsl_Error):
+    """invalid pointer
+
+    This error is typically raised if GSL is checking a pointer and 
+    that pointer is NULL.
     """
-    invalid pointer 
-    """
-    errno = errno.GSL_EFAULT
-    # Perhaps a lookup Error ???
+    errno = errno_m.GSL_EFAULT
+    """gsl error number :data:`pygsl.errno.GSL_EFAULT`"""
     pass
 
 class gsl_InvalidArgumentError(gsl_Error):
+    """invalid argument supplied by user
     """
-    invalid argument supplied by user 
-    """
-    errno = errno.GSL_EINVAL
+    errno = errno_m.GSL_EINVAL
+    """gsl error number :data:`pygsl.errno.GSL_EINVAL`"""
     pass
 
 class gsl_GenericError(gsl_Error):
+    """generic failure
     """
-    generic failure
-    """
-    errno = errno.GSL_EFAILED
+    errno = errno_m.GSL_EFAILED
+    """gsl error number :data:`pygsl.errno.GSL_EFAILED`"""
     pass
 
 class gsl_FactorizationError(gsl_Error):
+    """factorization failed
     """
-    factorization failed
-    """
-    errno = errno.GSL_EFACTOR
+    errno = errno_m.GSL_EFACTOR
+    """gsl error number :data:`pygsl.errno.GSL_EFACTOR`"""
     pass
 
 class gsl_SanityCheckError(gsl_Error):
+    """sanity check failed - shouldn't happen
     """
-    sanity check failed - shouldn't happen
-    """
-    errno = errno.GSL_ESANITY
+    errno = errno_m.GSL_ESANITY
+    """gsl error number :data:`pygsl.errno.GSL_ESANITY`"""
     pass
 
 class gsl_BadFuncError(gsl_Error):
+    """problem with user-supplied function
     """
-    problem with user-supplied function
-    """
-    errno = errno.GSL_EBADFUNC
+    errno = errno_m.GSL_EBADFUNC
+    """gsl error number :data:`pygsl.errno.GSL_EBADFUNC`"""
     pass
 
 class gsl_RunAwayError(gsl_ArithmeticError):
+    """iterative process is out of control
     """
-    iterative process is out of control
-    """
-    errno = errno.GSL_ERUNAWAY        
+    errno = errno_m.GSL_ERUNAWAY        
+    """gsl error number :data:`pygsl.errno.GSL_ERUNAWAY`"""
     pass
 
 class gsl_MaximumIterationError(gsl_ArithmeticError):
+    """exceeded max number of iterations
     """
-    exceeded max number of iterations
-    """
-    errno = errno.GSL_EMAXITER
+    errno = errno_m.GSL_EMAXITER
+    """gsl error number :data:`pygsl.errno.GSL_EMAXITER`"""
     pass
 
 class gsl_ZeroDivisionError(gsl_Error,ZeroDivisionError):
+    """zero Division Error
     """
-    """
-    errno = errno.GSL_EZERODIV
+    errno = errno_m.GSL_EZERODIV
+    """gsl error number :data:`pygsl.errno.GSL_EZERODIV`"""
     pass
 
 class gsl_BadToleranceError(gsl_Error):
+    """user specified an invalid tolerance
     """
-    user specified an invalid tolerance
-    """
-    errno = errno.GSL_EBADTOL
+    errno = errno_m.GSL_EBADTOL
+    """gsl error number :data:`pygsl.errno.GSL_EBADTOL`"""
     pass
 
 class gsl_ToleranceError(gsl_ArithmeticError):
+    """failed to reach the specified tolerance
     """
-    failed to reach the specified tolerance
-    """
-    errno = errno.GSL_ETOL
+    errno = errno_m.GSL_ETOL
+    """gsl error number :data:`pygsl.errno.GSL_ETOL`"""
     pass
 
 class gsl_UnderflowError(gsl_Error,OverflowError):
+    """Underflow error
     """
-    """
-    errno = errno.GSL_EUNDRFLW
+    errno = errno_m.GSL_EUNDRFLW
+    """gsl error number :data:`pygsl.errno.GSL_EUNDRFLW`"""
 
     pass
 
 class gsl_OverflowError(gsl_Error,OverflowError):
+    """Overflow Error
     """
-    """
-    errno = errno.GSL_EOVRFLW
+    errno = errno_m.GSL_EOVRFLW
+    """gsl error number :data:`pygsl.errno.GSL_EOVERFLW`"""
     pass
 
 
 
 class gsl_AccuracyLossError(gsl_ArithmeticError):
+    """failed to reach the specified tolerance
     """
-    failed to reach the specified tolerance
-    """
-    errno = errno.GSL_ELOSS
+    errno = errno_m.GSL_ELOSS
+    """gsl error number :data:`pygsl.errno.GSL_ELOSS`"""
     pass
 
 class gsl_RoundOffError(gsl_ArithmeticError):
+    """failed because of roundoff error 
     """
-    failed because of roundoff error 
-    """
-    errno = errno.GSL_EROUND
+    errno = errno_m.GSL_EROUND
+    """gsl error number :data:`pygsl.errno.GSL_EFOUND`"""
     pass 
 
 class gsl_BadLength(gsl_Error):
+    """matrix; vector lengths are not conformant
     """
-    matrix; vector lengths are not conformant
-    """
-    errno = errno.GSL_EBADLEN
+    errno = errno_m.GSL_EBADLEN
+    """gsl error number :data:`pygsl.errno.GSL_EBADLEN`"""
     pass
 
 class gsl_MatrixNotSquare(gsl_Error):
+    """matrix not square
     """
-    matrix not square
-    """
-    errno = errno.GSL_ENOTSQR
+    errno = errno_m.GSL_ENOTSQR
+    """gsl error number :data:`pygsl.errno.GSL_ENOTSQR`"""
     pass
 
 
 class gsl_SingularityError(gsl_ArithmeticError):
+    """apparent singularity detected
     """
-    apparent singularity detected
-    """
-    errno = errno.GSL_ESING
+    errno = errno_m.GSL_ESING
+    """gsl error number :data:`pygsl.errno.GSL_ESING`"""
 
     pass
 
 class gsl_DivergeError(gsl_ArithmeticError):
+    """integral or series is divergent
     """
-    integral or series is divergent
-    """
-    errno = errno.GSL_EDIVERGE
+    errno = errno_m.GSL_EDIVERGE
+    """gsl error number :data:`pygsl.errno.GSL_EDIVERGE`"""
     pass
 
 class gsl_NoHardwareSupportError(gsl_Error):
+    """requested feature is not supported by the hardware
     """
-    requested feature is not supported by the hardware
-    """
-    errno = errno.GSL_EUNSUP
+    errno = errno_m.GSL_EUNSUP
+    """gsl error number :data:`pygsl.errno.GSL_EUNSUP`"""
     pass
 
 class gsl_NotImplementedError(gsl_Error, NotImplementedError):
+    """requested feature not (yet) implemented 
     """
-    requested feature not (yet) implemented 
-    """
-    errno = errno.GSL_EUNIMPL
+    errno = errno_m.GSL_EUNIMPL
+    """gsl error number :data:`pygsl.errno.GSL_EUNIMPL`"""
 
     pass
 
 class gsl_CacheLimitError(gsl_Error):
+    """cache limit exceeded
     """
-    cache limit exceeded
-    """
-    errno = errno.GSL_ECACHE
+    errno = errno_m.GSL_ECACHE
+    """gsl error number :data:`pygsl.errno.GSL_ECACHE`"""
 
     pass
 
 class gsl_TableLimitError(gsl_Error):
+    """Table limit exceeded
     """
-    Table limit exceeded
-    """
-    errno = errno.GSL_ETABLE
+    errno = errno_m.GSL_ETABLE
+    """gsl error number :data:`pygsl.errno.GSL_ETABLE`"""
     pass
 
 class gsl_NoProgressError(gsl_ArithmeticError):
+    """iteration is not making progress towards solution
     """
-    iteration is not making progress towards solution
-    """
-    errno = errno.GSL_ENOPROG
+    errno = errno_m.GSL_ENOPROG
+    """gsl error number :data:`pygsl.errno.GSL_ENOPROG`"""
 
     pass
 
 class gsl_JacobianEvaluationError(gsl_ArithmeticError):
+    """jacobian evaluations are not improving the solution
     """
-    jacobian evaluations are not improving the solution
-    """
-    errno = errno.GSL_ENOPROGJ
+    errno = errno_m.GSL_ENOPROGJ
+    """gsl error number :data:`pygsl.errno.GSL_ENOPROGJ`"""
 
     pass
 
 
 class gsl_ToleranceFError(gsl_ArithmeticError):
+    """cannot reach the specified tolerance in F
     """
-    cannot reach the specified tolerance in F
-    """
-    errno = errno.GSL_ETOLF
+    errno = errno_m.GSL_ETOLF
+    """gsl error number :data:`pygsl.errno.GSL_ETOLF`"""
     pass
 
 class gsl_ToleranceXError(gsl_ArithmeticError):
+    """cannot reach the specified tolerance in X
     """
-    cannot reach the specified tolerance in X
-    """
-    errno = errno.GSL_ETOLX
+    errno = errno_m.GSL_ETOLX
+    """gsl error number :data:`pygsl.errno.GSL_ETOLX`"""
     pass
 
 class gsl_ToleranceGradientError(gsl_ArithmeticError):
+    """cannot reach the specified tolerance in gradient
     """
-    cannot reach the specified tolerance in gradient
-    """
-    errno = errno.GSL_ETOLG
+    errno = errno_m.GSL_ETOLG
+    """gsl error number :data:`pygsl.errno.GSL_ETOLG`"""
 
     pass
 
 class gsl_EOFError(gsl_Error, EOFError):
+    """end of file
     """
-    end of file
-    """
-    errno = errno.GSL_EOF
+    errno = errno_m.GSL_EOF
+    """gsl error number :data:`pygsl.errno.GSL_EOF`"""
     pass
 
 
 
 class gsl_FloatingPointError(gsl_Error,FloatingPointError):
-    """
+    """base of all common floating point errors
     """
     pass
 
 class gsl_DomainWarning(gsl_Warning):
+    """used by pygsl.histogram
     """
-    used by pygsl.histogram
-    """
-    errno = errno.GSL_EDOM
+    errno = errno_m.GSL_EDOM
+    """error number :data:`pygsl.errno.GSL_EDOM`"""
 
 
 class gsl_DomainError(gsl_Error):
+    """Domain Error. e.g. sqrt(-1)
     """
-    Domain Error. e.g. sqrt(-1)
-    """
-    errno = errno.GSL_EDOM
+    errno = errno_m.GSL_EDOM
+    """gsl error number :data:`pygsl.errno.GSL_EDOM`"""
 
     pass
 
 
 class pygsl_StrideError(gsl_SanityCheckError):
-    """
-    Could not recalculate a stride of a python array object to the stride
+    """Could not recalculate a stride of a python array object to the stride
     of a gsl_vector or gsl_matrix.
     """
-    errno = errno.PyGSL_ESTRIDE
+    errno = errno_m.PyGSL_ESTRIDE
+    """pygsl error number :data:`pygsl.errno.PyGSL_ESTRIDE`"""
 
     pass
 
 
 class pygsl_NotImplementedError(gsl_NotImplementedError):
+     """Base for all Errors, which are known but not implemented yet!
      """
-     Base for all Errors, which are known but not implemented yet!
-     """
-     errno = errno.PyGSL_EUNIMPL
+     errno = errno_m.PyGSL_EUNIMPL
+     """pygsl error number :data:`pygsl.errno.PyGSL_EUNIMPL`"""
      pass
 
 class pygsl_NotInitalised(gsl_SanityCheckError):
-    """
-    gsl_error calls a c callback, which saves the reason, file name, line number
+    """gsl_error calls a c callback, which saves the reason, file name, line number
     and the GSL errno.
 
     This errno is stored when the save state is initalised and flags that
     gsl_error was not yet called.
     """
-    errno = errno.PyGSL_EINIT
+    errno = errno_m.PyGSL_EINIT
+    """pygsl error number :data:`pygsl.errno.PyGSL_EINIT`"""
     pass
 
 _not_exported_exceptions = (
-gsl_Error,
-gsl_Warning,
-gsl_FloatingPointError,
-gsl_ArithmeticError,
+    gsl_Error,
+    gsl_Warning,
+    gsl_FloatingPointError,
+    gsl_ArithmeticError,
 )
+
 def _get_exceptions(subclass):
     tmp = []
     globs = globals()
@@ -342,28 +354,61 @@ def _get_exceptions(subclass):
     return tmp
 
 def get_exceptions():
+    """Returns the exceptions defined within this module
+
+    Used by the :mod:`pygsl.init` module. This is used by the C helper functions
+    to turn an error reported by gsl by the C error code to the appropriate
+    python exception
+    """
     return _get_exceptions(gsl_Error)
 
 def get_warnings():
+    """Returns the warnings defined within this module
+
+    Used by the :mod:`pygsl.init` module. This is used by the C helper functions
+    to turn an error reported by gsl by the C error code to the appropriate
+    python warning
+    """
     return _get_exceptions(gsl_Warning)
 
 class _ErrorSafeState:
-    """If PyGSL does not set gsl_error handler to off, the installed error
+    """Access to the last error stored by gsl
+
+If PyGSL does not set gsl_error handler to off, the installed error
 handler will store the arguments passed by gsl_error_handler to a single static 
-variable in the initmodule. This variable is exported to python space
+variable in :mod:`pygsl.init`. This variable is exported to python space
 by this class.
 
 If pygsl raises an exception, this state here should be automatically reset.
+
+Used gsl functions:
+    * :c:func:`gsl_set_error_handler_off()`
+    * :c:func:`gsl_set_error_handler()`
 """ 
 
     def get(self):
         "Get the currently stored variables"
+        from pygsl import init
         tmp = init.error_handler_state_get()
         dic = {'reason' : tmp[0], 'file' : tmp[1], 'line' : tmp[2], 'errno' : tmp[3]}
         return dic
 
     def reset(self):
         "Reset the state"
+        from pygsl import init
         return init.error_handler_state_reset()
 
 error_safe_state = _ErrorSafeState()
+#"""Access to the last error stored by gsl
+#
+#If PyGSL does not set gsl_error handler to off, the installed error
+#handler will store the arguments passed by gsl_error_handler to a single static 
+#variable in :mod:`pygsl.init`. This variable is exported to python space
+#by this class.
+#
+#If pygsl raises an exception, this state here should be automatically reset.
+#
+#Used gsl functions:
+#    * :c:func:`gsl_set_error_handler_off()`
+#    * :c:func:`gsl_set_error_handler()`
+#""" 

@@ -149,33 +149,76 @@ static PyObject* ieee_posinf(PyObject *self)
 
 static const char env_setup_doc[] = 
 "Set the IEEE mode, the GSL library should use, using the GSL_IEEE_MODE\n\
-environement variable\n\
+  environement variable\n\n\
 You can also use os.environ['GSL_IEEE_MODE']='<desired_behaviour>' to\n\
-set the variable\n";
+set the variable\n\
+\n\
+Calls :c:func:`gsl_ieee_env_setup()`\n\
+";
 
 static const char bin_repr_doc[] =
 "takes a double and returns its  sign, mantissa, exponent and type\n";
 
 static const char set_mode_doc[] = 
-"Sets the ieee float handling mode\n\
-\tUsage:\n\
-\tset_mode(precision, rounding, exception_mask)\n\
-Each flag can be a combination of the constants defined in this module\n\
-Raises  gsl_NoHardwareSupportError if support is not available.\n\
+".. py:function:: set_mode(precision, rounding, exception_mask)\n\
+    \n\
+    Sets the ieee float handling mode\n\n\
+    \n\
+    Args:\n\
+       precision      : one of :py:data:`single_precision` , :py:data:`double_precision` , :py:data:`extended_precision` \n\
+       rounding       : one of :py:data:`round_to_nearest` , :py:data:`round_down` , :py:data:`round_up` , :py:data:`round_to_zero` \n\ 
+       exception_mask : \n\
+    \n\
+    Each flag can be a combination of the constants defined in this module\n \
+    Raises  gsl_NoHardwareSupportError if support is not available.\n\
+    \n\
+    WARNING:\n\
+       Use with care! It can abort your programm abnormaly!\n";
+
+static const char pygsl_finite_doc[] = "Returns if the number is finite. \n\
 \n\
-WARNING: Use with care! It can abort your programm abnormaly!";
+Wrapper for :c:func:`gsl_finite`\n\
+\n\
+Args:\n\
+    o: python object\n\
+\n\
+Returns:\n\
+    bool: if finite or not\n\
+";
+
+static const char pygsl_ieee_isnan[] = "Returns if the object is Nan\n\
+\n\
+Wrapper for :c:func:`gsl_isnan`\n\
+\n\
+Args:\n\
+    o: python object\n\
+\n\
+Returns:\n\
+    bool: if Nan or not\n\
+";
+
+static const char pygsl_ieee_isinf[] = "Returns if the object is inif\n\
+\n\
+Wrapper for :c:func:`gsl_isinf`\n\
+\n\
+Args:\n\
+    o: python object\n\
+\n\
+Returns:\n\
+    bool: \n\
+";
 
 static const char  ieee_nan_doc[] = "Returns not a number\n";
-static const char  ieee_neginf_doc[] = "Returns a negative infinite\n";
-static const char  ieee_posinf_doc[] = "Returns a positive infinite\n";
+static const char  ieee_neginf_doc[] = "Returns a negative infinite: Inf\n";
+static const char  ieee_posinf_doc[] = "Returns a positive infinite: -Inf\n";
 static PyMethodDef ieeeMethods[] = {
   {"set_mode", set_mode, METH_VARARGS, (char*)set_mode_doc},
   {"env_setup", env_setup, METH_NOARGS,  (char *)env_setup_doc},
   {"bin_repr", bin_repr, METH_VARARGS, NULL},
   /* tests on special IEEE-FP meanings */
-  {"isnan",ieee_isnan,METH_O, NULL},
-  {"isinf",ieee_isinf,METH_O, NULL},
-  {"finite",ieee_finite,METH_O, NULL},
+  {"isnan",ieee_isnan,METH_O, pygsl_ieee_isnan},
+  {"isinf",ieee_isinf,METH_O, pygsl_ieee_isinf},
+  {"finite",ieee_finite,METH_O, pygsl_finite_doc},
   /* some special ieee-numbers */
   {"nan",(PyCFunction)ieee_nan, METH_NOARGS, (char *)ieee_nan_doc},
   {"neginf",(PyCFunction)ieee_neginf, METH_NOARGS, (char *)ieee_neginf_doc},
@@ -184,11 +227,16 @@ static PyMethodDef ieeeMethods[] = {
 };
 
 
+static const char pygsl_ieee_m_doc[] =
+  "ieee interface\n"
+  "\n"
+  "Wrappers for the functionality provided by  :std:ref:`chap_ieee`\n";
+
 #ifdef PyGSL_PY3K
 static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
-        "pygsl.rng",
-        NULL,
+        "pygsl.ieee",
+        pygsl_ieee_m_doc,
         -1,
 	ieeeMethods,
         NULL,

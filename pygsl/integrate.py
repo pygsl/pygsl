@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer
-"""
+"""Routines for numerical integration
+
 This   modules   defines  routines   for   performing  numerical   integration
 (quadrature) of a function in  one dimension.  There are routines for adaptive
 and non-adaptive  integration of general functions,  with specialised routines
@@ -27,7 +28,8 @@ SINE    = _callback.GSL_INTEG_SINE
 COSINE  = _callback.GSL_INTEG_COSINE
 
 class workspace(_workspace):
-    """
+    """Workspace for integratinn
+
     This class provides a workspace sufficient to hold N double
     precision intervals, their integration results and error estimates.
 
@@ -45,7 +47,8 @@ class workspace(_workspace):
         return self._size(self._ptr)
 
 class qaws_table(_workspace):
-    """
+    """Integration table for qaws
+
     This class allocates space for a `gsl_integration_qaws_table'
     struct and associated workspace describing a singular weight
     function W(x) with the parameters (\alpha, \beta, \mu, \nu),
@@ -90,7 +93,8 @@ class qaws_table(_workspace):
 
 
 class qawo_table(_workspace):
-    """
+    """Table for qawo
+    
         This class manages space for a `qawo_table'
       and its associated workspace describing a sine or cosine
      weight function W(x) with the parameters (\omega, L),

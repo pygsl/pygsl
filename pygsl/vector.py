@@ -1,44 +1,42 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer 
-"""
-The vector module.
+"""Vector module.
 
 This module provides  mappings to some functions of  gsl vectors as descirebed
 in  Chapter  8.3 of  the  gsl reference  document.  All  functions accept  one
 dimensional Numeric arrays instead of gsl vectors, or return Numeric arrays.
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   Warning: When translating alghorithms from C to Python, check if the
+WARNING:
+    When translating alghorithms from C to Python, check if the
    functions do the same. Inplace change does not need to have effect here,
    some of  these functions make copies internally.
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 All  functions from  Section 8.3.3  take  an integer  as input  and return  an
 approbriate Numeric array as output. The prefix gsl_vector has been discarded.
 These functions are:
-     set_zero
-     set_all
-     set_basis
+     * set_zero
+     * set_all
+     * set_basis
 
 Functions to read write the vector from a file are provided as well:
-    fprintf
-    fscanf
-    fread
-    fwrite
+    * fprintf
+    * fscanf
+    * fread
+    * fwrite
 
 Some basic data operations are provided as well (See Section 8.3.7):
-    reverse      
-    swap         
-    swap_elements
+    * reverse      
+    * swap         
+    * swap_elements
 
 And some functions from Section 8.3.9    
-    max          
-    min          
-    minmax       
-    isnull       
-    max_index
-    min_index
-    minmax_index
+    * max          
+    * min          
+    * minmax       
+    * isnull       
+    * max_index
+    * min_index
+    * minmax_index
 """
 
 from . import  _block

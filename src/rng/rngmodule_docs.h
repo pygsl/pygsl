@@ -6,67 +6,67 @@ random generator. All known random generator types are listed below. The\n\
 different distributions are methods of the random generator instances.\n\
 Consult the GSL manual for full details.\n\
 \n\
-    Random-number generator types\n\
-borosh13\n\
-cmrg\n\
-coveyou\n\
-fishman18\n\
-fishman20\n\
-fishman2x\n\
-gfsr4\n\
-knuthran\n\
-knuthran2\n\
-lecuyer21\n\
-minstd\n\
-mrg\n\
-mt19937\n\
-mt19937_1999\n\
-r250\n\
-ran0\n\
-ran1\n\
-ran2\n\
-ran3\n\
-rand\n\
-rand48\n\
-random128_bsd\n\
-random128_glibc2\n\
-random128_libc5\n\
-random256_bsd\n\
-random256_glibc2\n\
-random256_libc5\n\
-random32_bsd\n\
-random32_glibc2\n\
-random32_libc5\n\
-random64_bsd\n\
-random64_glibc2\n\
-random64_libc5\n\
-random8_bsd\n\
-random8_glibc2\n\
-random8_libc5\n\
-random_bsd\n\
-random_glibc2\n\
-random_libc5\n\
-randu\n\
-ranf\n\
-ranlux\n\
-ranlux389\n\
-ranlxd1\n\
-ranlxd2\n\
-ranlxs0\n\
-ranlxs1\n\
-ranlxs2\n\
-ranmar\n\
-slatec\n\
-taus\n\
-taus2\n\
-taus113\n\
-transputer\n\
-tt800\n\
-uni\n\
-uni32\n\
-vax\n\
-waterman14\n\
-zuf\n";
+Random-number generator types:\n\
+    * borosh13\n\
+    * cmrg\n\
+    * coveyou\n\
+    * fishman18\n\
+    * fishman20\n\
+    * fishman2x\n\
+    * gfsr4\n\
+    * knuthran\n\
+    * knuthran2\n\
+    * lecuyer21\n\
+    * minstd\n\
+    * mrg\n\
+    * mt19937\n\
+    * mt19937_1999\n\
+    * r250\n\
+    * ran0\n\
+    * ran1\n\
+    * ran2\n\
+    * ran3\n\
+    * rand\n\
+    * rand48\n\
+    * random128_bsd\n\
+    * random128_glibc2\n\
+    * random128_libc5\n\
+    * random256_bsd\n\
+    * random256_glibc2\n\
+    * random256_libc5\n\
+    * random32_bsd\n\
+    * random32_glibc2\n\
+    * random32_libc5\n\
+    * random64_bsd\n\
+    * random64_glibc2\n\
+    * random64_libc5\n\
+    * random8_bsd\n\
+    * random8_glibc2\n\
+    * random8_libc5\n\
+    * random_bsd\n\
+    * random_glibc2\n\
+    * random_libc5\n\
+    * randu\n\
+    * ranf\n\
+    * ranlux\n\
+    * ranlux389\n\
+    * ranlxd1\n\
+    * ranlxd2\n\
+    * ranlxs0\n\
+    * ranlxs1\n\
+    * ranlxs2\n\
+    * ranmar\n\
+    * slatec\n\
+    * taus\n\
+    * taus2\n\
+    * taus113\n\
+    * transputer\n\
+    * tt800\n\
+    * uni\n\
+    * uni32\n\
+    * vax\n\
+    * waterman14\n\
+    * zuf\n";
 
 static char rng_doc[]= 
 "RNG Object Constructor\n\
@@ -78,6 +78,7 @@ Input:\n\
 
 static char rng_type_doc[]=
 "A PyGSL encapsulation of a GSL random number generator\n\
+\n\
 Try help(<your_instance>.method) to get more information about the method\n\
 in question.\n\
 \n\
