@@ -250,7 +250,8 @@ def emit_callbacks(sf, stream):
 def emit_doc(sf, stream):
     """
     """
-    pass
+    name = sf.GetFunctionName()
+    
 
 def emit_doc_variable(sf, stream):
     """The code that goes into .__doc__    
@@ -259,14 +260,21 @@ def emit_doc_variable(sf, stream):
     UFuncName =  sf_prototype.get_py_ufunc_name(sf)
     
     lines = []
-    lines.append("static const char %s_doc[] =")
-    doc="""Wrapper for :c:func:`%s`
-
-Wrapped by ufunc :class:`%s`
-    """
+    lines.append('static const char %s_doc[] =' %(name,))
+    doc=r'''"Wrapper for :c:func:`%s`\n"
+"\n"
+"Wrapped by ufunc :class:`%s`\n";
+"Args:\n"    
+    '''      
     tmp = doc %(name, UFuncName)
     lines.append(tmp)
-    lines.append(";")
+
+    in_args = sf.GetInArguments()
+    for arg in in_args:
+        desc = arg.GetDocDescription()
+        lines.append("    %s: ")
+
+    
     txt = "\n".join(lines)
     stream.write(txt + "\n")
     
@@ -303,7 +311,7 @@ PyDict_SetItemString(sf_dict,"%s" /* name of py object */, f);
     data = UFuncName + "_data"
     types = UFuncName + "_types"
     callbacks = full_name + "_data"
-    doc = NULL
+    doc = full_name + "_doc"
     args = (sf, data, callbacks, types, n_in, n_out, name, doc, name)
     #print(args)
     tmp = obj_decl % args
