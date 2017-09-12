@@ -73,7 +73,7 @@ class gsl_Extension(Extension):
 	    library_dirs = library_dirs + gsl_Location.get_gsl_library_dirs()
 
 	    # Testing linking to non standard location if standard location is available
-	    runtime_library_dirs = gsl_Location.get_gsl_library_dirs()
+	    #runtime_library_dirs = gsl_Location.get_gsl_library_dirs()
 	    if libraries is None: libraries=[]
 	    #libraries.append('pygsl')
 	    libraries.extend(gsl_Location.get_gsl_lib_list())
