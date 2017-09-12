@@ -439,6 +439,7 @@ def build_ufunc_files(file_name, output_prefix):
         for sf in sf_valid:
             emit_code.emit_callbacks(sf, cbf)
             emit_code.emit_object(sf, of)
+            emit_code.emit_doc_variable(sf, cbf)
     finally:
         cbf.close()
         del cbf
