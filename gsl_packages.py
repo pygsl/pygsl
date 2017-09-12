@@ -171,18 +171,19 @@ if BUILD_DEPRECATED:
                        )
     exts.append(pygsl_sf)
 
-exts.append(SWIG_Extension("_callback",
+pygsl__callback = SWIG_Extension("_callback",
                            ["src/callback/gsl_callback.i"],
                            include_dirs=["src/callback"],
                            swig_include_dirs=["src/callback"],
                            # -builtin can still have problems for some functions
-                           #swig_flags = swig_flags,
+                           swig_flags = swig_flags,
                            #gsl_min_version=(1,2),
                            define_macros = macros,
                            python_min_version=(2,1),
-                          )            
-            )
-    
+)
+print(pygsl__callback)
+exts.append(pygsl__callback)
+
 flag = 0
 try:
     flag = gsl_features.deriv
