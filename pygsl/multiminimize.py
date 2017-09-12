@@ -7,9 +7,9 @@ Routines for finding the minimum of a function depending on more than one
 variable.
 
 """
-import _callback
-from gsl_function import gsl_multimin_function_fdf, gsl_multimin_function
-from _generic_solver import _generic_solver
+from . import _callback
+from .gsl_function import gsl_multimin_function_fdf, gsl_multimin_function
+from ._generic_solver import _generic_solver
 
 class _fsolver(_generic_solver):
     type = None
