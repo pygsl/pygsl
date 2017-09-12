@@ -2,47 +2,54 @@
 # created: May 2001
 # file: pygsl/__init__.py
 # $Id$
-"""
-    Wrapper for the GNU Scientific Library.
+"""Wrapper for the GNU Scientific Library.
 
-
-    This module provides the following submodules:
-         -- blas
-         -- chebyshev
-         -- combination
-         -- const
-         -- diff
-         -- eigen
-         -- fit
-         -- histogram
-         -- ieee
-         -- integrate
-         -- interpolation
-         -- linalg
-         -- math
-         -- minimize
-         -- multifit
-         -- multifit_nlin
-         -- multimin
-         -- multiroots
-         -- odeiv
-         -- permutation
-         -- poly
-         -- qrng
-         -- rng
-         -- roots
-         -- siman
-         -- sf
-         -- statistics
+This module provides the following submodules:
+    * blas
+    * chebyshev
+    * combination
+    * const
+    * diff
+    * eigen
+    * fit
+    * histogram
+    * ieee
+    * integrate
+    * interpolation
+    * linalg
+    * math
+    * minimize
+    * multifit
+    * multifit_nlin
+    * multimin
+    * multiroots
+    * odeiv
+    * permutation
+    * poly
+    * qrng
+    * rng
+    * roots
+    * siman
+    * sf
+    * statistics
 
          
-    Homepage: http://pygsl.sourceforge.net
+Homepage: http://pygsl.sourceforge.net
 
-Warning: if you want to use setup from the environement you have to call
-pygsl.ieee.env_setup() and pygsl.rng.env_setup() explicitly!
+Warning: 
+   If you want to use setup from the environement you have to call
+   :func:`pygsl.ieee.env_setup()` and :func:`pygsl.rng.env_setup()` explicitly!
 """
 
 import sys
+
+# Central Module used by errors. Make sure it loads. Should not depend on init
+import pygsl.errno
+
+# Central Module used by C callbacks. So a good idea to import it here to be
+# sure that  it exists from the very beginning!
+# Should not depend on :mod:`pygsl.iniit`
+import pygsl.errors
 
 _init_import_errm ="""
 Did you try to import pygsl in the build directory?
@@ -55,6 +62,8 @@ to add the necessary extension module in the local pygsl/ directory!
 Please read the README first! Any further questions or missing information
 please post to pygsl-discuss@lists.sourceforge.net!
 """
+
+
 __test = 0
 try:    
     import pygsl.init
@@ -66,12 +75,9 @@ finally:
 from . import  _version
 version= _version.version
 
-# Central Module used by C callbacks. So a good idea to import it here to be
-# sure that  it exists from the very beginning!
-import pygsl.errors
 # And register all the errors
-pygsl.init.register_exceptions(*(pygsl.errors.get_exceptions()))
-pygsl.init.register_warnings(*(pygsl.errors.get_warnings()))
+#pygsl.init.register_exceptions(*(pygsl.errors.get_exceptions()))
+#pygsl.init.register_warnings(*(pygsl.errors.get_warnings()))
 
 
 if sys.version_info[0] < 3:
@@ -142,11 +148,26 @@ def array_typed_copy(array, code = None):
     return array.astype(code)
     
 #import pygsl._mlab
-def set_debug_level(level):
-    """
-    Allow to set the debug level if implemented in the init function.
+def get_debug_level():
+    """Get the debug level
 
-    Silently ignore it if it does not exist
+    See :func:`pygsl.set_debug_level` for details.
+    """
+    return pygsl.init.get_debug_level()
+
+def set_debug_level(level):
+    """Allows to set the debug level if implemented in the init function.
+        
+    Args:
+         level:   A level of 0 deactivates all messages. The higher the
+                  level gets the more messages are printed.
+    
+    Silently ignores this function if the functionality was not compiled into
+    pygsl during build time.
+
+    These messages are compiled into the modules written in C. The level is
+    stored as a c variable in the module level for each module. This can be 
+    useful to find the reason why PyGSL crashes during execution.
     """
     try:
         pygsl.init.set_debug_level(level)
@@ -158,7 +179,8 @@ def set_debug_level(level):
 add_c_traceback_frames = init.add_c_traceback_frames
 
 def import_all():
-    """
+    """Import all functions of all
+
     PyGSL does not import all modules on statup. If you need it
     e.g for autocompletion call this function!
     """
@@ -170,14 +192,12 @@ def import_all():
             sys.stderr.write("Import of %s failed!" % (name,))
 
 def _zeros_default(dimensions, array):
-    """
-    Generate zeros of the same type as the array
+    """Generate zeros of the same type as the array
     """
     return _zeros(dimensions, array.typecode())
-
+ 
 def _zeros_numpy(dimensions, array):
-    """
-    Generate zeros of the same type as the array
+    """ Generate zeros of the same type as the array
     """
     return _zeros(dimensions, array.dtype)
 
