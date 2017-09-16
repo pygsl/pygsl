@@ -112,9 +112,12 @@ class _test_sf_automatic(unittest.TestCase):
         except TypeError as t_err:
             t_err.args += (msg,)
             raise t_err
-            
-        val = t[0]
-        err = t[1]
+
+        status = t[0]
+        self.assertEqual(status, errno.GSL_SUCCESS)
+                         
+        val = t[1]
+        err = t[2]
 
         val = float(val)
         err = float(err)
