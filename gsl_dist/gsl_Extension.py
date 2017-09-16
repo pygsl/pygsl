@@ -1,13 +1,16 @@
 #
-# author: Achim Gaedke
+# author: Achim Gaedke, Pierre Schnizer
 # created: May 2001
+# modified: Sep 2017
 # file: pygsl/gsl_dist/gsl_extension.py
 # $Id$
 #
 # module for gsl extensions compilation
 
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 from distutils.errors import DistutilsModuleError, DistutilsExecError
+from distutils.dep_util import newer_group
+
 import os
 import os.path
 import re
@@ -24,6 +27,28 @@ except ImportError:
         from pygsl.gsl_dist.array_includes import array_include_dirs
 
 
+#def check_dependencies(sources, depends):
+#	"""Check if any of the dependencies is newer than the src
+#
+#	It assumes that the dependencies are in the same directory as the
+#	src file
+#	
+#	Returns:
+#	     the deps if they are newer than the src file, None if not
+#	"""
+#	is_old = True
+#	for src in sources:
+#		t_dir = os.path.dirname(src)
+#		check_deps = map(lambda x: os.path.join(t_dir, x), depends)
+#		is_old = newer_group(check_deps, src)
+#		print("src %s is old %s" % (src, is_old))
+#		if is_old == True:
+#			break
+#		
+#	if is_old == False:
+#		return None
+#
+#	return depends
 
 
 class gsl_Extension(Extension):
@@ -43,10 +68,12 @@ class gsl_Extension(Extension):
 		     export_symbols=None,
 		     gsl_prefix=None,
 		     gsl_min_version=None,
-		     python_min_version=None
+		     python_min_version=None,
+		     depends=None,
+		     **kws
 		     ):
 
-
+		
 	    # get real prefix
 	    self.gsl_prefix=self.get_gsl_prefix()
 
@@ -102,6 +129,11 @@ class gsl_Extension(Extension):
 	    #        #define_macros.append(("PYGSL_GSL_MINOR_VERSION", gsl_minor_version))
 	    #        define_macros = define_macros + [("PYGSL_GSL_MINOR_VERSION", gsl_minor_version),]
 
+	    # dependes triggers always a recompile ...
+	    # try to fix it 
+	    # if depends is not None:
+	    #	    depends = check_dependencies(sources, depends)
+		    
 	    Extension.__init__(self, name, sources,
 			       include_dirs,
 			       define_macros,
@@ -112,7 +144,9 @@ class gsl_Extension(Extension):
 			       extra_objects,
 			       extra_compile_args,
 			       extra_link_args,
-			       export_symbols
+			       export_symbols,
+			       depends = depends,
+			       **kws
 			       )
 
 	def check_version(self, required_version, this_version):
