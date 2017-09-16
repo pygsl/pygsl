@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-"""
-Wrapper for the Simulated Annealing Solver provided by GSL.
+"""Wrapper for the Simulated Annealing Solver provided by GSL.
 
 The  simulated annealing  algorithm  takes random  walks  through the  problem
 space,  looking for  points  with low  energies;  in these  random walks,  the
 probability of taking a step is determined by the Boltzmann distribution,
 
-     p = e^{-(E_{i+1} - E_i)/(kT)}
+.. math::     p = e^{-(E_{i+1} - E_i)/(kT)}
 
 if E_{i+1} > E_i, and p = 1 when E_{i+1} <= E_i.
 
@@ -34,11 +33,11 @@ Have a look in the examples directory for the pythonic version of the simple
 problem as described in the GSL reference document.
 """
 # Author: Pierre Schnizer
-# Date  : 2003
+# Date  : 2003, 2017
 
 import copy
 
-import _siman
+from . import _siman
 
 # The real solver
 solve = _siman.solve
@@ -68,41 +67,37 @@ class NumericEnsemble:
         return self._data
 
     def EFunc(self):
-        """
-        Calculate the energy of the current status.
+        """Calculate the energy of the current status.
 
-        Output:
-              energy .... a Python float of the current energy
+        Returns:
+              energy: a Python float of the current energy
         """
         return energy
 
     def Step(self, rng, step_size):
-        """
-        Take a step
+        """Take a step
         
-        Input:
-             rng       ... a pygsl.rng instance
-             step_size ... a python float for the step size to be taken
+        Args:
+             rng:       a pygsl.rng instance
+             step_size: a python float for the step size to be taken
         """
         return None
     
 
     def Metric(self, other):
-        """
-        Calculate the distance between this object and the other.
+        """Calculate the distance between this object and the other.
         
-        Input:
-            other ... a instance of the same type
+        Args:
+            other: a instance of the same type
 
-        Output:
-            length ... a python float for the distance between this instance
-            and the other.
+        Returns:
+            length: a python float for the distance between this instance
+                    and the other.
         """
         return length
 
     def Clone(self):
-        """
-        Make a clone of the current object. Please be careful how you step and
+        """Make a clone of the current object. Please be careful how you step and
         clone so that your objects are different!
         
         Output:
@@ -113,8 +108,7 @@ class NumericEnsemble:
         return clone
 
     def Print(self):
-        """
-        Print the current state of the ensemble        
+        """Print the current state of the ensemble        
         """
         
     def __del__(self):
