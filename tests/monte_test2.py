@@ -14,10 +14,10 @@ xl = [ 0, ]
 xu = [ 1, ]
 exact = 0.5
 accepted_error = 0.2
-s = monte.Plain(1)
+s = monte.plain(1)
 s.init()
 calls = 100
-status, res, err = s.integrate(sys, xl, xu, calls, r)
+res, err = s.integrate(sys, xl, xu, calls, r)
 assert(Numeric.absolute(res - exact) < accepted_error)
 
 
