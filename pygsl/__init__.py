@@ -76,8 +76,8 @@ from . import  _version
 version= _version.version
 
 # And register all the errors
-#pygsl.init.register_exceptions(*(pygsl.errors.get_exceptions()))
-#pygsl.init.register_warnings(*(pygsl.errors.get_warnings()))
+pygsl.init.register_exceptions(*(pygsl.errors.get_exceptions()))
+pygsl.init.register_warnings(*(pygsl.errors.get_warnings()))
 
 
 if sys.version_info[0] < 3:
