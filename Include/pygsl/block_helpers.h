@@ -135,11 +135,18 @@ enum PyGSL_Array_Flags {
  (  ((argnum)     & 0x000000ff) << 24)   \
 )
 
+
 #define PyGSL_DARRAY_INFO(array_flag, argnum)  \
    PyGSL_BUILD_ARRAY_INFO(array_flag, NPY_DOUBLE, sizeof(double), argnum) 
 #define PyGSL_DARRAY_CINPUT(argnum)  PyGSL_DARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_INPUT_ARRAY, argnum) 
 #define PyGSL_DARRAY_INPUT(argnum)   PyGSL_DARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, argnum) 
 #define PyGSL_DARRAY_CIO(argnum)     PyGSL_DARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_IO_ARRAY,    argnum) 
+
+
+#define PyGSL_CARRAY_INFO(array_flag, argnum)				\
+   PyGSL_BUILD_ARRAY_INFO(array_flag, NPY_CDOUBLE, 2 * sizeof(double), argnum)
+#define PyGSL_CARRAY_CINPUT(argnum)  PyGSL_CARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_INPUT_ARRAY, argnum) 
+#define PyGSL_CARRAY_CIO(argnum)     PyGSL_CARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_IO_ARRAY,    argnum) 
 
 /*
  * PyGSL_New_Array:
