@@ -7,6 +7,75 @@ def add_indent(lines, indent):
         result.append(indent + line)
     return result
 
+def emit_doc(sf, stream):
+    """
+    """
+    name = sf.GetFunctionName()
+    UFuncName =  sf_prototype.get_py_ufunc_name(sf)
+
+    full_name = sf.GetFunctionName()
+    name = sf.GetPyFunctionName()
+    comment = sf.GetComment()
+
+    in_args = sf.GetInArguments()
+    in_args = tuple(in_args)
+    # Build up python func signature ... not functional yet
+    l = []
+    for arg in in_args:
+        tmp = arg.GetPyVariableNames()
+        l.extend(tmp)
+
+    func_signature = ", ".join(l)
+
+    ret_arg = sf.GetReturnArgument()
+    out_args = sf.GetOutArguments()
+    out_args = tuple(out_args)
+
+    l = []
+    for arg in (ret_arg,) +  out_args:
+        tmp = arg.GetPyVariableNames()
+        l.extend(tmp)
+    tmp = ", ".join(l)
+
+    func_signature += " [, %s]" %(tmp,)
+
+    func_decl = sf.GetFunctionDeclaration()
+    doc=r'''.. py:function:: %s(%s)
+
+    Wrapper for :c:func:`%s`
+    c code signature: %s
+    Wrapped by ufunc :class:`%s`
+    
+'''
+    txt = doc %(name, func_signature, full_name,  func_decl, UFuncName)
+    stream.write(txt)
+
+    # Definition of arguments
+    fmt = "    :param %s %s: %s\n"
+    all_args = in_args +(ret_arg,) + out_args
+    for arg in all_args:
+        decl = arg.GetPyVariableNamesDecl()
+        txt = "\n    ".join(decl)
+        stream.write("    " + txt + "\n")
+
+    # Return tuple .... 
+    if out_args == None or len(out_args) == 0:
+        arg_type = ret_arg.GetGSLType()
+        stream.write("    :rtype:  %s \n" %(arg_type,) )
+        stream.write("    :return: result \n")
+        pass
+    
+    else:
+        l = []
+        for arg in (ret_arg,) +  out_args:
+            decl = arg.GetPyVariableNamesDecl()
+            l.extend(decl)
+        tmp = ", ".join(l)
+        stream.write("    :rtype:  tuple(%s) \n" %(tmp,) )
+        stream.write("    :return: result \n")
+        
+    stream.write("\n")
+        
 def emit_evaluator(sf, minor = None, stream = sys.stdout, verbose = False):
     """Emit the code for the evaluator loop
 
@@ -247,11 +316,6 @@ def emit_callbacks(sf, stream):
     txt = "\n".join(lines)
     stream.write(txt + "\n")
 
-def emit_doc(sf, stream):
-    """
-    """
-    name = sf.GetFunctionName()
-    
 
 def emit_doc_variable(sf, stream):
     """The code that goes into .__doc__    
@@ -263,7 +327,7 @@ def emit_doc_variable(sf, stream):
     lines.append('static const char %s_doc[] =' %(name,))
     doc=r'''"Wrapper for :c:func:`%s`\n"
 "\n"
-"Wrapped by ufunc :class:`%s`\n";
+"Wrapped by ufunc :class:`%s`\n"
 "Args:\n"    
     '''      
     tmp = doc %(name, UFuncName)
@@ -271,12 +335,13 @@ def emit_doc_variable(sf, stream):
 
     in_args = sf.GetInArguments()
     for arg in in_args:
-        desc = arg.GetDocDescription()
-        lines.append("    %s: ")
+        #desc = arg.GetDocDescription()
+        #lines.append("    %s: ")
+        pass
 
     
     txt = "\n".join(lines)
-    stream.write(txt + "\n")
+    stream.write(txt + ";\n")
     
 
 def emit_object(sf, stream):
