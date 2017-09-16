@@ -498,35 +498,34 @@ static const char pygsl_siman_solve_doc[] =
 Usage:\n\
 result = solve(r, x0, ...)\n\
 \n\
-Input:\n\
-    r   ... a random generator from pygsl.rng\n\
-    x0  ... a configuration. It must be an object providing the following\n\
-            methods:\n\
-            EFunc()\n\
-            Metric()\n\
-            Step()\n\
-            Clone()\n\
+Args:\n\
+    r:  a random generator from pygsl.rng\n\
+    x0: a configuration. It must be an object providing the following\n\
+        methods:\n\
+           * EFunc()\n\
+           * Metric()\n\
+           * Step()\n\
+           * Clone()\n\
                If you want to use the print functionality you must provide\n\
                the following method:\n\
-            Print()\n\
+           * Print()\n\
 \n\
-Output:\n\
-    result ... a object of type x0 with the final value.\n\
-\n\
-Keywords:\n\
-    n_tries       = 200  ... how many points to try for each step\n\
-    iters_fixed_T = 10   ... how many iterations at each temperature?\n\
-    step_size     = 10   ... max step size in the random walk\n\
+Keyword Args:\n\
+    n_tries       = 200: how many points to try for each step\n\
+    iters_fixed_T = 10:  how many iterations at each temperature?\n\
+    step_size     = 10:  max step size in the random walk\n\
 \n\
                       parameters for the Boltzmann distribution\n\
-    k             = 1.0    ... Boltzmann constant\n\
-    t_initial     = 0.002  ... initial temperature\n\
-    mu_t          = 1.005  ... damping factor for the temperature\n\
+    k             = 1.0:   Boltzmann constant\n\
+    t_initial     = 0.002: initial temperature\n\
+    mu_t          = 1.005:  damping factor for the temperature\n\
     t_min         = 2.0e-6\n\
 \n\
-    do_print      = 0      ... print the status of the annealing process\n\
+    do_print      = 0:   print the status of the annealing process\n\
                                (== 0: do not print)\n\
                                ( > 0: print)\n\
+Returns:\n\
+    result: a object of type x0 with the final value.\n\
 ";
 
 
