@@ -148,6 +148,41 @@ class _GSLSfResult(_GSLSfResultBasis):
         ]
         return code
 
+
+    def GetPyVariableNames(self):
+        name = self.GetName()
+        items = self._struct_items
+        result = map(lambda entry:  name + entry, items)
+        return result
+
+    def GetPyVariableNamesDecl(self):
+        names = self.GetPyVariableNames()
+        pos = self.GetPyUFuncPosNumber()
+
+        struct_items = self._struct_items
+        
+        names = tuple(names)
+        if len(names) == 1:
+            names = names * len(struct_items)
+            
+        r = []
+        arg_desc = ":param %s %s: positional argument %d"
+        for cnt in range(len(struct_items)):
+            item = self._struct_items[cnt]
+            sub_type = self._sub_types[cnt]
+            t_name = names[cnt]
+            t_pos = pos + cnt
+
+            # Requires fix!
+            # t_pos = sub_type.GetPyUFuncPosNumber()            
+            arg_type = sub_type.GetCType()
+
+            des = arg_desc % (arg_type, t_name, t_pos,)
+            r.append(des)
+        r = tuple(r)
+        return r
+
+    
 class _GSLSfFloatArgumentAsMinor( _GSLSfResultFloatArgumentInfo, _GSLSfResult):
     _cls_s = (ufunc_arg._FloatArgumentAsMinor,) * 2
     def GetCalledFunctionCType(self):
@@ -162,10 +197,12 @@ class GSLSfResult(_GSLSfResult):
 
     _cls_s = (ufunc_arg.DoubleArgument,) * 2
     _minor = _GSLSfFloatArgumentAsMinor
+    _struct_items = (".val", ".err")
 
 
         
 class _GSLSfResultE(_GSLSfResultBasis):
+    _struct_items = (".val", ".err", ".e10")
 
     def NeedFailLabel(self):
         """Does not require one
@@ -193,6 +230,10 @@ class _GSLSfResultE(_GSLSfResultBasis):
         e10 = fmt % (t_type2, pos+2, label, pos)
 
         return [val, err, e10]
+
+
+    
+            
 
     def GetOutputVariablesSetOnError(self):
         pos = self.GetPyUFuncPosNumber()
@@ -231,7 +272,7 @@ class _GSLSfResultE(_GSLSfResultBasis):
 class GSLSfResultE(_GSLSfResultE):
     _c_type = "gsl_sf_result_e10"
     _type_letter = "erd"
-    _value_for_failed = ["_PyGSL_NAN", "_PyGSL_NAN"]
+    _value_for_failed = ["_PyGSL_NAN", "_PyGSL_NAN", "INT_MIN"]
 
     _cls_s = (ufunc_arg.DoubleArgument,) * 2 + (ufunc_arg.IntArgument,)
 
@@ -362,6 +403,15 @@ class _Argument(common._ArgumentType):
         """
         self._name = name
 
+    def GetName(self):
+        return self._name
+
+    def GetOperator(self):
+        op = self._operator
+        if op == None:
+            return ""
+        return op
+    
     def SetOperator(self, operator):
         """
         XXX ??? Perhaps a qualifier ???
@@ -460,6 +510,9 @@ class _Argument(common._ArgumentType):
                 break
         return need
 
+    def GetVariableNames(self):
+        return self._CollectCode("GetVariableNames")
+    
     def GetTmpVariables(self):
         return self._CollectCode("GetTmpVariables")
 
@@ -511,6 +564,8 @@ class _Argument(common._ArgumentType):
         assert(l == 1)
         return result
 
+    def GetPyVariableNames(self):
+        return self._CollectCode("GetPyVariableNames")
 
     def GetInputTmpVariablesAssignment(self):
         assert(self.IsInputArgument())
@@ -526,6 +581,9 @@ class _Argument(common._ArgumentType):
 
     def GetOutputVariablesSetOnError(self):
         return self._CollectCode("GetOutputVariablesSetOnError")
+
+    def GetPyVariableNamesDecl(self):
+        return self._CollectCode("GetPyVariableNamesDecl")
 
     def GetNumberInArgs(self):
         """returns how many input arguments are needed for the represented type
@@ -584,6 +642,10 @@ class _Argument(common._ArgumentType):
         if self.IsReturnArgument():
             for t in sub_types:
                 t.SetReturnArgument()
+
+        name = self.GetName()
+        for t in sub_types:
+            t.SetName(name)
             
         self._is_prepared_for_emitting_code = True
 
@@ -619,21 +681,23 @@ class _Argument(common._ArgumentType):
 
 
 class Argument(_Argument):
-    """
+    """Arguments for GSL math/complex special functions
+    
     letter nomenclatura
-    f   ... float
-    d   ... double
-    c   ... gsl_complex
-    r*  ... gsl_sf_result
-    er* ... gsl_sf_result_e10
-    i   ... integer
-    m   ... gsl_mode_t
-    ui  ... unsigned int
-    l   ... long
-    p   ... use return value as normal return to user(parameter)
-    q   ... use return as error flag to print warning or raise error
-            ("quality" :-)
+        *  f   : float
+        *  d   : double
+        *  c   : gsl_complex
+        *  r*  : gsl_sf_result
+        *  er* : gsl_sf_result_e10
+        *  i   : integer
+        *  m   : gsl_mode_t
+        *  ui  : unsigned int
+        *  l   : long
+        *  p   : use return value as normal return to user(parameter)
+        *  q   : use return as error flag to print warning or raise error
+                   ("quality" :-)
     """
+    #: Can be translated directly to numpy types
     _type_dic = {
         "int":          ufunc_arg.LongArgumentAsMajor,        
         "unsigned int": ufunc_arg.UnsignedIntArgument,
@@ -642,7 +706,8 @@ class Argument(_Argument):
         "gsl_complex":  ufunc_arg.GSLComplexArgument,
         "gsl_mode_t":   ufunc_arg.GSLModeTArgument,
         }
-    
+
+    #: Combined types
     _gsl_type_dic = {
         "gsl_sf_result":     GSLSfResult,
         "gsl_sf_result_e10": GSLSfResultE,
