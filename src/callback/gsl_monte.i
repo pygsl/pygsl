@@ -127,9 +127,9 @@ void gsl_monte_miser_free(gsl_monte_miser_state* state);
 
 
 
-enum {GSL_VEGAS_MODE_IMPORTANCE = 1, 
-      GSL_VEGAS_MODE_IMPORTANCE_ONLY = 0, 
-      GSL_VEGAS_MODE_STRATIFIED = -1};
+enum {GSL_VEGAS_MODE_IMPORTANCE, 
+      GSL_VEGAS_MODE_IMPORTANCE_ONLY, 
+      GSL_VEGAS_MODE_STRATIFIED};
 
 %inline %{
      double pygsl_monte_vegas_get_result(gsl_monte_vegas_state *s){return     s->result    ;}

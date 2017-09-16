@@ -100,12 +100,12 @@ void gsl_integration_qcheb (gsl_function * f, double a, double b,
 
 enum gsl_integ_gauss
   {
-    GSL_INTEG_GAUSS15 = 1,	/* 15 point Gauss-Kronrod rule */
-    GSL_INTEG_GAUSS21 = 2,	/* 21 point Gauss-Kronrod rule */
-    GSL_INTEG_GAUSS31 = 3,	/* 31 point Gauss-Kronrod rule */
-    GSL_INTEG_GAUSS41 = 4,	/* 41 point Gauss-Kronrod rule */
-    GSL_INTEG_GAUSS51 = 5,	/* 51 point Gauss-Kronrod rule */
-    GSL_INTEG_GAUSS61 = 6	/* 61 point Gauss-Kronrod rule */
+    GSL_INTEG_GAUSS15,	/* 15 point Gauss-Kronrod rule */
+    GSL_INTEG_GAUSS21,	/* 21 point Gauss-Kronrod rule */
+    GSL_INTEG_GAUSS31,	/* 31 point Gauss-Kronrod rule */
+    GSL_INTEG_GAUSS41,	/* 41 point Gauss-Kronrod rule */
+    GSL_INTEG_GAUSS51,	/* 51 point Gauss-Kronrod rule */
+    GSL_INTEG_GAUSS61	/* 61 point Gauss-Kronrod rule */
   };
 
 int gsl_integration_qng (const gsl_function *  BUFFER,
