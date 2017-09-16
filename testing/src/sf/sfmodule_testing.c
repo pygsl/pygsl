@@ -20,6 +20,7 @@
 #ifndef _PyGSL_UFUNC_SUPPORTED
 #error "UFUNCs not supported by the selected/found array module!"
 #endif
+#include <pygsl/block_helpers.h>
 /*
    #include <pygsl/utils.h>
    #include <pygsl/error_helpers.h>
@@ -132,7 +133,7 @@ void  PyGSL_sf_ufunc_qi_dd_D_as_ff_F(char **args, int *dimensions, int *steps, v
         }
 	FUNC_MESS_END();
 }
-static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_D_one_data[] = {PyGSL_sf_ufunc_qi_dd_D_as_ff_F, PyGSL_sf_ufunc_qi_dd_D};
+static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_dd_D_one_data[] = {(PyUFuncGenericFunction) PyGSL_sf_ufunc_qi_dd_D_as_ff_F, (PyUFuncGenericFunction) PyGSL_sf_ufunc_qi_dd_D};
 
 typedef int PyGSL_sf_ufunc_qi_D_dd_one(double, double, gsl_sf_result *, gsl_sf_result *);
 void  PyGSL_sf_ufunc_qi_D_dd(char **args, int *dimensions, int *steps, void *func)
@@ -175,7 +176,7 @@ void  PyGSL_sf_ufunc_qi_D_dd_as_F_ff(char **args, int *dimensions, int *steps, v
 	}
 	FUNC_MESS_END();
 }
-static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_D_dd_one_data[] = {PyGSL_sf_ufunc_qi_D_dd_as_F_ff, PyGSL_sf_ufunc_qi_D_dd};
+static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_D_dd_one_data[] = {(PyUFuncGenericFunction) PyGSL_sf_ufunc_qi_D_dd_as_F_ff, (PyUFuncGenericFunction) PyGSL_sf_ufunc_qi_D_dd};
 
 
 static char *PyGSL_polar_to_rect_doc = "Convert r, theta into a complex representation";
