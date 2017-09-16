@@ -1,15 +1,16 @@
-from __future__ import print_function
-from __future__ import print_function
+from __future__ import print_function, division, absolute_import
 import unittest
 import pygsl
 import pygsl.fft as fft
 import sys
 sys.stdout = sys.stderr
 pygsl.set_debug_level(0)
+pygsl.init.add_c_traceback_frames(True)
 import pygsl._numobj as numx
 #import pygsl._mlab as MLab
 import string
 from pygsl.math import fcmp
+
 
 
 from array_check import array_check
@@ -83,7 +84,7 @@ class _ffttest(unittest.TestCase):
                 print()
                 print ("Check Sin Result len(f) = %s, self.n/2 = %s", len(f), self.n/2)
                 print (f[l])
-                print ("tmp1 = %s, tmp2 = %s, flag = %s" % (tmp1, tmp2, flag))
+                print ("tmp1 = %s, tmp2 = %s" % (tmp1, tmp2))
                 #print f[self.n-l]
                 
         # Take the maximum
@@ -244,6 +245,7 @@ class testcomplexforwardradix2dif(_radix2, number, DoubleType):
     transform = fft.complex_radix2_dif_forward
 
 class testcomplexbackward64(_mixedradixcomplex, complexspace, numberbackward, DoubleType):
+    "fft.complex_backward"
     transform = fft.complex_backward
 
 class testcomplexinverse64(_mixedradixcomplex, complexspace, numberinverse, DoubleType):
