@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer <schnizer@users.sourceforge.net>
-# Date   : 5. October 2003
+# Date   : 5. October 2003, 2017
 
 import unittest
 import pygsl
 #pygsl.init.set_debug_level(10)
 import pygsl.errortest
 import pygsl.errors as errors
+import pygsl.errno as errno
 
-en = errors.errno
+en = errno
+
+pygsl.errortest.select_error_handler(0)
 
 class _TestException(unittest.TestCase):
     errno = None
