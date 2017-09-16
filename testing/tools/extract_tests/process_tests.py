@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Author: Pierre Schnizer <schnizer@users.sourceforge.net> 2016
-# $Id$
+# $Id: process_tests.py,v 1.1 2016/04/18 17:08:30 schnizer Exp $
 # Reads all test_* files from GSL source directory.
 # Extracts the test_sf macros one by one.
 # The arguments of the macros are converted into sf_test_types cls instances
@@ -14,8 +14,9 @@ import generate_sf_tests
 
 # Patterns for finding the test macros
 test_macro_match = re.compile("^.*(?P<macro>TEST_SF.*?)\s*?\(.*$")
-# Up to now only the macro TEST_SF() is converted
+# Up to now only the macro TEST_SF() and TEST_SF_2 is converted
 macro_args_match = re.compile("^.*?TEST_SF\s*?(?P<params>\(.*\))\s*?$")
+macro_args2_match = re.compile("^.*?TEST_SF_2\s*?(?P<params>\(.*\))\s*?$")
 
 _pattern_arg = ".+?"
 _pattern_sf_result_arg = '\(.+?\)'
@@ -24,6 +25,12 @@ _test_sf_args = (
     %(_pattern_arg, _pattern_arg, _pattern_sf_result_arg, _pattern_arg, _pattern_arg, _pattern_arg)
     )
 analyse_macro_match = re.compile(_test_sf_args)
+
+_test_sf2_args = (
+    r'\((?P<s>%s),(?P<func>%s), (?P<args>%s),\s*(?P<result1>%s),\s*(?P<tolerance1>%s),\s*(?P<result2>%s),\s*(?P<tolerance2>%s),\s*(?P<status>%s)\)'
+    %(_pattern_arg, _pattern_arg, _pattern_sf_result_arg, _pattern_arg, _pattern_arg, _pattern_arg, _pattern_arg, _pattern_arg)
+    )
+analyse_macro2_match = re.compile(_test_sf2_args)
 
 #test_list_file_name = "test_list.dump"
 
@@ -37,24 +44,6 @@ func_exclude_list = (
     "gsl_sf_mathieu_se_e"
     )
 
-class _build_sf_params:
-    """Each macro call is stored in an instance of _t_store which is an instance
-    of a subclass of _test_sf_params. The info stored there is then later used
-    for writing the particular test case """
-    
-    _t_store = None
-    def __init__(self, macro_args_line):
-        self._text = macro_args_line
-        self._store = None
-        # To be implemented in the subclass. Should create an instance of
-        # _t_store and feed the marco arguments to this instance        
-        self._HandleText()
-
-    def GetStore(self):
-        return self._store
-    
-    def __str__(self):
-        return str(self._store)
 
 
 def dbl_str_to_int(a_str):
@@ -97,12 +86,25 @@ def dbl_str_to_int(a_str):
     else:
         msg = "Can not convert '%s' split to '%d' parts to int" %(a_str, l)
         raise ValueError(msg)
-        
-class build_sf_params(_build_sf_params):
-    """
-    Used for the arguments found in the macro TEST_SF()
-    """
-    _t_store = sf_test_types.test_sf_params 
+
+class _build_sf_params:
+    """Each macro call is stored in an instance of _t_store which is an instance
+    of a subclass of _test_sf_params. The info stored there is then later used
+    for writing the particular test case """
+    
+    _t_store = None
+    def __init__(self, macro_args_line):
+        self._text = macro_args_line
+        self._store = None
+        # To be implemented in the subclass. Should create an instance of
+        # _t_store and feed the marco arguments to this instance        
+        self._HandleText()
+
+    def GetStore(self):
+        return self._store
+    
+    def __str__(self):
+        return str(self._store)
 
     def _ConvertNonNumericArg(self, arg, func_name):
         ""
@@ -217,6 +219,13 @@ class build_sf_params(_build_sf_params):
 
         raise ValueError("Should not end up here")
             
+        
+class build_sf_params(_build_sf_params):
+    """
+    Used for the arguments found in the macro TEST_SF()
+    """
+    _t_store = sf_test_types.test_sf_params 
+
     def _HandleArgs(self, args_text, func_name):
         """
         Arguments to the functions
@@ -281,6 +290,83 @@ class build_sf_params(_build_sf_params):
 
         self._store = store
 
+class build_sf_params_2(_build_sf_params):
+    """
+    Used for the arguments found in the macro TEST_SF()
+    """
+    _t_store = sf_test_types.test_sf_params_2
+    def _HandleArgs(self, args_text, func_name):
+        """
+        Arguments to the functions
+        """
+        assert(args_text[0] == "(")
+        assert(args_text[-1] == ")")
+        
+        args_text = args_text[1:-1]
+
+        args = args_text.split(",")
+
+        # Last to shall be gsl sf result
+        for cnt in range(2):
+            arg = args[-2 + cnt]
+            gsl_sf_result = arg
+            gsl_sf_result = gsl_sf_result.strip()
+            token = "&r%d" %(cnt+1,)
+            if gsl_sf_result != token:
+                msg = "Failed to find gsl_sf_result %d for func '%s'(%s): '%s' <- pointer to gsl_sf_result '%s'"
+                raise ValueError(msg %(cnt+1, func_name, args_text, gsl_sf_result, token))
+                             
+        args  = args[:-2]
+
+        args = tuple(map(lambda s: s.strip(), args))
+        args = self._HandleArgs_ForFunc(func_name, args)
+        
+        l = []
+        for arg in args:
+            tmp = self._ConvertArg(arg, func_name)
+            l.append(tmp)
+        args = tuple(l)
+        return args
+
+    def _HandleText(self):
+        assert(self._t_store)
+        text = self._text
+        m = analyse_macro2_match.match(text)
+        assert(m)
+        d = m.groupdict()
+        func   = d["func"]
+        args   = d["args"]
+        status = d["status"]
+        result1 = d["result1"]
+        tolerance1 = d["tolerance1"]
+        result2 = d["result2"]
+        tolerance2 = d["tolerance2"]
+        
+        func = func.strip()
+        args = args.strip()
+        status = status.strip()
+        text = text.strip()
+        result1 = result1.strip()
+        result2 = result2.strip()
+        tolerance1 = tolerance1.strip()
+        tolerance2 = tolerance2.strip()
+        
+        if func in func_exclude_list:
+            return
+        
+        args = self._HandleArgs(args, func)
+        
+        store =  self._t_store(
+            func   = func  ,
+            args   = args  ,
+            status = status,
+            result1 = result1,
+            tolerance1 = tolerance1,
+            result2 = result2,
+            tolerance2 = tolerance2,
+            text = text
+            )
+        self._store = store
     
         
 def handle_match_test_sf(line):
@@ -297,6 +383,22 @@ def handle_match_test_sf(line):
     params = d["params"]
     c = build_sf_params(params)
     return c
+
+def handle_match_test_sf_2(line):
+    """
+    line is expected to contain a TEST_SF() macro line
+    """
+    m = macro_args2_match.match(line)
+    if not m:
+        print("Can not extract macro args from line '%s'" %(line,))
+        return
+    
+    assert(m)
+    d = m.groupdict()
+    params = d["params"]
+    c = build_sf_params_2(params)
+    return c
+
 
 _comment_start = re.compile(r"\s*/\*")
 _comment_end   = re.compile(r".*?\*/")
@@ -351,6 +453,8 @@ def handle_one_test_file(a_file_name):
     text = text.split(";")
 
     all_tests = []
+    cnt_val = 0
+    cnt_other = 0
     for line in text:        
         m = test_macro_match.match(line)
         if m:
@@ -361,10 +465,19 @@ def handle_one_test_file(a_file_name):
                 all_tests.append(c)
             elif macro_name == "TEST_SF_2":                
                 #print("Handling macro TEST_SF_2: '%s' not yet implemented" %(line,) )
+                c = handle_match_test_sf_2(line)
+                all_tests.append(c)
+                pass
+            elif macro_name == "TEST_SF_VAL":
+                #print("Handling macro TEST_SF_VAL: '%s' not yet implemented" %(line,) )
+                cnt_val += 1
                 pass
             else:
                 #print("Handling macro '%s': '%s' not yet implemented" %(macro_name, line,) )
+                cnt_other += 1
                 pass
             #return
+
+    print ("Still missing %d TEST_SF_VAL and %d other tests" %(cnt_val, cnt_other))
     return first_comment, all_tests
 
