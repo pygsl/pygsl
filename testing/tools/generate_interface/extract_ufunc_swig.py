@@ -10,10 +10,11 @@ To generate the interface
 
 """
 from __future__ import print_function
+import sys
+import os
 import xml.etree.ElementTree as ElementTree
 import gsl_arg
 import sf_prototype
-import sys
 import emit_code
 
 class ExtractError(Exception):
@@ -91,7 +92,7 @@ def create_arg(var_type, var_name):
     is_input = False
     is_output = False
     
-    quality = ""
+    quality = None
     if l == 2:
         quality = tmp[0]
         t_type = tmp[1]
@@ -117,6 +118,7 @@ def create_arg(var_type, var_name):
     arg = gsl_arg.Argument()
     arg.SetName(var_name)
     arg.SetType(t_type)
+    arg.SetOperator(quality)
 
     if is_input:
         arg.SetInputArgument()
@@ -379,7 +381,7 @@ def traverse_tree(tree, verbose = None):
 
     
 
-def build_ufunc_files(file_name, output_prefix):
+def build_ufunc_files(file_name, output_dir, output_prefix):
     tree = ElementTree.parse(file_name)
     sf_s = traverse_tree(tree, verbose= True)
 
@@ -402,8 +404,8 @@ def build_ufunc_files(file_name, output_prefix):
         except KeyError as des:
             dic[UFuncName] = sf
 
-    eval_name = output_prefix + "_evals.c"
-    data_name = output_prefix + "_data.c"
+    eval_name = os.path.join(output_dir, output_prefix + "_evals.c")
+    data_name = os.path.join(output_dir, output_prefix + "_data.c")
     #array_name = output_prefix + "_arrays.c"
 
     ef = open(eval_name, "wt")
@@ -431,20 +433,25 @@ def build_ufunc_files(file_name, output_prefix):
         df.close()
         del df
 
-    cb_name = output_prefix + "_data.c"
-    obj_name = output_prefix + "_objects.c"
+    cb_name = os.path.join(output_dir, output_prefix + "_data.c")
+    obj_name = os.path.join(output_dir, output_prefix + "_objects.c")
+    doc_name = os.path.join(output_dir, output_prefix + "_doc.rst")
     cbf = open(cb_name, "at")
     of = open(obj_name, "wt")
+    doc_f = open(doc_name, "wt")
     try:
         for sf in sf_valid:
             emit_code.emit_callbacks(sf, cbf)
             emit_code.emit_object(sf, of)
             emit_code.emit_doc_variable(sf, cbf)
+            emit_code.emit_doc(sf, doc_f)
     finally:
         cbf.close()
         del cbf
         of.close()
         del of
+        doc_f.close()
+        del doc_f
         
 def run():
     import os.path
@@ -453,7 +460,16 @@ def run():
 
     dirname = os.path.dirname(__file__)
     full_name = os.path.join(dirname, file_name)
-    build_ufunc_files(full_name, "sf_")
+    build_ufunc_files(full_name, out_dir, "sf_")
     
 if __name__ == '__main__':
-    run()
+    import sys
+    l = len(sys.argv)
+    if l != 4:
+        sys.stderr.write("Expected three arguments but got %d: %s!" % (l, sys.argv));
+        sys.exit(-1)
+    swig_xml_file = sys.argv[1]
+    output_dir = sys.argv[2]
+    output_prefix = sys.argv[3]
+    build_ufunc_files(swig_xml_file, output_dir, output_prefix)
+    #run()

@@ -70,6 +70,18 @@ class _UFuncArgument(_UFuncPosNum, _ArgumentType):
     def __init__(self):
         _UFuncPosNum.__init__(self)
         _ArgumentType.__init__(self)
+        self._name = None
+
+    def SetName(self, name):
+        assert(name is not None)
+        self._name = name
+
+    def GetName(self):
+        assert(self._name is not None)
+        return self._name
+
+    def GetPyVariableNames(self):
+        return [self.GetName()]
 
     def _CheckMemberNotNone(self, member_name):
         #raise ObsoleteMethod
@@ -266,6 +278,19 @@ class _UFuncArgument(_UFuncPosNum, _ArgumentType):
         val = self.GetValueForFailedVariable()
         code = "%s = %s;" %(code, val)
         return [code]
+
+
+    def GetPyVariableNamesDecl(self):
+        name = self.GetName()
+        pos = self.GetPyUFuncPosNumber()
+
+        arg_desc = ":param %s %s: positional argument %d"
+        arg_type = self.GetCType()
+
+        des = arg_desc % (arg_type, name, pos,)
+        result = [des]
+        return result
+
 
 class _NeedsTemporaryVariables(_UFuncArgument):
     """A ufunc that needs temporary variables for the call
@@ -517,8 +542,21 @@ class DoubleArgument(_UFuncArgumentWithMinor):
     def GetValueForFailedVariable(self):
         return "_PyGSL_NAN"
 
+class _GSLComplexArgs(_NeedsTemporaryVariables):
+    def GetReturnTmpVariablesAssignment(self):
+        "Setting return from temporary variables to Ufunc arrays"
+        name = self._GetTmpVariableName()
+        label = self.GetTmpVariableLabel()
+        pos = self.GetPyUFuncPosNumber()
+        c_type = self.GetCSubType()
+        code = [
+            "*(( (%s *) %sp%d)    ) = %s.dat[0];" %(c_type, label, pos, name),
+            "*(( (%s *) %sp%d) + 1) = %s.dat[1];" %(c_type, label, pos, name),
+        ]
+        return code
+
 class _GSLComplexFloatArgumentInfo:
-    _c_type = "gsl_complex_float"
+    _c_type = "gsl_complex"
     _type_letter = "F"
     _value_for_failed = ["_PyGSL_NAN", "_PyGSL_NAN"]
     _numpy_type_code = "NPY_CFLOAT"
@@ -526,7 +564,7 @@ class _GSLComplexFloatArgumentInfo:
 
 
 
-class GSLComplexFloatArgumentAsMinor( _GSLComplexFloatArgumentInfo, _NeedsTemporaryVariables):
+class GSLComplexFloatArgumentAsMinor( _GSLComplexFloatArgumentInfo, _GSLComplexArgs):
     def GetInputTmpVariablesAssignment(self):
         name = self.GetTmpVariableName()
         pos = self.GetPyUFuncPosNumber()
@@ -547,12 +585,12 @@ class GSLComplexFloatArgumentAsMinor( _GSLComplexFloatArgumentInfo, _NeedsTempor
             ]
         return code
 
-    def GetReturnCallArgument(self):
-        label = self.GetTmpVariableName()
-        code = [name]
-        return code
+    #def GetReturnCallArgument(self):
+    #    label = self.GetTmpVariableName()
+    #    code = [name]
+    #    return code
 
-class GSLComplexArgument(_NeedsTemporaryVariables, _UFuncArgumentWithMinor):
+class GSLComplexArgument(_GSLComplexArgs, _UFuncArgumentWithMinor):
     _minor = GSLComplexFloatArgumentAsMinor
 
     _c_type = "gsl_complex"
@@ -561,13 +599,3 @@ class GSLComplexArgument(_NeedsTemporaryVariables, _UFuncArgumentWithMinor):
     _numpy_type_code = "NPY_CDOUBLE"
     _c_sub_type = "double"
 
-    def GetReturnTmpVariablesAssignment(self):
-        "Setting return from temporary variables to Ufunc arrays"
-        name = self._GetTmpVariableName()	    
-        pos = self.GetPyUFuncPosNumber()
-        c_type = self.GetCSubType()
-        code = [
-            "*(( (%s *) op%d)    ) = %s.dat[0];" %(c_type, pos, name),
-            "*(( (%s *) op%d) + 1) = %s.dat[1];" %(c_type, pos, name),
-        ]
-        return code

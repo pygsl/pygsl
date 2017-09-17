@@ -573,7 +573,8 @@ def ztrsm(alpha, A, B,
          TransA=CblasNoTrans,
          Diag=CblasNonUnit):
     """
-    returns B'
+    Returns:
+          :math:`B'`
     
     This function computes the matrix-matrix product
     \M{B' = S{alpha} op(inv(A)) B} for Side is CblasLeft and

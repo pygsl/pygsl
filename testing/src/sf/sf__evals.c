@@ -1,3557 +1,2313 @@
-typedef gsl_complex PyGSL_sf_ufunc_pD_DD__one(gsl_complex, gsl_complex);
-void PyGSL_sf_ufunc_pD_DD_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi0;
-		/* arg 1 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi1;
-		/* arg 2 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		tmpi0 = *((gsl_complex *) ip0);
-		/* arg 1 tmp variables for type 'gsl_complex' */
-		tmpi1 = *((gsl_complex *) ip1);
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['tmpi0', 'tmpi1'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_DD__one *) func)(tmpi0, tmpi1);
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-void PyGSL_sf_ufunc_pD_DD__as_DD_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi0;
-		/* arg 1 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi1;
-		/* arg 2 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		tmpi0 = *((gsl_complex *) ip0);
-		/* arg 1 tmp variables for type 'gsl_complex' */
-		tmpi1 = *((gsl_complex *) ip1);
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['tmpi0', 'tmpi1'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_DD__one *) func)(tmpi0, tmpi1);
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
 
-typedef gsl_complex PyGSL_sf_ufunc_pD_D__one(gsl_complex);
-void PyGSL_sf_ufunc_pD_D_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi0;
-		/* arg 1 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		tmpi0 = *((gsl_complex *) ip0);
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['tmpi0'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_D__one *) func)(tmpi0);
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-void PyGSL_sf_ufunc_pD_D__as_D_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi0;
-		/* arg 1 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		tmpi0 = *((gsl_complex *) ip0);
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['tmpi0'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_D__one *) func)(tmpi0);
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
+void PyGSL_sf_ufunc_Id_d__Rl__Od_d_d (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4], os5 = steps[5];
+	
+	
+	int tmpr2;
+	
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4, op5 += os5){
 
-typedef gsl_complex PyGSL_sf_ufunc_pD_Dd__one(gsl_complex, double);
-void PyGSL_sf_ufunc_pD_Dd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+		 /* arg 'double u'*/
+		 /* arg 'double m'*/
+		tmpr2 =   ((int (*)(double, double, double *, double *, double *)) func)(/* double u */ (*((double *) ip0)), /* double m */ (*((double *) ip1)), /* double p dn */ ((double *) op3), /* double p cn */ ((double *) op4), /* double p sn */ ((double *) op5));
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
 		
-		/* arg 2 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		tmpi0 = *((gsl_complex *) ip0);
-		/* arg 1 tmp variables for type 'double' */
 		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['tmpi0', '(*((double *) ip1))'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_Dd__one *) func)(tmpi0, (*((double *) ip1)));
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
+		
+		continue;
 	}
-}
-void PyGSL_sf_ufunc_pD_Df__as_Dd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi0;
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		tmpi0 = *((gsl_complex *) ip0);
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['tmpi0', '(*((double *) ip1))'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_Dd__one *) func)(tmpi0, (*((double *) ip1)));
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Od_d_d */ 
 
-typedef gsl_complex PyGSL_sf_ufunc_pD_d__one(double);
-void PyGSL_sf_ufunc_pD_d_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_d__one *) func)((*((double *) ip0)));
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-void PyGSL_sf_ufunc_pD_f__as_d_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_d__one *) func)((*((double *) ip0)));
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
+void PyGSL_sf_ufunc_Id_d__Rl__Od_d_d_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4], os5 = steps[5];
+	double tmpi0;
+	double tmpi1;
+	
+	double tmpo3;
+	double tmpo4;
+	double tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4, op5 += os5){
 
-typedef gsl_complex PyGSL_sf_ufunc_pD_dd__one(double, double);
-void PyGSL_sf_ufunc_pD_dd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+		tmpi0 = *((float *) ip0); /* arg 'double u'*/
+		tmpi1 = *((float *) ip1); /* arg 'double m'*/
+		*((int *) rp2) =   ((int (*)(double, double, double *, double *, double *)) func)(/* double u */ tmpi0, /* double m */ tmpi1, /* double p dn */ &tmpo3, /* double p cn */ &tmpo4, /* double p sn */ &tmpo5);
 		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_dd__one *) func)((*((double *) ip0)), (*((double *) ip1)));
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
+		/*<ufunc_arg._FloatArgumentAsMinor object at 0x1091505e8>*/ *((float *) op3) = tmpo3;
+		/*<ufunc_arg._FloatArgumentAsMinor object at 0x109150548>*/ *((float *) op4) = tmpo4;
+		/*<ufunc_arg._FloatArgumentAsMinor object at 0x1091504a8>*/ *((float *) op5) = tmpo5;
+		continue;
 	}
-}
-void PyGSL_sf_ufunc_pD_ff__as_dd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))'] */
-		/* output args: [] */
-		 tmpr0 =  ((PyGSL_sf_ufunc_pD_dd__one *) func)((*((double *) ip0)), (*((double *) ip1)));
-		/* end function call */
-		*(( (double *) op0)    ) = tmpr0.dat[0];
-		*(( (double *) op0) + 1) = tmpr0.dat[1];
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Od_d_d_as_minor */ 
 
-typedef double PyGSL_sf_ufunc_pd_D__one(gsl_complex);
-void PyGSL_sf_ufunc_pd_D_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi0;
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		tmpi0 = *((gsl_complex *) ip0);
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['tmpi0'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_D__one *) func)(tmpi0);
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-void PyGSL_sf_ufunc_pd_D__as_D_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		gsl_complex tmpi0;
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'gsl_complex' */
-		tmpi0 = *((gsl_complex *) ip0);
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['tmpi0'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_D__one *) func)(tmpi0);
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
+void PyGSL_sf_ufunc_Il_d__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	int tmpi0;
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
 
-typedef double PyGSL_sf_ufunc_pd_d__one(double);
-void PyGSL_sf_ufunc_pd_d_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		 /* arg 'double q(const) x'*/
+		*((double *) rp2) =   ((double (*)(int, double)) func)(/* int q(const) n */ tmpi0, /* double q(const) x */ (*((double *) ip1)));
 		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_d__one *) func)((*((double *) ip0)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-void PyGSL_sf_ufunc_pd_f__as_d_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_d__one *) func)((*((double *) ip0)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-
-typedef double PyGSL_sf_ufunc_pd_dd__one(double, double);
-void PyGSL_sf_ufunc_pd_dd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dd__one *) func)((*((double *) ip0)), (*((double *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-void PyGSL_sf_ufunc_pd_ff__as_dd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dd__one *) func)((*((double *) ip0)), (*((double *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-
-typedef double PyGSL_sf_ufunc_pd_ddd__one(double, double, double);
-void PyGSL_sf_ufunc_pd_ddd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_ddd__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((double *) ip2)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-void PyGSL_sf_ufunc_pd_fff__as_ddd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_ddd__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((double *) ip2)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-
-typedef double PyGSL_sf_ufunc_pd_dddd__one(double, double, double, double);
-void PyGSL_sf_ufunc_pd_dddd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))', '(*((double *) ip3))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dddd__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((double *) ip2)), (*((double *) ip3)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-void PyGSL_sf_ufunc_pd_ffff__as_dddd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))', '(*((double *) ip3))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dddd__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((double *) ip2)), (*((double *) ip3)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 0 */
-		/* end loop */
-	}
-}
-
-typedef double PyGSL_sf_ufunc_pd_ddddm__one(double, double, double, double, gsl_mode_t);
-void PyGSL_sf_ufunc_pd_ddddm_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], os0=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *op0=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'gsl_mode_t' */
-		gsl_mode_t tmpi4;
-		/* arg 5 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'gsl_mode_t' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))', '(*((double *) ip3))', '(*((gsl_mode_t *) ip4))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_ddddm__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((double *) ip2)), (*((double *) ip3)), (*((gsl_mode_t *) ip4)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp2) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_ffffm__as_ddddm_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], os0=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *op0=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Il_d__Rd__O */ 
+
+void PyGSL_sf_ufunc_Il_d__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	
+	double tmpi1;
+	double tmpr2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		 /* arg 'int q(const) n'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) x'*/
+		tmpr2 =   ((double (*)(int, double)) func)(/* int q(const) n */ (*((int *) ip0)), /* double q(const) x */ tmpi1);
+		(*((float *) rp2)) = tmpr2;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_d__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d_d_m__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *rp5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], rs5 = steps[5];
+	
+	
+	
+	
+	gsl_mode_t tmpi4;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, rp5 += rs5){
+
+		 /* arg 'double x'*/
+		 /* arg 'double y'*/
+		 /* arg 'double z'*/
+		 /* arg 'double p'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;} /* arg 'gsl_mode_t mode'*/
+		*((double *) rp5) =   ((double (*)(double, double, double, double, gsl_mode_t)) func)(/* double x */ (*((double *) ip0)), /* double y */ (*((double *) ip1)), /* double z */ (*((double *) ip2)), /* double p */ (*((double *) ip3)), /* gsl_mode_t mode */ tmpi4);
 		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'gsl_mode_t' */
-		gsl_mode_t tmpi4;
-		/* arg 5 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'gsl_mode_t' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))', '(*((double *) ip3))', '(*((gsl_mode_t *) ip4))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_ddddm__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((double *) ip2)), (*((double *) ip3)), (*((gsl_mode_t *) ip4)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp5) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Id_d_d_d_m__Rd__O */ 
 
-typedef double PyGSL_sf_ufunc_pd_dddm__one(double, double, double, gsl_mode_t);
-void PyGSL_sf_ufunc_pd_dddm_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Id_d_d_d_m__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *rp5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], rs5 = steps[5];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	double tmpi3;
+	
+	double tmpr5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, rp5 += rs5){
+
+		tmpi0 = *((float *) ip0); /* arg 'double x'*/
+		tmpi1 = *((float *) ip1); /* arg 'double y'*/
+		tmpi2 = *((float *) ip2); /* arg 'double z'*/
+		tmpi3 = *((float *) ip3); /* arg 'double p'*/
+		 /* arg 'gsl_mode_t mode'*/
+		tmpr5 =   ((double (*)(double, double, double, double, gsl_mode_t)) func)(/* double x */ tmpi0, /* double y */ tmpi1, /* double z */ tmpi2, /* double p */ tmpi3, /* gsl_mode_t mode */ (*((int *) ip4)));
+		(*((float *) rp5)) = tmpr5;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_d_m__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_d_d__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3];
+	int tmpi0;
+	
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int n'*/
+		 /* arg 'double lambda'*/
+		 /* arg 'double x'*/
+		*((double *) rp3) =   ((double (*)(int, double, double)) func)(/* int n */ tmpi0, /* double lambda */ (*((double *) ip1)), /* double x */ (*((double *) ip2)));
 		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'gsl_mode_t' */
-		gsl_mode_t tmpi3;
-		/* arg 4 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'gsl_mode_t' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))', '(*((gsl_mode_t *) ip3))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dddm__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((double *) ip2)), (*((gsl_mode_t *) ip3)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp3) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_fffm__as_dddm_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Il_d_d__Rd__O */ 
+
+void PyGSL_sf_ufunc_Il_d_d__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3];
+	
+	double tmpi1;
+	double tmpi2;
+	double tmpr3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3){
+
+		 /* arg 'int n'*/
+		tmpi1 = *((float *) ip1); /* arg 'double lambda'*/
+		tmpi2 = *((float *) ip2); /* arg 'double x'*/
+		tmpr3 =   ((double (*)(int, double, double)) func)(/* int n */ (*((int *) ip0)), /* double lambda */ tmpi1, /* double x */ tmpi2);
+		(*((float *) rp3)) = tmpr3;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_d_d__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4], os5 = steps[5];
+	
+	
+	
+	int tmpr3;
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4, op5 += os5){
+
+		 /* arg 'double q(const) a'*/
+		 /* arg 'double q(const) b'*/
+		 /* arg 'double q(const) x'*/
+		tmpr3 =   ((int (*)(double, double, double, gsl_sf_result *)) func)(/* double q(const) a */ (*((double *) ip0)), /* double q(const) b */ (*((double *) ip1)), /* double q(const) x */ (*((double *) ip2)), /* gsl_sf_result p result */ &tmpo4);
+		*((long *) rp3) = 0;
+		*((long *) rp3) = tmpr3;
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Id_d_d__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4], os5 = steps[5];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4, op5 += os5){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) a'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) b'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) x'*/
+		*((int *) rp3) =   ((int (*)(double, double, double, gsl_sf_result *)) func)(/* double q(const) a */ tmpi0, /* double q(const) b */ tmpi1, /* double q(const) x */ tmpi2, /* gsl_sf_result p result */ &tmpo4);
 		
-		/* arg 1 tmp variables for type 'double' */
+		*((float *) op4) = tmpo4.val;
+		*((float *) op5) = tmpo4.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Il__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1];
+	int tmpi0;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		*((double *) rp1) =   ((double (*)(int)) func)(/* int q(const) n */ tmpi0);
 		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'gsl_mode_t' */
-		gsl_mode_t tmpi3;
-		/* arg 4 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'gsl_mode_t' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))', '(*((gsl_mode_t *) ip3))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dddm__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((double *) ip2)), (*((gsl_mode_t *) ip3)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp1) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Il__Rd__O */ 
 
-typedef double PyGSL_sf_ufunc_pd_ddm__one(double, double, gsl_mode_t);
-void PyGSL_sf_ufunc_pd_ddm_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'gsl_mode_t' */
-		gsl_mode_t tmpi2;
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'gsl_mode_t' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((gsl_mode_t *) ip2))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_ddm__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((gsl_mode_t *) ip2)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+void PyGSL_sf_ufunc_Il__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1];
+	
+	double tmpr1;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1){
+
+		 /* arg 'int q(const) n'*/
+		tmpr1 =   ((double (*)(int)) func)(/* int q(const) n */ (*((int *) ip0)));
+		(*((float *) rp1)) = tmpr1;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_d__Rl__Oerd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4];
+	int tmpi0;
+	int tmpi1;
+	
+	int tmpr3;
+	gsl_sf_result_e10 tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) m'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		 /* arg 'double q(const) x'*/
+		tmpr3 =   ((int (*)(int, int, double, gsl_sf_result_e10 *)) func)(/* int q(const) m */ tmpi0, /* int q(const) n */ tmpi1, /* double q(const) x */ (*((double *) ip2)), /* gsl_sf_result_e10 p result */ &tmpo4);
+		*((long *) rp3) = 0;
+		*((long *) rp3) = tmpr3;
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
+		*((int *) op6) = tmpo4.e10;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp3) = INT_MIN;
+		*((double *) op4) = _PyGSL_NAN;
+		*((double *) op5) = _PyGSL_NAN;
+		*((int *) op6) = INT_MIN;
 	}
-}
-void PyGSL_sf_ufunc_pd_ffm__as_ddm_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Il_l_d__Rl__Oerd */ 
+
+void PyGSL_sf_ufunc_Il_l_d__Rl__Oerd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4];
+	
+	
+	double tmpi2;
+	
+	gsl_sf_result_e10 tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4){
+
+		 /* arg 'int q(const) m'*/
+		 /* arg 'int q(const) n'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) x'*/
+		*((int *) rp3) =   ((int (*)(int, int, double, gsl_sf_result_e10 *)) func)(/* int q(const) m */ (*((int *) ip0)), /* int q(const) n */ (*((int *) ip1)), /* double q(const) x */ tmpi2, /* gsl_sf_result_e10 p result */ &tmpo4);
 		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'gsl_mode_t' */
-		gsl_mode_t tmpi2;
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'gsl_mode_t' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((double *) ip1))', '(*((gsl_mode_t *) ip2))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_ddm__one *) func)((*((double *) ip0)), (*((double *) ip1)), (*((gsl_mode_t *) ip2)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
+		*((int *) op6) = tmpo4.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_l_d__Rl__Oerd_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_d__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4], os5 = steps[5];
+	int tmpi0;
+	int tmpi1;
+	
+	int tmpr3;
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4, op5 += os5){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) m'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		 /* arg 'double q(const) x'*/
+		tmpr3 =   ((int (*)(int, int, double, gsl_sf_result *)) func)(/* int q(const) m */ tmpi0, /* int q(const) n */ tmpi1, /* double q(const) x */ (*((double *) ip2)), /* gsl_sf_result p result */ &tmpo4);
+		*((long *) rp3) = 0;
+		*((long *) rp3) = tmpr3;
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp3) = INT_MIN;
+		*((double *) op4) = _PyGSL_NAN;
+		*((double *) op5) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Il_l_d__Rl__Ord */ 
 
-typedef double PyGSL_sf_ufunc_pd_di__one(double, int);
-void PyGSL_sf_ufunc_pd_di_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Il_l_d__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4], os5 = steps[5];
+	
+	
+	double tmpi2;
+	
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4, op5 += os5){
+
+		 /* arg 'int q(const) m'*/
+		 /* arg 'int q(const) n'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) x'*/
+		*((int *) rp3) =   ((int (*)(int, int, double, gsl_sf_result *)) func)(/* int q(const) m */ (*((int *) ip0)), /* int q(const) n */ (*((int *) ip1)), /* double q(const) x */ tmpi2, /* gsl_sf_result p result */ &tmpo4);
 		
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
+		*((float *) op4) = tmpo4.val;
+		*((float *) op5) = tmpo4.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_l_d__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d_d__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5], os6 = steps[6];
+	
+	
+	
+	
+	int tmpr4;
+	gsl_sf_result tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5, op6 += os6){
+
+		 /* arg 'double q(const) x'*/
+		 /* arg 'double q(const) dx'*/
+		 /* arg 'double q(const) y'*/
+		 /* arg 'double q(const) dy'*/
+		tmpr4 =   ((int (*)(double, double, double, double, gsl_sf_result *)) func)(/* double q(const) x */ (*((double *) ip0)), /* double q(const) dx */ (*((double *) ip1)), /* double q(const) y */ (*((double *) ip2)), /* double q(const) dy */ (*((double *) ip3)), /* gsl_sf_result p result */ &tmpo5);
+		*((long *) rp4) = 0;
+		*((long *) rp4) = tmpr4;
+		*((double *) op5) = tmpo5.val;
+		*((double *) op6) = tmpo5.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_d__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Id_d_d_d__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5], os6 = steps[6];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	double tmpi3;
+	
+	gsl_sf_result tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5, op6 += os6){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) dx'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) y'*/
+		tmpi3 = *((float *) ip3); /* arg 'double q(const) dy'*/
+		*((int *) rp4) =   ((int (*)(double, double, double, double, gsl_sf_result *)) func)(/* double q(const) x */ tmpi0, /* double q(const) dx */ tmpi1, /* double q(const) y */ tmpi2, /* double q(const) dy */ tmpi3, /* gsl_sf_result p result */ &tmpo5);
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((int *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_di__one *) func)((*((double *) ip0)), (*((int *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op5) = tmpo5.val;
+		*((float *) op6) = tmpo5.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_d__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_m__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4], os5 = steps[5];
+	
+	
+	gsl_mode_t tmpi2;
+	int tmpr3;
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4, op5 += os5){
+
+		 /* arg 'double k'*/
+		 /* arg 'double n'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;} /* arg 'gsl_mode_t mode'*/
+		tmpr3 =   ((int (*)(double, double, gsl_mode_t, gsl_sf_result *)) func)(/* double k */ (*((double *) ip0)), /* double n */ (*((double *) ip1)), /* gsl_mode_t mode */ tmpi2, /* gsl_sf_result p result */ &tmpo4);
+		*((long *) rp3) = 0;
+		*((long *) rp3) = tmpr3;
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp3) = INT_MIN;
+		*((double *) op4) = _PyGSL_NAN;
+		*((double *) op5) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_fi__as_di_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Id_d_m__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Id_d_m__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4], os5 = steps[5];
+	double tmpi0;
+	double tmpi1;
+	
+	
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4, op5 += os5){
+
+		tmpi0 = *((float *) ip0); /* arg 'double k'*/
+		tmpi1 = *((float *) ip1); /* arg 'double n'*/
+		 /* arg 'gsl_mode_t mode'*/
+		*((int *) rp3) =   ((int (*)(double, double, gsl_mode_t, gsl_sf_result *)) func)(/* double k */ tmpi0, /* double n */ tmpi1, /* gsl_mode_t mode */ (*((int *) ip2)), /* gsl_sf_result p result */ &tmpo4);
 		
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((int *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_di__one *) func)((*((double *) ip0)), (*((int *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op4) = tmpo4.val;
+		*((float *) op5) = tmpo4.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_m__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d_m__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5], os6 = steps[6];
+	
+	
+	
+	gsl_mode_t tmpi3;
+	int tmpr4;
+	gsl_sf_result tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5, op6 += os6){
+
+		 /* arg 'double phi'*/
+		 /* arg 'double k'*/
+		 /* arg 'double n'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;} /* arg 'gsl_mode_t mode'*/
+		tmpr4 =   ((int (*)(double, double, double, gsl_mode_t, gsl_sf_result *)) func)(/* double phi */ (*((double *) ip0)), /* double k */ (*((double *) ip1)), /* double n */ (*((double *) ip2)), /* gsl_mode_t mode */ tmpi3, /* gsl_sf_result p result */ &tmpo5);
+		*((long *) rp4) = 0;
+		*((long *) rp4) = tmpr4;
+		*((double *) op5) = tmpo5.val;
+		*((double *) op6) = tmpo5.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp4) = INT_MIN;
+		*((double *) op5) = _PyGSL_NAN;
+		*((double *) op6) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Id_d_d_m__Rl__Ord */ 
 
-typedef double PyGSL_sf_ufunc_pd_dm__one(double, gsl_mode_t);
-void PyGSL_sf_ufunc_pd_dm_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Id_d_d_m__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5], os6 = steps[6];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	
+	
+	gsl_sf_result tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5, op6 += os6){
+
+		tmpi0 = *((float *) ip0); /* arg 'double phi'*/
+		tmpi1 = *((float *) ip1); /* arg 'double k'*/
+		tmpi2 = *((float *) ip2); /* arg 'double n'*/
+		 /* arg 'gsl_mode_t mode'*/
+		*((int *) rp4) =   ((int (*)(double, double, double, gsl_mode_t, gsl_sf_result *)) func)(/* double phi */ tmpi0, /* double k */ tmpi1, /* double n */ tmpi2, /* gsl_mode_t mode */ (*((int *) ip3)), /* gsl_sf_result p result */ &tmpo5);
 		
-		/* arg 1 tmp variables for type 'gsl_mode_t' */
-		gsl_mode_t tmpi1;
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'gsl_mode_t' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((gsl_mode_t *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dm__one *) func)((*((double *) ip0)), (*((gsl_mode_t *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op5) = tmpo5.val;
+		*((float *) op6) = tmpo5.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_m__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_d_d__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4], os5 = steps[5];
+	int tmpi0;
+	
+	
+	int tmpr3;
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4, op5 += os5){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int n'*/
+		 /* arg 'double lambda'*/
+		 /* arg 'double x'*/
+		tmpr3 =   ((int (*)(int, double, double, gsl_sf_result *)) func)(/* int n */ tmpi0, /* double lambda */ (*((double *) ip1)), /* double x */ (*((double *) ip2)), /* gsl_sf_result p result */ &tmpo4);
+		*((long *) rp3) = 0;
+		*((long *) rp3) = tmpr3;
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp3) = INT_MIN;
+		*((double *) op4) = _PyGSL_NAN;
+		*((double *) op5) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_fm__as_dm_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Il_d_d__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Il_d_d__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4], os5 = steps[5];
+	
+	double tmpi1;
+	double tmpi2;
+	
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4, op5 += os5){
+
+		 /* arg 'int n'*/
+		tmpi1 = *((float *) ip1); /* arg 'double lambda'*/
+		tmpi2 = *((float *) ip2); /* arg 'double x'*/
+		*((int *) rp3) =   ((int (*)(int, double, double, gsl_sf_result *)) func)(/* int n */ (*((int *) ip0)), /* double lambda */ tmpi1, /* double x */ tmpi2, /* gsl_sf_result p result */ &tmpo4);
 		
-		/* arg 1 tmp variables for type 'gsl_mode_t' */
-		gsl_mode_t tmpi1;
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'gsl_mode_t' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((gsl_mode_t *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dm__one *) func)((*((double *) ip0)), (*((gsl_mode_t *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op4) = tmpo4.val;
+		*((float *) op5) = tmpo4.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_d_d__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Il__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2], os3 = steps[3];
+	int tmpi0;
+	int tmpr1;
+	gsl_sf_result tmpo2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2, op3 += os3){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		tmpr1 =   ((int (*)(int, gsl_sf_result *)) func)(/* int q(const) n */ tmpi0, /* gsl_sf_result p result */ &tmpo2);
+		*((long *) rp1) = 0;
+		*((long *) rp1) = tmpr1;
+		*((double *) op2) = tmpo2.val;
+		*((double *) op3) = tmpo2.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp1) = INT_MIN;
+		*((double *) op2) = _PyGSL_NAN;
+		*((double *) op3) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Il__Rl__Ord */ 
 
-typedef double PyGSL_sf_ufunc_pd_dui__one(double, unsigned int);
-void PyGSL_sf_ufunc_pd_dui_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		long lval1 = *((long *) ip1);
-		unsigned int uival1;
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Il__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2], os3 = steps[3];
+	
+	
+	gsl_sf_result tmpo2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2, op3 += os3){
+
+		 /* arg 'int q(const) n'*/
+		*((int *) rp1) =   ((int (*)(int, gsl_sf_result *)) func)(/* int q(const) n */ (*((int *) ip0)), /* gsl_sf_result p result */ &tmpo2);
 		
-		/* arg 1 tmp variables for type 'unsigned int' */
-		unsigned int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'unsigned int' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((unsigned int *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dui__one *) func)((*((double *) ip0)), (*((unsigned int *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op2) = tmpo2.val;
+		*((float *) op3) = tmpo2.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *ip5 = args[5], *ip6 = args[6], *ip7 = args[7], *ip8 = args[8], *rp9 = args[9], *op10 = args[10], *op11 = args[11];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], is5 = steps[5], is6 = steps[6], is7 = steps[7], is8 = steps[8], rs9 = steps[9], os10 = steps[10], os11 = steps[11];
+	int tmpi0;
+	int tmpi1;
+	int tmpi2;
+	int tmpi3;
+	int tmpi4;
+	int tmpi5;
+	int tmpi6;
+	int tmpi7;
+	int tmpi8;
+	int tmpr9;
+	gsl_sf_result tmpo10;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, ip5 += is5, ip6 += is6, ip7 += is7, ip8 += is8, rp9 += rs9, op10 += os10, op11 += os11){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int two_ja'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jb'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jc'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jd'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;} /* arg 'int two_je'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip5), &tmpi5)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jf'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip6), &tmpi6)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jg'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip7), &tmpi7)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jh'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip8), &tmpi8)) != GSL_SUCCESS){goto fail;} /* arg 'int two_ji'*/
+		tmpr9 =   ((int (*)(int, int, int, int, int, int, int, int, int, gsl_sf_result *)) func)(/* int two_ja */ tmpi0, /* int two_jb */ tmpi1, /* int two_jc */ tmpi2, /* int two_jd */ tmpi3, /* int two_je */ tmpi4, /* int two_jf */ tmpi5, /* int two_jg */ tmpi6, /* int two_jh */ tmpi7, /* int two_ji */ tmpi8, /* gsl_sf_result p result */ &tmpo10);
+		*((long *) rp9) = 0;
+		*((long *) rp9) = tmpr9;
+		*((double *) op10) = tmpo10.val;
+		*((double *) op11) = tmpo10.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp9) = INT_MIN;
+		*((double *) op10) = _PyGSL_NAN;
+		*((double *) op11) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_fui__as_dui_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		long lval1 = *((long *) ip1);
-		unsigned int uival1;
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *ip5 = args[5], *ip6 = args[6], *ip7 = args[7], *ip8 = args[8], *rp9 = args[9], *op10 = args[10], *op11 = args[11];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], is5 = steps[5], is6 = steps[6], is7 = steps[7], is8 = steps[8], rs9 = steps[9], os10 = steps[10], os11 = steps[11];
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	gsl_sf_result tmpo10;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, ip5 += is5, ip6 += is6, ip7 += is7, ip8 += is8, rp9 += rs9, op10 += os10, op11 += os11){
+
+		 /* arg 'int two_ja'*/
+		 /* arg 'int two_jb'*/
+		 /* arg 'int two_jc'*/
+		 /* arg 'int two_jd'*/
+		 /* arg 'int two_je'*/
+		 /* arg 'int two_jf'*/
+		 /* arg 'int two_jg'*/
+		 /* arg 'int two_jh'*/
+		 /* arg 'int two_ji'*/
+		*((int *) rp9) =   ((int (*)(int, int, int, int, int, int, int, int, int, gsl_sf_result *)) func)(/* int two_ja */ (*((int *) ip0)), /* int two_jb */ (*((int *) ip1)), /* int two_jc */ (*((int *) ip2)), /* int two_jd */ (*((int *) ip3)), /* int two_je */ (*((int *) ip4)), /* int two_jf */ (*((int *) ip5)), /* int two_jg */ (*((int *) ip6)), /* int two_jh */ (*((int *) ip7)), /* int two_ji */ (*((int *) ip8)), /* gsl_sf_result p result */ &tmpo10);
 		
-		/* arg 1 tmp variables for type 'unsigned int' */
-		unsigned int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'double' */
-		
-		/* arg 1 tmp variables for type 'unsigned int' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((double *) ip0))', '(*((unsigned int *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_dui__one *) func)((*((double *) ip0)), (*((unsigned int *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op10) = tmpo10.val;
+		*((float *) op11) = tmpo10.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d_d_m__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *rp5 = args[5], *op6 = args[6], *op7 = args[7];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], rs5 = steps[5], os6 = steps[6], os7 = steps[7];
+	
+	
+	
+	
+	gsl_mode_t tmpi4;
+	int tmpr5;
+	gsl_sf_result tmpo6;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, rp5 += rs5, op6 += os6, op7 += os7){
+
+		 /* arg 'double x'*/
+		 /* arg 'double y'*/
+		 /* arg 'double z'*/
+		 /* arg 'double p'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;} /* arg 'gsl_mode_t mode'*/
+		tmpr5 =   ((int (*)(double, double, double, double, gsl_mode_t, gsl_sf_result *)) func)(/* double x */ (*((double *) ip0)), /* double y */ (*((double *) ip1)), /* double z */ (*((double *) ip2)), /* double p */ (*((double *) ip3)), /* gsl_mode_t mode */ tmpi4, /* gsl_sf_result p result */ &tmpo6);
+		*((long *) rp5) = 0;
+		*((long *) rp5) = tmpr5;
+		*((double *) op6) = tmpo6.val;
+		*((double *) op7) = tmpo6.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp5) = INT_MIN;
+		*((double *) op6) = _PyGSL_NAN;
+		*((double *) op7) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Id_d_d_d_m__Rl__Ord */ 
 
-typedef double PyGSL_sf_ufunc_pd_i__one(int);
-void PyGSL_sf_ufunc_pd_i_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Id_d_d_d_m__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *rp5 = args[5], *op6 = args[6], *op7 = args[7];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], rs5 = steps[5], os6 = steps[6], os7 = steps[7];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	double tmpi3;
+	
+	
+	gsl_sf_result tmpo6;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, rp5 += rs5, op6 += os6, op7 += os7){
+
+		tmpi0 = *((float *) ip0); /* arg 'double x'*/
+		tmpi1 = *((float *) ip1); /* arg 'double y'*/
+		tmpi2 = *((float *) ip2); /* arg 'double z'*/
+		tmpi3 = *((float *) ip3); /* arg 'double p'*/
+		 /* arg 'gsl_mode_t mode'*/
+		*((int *) rp5) =   ((int (*)(double, double, double, double, gsl_mode_t, gsl_sf_result *)) func)(/* double x */ tmpi0, /* double y */ tmpi1, /* double z */ tmpi2, /* double p */ tmpi3, /* gsl_mode_t mode */ (*((int *) ip4)), /* gsl_sf_result p result */ &tmpo6);
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_i__one *) func)((*((int *) ip0)));
-		/* end function call */
+		*((float *) op6) = tmpo6.val;
+		*((float *) op7) = tmpo6.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_d_m__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_I__Rl__Od (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *rp0 = args[0], *op1 = args[1];
+	PyGSL_array_index_t i, rs0 = steps[0], os1 = steps[1];
+	int tmpr0;
+	
+	 for(i = 0; i < dimensions[0]; ++i, rp0 += rs0, op1 += os1){
+
+		tmpr0 =   ((int (*)(double *)) func)(/* double p theta */ ((double *) op1));
+		*((long *) rp0) = 0;
+		*((long *) rp0) = tmpr0;
 		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		continue;
+	}
+} /* PyGSL_sf_ufunc_I__Rl__Od */ 
+
+void PyGSL_sf_ufunc_I__Rl__Od_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *rp0 = args[0], *op1 = args[1];
+	PyGSL_array_index_t i, rs0 = steps[0], os1 = steps[1];
+	
+	double tmpo1;
+	 for(i = 0; i < dimensions[0]; ++i, rp0 += rs0, op1 += os1){
+
+		*((int *) rp0) =   ((int (*)(double *)) func)(/* double p theta */ &tmpo1);
+		
+		/*<ufunc_arg._FloatArgumentAsMinor object at 0x1091fcea8>*/ *((float *) op1) = tmpo1;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_I__Rl__Od_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_l__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	
+	int tmpi1;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		 /* arg 'double q(const) x'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		*((double *) rp2) =   ((double (*)(double, int)) func)(/* double q(const) x */ (*((double *) ip0)), /* int q(const) n */ tmpi1);
+		
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp2) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_i__as_i_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Id_l__Rd__O */ 
+
+void PyGSL_sf_ufunc_Id_l__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	double tmpi0;
+	
+	double tmpr2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		 /* arg 'int q(const) n'*/
+		tmpr2 =   ((double (*)(double, int)) func)(/* double q(const) x */ tmpi0, /* int q(const) n */ (*((int *) ip1)));
+		(*((float *) rp2)) = tmpr2;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_l__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *ip5 = args[5], *rp6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], is5 = steps[5], rs6 = steps[6];
+	int tmpi0;
+	int tmpi1;
+	int tmpi2;
+	int tmpi3;
+	int tmpi4;
+	int tmpi5;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, ip5 += is5, rp6 += rs6){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int two_ja'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jb'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jc'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;} /* arg 'int two_ma'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;} /* arg 'int two_mb'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip5), &tmpi5)) != GSL_SUCCESS){goto fail;} /* arg 'int two_mc'*/
+		*((double *) rp6) =   ((double (*)(int, int, int, int, int, int)) func)(/* int two_ja */ tmpi0, /* int two_jb */ tmpi1, /* int two_jc */ tmpi2, /* int two_ma */ tmpi3, /* int two_mb */ tmpi4, /* int two_mc */ tmpi5);
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_i__one *) func)((*((int *) ip0)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp6) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O */ 
 
-typedef double PyGSL_sf_ufunc_pd_id__one(int, double);
-void PyGSL_sf_ufunc_pd_id_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *ip5 = args[5], *rp6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], is5 = steps[5], rs6 = steps[6];
+	
+	
+	
+	
+	
+	
+	double tmpr6;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, ip5 += is5, rp6 += rs6){
+
+		 /* arg 'int two_ja'*/
+		 /* arg 'int two_jb'*/
+		 /* arg 'int two_jc'*/
+		 /* arg 'int two_ma'*/
+		 /* arg 'int two_mb'*/
+		 /* arg 'int two_mc'*/
+		tmpr6 =   ((double (*)(int, int, int, int, int, int)) func)(/* int two_ja */ (*((int *) ip0)), /* int two_jb */ (*((int *) ip1)), /* int two_jc */ (*((int *) ip2)), /* int two_ma */ (*((int *) ip3)), /* int two_mb */ (*((int *) ip4)), /* int two_mc */ (*((int *) ip5)));
+		(*((float *) rp6)) = tmpr6;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d_d__Rl__Oerd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6], *op7 = args[7];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5];
+	
+	
+	
+	
+	int tmpr4;
+	gsl_sf_result_e10 tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5){
+
+		 /* arg 'double q(const) x'*/
+		 /* arg 'double q(const) dx'*/
+		 /* arg 'double q(const) y'*/
+		 /* arg 'double q(const) dy'*/
+		tmpr4 =   ((int (*)(double, double, double, double, gsl_sf_result_e10 *)) func)(/* double q(const) x */ (*((double *) ip0)), /* double q(const) dx */ (*((double *) ip1)), /* double q(const) y */ (*((double *) ip2)), /* double q(const) dy */ (*((double *) ip3)), /* gsl_sf_result_e10 p result */ &tmpo5);
+		*((long *) rp4) = 0;
+		*((long *) rp4) = tmpr4;
+		*((double *) op5) = tmpo5.val;
+		*((double *) op6) = tmpo5.err;
+		*((int *) op7) = tmpo5.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_d__Rl__Oerd */ 
+
+void PyGSL_sf_ufunc_Id_d_d_d__Rl__Oerd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6], *op7 = args[7];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	double tmpi3;
+	
+	gsl_sf_result_e10 tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) dx'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) y'*/
+		tmpi3 = *((float *) ip3); /* arg 'double q(const) dy'*/
+		*((int *) rp4) =   ((int (*)(double, double, double, double, gsl_sf_result_e10 *)) func)(/* double q(const) x */ tmpi0, /* double q(const) dx */ tmpi1, /* double q(const) y */ tmpi2, /* double q(const) dy */ tmpi3, /* gsl_sf_result_e10 p result */ &tmpo5);
 		
-		/* arg 2 tmp variables for type 'double' */
+		*((double *) op5) = tmpo5.val;
+		*((double *) op6) = tmpo5.err;
+		*((int *) op7) = tmpo5.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_d__Rl__Oerd_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		 /* arg 'double q(const) nu'*/
+		 /* arg 'double q(const) x'*/
+		*((double *) rp2) =   ((double (*)(double, double)) func)(/* double q(const) nu */ (*((double *) ip0)), /* double q(const) x */ (*((double *) ip1)));
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'double' */
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rd__O */ 
+
+void PyGSL_sf_ufunc_Id_d__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	double tmpi0;
+	double tmpi1;
+	double tmpr2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) nu'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) x'*/
+		tmpr2 =   ((double (*)(double, double)) func)(/* double q(const) nu */ tmpi0, /* double q(const) x */ tmpi1);
+		(*((float *) rp2)) = tmpr2;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2], os3 = steps[3];
+	
+	int tmpr1;
+	gsl_sf_result tmpo2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2, op3 += os3){
+
+		 /* arg 'double q(const) x'*/
+		tmpr1 =   ((int (*)(double, gsl_sf_result *)) func)(/* double q(const) x */ (*((double *) ip0)), /* gsl_sf_result p result */ &tmpo2);
+		*((long *) rp1) = 0;
+		*((long *) rp1) = tmpr1;
+		*((double *) op2) = tmpo2.val;
+		*((double *) op3) = tmpo2.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Id__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2], os3 = steps[3];
+	double tmpi0;
+	
+	gsl_sf_result tmpo2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2, op3 += os3){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		*((int *) rp1) =   ((int (*)(double, gsl_sf_result *)) func)(/* double q(const) x */ tmpi0, /* gsl_sf_result p result */ &tmpo2);
 		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((double *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_id__one *) func)((*((int *) ip0)), (*((double *) ip1)));
-		/* end function call */
+		*((float *) op2) = tmpo2.val;
+		*((float *) op3) = tmpo2.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_d_d__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4];
+	int tmpi0;
+	int tmpi1;
+	
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) l'*/
+		 /* arg 'double q(const) Z'*/
+		 /* arg 'double q(const) r'*/
+		*((double *) rp4) =   ((double (*)(int, int, double, double)) func)(/* int q(const) n */ tmpi0, /* int q(const) l */ tmpi1, /* double q(const) Z */ (*((double *) ip2)), /* double q(const) r */ (*((double *) ip3)));
 		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp4) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_if__as_id_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Il_l_d_d__Rd__O */ 
+
+void PyGSL_sf_ufunc_Il_l_d_d__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4];
+	
+	
+	double tmpi2;
+	double tmpi3;
+	double tmpr4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4){
+
+		 /* arg 'int q(const) n'*/
+		 /* arg 'int q(const) l'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) Z'*/
+		tmpi3 = *((float *) ip3); /* arg 'double q(const) r'*/
+		tmpr4 =   ((double (*)(int, int, double, double)) func)(/* int q(const) n */ (*((int *) ip0)), /* int q(const) l */ (*((int *) ip1)), /* double q(const) Z */ tmpi2, /* double q(const) r */ tmpi3);
+		(*((float *) rp4)) = tmpr4;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_l_d_d__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d_d__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4];
+	
+	
+	
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4){
+
+		 /* arg 'double a'*/
+		 /* arg 'double b'*/
+		 /* arg 'double c'*/
+		 /* arg 'double x'*/
+		*((double *) rp4) =   ((double (*)(double, double, double, double)) func)(/* double a */ (*((double *) ip0)), /* double b */ (*((double *) ip1)), /* double c */ (*((double *) ip2)), /* double x */ (*((double *) ip3)));
 		
-		/* arg 2 tmp variables for type 'double' */
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_d__Rd__O */ 
+
+void PyGSL_sf_ufunc_Id_d_d_d__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	double tmpi3;
+	double tmpr4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4){
+
+		tmpi0 = *((float *) ip0); /* arg 'double a'*/
+		tmpi1 = *((float *) ip1); /* arg 'double b'*/
+		tmpi2 = *((float *) ip2); /* arg 'double c'*/
+		tmpi3 = *((float *) ip3); /* arg 'double x'*/
+		tmpr4 =   ((double (*)(double, double, double, double)) func)(/* double a */ tmpi0, /* double b */ tmpi1, /* double c */ tmpi2, /* double x */ tmpi3);
+		(*((float *) rp4)) = tmpr4;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_d__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id__Rl__Od_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2], os3 = steps[3], os4 = steps[4];
+	
+	int tmpr1;
+	
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2, op3 += os3, op4 += os4){
+
+		 /* arg 'double x'*/
+		tmpr1 =   ((int (*)(double, double *, gsl_sf_result *)) func)(/* double x */ (*((double *) ip0)), /* double p sgn */ ((double *) op2), /* gsl_sf_result p result_lg */ &tmpo3);
+		*((long *) rp1) = 0;
+		*((long *) rp1) = tmpr1;
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'double' */
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__Rl__Od_rd */ 
+
+void PyGSL_sf_ufunc_Id__Rl__Od_rd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2], os3 = steps[3], os4 = steps[4];
+	double tmpi0;
+	
+	double tmpo2;
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2, op3 += os3, op4 += os4){
+
+		tmpi0 = *((float *) ip0); /* arg 'double x'*/
+		*((int *) rp1) =   ((int (*)(double, double *, gsl_sf_result *)) func)(/* double x */ tmpi0, /* double p sgn */ &tmpo2, /* gsl_sf_result p result_lg */ &tmpo3);
 		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((double *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_id__one *) func)((*((int *) ip0)), (*((double *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		/*<ufunc_arg._FloatArgumentAsMinor object at 0x10917ef48>*/ *((float *) op2) = tmpo2;
+		*((float *) op3) = tmpo3.val;
+		*((float *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__Rl__Od_rd_as_minor */ 
+
+void PyGSL_sf_ufunc_Iui_ui__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	unsigned int tmpi0;
+	unsigned int tmpi1;
+	int tmpr2;
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'unsigned int n'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'unsigned int m'*/
+		tmpr2 =   ((int (*)(unsigned int, unsigned int, gsl_sf_result *)) func)(/* unsigned int n */ tmpi0, /* unsigned int m */ tmpi1, /* gsl_sf_result p result */ &tmpo3);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp2) = INT_MIN;
+		*((double *) op3) = _PyGSL_NAN;
+		*((double *) op4) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Iui_ui__Rl__Ord */ 
 
-typedef double PyGSL_sf_ufunc_pd_idd__one(int, double, double);
-void PyGSL_sf_ufunc_pd_idd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Iui_ui__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	
+	
+	
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		 /* arg 'unsigned int n'*/
+		 /* arg 'unsigned int m'*/
+		*((int *) rp2) =   ((int (*)(unsigned int, unsigned int, gsl_sf_result *)) func)(/* unsigned int n */ (*((int *) ip0)), /* unsigned int m */ (*((int *) ip1)), /* gsl_sf_result p result */ &tmpo3);
 		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_idd__one *) func)((*((int *) ip0)), (*((double *) ip1)), (*((double *) ip2)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op3) = tmpo3.val;
+		*((float *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Iui_ui__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_l__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	
+	int tmpi1;
+	int tmpr2;
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		 /* arg 'double x'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int n'*/
+		tmpr2 =   ((int (*)(double, int, gsl_sf_result *)) func)(/* double x */ (*((double *) ip0)), /* int n */ tmpi1, /* gsl_sf_result p result */ &tmpo3);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp2) = INT_MIN;
+		*((double *) op3) = _PyGSL_NAN;
+		*((double *) op4) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_iff__as_idd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Id_l__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Id_l__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	double tmpi0;
+	
+	
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		tmpi0 = *((float *) ip0); /* arg 'double x'*/
+		 /* arg 'int n'*/
+		*((int *) rp2) =   ((int (*)(double, int, gsl_sf_result *)) func)(/* double x */ tmpi0, /* int n */ (*((int *) ip1)), /* gsl_sf_result p result */ &tmpo3);
 		
-		/* arg 2 tmp variables for type 'double' */
+		*((float *) op3) = tmpo3.val;
+		*((float *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_l__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d__Rl__Oerd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4];
+	
+	
+	
+	int tmpr3;
+	gsl_sf_result_e10 tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4){
+
+		 /* arg 'double q(const) a'*/
+		 /* arg 'double q(const) b'*/
+		 /* arg 'double q(const) x'*/
+		tmpr3 =   ((int (*)(double, double, double, gsl_sf_result_e10 *)) func)(/* double q(const) a */ (*((double *) ip0)), /* double q(const) b */ (*((double *) ip1)), /* double q(const) x */ (*((double *) ip2)), /* gsl_sf_result_e10 p result */ &tmpo4);
+		*((long *) rp3) = 0;
+		*((long *) rp3) = tmpr3;
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
+		*((int *) op6) = tmpo4.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d__Rl__Oerd */ 
+
+void PyGSL_sf_ufunc_Id_d_d__Rl__Oerd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3], *op4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3], os4 = steps[4];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	
+	gsl_sf_result_e10 tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3, op4 += os4){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) a'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) b'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) x'*/
+		*((int *) rp3) =   ((int (*)(double, double, double, gsl_sf_result_e10 *)) func)(/* double q(const) a */ tmpi0, /* double q(const) b */ tmpi1, /* double q(const) x */ tmpi2, /* gsl_sf_result_e10 p result */ &tmpo4);
 		
-		/* arg 3 tmp variables for type 'double' */
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
+		*((int *) op6) = tmpo4.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d__Rl__Oerd_as_minor */ 
+
+void PyGSL_sf_ufunc_Iui__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1];
+	unsigned int tmpi0;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1){
+
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'unsigned int s'*/
+		*((double *) rp1) =   ((double (*)(unsigned int)) func)(/* unsigned int s */ tmpi0);
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_idd__one *) func)((*((int *) ip0)), (*((double *) ip1)), (*((double *) ip2)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp1) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Iui__Rd__O */ 
 
-typedef double PyGSL_sf_ufunc_pd_iid__one(int, int, double);
-void PyGSL_sf_ufunc_pd_iid_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((int *) ip1))', '(*((double *) ip2))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_iid__one *) func)((*((int *) ip0)), (*((int *) ip1)), (*((double *) ip2)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+void PyGSL_sf_ufunc_Iui__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1];
+	
+	double tmpr1;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1){
+
+		 /* arg 'unsigned int s'*/
+		tmpr1 =   ((double (*)(unsigned int)) func)(/* unsigned int s */ (*((int *) ip0)));
+		(*((float *) rp1)) = tmpr1;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Iui__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_ui__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	
+	unsigned int tmpi1;
+	int tmpr2;
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		 /* arg 'double nu'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'unsigned int s'*/
+		tmpr2 =   ((int (*)(double, unsigned int, gsl_sf_result *)) func)(/* double nu */ (*((double *) ip0)), /* unsigned int s */ tmpi1, /* gsl_sf_result p result */ &tmpo3);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp2) = INT_MIN;
+		*((double *) op3) = _PyGSL_NAN;
+		*((double *) op4) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_iif__as_iid_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Id_ui__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Id_ui__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	double tmpi0;
+	
+	
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		tmpi0 = *((float *) ip0); /* arg 'double nu'*/
+		 /* arg 'unsigned int s'*/
+		*((int *) rp2) =   ((int (*)(double, unsigned int, gsl_sf_result *)) func)(/* double nu */ tmpi0, /* unsigned int s */ (*((int *) ip1)), /* gsl_sf_result p result */ &tmpo3);
 		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((int *) ip1))', '(*((double *) ip2))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_iid__one *) func)((*((int *) ip0)), (*((int *) ip1)), (*((double *) ip2)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op3) = tmpo3.val;
+		*((float *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_ui__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_d__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	int tmpi0;
+	
+	int tmpr2;
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int n'*/
+		 /* arg 'double x'*/
+		tmpr2 =   ((int (*)(int, double, gsl_sf_result *)) func)(/* int n */ tmpi0, /* double x */ (*((double *) ip1)), /* gsl_sf_result p result */ &tmpo3);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp2) = INT_MIN;
+		*((double *) op3) = _PyGSL_NAN;
+		*((double *) op4) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Il_d__Rl__Ord */ 
 
-typedef double PyGSL_sf_ufunc_pd_iidd__one(int, int, double, double);
-void PyGSL_sf_ufunc_pd_iidd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Il_d__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	
+	double tmpi1;
+	
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		 /* arg 'int n'*/
+		tmpi1 = *((float *) ip1); /* arg 'double x'*/
+		*((int *) rp2) =   ((int (*)(int, double, gsl_sf_result *)) func)(/* int n */ (*((int *) ip0)), /* double x */ tmpi1, /* gsl_sf_result p result */ &tmpo3);
 		
-		/* arg 3 tmp variables for type 'double' */
+		*((float *) op3) = tmpo3.val;
+		*((float *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_d__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_d__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3];
+	int tmpi0;
+	int tmpi1;
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) m'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		 /* arg 'double x'*/
+		*((double *) rp3) =   ((double (*)(int, int, double)) func)(/* int q(const) m */ tmpi0, /* int q(const) n */ tmpi1, /* double x */ (*((double *) ip2)));
 		
-		/* arg 4 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((int *) ip1))', '(*((double *) ip2))', '(*((double *) ip3))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_iidd__one *) func)((*((int *) ip0)), (*((int *) ip1)), (*((double *) ip2)), (*((double *) ip3)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp3) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_iiff__as_iidd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Il_l_d__Rd__O */ 
+
+void PyGSL_sf_ufunc_Il_l_d__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3];
+	
+	
+	double tmpi2;
+	double tmpr3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3){
+
+		 /* arg 'int q(const) m'*/
+		 /* arg 'int q(const) n'*/
+		tmpi2 = *((float *) ip2); /* arg 'double x'*/
+		tmpr3 =   ((double (*)(int, int, double)) func)(/* int q(const) m */ (*((int *) ip0)), /* int q(const) n */ (*((int *) ip1)), /* double x */ tmpi2);
+		(*((float *) rp3)) = tmpr3;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_l_d__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d_m__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4];
+	
+	
+	
+	gsl_mode_t tmpi3;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4){
+
+		 /* arg 'double phi'*/
+		 /* arg 'double k'*/
+		 /* arg 'double n'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;} /* arg 'gsl_mode_t mode'*/
+		*((double *) rp4) =   ((double (*)(double, double, double, gsl_mode_t)) func)(/* double phi */ (*((double *) ip0)), /* double k */ (*((double *) ip1)), /* double n */ (*((double *) ip2)), /* gsl_mode_t mode */ tmpi3);
 		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((int *) ip1))', '(*((double *) ip2))', '(*((double *) ip3))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_iidd__one *) func)((*((int *) ip0)), (*((int *) ip1)), (*((double *) ip2)), (*((double *) ip3)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp4) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Id_d_d_m__Rd__O */ 
 
-typedef double PyGSL_sf_ufunc_pd_iiiiii__one(int, int, int, int, int, int);
-void PyGSL_sf_ufunc_pd_iiiiii_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], is5=steps[5], os0=steps[6];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *ip5=args[5], *op0=args[6];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, ip5+=is5, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		long lval2 = *((long *) ip2);
-		int ival2; 
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		long lval4 = *((long *) ip4);
-		int ival4; 
-		long lval5 = *((long *) ip5);
-		int ival5; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'int' */
-		int tmpi2;
-		/* arg 3 tmp variables for type 'int' */
-		int tmpi3;
-		/* arg 4 tmp variables for type 'int' */
-		int tmpi4;
-		/* arg 5 tmp variables for type 'int' */
-		int tmpi5;
-		/* arg 6 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Id_d_d_m__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	
+	double tmpr4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4){
+
+		tmpi0 = *((float *) ip0); /* arg 'double phi'*/
+		tmpi1 = *((float *) ip1); /* arg 'double k'*/
+		tmpi2 = *((float *) ip2); /* arg 'double n'*/
+		 /* arg 'gsl_mode_t mode'*/
+		tmpr4 =   ((double (*)(double, double, double, gsl_mode_t)) func)(/* double phi */ tmpi0, /* double k */ tmpi1, /* double n */ tmpi2, /* gsl_mode_t mode */ (*((int *) ip3)));
+		(*((float *) rp4)) = tmpr4;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_m__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d_l__Rl__Od_d_rd_rd_rd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6], *op7 = args[7], *op8 = args[8], *op9 = args[9], *op10 = args[10], *op11 = args[11], *op12 = args[12], *op13 = args[13], *op14 = args[14];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5], os6 = steps[6], os7 = steps[7], os8 = steps[8], os9 = steps[9], os10 = steps[10], os11 = steps[11], os12 = steps[12], os13 = steps[13], os14 = steps[14];
+	
+	
+	
+	int tmpi3;
+	int tmpr4;
+	
+	
+	gsl_sf_result tmpo7;
+	gsl_sf_result tmpo9;
+	gsl_sf_result tmpo11;
+	gsl_sf_result tmpo13;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5, op6 += os6, op7 += os7, op8 += os8, op9 += os9, op10 += os10, op11 += os11, op12 += os12, op13 += os13, op14 += os14){
+
+		 /* arg 'double q(const) eta'*/
+		 /* arg 'double q(const) x'*/
+		 /* arg 'double q(const) lam_F'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) k_lam_G'*/
+		tmpr4 =   ((int (*)(double, double, double, int, double *, double *, gsl_sf_result *, gsl_sf_result *, gsl_sf_result *, gsl_sf_result *)) func)(/* double q(const) eta */ (*((double *) ip0)), /* double q(const) x */ (*((double *) ip1)), /* double q(const) lam_F */ (*((double *) ip2)), /* int q(const) k_lam_G */ tmpi3, /* double p exp_G */ ((double *) op5), /* double p exp_F */ ((double *) op6), /* gsl_sf_result p Gp */ &tmpo7, /* gsl_sf_result p G */ &tmpo9, /* gsl_sf_result p Fp */ &tmpo11, /* gsl_sf_result p F */ &tmpo13);
+		*((long *) rp4) = 0;
+		*((long *) rp4) = tmpr4;
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* arg 2 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;}
-		/* arg 3 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;}
-		/* arg 4 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;}
-		/* arg 5 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip5), &tmpi5)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((int *) ip1))', '(*((int *) ip2))', '(*((int *) ip3))', '(*((int *) ip4))', '(*((int *) ip5))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_iiiiii__one *) func)((*((int *) ip0)), (*((int *) ip1)), (*((int *) ip2)), (*((int *) ip3)), (*((int *) ip4)), (*((int *) ip5)));
-		/* end function call */
 		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((double *) op7) = tmpo7.val;
+		*((double *) op8) = tmpo7.err;
+		*((double *) op9) = tmpo9.val;
+		*((double *) op10) = tmpo9.err;
+		*((double *) op11) = tmpo11.val;
+		*((double *) op12) = tmpo11.err;
+		*((double *) op13) = tmpo13.val;
+		*((double *) op14) = tmpo13.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp4) = INT_MIN;
+		*((double *) op5) = _PyGSL_NAN;
+		*((double *) op6) = _PyGSL_NAN;
+		*((double *) op7) = _PyGSL_NAN;
+		*((double *) op8) = _PyGSL_NAN;
+		*((double *) op9) = _PyGSL_NAN;
+		*((double *) op10) = _PyGSL_NAN;
+		*((double *) op11) = _PyGSL_NAN;
+		*((double *) op12) = _PyGSL_NAN;
+		*((double *) op13) = _PyGSL_NAN;
+		*((double *) op14) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_iiiiii__as_iiiiii_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], is5=steps[5], os0=steps[6];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *ip5=args[5], *op0=args[6];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, ip5+=is5, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		long lval2 = *((long *) ip2);
-		int ival2; 
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		long lval4 = *((long *) ip4);
-		int ival4; 
-		long lval5 = *((long *) ip5);
-		int ival5; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'int' */
-		int tmpi2;
-		/* arg 3 tmp variables for type 'int' */
-		int tmpi3;
-		/* arg 4 tmp variables for type 'int' */
-		int tmpi4;
-		/* arg 5 tmp variables for type 'int' */
-		int tmpi5;
-		/* arg 6 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Id_d_d_l__Rl__Od_d_rd_rd_rd_rd */ 
+
+void PyGSL_sf_ufunc_Id_d_d_l__Rl__Od_d_rd_rd_rd_rd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6], *op7 = args[7], *op8 = args[8], *op9 = args[9], *op10 = args[10], *op11 = args[11], *op12 = args[12], *op13 = args[13], *op14 = args[14];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5], os6 = steps[6], os7 = steps[7], os8 = steps[8], os9 = steps[9], os10 = steps[10], os11 = steps[11], os12 = steps[12], os13 = steps[13], os14 = steps[14];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	
+	
+	double tmpo5;
+	double tmpo6;
+	gsl_sf_result tmpo7;
+	gsl_sf_result tmpo9;
+	gsl_sf_result tmpo11;
+	gsl_sf_result tmpo13;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5, op6 += os6, op7 += os7, op8 += os8, op9 += os9, op10 += os10, op11 += os11, op12 += os12, op13 += os13, op14 += os14){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) eta'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) x'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) lam_F'*/
+		 /* arg 'int q(const) k_lam_G'*/
+		*((int *) rp4) =   ((int (*)(double, double, double, int, double *, double *, gsl_sf_result *, gsl_sf_result *, gsl_sf_result *, gsl_sf_result *)) func)(/* double q(const) eta */ tmpi0, /* double q(const) x */ tmpi1, /* double q(const) lam_F */ tmpi2, /* int q(const) k_lam_G */ (*((int *) ip3)), /* double p exp_G */ &tmpo5, /* double p exp_F */ &tmpo6, /* gsl_sf_result p Gp */ &tmpo7, /* gsl_sf_result p G */ &tmpo9, /* gsl_sf_result p Fp */ &tmpo11, /* gsl_sf_result p F */ &tmpo13);
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* arg 2 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;}
-		/* arg 3 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;}
-		/* arg 4 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;}
-		/* arg 5 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip5), &tmpi5)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((int *) ip1))', '(*((int *) ip2))', '(*((int *) ip3))', '(*((int *) ip4))', '(*((int *) ip5))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_iiiiii__one *) func)((*((int *) ip0)), (*((int *) ip1)), (*((int *) ip2)), (*((int *) ip3)), (*((int *) ip4)), (*((int *) ip5)));
-		/* end function call */
+		/*<ufunc_arg._FloatArgumentAsMinor object at 0x1091225e8>*/ *((float *) op5) = tmpo5;
+		/*<ufunc_arg._FloatArgumentAsMinor object at 0x109122548>*/ *((float *) op6) = tmpo6;
+		*((float *) op7) = tmpo7.val;
+		*((float *) op8) = tmpo7.err;
+		*((float *) op9) = tmpo9.val;
+		*((float *) op10) = tmpo9.err;
+		*((float *) op11) = tmpo11.val;
+		*((float *) op12) = tmpo11.err;
+		*((float *) op13) = tmpo13.val;
+		*((float *) op14) = tmpo13.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d_l__Rl__Od_d_rd_rd_rd_rd_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	
+	
+	int tmpr2;
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		 /* arg 'double q(const) nu'*/
+		 /* arg 'double q(const) x'*/
+		tmpr2 =   ((int (*)(double, double, gsl_sf_result *)) func)(/* double q(const) nu */ (*((double *) ip0)), /* double q(const) x */ (*((double *) ip1)), /* gsl_sf_result p result */ &tmpo3);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Id_d__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	double tmpi0;
+	double tmpi1;
+	
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) nu'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) x'*/
+		*((int *) rp2) =   ((int (*)(double, double, gsl_sf_result *)) func)(/* double q(const) nu */ tmpi0, /* double q(const) x */ tmpi1, /* gsl_sf_result p result */ &tmpo3);
 		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op3) = tmpo3.val;
+		*((float *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_m__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3];
+	
+	
+	gsl_mode_t tmpi2;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3){
+
+		 /* arg 'double k'*/
+		 /* arg 'double n'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;} /* arg 'gsl_mode_t mode'*/
+		*((double *) rp3) =   ((double (*)(double, double, gsl_mode_t)) func)(/* double k */ (*((double *) ip0)), /* double n */ (*((double *) ip1)), /* gsl_mode_t mode */ tmpi2);
+		
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp3) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Id_d_m__Rd__O */ 
 
-typedef double PyGSL_sf_ufunc_pd_iiiiiiiii__one(int, int, int, int, int, int, int, int, int);
-void PyGSL_sf_ufunc_pd_iiiiiiiii_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], is5=steps[5], is6=steps[6], is7=steps[7], is8=steps[8], os0=steps[9];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *ip5=args[5], *ip6=args[6], *ip7=args[7], *ip8=args[8], *op0=args[9];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, ip5+=is5, ip6+=is6, ip7+=is7, ip8+=is8, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		long lval2 = *((long *) ip2);
-		int ival2; 
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		long lval4 = *((long *) ip4);
-		int ival4; 
-		long lval5 = *((long *) ip5);
-		int ival5; 
-		long lval6 = *((long *) ip6);
-		int ival6; 
-		long lval7 = *((long *) ip7);
-		int ival7; 
-		long lval8 = *((long *) ip8);
-		int ival8; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'int' */
-		int tmpi2;
-		/* arg 3 tmp variables for type 'int' */
-		int tmpi3;
-		/* arg 4 tmp variables for type 'int' */
-		int tmpi4;
-		/* arg 5 tmp variables for type 'int' */
-		int tmpi5;
-		/* arg 6 tmp variables for type 'int' */
-		int tmpi6;
-		/* arg 7 tmp variables for type 'int' */
-		int tmpi7;
-		/* arg 8 tmp variables for type 'int' */
-		int tmpi8;
-		/* arg 9 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Id_d_m__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3];
+	double tmpi0;
+	double tmpi1;
+	
+	double tmpr3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3){
+
+		tmpi0 = *((float *) ip0); /* arg 'double k'*/
+		tmpi1 = *((float *) ip1); /* arg 'double n'*/
+		 /* arg 'gsl_mode_t mode'*/
+		tmpr3 =   ((double (*)(double, double, gsl_mode_t)) func)(/* double k */ tmpi0, /* double n */ tmpi1, /* gsl_mode_t mode */ (*((int *) ip2)));
+		(*((float *) rp3)) = tmpr3;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_m__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d_d__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3];
+	
+	
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3){
+
+		 /* arg 'double q(const) a'*/
+		 /* arg 'double q(const) b'*/
+		 /* arg 'double q(const) x'*/
+		*((double *) rp3) =   ((double (*)(double, double, double)) func)(/* double q(const) a */ (*((double *) ip0)), /* double q(const) b */ (*((double *) ip1)), /* double q(const) x */ (*((double *) ip2)));
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* arg 2 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;}
-		/* arg 3 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;}
-		/* arg 4 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;}
-		/* arg 5 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip5), &tmpi5)) != GSL_SUCCESS){goto fail;}
-		/* arg 6 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip6), &tmpi6)) != GSL_SUCCESS){goto fail;}
-		/* arg 7 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip7), &tmpi7)) != GSL_SUCCESS){goto fail;}
-		/* arg 8 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip8), &tmpi8)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((int *) ip1))', '(*((int *) ip2))', '(*((int *) ip3))', '(*((int *) ip4))', '(*((int *) ip5))', '(*((int *) ip6))', '(*((int *) ip7))', '(*((int *) ip8))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_iiiiiiiii__one *) func)((*((int *) ip0)), (*((int *) ip1)), (*((int *) ip2)), (*((int *) ip3)), (*((int *) ip4)), (*((int *) ip5)), (*((int *) ip6)), (*((int *) ip7)), (*((int *) ip8)));
-		/* end function call */
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d__Rd__O */ 
+
+void PyGSL_sf_ufunc_Id_d_d__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *rp3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], rs3 = steps[3];
+	double tmpi0;
+	double tmpi1;
+	double tmpi2;
+	double tmpr3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, rp3 += rs3){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) a'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) b'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) x'*/
+		tmpr3 =   ((double (*)(double, double, double)) func)(/* double q(const) a */ tmpi0, /* double q(const) b */ tmpi1, /* double q(const) x */ tmpi2);
+		(*((float *) rp3)) = tmpr3;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d_d__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d__Rl__Ord_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4], os5 = steps[5], os6 = steps[6];
+	
+	
+	int tmpr2;
+	gsl_sf_result tmpo3;
+	gsl_sf_result tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4, op5 += os5, op6 += os6){
+
+		 /* arg 'double q(const) x'*/
+		 /* arg 'double q(const) y'*/
+		tmpr2 =   ((int (*)(double, double, gsl_sf_result *, gsl_sf_result *)) func)(/* double q(const) x */ (*((double *) ip0)), /* double q(const) y */ (*((double *) ip1)), /* gsl_sf_result p result_im */ &tmpo3, /* gsl_sf_result p result_re */ &tmpo5);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
+		*((double *) op5) = tmpo5.val;
+		*((double *) op6) = tmpo5.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Ord_rd */ 
+
+void PyGSL_sf_ufunc_Id_d__Rl__Ord_rd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4], os5 = steps[5], os6 = steps[6];
+	double tmpi0;
+	double tmpi1;
+	
+	gsl_sf_result tmpo3;
+	gsl_sf_result tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4, op5 += os5, op6 += os6){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) y'*/
+		*((int *) rp2) =   ((int (*)(double, double, gsl_sf_result *, gsl_sf_result *)) func)(/* double q(const) x */ tmpi0, /* double q(const) y */ tmpi1, /* gsl_sf_result p result_im */ &tmpo3, /* gsl_sf_result p result_re */ &tmpo5);
 		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op3) = tmpo3.val;
+		*((float *) op4) = tmpo3.err;
+		*((float *) op5) = tmpo5.val;
+		*((float *) op6) = tmpo5.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Ord_rd_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d__Rl__Oerd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3];
+	
+	
+	int tmpr2;
+	gsl_sf_result_e10 tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3){
+
+		 /* arg 'double q(const) nu'*/
+		 /* arg 'double q(const) x'*/
+		tmpr2 =   ((int (*)(double, double, gsl_sf_result_e10 *)) func)(/* double q(const) nu */ (*((double *) ip0)), /* double q(const) x */ (*((double *) ip1)), /* gsl_sf_result_e10 p result */ &tmpo3);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
+		*((int *) op5) = tmpo3.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Oerd */ 
+
+void PyGSL_sf_ufunc_Id_d__Rl__Oerd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3];
+	double tmpi0;
+	double tmpi1;
+	
+	gsl_sf_result_e10 tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) nu'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) x'*/
+		*((int *) rp2) =   ((int (*)(double, double, gsl_sf_result_e10 *)) func)(/* double q(const) nu */ tmpi0, /* double q(const) x */ tmpi1, /* gsl_sf_result_e10 p result */ &tmpo3);
+		
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
+		*((int *) op5) = tmpo3.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Oerd_as_minor */ 
+
+void PyGSL_sf_ufunc_Id__Rl__Oerd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2];
+	
+	int tmpr1;
+	gsl_sf_result_e10 tmpo2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2){
+
+		 /* arg 'double q(const) x'*/
+		tmpr1 =   ((int (*)(double, gsl_sf_result_e10 *)) func)(/* double q(const) x */ (*((double *) ip0)), /* gsl_sf_result_e10 p result */ &tmpo2);
+		*((long *) rp1) = 0;
+		*((long *) rp1) = tmpr1;
+		*((double *) op2) = tmpo2.val;
+		*((double *) op3) = tmpo2.err;
+		*((int *) op4) = tmpo2.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__Rl__Oerd */ 
+
+void PyGSL_sf_ufunc_Id__Rl__Oerd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2];
+	double tmpi0;
+	
+	gsl_sf_result_e10 tmpo2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		*((int *) rp1) =   ((int (*)(double, gsl_sf_result_e10 *)) func)(/* double q(const) x */ tmpi0, /* gsl_sf_result_e10 p result */ &tmpo2);
+		
+		*((double *) op2) = tmpo2.val;
+		*((double *) op3) = tmpo2.err;
+		*((int *) op4) = tmpo2.e10;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__Rl__Oerd_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *ip5 = args[5], *ip6 = args[6], *ip7 = args[7], *ip8 = args[8], *rp9 = args[9];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], is5 = steps[5], is6 = steps[6], is7 = steps[7], is8 = steps[8], rs9 = steps[9];
+	int tmpi0;
+	int tmpi1;
+	int tmpi2;
+	int tmpi3;
+	int tmpi4;
+	int tmpi5;
+	int tmpi6;
+	int tmpi7;
+	int tmpi8;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, ip5 += is5, ip6 += is6, ip7 += is7, ip8 += is8, rp9 += rs9){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int two_ja'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jb'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jc'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jd'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;} /* arg 'int two_je'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip5), &tmpi5)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jf'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip6), &tmpi6)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jg'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip7), &tmpi7)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jh'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip8), &tmpi8)) != GSL_SUCCESS){goto fail;} /* arg 'int two_ji'*/
+		*((double *) rp9) =   ((double (*)(int, int, int, int, int, int, int, int, int)) func)(/* int two_ja */ tmpi0, /* int two_jb */ tmpi1, /* int two_jc */ tmpi2, /* int two_jd */ tmpi3, /* int two_je */ tmpi4, /* int two_jf */ tmpi5, /* int two_jg */ tmpi6, /* int two_jh */ tmpi7, /* int two_ji */ tmpi8);
+		
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp9) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_iiiiiiiii__as_iiiiiiiii_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], is5=steps[5], is6=steps[6], is7=steps[7], is8=steps[8], os0=steps[9];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *ip5=args[5], *ip6=args[6], *ip7=args[7], *ip8=args[8], *op0=args[9];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, ip5+=is5, ip6+=is6, ip7+=is7, ip8+=is8, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		long lval2 = *((long *) ip2);
-		int ival2; 
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		long lval4 = *((long *) ip4);
-		int ival4; 
-		long lval5 = *((long *) ip5);
-		int ival5; 
-		long lval6 = *((long *) ip6);
-		int ival6; 
-		long lval7 = *((long *) ip7);
-		int ival7; 
-		long lval8 = *((long *) ip8);
-		int ival8; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'int' */
-		int tmpi1;
-		/* arg 2 tmp variables for type 'int' */
-		int tmpi2;
-		/* arg 3 tmp variables for type 'int' */
-		int tmpi3;
-		/* arg 4 tmp variables for type 'int' */
-		int tmpi4;
-		/* arg 5 tmp variables for type 'int' */
-		int tmpi5;
-		/* arg 6 tmp variables for type 'int' */
-		int tmpi6;
-		/* arg 7 tmp variables for type 'int' */
-		int tmpi7;
-		/* arg 8 tmp variables for type 'int' */
-		int tmpi8;
-		/* arg 9 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O */ 
+
+void PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *ip5 = args[5], *ip6 = args[6], *ip7 = args[7], *ip8 = args[8], *rp9 = args[9];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], is5 = steps[5], is6 = steps[6], is7 = steps[7], is8 = steps[8], rs9 = steps[9];
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	double tmpr9;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, ip5 += is5, ip6 += is6, ip7 += is7, ip8 += is8, rp9 += rs9){
+
+		 /* arg 'int two_ja'*/
+		 /* arg 'int two_jb'*/
+		 /* arg 'int two_jc'*/
+		 /* arg 'int two_jd'*/
+		 /* arg 'int two_je'*/
+		 /* arg 'int two_jf'*/
+		 /* arg 'int two_jg'*/
+		 /* arg 'int two_jh'*/
+		 /* arg 'int two_ji'*/
+		tmpr9 =   ((double (*)(int, int, int, int, int, int, int, int, int)) func)(/* int two_ja */ (*((int *) ip0)), /* int two_jb */ (*((int *) ip1)), /* int two_jc */ (*((int *) ip2)), /* int two_jd */ (*((int *) ip3)), /* int two_je */ (*((int *) ip4)), /* int two_jf */ (*((int *) ip5)), /* int two_jg */ (*((int *) ip6)), /* int two_jh */ (*((int *) ip7)), /* int two_ji */ (*((int *) ip8)));
+		(*((float *) rp9)) = tmpr9;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_ui__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	
+	unsigned int tmpi1;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		 /* arg 'double nu'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'unsigned int s'*/
+		*((double *) rp2) =   ((double (*)(double, unsigned int)) func)(/* double nu */ (*((double *) ip0)), /* unsigned int s */ tmpi1);
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* arg 2 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;}
-		/* arg 3 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;}
-		/* arg 4 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;}
-		/* arg 5 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip5), &tmpi5)) != GSL_SUCCESS){goto fail;}
-		/* arg 6 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip6), &tmpi6)) != GSL_SUCCESS){goto fail;}
-		/* arg 7 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip7), &tmpi7)) != GSL_SUCCESS){goto fail;}
-		/* arg 8 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip8), &tmpi8)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((int *) ip1))', '(*((int *) ip2))', '(*((int *) ip3))', '(*((int *) ip4))', '(*((int *) ip5))', '(*((int *) ip6))', '(*((int *) ip7))', '(*((int *) ip8))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_iiiiiiiii__one *) func)((*((int *) ip0)), (*((int *) ip1)), (*((int *) ip2)), (*((int *) ip3)), (*((int *) ip4)), (*((int *) ip5)), (*((int *) ip6)), (*((int *) ip7)), (*((int *) ip8)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp2) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Id_ui__Rd__O */ 
 
-typedef double PyGSL_sf_ufunc_pd_ui__one(unsigned int);
-void PyGSL_sf_ufunc_pd_ui_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		long lval0 = *((long *) ip0);
-		unsigned int uival0;
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'unsigned int' */
-		unsigned int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'unsigned int' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((unsigned int *) ip0))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_ui__one *) func)((*((unsigned int *) ip0)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+void PyGSL_sf_ufunc_Id_ui__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	double tmpi0;
+	
+	double tmpr2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		tmpi0 = *((float *) ip0); /* arg 'double nu'*/
+		 /* arg 'unsigned int s'*/
+		tmpr2 =   ((double (*)(double, unsigned int)) func)(/* double nu */ tmpi0, /* unsigned int s */ (*((int *) ip1)));
+		(*((float *) rp2)) = tmpr2;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_ui__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Iui__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2], os3 = steps[3];
+	unsigned int tmpi0;
+	int tmpr1;
+	gsl_sf_result tmpo2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2, op3 += os3){
+
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'unsigned int s'*/
+		tmpr1 =   ((int (*)(unsigned int, gsl_sf_result *)) func)(/* unsigned int s */ tmpi0, /* gsl_sf_result p result */ &tmpo2);
+		*((long *) rp1) = 0;
+		*((long *) rp1) = tmpr1;
+		*((double *) op2) = tmpo2.val;
+		*((double *) op3) = tmpo2.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp1) = INT_MIN;
+		*((double *) op2) = _PyGSL_NAN;
+		*((double *) op3) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_ui__as_ui_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1];
-	char   *ip0=args[0], *op0=args[1];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0){
-		long lval0 = *((long *) ip0);
-		unsigned int uival0;
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'unsigned int' */
-		unsigned int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Iui__Rl__Ord */ 
+
+void PyGSL_sf_ufunc_Iui__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1], *op2 = args[2], *op3 = args[3];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1], os2 = steps[2], os3 = steps[3];
+	
+	
+	gsl_sf_result tmpo2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1, op2 += os2, op3 += os3){
+
+		 /* arg 'unsigned int s'*/
+		*((int *) rp1) =   ((int (*)(unsigned int, gsl_sf_result *)) func)(/* unsigned int s */ (*((int *) ip0)), /* gsl_sf_result p result */ &tmpo2);
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'unsigned int' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((unsigned int *) ip0))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_ui__one *) func)((*((unsigned int *) ip0)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		*((float *) op2) = tmpo2.val;
+		*((float *) op3) = tmpo2.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Iui__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_m__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	
+	gsl_mode_t tmpi1;
+	int tmpr2;
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		 /* arg 'double q(const) x'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'gsl_mode_t q(const) mode'*/
+		tmpr2 =   ((int (*)(double, gsl_mode_t, gsl_sf_result *)) func)(/* double q(const) x */ (*((double *) ip0)), /* gsl_mode_t q(const) mode */ tmpi1, /* gsl_sf_result p result */ &tmpo3);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
+		*((double *) op3) = tmpo3.val;
+		*((double *) op4) = tmpo3.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp2) = INT_MIN;
+		*((double *) op3) = _PyGSL_NAN;
+		*((double *) op4) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Id_m__Rl__Ord */ 
 
-typedef double PyGSL_sf_ufunc_pd_uiui__one(unsigned int, unsigned int);
-void PyGSL_sf_ufunc_pd_uiui_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		long lval0 = *((long *) ip0);
-		unsigned int uival0;
-		long lval1 = *((long *) ip1);
-		unsigned int uival1;
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'unsigned int' */
-		unsigned int tmpi0;
-		/* arg 1 tmp variables for type 'unsigned int' */
-		unsigned int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Id_m__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4];
+	double tmpi0;
+	
+	
+	gsl_sf_result tmpo3;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		 /* arg 'gsl_mode_t q(const) mode'*/
+		*((int *) rp2) =   ((int (*)(double, gsl_mode_t, gsl_sf_result *)) func)(/* double q(const) x */ tmpi0, /* gsl_mode_t q(const) mode */ (*((int *) ip1)), /* gsl_sf_result p result */ &tmpo3);
 		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'unsigned int' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'unsigned int' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((unsigned int *) ip0))', '(*((unsigned int *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_uiui__one *) func)((*((unsigned int *) ip0)), (*((unsigned int *) ip1)));
-		/* end function call */
+		*((float *) op3) = tmpo3.val;
+		*((float *) op4) = tmpo3.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_m__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1];
+	
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1){
+
+		 /* arg 'double q(const) x'*/
+		*((double *) rp1) =   ((double (*)(double)) func)(/* double q(const) x */ (*((double *) ip0)));
 		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__Rd__O */ 
+
+void PyGSL_sf_ufunc_Id__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1];
+	double tmpi0;
+	double tmpr1;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		tmpr1 =   ((double (*)(double)) func)(/* double q(const) x */ tmpi0);
+		(*((float *) rp1)) = tmpr1;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id__RD__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1];
+	
+	gsl_complex tmpr1;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1){
+
+		 /* arg 'double x'*/
+		tmpr1 =   ((gsl_complex (*)(double)) func)(/* double x */ (*((double *) ip0)));
+		*(( (double *) rp1)    ) = tmpr1.dat[0];
+		*(( (double *) rp1) + 1) = tmpr1.dat[1];
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__RD__O */ 
+
+void PyGSL_sf_ufunc_Id__RD__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *rp1 = args[1];
+	PyGSL_array_index_t i, is0 = steps[0], rs1 = steps[1];
+	double tmpi0;
+	gsl_complex tmpr1;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, rp1 += rs1){
+
+		tmpi0 = *((float *) ip0); /* arg 'double x'*/
+		tmpr1 =   ((gsl_complex (*)(double)) func)(/* double x */ tmpi0);
+		*(( (float *) rp1)    ) = tmpr1.dat[0];
+		*(( (float *) rp1) + 1) = tmpr1.dat[1];
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id__RD__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_m__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	
+	gsl_mode_t tmpi1;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		 /* arg 'double q(const) x'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'gsl_mode_t mode'*/
+		*((double *) rp2) =   ((double (*)(double, gsl_mode_t)) func)(/* double q(const) x */ (*((double *) ip0)), /* gsl_mode_t mode */ tmpi1);
+		
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((double *) rp2) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pd_uiui__as_uiui_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
-		long lval0 = *((long *) ip0);
-		unsigned int uival0;
-		long lval1 = *((long *) ip1);
-		unsigned int uival1;
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'unsigned int' */
-		unsigned int tmpi0;
-		/* arg 1 tmp variables for type 'unsigned int' */
-		unsigned int tmpi1;
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'unsigned int' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'unsigned int' */
-		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;}
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((unsigned int *) ip0))', '(*((unsigned int *) ip1))'] */
-		/* output args: [] */
-		 *((double *) op0) =  ((PyGSL_sf_ufunc_pd_uiui__one *) func)((*((unsigned int *) ip0)), (*((unsigned int *) ip1)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+} /* PyGSL_sf_ufunc_Id_m__Rd__O */ 
+
+void PyGSL_sf_ufunc_Id_m__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	double tmpi0;
+	
+	double tmpr2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) x'*/
+		 /* arg 'gsl_mode_t mode'*/
+		tmpr2 =   ((double (*)(double, gsl_mode_t)) func)(/* double q(const) x */ tmpi0, /* gsl_mode_t mode */ (*((int *) ip1)));
+		(*((float *) rp2)) = tmpr2;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_m__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_l_l_l_l__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *ip5 = args[5], *rp6 = args[6], *op7 = args[7], *op8 = args[8];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], is5 = steps[5], rs6 = steps[6], os7 = steps[7], os8 = steps[8];
+	int tmpi0;
+	int tmpi1;
+	int tmpi2;
+	int tmpi3;
+	int tmpi4;
+	int tmpi5;
+	int tmpr6;
+	gsl_sf_result tmpo7;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, ip5 += is5, rp6 += rs6, op7 += os7, op8 += os8){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int two_ja'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jb'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip2), &tmpi2)) != GSL_SUCCESS){goto fail;} /* arg 'int two_jc'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip3), &tmpi3)) != GSL_SUCCESS){goto fail;} /* arg 'int two_ma'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip4), &tmpi4)) != GSL_SUCCESS){goto fail;} /* arg 'int two_mb'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip5), &tmpi5)) != GSL_SUCCESS){goto fail;} /* arg 'int two_mc'*/
+		tmpr6 =   ((int (*)(int, int, int, int, int, int, gsl_sf_result *)) func)(/* int two_ja */ tmpi0, /* int two_jb */ tmpi1, /* int two_jc */ tmpi2, /* int two_ma */ tmpi3, /* int two_mb */ tmpi4, /* int two_mc */ tmpi5, /* gsl_sf_result p result */ &tmpo7);
+		*((long *) rp6) = 0;
+		*((long *) rp6) = tmpr6;
+		*((double *) op7) = tmpo7.val;
+		*((double *) op8) = tmpo7.err;
 		continue;
 
-	 fail:
-		*((double *) op0) = _PyGSL_NAN;
-		/* end loop */
+	    fail:
+		*((int *) rp6) = INT_MIN;
+		*((double *) op7) = _PyGSL_NAN;
+		*((double *) op8) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Il_l_l_l_l_l__Rl__Ord */ 
 
-typedef int PyGSL_sf_ufunc_pi_iddd__one(int, double, double, double);
-void PyGSL_sf_ufunc_pi_iddd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+void PyGSL_sf_ufunc_Il_l_l_l_l_l__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *ip4 = args[4], *ip5 = args[5], *rp6 = args[6], *op7 = args[7], *op8 = args[8];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], is4 = steps[4], is5 = steps[5], rs6 = steps[6], os7 = steps[7], os8 = steps[8];
+	
+	
+	
+	
+	
+	
+	
+	gsl_sf_result tmpo7;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, ip4 += is4, ip5 += is5, rp6 += rs6, op7 += os7, op8 += os8){
+
+		 /* arg 'int two_ja'*/
+		 /* arg 'int two_jb'*/
+		 /* arg 'int two_jc'*/
+		 /* arg 'int two_ma'*/
+		 /* arg 'int two_mb'*/
+		 /* arg 'int two_mc'*/
+		*((int *) rp6) =   ((int (*)(int, int, int, int, int, int, gsl_sf_result *)) func)(/* int two_ja */ (*((int *) ip0)), /* int two_jb */ (*((int *) ip1)), /* int two_jc */ (*((int *) ip2)), /* int two_ma */ (*((int *) ip3)), /* int two_mb */ (*((int *) ip4)), /* int two_mc */ (*((int *) ip5)), /* gsl_sf_result p result */ &tmpo7);
 		
-		/* arg 2 tmp variables for type 'double' */
+		*((float *) op7) = tmpo7.val;
+		*((float *) op8) = tmpo7.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Il_l_l_l_l_l__Rl__Ord_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d__RD__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	
+	
+	gsl_complex tmpr2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		 /* arg 'double r'*/
+		 /* arg 'double theta'*/
+		tmpr2 =   ((gsl_complex (*)(double, double)) func)(/* double r */ (*((double *) ip0)), /* double theta */ (*((double *) ip1)));
+		*(( (double *) rp2)    ) = tmpr2.dat[0];
+		*(( (double *) rp2) + 1) = tmpr2.dat[1];
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__RD__O */ 
+
+void PyGSL_sf_ufunc_Id_d__RD__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	double tmpi0;
+	double tmpi1;
+	gsl_complex tmpr2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		tmpi0 = *((float *) ip0); /* arg 'double r'*/
+		tmpi1 = *((float *) ip1); /* arg 'double theta'*/
+		tmpr2 =   ((gsl_complex (*)(double, double)) func)(/* double r */ tmpi0, /* double theta */ tmpi1);
+		*(( (float *) rp2)    ) = tmpr2.dat[0];
+		*(( (float *) rp2) + 1) = tmpr2.dat[1];
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__RD__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Iui_ui__Rd__O (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	unsigned int tmpi0;
+	unsigned int tmpi1;
+	
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'unsigned int n'*/
+		if( (_PyGSL_SF_L_TO_U(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'unsigned int m'*/
+		*((double *) rp2) =   ((double (*)(unsigned int, unsigned int)) func)(/* unsigned int n */ tmpi0, /* unsigned int m */ tmpi1);
 		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'int' */
-		int tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))', '(*((double *) ip3))'] */
-		/* output args: [] */
-		 *((int *) op0) =  ((PyGSL_sf_ufunc_pi_iddd__one *) func)((*((int *) ip0)), (*((double *) ip1)), (*((double *) ip2)), (*((double *) ip3)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
 		continue;
 
-	 fail:
-		*((int *) op0) = INT_MIN;
-		/* end loop */
+	    fail:
+		*((double *) rp2) = _PyGSL_NAN;
 	}
-}
-void PyGSL_sf_ufunc_pi_ifff__as_iddd_ (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		/* temporary variables */
-		/* arg 0 tmp variables for type 'int' */
-		int tmpi0;
-		/* arg 1 tmp variables for type 'double' */
+} /* PyGSL_sf_ufunc_Iui_ui__Rd__O */ 
+
+void PyGSL_sf_ufunc_Iui_ui__Rd__O_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2];
+	
+	
+	double tmpr2;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2){
+
+		 /* arg 'unsigned int n'*/
+		 /* arg 'unsigned int m'*/
+		tmpr2 =   ((double (*)(unsigned int, unsigned int)) func)(/* unsigned int n */ (*((int *) ip0)), /* unsigned int m */ (*((int *) ip1)));
+		(*((float *) rp2)) = tmpr2;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Iui_ui__Rd__O_as_minor */ 
+
+void PyGSL_sf_ufunc_Id_d__Rl__Od_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4], os5 = steps[5];
+	
+	
+	int tmpr2;
+	
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4, op5 += os5){
+
+		 /* arg 'double q(const) a'*/
+		 /* arg 'double q(const) x'*/
+		tmpr2 =   ((int (*)(double, double, double *, gsl_sf_result *)) func)(/* double q(const) a */ (*((double *) ip0)), /* double q(const) x */ (*((double *) ip1)), /* double p sgn */ ((double *) op3), /* gsl_sf_result p result */ &tmpo4);
+		*((long *) rp2) = 0;
+		*((long *) rp2) = tmpr2;
 		
-		/* arg 2 tmp variables for type 'double' */
+		*((double *) op4) = tmpo4.val;
+		*((double *) op5) = tmpo4.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Od_rd */ 
+
+void PyGSL_sf_ufunc_Id_d__Rl__Od_rd_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *rp2 = args[2], *op3 = args[3], *op4 = args[4], *op5 = args[5];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], rs2 = steps[2], os3 = steps[3], os4 = steps[4], os5 = steps[5];
+	double tmpi0;
+	double tmpi1;
+	
+	double tmpo3;
+	gsl_sf_result tmpo4;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, rp2 += rs2, op3 += os3, op4 += os4, op5 += os5){
+
+		tmpi0 = *((float *) ip0); /* arg 'double q(const) a'*/
+		tmpi1 = *((float *) ip1); /* arg 'double q(const) x'*/
+		*((int *) rp2) =   ((int (*)(double, double, double *, gsl_sf_result *)) func)(/* double q(const) a */ tmpi0, /* double q(const) x */ tmpi1, /* double p sgn */ &tmpo3, /* gsl_sf_result p result */ &tmpo4);
 		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* arg 4 tmp variables for type 'int' */
-		int tmpr0;
-		/* temp vars: input assignment */
-		/* arg 0 tmp variables for type 'int' */
-		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;}
-		/* arg 1 tmp variables for type 'double' */
-		
-		/* arg 2 tmp variables for type 'double' */
-		
-		/* arg 3 tmp variables for type 'double' */
-		
-		/* temp vars: input call  */
-		/* temp vars: output call */
-		/* temp vars: return call */
-		/* function call */
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		/* input  args: ['(*((int *) ip0))', '(*((double *) ip1))', '(*((double *) ip2))', '(*((double *) ip3))'] */
-		/* output args: [] */
-		 *((int *) op0) =  ((PyGSL_sf_ufunc_pi_iddd__one *) func)((*((int *) ip0)), (*((double *) ip1)), (*((double *) ip2)), (*((double *) ip3)));
-		/* end function call */
-		
-		/* output conversion for 0 args */
-		 /* needs fail 1 */
+		/*<ufunc_arg._FloatArgumentAsMinor object at 0x10918da48>*/ *((float *) op3) = tmpo3;
+		*((float *) op4) = tmpo4.val;
+		*((float *) op5) = tmpo4.err;
+		continue;
+	}
+} /* PyGSL_sf_ufunc_Id_d__Rl__Od_rd_as_minor */ 
+
+void PyGSL_sf_ufunc_Il_l_d_d__Rl__Ord (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5], os6 = steps[6];
+	int tmpi0;
+	int tmpi1;
+	
+	
+	int tmpr4;
+	gsl_sf_result tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5, op6 += os6){
+
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip0), &tmpi0)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) n'*/
+		if( (_PyGSL_SF_L_TO_I(*((long *) ip1), &tmpi1)) != GSL_SUCCESS){goto fail;} /* arg 'int q(const) l'*/
+		 /* arg 'double q(const) Z'*/
+		 /* arg 'double q(const) r'*/
+		tmpr4 =   ((int (*)(int, int, double, double, gsl_sf_result *)) func)(/* int q(const) n */ tmpi0, /* int q(const) l */ tmpi1, /* double q(const) Z */ (*((double *) ip2)), /* double q(const) r */ (*((double *) ip3)), /* gsl_sf_result p result */ &tmpo5);
+		*((long *) rp4) = 0;
+		*((long *) rp4) = tmpr4;
+		*((double *) op5) = tmpo5.val;
+		*((double *) op6) = tmpo5.err;
 		continue;
 
-	 fail:
-		*((int *) op0) = INT_MIN;
-		/* end loop */
+	    fail:
+		*((int *) rp4) = INT_MIN;
+		*((double *) op5) = _PyGSL_NAN;
+		*((double *) op6) = _PyGSL_NAN;
 	}
-}
+} /* PyGSL_sf_ufunc_Il_l_d_d__Rl__Ord */ 
 
-typedef int PyGSL_sf_ufunc_qi_d_erd_one(double, gsl_sf_result_e10 *);
-void PyGSL_sf_ufunc_qi_d_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2], os2=steps[3];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2], *op2=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_d_erd_one *) func)(*((double *)ip0),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_f_erf_as_d_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2], os2=steps[3];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2], *op2=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_d_erd_one *) func)((double)*((float *)ip0),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
+void PyGSL_sf_ufunc_Il_l_d_d__Rl__Ord_as_minor (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func)
+{
+	char *ip0 = args[0], *ip1 = args[1], *ip2 = args[2], *ip3 = args[3], *rp4 = args[4], *op5 = args[5], *op6 = args[6];
+	PyGSL_array_index_t i, is0 = steps[0], is1 = steps[1], is2 = steps[2], is3 = steps[3], rs4 = steps[4], os5 = steps[5], os6 = steps[6];
+	
+	
+	double tmpi2;
+	double tmpi3;
+	
+	gsl_sf_result tmpo5;
+	 for(i = 0; i < dimensions[0]; ++i, ip0 += is0, ip1 += is1, ip2 += is2, ip3 += is3, rp4 += rs4, op5 += os5, op6 += os6){
 
-typedef int PyGSL_sf_ufunc_qi_d_rd_one(double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_d_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_d_rd_one *) func)(*((double *)ip0),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
+		 /* arg 'int q(const) n'*/
+		 /* arg 'int q(const) l'*/
+		tmpi2 = *((float *) ip2); /* arg 'double q(const) Z'*/
+		tmpi3 = *((float *) ip3); /* arg 'double q(const) r'*/
+		*((int *) rp4) =   ((int (*)(int, int, double, double, gsl_sf_result *)) func)(/* int q(const) n */ (*((int *) ip0)), /* int q(const) l */ (*((int *) ip1)), /* double q(const) Z */ tmpi2, /* double q(const) r */ tmpi3, /* gsl_sf_result p result */ &tmpo5);
+		
+		*((float *) op5) = tmpo5.val;
+		*((float *) op6) = tmpo5.err;
+		continue;
 	}
-}
-void PyGSL_sf_ufunc_qi_f_rf_as_d_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_d_rd_one *) func)((double)*((float *)ip0),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_d_rdd_one(double, gsl_sf_result *, double *);
-void PyGSL_sf_ufunc_qi_d_rdd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2], os2=steps[3];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2], *op2=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_d_rdd_one *) func)(*((double *)ip0),&r0,(double *)op2);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(double *) op2 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_f_rff_as_d_rdd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2], os2=steps[3];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2], *op2=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		double tmp1;
-		flag = ((PyGSL_sf_ufunc_qi_d_rdd_one *) func)((double)*((float *)ip0),&r0,&tmp1);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(double *) op2 = (double) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			/* casting fake out_counter = 2, counter = 1 */
-			*(float *) op2 = (float) tmp1;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dd_ddd_one(double, double, double *, double *, double *);
-void PyGSL_sf_ufunc_qi_dd_ddd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3], os2=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3], *op2=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		flag = ((PyGSL_sf_ufunc_qi_dd_ddd_one *) func)(*((double *)ip0),*((double *)ip1),(double *)op0,(double *)op1,(double *)op2);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(double *) op2 = (double) gsl_nan();
-		}else{
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ff_fff_as_dd_ddd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3], os2=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3], *op2=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		double tmp0;
-		double tmp1;
-		double tmp2;
-		flag = ((PyGSL_sf_ufunc_qi_dd_ddd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),&tmp0,&tmp1,&tmp2);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(double *) op2 = (double) gsl_nan();
-		}else{
-			/* casting fake out_counter = 0, counter = 0 */
-			*(float *) op0 = (float) tmp0;
-			/* casting fake out_counter = 1, counter = 1 */
-			*(float *) op1 = (float) tmp1;
-			/* casting fake out_counter = 2, counter = 2 */
-			*(float *) op2 = (float) tmp2;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dd_erd_one(double, double, gsl_sf_result_e10 *);
-void PyGSL_sf_ufunc_qi_dd_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3], os2=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3], *op2=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_dd_erd_one *) func)(*((double *)ip0),*((double *)ip1),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ff_erf_as_dd_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3], os2=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3], *op2=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_dd_erd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dd_rd_one(double, double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_dd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dd_rd_one *) func)(*((double *)ip0),*((double *)ip1),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ff_rf_as_dd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dd_rd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dd_rdd_one(double, double, gsl_sf_result *, double *);
-void PyGSL_sf_ufunc_qi_dd_rdd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3], os2=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3], *op2=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dd_rdd_one *) func)(*((double *)ip0),*((double *)ip1),&r0,(double *)op2);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(double *) op2 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ff_rff_as_dd_rdd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3], os2=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3], *op2=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		double tmp1;
-		flag = ((PyGSL_sf_ufunc_qi_dd_rdd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),&r0,&tmp1);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(double *) op2 = (double) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			/* casting fake out_counter = 2, counter = 1 */
-			*(float *) op2 = (float) tmp1;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dd_rdrd_one(double, double, gsl_sf_result *, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_dd_rdrd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3], os2=steps[4], os3=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3], *op2=args[4], *op3=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1, op2+=os2, op3+=os3){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		gsl_sf_result r1;
-		flag = ((PyGSL_sf_ufunc_qi_dd_rdrd_one *) func)(*((double *)ip0),*((double *)ip1),&r0,&r1);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(double *) op2 = (double) gsl_nan();
-			*(double *) op3 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-			*(double *) op2 = r1.val;
-			*(double *) op3 = r1.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ff_rfrf_as_dd_rdrd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3], os2=steps[4], os3=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3], *op2=args[4], *op3=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1, op2+=os2, op3+=os3){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		gsl_sf_result r1;
-		flag = ((PyGSL_sf_ufunc_qi_dd_rdrd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),&r0,&r1);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(float *) op2 = (float) gsl_nan();
-			*(float *) op3 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			*(float *) op2 = r1.val;
-			*(float *) op3 = r1.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_ddd_erd_one(double, double, double, gsl_sf_result_e10 *);
-void PyGSL_sf_ufunc_qi_ddd_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4], os2=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4], *op2=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_ddd_erd_one *) func)(*((double *)ip0),*((double *)ip1),*((double *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_fff_erf_as_ddd_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4], os2=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4], *op2=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_ddd_erd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),(double)*((float *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_ddd_rd_one(double, double, double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_ddd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_ddd_rd_one *) func)(*((double *)ip0),*((double *)ip1),*((double *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_fff_rf_as_ddd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_ddd_rd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),(double)*((float *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dddd_erd_one(double, double, double, double, gsl_sf_result_e10 *);
-void PyGSL_sf_ufunc_qi_dddd_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5], os2=steps[6];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5], *op2=args[6];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_dddd_erd_one *) func)(*((double *)ip0),*((double *)ip1),*((double *)ip2),*((double *)ip3),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ffff_erf_as_dddd_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5], os2=steps[6];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5], *op2=args[6];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1, op2+=os2){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_dddd_erd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),(double)*((float *)ip2),(double)*((float *)ip3),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dddd_rd_one(double, double, double, double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_dddd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dddd_rd_one *) func)(*((double *)ip0),*((double *)ip1),*((double *)ip2),*((double *)ip3),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ffff_rf_as_dddd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dddd_rd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),(double)*((float *)ip2),(double)*((float *)ip3),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_ddddm_rd_one(double, double, double, double, gsl_mode_t, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_ddddm_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], os0=steps[5], os1=steps[6];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *op0=args[5], *op1=args[6];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_ddddm_rd_one *) func)(*((double *)ip0),*((double *)ip1),*((double *)ip2),*((double *)ip3),*((gsl_mode_t *)ip4),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ffffm_rf_as_ddddm_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], os0=steps[5], os1=steps[6];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *op0=args[5], *op1=args[6];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_ddddm_rd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),(double)*((float *)ip2),(double)*((float *)ip3),*((gsl_mode_t *)ip4),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one(double, double, double, int, gsl_sf_result *, gsl_sf_result *, gsl_sf_result *, gsl_sf_result *, double *, double *);
-void PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5], os2=steps[6], os3=steps[7], os4=steps[8], os5=steps[9], os6=steps[10], os7=steps[11], os8=steps[12], os9=steps[13];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5], *op2=args[6], *op3=args[7], *op4=args[8], *op5=args[9], *op6=args[10], *op7=args[11], *op8=args[12], *op9=args[13];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1, op2+=os2, op3+=os3, op4+=os4, op5+=os5, op6+=os6, op7+=os7, op8+=os8, op9+=os9){
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval3, &ival3) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		gsl_sf_result r1;
-		gsl_sf_result r2;
-		gsl_sf_result r3;
-		flag = ((PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one *) func)(*((double *)ip0),*((double *)ip1),*((double *)ip2),ival3,&r0,&r1,&r2,&r3,(double *)op8,(double *)op9);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(double *) op2 = (double) gsl_nan();
-			*(double *) op3 = (double) gsl_nan();
-			*(double *) op4 = (double) gsl_nan();
-			*(double *) op5 = (double) gsl_nan();
-			*(double *) op6 = (double) gsl_nan();
-			*(double *) op7 = (double) gsl_nan();
-			*(double *) op8 = (double) gsl_nan();
-			*(double *) op9 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-			*(double *) op2 = r1.val;
-			*(double *) op3 = r1.err;
-			*(double *) op4 = r2.val;
-			*(double *) op5 = r2.err;
-			*(double *) op6 = r3.val;
-			*(double *) op7 = r3.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_fffi_rfrfrfrfff_as_dddi_rdrdrdrddd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5], os2=steps[6], os3=steps[7], os4=steps[8], os5=steps[9], os6=steps[10], os7=steps[11], os8=steps[12], os9=steps[13];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5], *op2=args[6], *op3=args[7], *op4=args[8], *op5=args[9], *op6=args[10], *op7=args[11], *op8=args[12], *op9=args[13];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1, op2+=os2, op3+=os3, op4+=os4, op5+=os5, op6+=os6, op7+=os7, op8+=os8, op9+=os9){
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval3, &ival3) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		gsl_sf_result r1;
-		gsl_sf_result r2;
-		gsl_sf_result r3;
-		double tmp4;
-		double tmp5;
-		flag = ((PyGSL_sf_ufunc_qi_dddi_rdrdrdrddd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),(double)*((float *)ip2),ival3,&r0,&r1,&r2,&r3,&tmp4,&tmp5);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(float *) op2 = (float) gsl_nan();
-			*(float *) op3 = (float) gsl_nan();
-			*(float *) op4 = (float) gsl_nan();
-			*(float *) op5 = (float) gsl_nan();
-			*(float *) op6 = (float) gsl_nan();
-			*(float *) op7 = (float) gsl_nan();
-			*(double *) op8 = (double) gsl_nan();
-			*(double *) op9 = (double) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			*(float *) op2 = r1.val;
-			*(float *) op3 = r1.err;
-			*(float *) op4 = r2.val;
-			*(float *) op5 = r2.err;
-			*(float *) op6 = r3.val;
-			*(float *) op7 = r3.err;
-			/* casting fake out_counter = 8, counter = 4 */
-			*(float *) op8 = (float) tmp4;
-			/* casting fake out_counter = 9, counter = 5 */
-			*(float *) op9 = (float) tmp5;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dddm_rd_one(double, double, double, gsl_mode_t, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_dddm_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dddm_rd_one *) func)(*((double *)ip0),*((double *)ip1),*((double *)ip2),*((gsl_mode_t *)ip3),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_fffm_rf_as_dddm_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dddm_rd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),(double)*((float *)ip2),*((gsl_mode_t *)ip3),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_ddm_rd_one(double, double, gsl_mode_t, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_ddm_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_ddm_rd_one *) func)(*((double *)ip0),*((double *)ip1),*((gsl_mode_t *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ffm_rf_as_ddm_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_ddm_rd_one *) func)((double)*((float *)ip0),(double)*((float *)ip1),*((gsl_mode_t *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_di_rd_one(double, int, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_di_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_di_rd_one *) func)(*((double *)ip0),ival1,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_fi_rf_as_di_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_di_rd_one *) func)((double)*((float *)ip0),ival1,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dm_rd_one(double, gsl_mode_t, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_dm_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dm_rd_one *) func)(*((double *)ip0),*((gsl_mode_t *)ip1),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_fm_rf_as_dm_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		{ /*with flag */
-		int flag;
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dm_rd_one *) func)((double)*((float *)ip0),*((gsl_mode_t *)ip1),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_dui_rd_one(double, unsigned int, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_dui_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		long lval1 = *((long *) ip1);
-		unsigned int uival1;
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_U(lval1, &uival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dui_rd_one *) func)(*((double *)ip0),uival1,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_fui_rf_as_dui_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		long lval1 = *((long *) ip1);
-		unsigned int uival1;
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_U(lval1, &uival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_dui_rd_one *) func)((double)*((float *)ip0),uival1,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_i_rd_one(int, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_i_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_i_rd_one *) func)(ival0,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_i_rf_as_i_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_i_rd_one *) func)(ival0,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_id_rd_one(int, double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_id_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_id_rd_one *) func)(ival0,*((double *)ip1),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_if_rf_as_id_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_id_rd_one *) func)(ival0,(double)*((float *)ip1),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_idd_rd_one(int, double, double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_idd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_idd_rd_one *) func)(ival0,*((double *)ip1),*((double *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_iff_rf_as_idd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_idd_rd_one *) func)(ival0,(double)*((float *)ip1),(double)*((float *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_iid_erd_one(int, int, double, gsl_sf_result_e10 *);
-void PyGSL_sf_ufunc_qi_iid_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4], os2=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4], *op2=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1, op2+=os2){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_iid_erd_one *) func)(ival0,ival1,*((double *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_iif_erf_as_iid_erd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4], os2=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4], *op2=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1, op2+=os2){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result_e10 r0;
-		flag = ((PyGSL_sf_ufunc_qi_iid_erd_one *) func)(ival0,ival1,(double)*((float *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-			*(int *) op2 = (int) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-			*(int *) op2 = r0.e10;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_iid_rd_one(int, int, double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_iid_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_iid_rd_one *) func)(ival0,ival1,*((double *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_iif_rf_as_iid_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], os0=steps[3], os1=steps[4];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *op0=args[3], *op1=args[4];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_iid_rd_one *) func)(ival0,ival1,(double)*((float *)ip2),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_iidd_rd_one(int, int, double, double, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_iidd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_iidd_rd_one *) func)(ival0,ival1,*((double *)ip2),*((double *)ip3),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_iiff_rf_as_iidd_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], os0=steps[4], os1=steps[5];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *op0=args[4], *op1=args[5];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_iidd_rd_one *) func)(ival0,ival1,(double)*((float *)ip2),(double)*((float *)ip3),&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_iiiiii_rd_one(int, int, int, int, int, int, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_iiiiii_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], is5=steps[5], os0=steps[6], os1=steps[7];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *ip5=args[5], *op0=args[6], *op1=args[7];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, ip5+=is5, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		long lval2 = *((long *) ip2);
-		int ival2; 
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		long lval4 = *((long *) ip4);
-		int ival4; 
-		long lval5 = *((long *) ip5);
-		int ival5; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval2, &ival2) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval3, &ival3) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval4, &ival4) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval5, &ival5) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_iiiiii_rd_one *) func)(ival0,ival1,ival2,ival3,ival4,ival5,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_iiiiii_rf_as_iiiiii_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], is5=steps[5], os0=steps[6], os1=steps[7];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *ip5=args[5], *op0=args[6], *op1=args[7];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, ip5+=is5, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		long lval2 = *((long *) ip2);
-		int ival2; 
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		long lval4 = *((long *) ip4);
-		int ival4; 
-		long lval5 = *((long *) ip5);
-		int ival5; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval2, &ival2) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval3, &ival3) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval4, &ival4) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval5, &ival5) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_iiiiii_rd_one *) func)(ival0,ival1,ival2,ival3,ival4,ival5,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one(int, int, int, int, int, int, int, int, int, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_iiiiiiiii_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], is5=steps[5], is6=steps[6], is7=steps[7], is8=steps[8], os0=steps[9], os1=steps[10];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *ip5=args[5], *ip6=args[6], *ip7=args[7], *ip8=args[8], *op0=args[9], *op1=args[10];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, ip5+=is5, ip6+=is6, ip7+=is7, ip8+=is8, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		long lval2 = *((long *) ip2);
-		int ival2; 
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		long lval4 = *((long *) ip4);
-		int ival4; 
-		long lval5 = *((long *) ip5);
-		int ival5; 
-		long lval6 = *((long *) ip6);
-		int ival6; 
-		long lval7 = *((long *) ip7);
-		int ival7; 
-		long lval8 = *((long *) ip8);
-		int ival8; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval2, &ival2) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval3, &ival3) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval4, &ival4) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval5, &ival5) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval6, &ival6) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval7, &ival7) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval8, &ival8) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one *) func)(ival0,ival1,ival2,ival3,ival4,ival5,ival6,ival7,ival8,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_iiiiiiiii_rf_as_iiiiiiiii_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], is2=steps[2], is3=steps[3], is4=steps[4], is5=steps[5], is6=steps[6], is7=steps[7], is8=steps[8], os0=steps[9], os1=steps[10];
-	char   *ip0=args[0], *ip1=args[1], *ip2=args[2], *ip3=args[3], *ip4=args[4], *ip5=args[5], *ip6=args[6], *ip7=args[7], *ip8=args[8], *op0=args[9], *op1=args[10];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, ip2+=is2, ip3+=is3, ip4+=is4, ip5+=is5, ip6+=is6, ip7+=is7, ip8+=is8, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		int ival0; 
-		long lval1 = *((long *) ip1);
-		int ival1; 
-		long lval2 = *((long *) ip2);
-		int ival2; 
-		long lval3 = *((long *) ip3);
-		int ival3; 
-		long lval4 = *((long *) ip4);
-		int ival4; 
-		long lval5 = *((long *) ip5);
-		int ival5; 
-		long lval6 = *((long *) ip6);
-		int ival6; 
-		long lval7 = *((long *) ip7);
-		int ival7; 
-		long lval8 = *((long *) ip8);
-		int ival8; 
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_I(lval0, &ival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval1, &ival1) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval2, &ival2) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval3, &ival3) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval4, &ival4) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval5, &ival5) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval6, &ival6) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval7, &ival7) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_I(lval8, &ival8) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_iiiiiiiii_rd_one *) func)(ival0,ival1,ival2,ival3,ival4,ival5,ival6,ival7,ival8,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_ui_rd_one(unsigned int, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_ui_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		unsigned int uival0;
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_U(lval0, &uival0) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_ui_rd_one *) func)(uival0,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_ui_rf_as_ui_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], os0=steps[1], os1=steps[2];
-	char   *ip0=args[0], *op0=args[1], *op1=args[2];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		unsigned int uival0;
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_U(lval0, &uival0) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_ui_rd_one *) func)(uival0,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
-typedef int PyGSL_sf_ufunc_qi_uiui_rd_one(unsigned int, unsigned int, gsl_sf_result *);
-void PyGSL_sf_ufunc_qi_uiui_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		unsigned int uival0;
-		long lval1 = *((long *) ip1);
-		unsigned int uival1;
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_U(lval0, &uival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_U(lval1, &uival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_uiui_rd_one *) func)(uival0,uival1,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(double *) op0 = (double) gsl_nan();
-			*(double *) op1 = (double) gsl_nan();
-		}else{
-			*(double *) op0 = r0.val;
-			*(double *) op1 = r0.err;
-		}
-		}
-	}
-}
-void PyGSL_sf_ufunc_qi_uiui_rf_as_uiui_rd (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *steps, void *func){
-	PyGSL_array_index_t i,  is0=steps[0], is1=steps[1], os0=steps[2], os1=steps[3];
-	char   *ip0=args[0], *ip1=args[1], *op0=args[2], *op1=args[3];
-	for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0, op1+=os1){
-		long lval0 = *((long *) ip0);
-		unsigned int uival0;
-		long lval1 = *((long *) ip1);
-		unsigned int uival1;
-		{ /*with flag */
-		int flag;
-if( (_PyGSL_SF_L_TO_U(lval0, &uival0) ) != GSL_SUCCESS){goto fail;}
-if( (_PyGSL_SF_L_TO_U(lval1, &uival1) ) != GSL_SUCCESS){goto fail;}
-		DEBUG_MESS(2, "Evaluating element %ld", (long)i);
-		gsl_sf_result r0;
-		flag = ((PyGSL_sf_ufunc_qi_uiui_rd_one *) func)(uival0,uival1,&r0);
-		if (flag != GSL_SUCCESS){
-		 fail:
-			*(float *) op0 = (float) gsl_nan();
-			*(float *) op1 = (float) gsl_nan();
-		}else{
-			*(float *) op0 = r0.val;
-			*(float *) op1 = r0.err;
-		}
-		}
-	}
-}
-
+} /* PyGSL_sf_ufunc_Il_l_d_d__Rl__Ord_as_minor */ 

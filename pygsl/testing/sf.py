@@ -1,5 +1,4 @@
-"""
-Provides the various special functions as UFuncs
+"""Provides the various special functions as UFuncs
 """
 from pygsl.testing import _ufuncs
 _token = "sf_"

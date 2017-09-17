@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""
-
-Currently no control when SWIG will be run.
+"""Currently no control when SWIG will be run.
 """
 from gsl_Extension import gsl_Extension, gsl_Location
 from distutils.util import spawn

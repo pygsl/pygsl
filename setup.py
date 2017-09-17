@@ -1,7 +1,8 @@
 #! /usr/bin/env python2
 #
-# author: Achim Gaedke
+# author: Achim Gaedke, Pierre Schnizer
 # created: May 2001
+# modified: over the years, 2017
 # file: pygsl/setup.py
 # $Id$
 #
@@ -87,8 +88,10 @@ del versiontext
 gsldist_path = os.path.join(pygsldir, "gsl_dist")
 sys.path.insert(0, gsldist_path)
 
-import distutils
-from distutils.core import setup, Extension
+
+#import distutils
+#from distutils.core import setup, Extension
+from setuptools import setup, Extension
 
 
 import gsl_numobj
@@ -133,6 +136,7 @@ else:
 macros = macros + []
 check_macros = [('GSL_DISABLE_DEPRECATED', 1)]
 
+import gsl_CodeGenerator
 import gsl_Config
 # config has to be run before any other "build" or "install" commmand
 # perhaps not required for sdist?
@@ -240,7 +244,8 @@ class gsl_Config_Path(gsl_Config.gsl_Config):
 
 print("#%d extension modules" %(len(exts),))
 
-setup (name = "pygsl",
+proj_name ="pygsl"
+setup (name = proj_name,
        version = version + extends,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
@@ -254,6 +259,15 @@ setup (name = "pygsl",
        ext_package = 'pygsl',
        ext_modules = exts,
        headers = headers,
-       cmdclass = {'config' : gsl_Config_Path},       
+       cmdclass = {'config' : gsl_Config_Path,
+                   'gsl_wrappers': gsl_CodeGenerator.gsl_CodeGenerator,
+                   #'build_sphinx': BuildDoc
+                   },
+       command_options = {
+           'build_sphinx': {
+               'project': ('setup.py', proj_name),
+               'version': ('setup.py', version),
+               }
+            }
        )
 

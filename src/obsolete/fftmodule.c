@@ -1,6 +1,6 @@
 /*
  * Author : Pierre Schnizer
- * Date   : April 2004
+ * Date   : April 2004, Sep 2017
  *
  */
 
@@ -21,6 +21,7 @@
 
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
+#include <pygsl/string_helpers.h>
 
 enum pygsl_fft_space_type{
 	COMPLEX_WORKSPACE = 0,
@@ -63,7 +64,15 @@ PyGSL_fft_space_dealloc(PyGSL_fft_space * self);
 static PyObject*
 PyGSL_fft_space_getattr(PyGSL_fft_space * self, char * name);
 
-#define PyGSL_fft_space_check(op) ((op)->ob_type == &PyGSL_fft_space_pytype)
+static PyObject *
+PyGSL_fft_space_get_type(PyGSL_fft_space *self, PyObject *notused);
+static PyObject *
+PyGSL_fft_space_get_n(PyGSL_fft_space *self, PyObject *notused);
+static PyObject *
+PyGSL_fft_space_get_factors(PyGSL_fft_space *self, PyGSL_fft_space *args);
+
+
+#define PyGSL_fft_space_check(op) (Py_TYPE(op) == &PyGSL_fft_space_pytype)
 #define PyGSL_complex_fft_work_space_check(op) \
          (PyGSL_fft_space_check(op) && ((PyGSL_fft_space *)op)->type == COMPLEX_WORKSPACE)
 #define PyGSL_complex_fft_wave_table_check(op) \
@@ -76,6 +85,68 @@ PyGSL_fft_space_getattr(PyGSL_fft_space * self, char * name);
          (PyGSL_fft_space_check(op) && ((PyGSL_fft_space *)op)->type == REAL_WAVETABLE)
 
 
+
+static const char PyGSL_fft_space_get_factors_doc[] = " Get the factors ...";
+static const char PyGSL_fft_space_get_n_doc[] = " Get the size of the wavetable";
+static const char PyGSL_fft_space_get_type_doc[] = " Get the type of this space";
+
+static PyMethodDef PyGSL_fft_wavetable_methods[] = {
+	{"get_n",  (PyCFunction)PyGSL_fft_space_get_n, METH_NOARGS,  (char *)PyGSL_fft_space_get_n_doc},
+	{"get_factors",  (PyCFunction)PyGSL_fft_space_get_factors, METH_NOARGS,  (char *)PyGSL_fft_space_get_factors_doc},
+	{"get_type",     (PyCFunction)PyGSL_fft_space_get_type, METH_NOARGS,  (char *)PyGSL_fft_space_get_type_doc},
+	{NULL, NULL, 0, NULL}           /* sentinel */
+};
+
+static PyMethodDef PyGSL_fft_space_methods[] = {
+	{"get_n",  (PyCFunction)PyGSL_fft_space_get_n, METH_NOARGS,  (char *)PyGSL_fft_space_get_n_doc},
+	{"get_type",     (PyCFunction)PyGSL_fft_space_get_type, METH_NOARGS,  (char *)PyGSL_fft_space_get_type_doc},
+	{NULL, NULL, 0, NULL}           /* sentinel */
+};
+
+
+
+#ifdef PyGSL_PY3K
+PyTypeObject PyGSL_fft_space_pytype = {
+	PyObject_HEAD_INIT(NULL)
+	"PyGSL_fft_space",                    /* tp_name */
+	sizeof(PyGSL_fft_space),              /* tp_basicsize */
+	0,                                          /* tp_itemsize */
+	(destructor) PyGSL_fft_space_dealloc, /* tp_dealloc */
+	0,                       /* tp_print */
+	0,                       /* tp_getattr */
+	0,                       /* tp_setattr */
+	0,                       /* tp_reserved */
+	0,                       /* tp_repr */
+	0,                       /* tp_as_number */
+	0,                       /* tp_as_sequence */
+	0,                       /* tp_as_mapping */
+	0,                       /* tp_hash */
+	(ternaryfunc) 0, /* tp_call */
+	0,                       /* tp_str */
+	0,                       /* tp_getattro */
+	0,                       /* tp_setattro */
+	0,                       /* tp_as_buffer */
+	Py_TPFLAGS_DEFAULT,      /* tp_flags */
+	(char *)PyGSL_fft_space_type_doc, /* tp_doc */
+	0,                       /* tp_traverse */
+	0,                       /* tp_clear */
+	0,                       /* tp_richcompare */
+	0,                       /* tp_weaklistoffset */
+	0,                       /* tp_iter */
+	0,                       /* tp_iternext */
+	PyGSL_fft_wavetable_methods,          /* tp_methods */
+	0,                       /* tp_members */
+	0,                       /* tp_getset */
+	0,                       /* tp_base */
+	0,                       /* tp_dict */
+	0,                       /* tp_descr_get */
+	0,                       /* tp_descr_set */
+	0,                       /* tp_dictoffset */
+	0,                       /* tp_init */
+	0,                       /* tp_alloc */
+	0,                       /* tp_new */
+};
+#else /* PyGSL_PY3K */
 PyTypeObject PyGSL_fft_space_pytype = {
   PyObject_HEAD_INIT(NULL)	 /* fix up the type slot in initcrng */
   0,				 /* ob_size */
@@ -106,69 +177,6 @@ PyTypeObject PyGSL_fft_space_pytype = {
   0L,				/* tp_flags */
   (char *) PyGSL_fft_space_type_doc		/* tp_doc */
 };
-
-static PyObject *
-PyGSL_fft_space_get_factors(PyGSL_fft_space *self, PyGSL_fft_space *args)
-{
-
-       int nf, i;                                                           
-       long *data=NULL;
-       size_t *cp_data=NULL;
-       PyArrayObject * a_array = NULL;					    
-									    
-       assert(PyGSL_fft_space_check(self));
-
-       DEBUG_MESS(2, "Type = %d", self->type);
-       switch(self->type){
-       case COMPLEX_WAVETABLE:           nf = self->space.cwt ->nf;  cp_data = self->space.cwt ->factor;  break;
-       case REAL_WAVETABLE:	         nf = self->space.rwt ->nf;  cp_data = self->space.rwt ->factor;  break;
-       case HALFCOMPLEX_WAVETABLE:       nf = self->space.hcwt->nf;  cp_data = self->space.hcwt->factor;  break;	       
-       default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL; break;
-       }
-
-       assert(nf < 64);
-       a_array = (PyArrayObject *) PyGSL_New_Array(1, &nf, PyArray_LONG);
-       if(a_array == NULL)
-	       return NULL;
-       data = (long *) a_array->data;
-
-       
-       for(i=0; i<nf; i++){
-	    data[i] = (long) cp_data[i];
-       }
-       return (PyObject *) a_array;
-
-}
-static const char PyGSL_fft_space_get_factors_doc[] = " Get the factors ...";
-static const char PyGSL_fft_space_get_type_doc[] = " Get the type of this space";
-
-static PyObject *
-PyGSL_fft_space_get_type(PyGSL_fft_space *self, PyObject *notused)
-{
-	char *p = NULL;
-
-	switch(self->type){
-	case COMPLEX_WORKSPACE:           p = "COMPLEX_WORKSPACE";           break;
-	case REAL_WORKSPACE:	          p = "REAL_WORKSPACE";	             break;
-	case COMPLEX_WAVETABLE:           p = "COMPLEX_WAVETABLE";	     break;
-	case REAL_WAVETABLE:	          p = "REAL_WAVETABLE";	             break;
-	case HALFCOMPLEX_WAVETABLE:       p = "HALFCOMPLEX_WAVETABLE";       break;
-	default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL;
-	}
-	return PyString_FromString(p);
-}
-
-static PyMethodDef PyGSL_fft_wavetable_methods[] = {
-	{"get_factors",  (PyCFunction)PyGSL_fft_space_get_factors, METH_NOARGS,  (char *)PyGSL_fft_space_get_factors_doc},
-	{"get_type",     (PyCFunction)PyGSL_fft_space_get_type, METH_NOARGS,  (char *)PyGSL_fft_space_get_type_doc},
-	{NULL, NULL, 0, NULL}           /* sentinel */
-};
-
-static PyMethodDef PyGSL_fft_space_methods[] = {
-	{"get_type",     (PyCFunction)PyGSL_fft_space_get_type, METH_NOARGS,  (char *)PyGSL_fft_space_get_type_doc},
-	{NULL, NULL, 0, NULL}           /* sentinel */
-};
-
 static PyObject*
 PyGSL_fft_space_getattr(PyGSL_fft_space *self, char *name)
 {
@@ -184,6 +192,92 @@ PyGSL_fft_space_getattr(PyGSL_fft_space *self, char *name)
      }
      FUNC_MESS_END();
      return tmp;
+}
+
+#endif /* PyGSL_PY3K */
+
+
+static PyObject *
+PyGSL_fft_space_get_type(PyGSL_fft_space *self, PyObject *notused)
+{
+	char *p = NULL;
+
+	switch(self->type){
+	case COMPLEX_WORKSPACE:           p = "COMPLEX_WORKSPACE";           break;
+	case REAL_WORKSPACE:	          p = "REAL_WORKSPACE";	             break;
+	case COMPLEX_WAVETABLE:           p = "COMPLEX_WAVETABLE";	     break;
+	case REAL_WAVETABLE:	          p = "REAL_WAVETABLE";	             break;
+	case HALFCOMPLEX_WAVETABLE:       p = "HALFCOMPLEX_WAVETABLE";       break;
+	default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL;
+	}
+	return PyGSL_string_from_string(p);
+}
+
+static PyObject *
+PyGSL_fft_space_get_factors(PyGSL_fft_space *self, PyGSL_fft_space *args)
+{
+
+       PyGSL_array_index_t  i, nf;
+       long *data=NULL;
+       size_t *cp_data=NULL;
+       PyArrayObject * a_array = NULL;					    
+									    
+       assert(PyGSL_fft_space_check(self));
+
+       DEBUG_MESS(2, "Type = %d", self->type);
+       switch(self->type){
+       case COMPLEX_WAVETABLE:           nf = self->space.cwt ->nf;  cp_data = self->space.cwt ->factor;  break;
+       case REAL_WAVETABLE:	         nf = self->space.rwt ->nf;  cp_data = self->space.rwt ->factor;  break;
+       case HALFCOMPLEX_WAVETABLE:       nf = self->space.hcwt->nf;  cp_data = self->space.hcwt->factor;  break;	       
+       default: gsl_error("Got unknown switch", filename, __LINE__, GSL_ESANITY); return NULL; break;
+       }
+
+       assert(nf < 64);
+       a_array = (PyArrayObject *) PyGSL_New_Array(1, &nf, NPY_LONG);
+       if(a_array == NULL)
+	       return NULL;
+       data = (long *) PyArray_DATA(a_array);
+
+       
+       for(i=0; i<nf; i++){
+	    data[i] = (long) cp_data[i];
+       }
+       return (PyObject *) a_array;
+
+}
+
+
+static PyObject *
+PyGSL_fft_space_get_n(PyGSL_fft_space *self, PyObject *unused)
+{
+
+       size_t n=0;
+       PyObject * ret = NULL;					    
+       int status = GSL_EFAILED;
+
+       assert(PyGSL_fft_space_check(self));
+
+       DEBUG_MESS(2, "Type = %d", self->type);
+       switch(self->type){
+       case COMPLEX_WORKSPACE:           n = self->space.cws ->n; break;
+       case REAL_WORKSPACE:              n = self->space.cws ->n; break;
+       case COMPLEX_WAVETABLE:           n = self->space.cwt ->n; break;
+       case REAL_WAVETABLE:	         n = self->space.rwt ->n; break;
+       case HALFCOMPLEX_WAVETABLE:       n = self->space.hcwt->n; break;	       
+       default:
+	       status = GSL_EFAILED;
+	       gsl_error("Got unknown switch", filename, __LINE__, status); 
+	       goto fail;
+	       break;
+       }
+
+       
+       ret = PyLong_FromUnsignedLong(n);
+       return (PyObject *) ret;
+
+  fail:
+       PyGSL_ERROR_FLAG(status);
+       return NULL;
 }
 
 static void
@@ -294,17 +388,21 @@ PyGSL_copy_real_to_complex(PyArrayObject *dst, PyArrayObject *src)
 {
 	int i, n, n_check, n_2;
 
-	n = src->dimensions[0];
-	n_check = dst->dimensions[0];
+	n = PyArray_DIM(src,0);
+	n_check = PyArray_DIM(dst,0);
+
+	/* XXX Check that function first! */
+	/* GSL_ERROR("Unchecked function called from c module", GSL_EFAILED); */
 	
 	for(i = 0; i < n; ++i){
 		double *srcd=NULL, *dstd=NULL;			
-		srcd = (double *)(src->data + src->strides[0] *  (i));
+		srcd = (double *) PyArray_GETPTR1(src, i);
 		n_2 = (i+1)/2;
-		dstd = (double *)(dst->data + dst->strides[0] *  (n_2));
 		if(n_2 >= n_check)
 			GSL_ERROR("Complex array too small!", GSL_ESANITY);
+		dstd = (double *)PyArray_GETPTR1(dst, n_2);
 		dstd[(i+1)%2] = *srcd;
+
 		DEBUG_MESS(5, "R -> C [%d] srcd %e\t dstd %e + %ej", i, *srcd, dstd[0], dstd[1]);
 	}
 	/* XXX Sometimes the last value must be set to zero ... */
@@ -319,12 +417,12 @@ PyGSL_copy_halfcomplex_to_real(PyArrayObject *dst, PyArrayObject *src, double ep
 	int n, n_check, i, n_2;
 	double *srcd=NULL, *dstd=NULL;
 
-	n_check = src->dimensions[0];
-	n = dst->dimensions[0];
+	n_check = PyArray_DIM(src, 0);
+	n = PyArray_DIM(dst, 0);
 
 	/* The first element is a bit special */
-	srcd = (double *)(src->data);	
-	dstd = (double *)(dst->data);
+	srcd = (double *)PyArray_DATA(src);	
+	dstd = (double *)PyArray_DATA(dst);
 	
 	/* Should be zero ... */
 	if(gsl_fcmp(dstd[1], 0,  eps) != 0)
@@ -337,9 +435,9 @@ PyGSL_copy_halfcomplex_to_real(PyArrayObject *dst, PyArrayObject *src, double ep
 		if(n_2 >= n_check){
 			GSL_ERROR("Sizes of the complex array too small!", GSL_ESANITY);
 		}
-		srcd = (double *)(src->data + src->strides[0] * n_2);
-		dstd = (double *)(dst->data + dst->strides[0] * i);
-		*dstd = srcd[(i+1)%2];
+		srcd = PyArray_GETPTR1(src, n_2 + (i+1)%2);
+		dstd = (double *)PyArray_GETPTR1(dst, i);
+		*dstd = *srcd;
 		DEBUG_MESS(5, "C -> R [%d] srcd %e + %ej\t dstd %e", i, srcd[0], srcd[1], *dstd);
 	}
 	return GSL_SUCCESS;
@@ -348,15 +446,15 @@ static int
 PyGSL_copy_complex_to_complex(PyArrayObject *dst, PyArrayObject *src)
 {
 	int n, n_check, i;
-	n = dst->dimensions[0];
-	n_check = src->dimensions[0];
+	n = PyArray_DIM(dst, 0);
+	n_check = PyArray_DIM(src, 0);
 	if(n_check != n){
 		GSL_ERROR("Sizes of the arrays did not match!", GSL_ESANITY);
 	}
 	for(i = 0; i < n; i ++){
 		double *srcd=NULL, *dstd=NULL;
-		srcd = (double *)(src->data + src->strides[0] * i);
-		dstd = (double *)(dst->data + dst->strides[0] * i);
+		srcd = (double *)PyArray_GETPTR1(src, i);
+		dstd = (double *)PyArray_GETPTR1(dst, i);
 		dstd[0] = srcd[0];
 		dstd[1] = srcd[1];
 		DEBUG_MESS(5, "C -> C [%d] srcd %e + %ej\t dstd %e + %ej", i, srcd[0], srcd[1], dstd[0], dstd[1]);
@@ -373,34 +471,38 @@ PyGSL_copy_complex_real(PyArrayObject *dst, PyArrayObject *src)
 {
 	int in_type, out_type;
 	int flag = GSL_FAILURE, line = -1;
-
+	PyArray_Descr *in = NULL, *out = NULL
 
 	FUNC_MESS_BEGIN();
-	in_type  = src->descr->type_num;
-	out_type = dst->descr->type_num;
+	
+	in = PyArray_TYPE(src);
+	out = PyArray_TYPE(dst);
 
-	if(in_type ==  PyArray_CDOUBLE){
+	in_type  = in->type_num;
+	out_type = out->type_num;
+
+	if(in_type ==  NPY_CDOUBLE){
 		DEBUG_MESS(2, "Src is a complex array!", NULL);		
-	} else if (in_type ==  PyArray_DOUBLE){
+	} else if (in_type ==  NPY_DOUBLE){
 		DEBUG_MESS(2, "Src is a real array!", NULL);
 	}
-	if(out_type ==  PyArray_CDOUBLE){
+	if(out_type ==  NPY_CDOUBLE){
 		DEBUG_MESS(2, "Dst is a complex array!", NULL);
-	} else if (out_type ==  PyArray_DOUBLE){
+	} else if (out_type ==  NPY_DOUBLE){
 		DEBUG_MESS(2, "Dst is a real array!", NULL);
 	}
 
-	if(out_type == PyArray_CDOUBLE && in_type == PyArray_CDOUBLE){
+	if(out_type == NPY_CDOUBLE && in_type == NPY_CDOUBLE){
 		if(PyGSL_copy_complex_to_complex(dst, src) != GSL_SUCCESS){
 			line = __LINE__ - 1;
 			goto fail;			
 		}
-	} else 	if(out_type == PyArray_DOUBLE && in_type == PyArray_CDOUBLE){
+	} else 	if(out_type == NPY_DOUBLE && in_type == NPY_CDOUBLE){
 		if(PyGSL_copy_halfcomplex_to_real(dst, src) != GSL_SUCCESS){
 			line = __LINE__ - 1;
 			goto fail;
 		}
-	} else if(out_type == PyArray_CDOUBLE && in_type == PyArray_DOUBLE){
+	} else if(out_type == NPY_CDOUBLE && in_type == NPY_DOUBLE){
 		if(PyGSL_copy_real_to_complex(dst, src) != GSL_SUCCESS){
 			line = __LINE__ - 1;
 			goto fail;
@@ -416,6 +518,7 @@ PyGSL_copy_complex_real(PyArrayObject *dst, PyArrayObject *src)
 	FUNC_MESS("Fail");
 	gsl_error("Not specifed error", filename, line, flag);
 	PyGSL_add_traceback(module, filename, __FUNCTION__, line);
+	PyGSL_ERROR_FLAG(flag);
 	return flag;
 }
 #endif 
@@ -429,7 +532,8 @@ PyGSL_fft_halfcomplex_unpack(PyArrayObject *a, int n_orig)
 {
 	double *data;
 	FUNC_MESS_BEGIN();
-	data = (double *) a->data;
+
+	data = (double *) PyArray_DATA(a);
 	data[0] = data[1];
 	data[1] = 0.0;
 	/* Set the last imaginary to zero for even length as it ought to be */
@@ -448,45 +552,53 @@ PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args)
 {
 
 	PyObject *a_o=NULL;
-	PyArrayObject *a=NULL, *r=NULL;
-	int i, n, rn;
-        double *data, *real, *imag;
+	PyArrayObject *a=NULL, *r=NULL;	
+	PyGSL_array_index_t  i, n, rn;
+        double *data, *real, *imag, line = __LINE__;
 
 	FUNC_MESS_BEGIN();
 	if(!PyArg_ParseTuple(args, "O",&a_o))
 		return NULL;
 
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(a_o, PyArray_DOUBLE, 0, -1, 1, NULL);
-	if(a == NULL)
+	
+	/* well ... strides would be for doubles ... */
+	a = PyGSL_vector_check(a_o, -1, PyGSL_CARRAY_CINPUT(1), NULL, NULL);
+	if(a == NULL){
+		line = __LINE__;
 		goto fail;
-	n = a->dimensions[0];
+	}
+	n = PyArray_DIM(a, 0);
 	if(n%2 != 0){
+		line = __LINE__;
 		gsl_error("The length of the vector must be a multiple of two!",
-			  __FILE__, __LINE__, GSL_EDOM);
+			  __FILE__, line, GSL_EDOM);
 		goto fail;
 	}
 	rn = n / 2 + 1;
-	if((r = (PyArrayObject *) PyGSL_New_Array(1, &rn, PyArray_CDOUBLE)) == NULL)
+	if((r = (PyArrayObject *) PyGSL_New_Array(1, &rn, NPY_CDOUBLE)) == NULL){
+		line = __LINE__;
 		goto fail;
-	assert(r->dimensions[0] == rn);
+	}
+	assert(PyArray_DIM(r, 0) == rn);
 	/* first one special */
-	data = (double *) r->data;
-	data[0] = a->data[0];
+	data = PyArray_DATA(r);
+	 
+	data[0] = *((double *)PyArray_GETPTR1(a, 0));
 	data[1] = 0.0;
 
 	for(i = 1; i < rn - 1; ++i){
-		data    = (double *)(r->data + r->strides[0] * i);
-		real    = (double *)(a->data + a->strides[0] * i);
-		imag    = (double *)(a->data + a->strides[0] * (n-i));
+		data    = (double *)PyArray_GETPTR1(r, i);
+		real    = (double *)PyArray_GETPTR1(a, i);
+		imag    = (double *)PyArray_GETPTR1(a, (n-i));
 		assert(i>0 && i < n);
 		data[0] = *real;
 		data[1] = *imag;
-		DEBUG_MESS(6, "n = %d, i = %d, n - i = %d, rn = %d", n, i, n - i, rn);
+		DEBUG_MESS(6, "n = %ld, i = %ld, n - i = %ld, rn = %ld", n, i, n - i, rn);
 		DEBUG_MESS(6, "real = %e, %p, imag = %e, %p", *real, real, *imag, imag);
-		DEBUG_MESS(5, "Data[%d] = %e + %e j", i, data[0], data[1]);
+		DEBUG_MESS(5, "Data[%ld] = %e + %e j", i, data[0], data[1]);
 	}
-	data    =   (double *)(r->data + r->strides[0] * (rn-1));
-	data[0] = *((double *)(a->data + a->strides[0] * (n/2)));
+	data    =  (double *)PyArray_GETPTR1(r, rn-1); 
+	data[0] = *((double *)PyArray_GETPTR1(a, (n/2) ));
 	data[1] = 0.0;
 
 # if 0
@@ -494,25 +606,27 @@ PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args)
          * All the arithmetic here will be only possible if the array is
          * continguous.
          */
-        if(a->strides[0] == sizeof(double) *2)
+        if(PyArray_STRIDE(a, 0) == sizeof(double) *2)
                 ;
         else
                 GSL_ERROR("Can only unpack continuous halfcomplex arrays!", GSL_ESANITY);
 
-        n = a->dimensions[0] - 1;
+        n = PyArray_DIM(a, 0) - 1;
 
-	if(n * 2 < n_orig)
+	if(n * 2 < n_orig){
 		GSL_ERROR("Original size too big!!", GSL_ESANITY);
-	if(n_orig %2 == 0)
+	}
+	if(n_orig %2 == 0){
 		;
-	else
+	}else{
 		GSL_ERROR("Got non even length for radix2!?!", GSL_ESANITY);
+	}
 
         DEBUG_MESS(2, "Unpacking a half complex array of size %d, storage size = %d", 
-                   n_orig, a->dimensions[0]);
+                   n_orig, PyArray_DIM(a, 0));
 
 
-	data = (double *) a->data;
+	data = (double *) PyArray_DATA(a);
 	data[0] = data[1];
 	data[1] = 0.0;
 
@@ -522,9 +636,9 @@ PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args)
 	 * now data starts were the real array would start withot the shift
 	 * trick
 	 */
-	for(i = 1; i < n_orig+1; i++)
+	for(i = 1; i < n_orig+1; i++){
 		DEBUG_MESS(5, "Putting data[%d]= %e", i, data[i]);
-
+	}
 	/* For two destinct arrays ....
 	for(i=1; i< n; ++i){
 		newdata[i*2] = data[i+1];
@@ -553,8 +667,9 @@ PyGSL_fft_halfcomplex_radix2_unpack(PyObject *self, PyObject *args)
         FUNC_MESS_END();
 	return (PyObject *) r;
   fail:
-	Py_XDECREF(a);
+ 	Py_XDECREF(a);
 	Py_XDECREF(r);
+	/* PyGSL_ERROR_FLAG(flag); */
 	return NULL;
 }
 
@@ -569,7 +684,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master)
 	int line = -1;
 	
 	/* Check if I got a return array */
-	if(!PyArray_Check(master)){
+	if(!PyGSL_array_check(master)){
 		line = __LINE__ - 1;
 		goto fail;
 	}
@@ -589,9 +704,10 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master)
 			FUNC_MESS("Copying input to output array");
 			/* Check if it is an array at all and of the approbriate size */
 			s = (PyArrayObject *) shadow;
-			if((PyArray_Check(shadow)) && (s->nd == 1 ) 
-			   && (s->descr->type_num == m->descr->type_num) 
-			   && (s->dimensions[0] == m->dimensions[0])){
+			if( PyGSL_array_check(shadow) && (PyArray_NDIM(s) == 1)
+			    && (PyArray_TYPE(s) == PyArray_TYPE(m)) 
+			    && (PyArray_DIM(s, 0) == PyArray_DIM(m, 0)) 
+				){
 				Py_INCREF(s);
 				ret = (PyArrayObject *) s;
 			} else {
@@ -618,10 +734,10 @@ PyGSL_guess_halfcomplex_length(PyArrayObject *a, int length, double eps)
 	int n, call_n = -1;
 	double *d;
 
-	n = a->dimensions[0];
+	n = PyArray_DIM(a, 0);
 	if(length == -1){
 		/* length was not given, try to guess */
-		d = (double *)(a->data + a->strides[0] * (n - 1));
+		d = ((double *)PyArray_GETPTR1(a, n - 1));
 		if(gsl_fcmp(d[1], 0,  eps) == 0){
 			call_n = n*2-2;
 		}else{
@@ -651,8 +767,8 @@ PyGSL_fft_halfcomplex(PyObject *self, PyObject *args, transform * transform)
 	
 	gsl_fft_real_workspace  *space=NULL;
 	gsl_fft_halfcomplex_wavetable  *table=NULL;
-	int strides=0;
-	int free_space = 0, free_table=0, flag, call_n, return_n, length=-1;
+	PyGSL_array_index_t strides=0, return_n;
+	int free_space = 0, free_table=0, flag, call_n,  length=-1;
 	int line = -1;
 	double eps=1e-8;
 
@@ -662,7 +778,8 @@ PyGSL_fft_halfcomplex(PyObject *self, PyObject *args, transform * transform)
 		return NULL;
 	}
 	
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_CDOUBLE, 0, -1, 1, NULL);
+	/* well ... strides would be for doubles ... */
+	a = PyGSL_vector_check(data, -1, PyGSL_CARRAY_CINPUT(1), NULL, NULL);
 	if(a == NULL)
 		return NULL;
 	call_n = PyGSL_guess_halfcomplex_length(a, length, eps);
@@ -706,7 +823,7 @@ PyGSL_fft_halfcomplex(PyObject *self, PyObject *args, transform * transform)
 	}
 	
 
-	r = (PyArrayObject *) PyGSL_New_Array(1, &return_n, PyArray_DOUBLE);			
+	r = (PyArrayObject *) PyGSL_New_Array(1, &return_n, NPY_DOUBLE);			
 	if(r == NULL){
 		line = __LINE__ - 2;
 		goto fail;
@@ -716,13 +833,13 @@ PyGSL_fft_halfcomplex(PyObject *self, PyObject *args, transform * transform)
 		goto fail;			
 	}
 
-	flag = PyGSL_STRIDE_RECALC(r->strides[0], sizeof(double), &strides);
+	flag = PyGSL_STRIDE_RECALC(PyArray_STRIDE(r, 0), sizeof(double), &strides);
 	if(flag != GSL_SUCCESS){
 		line = __LINE__ - 2;
 		goto fail;
 	}
 
-	flag = transform((double *)(r->data), strides, call_n, table, space);
+	flag = transform((double *)PyArray_DATA(r), strides, call_n, table, space);
 	if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
 		line = __LINE__ - 2;
 		goto fail;
@@ -740,6 +857,7 @@ PyGSL_fft_halfcomplex(PyObject *self, PyObject *args, transform * transform)
 	if(free_table == 1 && table != NULL) gsl_fft_halfcomplex_wavetable_free(table);
 	Py_XDECREF(a);
 	Py_XDECREF(r);
+	PyGSL_ERROR_FLAG(flag);
 	return NULL;
 }
 
@@ -749,7 +867,7 @@ PyGSL_fft_halfcomplex_radix2(PyObject *self, PyObject *args, transform_r2 * tran
 	PyObject *data = NULL;
 	PyArrayObject *a = NULL, *r=NULL;
 	
-	int strides=0;
+	PyGSL_array_index_t strides=0;
 	int flag, call_n, return_n;
 	int line = -1;
 
@@ -759,10 +877,11 @@ PyGSL_fft_halfcomplex_radix2(PyObject *self, PyObject *args, transform_r2 * tran
 		return NULL;
 	}
 	
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_CDOUBLE, 0, -1, 1, NULL);
+	/* well ... strides would be for doubles ... */
+	a = PyGSL_vector_check(data, -1, PyGSL_CARRAY_CINPUT(1), NULL, NULL);
 	if(a == NULL)
 		return NULL;
-	call_n = a->dimensions[0];
+	call_n = PyArray_DIM(a, 0);
 	return_n = call_n;
 
 	r = (PyArrayObject *) PyGSL_Copy_Array(a);
@@ -770,13 +889,13 @@ PyGSL_fft_halfcomplex_radix2(PyObject *self, PyObject *args, transform_r2 * tran
 		line = __LINE__ - 2;
 		goto fail;
 	}
-	flag = PyGSL_STRIDE_RECALC(r->strides[0], sizeof(double), &strides);
+	flag = PyGSL_STRIDE_RECALC(PyArray_STRIDE(r, 0), sizeof(double), &strides);
 	if(flag != GSL_SUCCESS){
 		line = __LINE__ - 2;
 		goto fail;
 	}
 
-	flag = transform((double *)(r->data), strides, call_n);
+	flag = transform((double *)PyArray_DATA(r), strides, call_n);
 	if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
 		line = __LINE__ - 2;
 		goto fail;
@@ -790,6 +909,7 @@ PyGSL_fft_halfcomplex_radix2(PyObject *self, PyObject *args, transform_r2 * tran
 	PyGSL_add_traceback(module, filename, __FUNCTION__, line);
 	Py_XDECREF(a);
 	Py_XDECREF(r);
+	PyGSL_ERROR_FLAG(flag);
 	return NULL;
 }
 
@@ -801,8 +921,9 @@ PyGSL_fft_real(PyObject *self, PyObject *args, transform * transform)
 	
 	gsl_fft_real_workspace  *space=NULL;
 	gsl_fft_real_wavetable  *table=NULL;
-	int strides=0, n=0, line=-1;
-	int free_space = 0, free_table=0, flag, call_n, return_n;
+	PyGSL_array_index_t strides=0, n=0, return_n=0;
+	int line=-1;
+	int free_space = 0, free_table=0, flag, call_n;
 
 
 	FUNC_MESS_BEGIN();
@@ -811,10 +932,11 @@ PyGSL_fft_real(PyObject *self, PyObject *args, transform * transform)
 		return NULL;
 	}
 	
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_DOUBLE, 0 | PyGSL_IO_ARRAY, -1, 1, NULL);
+	/* well ... strides would be for doubles ... */
+	a = PyGSL_vector_check(data, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
 	if(a == NULL)
 		return NULL;
-	n = a->dimensions[0];
+	n = PyArray_DIM(a,0);
 	call_n = n;
 	return_n = n/2 + 1;
 
@@ -853,23 +975,24 @@ PyGSL_fft_real(PyObject *self, PyObject *args, transform * transform)
 	}
 	
 	/* Check if I got a return array */
-	r = (PyArrayObject *) PyGSL_New_Array(1, &return_n, PyArray_CDOUBLE);			
+	r = (PyArrayObject *) PyGSL_New_Array(1, &return_n, NPY_CDOUBLE);			
 	if(r == NULL){
 		line = __LINE__ -2;
 		goto fail;
 	}
-	if(PyGSL_copy_real_to_complex(r, a) != GSL_SUCCESS){
+	flag = PyGSL_copy_real_to_complex(r, a);
+	if(flag != GSL_SUCCESS){
 		line = __LINE__ -1;
 		goto fail;			
 	}
-	flag = PyGSL_STRIDE_RECALC(r->strides[0], sizeof(double) * 2, &strides);
+	flag = PyGSL_stride_recalc(PyArray_STRIDE(r, 0), sizeof(double) * 2, &strides);
 	if(flag != GSL_SUCCESS){
 		line = __LINE__ -2;
 		goto fail;
 	}
 
 	FUNC_MESS("Transforming ...");
-	flag = transform(((double *) r->data)+1, strides, call_n, table, space);
+	flag = transform( ((double *) PyArray_DATA(r)) + 1, strides, call_n, table, space);
 	FUNC_MESS(" ... Done");
 	if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
 		line = __LINE__ -2;
@@ -877,7 +1000,8 @@ PyGSL_fft_real(PyObject *self, PyObject *args, transform * transform)
 	}
 	
          /* Rearange half complex data */
-	if(PyGSL_fft_halfcomplex_unpack(r, call_n) != GSL_SUCCESS){
+	flag = PyGSL_fft_halfcomplex_unpack(r, call_n);
+	if(flag != GSL_SUCCESS){
 		line = __LINE__ -1;
 		goto fail;
 	}
@@ -895,6 +1019,7 @@ PyGSL_fft_real(PyObject *self, PyObject *args, transform * transform)
 	if(free_table == 1 && table != NULL) gsl_fft_real_wavetable_free(table);
 	Py_XDECREF(a);
 	Py_XDECREF(r);
+	PyGSL_ERROR_FLAG(flag);
 	return NULL;
 }
 
@@ -904,7 +1029,8 @@ PyGSL_fft_real_radix2(PyObject *self, PyObject *args, transform_r2 * transform)
 	PyObject *data = NULL;
 	PyArrayObject *a = NULL, *r=NULL;
 	
-	int strides=0, n=0, line=-1;
+	PyGSL_array_index_t strides=0, n=0; 
+	int line=-1;
 	int  flag, call_n, return_n;
 
 
@@ -914,10 +1040,11 @@ PyGSL_fft_real_radix2(PyObject *self, PyObject *args, transform_r2 * transform)
 		return NULL;
 	}
 	
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_DOUBLE, 0, -1, 1, NULL);
+	/* well ... strides would be for doubles ... */
+	a = PyGSL_vector_check(data, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
 	if(a == NULL)
 		return NULL;
-	n = a->dimensions[0];
+	n = PyArray_DIM(a, 0);
 	call_n = n;
 	return_n = n;
 
@@ -928,12 +1055,12 @@ PyGSL_fft_real_radix2(PyObject *self, PyObject *args, transform_r2 * transform)
 	if(r == NULL)
 		goto fail;
 
-	flag = PyGSL_STRIDE_RECALC(r->strides[0], sizeof(double), &strides);
+	flag = PyGSL_STRIDE_RECALC(PyArray_STRIDE(r, 0), sizeof(double), &strides);
 	if(flag != GSL_SUCCESS){
 		line = __LINE__ -2;
 		goto fail;
 	}
-	flag = transform(((double *) r->data), strides, call_n);
+	flag = transform(((double *) PyArray_DATA(r)), strides, call_n);
 	if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
 		line = __LINE__ -2;
 		goto fail;
@@ -948,6 +1075,7 @@ PyGSL_fft_real_radix2(PyObject *self, PyObject *args, transform_r2 * transform)
 	PyGSL_add_traceback(module, filename, __FUNCTION__, line);
 	Py_XDECREF(a);
 	Py_XDECREF(r);
+	PyGSL_ERROR_FLAG(flag);
 	return NULL;
 }
 
@@ -959,7 +1087,7 @@ PyGSL_complex_fft_(PyObject *self, PyObject *args, transform * transform)
 	
 	gsl_fft_complex_workspace  *space=NULL;
 	gsl_fft_complex_wavetable  *table=NULL;
-	int strides=0, n=0;
+	PyGSL_array_index_t strides=0, n=0;
 	int free_space = 0, free_table=0, flag, call_n;
 
 
@@ -968,11 +1096,12 @@ PyGSL_complex_fft_(PyObject *self, PyObject *args, transform * transform)
 		return NULL;
 	}
 	
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_CDOUBLE,  PyGSL_IO_ARRAY, -1, 1, NULL);
+	/* well ... strides would be for doubles ... */
+	a = PyGSL_vector_check(data, -1, PyGSL_CARRAY_CIO(1), NULL, NULL);
 	if(a == NULL)
 		goto fail;
 
-	n = a->dimensions[0];
+	n = PyArray_DIM(a, 0);
 	call_n = n;
 
 	r = PyGSL_Shadow_array((PyObject *) ret, (PyObject *) a);
@@ -1028,16 +1157,16 @@ PyGSL_complex_fft_(PyObject *self, PyObject *args, transform * transform)
 	}
 	
 
-	flag = PyGSL_STRIDE_RECALC(r->strides[0], sizeof(double) * 2, &strides);
+	flag = PyGSL_STRIDE_RECALC(PyArray_STRIDE(r,0), sizeof(double) * 2, &strides);
 	if(flag != GSL_SUCCESS){
 		goto fail;
 	}
 
-	DEBUG_MESS(2, "Array is at %p data at %p strides = %d length = %d", (void *) r, (void *) r->data, 
-		   r->strides[0], r->dimensions[0]);
-	DEBUG_MESS(2, "Starting a transform with an array of a size of %d and a stride of %d", call_n, strides);
+	DEBUG_MESS(2, "Array is at %p data at %p strides = %ld length = %ld", (void *) r, (void *) PyArray_DATA(r), 
+		   (long) PyArray_STRIDE(r,0), (long) PyArray_DIM(r,0));
+	DEBUG_MESS(2, "Starting a transform with an array of a size of %d and a stride of %ld", call_n, (long) strides);
 
-	flag = transform((double *) r->data, strides, call_n, table, space);
+	flag = transform((double *) PyArray_DATA(r), strides, call_n, table, space);
 	if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
 		goto fail;
 	}
@@ -1049,10 +1178,12 @@ PyGSL_complex_fft_(PyObject *self, PyObject *args, transform * transform)
 
   fail:
 	FUNC_MESS("Fail");
+	PyGSL_ERROR_FLAG(flag);
 	Py_XDECREF(a);
 	Py_XDECREF(r);
 	if(free_space == 1 && space != NULL) gsl_fft_complex_workspace_free(space);
 	if(free_table == 1 && table != NULL) gsl_fft_complex_wavetable_free(table);
+	PyGSL_ERROR_FLAG(flag);
 	return NULL;
 }
 
@@ -1062,31 +1193,39 @@ PyGSL_complex_fft_radix2(PyObject *self, PyObject *args, transform_r2 * transfor
 	PyObject *data = NULL, *ret=NULL;
 	PyArrayObject *a = NULL, *r=NULL;
 	
-	int strides=0, n=0, flag;
+	PyGSL_array_index_t strides=0, n=0;
+	int flag, line=__LINE__;
 
 
 	FUNC_MESS_BEGIN();
 	if(!PyArg_ParseTuple(args, "O|O", &data,  &ret)){
 		return NULL;
 	}
-	
-	a = PyGSL_PyArray_PREPARE_gsl_vector_view(data, PyArray_CDOUBLE, 0, -1, 1, NULL);
-	if(a == NULL)
+
+	/* well ... strides would be for doubles ... */
+	a = PyGSL_vector_check(data, -1, PyGSL_CARRAY_CINPUT(1), NULL, NULL);
+	if(a == NULL){
+		line = __LINE__;
 		goto fail;
-	n = a->dimensions[0];
+	}
+	n = PyArray_DIM(a, 0);
 	r = PyGSL_Shadow_array((PyObject *) ret, (PyObject *) a);
-	if(r == NULL)
+	if(r == NULL){
+		line = __LINE__;
 		goto fail;
-	flag = PyGSL_STRIDE_RECALC(r->strides[0], sizeof(double) * 2, &strides);
+	}
+	flag = PyGSL_stride_recalc(PyArray_STRIDE(r, 0), sizeof(double) * 2, &strides);
 	if(flag != GSL_SUCCESS){
+		line = __LINE__;
 		goto fail;
 	}
 
-	DEBUG_MESS(2, "Array is at %p data at %p strides = %d length = %d", (void *) r, (void *) r->data, 
-		   r->strides[0], r->dimensions[0]);
-	DEBUG_MESS(2, "Starting a transform with an array of a size of %d and a stride of %d", n, strides);
-	flag = transform((double *) r->data, strides, n);
+	DEBUG_MESS(2, "Array is at %p data at %p strides = %ld length = %ld", (void *) r, (void *) PyArray_DATA(r), 
+		   (long) PyArray_STRIDE(r, 0), (long) PyArray_DIM(r, 0));
+	DEBUG_MESS(2, "Starting a transform with an array of a size of %ld and a stride of %ld", (long) n, (long) strides);
+	flag = transform((double *) PyArray_DATA(r), strides, n);
 	if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
+		line = __LINE__;
 		goto fail;
 	}
 	Py_DECREF(a);
@@ -1094,9 +1233,13 @@ PyGSL_complex_fft_radix2(PyObject *self, PyObject *args, transform_r2 * transfor
 	return (PyObject *) r;
 
   fail:
+	PyGSL_add_traceback(module, filename, __FUNCTION__, line);
+
 	FUNC_MESS("Fail");
+	PyGSL_ERROR_FLAG(flag);
 	Py_XDECREF(a);
 	Py_XDECREF(r);
+	PyGSL_ERROR_FLAG(flag);
 	return NULL;
 }
 
@@ -1183,100 +1326,100 @@ PyGSL_HALFCOMPLEX(inverse)
 PyGSL_HALFCOMPLEX_RADIX2(transform)
 PyGSL_HALFCOMPLEX_RADIX2(inverse)
 
-static const char fft_module_doc[] = "\
-Wrapper for the FFT Module of the GSL Library\n\
+static const char fft_module_doc[] = 
+"Wrapper for the FFT Module of the GSL Library\n\
 \n\
 ";
-static const char cws_doc[] = "\
-Complex Workspace\n\
+static const char cws_doc[] = 
+"Complex Workspace\n\
 \n\
 Needed as working space for mixed radix routines.\n\
 \n\
-Input:\n\
-    n ... Length of the data to transform\n\
+Args:\n\
+    n: Length of the data to transform\n\
 ";
-static const char cwt_doc[] = "\
-Complex Wavetable\n\
+static const char cwt_doc[] =
+"Complex Wavetable\n\
 \n\
    Stores the precomputed trigonometric functions\n\
-Input:\n\
-    n ... Length of the data to transform\n\
+Args:\n\
+    n: Length of the data to transform\n\
 ";
-static const char rws_doc[] = "\
-Real Workspace\n\
+static const char rws_doc[] = 
+"Real Workspace\n\
 \n\
 Needed as working space for mixed radix routines.\n\
 \n\
-Input:\n\
-    n ... Length of the data to transform\n\
+Args:\n\
+    n: Length of the data to transform\n\
 ";
-static const char rwt_doc[] = "\
-Real Wavetable\n\
+static const char rwt_doc[] = 
+"Real Wavetable\n\
 \n\
    Stores the precomputed trigonometric functions\n\
-Input:\n\
-    n ... Length of the data to transform\n\
+Args:\n\
+    n: Length of the data to transform\n\
 ";
 
-static const char hcwt_doc[] = "\
-Half Complex Wavetable\n\
+static const char hcwt_doc[] = 
+"Half Complex Wavetable\n\
 \n\
    Stores the precomputed trigonometric functions\n\
-Input:\n\
-    n ... Length of the data to transform\n\
+Args:\n\
+    n: Length of the data to transform\n\
 ";
-#define TRANSFORM_INPUT "\
-Input:\n\
-      data ... an array of complex numbers\n\
+#define TRANSFORM_INPUT \
+"Args:\n\
+      data: an array of complex numbers\n\
 \n\
-Optional Input:\n\
+Optional Args:\n\
       If these objects are not provided, they will be generated by the\n\
       function automatically.\n\
 \n\
-      space  ... a workspace of approbriate type and size\n\
-      table  ... a wavetable of approbriate type and size\n\
-      output ... array to store the output into. GSL computes the FFT\n\
-                 in place. So if this array is provided, the wrapper\n\
-                 will use this array as output array. If the input and\n\
-                 output array are identical no internal copy will be\n\
-                 made. \n\
-                 This works only for the complex transform types!\n"
+      space : a workspace of approbriate type and size\n\
+      table : a wavetable of approbriate type and size\n\
+      output: array to store the output into. GSL computes the FFT\n\
+              in place. So if this array is provided, the wrapper\n\
+              will use this array as output array. If the input and\n\
+              output array are identical no internal copy will be\n\
+              made. \n\
+              This works only for the complex transform types!\n"
 
 #define TRANSFORM_INPUT_RADIX2 "\
-Input:\n\
-      data ... an array of complex numbers\n\
+Args:\n\
+      data: an array of complex numbers\n\
 \n\
-Optional Input:\n\
+Optional Args:\n\
       If these objects are not provided, they will be generated by the\n\
       function automatically.\n\
 \n\
-      output ... array to store the output into. GSL computes the FFT\n\
-                 in place. So if this array is provided, the wrapper\n\
-                 will use this array as output array. If the input and\n\
-                 output array are identical no internal copy will be\n\
-                 made. \n\
-                 This works only for the complex transform types!\n"
+      output: array to store the output into. GSL computes the FFT\n\
+              in place. So if this array is provided, the wrapper\n\
+              will use this array as output array. If the input and\n\
+              output array are identical no internal copy will be\n\
+              made. \n\
+              This works only for the complex transform types!\n"
 
-#define TRANSFORM_INPUT_REAL "\
-Input:\n\
-      data ... an array of real numbers\n\
+#define TRANSFORM_INPUT_REAL \
+"Args:\n\
+      data: an array of real numbers\n\
 \n\
-Optional Input:\n\
+Optional Args:\n\
       If these objects are not provided, they will be generated by the\n\
       function automatically.\n\
 \n\
-      space  ... a workspace of approbriate type and size\n\
-      table  ... a wavetable of approbriate type and size\n\
-      output ... array to store the output into. GSL computes the FFT\n\
-                 in place. So if this array is provided, the wrapper\n\
-                 will use this array as output array. If the input and\n\
-                 output array are identical no internal copy will be\n\
-                 made. \n\
-                 This works only for the complex transform types!\n"
+      space : a workspace of approbriate type and size\n\
+      table : a wavetable of approbriate type and size\n\
+      output: array to store the output into. GSL computes the FFT\n\
+              in place. So if this array is provided, the wrapper\n\
+              will use this array as output array. If the input and\n\
+              output array are identical no internal copy will be\n\
+              made. \n\
+              This works only for the complex transform types!\n"
 
-#define TRANSFORM_INPUT_REAL_RADIX2 "\
-Input:\n\
-      data ... an array of real numbers\n\
+#define TRANSFORM_INPUT_REAL_RADIX2 \
+"Args:\n\
+      data: an array of real numbers\n\
 \n\
 Output:\n\
       the transformed data in its special storage. Halfcomplex data\n\
@@ -1284,109 +1427,109 @@ Output:\n\
       into an approbriate complex array.\n\
 "
 
-#define TRANSFORM_INPUT_HALFCOMPLEX "\
-Input:\n\
-      data ... an array of complex numbers\n\
+#define TRANSFORM_INPUT_HALFCOMPLEX \
+"Args:\n\
+      data: an array of complex numbers\n\
 \n\
-Optional Input:\n\
+Optional Args:\n\
       If these objects are not provided, they will be generated by the\n\
       function automatically.\n\
 \n\
-      n      ... length of the real array. From the complex input I can not\n\
-                 compute the original length if it was odd or even. Thus I \n\
-                 allow to give the input here. If not given the routine will guess\n\
-                 the input length. If the last imaginary part is zero it will\n\
-                 assume an real output array of even length\n\
-      space  ... a workspace of approbriate type and size\n\
-      table  ... a wavetable of approbriate type and size\n\
-      eps    ... epsilon to use in the comparisons (default 1e-8)\n\
+      n     : length of the real array. From the complex input I can not\n\
+              compute the original length if it was odd or even. Thus I \n\
+              allow to give the input here. If not given the routine will guess\n\
+              the input length. If the last imaginary part is zero it will\n\
+              assume an real output array of even length\n\
+      space : a workspace of approbriate type and size\n\
+      table : a wavetable of approbriate type and size\n\
+      eps   : epsilon to use in the comparisons (default 1e-8)\n\
 "
 
-#define TRANSFORM_INPUT_HALFCOMPLEX_RADIX2 "\
-Input:\n\
-      data ... an array of real data containing the complex data\n\
-               as required by this transform. See the GSL Reference Document\n\
+#define TRANSFORM_INPUT_HALFCOMPLEX_RADIX2 \
+"Args:\n\
+      data :an array of real data containing the complex data\n\
+            as required by this transform. See the GSL Reference Document\n\
 \n\
 "
 
-static const char cf_doc[] = "\
-Complex forward transform\n\
+static const char cf_doc[] = 
+"Complex forward transform\n\
 " TRANSFORM_INPUT;
 
-static const char cb_doc[] = "\
-Complex backward transform\n\
+static const char cb_doc[] = 
+"Complex backward transform\n\
 \n\
 The output is not scaled!\n\
 " TRANSFORM_INPUT;
 
-static const char ci_doc[] = "\
-Complex inverse transform\n\
+static const char ci_doc[] = 
+"Complex inverse transform\n\
 \n\
 The output is to scale.\n\
 " TRANSFORM_INPUT;
 
-static const char cf_doc_r2[] = "\
-Complex forward radix2 transform\n\
+static const char cf_doc_r2[] = 
+"Complex forward radix2 transform\n\
 " TRANSFORM_INPUT_RADIX2;
 
-static const char cb_doc_r2[] = "\
-Complex backward radix2 transform\n\
+static const char cb_doc_r2[] = 
+"Complex backward radix2 transform\n\
 \n\
 The output is not scaled!\n\
 " TRANSFORM_INPUT_RADIX2;
 
-static const char ci_doc_r2[] = "\
-Complex inverse radix2 transform\n\
+static const char ci_doc_r2[] = 
+"Complex inverse radix2 transform\n\
 \n\
 The output is to scale.\n\
 " TRANSFORM_INPUT_RADIX2;
 
-static const char cf_doc_r2_dif[] = "\
-Complex forward radix2 decimation-in-frequency transform\n\
+static const char cf_doc_r2_dif[] = 
+"Complex forward radix2 decimation-in-frequency transform\n\
 " TRANSFORM_INPUT_RADIX2;
 
-static const char cb_doc_r2_dif[] = "\
-Complex backward radix2 decimation-in-frequency transform\n\
+static const char cb_doc_r2_dif[] = 
+"Complex backward radix2 decimation-in-frequency transform\n\
 \n\
 The output is not scaled!\n\
 " TRANSFORM_INPUT_RADIX2;
 
-static const char ci_doc_r2_dif[] = "\
-Complex inverse radix2 decimation-in-frequency transform\n\
+static const char ci_doc_r2_dif[] = 
+"Complex inverse radix2 decimation-in-frequency transform\n\
 \n\
 The output is to scale.\n\
 " TRANSFORM_INPUT_RADIX2;
 
-static const char rt_doc[] = "\
-Real transform\n\
+static const char rt_doc[] = 
+"Real transform\n\
 " TRANSFORM_INPUT_REAL;
 
-static const char hc_doc[] = "\
-Half complex transform\n\
+static const char hc_doc[] = 
+"Half complex transform\n\
 \n\
 The output is not scaled!\n\
 " TRANSFORM_INPUT_HALFCOMPLEX;
 
-static const char hi_doc[] = "\
-Half complex inverse\n\
+static const char hi_doc[] = 
+"Half complex inverse\n\
 " TRANSFORM_INPUT_HALFCOMPLEX;
 
-static const char rt_doc_r2[] = "\
-Real radix2 transform\n\
+static const char rt_doc_r2[] = 
+"Real radix2 transform\n\
 " TRANSFORM_INPUT_REAL_RADIX2;
 
-static const char hc_doc_r2[] = "\
-Half complex  radix2 transform\n\
+static const char hc_doc_r2[] = 
+"Half complex  radix2 transform\n\
 \n\
 The output is not scaled!\n\
 " TRANSFORM_INPUT_HALFCOMPLEX_RADIX2;
 
-static const char hi_doc_r2[] = "\
-Half complex  radix2 inverse\n\
+static const char hi_doc_r2[] = 
+"Half complex  radix2 inverse\n\
 " TRANSFORM_INPUT_HALFCOMPLEX_RADIX2;
 
-static const char un_doc_r2[] = "\
-Unpack the frequency data from the output of a real radix 2 transfrom to an apprbriate complex array.\n\
+static const char un_doc_r2[] = 
+"Unpack the frequency data from the output of a real radix 2 transfrom to an apprbriate complex array.\n\
 ";
 
 static PyMethodDef fftMethods[] = {
@@ -1414,35 +1557,74 @@ static PyMethodDef fftMethods[] = {
 	{NULL, NULL} /* Sentinel */
 };
 
+
+
+#ifdef PyGSL_PY3K
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "pygsl.fft",
+        NULL,
+        -1,
+	fftMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif /* PyGSL_PY3K */
+
+#ifdef __cplusplus
+extern "C"
+#endif
+
+#ifdef PyGSL_PY3K
+PyObject *PyInit_fft(void)
+#define RETVAL m
+#define ERRVAL NULL
+#else /* PyGSL_PY3K */
 DL_EXPORT(void) initfft(void)
+#define RETVAL
+#define ERRVAL
+#endif /* PyGSL_PY3K */
 {
      	PyObject *m = NULL, *dict = NULL, *item = NULL;
 	
+#ifdef PyGSL_PY3K
+	if (PyType_Ready(&PyGSL_fft_space_pytype) < 0)
+		return NULL;
+#else /* PyGSL_PY3K */
 	PyGSL_fft_space_pytype.ob_type = &PyType_Type;
+#endif /* PyGSL_PY3K */
 
+
+#ifdef PyGSL_PY3K
+	m = PyModule_Create(&moduledef);
+#else /* PyGSL_PY3K */
 	m = Py_InitModule("fft", fftMethods);
-	module = m;
-	import_array();
-	init_pygsl();
+#endif /* PyGSL_PY3K */
 	if (m == NULL)
-		return;
+		return ERRVAL;
+
+	module = m;
+	/*import_array();*/
+	init_pygsl();
 
 	dict = PyModule_GetDict(m);
-	if (dict == NULL)
-		return;
-	
-	if (!(item = PyString_FromString(fft_module_doc))){
+	if (dict == NULL){
+		return ERRVAL;
+	}
+	if (!(item = PyGSL_string_from_string(fft_module_doc))){
 		PyErr_SetString(PyExc_ImportError, 
 				"I could not generate module doc string!");
-		return;
+		return ERRVAL;
 	}
 	if (PyDict_SetItemString(dict, "__doc__", item) != 0){
 		PyErr_SetString(PyExc_ImportError, 
 				"I could not init doc string!");
-		return;
+		return ERRVAL;
 	}
 
-	return;
+	return RETVAL;
 }
 
 
