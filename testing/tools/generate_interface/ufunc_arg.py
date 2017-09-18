@@ -566,9 +566,11 @@ class _GSLComplexFloatArgumentInfo:
 
 class GSLComplexFloatArgumentAsMinor( _GSLComplexFloatArgumentInfo, _GSLComplexArgs):
     def GetInputTmpVariablesAssignment(self):
-        name = self.GetTmpVariableName()
+        name = self._GetTmpVariableName()
         pos = self.GetPyUFuncPosNumber()
-        t_vars = (name, mi.GetCSubType(), self.GetCSubType(), pos)
+
+        c_type = self.GetCSubType()
+        t_vars = (name, c_type, c_type, pos)
         code = [
             "%s.dat[0] = (%s) (* (%s *) ip%d);"      % t_vars,
             "%s.dat[1] = (%s) (*((%s *) ip%d) + 1);" % t_vars
@@ -576,9 +578,9 @@ class GSLComplexFloatArgumentAsMinor( _GSLComplexFloatArgumentInfo, _GSLComplexA
         return code
 
     def GetOutputTmpVariablesAssignment(self):
-        name = self.GetTmpVariableName()
+        name = self._GetTmpVariableName()
         pos = self.GetPyUFuncPosNumber()
-        t_vars = (mi.GetCSubType(), name, pos)
+        t_vars = (self.GetCSubType(), name, pos)
         code = [
              "(* (%s *) op%d)      = %s.dat[0];" % t_vars,
              "(*((%s *) op%d) + 1) = %s.dat[1];" % t_vars
