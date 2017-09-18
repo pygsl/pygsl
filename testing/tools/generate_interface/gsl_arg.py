@@ -678,7 +678,14 @@ class _Argument(common._ArgumentType):
         args = (__file__, self.__class__.__name__,self._name, self._type, self._operator)
         return fmt % args
 
+    def GetArgumentTypes(self):
+        r1 = self._type_dic.keys()
+        r1 = tuple(r1)
+        r2 = self._gsl_type_dic.keys()
+        r2 = tuple(r2)
 
+        result = r1 + r2
+        return result
 
 class Argument(_Argument):
     """Arguments for GSL math/complex special functions
