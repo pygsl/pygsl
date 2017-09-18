@@ -93,6 +93,9 @@ def create_arg(var_type, var_name):
     is_output = False
     
     quality = None
+
+    arg = gsl_arg.Argument()
+
     if l == 2:
         quality = tmp[0]
         t_type = tmp[1]
@@ -106,16 +109,15 @@ def create_arg(var_type, var_name):
 
     elif l == 1:
         t_type = tmp[0]
-        if t_type in ("int", "double", "gsl_mode_t", "unsigned int"):
+        if t_type in arg.GetArgumentTypes():
             is_input = True
         else:
             raise FunctionParameterTypeError("var_type '%s': t_type '%s' not known" %(var_type, t_type))
 
     else:             
-        raise FunctionParameterTypeError("var_type: len('%s') != 1|2" %(var_type, l))
+        raise FunctionParameterTypeError("var_type '%s: len('%s') != 1|2" %(var_type, l))
 
     # Reimplement Argument as a dispatcher
-    arg = gsl_arg.Argument()
     arg.SetName(var_name)
     arg.SetType(t_type)
     arg.SetOperator(quality)
@@ -134,7 +136,13 @@ def create_sf_prototype(f_name, f_params, ret_type):
     """
     args = []
     for var_type, var_name in f_params:
-        arg  = create_arg(var_type, var_name)
+        test = 0
+        try:
+            arg  = create_arg(var_type, var_name)
+            test = 1
+        finally:
+            if test == 0:
+                print(f_name)
         args.append(arg)
     args = tuple(args)
         
@@ -151,77 +159,7 @@ def create_sf_prototype(f_name, f_params, ret_type):
     pass
 
 
-
-# Functions to exclude from the whole list.
-exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and output. not properly recognized.
-                # use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
-                'gsl_sf_result_smash_e', # the only one to use a const pointer as input. Not recognized by the tool.
-                # Complex Functions are wrapped manually.
-                'gsl_sf_complex_dilog_e',   # polar to rect
-                'gsl_sf_lngamma_complex_e', # rect to polar
-                'gsl_sf_complex_log_e',     # rect to polar
-                'gsl_sf_complex_sin_e',     # rect to rect
-                'gsl_sf_complex_cos_e',     # rect to rect
-                'gsl_sf_complex_logsin_e',  
-                #Deprecated functions
-                'gsl_sf_coupling_6j_INCORRECT_e',
-                'gsl_sf_coupling_INCORRECT_6j',
-                # Not a direct map
-                'gsl_sf_polar_to_rect',
-                'gsl_sf_rect_to_polar',
-                # Functions returning arrays are not mapped currently.
-                'gsl_sf_bessel_sequence_Jnu_e',
-                'gsl_sf_bessel_Jn_array',
-                'gsl_sf_bessel_Yn_array',
-                'gsl_sf_bessel_In_array',
-                'gsl_sf_bessel_In_scaled_array',
-                'gsl_sf_bessel_Kn_array',
-                'gsl_sf_bessel_Kn_scaled_array',
-                'gsl_sf_bessel_jl_array',
-                'gsl_sf_bessel_jl_steed_array',
-                'gsl_sf_bessel_yl_array',
-                'gsl_sf_bessel_il_scaled_array',
-                'gsl_sf_bessel_kl_scaled_array',
-                'gsl_sf_coulomb_wave_F_array',           
-                'gsl_sf_coulomb_wave_FG_array',
-                'gsl_sf_coulomb_wave_FGp_array',
-                'gsl_sf_coulomb_wave_sphF_array',
-                'gsl_sf_coulomb_CL_array',
-                'gsl_sf_gegenpoly_array',
-                'gsl_sf_legendre_Pl_array',
-                'gsl_sf_legendre_Pl_deriv_array',
-                'gsl_sf_legendre_Plm_array',
-                'gsl_sf_legendre_Plm_deriv_array',
-                'gsl_sf_legendre_sphPlm_array',
-                'gsl_sf_legendre_sphPlm_deriv_array',
-                'gsl_sf_legendre_array_size',
-                'gsl_sf_legendre_H3d_array',
-		'gsl_sf_legendre_array',
-		'gsl_sf_legendre_array_e',
-		'gsl_sf_legendre_deriv_array_e',
-		'gsl_sf_legendre_deriv_array',
-		'gsl_sf_legendre_deriv_alt_array',
-		'gsl_sf_legendre_deriv_alt_array_e',
-		'gsl_sf_legendre_deriv2_array',
-		'gsl_sf_legendre_deriv2_array_e',
-		'gsl_sf_legendre_deriv2_alt_array',
-		'gsl_sf_legendre_deriv2_alt_array_e',
-		'gsl_sf_legendre_array_n',
-		'gsl_sf_legendre_array_index',
-                'gsl_sf_legendre_nlm',
-		'gsl_sf_mathieu_ce_array',
-		'gsl_sf_mathieu_se_array',
-		'gsl_sf_mathieu_Mc_array',
-		'gsl_sf_mathieu_Ms_array',
-                'gsl_sf_mathieu_a_array',
-                'gsl_sf_mathieu_b_array',
-                'gsl_sf_mathieu_workspace',
-                'gsl_sf_mathieu_alloc',
-                'gsl_sf_mathieu_free',
-                "gsl_sf_mathieu_a_coeff",
-                "gsl_sf_mathieu_b_coeff",
-                ]
-    
+exclude_list = []
 def extract_func(attr_l, level=None, verbose = None):
     """Get a node and try to build the pattern
 
@@ -303,10 +241,10 @@ def handle_cdecl(cdecl, level=0, verbose = None):
             sf_s.append(sf)
             sub_nodes = 1
         except ExtractError as ve:
-            print("extract func failed: '%s'" %(ve,))
-        except FunctionFormatError as ffe:
-            print("extract func failed: '%s'" %(ffe,))
-            verbose = True
+            print("extract func failed with extract error : '%s'" %(ve,))
+        #except FunctionFormatError as ffe:
+        #    print("extract func failed with function format error: '%s'" %(ffe,))
+        #    verbose = True
 
     if verbose:
         print("%s %s %s:%s" % ("CD", indent, cdecl.tag, cdecl.attrib) )
@@ -383,7 +321,7 @@ def traverse_tree(tree, verbose = None):
 
 def build_ufunc_files(file_name, output_dir, output_prefix):
     tree = ElementTree.parse(file_name)
-    sf_s = traverse_tree(tree, verbose= True)
+    sf_s = traverse_tree(tree, verbose= False)
 
     print("Found sf's ------")
 
