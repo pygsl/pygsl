@@ -47,15 +47,15 @@ class NumericEnsemble:
     A base class implementation to support the use of numeric arrays as
     configurations. You must overload the following functions
     
-                   EFunc
-                   Step
-                   Metric
-                   Clone
+    * :meth:`EFunc`
+    * :meth:`Step`
+    * :meth:`Metric`
+    * :meth:`Clone`
                    
     in a derived class.
 
     If you want, that the solver prints it status to the stdout add a
-    Print method.    
+    * :meth:`Print` method.    
     """
     def __init__(self):
         self._data = None
