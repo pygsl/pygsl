@@ -2,8 +2,6 @@
 pygsl application programming interface
 ***************************************
 
-
-
 pygsl module
 ============
 
@@ -19,7 +17,7 @@ Subpackages
 ===========
 
 .. toctree::
-
+    pygsl.statistics
     pygsl.testing
     
 		  
@@ -248,7 +246,7 @@ pygsl\.integrate module
        
 
 pygsl\.rng module
-------------------
+-----------------
 
 .. automodule:: pygsl.rng
     :members:
@@ -271,7 +269,7 @@ pygsl\.qrng module
 
 pygsl\.statistics module
 ------------------------
-.. include::    pygsl.statistics
+.. include   pygsl.statistics
 
 
 pygsl\.monte module
@@ -295,8 +293,6 @@ pygsl\.siman module
     :members:
     :undoc-members:
     :show-inheritance:
-
-
 
 
 pygsl\.odeiv2 module
@@ -364,7 +360,7 @@ pygsl\.spline module
 
        
 pygsl\.interpolation2d module
-------------------------
+-----------------------------
 
 .. automodule:: pygsl.interpolation2d
     :members:
@@ -373,7 +369,7 @@ pygsl\.interpolation2d module
 
 
 pygsl\.deriv module
-----------------
+-------------------
 
 .. automodule:: pygsl.deriv
     :members:
@@ -382,7 +378,7 @@ pygsl\.deriv module
 
 
 pygsl\.chebyshev module
---------------------
+-----------------------
 
 .. automodule:: pygsl.chebyshev
     :members:
@@ -390,7 +386,7 @@ pygsl\.chebyshev module
     :show-inheritance:
 
 pygsl\.sum module
-----------------
+-----------------
 
 .. automodule:: pygsl.sum
     :members:
@@ -398,7 +394,7 @@ pygsl\.sum module
     :show-inheritance:
        
 pygsl\.wavelet module
-------------------
+---------------------
 
 .. automodule:: pygsl.wavelet
     :members:
@@ -407,7 +403,7 @@ pygsl\.wavelet module
 	      
 
 pygsl\.hankel module
------------------
+--------------------
 
 .. automodule:: pygsl.hankel
     :members:
@@ -416,7 +412,7 @@ pygsl\.hankel module
        
 
 pygsl\.roots module
-----------------
+-------------------
 
 .. automodule:: pygsl.roots
     :members:
@@ -430,7 +426,7 @@ pygsl\.roots module
        
 
 pygsl\.minimize module
--------------------
+----------------------
 
 .. automodule:: pygsl.minimize
     :members:
@@ -444,7 +440,7 @@ pygsl\.minimize module
 
 
 pygsl\.multiroots module
---------------------
+------------------------
 
 .. automodule:: pygsl.multiroots
     :members:
@@ -463,7 +459,7 @@ pygsl\.multiroots module
        
 
 pygsl\.multiminimize module
------------------------
+---------------------------
 
 .. automodule:: pygsl.multiminimize
     :members:
@@ -481,7 +477,7 @@ pygsl\.multiminimize module
     :show-inheritance:
 
 pygsl\.fit module
---------------
+-----------------
 
 .. automodule:: pygsl.fit
     :members:
@@ -489,7 +485,7 @@ pygsl\.fit module
     :show-inheritance:
 
 pygsl\.multifit module
-------------------
+----------------------
 
 .. automodule:: pygsl.multifit
     :members:
@@ -497,7 +493,7 @@ pygsl\.multifit module
     :show-inheritance:
 
 pygsl\.multifit\_nlin module
------------------------
+----------------------------
 
 .. automodule:: pygsl.multifit_nlin
     :members:
@@ -515,7 +511,7 @@ pygsl\.multifit\_nlin module
     :show-inheritance:
        
 pygsl\.multifit\_robust module
--------------------------
+------------------------------
 
 .. automodule:: pygsl.multifit_robust
     :members:
@@ -525,7 +521,7 @@ pygsl\.multifit\_robust module
 
 
 pygsl\.bspline module
-------------------
+---------------------
 
 .. automodule:: pygsl.bspline
     :members:
@@ -534,7 +530,7 @@ pygsl\.bspline module
 
 	      
 pygsl\.ieee module
----------------
+------------------
 
 .. automodule:: pygsl.ieee		
     :members:
@@ -567,7 +563,9 @@ Modules not considered part of the API
 **************************************
 
 Obsolete Modules
-============
+================
+.. toctree::
+
 
 pygsl\.diff module
 ------------------
@@ -589,8 +587,8 @@ pygsl\.odeiv module
 Modules containing wrappers
 ===========================
 
-These wrappers are used by official modules. Typically these are not
-directly used.
+These wrappers are used by API modules. Typically these are not
+directly accessed by the user.
 
 pygsl\.init module
 ------------------
@@ -624,8 +622,15 @@ pygsl\.interpolation2d\_wrap module
     :undoc-members:
     :show-inheritance:
        
+*****************************
 Modules for testing internals
-=============================
+*****************************
+
+Submodules
+==========
+
+.. toctree::
+
 
 pygsl\.init module
 ------------------
@@ -639,7 +644,20 @@ pygsl\.init module
 pygsl\.inittest module
 ----------------------
 
+Functions needed to test the :mod:`pygsl.init` module
+
 .. automodule:: pygsl.inittest
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pygsl\.errortest module
+-----------------------
+Functions needed to test the error handling provided by
+:mod:`pygsl.init` and the gsl error handler 
+:c:func:`gsl_error()`.
+
+.. automodule:: pygsl.errortest
     :members:
     :undoc-members:
     :show-inheritance:
