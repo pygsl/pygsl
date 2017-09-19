@@ -1,5 +1,5 @@
 Copyright 2002,2005,2017 The pygsl Team.
-================================================
+========================================
 
 Permission is granted to copy, distribute and/or modify this document under the
 terms of the GNU Free Documentation License, Version 1.1 or any later version

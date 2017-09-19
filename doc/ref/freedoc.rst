@@ -1,3 +1,5 @@
+.. _gun-free-doc:
+
 
 GNU Free Documentation License
 ==============================

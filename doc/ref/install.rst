@@ -1,6 +1,5 @@
-*********************************
 System Requirements, Installation
-*********************************
+=================================
 
 
 Status
@@ -16,48 +15,44 @@ Status of this interface
 ''''''''''''''''''''''''
 
 Nearly all modules are wrapped. A lot of tests are covering various
-functionality. Please report to the mailing list
-`pygsl-discuss@lists.sourceforge.net`_ if you find a bug.
+functionality. Please report to the `pygsl-discuss`_ mailing list
+if you find a bug.
+
+.. _pygsl-discuss: :email:`pysl-discuss <pygsl-discuss@lists.sourceforge.net>`
 
 The hankel modules have been wrapped. Please write to the mailing list
-`pygsl-discuss@lists.sourceforge.net`_ if you require one of the modules
+`pygsl-discuss`_ if you require one of the modules
 and are willing to help with a simple example. If any other function is
 missing or some other module (e.g. ntuple) or function, do not hesitate
 to write to the list.
 
 Retriving the Interface
 '''''''''''''''''''''''
-
 You can download it here: http://sourceforge.net/projects/pygsl
 
 Requirements
 ------------
 
 To build the interface, you will need
-
--  gsl-1.x or gsl-2.1 or newer http://www.gnu.org/software/gsl/
--  python2.7 or python3.x,
--  numpy  http://numpy.sf.net
--  a c compiler like gcc: 
+    *  gsl-1.x or gsl-2.1 or newer http://www.gnu.org/software/gsl/
+    *  python2.7 or python3.x,
+    *  numpy  http://numpy.sf.net
+    *  a c compiler like gcc 
 
 Supported Platforms are:
--  Linux (Redhat/Debian/SuSE) with python2.\* and gsl-1.\*
--  Win32
--  MacOS X
+    *  Linux (Redhat/Debian/SuSE) with python2.\* and gsl-1.\*
+    *  Win32
+    *  MacOS X
 
-It was tested and is tested on an irregular basis on the following
-platforms
--  SUN
--  Cygwin
-
-but is supposed to build on any POSIX platforms.
+But is is supposed to build on any POSIX platforms.
 
 Installing the pygsl interface
 ------------------------------
 
-:program:`gsl-config` must be on your path:
+The :program:`gsl-config` must be on your path on posix platforms. 
+Then type:
 
-::
+.. code-block:: shell
 
     # unpack the source distribution
     gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
@@ -73,15 +68,15 @@ Installing the pygsl interface
 
 Ready....
 
-**Do not test the interface in the distribution root or in the
-directories or .**
+**Do not test the interface in the distribution root** In this case 
+python will search for all modules in the distribution directory ``pygsl``.
 
 If you find unresolved symbols later on, delete the C source in the
 swig\_src files. Check that swig can be called from the command line.
 Then start the build process again.
 
 In this case swig will rebuild the C files. The swig\_src files
-distributed with pygsl are to an up to date version of GSL (1.16 as of
+distributed with pygsl are to an up to date version of GSL (2.4 as of
 this writing). Swig parses partly some header header files and builds
 the appropriate interface functions. If you have an older GSL version
 locally installed, the sources in the swig\_src directory can contain
@@ -95,80 +90,123 @@ Windows by default does not allow to run a posix shell. Here a different
 path is required. First change into the directory *gsl_dist*. Copy the file and
 edit it to reflect your installation of GSL and SWIG if you want to run
 it yourself. The pygsl windows binaries distributed over
-http://sourceforge.net/projects/pygsl/ are built using the mingw32
+http://sourceforge.net/projects/pygsl/ are built using the mingw
 compiler.
+
+In a first step install Msys. Execute the commands given in the shell
+script below (it is also given in ``doc/win/pygsl_msys2_prepare.sh``
+or can be dowloaded :download:`here </win/pygsl_msys2_prepare.sh>`):
+
+.. literalinclude:: ../win/pygsl_msys2_prepare.sh  
+    :language: bash
+
+This will build gsl using the mingw compiler. Then copy the file
+``gsl_dist/gsl_site_example.py`` to 
+``gsl_dist/gsl_site.py``. Edit it so that it reflects your
+installation.
+Now open a windows command shell. An example batch file  
+is found at ``doc/win/pygsl_windows_compile.bat`` or can be downloaded
+:download:`here  </win/pygsl_windows_compile.bat>`. Change it to your
+needs and start it from the command shell.
+
+.. literalinclude:: ../win/pygsl_windows_compile.bat
+    :language: bat
+
 
 Uninstall GSL interface
 '''''''''''''''''''''''
 
-``rm -r`` “python install path”``/lib/pyhon``“version”``site-packages/pygsl``
+.. code-block:: bash
+
+    rm -r “python install path”/lib/"pyhon version"/site-packages/pygsl
 
 Testing
 '''''''
 
-The directory ``tests`` contains several testsuites, based on python :module:`unittest`. The script
-``run_test.py``in this directory will run one test suit after the other.
+The directory ``tests`` contains several testsuites, based on python :mod:`unittest`. The script
+``run_test.py`` in this directory will run one test suit after the
+other. Alternatively you can run
+
+.. code-block:: bash
+
+    python setup.py nosetests
+
 
 Support
 '''''''
 
-Please send mails to our mailinglist at pygsl-discuss@lists.sourceforge.net.
+Please send mails to our mailinglist at `pygsl-discuss`_
 
 Developement
 ''''''''''''
-
 At last the development tree was migrated to git.
- You can browse our cvs tree at  https://sourceforge.net/p/pygsl/GitRepro/ci/master/tree/
+You can browse our git tree at
+https://sourceforge.net/p/pygsl/GitRepro/ci/master/tree/
  
-| Type this to check out the repository::
+Type this to check out the repository:
    
+.. code-block:: bash
+
    git clone https://git.code.sf.net/p/pygsl/GitRepro pygsl-GitRepro
 
-The script ``tools/extract_tools.py`` generates most of the special function code. Please note that most special functions are available as numericl Ufuncs from :module:`testing/sf`
+
+Some wrappers use swig http://swig.org ; thus a runnable recent swig
+is a perequisite. The wrapper code which is distributed together with
+the source is built using swig-3.
+
+PyGSL provides tools for generating the wrapper code from source
+files. These tools can be executed by 
+
+.. code-block:: bash
+
+    python setup.py gsl_wrappers
+
+Currently the wrapper code is generated for special functions.  These
+are wrapped as numpy universal functions. 
+ 
+
 
 ToDo
 ''''
 
-- complete implementation of modules
-- documentation
-- examples
-- test suits
+* complete implementation of modules
+* documentation
+* examples
+* test suits
 
 
 History
 '''''''
 
--  a gsl-interface for python was needed for a project at
-   Center for Applied Informatics Cologne  http://www.zaik.uni-koeln.de/AFS 
 
--  gsl-0.0.3 was released at May 23, 2001
--  gsl-0.0.4 was released at January 8, 2002
--  gsl-0.0.5 was growing since January, 2002
--  gsl-0.2.0 was released at
--  gsl-0.3.0 was released at
--  gsl-0.3.1 was released at
--  gsl-0.3.2 was released at
--  gsl-0.9.4 was released at 25. October 2008
+*  a gsl-interface for python was needed for a project at
+*  Center for Applied Informatics Cologne  http://www.zaik.uni-koeln.de/AFS 
+*
+*  gsl-0.0.3 was released at May 23, 2001
+*  gsl-0.0.4 was released at January 8, 2002
+*  gsl-0.0.5 was growing since January, 2002
+*  gsl-0.2.0 was released at
+*  gsl-0.3.0 was released at
+*  gsl-0.3.1 was released at
+*  gsl-0.3.2 was released at
+*  gsl-0.9.4 was released at 25. October 2008
 
 Thanks
 ''''''
 
-- Jochen Küpper for :module:`pygsl.statistics`
-  
--  Fabian Jakobs for :module:`pygsl.blas` :module:`pygsl.eigen` :module:`pygsl.linalg` :module:`pygsl.permutation`
-
--  Leonardo Milano for rpm build
-
-- Eric Gurrola and Peter Stoltz for testing and supporting the port of
+* Jochen Küpper for :mod:`pygsl.statistics`
+* Fabian Jakobs for :mod:`pygsl.blas`, :mod:`pygsl.eigen`,
+  :mod:`pygsl.linalg` and :mod:`pygsl.permutation`
+* Leonardo Milano for rpm build
+* Eric Gurrola and Peter Stoltz for testing and supporting the port of
   pygsl to the MAC
-
-- Sebastien Maret for supporting the Fink http://fink.sourceforge.net
+* Sebastien Maret for supporting the Fink http://fink.sourceforge.net
   port of pygsl.
-
-- and all for support by providing feed back on testing or showing by email that the code is useful for them  
+* and all for support by providing feed back on testing or showing by
+  email that the code is useful for them
 
 Maintainers
 '''''''''''
 
--  Achim Gädke (),
--  Pierre Schnizer ()
+*  :email:`Achim Gädke <AchimGaedke@users.sourceforge.net>
+*  :email:``Pierre Schnizer <schnizer@users.sourceforge.net>
