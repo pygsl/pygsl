@@ -1,15 +1,20 @@
 """Use the swig generated xml file to get the descriptions of the different
 functions
 
-To generate the interface
+To generate the interface use
+.. code-block:: bash
+    python setup.py gsl_wrappers
+
+Or eecute it by hand
 * call first swig with:
   swig -xml -I<Include path of gsl> sf.i
 
 * Then call
-  extract_ufunc_swig.py
+  extract_ufunc_swig.py 
 
 """
 from __future__ import print_function
+import copy
 import sys
 import os
 import xml.etree.ElementTree as ElementTree
@@ -373,24 +378,98 @@ def build_ufunc_files(file_name, output_dir, output_prefix):
 
     cb_name = os.path.join(output_dir, output_prefix + "_data.c")
     obj_name = os.path.join(output_dir, output_prefix + "_objects.c")
-    doc_name = os.path.join(output_dir, output_prefix + "_doc.rst")
     cbf = open(cb_name, "at")
     of = open(obj_name, "wt")
-    doc_f = open(doc_name, "wt")
     try:
         for sf in sf_valid:
             emit_code.emit_callbacks(sf, cbf)
             emit_code.emit_object(sf, of)
             emit_code.emit_doc_variable(sf, cbf)
-            emit_code.emit_doc(sf, doc_f)
     finally:
         cbf.close()
         del cbf
         of.close()
         del of
-        doc_f.close()
-        del doc_f
-        
+
+
+    sf_valid_doc = copy.copy(sf_valid)
+    sf_dic = {}
+    for sf in sf_valid_doc:
+        name = sf.GetFunctionName()
+        sf_dic[name] = sf
+
+    names = sf_dic.keys()
+    sf_sections = (
+        'airy',
+        'bessel',
+        'clausen',
+        'coulomb',
+        'clausen',
+        'dawson',
+        'debye',
+        'dilogarithm',
+        'ellint',
+        'elljac',
+        'erf',
+        'exp',
+        'fermi_dirac',
+        'beta',
+        'gamma',
+        'poch',
+        'gegenpoly',
+        'hermite',
+        'hyperg',
+        'laguerre',
+        'lambert',
+        'legendre',
+        'log',
+        'mathieu',
+        'pow',
+        'psi',
+        'synchrotron',
+        'transport',
+        'gamma',
+        'zeta',
+        'complex',
+     )        
+
+    names = list(names)
+    names.sort()
+    names_test = copy.copy(names)
+    names = set(names)
+    # names are unique
+    assert(len(names) == len(names_test))
+
+    
+    doc_name = os.path.join(output_dir, output_prefix + "_doc.rst")
+    with open(doc_name, "wt") as doc_f:
+        for name in names_test:
+            sf = sf_dic[name]
+            emit_code.emit_doc(sf, doc_f)
+
+    return
+
+# Sort the names into sections?
+    doc_name = os.path.join(output_dir, output_prefix + "_doc.rst")
+    with open(doc_name, "wt") as doc_f:
+        for sec in sf_sections:
+            to_remove = []
+            for name in names:
+                if sec in name:
+                    print("Sorting %s in sec %s" %(name, sec))
+                    sf = sf_dic[name]
+                    emit_code.emit_doc(sf, doc_f)
+                    to_remove.append(name)
+            to_remove = set(to_remove)
+            names.difference_update(to_remove)
+                
+        # the names left over
+        print("Not sorted in different sections: %d items" %(len(names)) )
+        for name in names:
+            print(name)
+            sf = sf_dic[name]
+            emit_code.emit_doc(sf, doc_f)
+
 def run():
     import os.path
     #file_name = "sf.xml"
