@@ -65,23 +65,23 @@ class gsl_CodeGenerator(distutils.cmd.Command):
     sf_src_dir = self._get_ufunc_src_dir()
 
     tools_dir = os.path.join(self._get_gsl_src_dir(), "testing", "tools", "generate_interface")
-    api_doc_dir = os.path.join(self._get_gsl_src_dir(), "doc", "api")
+    api_doc_dir = os.path.join(self._get_gsl_src_dir(), "doc", "api", "sf")
     
     tool = os.path.join(tools_dir, "extract_ufunc_swig.py")
     swig_xml_file = os.path.join(sf_src_dir, "sf_wrap.xml")
 
     prefix = "sf_"
-    command = [sys.executable, tool,  swig_xml_file, sf_src_dir, "sf_"]
+    command = [sys.executable, tool,  "--input", swig_xml_file, "--output-dir", sf_src_dir, "--prefix", "sf_", "--doc-dir", api_doc_dir]
     self.announce(
       'Creating ufunc wrappers: %s' % str(command),
       level=distutils.log.INFO)
     subprocess.check_call(command)
 
-    self.announce(
-      'Copying generated doc (.rst) file to api doc directory')
+    #self.announce(
+    #  'Copying generated doc (.rst) file to api doc directory')
 
-    src = os.path.join(sf_src_dir, "sf__doc.rst")    
-    copy_file(src, api_doc_dir)
+    #src = os.path.join(sf_src_dir, "sf__doc.rst")    
+    #copy_file(src, api_doc_dir)
     
   def _create_ufunc_wrapper(self):
     """    
