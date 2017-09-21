@@ -1,6 +1,9 @@
 ***************************************
-pygsl application programming interface
+PyGSL application programming interface
 ***************************************
+
+.. toctree::
+        :maxdepth: 8
 
 pygsl module
 ============
@@ -11,14 +14,7 @@ pygsl module
     :show-inheritance:
 .. autofunction:: pygsl.set_debug_level
 .. autofunction:: pygsl.get_debug_level		
-
-
-Subpackages
-===========
-
-.. toctree::
-    pygsl.statistics
-    pygsl.testing
+     
     
 		  
 Submodules
@@ -86,11 +82,10 @@ pygsl\.errors module
 
 pygsl\.math module
 ------------------
+.. py:module:: pygsl.math
 
-.. automodule:: pygsl.math
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. include:: sf/sf__math_doc.rst
+
 
 
 pygsl\.poly module
@@ -104,10 +99,10 @@ pygsl\.poly module
 pygsl\.sf module
 ----------------
 
-.. automodule:: pygsl.sf
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. py:module:: pygsl.sf
+.. include:: sf_func.rst
+
+
 
 pygsl\.permutation module
 -------------------------
@@ -253,7 +248,8 @@ pygsl\.rng module
     :undoc-members:
     :show-inheritance:
 
-.. autclass:: pygsl.rng.mt19937
+.. currentmodule :: pygsl.rng
+.. autoclass:: pygsl.rng.mt19937
     :members:
     :undoc-members:
     :show-inheritance:
@@ -269,7 +265,7 @@ pygsl\.qrng module
 
 pygsl\.statistics module
 ------------------------
-.. include   pygsl.statistics
+.. include::  pygsl.statistics
 
 
 pygsl\.monte module
@@ -303,10 +299,36 @@ pygsl\.odeiv2 module
      :undoc-members:
      :show-inheritance:
 
+.. currentmodule:: pygsl.odeiv2
+.. py:module:: pygsl.odeive2
 .. autoclass:: pygsl.odeiv2.system
      :members:
      :undoc-members:
-    :inherited-members:
+     :inherited-members:
+     :show-inheritance:
+
+.. autoclass:: pygsl.odeiv2.step
+     :members:
+     :undoc-members:
+     :inherited-members:
+     :show-inheritance:
+
+.. autoclass:: pygsl.odeiv2.control
+     :members:
+     :undoc-members:
+     :inherited-members:
+     :show-inheritance:
+
+.. autoclass:: pygsl.odeiv2.evolve
+     :members:
+     :undoc-members:
+     :inherited-members:
+     :show-inheritance:
+
+.. autoclass:: pygsl.odeiv2.drive
+     :members:
+     :undoc-members:
+     :inherited-members:
      :show-inheritance:
 	       
 .. automethod:: pygsl.odeiv2.system.set_dimension
@@ -319,6 +341,17 @@ pygsl\.odeiv2 module
 .. autodata:: pygsl.odeiv2.hadj_inc
 .. autodata:: pygsl.odeiv2.hadj_dec
 
+.. autodata:: pygsl.odeiv2.step_rk2
+.. autodata:: pygsl.odeiv2.step_rk4
+.. autodata:: pygsl.odeiv2.step_rkf45
+.. autodata:: pygsl.odeiv2.step_rkck
+.. autodata:: pygsl.odeiv2.step_rk8pd
+.. autodata:: pygsl.odeiv2.step_rk2imp
+.. autodata:: pygsl.odeiv2.step_rk4imp
+.. autodata:: pygsl.odeiv2.step_bsimp   
+.. autodata:: pygsl.odeiv2.step_rk1imp
+.. autodata:: pygsl.odeiv2.step_msadams
+.. autodata:: pygsl.odeiv2.step_msbdf  
 
 pygsl\.interpolation module
 ---------------------------
@@ -514,10 +547,35 @@ pygsl\.multifit\_robust module
 ------------------------------
 
 .. automodule:: pygsl.multifit_robust
-    :members:
-    :undoc-members:
-    :show-inheritance:
+     :members:
+     :undoc-members:
+     :show-inheritance:
        
+.. py:module:: pygsl.multifit_robust
+.. currentmodule:: pygsl.multifit_robust
+
+.. autoclass:: pygsl.multifit_robust.stats
+    :members:
+    :private-members:
+    :special-members:
+
+.. autoclass:: pygsl.multifit_robust.workspace
+    :members:
+    :private-members:
+    :special-members:
+
+
+.. autofunction:: pygsl.multifit_robust.est
+.. autofunction:: pygsl.multifit_robust.est_vector
+
+.. autodata:: pygsl.multifit_robust.default
+.. autodata:: pygsl.multifit_robust.bisquare
+.. autodata:: pygsl.multifit_robust.cauchy
+.. autodata:: pygsl.multifit_robust.fair 
+.. autodata:: pygsl.multifit_robust.huber
+.. autodata:: pygsl.multifit_robust.ols  
+.. autodata:: pygsl.multifit_robust.welsch
+
 
 
 pygsl\.bspline module
@@ -527,6 +585,22 @@ pygsl\.bspline module
     :members:
     :undoc-members:
     :show-inheritance:
+
+.. py:module:: pygsl.bspline
+.. currentmodule:: pygsl.bspline
+.. autoclass:: pygsl.bspline.bspline
+    :members:
+    :undoc-members:
+    :inherited-members:
+    :show-inheritance:
+
+.. automethod:: pygsl.bspline.bspline.get_internal_knots
+.. automethod:: pygsl.bspline.bspline.knots
+.. automethod:: pygsl.bspline.bspline.knots_uniform
+.. automethod:: pygsl.bspline.bspline.eval_vector
+.. automethod:: pygsl.bspline.bspline.eval_dep
+.. automethod:: pygsl.bspline.bspline.eval_dep_yerr
+
 
 	      
 pygsl\.ieee module
@@ -582,6 +656,23 @@ pygsl\.odeiv module
     :members:
     :undoc-members:
     :show-inheritance:
+
+pygsl\.sf module
+----------------
+
+.. automodule:: pygsl.sf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pygsl\.math module
+------------------
+
+.. automodule:: pygsl.math
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 
 Modules containing wrappers
