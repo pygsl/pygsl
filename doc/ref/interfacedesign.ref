@@ -1,3 +1,4 @@
+
 Design of the PyGSL interface
 =============================
 
@@ -47,9 +48,9 @@ Callbacks
 Solvers require as one argument a user function to work on which have to
 be provided by the user. These callbacks typically are of the form
 
-.. py:function f (x, params) ::
-
-    return result
+.. py:function:: f (x, args)
+   :param x: indepent variable
+   :param args: additional [user] arguments
 
 Please note that this function must return the exact number of arguments
 as given in the example. The wrappers around callbacks go a long way to
@@ -61,8 +62,10 @@ Error handling
 
 As GSL is a C library error handling is implemented using an error
 handler and return values. PyGSL generates python exceptions out of
-these values. See (chapter [cha:error-module]) for a list of the
-exceptions.
+these values. See :mod:`pygsl.errors` for a list of the
+exceptions. 
+
+The GSL error numbers are given in :mod:`pygsl.errno`.
 
 Exception handling
 ------------------
@@ -74,7 +77,7 @@ in case of error an python exception is created.
 
 Here is a python level example:
 
-::
+.. code-block:: python
 
     import pygsl.histogram
     import pygsl.errors

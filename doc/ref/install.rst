@@ -1,18 +1,29 @@
+Front Matter
+============
+
+Copyright © 2002,2005,2017 The pygsl Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A
+copy of the license is included in section :ref:`gun-free-doc`
+entitled “GNU Free Documentation License”.
+
+
 System Requirements, Installation
 =================================
 
 
-Status
-------
 
 Status of GSL-Library
-'''''''''''''''''''''
+---------------------
 
 The gsl-library is since version 1.0 stable and for general use. More
 information about it at http://www.gnu.org/software/gsl/.
 
 Status of this interface
-''''''''''''''''''''''''
+------------------------
 
 Nearly all modules are wrapped. A lot of tests are covering various
 functionality. Please report to the `pygsl-discuss`_ mailing list
@@ -27,7 +38,7 @@ missing or some other module (e.g. ntuple) or function, do not hesitate
 to write to the list.
 
 Retriving the Interface
-'''''''''''''''''''''''
+-----------------------
 You can download it here: http://sourceforge.net/projects/pygsl
 
 Requirements
@@ -84,7 +95,7 @@ links to symbols which are not defined by the locally installed GSL
 version.
 
 Building on win32
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Windows by default does not allow to run a posix shell. Here a different
 path is required. First change into the directory *gsl_dist*. Copy the file and
@@ -114,14 +125,14 @@ needs and start it from the command shell.
 
 
 Uninstall GSL interface
-'''''''''''''''''''''''
+-----------------------
 
 .. code-block:: bash
 
     rm -r “python install path”/lib/"pyhon version"/site-packages/pygsl
 
 Testing
-'''''''
+-------
 
 The directory ``tests`` contains several testsuites, based on python :mod:`unittest`. The script
 ``run_test.py`` in this directory will run one test suit after the
@@ -133,12 +144,12 @@ other. Alternatively you can run
 
 
 Support
-'''''''
+-------
 
 Please send mails to our mailinglist at `pygsl-discuss`_
 
-Developement
-''''''''''''
+Development
+-----------
 At last the development tree was migrated to git.
 You can browse our git tree at
 https://sourceforge.net/p/pygsl/GitRepro/ci/master/tree/
@@ -167,7 +178,7 @@ are wrapped as numpy universal functions.
 
 
 ToDo
-''''
+----
 
 * complete implementation of modules
 * documentation
@@ -176,7 +187,7 @@ ToDo
 
 
 History
-'''''''
+-------
 
 
 *  a gsl-interface for python was needed for a project at
@@ -192,7 +203,7 @@ History
 *  gsl-0.9.4 was released at 25. October 2008
 
 Thanks
-''''''
+------
 
 * Jochen Küpper for :mod:`pygsl.statistics`
 * Fabian Jakobs for :mod:`pygsl.blas`, :mod:`pygsl.eigen`,
@@ -206,7 +217,7 @@ Thanks
   email that the code is useful for them
 
 Maintainers
-'''''''''''
+-----------
 
-*  :email:`Achim Gädke <AchimGaedke@users.sourceforge.net>
-*  :email:``Pierre Schnizer <schnizer@users.sourceforge.net>
+*  :email:`Pierre Schnizer <schnizer@users.sourceforge.net>`
+*  :email:`Achim Gädke <AchimGaedke@users.sourceforge.net>`

@@ -1,6 +1,6 @@
-*******************************
-PyGSL's reference documentation
-*******************************
+*****************************
+Buidling and installing PyGSL
+*****************************
 
 .. toctree::
    :maxdepth: 9
@@ -8,22 +8,14 @@ PyGSL's reference documentation
 
    install
    readme_distributors
-   interfacedesign
-   freedoc
 
    
 
 
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-
+References
+==========
 
 .. [1]
    Note that it appears that this is the number of terms *beyond* the
