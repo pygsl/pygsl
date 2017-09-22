@@ -1,4 +1,5 @@
 import pickle
+import sf_test_types
 
 
 def _include_file(file_name, of):
@@ -42,16 +43,28 @@ if _t_func != None:
         _func = _t_func
 """
 
+#       def _test(self, orig_args, result, tolerance, status):
 code="""
-        def test_args%d(self):
+        def test_args%d_1(self):
             '%s'            
-            self._test(%s, %s, %s, %s)
+            self._test(%s, %s, %s)
+
+"""
+
+#       def _test2(self, orig_args, ref1, ref2, status):
+code2="""
+        def test_args%d_2(self):
+            '%s'            
+            self._test2(%s, %s, %s, %s)
 
 """
 
 
 def _write_tests(of, tests):
-    
+    """Writing tests ... 
+
+    x
+    """
     # Sort the tests for each function
     d = {}
     for ins in tests:
@@ -98,9 +111,31 @@ def _write_tests(of, tests):
 
             func_name_test = ins.GetFunctionName()
             assert(func_name_test == func_name_ref)
-            
-            t_code = code %(cnt, ins.GetTestText(),
-            ins.GetFunctionArguments(), ins.GetFunctionResult(), ins.GetResultTolerance(), ins.GetFunctionStatus())
+
+            #print(ins, ins.__class__.__name__)
+            txt = ins.GetTestText()
+            args = ins.GetFunctionArguments()
+            status = ins.GetFunctionStatus()
+            if isinstance(ins, sf_test_types.test_sf_params):
+                f = ins.GetFunctionResult()
+                t = ins.GetResultTolerance()
+                t_code = code %(cnt, txt, args, (f, t), status)
+
+            elif isinstance(ins, sf_test_types.test_sf_params_2):
+                f1 = ins.GetFunctionResult1()
+                t1 = ins.GetResultTolerance1()
+                f2 = ins.GetFunctionResult2()
+                t2 = ins.GetResultTolerance2()
+
+                t_code = code2 %(cnt, txt, args, (f1, t1), (f2, t2), status)
+                
+            test = 0
+            try:
+                test = 1
+            finally:
+                if test == 0:
+                    print(ins, dir(ins))
+
             of.write(t_code)
 
 def _write_comment(fp, first_comment):
