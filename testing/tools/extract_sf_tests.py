@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-# Author: Pierre Schnizer <schnizer@users.sourceforge.net> 2016
+# Author: Pierre Schnizer <schnizer@users.sourceforge.net> 2016, 2017
 # $Id$
-"""
+"""Generate python testcases from GSL src
+
 Reads all test_* files from GSL source directory.
 Extracts the test_sf macros one by one.
 The arguments of the macros are converted into sf_test_types cls instances
@@ -24,8 +25,7 @@ import process_tests
 import generate_sf_tests
 
 def find_gsl_src_dir_from_env():
-    """
-    Find the top directory of the GSL SRC tree
+    """Find the top directory of the GSL SRC tree
     """
     
     # Installation of the GSL_SRC
@@ -51,7 +51,7 @@ def help_text():
     msg = """
 Usage '%s' -g gsl_src --gsl-src-directory gsl_src
 
-Parses test_*.c files inthe gsl_src/sepcfunc directory and generates
+Parses test_*.c files in the gsl_src/sepcfunc directory and generates
 unittest.TestCases out of it.
 """
     print(msg % (sys.argv[0], ))
@@ -110,7 +110,7 @@ def find_gsl_src_dir():
     return spec_func_dir
 
 def run():    
-
+    "main function"
     gsl_src_dir= find_gsl_src_dir()
     if gsl_src_dir == None:
         return
