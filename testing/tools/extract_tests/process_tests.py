@@ -1,10 +1,14 @@
 #!/usr/bin/env python
-# Author: Pierre Schnizer <schnizer@users.sourceforge.net> 2016
+# Author: Pierre Schnizer <schnizer@users.sourceforge.net> 2016, 2017
 # $Id: process_tests.py,v 1.1 2016/04/18 17:08:30 schnizer Exp $
-# Reads all test_* files from GSL source directory.
-# Extracts the test_sf macros one by one.
-# The arguments of the macros are converted into sf_test_types cls instances
-# These can be used later on to convert automatically tests from its
+"""extracts the  tests defined in test_sf* funcions and converts them to 
+unittests
+
+Reads all test_* files from GSL source directory.
+Extracts the test_sf macros one by one.
+The arguments of the macros are converted into sf_test_types cls instances
+These can be used later on to convert automatically tests from its
+"""
 from __future__ import print_function
 import re
 
@@ -47,7 +51,8 @@ func_exclude_list = (
 
 
 def dbl_str_to_int(a_str):
-    """
+    """Convert a double to int checking that rounding error is tolerable
+
     Some GSL tests set an int value with classical double format.
     """
     test_val = float(a_str)
@@ -370,7 +375,9 @@ class build_sf_params_2(_build_sf_params):
     
         
 def handle_match_test_sf(line):
-    """
+    """handle a line containing TEST_SF
+
+
     line is expected to contain a TEST_SF() macro line
     """
     m = macro_args_match.match(line)
@@ -385,8 +392,10 @@ def handle_match_test_sf(line):
     return c
 
 def handle_match_test_sf_2(line):
-    """
-    line is expected to contain a TEST_SF() macro line
+    """extract a  TEST_SF_2 test
+
+    Args:
+        line:  is expected to contain a TEST_SF_2() macro line
     """
     m = macro_args2_match.match(line)
     if not m:
@@ -400,11 +409,16 @@ def handle_match_test_sf_2(line):
     return c
 
 
+
 _comment_start = re.compile(r"\s*/\*")
 _comment_end   = re.compile(r".*?\*/")
 
 def extract_first_comment(lines):
     """
+
+    Args:
+        lines
+
     Used to pass the original copyright along
     """
 
@@ -433,10 +447,17 @@ def extract_first_comment(lines):
         raise ValueError(msg % (max_lines))
 
     return first_comment_text, lines
-    
+
+
+_extended_start = re.compile(r"\s*#ifdef")
+_extended_end   = re.compile(r"\s*#endif")
+
 def handle_one_test_file(a_file_name):
     """
     seach for lines containing a macro starting with TEST_SF
+
+    Args:
+        a_file_name : name of a file containing TEST_SF lines
     """
     try:
         fp = open(a_file_name, "rt")
@@ -455,7 +476,26 @@ def handle_one_test_file(a_file_name):
     all_tests = []
     cnt_val = 0
     cnt_other = 0
-    for line in text:        
+    cnt = 0
+    _extended_test = False
+    for line in text:
+        cnt += 1
+        if _extended_test == False:
+            et = _extended_start.match(line)
+            if et is not None:
+                _extended_test = True
+                print("'%s' %d extended test start: %s" %(a_file_name, cnt, et))
+                continue
+        elif _extended_test == True:
+            print("Skipped extended test", line)
+            et = _extended_end.match(line)
+            if et is not None:
+                print("'%s' %d extended test end: %s" %(a_file_name, cnt, et))
+                _extended_test = False
+                
+        else:
+            raise ValueError("value '%s' of _extended_test unknown" %(_extended_test,))
+        
         m = test_macro_match.match(line)
         if m:
             macro_name = m.groupdict()["macro"]
