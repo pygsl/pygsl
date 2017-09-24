@@ -1,7 +1,17 @@
+"""Some parts
+"""
 from __future__ import print_function, absolute_import, division
 
 class _ArgumentType(object):
     """Type of argument
+
+    Arguments can be either:
+        * input
+        * return
+        * output
+
+    Provides methods for setting the type. It will check that the type has not
+    been set before
     """
     __slots__ = ["_input_argument", "_output_argument", "_return_argument"]
 
