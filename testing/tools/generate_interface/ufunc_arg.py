@@ -4,7 +4,8 @@
 """Wrapper for ufunc arguments.
 
 Provides converters from each ufunc pointer type to the appropriate C types
-Gives the code for the appropriate temporary variables.
+* sphinx compatible description of the variable type
+* code for the appropriate temporary variables.
 """
 import common
 
@@ -46,8 +47,7 @@ class _UFuncPosNum(object):
 
 _ArgumentType = common._ArgumentType
 class _UFuncArgument(_UFuncPosNum, _ArgumentType):
-    """
-    The basis class of the ufunc
+    """ The basis class of the ufunc
 
     The derived classses shall specifiy the standard c types and numpy type 
     codes (see below)
@@ -72,6 +72,16 @@ class _UFuncArgument(_UFuncPosNum, _ArgumentType):
         _ArgumentType.__init__(self)
         self._name = None
 
+    def _CheckStaticVariables(self):
+        assert(self._c_type is not None)
+        assert(self._numpy_type_code is not None)
+        assert(self.__type_letter is not None)
+        assert(self.__value_for_failed is not None)
+        assert(self.__value_for_failed is not None)
+
+        # That*s always the case?
+        
+        assert(self._c_sub_type is not None)
     def SetName(self, name):
         assert(name is not None)
         self._name = name
@@ -322,15 +332,18 @@ class _NeedsTemporaryVariables(_UFuncArgument):
         name = self._GetTmpVariableName()
         label = self.GetTmpVariableLabel()
         pos = self.GetPyUFuncPosNumber()
-        code = ["(*((%s *) %sp%d)) = %s;" %(self.GetCType(), label, pos, name)]
+        ctype = self.GetCType()
+        code = ["(*((%s *) %sp%d)) = (%s) %s;" %(ctype, label, pos, ctype, name)]
         return code
 
     def GetOutputTmpVariablesAssignment(self):
         name = self._GetTmpVariableName()	    
         pos = self.GetPyUFuncPosNumber()
         loc = self.GetOutputConversion()
+        c_type = self.GetCType()
         des = str(self)
-        code = ["/*%s*/ %s = %s;" %(des, loc, name)]
+        #code = ["/*%s*/ %s = %s;" %(des, loc, name)]
+        code = ["%s = (%s) %s;" %(loc, c_type, name)]
         return code
 
     def GetInputCallArgument(self):    
@@ -452,9 +465,11 @@ class _LongArgument(_UFuncArgumentWithMinor, _NeedsTemporaryVariables):
 
         pos = self.GetPyUFuncPosNumber()
         name = self._GetTmpVariableName()
+        fmt = ('if( (%s(*((long *) ip%d), &%s)) != GSL_SUCCESS){' + 
+               ' DEBUG_MESS(2, "Failed: (long) %%ld, int %%d", *((long *) ip%d), %s); goto fail;}')
         code = [
-                 "if( (%s(*((long *) ip%d), &%s)) != GSL_SUCCESS){goto fail;}" %(macro, pos, name),
-                ]
+             fmt %(macro, pos, name, pos, name),
+        ]
         return code
 
     def GetReturnTmpVariablesAssignment(self):
@@ -466,8 +481,9 @@ class _LongArgument(_UFuncArgumentWithMinor, _NeedsTemporaryVariables):
         pos = self.GetPyUFuncPosNumber()
         name = self._GetTmpVariableName()
         code = [
-            "*((long *) %sp%d) = 0;" %(label, pos),
-            "*((long *) %sp%d) = %s;" %(label, pos, name),
+            'DEBUG_MESS(3, "long return val : %%d -> %%ld", %s, (long) %s);' % (name, name),
+            "*((long *) %sp%d) = 0L;" %(label, pos),
+            "*((long *) %sp%d) = (long) %s;" %(label, pos, name),
                 ]
         return code
 
@@ -550,8 +566,8 @@ class _GSLComplexArgs(_NeedsTemporaryVariables):
         pos = self.GetPyUFuncPosNumber()
         c_type = self.GetCSubType()
         code = [
-            "*(( (%s *) %sp%d)    ) = %s.dat[0];" %(c_type, label, pos, name),
-            "*(( (%s *) %sp%d) + 1) = %s.dat[1];" %(c_type, label, pos, name),
+            "*(( (%s *) %sp%d)    ) = (%s) %s.dat[0];" %(c_type, label, pos, c_type, name),
+            "*(( (%s *) %sp%d) + 1) = (%s) %s.dat[1];" %(c_type, label, pos, c_type, name),
         ]
         return code
 

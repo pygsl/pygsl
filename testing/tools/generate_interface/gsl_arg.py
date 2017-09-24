@@ -103,10 +103,10 @@ class _GSLSfResult(_GSLSfResultBasis):
         t_type0 = self._sub_types[0].GetCType()
         t_type1 = self._sub_types[1].GetCType()
 
-        fmt = "*((%s *) op%d) = tmp%s%d.val;"
-        val = fmt % (t_type0, pos, label, pos)
-        fmt = "*((%s *) op%d) = tmp%s%d.err;"
-        err = fmt % (t_type1, pos+1, label, pos)
+        fmt = "*((%s *) op%d) = (%s) tmp%s%d.val;"
+        val = fmt % (t_type0, pos, t_type0,  label,  pos)
+        fmt = "*((%s *) op%d) = (%s) tmp%s%d.err;"
+        err = fmt % (t_type1, pos+1, t_type1, label, pos)
 
         return [val, err]
 
@@ -220,14 +220,14 @@ class _GSLSfResultE(_GSLSfResultBasis):
         t_type1 = self._sub_types[1].GetCType()
         t_type2 = self._sub_types[2].GetCType()
 
-        fmt = "*((%s *) op%d) = tmp%s%d.val;"
-        val = fmt % (t_type0, pos, label, pos)
+        fmt = "*((%s *) op%d) = (%s) tmp%s%d.val;"
+        val = fmt % (t_type0, pos, t_type0, label,  pos)
         
-        fmt = "*((%s *) op%d) = tmp%s%d.err;"
-        err = fmt % (t_type1, pos+1, label, pos)
+        fmt = "*((%s *) op%d) = (%s) tmp%s%d.err;"
+        err = fmt % (t_type1, pos+1, t_type1, label,  pos)
         
-        fmt = "*((%s *) op%d) = tmp%s%d.e10;"
-        e10 = fmt % (t_type2, pos+2, label, pos)
+        fmt = "*((%s *) op%d) = (%s) tmp%s%d.e10;"
+        e10 = fmt % (t_type2, pos+2, t_type2, label,  pos)
 
         return [val, err, e10]
 
