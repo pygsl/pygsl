@@ -44,8 +44,8 @@ func_exclude_list = (
     "gsl_sf_exp_mult_err_e",
     "gsl_sf_lambert_W0_e",
     "gsl_sf_lambert_Wm1_e",
-    "gsl_sf_mathieu_ce_e"
-    "gsl_sf_mathieu_se_e"
+    #"gsl_sf_mathieu_ce_e"
+    #"gsl_sf_mathieu_se_e"
     )
 
 
@@ -226,8 +226,7 @@ class _build_sf_params:
             
         
 class build_sf_params(_build_sf_params):
-    """
-    Used for the arguments found in the macro TEST_SF()
+    """Used for the arguments found in the macro TEST_SF()
     """
     _t_store = sf_test_types.test_sf_params 
 
@@ -296,8 +295,7 @@ class build_sf_params(_build_sf_params):
         self._store = store
 
 class build_sf_params_2(_build_sf_params):
-    """
-    Used for the arguments found in the macro TEST_SF()
+    """Used for the arguments found in the macro TEST_SF()
     """
     _t_store = sf_test_types.test_sf_params_2
     def _HandleArgs(self, args_text, func_name):
@@ -410,10 +408,10 @@ def handle_match_test_sf_2(line):
 
 
 
-_comment_start = re.compile(r"\s*/\*")
-_comment_end   = re.compile(r".*?\*/")
+_comment_start = re.compile(r"(\s*)(/\*.*)$")
+_comment_end   = re.compile(r"(.*?\*/)(.*)$")
 
-def extract_first_comment(lines):
+def extract_comment(lines, max_lines = None):
     """
 
     Args:
@@ -422,35 +420,40 @@ def extract_first_comment(lines):
     Used to pass the original copyright along
     """
 
-
-    max_lines = 200
+    if max_lines is None:
+        max_lines = 200
+    else:
+        max_lines = int(max_lines)
+        
     for cnt in range(max_lines):
         line = lines.pop(0)
         m = _comment_start.match(line)
         if m != None:
             break
     else:
-        msg = "Did not expect the first comment not to start in %d lines"
+        msg = "Did not expect the  comment not to start in %d lines"
         raise ValueError(msg % (max_lines))
         
-    first_comment_text = [line]
+    comment_text = [line]
+    lines = [line] + lines
     for cnt in range(max_lines):
         # first comment started
         line = lines.pop(0)
-        first_comment_text.append(line)
+        comment_text.append(line)
         m = _comment_end.match(line)
         if m != None:
             # Fist comment finished 
             break
     else:
-        msg = "Did not expect the first comment not to finish in %d lines"
+        msg = "Did not expect the comment not to finish in %d lines"
         raise ValueError(msg % (max_lines))
 
-    return first_comment_text, lines
+    return comment_text, lines
 
 
-_extended_start = re.compile(r"\s*#ifdef")
-_extended_end   = re.compile(r"\s*#endif")
+_extended_start = re.compile(r"\s*#ifdef(.*?)(\s.*)?$")
+_extended_end   = re.compile(r"\s*#endif(.*?)(\s.*)?$")
+_comment_line = re.compile(r"^(.*)(/\*.*?\*/)(.*)$")
 
 def handle_one_test_file(a_file_name):
     """
@@ -465,38 +468,133 @@ def handle_one_test_file(a_file_name):
     finally:
         fp.close()
         del fp
+    
+    first_comment, text = extract_comment(text)
+    cnt_first_comment = len(first_comment)
 
-    first_comment, text = extract_first_comment(text)
-    # I want to extract the TEST_SF macros. Some of them span over more than
-    # one line.
+    # Remove trailing new lines: easier info print below ....
     text = map(lambda line: line.strip(), text)
-    text = "".join(text)
-    text = text.split(";")
-
-    all_tests = []
-    cnt_val = 0
-    cnt_other = 0
-    cnt = 0
+    #---------------------------------------------------------------------------
+    # Extract part which is between
+    # #ifdef
+    # #endif    
     _extended_test = False
+    # Exclude extended tests defined by
+    cnt = cnt_first_comment
+    cleaned_lines = []
     for line in text:
-        cnt += 1
+        cnt +=1
         if _extended_test == False:
             et = _extended_start.match(line)
             if et is not None:
                 _extended_test = True
-                print("'%s' %d extended test start: %s" %(a_file_name, cnt, et))
+                grps = et.groups()
+                assert(len(grps) == 2)
+                fmt = ("'%s' %d extended test start with label: '%s' ignoring '%s'" +
+                       "\n\t line '%s'")
+                print(fmt %(a_file_name, cnt, grps[0], grps[1], line))
+                cleaned_lines.append(" ")
                 continue
+            else:
+                cleaned_lines.append(line)
+
         elif _extended_test == True:
-            print("Skipped extended test", line)
             et = _extended_end.match(line)
             if et is not None:
-                print("'%s' %d extended test end: %s" %(a_file_name, cnt, et))
+                grps = et.groups()
+                assert(len(grps) == 2)
+                fmt = ("\t'%s' %d extended test end: '%s' ignoring '%s' " +
+                       "\n\t line '%s'")
+                print(fmt %(a_file_name, cnt,  grps[0], grps[1], line))
                 _extended_test = False
-                
+            else:
+                print("\tSkipped extended test", line)
+                cleaned_lines.append(" ")
         else:
             raise ValueError("value '%s' of _extended_test unknown" %(_extended_test,))
+        #----------------------------------------------------------------------
+
+    
+    #---------------------------------------------------------------------------
+    # Extract commment
+    text = cleaned_lines
+    cleaned_lines = []
+
+    _comment_part = False
+    cnt = cnt_first_comment
+    for line in text:
+        cnt += 1
+
+        #print(line)
+
+        #----------------------------------------------------------------------
+        # Exclude single line comments ....
+        m = _comment_line.match(line)
+        if m is not None:
+            orig_line = line
+            grps = m.groups()
+            assert(len(grps) == 3)
+            line = grps[0] + " " + grps[2]
+            fmt = ("%s:%d Ignoring comment in line '%s';\n\t continuing with %s;" +
+                   "\n\t original line '%s'\n")
+            print(fmt % (a_file_name, cnt, grps[2], line, orig_line) )
+            
+        # -----------------------------------------------------------
+        # State: comment part or not
+        # Exclude multi line comments ....
+        if _comment_part == False:
+            m = _comment_start.match(line)
+            if m is not None:
+                _comment_part = True
+                orig_line = line
+                grps = m.groups()
+                assert(len(grps) == 2)
+                line = grps[0]
+                fmt = ("%s:%d Comment start: Continuing with '%s'" +
+                       " Ignoring part '%s' of line '%s'")
+                print(fmt %(a_file_name, cnt, line, grps[1], orig_line))
+        elif _comment_part == True:
+            m = _comment_end.match(line)
+            if m is None:
+                fmt = "\tIgnoring line (part of comment) '%s' "
+                print(fmt %(line))
+                # Keep it to the lines count of the original file
+                cleaned_lines.append(" ")
+                continue
+            else:
+                _comment_part = False
+                grp = m.groups()                
+                orig_line = line
+                grps = m.groups()
+                assert(len(grps) == 2)
+                line = grps[1]
+                fmt = ("%s:%d Comment end:" + 
+                       "\n\t Continuing with '%s' Ignoring part '%s'" +
+                       "\n\t of line '%s'" )
+                print(fmt %(a_file_name, cnt, line, grps[0], orig_line))        
+        else:
+            raise ValueError("value '%s' of _comment_part unknown" %(_comment_part,))
+
+        cleaned_lines.append(line)
         
-        m = test_macro_match.match(line)
+    # I want to extract the TEST_SF macros. Some of them span over more than
+    # one line.
+    text = cleaned_lines
+    text = map(lambda line: line.strip(), text)
+    text = "".join(text)
+    text = text.split(";")
+
+    
+
+    all_tests = []
+    cnt_val = 0
+    cnt_other = 0
+    cnt = cnt_first_comment
+    for line in text:
+        cnt += 1
+        #----------------------------------------------------------------------
+        # Search for tests ....
+        m = test_macro_match.match(line)        
         if m:
             macro_name = m.groupdict()["macro"]
             #print("'%s' : '%s'" %(macro_name, line) )
@@ -517,6 +615,7 @@ def handle_one_test_file(a_file_name):
                 cnt_other += 1
                 pass
             #return
+        #----------------------------------------------------------------------
 
     print ("Still missing %d TEST_SF_VAL and %d other tests" %(cnt_val, cnt_other))
     return first_comment, all_tests
