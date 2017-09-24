@@ -149,6 +149,7 @@ void %s (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *step
     if verbose:
         lines.append("\t/* ------------------------------ end variable declarations -------------------------- */")
 
+    lines.append("\tFUNC_MESS_BEGIN();\n")
     # Start of for loop: which steps to take ...
     all_pointer_increases = []
     for arg in all_args:
@@ -225,6 +226,8 @@ void %s (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *step
     if need_fail:
         lines.append("")
         lines.append("\t    fail:")
+        lines.append('\tFUNC_MESS("FAIL");\n')
+        lines.append('\tDEBUG_MESS(3, "Failed in loop %ld", (long) i);\n')
         for arg in (ret_arg,) + out_args:
             if verbose:
                 lines.append("\t\t/* operating on  arg '%s'*/" %(str(arg), ) )
@@ -232,6 +235,7 @@ void %s (char **args, PyGSL_array_index_t *dimensions, PyGSL_array_index_t *step
             lines.extend(add_indent(tmp_var, "\t\t"))
     lines.append("\t}")
         
+    lines.append("\tFUNC_MESS_END();\n")
     lines.append("} /* %s */ \n" % (UFuncName,) )
     
     txt = "\n".join(lines)
