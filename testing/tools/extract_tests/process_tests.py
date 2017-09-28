@@ -9,7 +9,7 @@ Extracts the test_sf macros one by one.
 The arguments of the macros are converted into sf_test_types cls instances
 These can be used later on to convert automatically tests from its
 """
-from __future__ import print_function
+from __future__ import print_function, division
 import re
 
 
@@ -455,7 +455,7 @@ _extended_start = re.compile(r"\s*#ifdef(.*?)(\s.*)?$")
 _extended_end   = re.compile(r"\s*#endif(.*?)(\s.*)?$")
 _comment_line = re.compile(r"^(.*)(/\*.*?\*/)(.*)$")
 
-def handle_one_test_file(a_file_name):
+def handle_one_test_file(a_file_name, verbose = None):
     """
     seach for lines containing a macro starting with TEST_SF
 
@@ -492,7 +492,8 @@ def handle_one_test_file(a_file_name):
                 assert(len(grps) == 2)
                 fmt = ("'%s' %d extended test start with label: '%s' ignoring '%s'" +
                        "\n\t line '%s'")
-                print(fmt %(a_file_name, cnt, grps[0], grps[1], line))
+                if verbose:
+                    print(fmt %(a_file_name, cnt, grps[0], grps[1], line))
                 cleaned_lines.append(" ")
                 continue
             else:
@@ -505,7 +506,8 @@ def handle_one_test_file(a_file_name):
                 assert(len(grps) == 2)
                 fmt = ("\t'%s' %d extended test end: '%s' ignoring '%s' " +
                        "\n\t line '%s'")
-                print(fmt %(a_file_name, cnt,  grps[0], grps[1], line))
+                if verbose:
+                    print(fmt %(a_file_name, cnt,  grps[0], grps[1], line))
                 _extended_test = False
             else:
                 print("\tSkipped extended test", line)
@@ -537,7 +539,8 @@ def handle_one_test_file(a_file_name):
             line = grps[0] + " " + grps[2]
             fmt = ("%s:%d Ignoring comment in line '%s';\n\t continuing with %s;" +
                    "\n\t original line '%s'\n")
-            print(fmt % (a_file_name, cnt, grps[2], line, orig_line) )
+            if verbose:
+                print(fmt % (a_file_name, cnt, grps[2], line, orig_line) )
             
         # -----------------------------------------------------------
         # State: comment part or not
@@ -552,12 +555,14 @@ def handle_one_test_file(a_file_name):
                 line = grps[0]
                 fmt = ("%s:%d Comment start: Continuing with '%s'" +
                        " Ignoring part '%s' of line '%s'")
-                print(fmt %(a_file_name, cnt, line, grps[1], orig_line))
+                if verbose:
+                    print(fmt %(a_file_name, cnt, line, grps[1], orig_line))
         elif _comment_part == True:
             m = _comment_end.match(line)
             if m is None:
                 fmt = "\tIgnoring line (part of comment) '%s' "
-                print(fmt %(line))
+                if verbose:
+                    print(fmt %(line))
                 # Keep it to the lines count of the original file
                 cleaned_lines.append(" ")
                 continue
@@ -571,7 +576,8 @@ def handle_one_test_file(a_file_name):
                 fmt = ("%s:%d Comment end:" + 
                        "\n\t Continuing with '%s' Ignoring part '%s'" +
                        "\n\t of line '%s'" )
-                print(fmt %(a_file_name, cnt, line, grps[0], orig_line))        
+                if verbose:
+                    print(fmt %(a_file_name, cnt, line, grps[0], orig_line))        
         else:
             raise ValueError("value '%s' of _comment_part unknown" %(_comment_part,))
 
@@ -601,6 +607,11 @@ def handle_one_test_file(a_file_name):
             if macro_name == "TEST_SF":
                 c = handle_match_test_sf(line)
                 all_tests.append(c)
+            elif macro_name == "TEST_SF_RLX":                
+                #print("Handling macro TEST_SF_2: '%s' not yet implemented" %(line,) )
+                c = handle_match_test_sf_rlx(line)
+                all_tests.append(c)
+                pass
             elif macro_name == "TEST_SF_2":                
                 #print("Handling macro TEST_SF_2: '%s' not yet implemented" %(line,) )
                 c = handle_match_test_sf_2(line)
