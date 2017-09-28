@@ -392,7 +392,15 @@ def traverse_tree(tree, verbose = None):
 
     
 
-def build_ufunc_files(file_name, output_dir, output_prefix):
+def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_dir = None):
+
+    assert(file_name is not None)
+    assert(output_dir is not None)
+    assert(prefix is not None)
+    assert(doc_dir is not None)
+
+    output_prefix = prefix
+    
     tree = ElementTree.parse(file_name)
     sf_s = traverse_tree(tree, verbose= False)
 
@@ -459,7 +467,10 @@ def build_ufunc_files(file_name, output_dir, output_prefix):
         of.close()
         del of
 
+    emit_sf_doc(sf_valid, doc_dir = doc_dir, output_prefix = prefix)
 
+    
+def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
     sf_valid_doc = copy.copy(sf_valid)
     sf_dic = {}
     for sf in sf_valid_doc:
@@ -472,33 +483,28 @@ def build_ufunc_files(file_name, output_dir, output_prefix):
         'bessel',
         'clausen',
         'coulomb',
+        'hydrogenic',
         'clausen',
+        'coupling',
         'dawson',
         'debye',
-        'dilogarithm',
         'ellint',
         'elljac',
-        'erf',
-        'exp',
         'fermi_dirac',
-        'beta',
-        'gamma',
         'poch',
         'gegenpoly',
         'hermite',
         'hyperg',
         'laguerre',
         'lambert',
-        'legendre',
-        'log',
         'mathieu',
         'pow',
         'psi',
         'synchrotron',
         'transport',
-        'gamma',
-        'zeta',
-        'complex',
+        'gsl_complex',
+    #        'sf_complex',
+    #   'complex',
      )        
 
     names = list(names)
@@ -509,35 +515,73 @@ def build_ufunc_files(file_name, output_dir, output_prefix):
     assert(len(names) == len(names_test))
 
     
-    doc_name = os.path.join(output_dir, output_prefix + "_doc.rst")
-    with open(doc_name, "wt") as doc_f:
-        for name in names_test:
-            sf = sf_dic[name]
-            emit_code.emit_doc(sf, doc_f)
-
-    return
-
-# Sort the names into sections?
-    doc_name = os.path.join(output_dir, output_prefix + "_doc.rst")
-    with open(doc_name, "wt") as doc_f:
-        for sec in sf_sections:
-            to_remove = []
-            for name in names:
-                if sec in name:
-                    print("Sorting %s in sec %s" %(name, sec))
-                    sf = sf_dic[name]
-                    emit_code.emit_doc(sf, doc_f)
-                    to_remove.append(name)
-            to_remove = set(to_remove)
-            names.difference_update(to_remove)
-                
-        # the names left over
-        print("Not sorted in different sections: %d items" %(len(names)) )
+    #doc_name = os.path.join(output_dir, output_prefix + "_doc.rst")
+    #with open(doc_name, "wt") as doc_f:
+    #    for name in names_test:
+    #        sf = sf_dic[name]
+    #        emit_code.emit_doc(sf, doc_f)
+    #return
+    # Sort the names into sections?
+    def sort_sf_to_file(sf_dic, names, sec, doc_f):
+        to_remove = []
         for name in names:
-            print(name)
+            if sec in name:
+                print("Sorting %s in sec %s" %(name, sec))
+                sf = sf_dic[name]
+                emit_code.emit_doc(sf, doc_f)
+                to_remove.append(name)
+        to_remove = set(to_remove)
+        names.difference_update(to_remove)
+        
+    for sec in sf_sections:
+        doc_name = os.path.join(doc_dir, output_prefix + "_" + sec + "_doc.rst")
+        with open(doc_name, "wt") as doc_f:
+            sort_sf_to_file(sf_dic, names, sec, doc_f)
+                            
+    sf_sec_dic = {
+        'legendre' : ('legendre', 'conical',),
+        'trig' : ('gsl_sf_sin', 'gsl_sf_sin', 'gsl_sf_cos', 'gsl_sf_cos',
+                  'sf_hypot', 'sf_sinc',
+                  'sf_complex_sin',
+                  'sf_complex_cos',
+                  'sf_complex_logsin',
+                  'sf_lnsinh',
+                  'sf_lncosh',
+                  'gsl_acosh', 'gsl_asinh', 'gsl_atanh', 'sf_lncosh',
+                  'sf_polar',
+                  'sf_rect_to_polar',
+                  'sf_angle_rest',
+                  ),
+         'log' : ('sf_log', ),
+         'erf' : ('sf_erf', 'sf_hazard'),
+        'dilog': ('sf_dilog', 'sf_spence', 'sf_complex_dilog', 'sf_complex_spence'),
+        'exp'  : ('sf_exp', 'sf_Shi', 'sf_Chi', 'sf_Ci', 'sf_Si', 'sf_atan'),
+        'gamma' :  ('sf_gamma', 'sf_lngamma', 'sf_fact', 'sf_doublefact', 'sf_lnfact', 'sf_lndoublefact',
+                    'sf_choose', 'sf_lnchoose', 'sf_taylorcoeff', 'sf_poch', 'sf_lnpoch',
+                     'sf_beta', 'sf_lnbeta'),
+        'zeta' : ('sf_zeta', 'sf_hzeta', 'sf_eta'),
+        'elementary' : ('sf_multiply',),
+        'math' : ('fcmp', 'fdiv', 'isinf', 'hypot', 'finite', 'isnan', 'frexp', 'ldexp', 'expm1', 'log1p', 'coerce_double'),
+    }
+    keys = sf_sec_dic.keys()
+    for key in keys:
+        doc_name = os.path.join(doc_dir, output_prefix + "_" + key + "_doc.rst")
+        with open(doc_name, "wt") as doc_f:
+            l = list(sf_sec_dic[key])
+            l.sort()
+            for sec in l:
+                sort_sf_to_file(sf_dic, names, sec, doc_f)
+
+    # the names left over
+    print("Not sorted in different sections: %d items" %(len(names)) )
+    doc_name = os.path.join(doc_dir, output_prefix + "_" + "misc" + "_doc.rst")
+    with open(doc_name, "wt") as doc_f:
+        for name in names:
             sf = sf_dic[name]
+            print(name)
             emit_code.emit_doc(sf, doc_f)
 
+                
 def run():
     import os.path
     #file_name = "sf.xml"
@@ -548,13 +592,17 @@ def run():
     build_ufunc_files(full_name, out_dir, "sf_")
     
 if __name__ == '__main__':
-    import sys
-    l = len(sys.argv)
-    if l != 4:
-        sys.stderr.write("Expected three arguments but got %d: %s!" % (l, sys.argv));
-        sys.exit(-1)
-    swig_xml_file = sys.argv[1]
-    output_dir = sys.argv[2]
-    output_prefix = sys.argv[3]
-    build_ufunc_files(swig_xml_file, output_dir, output_prefix)
-    #run()
+    import argparse
+
+    parser = argparse.ArgumentParser(description = "UFunc generator")
+    parser.add_argument("--input",  help = "swig xml parser tree")
+    parser.add_argument("--output-dir", help = "directory where to put the wrapper c-files")
+    parser.add_argument("--prefix",  help = "perfix of the c wrapper file")
+    parser.add_argument("--doc-dir", help = "directory where to put the documentation files to")
+    args = parser.parse_args()
+    print(args)
+    print (dir(args))
+    print (args.input)
+    #print (parser.())
+    build_ufunc_files(file_name = args.input, output_dir = args.output_dir,
+                      prefix = args.prefix, doc_dir = args.doc_dir)
