@@ -20,6 +20,8 @@ import generate_sf_tests
 test_macro_match = re.compile("^.*(?P<macro>TEST_SF.*?)\s*?\(.*$")
 # Up to now only the macro TEST_SF() and TEST_SF_2 is converted
 macro_args_match = re.compile("^.*?TEST_SF\s*?(?P<params>\(.*\))\s*?$")
+macro_args_rlx_match = re.compile("^.*?TEST_SF_RLX\s*?(?P<params>\(.*\))\s*?$")
+macro_args_theta_match = re.compile("^.*?TEST_SF_THETA\s*?(?P<params>\(.*\))\s*?$")
 macro_args2_match = re.compile("^.*?TEST_SF_2\s*?(?P<params>\(.*\))\s*?$")
 
 _pattern_arg = ".+?"
@@ -29,6 +31,12 @@ _test_sf_args = (
     %(_pattern_arg, _pattern_arg, _pattern_sf_result_arg, _pattern_arg, _pattern_arg, _pattern_arg)
     )
 analyse_macro_match = re.compile(_test_sf_args)
+
+_test_sf_args_theta = (
+    r'\((?P<s>%s),(?P<func>%s), (?P<args>%s),(?P<result>%s),\s*(?P<tolerance>%s)\)'
+    %(_pattern_arg, _pattern_arg, _pattern_sf_result_arg, _pattern_arg, _pattern_arg)
+    )
+analyse_macro_match_theta = re.compile(_test_sf_args_theta)
 
 _test_sf2_args = (
     r'\((?P<s>%s),(?P<func>%s), (?P<args>%s),\s*(?P<result1>%s),\s*(?P<tolerance1>%s),\s*(?P<result2>%s),\s*(?P<tolerance2>%s),\s*(?P<status>%s)\)'
@@ -231,8 +239,7 @@ class build_sf_params(_build_sf_params):
     _t_store = sf_test_types.test_sf_params 
 
     def _HandleArgs(self, args_text, func_name):
-        """
-        Arguments to the functions
+        """Process the arguments to the functions
         """
         assert(args_text[0] == "(")
         assert(args_text[-1] == ")")
@@ -293,6 +300,80 @@ class build_sf_params(_build_sf_params):
             )
 
         self._store = store
+
+
+class build_sf_params_rlx(build_sf_params):
+    """RLX same as SF ... but what's the difference?
+    """
+    _t_store = sf_test_types.test_sf_params_rlx
+
+class build_sf_params_theta(build_sf_params):
+    """signature similar to TEST_SF ... but returns always success?
+    """
+    _t_store = sf_test_types.test_sf_params_theta
+    def _HandleArgs(self, args_text, func_name):
+        """Process the arguments to the functions
+        """
+        assert(args_text[0] == "(")
+        assert(args_text[-1] == ")")
+        
+        args_text = args_text[1:-1]
+
+        # No reference to GSL struct for this test macro
+        # as for TEST_SF
+        args = args_text.split(",")
+        
+        args = tuple(map(lambda s: s.strip(), args))
+        args = self._HandleArgs_ForFunc(func_name, args)
+        
+        l = []
+        for arg in args:
+            tmp = self._ConvertArg(arg, func_name)
+            l.append(tmp)
+        args = tuple(l)
+        return args
+
+    def _HandleText(self):
+        assert(self._t_store)
+        text = self._text
+        m = analyse_macro_match_theta.match(text)
+        assert(m)
+        d = m.groupdict()
+        func   = d["func"]
+        args   = d["args"]
+        result = d["result"]
+        status = "GSL_SUCCESS"
+        tolerance = d["tolerance"]
+        
+        func = func.strip()
+        args = args.strip()
+        result = result.strip()
+        status = status.strip()
+        text = text.strip()
+        tolerance = tolerance.strip()
+        
+        if func in func_exclude_list:
+            return
+
+        test = 0
+        try:
+            args = self._HandleArgs(args, func)
+            test = 1
+        finally:
+            if test == 0:
+                print("Handled macro text '%s' for TEST_SF_THETA" %(text,))
+        
+        store =  self._t_store(
+            func   = func  ,
+            result = result,
+            args   = args  ,
+            status = status,
+            tolerance = tolerance,
+            text = text
+            )
+
+        self._store = store
+
 
 class build_sf_params_2(_build_sf_params):
     """Used for the arguments found in the macro TEST_SF()
@@ -387,6 +468,43 @@ def handle_match_test_sf(line):
     d = m.groupdict()
     params = d["params"]
     c = build_sf_params(params)
+    return c
+
+def handle_match_test_sf_theta(line):
+    """handle a line containing TEST_SF_THETA
+
+
+    line is expected to contain a TEST_SF_THETA() macro line
+    """
+    m = macro_args_theta_match.match(line)
+    if not m:
+        print("Can not extract macro args from line '%s'" %(line,))
+        return
+    
+    assert(m)
+    d = m.groupdict()
+    params = d["params"]
+    c = build_sf_params_theta(params)
+    return c
+
+def handle_match_test_sf_rlx(line):
+    """handle a line containing TEST_SF_RLX
+
+
+    line is expected to contain a TEST_SF_RLX() macro line
+    """
+    # XXX same pattern as SF but different functionality
+    m = macro_args_rlx_match.match(line)
+    if not m:
+        print("Can not extract macro args from line '%s'" %(line,))
+        return
+    
+    assert(m)
+    d = m.groupdict()
+    params = d["params"]
+    c = build_sf_params_rlx(params)
+    print("RLX Test:", c)
+    assert(c is not None)
     return c
 
 def handle_match_test_sf_2(line):
@@ -607,11 +725,14 @@ def handle_one_test_file(a_file_name, verbose = None):
             if macro_name == "TEST_SF":
                 c = handle_match_test_sf(line)
                 all_tests.append(c)
-            elif macro_name == "TEST_SF_RLX":                
-                #print("Handling macro TEST_SF_2: '%s' not yet implemented" %(line,) )
+            elif macro_name == "TEST_SF_RLX":
+                #print("Handling macro TEST_SF_RLX: '%s'" %(line,) )
                 c = handle_match_test_sf_rlx(line)
                 all_tests.append(c)
-                pass
+            elif macro_name == "TEST_SF_THETA":
+                #print("Handling macro TEST_SF_RLX: '%s'" %(line,) )
+                c = handle_match_test_sf_theta(line)
+                all_tests.append(c)                
             elif macro_name == "TEST_SF_2":                
                 #print("Handling macro TEST_SF_2: '%s' not yet implemented" %(line,) )
                 c = handle_match_test_sf_2(line)
@@ -622,7 +743,7 @@ def handle_one_test_file(a_file_name, verbose = None):
                 cnt_val += 1
                 pass
             else:
-                #print("Handling macro '%s': '%s' not yet implemented" %(macro_name, line,) )
+                print("Handling macro '%s': '%s' not yet implemented" %(macro_name, line,) )
                 cnt_other += 1
                 pass
             #return

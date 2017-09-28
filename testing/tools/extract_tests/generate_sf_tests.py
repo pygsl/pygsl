@@ -51,6 +51,20 @@ code="""
 
 """
 
+#       def _test_rlx(self, orig_args, result, tolerance, status):
+code_rlx="""
+        def test_args%d_1_rlx(self):
+            '%s'            
+            self._test(%s, %s, %s)
+
+"""
+code_theta="""
+        def test_args%d_1_theta(self):
+            '%s'            
+            self._test(%s, %s, %s)
+
+"""
+
 #       def _test2(self, orig_args, ref1, ref2, status):
 code2="""
         def test_args%d_2(self):
@@ -87,6 +101,7 @@ def _write_tests(of, tests):
     keys.sort()
 
 
+    cnt_all = 0
     for key in keys:
         t_test_ins = d[key]
 
@@ -116,10 +131,20 @@ def _write_tests(of, tests):
             txt = ins.GetTestText()
             args = ins.GetFunctionArguments()
             status = ins.GetFunctionStatus()
-            if isinstance(ins, sf_test_types.test_sf_params):
+            if isinstance(ins, sf_test_types.test_sf_params_rlx):
                 f = ins.GetFunctionResult()
                 t = ins.GetResultTolerance()
-                t_code = code %(cnt, txt, args, (f, t), status)
+                t_code = code_rlx %(cnt_all, txt, args, (f, t), status)
+
+            elif isinstance(ins, sf_test_types.test_sf_params_theta):
+                f = ins.GetFunctionResult()
+                t = ins.GetResultTolerance()
+                t_code = code_theta %(cnt_all, txt, args, (f, t), status)
+
+            elif isinstance(ins, sf_test_types.test_sf_params):
+                f = ins.GetFunctionResult()
+                t = ins.GetResultTolerance()
+                t_code = code %(cnt_all, txt, args, (f, t), status)
 
             elif isinstance(ins, sf_test_types.test_sf_params_2):
                 f1 = ins.GetFunctionResult1()
@@ -127,7 +152,12 @@ def _write_tests(of, tests):
                 f2 = ins.GetFunctionResult2()
                 t2 = ins.GetResultTolerance2()
 
-                t_code = code2 %(cnt, txt, args, (f1, t1), (f2, t2), status)
+                t_code = code2 %(cnt_all, txt, args, (f1, t1), (f2, t2), status)
+
+            else:
+                fmt = "instance '%s' of class '%s' not known"
+                msg = fmt %(ins, ins.__class__.__name__)
+                raise ValueError(msg)
                 
             test = 0
             try:
@@ -137,6 +167,7 @@ def _write_tests(of, tests):
                     print(ins, dir(ins))
 
             of.write(t_code)
+            cnt_all += 1
 
 def _write_comment(fp, first_comment):
     msg="""#!/usr/bin/env python

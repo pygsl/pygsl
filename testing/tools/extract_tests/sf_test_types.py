@@ -45,6 +45,7 @@ class _test_sf_params(_test_sf_params_basis):
         msg = fmt  %(self._t_type, self._func, self._args, self._result, self._status)
         return msg
 
+
 class _test_sf_params_2(_test_sf_params_basis):
     def __init__(self, func = None,  args = None,  status = None, text = None, result1 = None, tolerance1 = None, result2 = None, tolerance2 = None):
         self._func   = func
@@ -91,8 +92,15 @@ class _test_sf_params_2(_test_sf_params_basis):
         return msg
 
 _test_sf_type = "test_sf"
-
 class test_sf_params(_test_sf_params):
+    _t_type = _test_sf_type
+
+_test_sf_type = "test_sf_rlx"
+class test_sf_params_rlx(_test_sf_params):
+    _t_type = _test_sf_type
+
+_test_sf_type = "test_sf_theta"
+class test_sf_params_theta(_test_sf_params):
     _t_type = _test_sf_type
 
 _test_sf_type = "test_sf_2"
