@@ -93,6 +93,12 @@ pygsl\.math module
     :show-inheritance:
 
 
+pygsl\.testing\.complex module
+------------------------------
+
+.. module:: pygsl.testing.complex
+.. include:: sf/sf__gsl_complex_doc.rst
+
 pygsl\.poly module
 ------------------
 
@@ -101,13 +107,17 @@ pygsl\.poly module
     :undoc-members:
     :show-inheritance:
 
-pygsl\.sf module
-----------------
+.. module:: pygsl.testing.sf
+.. include:: sf_func.rst
 
-.. automodule:: pygsl.sf
-    :members:
-    :undoc-members:
-    :show-inheritance:
+..
+  pygsl\.sf module
+  ----------------
+  
+  .. automodule:: pygsl.sf
+      :members:
+      :undoc-members:
+      :show-inheritance:
 
 pygsl\.permutation module
 -------------------------

@@ -38,7 +38,8 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.intersphinx',
               'sphinx.ext.todo',
               'sphinx.ext.viewcode',
-              'sphinx.ext.mathjax'
+              'sphinx.ext.mathjax',
+              #'sphinxcontrib.email'
     ]
 
 

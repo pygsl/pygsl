@@ -5,6 +5,8 @@ Special Functions
     :caption: Special functions
     :maxdepth: 4
 
+.. :py:module:: pygsl.testing.sf
+
 Airy Functions
 ~~~~~~~~~~~~~~
      .. include:: sf/sf__airy_doc.rst
