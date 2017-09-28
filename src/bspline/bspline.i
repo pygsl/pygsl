@@ -5,7 +5,8 @@
  */		 
 
 %module bspline
-%feature("autodoc", 3);
+%feature("autodoc", "3");
+
 %include gsl_error_typemap.i
 %include gsl_block_typemaps.i
 %{
