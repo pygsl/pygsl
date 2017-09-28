@@ -38,35 +38,6 @@ class sf_prototype(object):
     """
     __slots__ = ("_in_args", "_out_args", "_return_arg", "_parameters") 
 
-    def GetFunctionDeclaration(self):
-        code = []
-        ret_arg = None
-        assert(len(self._parameters) > 0)
-        for par in self._parameters:
-            if par.IsReturnArgument():
-                ret_arg = par
-                continue
-            
-            op = par.GetOperator()
-            if op == "p":
-                fmt = "%s* %s"
-                code.append(fmt %(par.GetGSLType(), par.GetName()) )
-            else:
-                if op == "q(const)":
-                    op = "const"
-
-                fmt = "%s %s %s"
-                code.append(fmt %(op, par.GetGSLType(), par.GetName()) )
-
-        #assert(ret_arg is not None)
-        if ret_arg is None:
-            ret_arg = self._return_arg
-        ret_arg_c = ret_arg.GetGSLType()
-        name = self._name
-        call_types = ", ".join(code)
-        result = "%s %s(%s)" %(ret_arg_c, name, call_types)
-        return result
-    
     def GetFunctionPointerDeclaration(self):
         code = []
         for par in self.GetInArguments():            
@@ -99,13 +70,12 @@ class sf_prototype_build(sf_prototype):
     """Collects the information of the prototype
     """
 
-    __slots__ = ("_comment", "_return_value", "_name",  "_use_return_value", "_all_parameters_handled")
+    __slots__ = ("_return_value", "_name",  "_use_return_value", "_all_parameters_handled")
     def __init__(self, comment = None, name = None, ret = None, params = None, use_return_value = 0):
 
         # save return value
         self._return_value = ret
 
-        self._comment = comment
         # save function name
         self._name= name
 
@@ -279,10 +249,7 @@ class sf_prototype_build(sf_prototype):
         t_set= set(check2)
         if len(t_set) != len(check2):
             raise ValueError("check2 '%s' seems to have doubled entries" %(check2,))
-
-    def GetComment(self):
-        return self._comment
-    
+            
     def GetUFuncNInArgs(self):
         assert(self._all_parameters_handled == True)
         n = 0
