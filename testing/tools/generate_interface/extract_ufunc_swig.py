@@ -165,6 +165,7 @@ def create_sf_prototype(f_name, f_params, ret_type):
 
 # Functions to exclude from the whole list.
 exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and output. not properly recognized.
+                'gsl_sf_angle_restrict_symm_e',
                 # use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
                 'gsl_sf_result_smash_e', # the only one to use a const pointer as input. Not recognized by the tool.
                 # Complex Functions are wrapped manually.
