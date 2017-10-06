@@ -1,51 +1,129 @@
-static char PyGSL_sf_ufunc_Id_d__Rl__Od_d_d_types[] = {
-	/*double u*/NPY_DOUBLE, /*double m*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*double p dn*/NPY_DOUBLE, /*double p cn*/NPY_DOUBLE, /*double p sn*/NPY_DOUBLE,
-	/*double u*/ NPY_FLOAT, /*double m*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*double p dn*/ NPY_FLOAT, /*double p cn*/ NPY_FLOAT, /*double p sn*/ NPY_FLOAT
+static char PyGSL_sf_ufunc_Id_m__Rl__Ord_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*gsl_mode_t q(const) mode*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*double q(const) x*/ NPY_FLOAT, /*gsl_mode_t q(const) mode*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Od_d_d_data[] = {NULL, NULL};
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_m__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_m__Rd__O_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*double q(const) x*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_m__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Iui__Rl__Ord_types[] = {
+	/*unsigned int s*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*unsigned int s*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Iui__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Iui__Rd__O_types[] = {
+	/*unsigned int s*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*unsigned int s*/   NPY_INT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Iui__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id__Rl__Ord_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id__Rd__O_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
+	/*double q(const) x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_d__Rl__Ord_types[] = {
+	/*int n*/  NPY_LONG, /*double x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*int n*/   NPY_INT, /*double x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_d__Rl__Ord_data[] = {NULL, NULL};
 static char PyGSL_sf_ufunc_Il_d__Rd__O_types[] = {
 	/*int q(const) n*/  NPY_LONG, /*double q(const) x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
 	/*int q(const) n*/   NPY_INT, /*double q(const) x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
 };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_d__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d_d_d_m__Rd__O_types[] = {
-	/*double x*/NPY_DOUBLE, /*double y*/NPY_DOUBLE, /*double z*/NPY_DOUBLE, /*double p*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*double x*/ NPY_FLOAT, /*double y*/ NPY_FLOAT, /*double z*/ NPY_FLOAT, /*double p*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*double ret*/ NPY_FLOAT
+static char PyGSL_sf_ufunc_Id_d__Rl__Ord_types[] = {
+	/*double q(const) nu*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*double q(const) nu*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_d_m__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_d_d__Rd__O_types[] = {
-	/*int n*/  NPY_LONG, /*double lambda*/NPY_DOUBLE, /*double x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
-	/*int n*/   NPY_INT, /*double lambda*/ NPY_FLOAT, /*double x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d__Rd__O_types[] = {
+	/*double q(const) nu*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
+	/*double q(const) nu*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_d_d__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d_d__Rl__Ord_types[] = {
-	/*double q(const) a*/NPY_DOUBLE, /*double q(const) b*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*double q(const) a*/ NPY_FLOAT, /*double q(const) b*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d__Rl__Oerd_types[] = {
+	/*double q(const) nu*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
+	/*double q(const) nu*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il__Rd__O_types[] = {
-	/*int q(const) n*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*int q(const) n*/   NPY_INT, /*double ret*/ NPY_FLOAT
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Oerd_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_ui__Rl__Ord_types[] = {
+	/*double nu*/NPY_DOUBLE, /*unsigned int s*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*double nu*/ NPY_FLOAT, /*unsigned int s*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_d__Rl__Oerd_types[] = {
-	/*int q(const) m*/  NPY_LONG, /*int q(const) n*/  NPY_LONG, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
-	/*int q(const) m*/   NPY_INT, /*int q(const) n*/   NPY_INT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_ui__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_ui__Rd__O_types[] = {
+	/*double nu*/NPY_DOUBLE, /*unsigned int s*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*double nu*/ NPY_FLOAT, /*unsigned int s*/   NPY_INT, /*double ret*/ NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d__Rl__Oerd_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_d__Rl__Ord_types[] = {
-	/*int q(const) m*/  NPY_LONG, /*int q(const) n*/  NPY_LONG, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*int q(const) m*/   NPY_INT, /*int q(const) n*/   NPY_INT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_ui__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_d_d__Rl__Ord_types[] = {
+	/*int q(const) n*/  NPY_LONG, /*int q(const) l*/  NPY_LONG, /*double q(const) Z*/NPY_DOUBLE, /*double q(const) r*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*int q(const) n*/   NPY_INT, /*int q(const) l*/   NPY_INT, /*double q(const) Z*/ NPY_FLOAT, /*double q(const) r*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d__Rl__Ord_data[] = {NULL, NULL};
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d_d__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_d_d__Rd__O_types[] = {
+	/*int q(const) n*/  NPY_LONG, /*int q(const) l*/  NPY_LONG, /*double q(const) Z*/NPY_DOUBLE, /*double q(const) r*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
+	/*int q(const) n*/   NPY_INT, /*int q(const) l*/   NPY_INT, /*double q(const) Z*/ NPY_FLOAT, /*double q(const) r*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d_d__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d_d_l__Rl__Od_d_rd_rd_rd_rd_types[] = {
+	/*double q(const) eta*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*double q(const) lam_F*/NPY_DOUBLE, /*int q(const) k_lam_G*/  NPY_LONG, /*int ret*/  NPY_LONG, /*double p exp_G*/NPY_DOUBLE, /*double p exp_F*/NPY_DOUBLE, /*gsl_sf_result p Gp*/NPY_DOUBLE,NPY_DOUBLE, /*gsl_sf_result p G*/NPY_DOUBLE,NPY_DOUBLE, /*gsl_sf_result p Fp*/NPY_DOUBLE,NPY_DOUBLE, /*gsl_sf_result p F*/NPY_DOUBLE,NPY_DOUBLE,
+	/*double q(const) eta*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*double q(const) lam_F*/ NPY_FLOAT, /*int q(const) k_lam_G*/   NPY_INT, /*int ret*/   NPY_INT, /*double p exp_G*/ NPY_FLOAT, /*double p exp_F*/ NPY_FLOAT, /*gsl_sf_result p Gp*/NPY_FLOAT,NPY_FLOAT, /*gsl_sf_result p G*/NPY_FLOAT,NPY_FLOAT, /*gsl_sf_result p Fp*/NPY_FLOAT,NPY_FLOAT, /*gsl_sf_result p F*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_l__Rl__Od_d_rd_rd_rd_rd_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_l_l_l_l__Rl__Ord_types[] = {
+	/*int two_ja*/  NPY_LONG, /*int two_jb*/  NPY_LONG, /*int two_jc*/  NPY_LONG, /*int two_ma*/  NPY_LONG, /*int two_mb*/  NPY_LONG, /*int two_mc*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*int two_ja*/   NPY_INT, /*int two_jb*/   NPY_INT, /*int two_jc*/   NPY_INT, /*int two_ma*/   NPY_INT, /*int two_mb*/   NPY_INT, /*int two_mc*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_l_l_l_l__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_types[] = {
+	/*int two_ja*/  NPY_LONG, /*int two_jb*/  NPY_LONG, /*int two_jc*/  NPY_LONG, /*int two_ma*/  NPY_LONG, /*int two_mb*/  NPY_LONG, /*int two_mc*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*int two_ja*/   NPY_INT, /*int two_jb*/   NPY_INT, /*int two_jc*/   NPY_INT, /*int two_ma*/   NPY_INT, /*int two_mb*/   NPY_INT, /*int two_mc*/   NPY_INT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rl__Ord_types[] = {
+	/*int two_ja*/  NPY_LONG, /*int two_jb*/  NPY_LONG, /*int two_jc*/  NPY_LONG, /*int two_jd*/  NPY_LONG, /*int two_je*/  NPY_LONG, /*int two_jf*/  NPY_LONG, /*int two_jg*/  NPY_LONG, /*int two_jh*/  NPY_LONG, /*int two_ji*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*int two_ja*/   NPY_INT, /*int two_jb*/   NPY_INT, /*int two_jc*/   NPY_INT, /*int two_jd*/   NPY_INT, /*int two_je*/   NPY_INT, /*int two_jf*/   NPY_INT, /*int two_jg*/   NPY_INT, /*int two_jh*/   NPY_INT, /*int two_ji*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O_types[] = {
+	/*int two_ja*/  NPY_LONG, /*int two_jb*/  NPY_LONG, /*int two_jc*/  NPY_LONG, /*int two_jd*/  NPY_LONG, /*int two_je*/  NPY_LONG, /*int two_jf*/  NPY_LONG, /*int two_jg*/  NPY_LONG, /*int two_jh*/  NPY_LONG, /*int two_ji*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*int two_ja*/   NPY_INT, /*int two_jb*/   NPY_INT, /*int two_jc*/   NPY_INT, /*int two_jd*/   NPY_INT, /*int two_je*/   NPY_INT, /*int two_jf*/   NPY_INT, /*int two_jg*/   NPY_INT, /*int two_jh*/   NPY_INT, /*int two_ji*/   NPY_INT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d__Rl__Ord_rd_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*double q(const) y*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result_im*/NPY_DOUBLE,NPY_DOUBLE, /*gsl_sf_result p result_re*/NPY_DOUBLE,NPY_DOUBLE,
+	/*double q(const) x*/ NPY_FLOAT, /*double q(const) y*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result_im*/NPY_FLOAT,NPY_FLOAT, /*gsl_sf_result p result_re*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Ord_rd_data[] = {NULL, NULL};
 static char PyGSL_sf_ufunc_Id_d_d_d__Rl__Ord_types[] = {
 	/*double q(const) x*/NPY_DOUBLE, /*double q(const) dx*/NPY_DOUBLE, /*double q(const) y*/NPY_DOUBLE, /*double q(const) dy*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
 	/*double q(const) x*/ NPY_FLOAT, /*double q(const) dx*/ NPY_FLOAT, /*double q(const) y*/ NPY_FLOAT, /*double q(const) dy*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
@@ -58,84 +136,54 @@ static char PyGSL_sf_ufunc_Id_d_m__Rl__Ord_types[] = {
 };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_m__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d_m__Rd__O_types[] = {
+	/*double k*/NPY_DOUBLE, /*double n*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*double k*/ NPY_FLOAT, /*double n*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_m__Rd__O_data[] = {NULL, NULL};
 static char PyGSL_sf_ufunc_Id_d_d_m__Rl__Ord_types[] = {
 	/*double phi*/NPY_DOUBLE, /*double k*/NPY_DOUBLE, /*double n*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
 	/*double phi*/ NPY_FLOAT, /*double k*/ NPY_FLOAT, /*double n*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
 };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_m__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_d_d__Rl__Ord_types[] = {
-	/*int n*/  NPY_LONG, /*double lambda*/NPY_DOUBLE, /*double x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*int n*/   NPY_INT, /*double lambda*/ NPY_FLOAT, /*double x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+static char PyGSL_sf_ufunc_Id_d_d_m__Rd__O_types[] = {
+	/*double phi*/NPY_DOUBLE, /*double k*/NPY_DOUBLE, /*double n*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*double phi*/ NPY_FLOAT, /*double k*/ NPY_FLOAT, /*double n*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*double ret*/ NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_d_d__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il__Rl__Ord_types[] = {
-	/*int q(const) n*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*int q(const) n*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rl__Ord_types[] = {
-	/*int two_ja*/  NPY_LONG, /*int two_jb*/  NPY_LONG, /*int two_jc*/  NPY_LONG, /*int two_jd*/  NPY_LONG, /*int two_je*/  NPY_LONG, /*int two_jf*/  NPY_LONG, /*int two_jg*/  NPY_LONG, /*int two_jh*/  NPY_LONG, /*int two_ji*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*int two_ja*/   NPY_INT, /*int two_jb*/   NPY_INT, /*int two_jc*/   NPY_INT, /*int two_jd*/   NPY_INT, /*int two_je*/   NPY_INT, /*int two_jf*/   NPY_INT, /*int two_jg*/   NPY_INT, /*int two_jh*/   NPY_INT, /*int two_ji*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rl__Ord_data[] = {NULL, NULL};
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_m__Rd__O_data[] = {NULL, NULL};
 static char PyGSL_sf_ufunc_Id_d_d_d_m__Rl__Ord_types[] = {
 	/*double x*/NPY_DOUBLE, /*double y*/NPY_DOUBLE, /*double z*/NPY_DOUBLE, /*double p*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
 	/*double x*/ NPY_FLOAT, /*double y*/ NPY_FLOAT, /*double z*/ NPY_FLOAT, /*double p*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
 };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_d_m__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_I__Rl__Od_types[] = {
-	/*int ret*/  NPY_LONG, /*double p theta*/NPY_DOUBLE,
-	/*int ret*/   NPY_INT, /*double p theta*/ NPY_FLOAT
+static char PyGSL_sf_ufunc_Id_d_d_d_m__Rd__O_types[] = {
+	/*double x*/NPY_DOUBLE, /*double y*/NPY_DOUBLE, /*double z*/NPY_DOUBLE, /*double p*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*double x*/ NPY_FLOAT, /*double y*/ NPY_FLOAT, /*double z*/ NPY_FLOAT, /*double p*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*double ret*/ NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_I__Rl__Od_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_l__Rd__O_types[] = {
-	/*double q(const) x*/NPY_DOUBLE, /*int q(const) n*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*double q(const) x*/ NPY_FLOAT, /*int q(const) n*/   NPY_INT, /*double ret*/ NPY_FLOAT
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_d_m__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d__Rl__Od_d_d_types[] = {
+	/*double u*/NPY_DOUBLE, /*double m*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*double p dn*/NPY_DOUBLE, /*double p cn*/NPY_DOUBLE, /*double p sn*/NPY_DOUBLE,
+	/*double u*/ NPY_FLOAT, /*double m*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*double p dn*/ NPY_FLOAT, /*double p cn*/ NPY_FLOAT, /*double p sn*/ NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_l__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_types[] = {
-	/*int two_ja*/  NPY_LONG, /*int two_jb*/  NPY_LONG, /*int two_jc*/  NPY_LONG, /*int two_ma*/  NPY_LONG, /*int two_mb*/  NPY_LONG, /*int two_mc*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*int two_ja*/   NPY_INT, /*int two_jb*/   NPY_INT, /*int two_jc*/   NPY_INT, /*int two_ma*/   NPY_INT, /*int two_mb*/   NPY_INT, /*int two_mc*/   NPY_INT, /*double ret*/ NPY_FLOAT
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Od_d_d_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id__Rl__Oerd_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
+	/*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_data[] = {NULL, NULL};
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__Rl__Oerd_data[] = {NULL, NULL};
 static char PyGSL_sf_ufunc_Id_d_d_d__Rl__Oerd_types[] = {
 	/*double q(const) x*/NPY_DOUBLE, /*double q(const) dx*/NPY_DOUBLE, /*double q(const) y*/NPY_DOUBLE, /*double q(const) dy*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
 	/*double q(const) x*/ NPY_FLOAT, /*double q(const) dx*/ NPY_FLOAT, /*double q(const) y*/ NPY_FLOAT, /*double q(const) dy*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
 };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_d__Rl__Oerd_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d__Rd__O_types[] = {
-	/*double q(const) nu*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
-	/*double q(const) nu*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id__Rl__Ord_types[] = {
-	/*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_d_d__Rd__O_types[] = {
-	/*int q(const) n*/  NPY_LONG, /*int q(const) l*/  NPY_LONG, /*double q(const) Z*/NPY_DOUBLE, /*double q(const) r*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
-	/*int q(const) n*/   NPY_INT, /*int q(const) l*/   NPY_INT, /*double q(const) Z*/ NPY_FLOAT, /*double q(const) r*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d_d__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d_d_d__Rd__O_types[] = {
-	/*double a*/NPY_DOUBLE, /*double b*/NPY_DOUBLE, /*double c*/NPY_DOUBLE, /*double x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
-	/*double a*/ NPY_FLOAT, /*double b*/ NPY_FLOAT, /*double c*/ NPY_FLOAT, /*double x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_d__Rd__O_data[] = {NULL, NULL};
 static char PyGSL_sf_ufunc_Id__Rl__Od_rd_types[] = {
 	/*double x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*double p sgn*/NPY_DOUBLE, /*gsl_sf_result p result_lg*/NPY_DOUBLE,NPY_DOUBLE,
 	/*double x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*double p sgn*/ NPY_FLOAT, /*gsl_sf_result p result_lg*/NPY_FLOAT,NPY_FLOAT
@@ -148,144 +196,6 @@ static char PyGSL_sf_ufunc_Iui_ui__Rl__Ord_types[] = {
 };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_Iui_ui__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_l__Rl__Ord_types[] = {
-	/*double x*/NPY_DOUBLE, /*int n*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*double x*/ NPY_FLOAT, /*int n*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_l__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d_d__Rl__Oerd_types[] = {
-	/*double q(const) a*/NPY_DOUBLE, /*double q(const) b*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
-	/*double q(const) a*/ NPY_FLOAT, /*double q(const) b*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d__Rl__Oerd_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Iui__Rd__O_types[] = {
-	/*unsigned int s*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*unsigned int s*/   NPY_INT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Iui__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_ui__Rl__Ord_types[] = {
-	/*double nu*/NPY_DOUBLE, /*unsigned int s*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*double nu*/ NPY_FLOAT, /*unsigned int s*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_ui__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_d__Rl__Ord_types[] = {
-	/*int n*/  NPY_LONG, /*double x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*int n*/   NPY_INT, /*double x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_d__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_d__Rd__O_types[] = {
-	/*int q(const) m*/  NPY_LONG, /*int q(const) n*/  NPY_LONG, /*double x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
-	/*int q(const) m*/   NPY_INT, /*int q(const) n*/   NPY_INT, /*double x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d_d_m__Rd__O_types[] = {
-	/*double phi*/NPY_DOUBLE, /*double k*/NPY_DOUBLE, /*double n*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*double phi*/ NPY_FLOAT, /*double k*/ NPY_FLOAT, /*double n*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_m__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d_d_l__Rl__Od_d_rd_rd_rd_rd_types[] = {
-	/*double q(const) eta*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*double q(const) lam_F*/NPY_DOUBLE, /*int q(const) k_lam_G*/  NPY_LONG, /*int ret*/  NPY_LONG, /*double p exp_G*/NPY_DOUBLE, /*double p exp_F*/NPY_DOUBLE, /*gsl_sf_result p Gp*/NPY_DOUBLE,NPY_DOUBLE, /*gsl_sf_result p G*/NPY_DOUBLE,NPY_DOUBLE, /*gsl_sf_result p Fp*/NPY_DOUBLE,NPY_DOUBLE, /*gsl_sf_result p F*/NPY_DOUBLE,NPY_DOUBLE,
-	/*double q(const) eta*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*double q(const) lam_F*/ NPY_FLOAT, /*int q(const) k_lam_G*/   NPY_INT, /*int ret*/   NPY_INT, /*double p exp_G*/ NPY_FLOAT, /*double p exp_F*/ NPY_FLOAT, /*gsl_sf_result p Gp*/NPY_FLOAT,NPY_FLOAT, /*gsl_sf_result p G*/NPY_FLOAT,NPY_FLOAT, /*gsl_sf_result p Fp*/NPY_FLOAT,NPY_FLOAT, /*gsl_sf_result p F*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_l__Rl__Od_d_rd_rd_rd_rd_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d__Rl__Ord_types[] = {
-	/*double q(const) nu*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*double q(const) nu*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d_m__Rd__O_types[] = {
-	/*double k*/NPY_DOUBLE, /*double n*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*double k*/ NPY_FLOAT, /*double n*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_m__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d_d__Rd__O_types[] = {
-	/*double q(const) a*/NPY_DOUBLE, /*double q(const) b*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
-	/*double q(const) a*/ NPY_FLOAT, /*double q(const) b*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d__Rl__Ord_rd_types[] = {
-	/*double q(const) x*/NPY_DOUBLE, /*double q(const) y*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result_im*/NPY_DOUBLE,NPY_DOUBLE, /*gsl_sf_result p result_re*/NPY_DOUBLE,NPY_DOUBLE,
-	/*double q(const) x*/ NPY_FLOAT, /*double q(const) y*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result_im*/NPY_FLOAT,NPY_FLOAT, /*gsl_sf_result p result_re*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Ord_rd_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d__Rl__Oerd_types[] = {
-	/*double q(const) nu*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
-	/*double q(const) nu*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Oerd_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id__Rl__Oerd_types[] = {
-	/*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
-	/*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__Rl__Oerd_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O_types[] = {
-	/*int two_ja*/  NPY_LONG, /*int two_jb*/  NPY_LONG, /*int two_jc*/  NPY_LONG, /*int two_jd*/  NPY_LONG, /*int two_je*/  NPY_LONG, /*int two_jf*/  NPY_LONG, /*int two_jg*/  NPY_LONG, /*int two_jh*/  NPY_LONG, /*int two_ji*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*int two_ja*/   NPY_INT, /*int two_jb*/   NPY_INT, /*int two_jc*/   NPY_INT, /*int two_jd*/   NPY_INT, /*int two_je*/   NPY_INT, /*int two_jf*/   NPY_INT, /*int two_jg*/   NPY_INT, /*int two_jh*/   NPY_INT, /*int two_ji*/   NPY_INT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_ui__Rd__O_types[] = {
-	/*double nu*/NPY_DOUBLE, /*unsigned int s*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*double nu*/ NPY_FLOAT, /*unsigned int s*/   NPY_INT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_ui__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Iui__Rl__Ord_types[] = {
-	/*unsigned int s*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*unsigned int s*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Iui__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_m__Rl__Ord_types[] = {
-	/*double q(const) x*/NPY_DOUBLE, /*gsl_mode_t q(const) mode*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*double q(const) x*/ NPY_FLOAT, /*gsl_mode_t q(const) mode*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_m__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id__Rd__O_types[] = {
-	/*double q(const) x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
-	/*double q(const) x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id__RD__O_types[] = {
-	/*double x*/NPY_DOUBLE, /*gsl_complex ret*/NPY_CDOUBLE,
-	/*double x*/ NPY_FLOAT, /*gsl_complex ret*/NPY_CFLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__RD__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_m__Rd__O_types[] = {
-	/*double q(const) x*/NPY_DOUBLE, /*gsl_mode_t mode*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
-	/*double q(const) x*/ NPY_FLOAT, /*gsl_mode_t mode*/   NPY_INT, /*double ret*/ NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_m__Rd__O_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_l_l_l_l__Rl__Ord_types[] = {
-	/*int two_ja*/  NPY_LONG, /*int two_jb*/  NPY_LONG, /*int two_jc*/  NPY_LONG, /*int two_ma*/  NPY_LONG, /*int two_mb*/  NPY_LONG, /*int two_mc*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*int two_ja*/   NPY_INT, /*int two_jb*/   NPY_INT, /*int two_jc*/   NPY_INT, /*int two_ma*/   NPY_INT, /*int two_mb*/   NPY_INT, /*int two_mc*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_l_l_l_l__Rl__Ord_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Id_d__RD__O_types[] = {
-	/*double r*/NPY_DOUBLE, /*double theta*/NPY_DOUBLE, /*gsl_complex ret*/NPY_CDOUBLE,
-	/*double r*/ NPY_FLOAT, /*double theta*/ NPY_FLOAT, /*gsl_complex ret*/NPY_CFLOAT
-};
-
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__RD__O_data[] = {NULL, NULL};
 static char PyGSL_sf_ufunc_Iui_ui__Rd__O_types[] = {
 	/*unsigned int n*/  NPY_LONG, /*unsigned int m*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
 	/*unsigned int n*/   NPY_INT, /*unsigned int m*/   NPY_INT, /*double ret*/ NPY_FLOAT
@@ -298,12 +208,138 @@ static char PyGSL_sf_ufunc_Id_d__Rl__Od_rd_types[] = {
 };
 
 static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__Rl__Od_rd_data[] = {NULL, NULL};
-static char PyGSL_sf_ufunc_Il_l_d_d__Rl__Ord_types[] = {
-	/*int q(const) n*/  NPY_LONG, /*int q(const) l*/  NPY_LONG, /*double q(const) Z*/NPY_DOUBLE, /*double q(const) r*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
-	/*int q(const) n*/   NPY_INT, /*int q(const) l*/   NPY_INT, /*double q(const) Z*/ NPY_FLOAT, /*double q(const) r*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+static char PyGSL_sf_ufunc_Id_d_d__Rl__Ord_types[] = {
+	/*double q(const) a*/NPY_DOUBLE, /*double q(const) b*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*double q(const) a*/ NPY_FLOAT, /*double q(const) b*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
 };
 
-static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d_d__Rl__Ord_data[] = {NULL, NULL};
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d_d__Rd__O_types[] = {
+	/*double q(const) a*/NPY_DOUBLE, /*double q(const) b*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
+	/*double q(const) a*/ NPY_FLOAT, /*double q(const) b*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_d_d__Rl__Ord_types[] = {
+	/*int n*/  NPY_LONG, /*double lambda*/NPY_DOUBLE, /*double x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*int n*/   NPY_INT, /*double lambda*/ NPY_FLOAT, /*double x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_d_d__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_d_d__Rd__O_types[] = {
+	/*int n*/  NPY_LONG, /*double lambda*/NPY_DOUBLE, /*double x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
+	/*int n*/   NPY_INT, /*double lambda*/ NPY_FLOAT, /*double x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_d_d__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_d__Rl__Ord_types[] = {
+	/*int q(const) m*/  NPY_LONG, /*int q(const) n*/  NPY_LONG, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*int q(const) m*/   NPY_INT, /*int q(const) n*/   NPY_INT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_d__Rd__O_types[] = {
+	/*int q(const) m*/  NPY_LONG, /*int q(const) n*/  NPY_LONG, /*double x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
+	/*int q(const) m*/   NPY_INT, /*int q(const) n*/   NPY_INT, /*double x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il_l_d__Rl__Oerd_types[] = {
+	/*int q(const) m*/  NPY_LONG, /*int q(const) n*/  NPY_LONG, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
+	/*int q(const) m*/   NPY_INT, /*int q(const) n*/   NPY_INT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il_l_d__Rl__Oerd_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d_d__Rl__Oerd_types[] = {
+	/*double q(const) a*/NPY_DOUBLE, /*double q(const) b*/NPY_DOUBLE, /*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG,
+	/*double q(const) a*/ NPY_FLOAT, /*double q(const) b*/ NPY_FLOAT, /*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT, /*gsl_sf_result_e10 p result*/NPY_DOUBLE,NPY_DOUBLE,NPY_LONG
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d__Rl__Oerd_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d_d_d__Rd__O_types[] = {
+	/*double a*/NPY_DOUBLE, /*double b*/NPY_DOUBLE, /*double c*/NPY_DOUBLE, /*double x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE,
+	/*double a*/ NPY_FLOAT, /*double b*/ NPY_FLOAT, /*double c*/ NPY_FLOAT, /*double x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d_d__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_l__Rl__Ord_types[] = {
+	/*double x*/NPY_DOUBLE, /*int n*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*double x*/ NPY_FLOAT, /*int n*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_l__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_l__Rd__O_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*int q(const) n*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*double q(const) x*/ NPY_FLOAT, /*int q(const) n*/   NPY_INT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_l__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il__Rl__Ord_types[] = {
+	/*int q(const) n*/  NPY_LONG, /*int ret*/  NPY_LONG, /*gsl_sf_result p result*/NPY_DOUBLE,NPY_DOUBLE,
+	/*int q(const) n*/   NPY_INT, /*int ret*/   NPY_INT, /*gsl_sf_result p result*/NPY_FLOAT,NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il__Rl__Ord_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Il__Rd__O_types[] = {
+	/*int q(const) n*/  NPY_LONG, /*double ret*/NPY_DOUBLE,
+	/*int q(const) n*/   NPY_INT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Il__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d__RD__O_types[] = {
+	/*double r*/NPY_DOUBLE, /*double theta*/NPY_DOUBLE, /*gsl_complex ret*/NPY_CDOUBLE,
+	/*double r*/ NPY_FLOAT, /*double theta*/ NPY_FLOAT, /*gsl_complex ret*/NPY_CFLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d__RD__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_ID__Rd__O_types[] = {
+	/*gsl_complex z*/NPY_CDOUBLE, /*double ret*/NPY_DOUBLE,
+	/*gsl_complex z*/NPY_CFLOAT, /*double ret*/ NPY_FLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_ID__Rd__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_ID_D__RD__O_types[] = {
+	/*gsl_complex a*/NPY_CDOUBLE, /*gsl_complex b*/NPY_CDOUBLE, /*gsl_complex ret*/NPY_CDOUBLE,
+	/*gsl_complex a*/NPY_CFLOAT, /*gsl_complex b*/NPY_CFLOAT, /*gsl_complex ret*/NPY_CFLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_ID_D__RD__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_ID_d__RD__O_types[] = {
+	/*gsl_complex a*/NPY_CDOUBLE, /*double x*/NPY_DOUBLE, /*gsl_complex ret*/NPY_CDOUBLE,
+	/*gsl_complex a*/NPY_CFLOAT, /*double x*/ NPY_FLOAT, /*gsl_complex ret*/NPY_CFLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_ID_d__RD__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_ID__RD__O_types[] = {
+	/*gsl_complex z*/NPY_CDOUBLE, /*gsl_complex ret*/NPY_CDOUBLE,
+	/*gsl_complex z*/NPY_CFLOAT, /*gsl_complex ret*/NPY_CFLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_ID__RD__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id__RD__O_types[] = {
+	/*double x*/NPY_DOUBLE, /*gsl_complex ret*/NPY_CDOUBLE,
+	/*double x*/ NPY_FLOAT, /*gsl_complex ret*/NPY_CFLOAT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__RD__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id__Rl__O_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*int ret*/  NPY_LONG,
+	/*double q(const) x*/ NPY_FLOAT, /*int ret*/   NPY_INT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__Rl__O_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id__Rd__Ol_types[] = {
+	/*double q(const) x*/NPY_DOUBLE, /*double ret*/NPY_DOUBLE, /*int p e*/  NPY_LONG,
+	/*double q(const) x*/ NPY_FLOAT, /*double ret*/ NPY_FLOAT, /*int p e*/   NPY_INT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id__Rd__Ol_data[] = {NULL, NULL};
+static char PyGSL_sf_ufunc_Id_d_d__Rl__O_types[] = {
+	/*double q(const) x1*/NPY_DOUBLE, /*double q(const) x2*/NPY_DOUBLE, /*double q(const) epsilon*/NPY_DOUBLE, /*int ret*/  NPY_LONG,
+	/*double q(const) x1*/ NPY_FLOAT, /*double q(const) x2*/ NPY_FLOAT, /*double q(const) epsilon*/ NPY_FLOAT, /*int ret*/   NPY_INT
+};
+
+static PyUFuncGenericFunction PyGSL_sf_ufunc_Id_d_d__Rl__O_data[] = {NULL, NULL};
 static void * gsl_sf_airy_Ai_e_data[] = {(void *) gsl_sf_airy_Ai_e, (void *) gsl_sf_airy_Ai_e};
 static const char gsl_sf_airy_Ai_e_doc[] =
 "Wrapper for :c:func:`gsl_sf_airy_Ai_e`\n"
@@ -1205,13 +1241,6 @@ static const char gsl_sf_coupling_9j_doc[] =
 "Wrapper for :c:func:`gsl_sf_coupling_9j`\n"
 "\n"
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O`\n"
-"Args:\n"    
-    ;
-static void * gsl_sf_coupling_6j_INCORRECT_data[] = {(void *) gsl_sf_coupling_6j_INCORRECT, (void *) gsl_sf_coupling_6j_INCORRECT};
-static const char gsl_sf_coupling_6j_INCORRECT_doc[] =
-"Wrapper for :c:func:`gsl_sf_coupling_6j_INCORRECT`\n"
-"\n"
-"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O`\n"
 "Args:\n"    
     ;
 static void * gsl_sf_dawson_e_data[] = {(void *) gsl_sf_dawson_e, (void *) gsl_sf_dawson_e};
@@ -3349,13 +3378,6 @@ static const char gsl_sf_cos_err_e_doc[] =
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_d__Rl__Ord`\n"
 "Args:\n"    
     ;
-static void * gsl_sf_angle_restrict_symm_e_data[] = {(void *) gsl_sf_angle_restrict_symm_e, (void *) gsl_sf_angle_restrict_symm_e};
-static const char gsl_sf_angle_restrict_symm_e_doc[] =
-"Wrapper for :c:func:`gsl_sf_angle_restrict_symm_e`\n"
-"\n"
-"Wrapped by ufunc :class:`PyGSL_sf_ufunc_I__Rl__Od`\n"
-"Args:\n"    
-    ;
 static void * gsl_sf_angle_restrict_symm_data[] = {(void *) gsl_sf_angle_restrict_symm, (void *) gsl_sf_angle_restrict_symm};
 static const char gsl_sf_angle_restrict_symm_doc[] =
 "Wrapper for :c:func:`gsl_sf_angle_restrict_symm`\n"
@@ -3496,11 +3518,242 @@ static const char gsl_complex_rect_doc[] =
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_d__RD__O`\n"
 "Args:\n"    
     ;
+static void * gsl_complex_arg_data[] = {(void *) gsl_complex_arg, (void *) gsl_complex_arg};
+static const char gsl_complex_arg_doc[] =
+"Wrapper for :c:func:`gsl_complex_arg`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_abs_data[] = {(void *) gsl_complex_abs, (void *) gsl_complex_abs};
+static const char gsl_complex_abs_doc[] =
+"Wrapper for :c:func:`gsl_complex_abs`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_abs2_data[] = {(void *) gsl_complex_abs2, (void *) gsl_complex_abs2};
+static const char gsl_complex_abs2_doc[] =
+"Wrapper for :c:func:`gsl_complex_abs2`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_logabs_data[] = {(void *) gsl_complex_logabs, (void *) gsl_complex_logabs};
+static const char gsl_complex_logabs_doc[] =
+"Wrapper for :c:func:`gsl_complex_logabs`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_add_data[] = {(void *) gsl_complex_add, (void *) gsl_complex_add};
+static const char gsl_complex_add_doc[] =
+"Wrapper for :c:func:`gsl_complex_add`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_D__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_sub_data[] = {(void *) gsl_complex_sub, (void *) gsl_complex_sub};
+static const char gsl_complex_sub_doc[] =
+"Wrapper for :c:func:`gsl_complex_sub`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_D__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_mul_data[] = {(void *) gsl_complex_mul, (void *) gsl_complex_mul};
+static const char gsl_complex_mul_doc[] =
+"Wrapper for :c:func:`gsl_complex_mul`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_D__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_div_data[] = {(void *) gsl_complex_div, (void *) gsl_complex_div};
+static const char gsl_complex_div_doc[] =
+"Wrapper for :c:func:`gsl_complex_div`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_D__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_add_real_data[] = {(void *) gsl_complex_add_real, (void *) gsl_complex_add_real};
+static const char gsl_complex_add_real_doc[] =
+"Wrapper for :c:func:`gsl_complex_add_real`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_sub_real_data[] = {(void *) gsl_complex_sub_real, (void *) gsl_complex_sub_real};
+static const char gsl_complex_sub_real_doc[] =
+"Wrapper for :c:func:`gsl_complex_sub_real`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_mul_real_data[] = {(void *) gsl_complex_mul_real, (void *) gsl_complex_mul_real};
+static const char gsl_complex_mul_real_doc[] =
+"Wrapper for :c:func:`gsl_complex_mul_real`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_div_real_data[] = {(void *) gsl_complex_div_real, (void *) gsl_complex_div_real};
+static const char gsl_complex_div_real_doc[] =
+"Wrapper for :c:func:`gsl_complex_div_real`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_add_imag_data[] = {(void *) gsl_complex_add_imag, (void *) gsl_complex_add_imag};
+static const char gsl_complex_add_imag_doc[] =
+"Wrapper for :c:func:`gsl_complex_add_imag`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_sub_imag_data[] = {(void *) gsl_complex_sub_imag, (void *) gsl_complex_sub_imag};
+static const char gsl_complex_sub_imag_doc[] =
+"Wrapper for :c:func:`gsl_complex_sub_imag`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_mul_imag_data[] = {(void *) gsl_complex_mul_imag, (void *) gsl_complex_mul_imag};
+static const char gsl_complex_mul_imag_doc[] =
+"Wrapper for :c:func:`gsl_complex_mul_imag`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_div_imag_data[] = {(void *) gsl_complex_div_imag, (void *) gsl_complex_div_imag};
+static const char gsl_complex_div_imag_doc[] =
+"Wrapper for :c:func:`gsl_complex_div_imag`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_conjugate_data[] = {(void *) gsl_complex_conjugate, (void *) gsl_complex_conjugate};
+static const char gsl_complex_conjugate_doc[] =
+"Wrapper for :c:func:`gsl_complex_conjugate`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_inverse_data[] = {(void *) gsl_complex_inverse, (void *) gsl_complex_inverse};
+static const char gsl_complex_inverse_doc[] =
+"Wrapper for :c:func:`gsl_complex_inverse`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_negative_data[] = {(void *) gsl_complex_negative, (void *) gsl_complex_negative};
+static const char gsl_complex_negative_doc[] =
+"Wrapper for :c:func:`gsl_complex_negative`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_sqrt_data[] = {(void *) gsl_complex_sqrt, (void *) gsl_complex_sqrt};
+static const char gsl_complex_sqrt_doc[] =
+"Wrapper for :c:func:`gsl_complex_sqrt`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
 static void * gsl_complex_sqrt_real_data[] = {(void *) gsl_complex_sqrt_real, (void *) gsl_complex_sqrt_real};
 static const char gsl_complex_sqrt_real_doc[] =
 "Wrapper for :c:func:`gsl_complex_sqrt_real`\n"
 "\n"
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_pow_data[] = {(void *) gsl_complex_pow, (void *) gsl_complex_pow};
+static const char gsl_complex_pow_doc[] =
+"Wrapper for :c:func:`gsl_complex_pow`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_D__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_pow_real_data[] = {(void *) gsl_complex_pow_real, (void *) gsl_complex_pow_real};
+static const char gsl_complex_pow_real_doc[] =
+"Wrapper for :c:func:`gsl_complex_pow_real`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_d__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_exp_data[] = {(void *) gsl_complex_exp, (void *) gsl_complex_exp};
+static const char gsl_complex_exp_doc[] =
+"Wrapper for :c:func:`gsl_complex_exp`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_log_data[] = {(void *) gsl_complex_log, (void *) gsl_complex_log};
+static const char gsl_complex_log_doc[] =
+"Wrapper for :c:func:`gsl_complex_log`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_log10_data[] = {(void *) gsl_complex_log10, (void *) gsl_complex_log10};
+static const char gsl_complex_log10_doc[] =
+"Wrapper for :c:func:`gsl_complex_log10`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_log_b_data[] = {(void *) gsl_complex_log_b, (void *) gsl_complex_log_b};
+static const char gsl_complex_log_b_doc[] =
+"Wrapper for :c:func:`gsl_complex_log_b`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID_D__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_sin_data[] = {(void *) gsl_complex_sin, (void *) gsl_complex_sin};
+static const char gsl_complex_sin_doc[] =
+"Wrapper for :c:func:`gsl_complex_sin`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_cos_data[] = {(void *) gsl_complex_cos, (void *) gsl_complex_cos};
+static const char gsl_complex_cos_doc[] =
+"Wrapper for :c:func:`gsl_complex_cos`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_sec_data[] = {(void *) gsl_complex_sec, (void *) gsl_complex_sec};
+static const char gsl_complex_sec_doc[] =
+"Wrapper for :c:func:`gsl_complex_sec`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_csc_data[] = {(void *) gsl_complex_csc, (void *) gsl_complex_csc};
+static const char gsl_complex_csc_doc[] =
+"Wrapper for :c:func:`gsl_complex_csc`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_tan_data[] = {(void *) gsl_complex_tan, (void *) gsl_complex_tan};
+static const char gsl_complex_tan_doc[] =
+"Wrapper for :c:func:`gsl_complex_tan`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_cot_data[] = {(void *) gsl_complex_cot, (void *) gsl_complex_cot};
+static const char gsl_complex_cot_doc[] =
+"Wrapper for :c:func:`gsl_complex_cot`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arcsin_data[] = {(void *) gsl_complex_arcsin, (void *) gsl_complex_arcsin};
+static const char gsl_complex_arcsin_doc[] =
+"Wrapper for :c:func:`gsl_complex_arcsin`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
 "Args:\n"    
     ;
 static void * gsl_complex_arcsin_real_data[] = {(void *) gsl_complex_arcsin_real, (void *) gsl_complex_arcsin_real};
@@ -3510,11 +3763,25 @@ static const char gsl_complex_arcsin_real_doc[] =
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__RD__O`\n"
 "Args:\n"    
     ;
+static void * gsl_complex_arccos_data[] = {(void *) gsl_complex_arccos, (void *) gsl_complex_arccos};
+static const char gsl_complex_arccos_doc[] =
+"Wrapper for :c:func:`gsl_complex_arccos`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
 static void * gsl_complex_arccos_real_data[] = {(void *) gsl_complex_arccos_real, (void *) gsl_complex_arccos_real};
 static const char gsl_complex_arccos_real_doc[] =
 "Wrapper for :c:func:`gsl_complex_arccos_real`\n"
 "\n"
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arcsec_data[] = {(void *) gsl_complex_arcsec, (void *) gsl_complex_arcsec};
+static const char gsl_complex_arcsec_doc[] =
+"Wrapper for :c:func:`gsl_complex_arcsec`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
 "Args:\n"    
     ;
 static void * gsl_complex_arcsec_real_data[] = {(void *) gsl_complex_arcsec_real, (void *) gsl_complex_arcsec_real};
@@ -3524,11 +3791,88 @@ static const char gsl_complex_arcsec_real_doc[] =
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__RD__O`\n"
 "Args:\n"    
     ;
+static void * gsl_complex_arccsc_data[] = {(void *) gsl_complex_arccsc, (void *) gsl_complex_arccsc};
+static const char gsl_complex_arccsc_doc[] =
+"Wrapper for :c:func:`gsl_complex_arccsc`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
 static void * gsl_complex_arccsc_real_data[] = {(void *) gsl_complex_arccsc_real, (void *) gsl_complex_arccsc_real};
 static const char gsl_complex_arccsc_real_doc[] =
 "Wrapper for :c:func:`gsl_complex_arccsc_real`\n"
 "\n"
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arctan_data[] = {(void *) gsl_complex_arctan, (void *) gsl_complex_arctan};
+static const char gsl_complex_arctan_doc[] =
+"Wrapper for :c:func:`gsl_complex_arctan`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arccot_data[] = {(void *) gsl_complex_arccot, (void *) gsl_complex_arccot};
+static const char gsl_complex_arccot_doc[] =
+"Wrapper for :c:func:`gsl_complex_arccot`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_sinh_data[] = {(void *) gsl_complex_sinh, (void *) gsl_complex_sinh};
+static const char gsl_complex_sinh_doc[] =
+"Wrapper for :c:func:`gsl_complex_sinh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_cosh_data[] = {(void *) gsl_complex_cosh, (void *) gsl_complex_cosh};
+static const char gsl_complex_cosh_doc[] =
+"Wrapper for :c:func:`gsl_complex_cosh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_sech_data[] = {(void *) gsl_complex_sech, (void *) gsl_complex_sech};
+static const char gsl_complex_sech_doc[] =
+"Wrapper for :c:func:`gsl_complex_sech`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_csch_data[] = {(void *) gsl_complex_csch, (void *) gsl_complex_csch};
+static const char gsl_complex_csch_doc[] =
+"Wrapper for :c:func:`gsl_complex_csch`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_tanh_data[] = {(void *) gsl_complex_tanh, (void *) gsl_complex_tanh};
+static const char gsl_complex_tanh_doc[] =
+"Wrapper for :c:func:`gsl_complex_tanh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_coth_data[] = {(void *) gsl_complex_coth, (void *) gsl_complex_coth};
+static const char gsl_complex_coth_doc[] =
+"Wrapper for :c:func:`gsl_complex_coth`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arcsinh_data[] = {(void *) gsl_complex_arcsinh, (void *) gsl_complex_arcsinh};
+static const char gsl_complex_arcsinh_doc[] =
+"Wrapper for :c:func:`gsl_complex_arcsinh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arccosh_data[] = {(void *) gsl_complex_arccosh, (void *) gsl_complex_arccosh};
+static const char gsl_complex_arccosh_doc[] =
+"Wrapper for :c:func:`gsl_complex_arccosh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
 "Args:\n"    
     ;
 static void * gsl_complex_arccosh_real_data[] = {(void *) gsl_complex_arccosh_real, (void *) gsl_complex_arccosh_real};
@@ -3538,10 +3882,143 @@ static const char gsl_complex_arccosh_real_doc[] =
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__RD__O`\n"
 "Args:\n"    
     ;
+static void * gsl_complex_arcsech_data[] = {(void *) gsl_complex_arcsech, (void *) gsl_complex_arcsech};
+static const char gsl_complex_arcsech_doc[] =
+"Wrapper for :c:func:`gsl_complex_arcsech`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arccsch_data[] = {(void *) gsl_complex_arccsch, (void *) gsl_complex_arccsch};
+static const char gsl_complex_arccsch_doc[] =
+"Wrapper for :c:func:`gsl_complex_arccsch`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arctanh_data[] = {(void *) gsl_complex_arctanh, (void *) gsl_complex_arctanh};
+static const char gsl_complex_arctanh_doc[] =
+"Wrapper for :c:func:`gsl_complex_arctanh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
 static void * gsl_complex_arctanh_real_data[] = {(void *) gsl_complex_arctanh_real, (void *) gsl_complex_arctanh_real};
 static const char gsl_complex_arctanh_real_doc[] =
 "Wrapper for :c:func:`gsl_complex_arctanh_real`\n"
 "\n"
 "Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_complex_arccoth_data[] = {(void *) gsl_complex_arccoth, (void *) gsl_complex_arccoth};
+static const char gsl_complex_arccoth_doc[] =
+"Wrapper for :c:func:`gsl_complex_arccoth`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_ID__RD__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_log1p_data[] = {(void *) gsl_log1p, (void *) gsl_log1p};
+static const char gsl_log1p_doc[] =
+"Wrapper for :c:func:`gsl_log1p`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_expm1_data[] = {(void *) gsl_expm1, (void *) gsl_expm1};
+static const char gsl_expm1_doc[] =
+"Wrapper for :c:func:`gsl_expm1`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_hypot_data[] = {(void *) gsl_hypot, (void *) gsl_hypot};
+static const char gsl_hypot_doc[] =
+"Wrapper for :c:func:`gsl_hypot`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_d__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_hypot3_data[] = {(void *) gsl_hypot3, (void *) gsl_hypot3};
+static const char gsl_hypot3_doc[] =
+"Wrapper for :c:func:`gsl_hypot3`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_d_d__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_acosh_data[] = {(void *) gsl_acosh, (void *) gsl_acosh};
+static const char gsl_acosh_doc[] =
+"Wrapper for :c:func:`gsl_acosh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_asinh_data[] = {(void *) gsl_asinh, (void *) gsl_asinh};
+static const char gsl_asinh_doc[] =
+"Wrapper for :c:func:`gsl_asinh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_atanh_data[] = {(void *) gsl_atanh, (void *) gsl_atanh};
+static const char gsl_atanh_doc[] =
+"Wrapper for :c:func:`gsl_atanh`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_isnan_data[] = {(void *) gsl_isnan, (void *) gsl_isnan};
+static const char gsl_isnan_doc[] =
+"Wrapper for :c:func:`gsl_isnan`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rl__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_isinf_data[] = {(void *) gsl_isinf, (void *) gsl_isinf};
+static const char gsl_isinf_doc[] =
+"Wrapper for :c:func:`gsl_isinf`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rl__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_finite_data[] = {(void *) gsl_finite, (void *) gsl_finite};
+static const char gsl_finite_doc[] =
+"Wrapper for :c:func:`gsl_finite`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rl__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_fdiv_data[] = {(void *) gsl_fdiv, (void *) gsl_fdiv};
+static const char gsl_fdiv_doc[] =
+"Wrapper for :c:func:`gsl_fdiv`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_d__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_coerce_double_data[] = {(void *) gsl_coerce_double, (void *) gsl_coerce_double};
+static const char gsl_coerce_double_doc[] =
+"Wrapper for :c:func:`gsl_coerce_double`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_ldexp_data[] = {(void *) gsl_ldexp, (void *) gsl_ldexp};
+static const char gsl_ldexp_doc[] =
+"Wrapper for :c:func:`gsl_ldexp`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_l__Rd__O`\n"
+"Args:\n"    
+    ;
+static void * gsl_frexp_data[] = {(void *) gsl_frexp, (void *) gsl_frexp};
+static const char gsl_frexp_doc[] =
+"Wrapper for :c:func:`gsl_frexp`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__Ol`\n"
+"Args:\n"    
+    ;
+static void * gsl_fcmp_data[] = {(void *) gsl_fcmp, (void *) gsl_fcmp};
+static const char gsl_fcmp_doc[] =
+"Wrapper for :c:func:`gsl_fcmp`\n"
+"\n"
+"Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_d_d__Rl__O`\n"
 "Args:\n"    
     ;
