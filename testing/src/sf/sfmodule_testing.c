@@ -36,6 +36,9 @@ static inline int
 _pygsl_sf_long_to_int(long val, int * result)
 {
 	int status = GSL_EFAILED;
+	
+	FUNC_MESS_BEGIN();
+
 	if (val > (long) INT_MAX){
 		status = GSL_EINVAL;
 		*result = INT_MAX;
@@ -46,24 +49,42 @@ _pygsl_sf_long_to_int(long val, int * result)
 		status = GSL_SUCCESS;
 		*result = (int) val;
 	}
+
+	FUNC_MESS_END();
+	
 	return status;
 }
 
 static inline int
 _pygsl_sf_long_to_unsigned_int(long val, unsigned int * result)
 {
-	int status = GSL_EFAILED;
 
-	if (val > (long) UINT_MAX){
-		status = GSL_EINVAL;
-		*result = UINT_MAX;
-	} else if (val < 0){
+        int status = GSL_EFAILED;
+
+	FUNC_MESS_BEGIN();
+
+	DEBUG_MESS(2, "l-> ui: input %ld", val);
+	DEBUG_MESS(8, "sizeof(unsigned int) = %d sizeof(long) =%d", sizeof(unsigned int), sizeof(long));
+	DEBUG_MESS(8, "UINT_MAX = %u ", UINT_MAX, sizeof(unsigned int), sizeof(long));
+	
+	if (val < 0){
 		status = GSL_EINVAL;
 		*result = 0;
-	} else {
+		DEBUG_MESS(2, "Conversion long-> unsigned int: val %ld < 0", (val));
+	}
+        /* on windows long and int are 4 bytes .... so ignorable here ... */
+	else if ((UINT_MAX <  LONG_MAX) && (val > (long) UINT_MAX)){
+		status = GSL_EINVAL;
+		*result = UINT_MAX;
+		DEBUG_MESS(2, "Conversion long-> unsigned int: val %ld > UNIT_MAX = %ld ", val, UINT_MAX);
+	}
+	else {
 		status = GSL_SUCCESS;
 		*result = (int) val;
+		DEBUG_MESS(2, "Conversion long-> unsigned int: val %ld -> %u", val, *result);
 	}
+
+	FUNC_MESS_END();
 	return status;
 }
 
