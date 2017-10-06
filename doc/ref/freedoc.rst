@@ -1,8 +1,7 @@
 .. _gun-free-doc:
-
-
+******************************
 GNU Free Documentation License
-==============================
+******************************
 
 | Version 1.1, March 2000
 | Copyright © 2000 Free Software Foundation, Inc.
@@ -11,7 +10,7 @@ GNU Free Documentation License
   license document, but changing it is not allowed.
 
 Preamble
---------
+========
 
 The purpose of this License is to make a manual, textbook, or other
 written document “free” in the sense of freedom: to assure everyone the
@@ -35,7 +34,7 @@ published as a printed book. We recommend this License principally for
 works whose purpose is instruction or reference.
 
 Applicability and Definitions
------------------------------
+=============================
 
 This License applies to any manual or other work that contains a notice
 placed by the copyright holder saying it can be distributed under the
@@ -94,7 +93,7 @@ most prominent appearance of the work’s title, preceding the beginning
 of the body of the text.
 
 Verbatim Copying
-----------------
+================
 
 You may copy and distribute the Document in any medium, either
 commercially or noncommercially, provided that this License, the
@@ -110,7 +109,7 @@ You may also lend copies, under the same conditions stated above, and
 you may publicly display copies.
 
 Copying in Quantity
--------------------
+===================
 
 If you publish printed copies of the Document numbering more than 100,
 and the Document’s license notice requires Cover Texts, you must enclose
@@ -148,7 +147,7 @@ Document well before redistributing any large number of copies, to give
 them a chance to provide you with an updated version of the Document.
 
 Modifications
--------------
+=============
 
 You may copy and distribute a Modified Version of the Document under the
 conditions of sections 2 and 3 above, provided that you release the
@@ -244,7 +243,7 @@ give permission to use their names for publicity for or to assert or
 imply endorsement of any Modified Version.
 
 Combining Documents
--------------------
+===================
 
 You may combine the Document with other documents released under this
 License, under the terms defined in section 4 above for modified
@@ -269,7 +268,7 @@ sections entitled “Dedications”. You must delete all sections entitled
 “Endorsements.”
 
 Collections of Documents
-------------------------
+========================
 
 You may make a collection consisting of the Document and other documents
 released under this License, and replace the individual copies of this
@@ -283,7 +282,7 @@ License into the extracted document, and follow this License in all
 other respects regarding verbatim copying of that document.
 
 Aggregation With Independent Works
-----------------------------------
+==================================
 
 A compilation of the Document or its derivatives with other separate and
 independent documents or works, in or on a volume of a storage or
@@ -301,7 +300,7 @@ that surround only the Document within the aggregate. Otherwise they
 must appear on covers around the whole aggregate.
 
 Translation
------------
+===========
 
 Translation is considered a kind of modification, so you may distribute
 translations of the Document under the terms of section 4. Replacing
@@ -315,7 +314,7 @@ original English version of this License, the original English version
 will prevail.
 
 Termination
------------
+===========
 
 You may not copy, modify, sublicense, or distribute the Document except
 as expressly provided for under this License. Any other attempt to copy,
@@ -326,7 +325,7 @@ not have their licenses terminated so long as such parties remain in
 full compliance.
 
 Future Revisions of This License
---------------------------------
+================================
 
 The Free Software Foundation may publish new, revised versions of the
 GNU Free Documentation License from time to time. Such new versions will
