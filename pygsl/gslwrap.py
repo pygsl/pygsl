@@ -111,7 +111,14 @@ class Permutation(_object):
         data = _swig_property(_gslwrap.Permutation_data_get)
 
     def __init__(self, n):
-        """__init__(gsl_permutation_struct self, size_t n) -> Permutation"""
+        """
+        __init__(gsl_permutation_struct self, size_t n) -> Permutation
+
+        Parameters
+        ----------
+        n: size_t
+
+        """
         this = _gslwrap.new_Permutation(n)
         try:
             self.this.append(this)
@@ -121,87 +128,208 @@ class Permutation(_object):
     __del__ = lambda self: None
 
     def inversions(self):
-        """inversions(Permutation self) -> size_t"""
+        """
+        inversions(Permutation self) -> size_t
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_inversions(self)
 
 
     def __getitem__(self, i):
-        """__getitem__(Permutation self, size_t const i) -> size_t"""
+        """
+        __getitem__(Permutation self, size_t const i) -> size_t
+
+        Parameters
+        ----------
+        i: size_t const
+
+        """
         return _gslwrap.Permutation___getitem__(self, i)
 
 
     def swap(self, i, j):
-        """swap(Permutation self, size_t const i, size_t const j) -> gsl_error_flag_drop"""
+        """
+        swap(Permutation self, size_t const i, size_t const j) -> gsl_error_flag_drop
+
+        Parameters
+        ----------
+        i: size_t const
+        j: size_t const
+
+        """
         return _gslwrap.Permutation_swap(self, i, j)
 
 
     def __len__(self):
-        """__len__(Permutation self) -> size_t"""
+        """
+        __len__(Permutation self) -> size_t
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation___len__(self)
 
 
     def valid(self):
-        """valid(Permutation self) -> gsl_error_flag_drop"""
+        """
+        valid(Permutation self) -> gsl_error_flag_drop
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_valid(self)
 
 
     def reverse(self):
-        """reverse(Permutation self)"""
+        """
+        reverse(Permutation self)
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_reverse(self)
 
 
     def next(self):
-        """next(Permutation self) -> int"""
+        """
+        next(Permutation self) -> int
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_next(self)
 
 
     def prev(self):
-        """prev(Permutation self) -> int"""
+        """
+        prev(Permutation self) -> int
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_prev(self)
 
 
     def __str__(self):
-        """__str__(Permutation self) -> char *"""
+        """
+        __str__(Permutation self) -> char *
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation___str__(self)
 
 
     def tolist(self):
-        """tolist(Permutation self) -> PyObject *"""
+        """
+        tolist(Permutation self) -> PyObject *
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_tolist(self)
 
 
     def toarray(self):
-        """toarray(Permutation self) -> PyObject *"""
+        """
+        toarray(Permutation self) -> PyObject *
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_toarray(self)
 
 
     def _linear_to_canonical(self, q):
-        """_linear_to_canonical(Permutation self, Permutation q) -> gsl_error_flag_drop"""
+        """
+        _linear_to_canonical(Permutation self, Permutation q) -> gsl_error_flag_drop
+
+        Parameters
+        ----------
+        q: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation__linear_to_canonical(self, q)
 
 
     def _canonical_to_linear(self, q):
-        """_canonical_to_linear(Permutation self, Permutation q) -> gsl_error_flag_drop"""
+        """
+        _canonical_to_linear(Permutation self, Permutation q) -> gsl_error_flag_drop
+
+        Parameters
+        ----------
+        q: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation__canonical_to_linear(self, q)
 
 
     def _mul(self, res, m2):
-        """_mul(Permutation self, Permutation res, Permutation m2) -> gsl_error_flag_drop"""
+        """
+        _mul(Permutation self, Permutation res, Permutation m2) -> gsl_error_flag_drop
+
+        Parameters
+        ----------
+        res: struct gsl_permutation_struct *
+        m2: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation__mul(self, res, m2)
 
 
     def _inverse(self, inv):
-        """_inverse(Permutation self, Permutation inv) -> gsl_error_flag_drop"""
+        """
+        _inverse(Permutation self, Permutation inv) -> gsl_error_flag_drop
+
+        Parameters
+        ----------
+        inv: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation__inverse(self, inv)
 
 
     def linear_cycles(self):
-        """linear_cycles(Permutation self) -> size_t"""
+        """
+        linear_cycles(Permutation self) -> size_t
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_linear_cycles(self)
 
 
     def canonical_cycles(self):
-        """canonical_cycles(Permutation self) -> size_t"""
+        """
+        canonical_cycles(Permutation self) -> size_t
+
+        Parameters
+        ----------
+        self: struct gsl_permutation_struct *
+
+        """
         return _gslwrap.Permutation_canonical_cycles(self)
 
 Permutation_swigregister = _gslwrap.Permutation_swigregister
@@ -209,662 +337,2168 @@ Permutation_swigregister(Permutation)
 
 
 def gsl_permutation_alloc(n):
-    """gsl_permutation_alloc(size_t const n) -> Permutation"""
+    """
+    gsl_permutation_alloc(size_t const n) -> Permutation
+
+    Parameters
+    ----------
+    n: size_t const
+
+    """
     return _gslwrap.gsl_permutation_alloc(n)
 
 def gsl_permutation_calloc(n):
-    """gsl_permutation_calloc(size_t const n) -> Permutation"""
+    """
+    gsl_permutation_calloc(size_t const n) -> Permutation
+
+    Parameters
+    ----------
+    n: size_t const
+
+    """
     return _gslwrap.gsl_permutation_calloc(n)
 
 def gsl_permutation_init(p):
-    """gsl_permutation_init(Permutation p)"""
+    """
+    gsl_permutation_init(Permutation p)
+
+    Parameters
+    ----------
+    p: gsl_permutation *
+
+    """
     return _gslwrap.gsl_permutation_init(p)
 
 def gsl_permutation_free(p):
-    """gsl_permutation_free(Permutation p)"""
+    """
+    gsl_permutation_free(Permutation p)
+
+    Parameters
+    ----------
+    p: gsl_permutation *
+
+    """
     return _gslwrap.gsl_permutation_free(p)
 
 def gsl_permutation_fread(stream, p):
-    """gsl_permutation_fread(FILE * stream, Permutation p) -> int"""
+    """
+    gsl_permutation_fread(FILE * stream, Permutation p) -> int
+
+    Parameters
+    ----------
+    stream: FILE *
+    p: gsl_permutation *
+
+    """
     return _gslwrap.gsl_permutation_fread(stream, p)
 
 def gsl_permutation_fwrite(stream, p):
-    """gsl_permutation_fwrite(FILE * stream, Permutation p) -> int"""
+    """
+    gsl_permutation_fwrite(FILE * stream, Permutation p) -> int
+
+    Parameters
+    ----------
+    stream: FILE *
+    p: gsl_permutation const *
+
+    """
     return _gslwrap.gsl_permutation_fwrite(stream, p)
 
 def gsl_permutation_fscanf(stream, p):
-    """gsl_permutation_fscanf(FILE * stream, Permutation p) -> int"""
+    """
+    gsl_permutation_fscanf(FILE * stream, Permutation p) -> int
+
+    Parameters
+    ----------
+    stream: FILE *
+    p: gsl_permutation *
+
+    """
     return _gslwrap.gsl_permutation_fscanf(stream, p)
 
 def gsl_permutation_fprintf(stream, p, format):
-    """gsl_permutation_fprintf(FILE * stream, Permutation p, char const * format) -> int"""
+    """
+    gsl_permutation_fprintf(FILE * stream, Permutation p, char const * format) -> int
+
+    Parameters
+    ----------
+    stream: FILE *
+    p: gsl_permutation const *
+    format: char const *
+
+    """
     return _gslwrap.gsl_permutation_fprintf(stream, p, format)
 
 def gsl_permutation_size(p):
-    """gsl_permutation_size(Permutation p) -> size_t"""
+    """
+    gsl_permutation_size(Permutation p) -> size_t
+
+    Parameters
+    ----------
+    p: gsl_permutation const *
+
+    """
     return _gslwrap.gsl_permutation_size(p)
 
 def gsl_permutation_data(p):
-    """gsl_permutation_data(Permutation p) -> size_t *"""
+    """
+    gsl_permutation_data(Permutation p) -> size_t *
+
+    Parameters
+    ----------
+    p: gsl_permutation const *
+
+    """
     return _gslwrap.gsl_permutation_data(p)
 
 def gsl_permutation_swap(p, i, j):
-    """gsl_permutation_swap(Permutation p, size_t const i, size_t const j) -> int"""
+    """
+    gsl_permutation_swap(Permutation p, size_t const i, size_t const j) -> int
+
+    Parameters
+    ----------
+    p: gsl_permutation *
+    i: size_t const
+    j: size_t const
+
+    """
     return _gslwrap.gsl_permutation_swap(p, i, j)
 
 def gsl_permutation_valid(p):
-    """gsl_permutation_valid(Permutation p) -> int"""
+    """
+    gsl_permutation_valid(Permutation p) -> int
+
+    Parameters
+    ----------
+    p: gsl_permutation const *
+
+    """
     return _gslwrap.gsl_permutation_valid(p)
 
 def gsl_permutation_reverse(p):
-    """gsl_permutation_reverse(Permutation p)"""
+    """
+    gsl_permutation_reverse(Permutation p)
+
+    Parameters
+    ----------
+    p: gsl_permutation *
+
+    """
     return _gslwrap.gsl_permutation_reverse(p)
 
 def gsl_permutation_inverse(inv, p):
-    """gsl_permutation_inverse(Permutation inv, Permutation p) -> int"""
+    """
+    gsl_permutation_inverse(Permutation inv, Permutation p) -> int
+
+    Parameters
+    ----------
+    inv: gsl_permutation *
+    p: gsl_permutation const *
+
+    """
     return _gslwrap.gsl_permutation_inverse(inv, p)
 
 def gsl_permutation_next(p):
-    """gsl_permutation_next(Permutation p) -> int"""
+    """
+    gsl_permutation_next(Permutation p) -> int
+
+    Parameters
+    ----------
+    p: gsl_permutation *
+
+    """
     return _gslwrap.gsl_permutation_next(p)
 
 def gsl_permutation_prev(p):
-    """gsl_permutation_prev(Permutation p) -> int"""
+    """
+    gsl_permutation_prev(Permutation p) -> int
+
+    Parameters
+    ----------
+    p: gsl_permutation *
+
+    """
     return _gslwrap.gsl_permutation_prev(p)
 
 def gsl_permutation_linear_to_canonical(q, p):
-    """gsl_permutation_linear_to_canonical(Permutation q, Permutation p) -> int"""
+    """
+    gsl_permutation_linear_to_canonical(Permutation q, Permutation p) -> int
+
+    Parameters
+    ----------
+    q: gsl_permutation *
+    p: gsl_permutation const *
+
+    """
     return _gslwrap.gsl_permutation_linear_to_canonical(q, p)
 
 def gsl_permutation_canonical_to_linear(p, q):
-    """gsl_permutation_canonical_to_linear(Permutation p, Permutation q) -> int"""
+    """
+    gsl_permutation_canonical_to_linear(Permutation p, Permutation q) -> int
+
+    Parameters
+    ----------
+    p: gsl_permutation *
+    q: gsl_permutation const *
+
+    """
     return _gslwrap.gsl_permutation_canonical_to_linear(p, q)
 
 def gsl_permutation_get(p, i):
-    """gsl_permutation_get(Permutation p, size_t const i) -> size_t"""
+    """
+    gsl_permutation_get(Permutation p, size_t const i) -> size_t
+
+    Parameters
+    ----------
+    p: gsl_permutation const *
+    i: size_t const
+
+    """
     return _gslwrap.gsl_permutation_get(p, i)
 
 def pygsl_linalg_complex_householder_mh(tau, v, OUTPUT):
-    """pygsl_linalg_complex_householder_mh(gsl_complex tau, gsl_vector_complex const * v, gsl_matrix_complex * OUTPUT) -> int"""
+    """
+    pygsl_linalg_complex_householder_mh(gsl_complex tau, gsl_vector_complex const * v, gsl_matrix_complex * OUTPUT) -> int
+
+    Parameters
+    ----------
+    tau: gsl_complex
+    v: gsl_vector_complex const *
+    OUTPUT: gsl_matrix_complex * (output)
+
+    """
     return _gslwrap.pygsl_linalg_complex_householder_mh(tau, v, OUTPUT)
 
 def pygsl_linalg_hessenberg_decomp(A, tau):
-    """pygsl_linalg_hessenberg_decomp(gsl_matrix * A, gsl_vector * tau) -> int"""
+    """
+    pygsl_linalg_hessenberg_decomp(gsl_matrix * A, gsl_vector * tau) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau: gsl_vector *
+
+    """
     return _gslwrap.pygsl_linalg_hessenberg_decomp(A, tau)
 
 def pygsl_linalg_complex_cholesky_invert(cholesky):
-    """pygsl_linalg_complex_cholesky_invert(gsl_matrix_complex * cholesky) -> int"""
+    """
+    pygsl_linalg_complex_cholesky_invert(gsl_matrix_complex * cholesky) -> int
+
+    Parameters
+    ----------
+    cholesky: gsl_matrix_complex *
+
+    """
     return _gslwrap.pygsl_linalg_complex_cholesky_invert(cholesky)
 GSL_LINALG_MOD_NONE = _gslwrap.GSL_LINALG_MOD_NONE
 GSL_LINALG_MOD_TRANSPOSE = _gslwrap.GSL_LINALG_MOD_TRANSPOSE
 GSL_LINALG_MOD_CONJUGATE = _gslwrap.GSL_LINALG_MOD_CONJUGATE
 
 def gsl_linalg_matmult(A, B, C):
-    """gsl_linalg_matmult(gsl_matrix const * A, gsl_matrix const * B, gsl_matrix * C) -> int"""
+    """
+    gsl_linalg_matmult(gsl_matrix const * A, gsl_matrix const * B, gsl_matrix * C) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    B: gsl_matrix const *
+    C: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_matmult(A, B, C)
 
 def gsl_linalg_matmult_mod(A, modA, B, modB, C):
-    """gsl_linalg_matmult_mod(gsl_matrix const * A, gsl_linalg_matrix_mod_t modA, gsl_matrix const * B, gsl_linalg_matrix_mod_t modB, gsl_matrix * C) -> int"""
+    """
+    gsl_linalg_matmult_mod(gsl_matrix const * A, gsl_linalg_matrix_mod_t modA, gsl_matrix const * B, gsl_linalg_matrix_mod_t modB, gsl_matrix * C) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    modA: enum gsl_linalg_matrix_mod_t
+    B: gsl_matrix const *
+    modB: enum gsl_linalg_matrix_mod_t
+    C: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_matmult_mod(A, modA, B, modB, C)
 
 def gsl_linalg_exponential_ss(A, eA, mode):
-    """gsl_linalg_exponential_ss(gsl_matrix const * A, gsl_matrix * eA, gsl_mode_t mode) -> int"""
+    """
+    gsl_linalg_exponential_ss(gsl_matrix const * A, gsl_matrix * eA, gsl_mode_t mode) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    eA: gsl_matrix *
+    mode: gsl_mode_t
+
+    """
     return _gslwrap.gsl_linalg_exponential_ss(A, eA, mode)
 
 def gsl_linalg_householder_transform(v):
-    """gsl_linalg_householder_transform(gsl_vector * v) -> double"""
+    """
+    gsl_linalg_householder_transform(gsl_vector * v) -> double
+
+    Parameters
+    ----------
+    v: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_householder_transform(v)
 
 def gsl_linalg_complex_householder_transform(v):
-    """gsl_linalg_complex_householder_transform(gsl_vector_complex * v) -> gsl_complex"""
+    """
+    gsl_linalg_complex_householder_transform(gsl_vector_complex * v) -> gsl_complex
+
+    Parameters
+    ----------
+    v: gsl_vector_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_householder_transform(v)
 
 def gsl_linalg_householder_hm(tau, v, A):
-    """gsl_linalg_householder_hm(double tau, gsl_vector const * v, gsl_matrix * A) -> int"""
+    """
+    gsl_linalg_householder_hm(double tau, gsl_vector const * v, gsl_matrix * A) -> int
+
+    Parameters
+    ----------
+    tau: double
+    v: gsl_vector const *
+    A: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_householder_hm(tau, v, A)
 
 def gsl_linalg_householder_mh(tau, v, A):
-    """gsl_linalg_householder_mh(double tau, gsl_vector const * v, gsl_matrix * A) -> int"""
+    """
+    gsl_linalg_householder_mh(double tau, gsl_vector const * v, gsl_matrix * A) -> int
+
+    Parameters
+    ----------
+    tau: double
+    v: gsl_vector const *
+    A: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_householder_mh(tau, v, A)
 
 def gsl_linalg_householder_hv(tau, v, w):
-    """gsl_linalg_householder_hv(double tau, gsl_vector const * v, gsl_vector * w) -> int"""
+    """
+    gsl_linalg_householder_hv(double tau, gsl_vector const * v, gsl_vector * w) -> int
+
+    Parameters
+    ----------
+    tau: double
+    v: gsl_vector const *
+    w: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_householder_hv(tau, v, w)
 
 def gsl_linalg_householder_hm1(tau, A):
-    """gsl_linalg_householder_hm1(double tau, gsl_matrix * A) -> int"""
+    """
+    gsl_linalg_householder_hm1(double tau, gsl_matrix * A) -> int
+
+    Parameters
+    ----------
+    tau: double
+    A: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_householder_hm1(tau, A)
 
 def gsl_linalg_complex_householder_hm(tau, v, A):
-    """gsl_linalg_complex_householder_hm(gsl_complex tau, gsl_vector_complex const * v, gsl_matrix_complex * A) -> int"""
+    """
+    gsl_linalg_complex_householder_hm(gsl_complex tau, gsl_vector_complex const * v, gsl_matrix_complex * A) -> int
+
+    Parameters
+    ----------
+    tau: gsl_complex
+    v: gsl_vector_complex const *
+    A: gsl_matrix_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_householder_hm(tau, v, A)
 
 def gsl_linalg_complex_householder_hv(tau, v, w):
-    """gsl_linalg_complex_householder_hv(gsl_complex tau, gsl_vector_complex const * v, gsl_vector_complex * w) -> int"""
+    """
+    gsl_linalg_complex_householder_hv(gsl_complex tau, gsl_vector_complex const * v, gsl_vector_complex * w) -> int
+
+    Parameters
+    ----------
+    tau: gsl_complex
+    v: gsl_vector_complex const *
+    w: gsl_vector_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_householder_hv(tau, v, w)
 
 def gsl_linalg_hessenberg_unpack(H, tau, U):
-    """gsl_linalg_hessenberg_unpack(gsl_matrix * H, gsl_vector * tau, gsl_matrix * U) -> int"""
+    """
+    gsl_linalg_hessenberg_unpack(gsl_matrix * H, gsl_vector * tau, gsl_matrix * U) -> int
+
+    Parameters
+    ----------
+    H: gsl_matrix *
+    tau: gsl_vector *
+    U: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_hessenberg_unpack(H, tau, U)
 
 def gsl_linalg_hessenberg_unpack_accum(H, tau, U):
-    """gsl_linalg_hessenberg_unpack_accum(gsl_matrix * H, gsl_vector * tau, gsl_matrix * U) -> int"""
+    """
+    gsl_linalg_hessenberg_unpack_accum(gsl_matrix * H, gsl_vector * tau, gsl_matrix * U) -> int
+
+    Parameters
+    ----------
+    H: gsl_matrix *
+    tau: gsl_vector *
+    U: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_hessenberg_unpack_accum(H, tau, U)
 
 def gsl_linalg_hessenberg_set_zero(H):
-    """gsl_linalg_hessenberg_set_zero(gsl_matrix * H) -> int"""
+    """
+    gsl_linalg_hessenberg_set_zero(gsl_matrix * H) -> int
+
+    Parameters
+    ----------
+    H: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_hessenberg_set_zero(H)
 
 def gsl_linalg_hessenberg_submatrix(M, A, top, tau):
-    """gsl_linalg_hessenberg_submatrix(gsl_matrix * M, gsl_matrix * A, size_t top, gsl_vector * tau) -> int"""
+    """
+    gsl_linalg_hessenberg_submatrix(gsl_matrix * M, gsl_matrix * A, size_t top, gsl_vector * tau) -> int
+
+    Parameters
+    ----------
+    M: gsl_matrix *
+    A: gsl_matrix *
+    top: size_t
+    tau: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_hessenberg_submatrix(M, A, top, tau)
 
 def gsl_linalg_hesstri_decomp(A, B, U, V, work):
-    """gsl_linalg_hesstri_decomp(gsl_matrix * A, gsl_matrix * B, gsl_matrix * U, gsl_matrix * V, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_hesstri_decomp(gsl_matrix * A, gsl_matrix * B, gsl_matrix * U, gsl_matrix * V, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    B: gsl_matrix *
+    U: gsl_matrix *
+    V: gsl_matrix *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_hesstri_decomp(A, B, U, V, work)
 
 def gsl_linalg_SV_decomp(A, V, S, work):
-    """gsl_linalg_SV_decomp(gsl_matrix * A, gsl_matrix * V, gsl_vector * S, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_SV_decomp(gsl_matrix * A, gsl_matrix * V, gsl_vector * S, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    V: gsl_matrix *
+    S: gsl_vector *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_SV_decomp(A, V, S, work)
 
 def gsl_linalg_SV_decomp_mod(A, X, V, S, work):
-    """gsl_linalg_SV_decomp_mod(gsl_matrix * A, gsl_matrix * X, gsl_matrix * V, gsl_vector * S, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_SV_decomp_mod(gsl_matrix * A, gsl_matrix * X, gsl_matrix * V, gsl_vector * S, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    X: gsl_matrix *
+    V: gsl_matrix *
+    S: gsl_vector *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_SV_decomp_mod(A, X, V, S, work)
 
 def gsl_linalg_SV_decomp_jacobi(A, Q, S):
-    """gsl_linalg_SV_decomp_jacobi(gsl_matrix * A, gsl_matrix * Q, gsl_vector * S) -> int"""
+    """
+    gsl_linalg_SV_decomp_jacobi(gsl_matrix * A, gsl_matrix * Q, gsl_vector * S) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    Q: gsl_matrix *
+    S: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_SV_decomp_jacobi(A, Q, S)
 
 def gsl_linalg_SV_solve(U, Q, S, b, x):
-    """gsl_linalg_SV_solve(gsl_matrix const * U, gsl_matrix const * Q, gsl_vector const * S, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_SV_solve(gsl_matrix const * U, gsl_matrix const * Q, gsl_vector const * S, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    U: gsl_matrix const *
+    Q: gsl_matrix const *
+    S: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_SV_solve(U, Q, S, b, x)
 
 def gsl_linalg_LU_solve(LU, p, b, x):
-    """gsl_linalg_LU_solve(gsl_matrix const * LU, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_LU_solve(gsl_matrix const * LU, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LU: gsl_matrix const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LU_solve(LU, p, b, x)
 
 def gsl_linalg_LU_svx(LU, p, x):
-    """gsl_linalg_LU_svx(gsl_matrix const * LU, Permutation p, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_LU_svx(gsl_matrix const * LU, Permutation p, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LU: gsl_matrix const *
+    p: gsl_permutation const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LU_svx(LU, p, x)
 
 def gsl_linalg_LU_refine(A, LU, p, b, x, work):
-    """gsl_linalg_LU_refine(gsl_matrix const * A, gsl_matrix const * LU, Permutation p, gsl_vector const * b, gsl_vector * x, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_LU_refine(gsl_matrix const * A, gsl_matrix const * LU, Permutation p, gsl_vector const * b, gsl_vector * x, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    LU: gsl_matrix const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LU_refine(A, LU, p, b, x, work)
 
 def gsl_linalg_LU_invert(LU, p, inverse):
-    """gsl_linalg_LU_invert(gsl_matrix const * LU, Permutation p, gsl_matrix * inverse) -> int"""
+    """
+    gsl_linalg_LU_invert(gsl_matrix const * LU, Permutation p, gsl_matrix * inverse) -> int
+
+    Parameters
+    ----------
+    LU: gsl_matrix const *
+    p: gsl_permutation const *
+    inverse: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_LU_invert(LU, p, inverse)
 
 def gsl_linalg_LU_det(LU, signum):
-    """gsl_linalg_LU_det(gsl_matrix * LU, int signum) -> double"""
+    """
+    gsl_linalg_LU_det(gsl_matrix * LU, int signum) -> double
+
+    Parameters
+    ----------
+    LU: gsl_matrix *
+    signum: int
+
+    """
     return _gslwrap.gsl_linalg_LU_det(LU, signum)
 
 def gsl_linalg_LU_lndet(LU):
-    """gsl_linalg_LU_lndet(gsl_matrix * LU) -> double"""
+    """
+    gsl_linalg_LU_lndet(gsl_matrix * LU) -> double
+
+    Parameters
+    ----------
+    LU: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_LU_lndet(LU)
 
 def gsl_linalg_LU_sgndet(lu, signum):
-    """gsl_linalg_LU_sgndet(gsl_matrix * lu, int signum) -> int"""
+    """
+    gsl_linalg_LU_sgndet(gsl_matrix * lu, int signum) -> int
+
+    Parameters
+    ----------
+    lu: gsl_matrix *
+    signum: int
+
+    """
     return _gslwrap.gsl_linalg_LU_sgndet(lu, signum)
 
 def gsl_linalg_complex_LU_solve(LU, p, b, x):
-    """gsl_linalg_complex_LU_solve(gsl_matrix_complex const * LU, Permutation p, gsl_vector_complex const * b, gsl_vector_complex * x) -> int"""
+    """
+    gsl_linalg_complex_LU_solve(gsl_matrix_complex const * LU, Permutation p, gsl_vector_complex const * b, gsl_vector_complex * x) -> int
+
+    Parameters
+    ----------
+    LU: gsl_matrix_complex const *
+    p: gsl_permutation const *
+    b: gsl_vector_complex const *
+    x: gsl_vector_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_LU_solve(LU, p, b, x)
 
 def gsl_linalg_complex_LU_svx(LU, p, x):
-    """gsl_linalg_complex_LU_svx(gsl_matrix_complex const * LU, Permutation p, gsl_vector_complex * x) -> int"""
+    """
+    gsl_linalg_complex_LU_svx(gsl_matrix_complex const * LU, Permutation p, gsl_vector_complex * x) -> int
+
+    Parameters
+    ----------
+    LU: gsl_matrix_complex const *
+    p: gsl_permutation const *
+    x: gsl_vector_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_LU_svx(LU, p, x)
 
 def gsl_linalg_complex_LU_refine(A, LU, p, b, x, work):
-    """gsl_linalg_complex_LU_refine(gsl_matrix_complex const * A, gsl_matrix_complex const * LU, Permutation p, gsl_vector_complex const * b, gsl_vector_complex * x, gsl_vector_complex * work) -> int"""
+    """
+    gsl_linalg_complex_LU_refine(gsl_matrix_complex const * A, gsl_matrix_complex const * LU, Permutation p, gsl_vector_complex const * b, gsl_vector_complex * x, gsl_vector_complex * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix_complex const *
+    LU: gsl_matrix_complex const *
+    p: gsl_permutation const *
+    b: gsl_vector_complex const *
+    x: gsl_vector_complex *
+    work: gsl_vector_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_LU_refine(A, LU, p, b, x, work)
 
 def gsl_linalg_complex_LU_invert(LU, p, inverse):
-    """gsl_linalg_complex_LU_invert(gsl_matrix_complex const * LU, Permutation p, gsl_matrix_complex * inverse) -> int"""
+    """
+    gsl_linalg_complex_LU_invert(gsl_matrix_complex const * LU, Permutation p, gsl_matrix_complex * inverse) -> int
+
+    Parameters
+    ----------
+    LU: gsl_matrix_complex const *
+    p: gsl_permutation const *
+    inverse: gsl_matrix_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_LU_invert(LU, p, inverse)
 
 def gsl_linalg_complex_LU_det(LU, signum):
-    """gsl_linalg_complex_LU_det(gsl_matrix_complex * LU, int signum) -> gsl_complex"""
+    """
+    gsl_linalg_complex_LU_det(gsl_matrix_complex * LU, int signum) -> gsl_complex
+
+    Parameters
+    ----------
+    LU: gsl_matrix_complex *
+    signum: int
+
+    """
     return _gslwrap.gsl_linalg_complex_LU_det(LU, signum)
 
 def gsl_linalg_complex_LU_lndet(LU):
-    """gsl_linalg_complex_LU_lndet(gsl_matrix_complex * LU) -> double"""
+    """
+    gsl_linalg_complex_LU_lndet(gsl_matrix_complex * LU) -> double
+
+    Parameters
+    ----------
+    LU: gsl_matrix_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_LU_lndet(LU)
 
 def gsl_linalg_complex_LU_sgndet(LU, signum):
-    """gsl_linalg_complex_LU_sgndet(gsl_matrix_complex * LU, int signum) -> gsl_complex"""
+    """
+    gsl_linalg_complex_LU_sgndet(gsl_matrix_complex * LU, int signum) -> gsl_complex
+
+    Parameters
+    ----------
+    LU: gsl_matrix_complex *
+    signum: int
+
+    """
     return _gslwrap.gsl_linalg_complex_LU_sgndet(LU, signum)
 
 def gsl_linalg_QR_decomp(A, tau):
-    """gsl_linalg_QR_decomp(gsl_matrix * A, gsl_vector * tau) -> int"""
+    """
+    gsl_linalg_QR_decomp(gsl_matrix * A, gsl_vector * tau) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_decomp(A, tau)
 
 def gsl_linalg_QR_solve(QR, tau, b, x):
-    """gsl_linalg_QR_solve(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QR_solve(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_solve(QR, tau, b, x)
 
 def gsl_linalg_QR_svx(QR, tau, x):
-    """gsl_linalg_QR_svx(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QR_svx(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_svx(QR, tau, x)
 
 def gsl_linalg_QR_lssolve(QR, tau, b, x, residual):
-    """gsl_linalg_QR_lssolve(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector const * b, gsl_vector * x, gsl_vector * residual) -> int"""
+    """
+    gsl_linalg_QR_lssolve(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector const * b, gsl_vector * x, gsl_vector * residual) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+    residual: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_lssolve(QR, tau, b, x, residual)
 
 def gsl_linalg_QR_QRsolve(Q, R, b, x):
-    """gsl_linalg_QR_QRsolve(gsl_matrix * Q, gsl_matrix * R, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QR_QRsolve(gsl_matrix * Q, gsl_matrix * R, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    Q: gsl_matrix *
+    R: gsl_matrix *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_QRsolve(Q, R, b, x)
 
 def gsl_linalg_QR_Rsolve(QR, b, x):
-    """gsl_linalg_QR_Rsolve(gsl_matrix const * QR, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QR_Rsolve(gsl_matrix const * QR, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_Rsolve(QR, b, x)
 
 def gsl_linalg_QR_Rsvx(QR, x):
-    """gsl_linalg_QR_Rsvx(gsl_matrix const * QR, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QR_Rsvx(gsl_matrix const * QR, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_Rsvx(QR, x)
 
 def gsl_linalg_QR_update(Q, R, w, v):
-    """gsl_linalg_QR_update(gsl_matrix * Q, gsl_matrix * R, gsl_vector * w, gsl_vector const * v) -> int"""
+    """
+    gsl_linalg_QR_update(gsl_matrix * Q, gsl_matrix * R, gsl_vector * w, gsl_vector const * v) -> int
+
+    Parameters
+    ----------
+    Q: gsl_matrix *
+    R: gsl_matrix *
+    w: gsl_vector *
+    v: gsl_vector const *
+
+    """
     return _gslwrap.gsl_linalg_QR_update(Q, R, w, v)
 
 def gsl_linalg_QR_QTvec(QR, tau, v):
-    """gsl_linalg_QR_QTvec(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector * v) -> int"""
+    """
+    gsl_linalg_QR_QTvec(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector * v) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    v: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_QTvec(QR, tau, v)
 
 def gsl_linalg_QR_Qvec(QR, tau, v):
-    """gsl_linalg_QR_Qvec(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector * v) -> int"""
+    """
+    gsl_linalg_QR_Qvec(gsl_matrix const * QR, gsl_vector const * tau, gsl_vector * v) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    v: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QR_Qvec(QR, tau, v)
 
 def gsl_linalg_QR_QTmat(QR, tau, A):
-    """gsl_linalg_QR_QTmat(gsl_matrix const * QR, gsl_vector const * tau, gsl_matrix * A) -> int"""
+    """
+    gsl_linalg_QR_QTmat(gsl_matrix const * QR, gsl_vector const * tau, gsl_matrix * A) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    A: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_QR_QTmat(QR, tau, A)
 
 def gsl_linalg_QR_unpack(QR, tau, Q, R):
-    """gsl_linalg_QR_unpack(gsl_matrix const * QR, gsl_vector const * tau, gsl_matrix * Q, gsl_matrix * R) -> int"""
+    """
+    gsl_linalg_QR_unpack(gsl_matrix const * QR, gsl_vector const * tau, gsl_matrix * Q, gsl_matrix * R) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    Q: gsl_matrix *
+    R: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_QR_unpack(QR, tau, Q, R)
 
 def gsl_linalg_R_solve(R, b, x):
-    """gsl_linalg_R_solve(gsl_matrix const * R, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_R_solve(gsl_matrix const * R, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    R: gsl_matrix const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_R_solve(R, b, x)
 
 def gsl_linalg_R_svx(R, x):
-    """gsl_linalg_R_svx(gsl_matrix const * R, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_R_svx(gsl_matrix const * R, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    R: gsl_matrix const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_R_svx(R, x)
 
 def gsl_linalg_QRPT_decomp(A, tau, p, norm):
-    """gsl_linalg_QRPT_decomp(gsl_matrix * A, gsl_vector * tau, Permutation p, gsl_vector * norm) -> int"""
+    """
+    gsl_linalg_QRPT_decomp(gsl_matrix * A, gsl_vector * tau, Permutation p, gsl_vector * norm) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau: gsl_vector *
+    p: gsl_permutation *
+    norm: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_decomp(A, tau, p, norm)
 
 def gsl_linalg_QRPT_decomp2(A, q, r, tau, p, norm):
-    """gsl_linalg_QRPT_decomp2(gsl_matrix const * A, gsl_matrix * q, gsl_matrix * r, gsl_vector * tau, Permutation p, gsl_vector * norm) -> int"""
+    """
+    gsl_linalg_QRPT_decomp2(gsl_matrix const * A, gsl_matrix * q, gsl_matrix * r, gsl_vector * tau, Permutation p, gsl_vector * norm) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    q: gsl_matrix *
+    r: gsl_matrix *
+    tau: gsl_vector *
+    p: gsl_permutation *
+    norm: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_decomp2(A, q, r, tau, p, norm)
 
 def gsl_linalg_QRPT_solve(QR, tau, p, b, x):
-    """gsl_linalg_QRPT_solve(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QRPT_solve(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_solve(QR, tau, p, b, x)
 
 def gsl_linalg_QRPT_lssolve(QR, tau, p, b, x, residual):
-    """gsl_linalg_QRPT_lssolve(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector const * b, gsl_vector * x, gsl_vector * residual) -> int"""
+    """
+    gsl_linalg_QRPT_lssolve(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector const * b, gsl_vector * x, gsl_vector * residual) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+    residual: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_lssolve(QR, tau, p, b, x, residual)
 
 def gsl_linalg_QRPT_lssolve2(QR, tau, p, b, rank, x, residual):
-    """gsl_linalg_QRPT_lssolve2(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector const * b, size_t const rank, gsl_vector * x, gsl_vector * residual) -> int"""
+    """
+    gsl_linalg_QRPT_lssolve2(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector const * b, size_t const rank, gsl_vector * x, gsl_vector * residual) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    rank: size_t const
+    x: gsl_vector *
+    residual: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_lssolve2(QR, tau, p, b, rank, x, residual)
 
 def gsl_linalg_QRPT_svx(QR, tau, p, x):
-    """gsl_linalg_QRPT_svx(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QRPT_svx(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    p: gsl_permutation const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_svx(QR, tau, p, x)
 
 def gsl_linalg_QRPT_QRsolve(Q, R, p, b, x):
-    """gsl_linalg_QRPT_QRsolve(gsl_matrix const * Q, gsl_matrix const * R, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QRPT_QRsolve(gsl_matrix const * Q, gsl_matrix const * R, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    Q: gsl_matrix const *
+    R: gsl_matrix const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_QRsolve(Q, R, p, b, x)
 
 def gsl_linalg_QRPT_Rsolve(QR, p, b, x):
-    """gsl_linalg_QRPT_Rsolve(gsl_matrix const * QR, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QRPT_Rsolve(gsl_matrix const * QR, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_Rsolve(QR, p, b, x)
 
 def gsl_linalg_QRPT_Rsvx(QR, p, x):
-    """gsl_linalg_QRPT_Rsvx(gsl_matrix const * QR, Permutation p, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_QRPT_Rsvx(gsl_matrix const * QR, Permutation p, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    p: gsl_permutation const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_Rsvx(QR, p, x)
 
 def gsl_linalg_QRPT_update(Q, R, p, u, v):
-    """gsl_linalg_QRPT_update(gsl_matrix * Q, gsl_matrix * R, Permutation p, gsl_vector * u, gsl_vector const * v) -> int"""
+    """
+    gsl_linalg_QRPT_update(gsl_matrix * Q, gsl_matrix * R, Permutation p, gsl_vector * u, gsl_vector const * v) -> int
+
+    Parameters
+    ----------
+    Q: gsl_matrix *
+    R: gsl_matrix *
+    p: gsl_permutation const *
+    u: gsl_vector *
+    v: gsl_vector const *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_update(Q, R, p, u, v)
 
 def gsl_linalg_QRPT_rank(QR, tol):
-    """gsl_linalg_QRPT_rank(gsl_matrix const * QR, double const tol) -> size_t"""
+    """
+    gsl_linalg_QRPT_rank(gsl_matrix const * QR, double const tol) -> size_t
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tol: double const
+
+    """
     return _gslwrap.gsl_linalg_QRPT_rank(QR, tol)
 
 def gsl_linalg_QRPT_rcond(QR, rcond, work):
-    """gsl_linalg_QRPT_rcond(gsl_matrix const * QR, double * rcond, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_QRPT_rcond(gsl_matrix const * QR, double * rcond, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    rcond: double *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_QRPT_rcond(QR, rcond, work)
 
 def gsl_linalg_COD_decomp(A, tau_Q, tau_Z, p, rank, work):
-    """gsl_linalg_COD_decomp(gsl_matrix * A, gsl_vector * tau_Q, gsl_vector * tau_Z, Permutation p, size_t * rank, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_COD_decomp(gsl_matrix * A, gsl_vector * tau_Q, gsl_vector * tau_Z, Permutation p, size_t * rank, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau_Q: gsl_vector *
+    tau_Z: gsl_vector *
+    p: gsl_permutation *
+    rank: size_t *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_COD_decomp(A, tau_Q, tau_Z, p, rank, work)
 
 def gsl_linalg_COD_decomp_e(A, tau_Q, tau_Z, p, tol, rank, work):
-    """gsl_linalg_COD_decomp_e(gsl_matrix * A, gsl_vector * tau_Q, gsl_vector * tau_Z, Permutation p, double tol, size_t * rank, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_COD_decomp_e(gsl_matrix * A, gsl_vector * tau_Q, gsl_vector * tau_Z, Permutation p, double tol, size_t * rank, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau_Q: gsl_vector *
+    tau_Z: gsl_vector *
+    p: gsl_permutation *
+    tol: double
+    rank: size_t *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_COD_decomp_e(A, tau_Q, tau_Z, p, tol, rank, work)
 
 def gsl_linalg_COD_lssolve(QRZT, tau_Q, tau_Z, perm, rank, b, x, residual):
-    """gsl_linalg_COD_lssolve(gsl_matrix const * QRZT, gsl_vector const * tau_Q, gsl_vector const * tau_Z, Permutation perm, size_t const rank, gsl_vector const * b, gsl_vector * x, gsl_vector * residual) -> int"""
+    """
+    gsl_linalg_COD_lssolve(gsl_matrix const * QRZT, gsl_vector const * tau_Q, gsl_vector const * tau_Z, Permutation perm, size_t const rank, gsl_vector const * b, gsl_vector * x, gsl_vector * residual) -> int
+
+    Parameters
+    ----------
+    QRZT: gsl_matrix const *
+    tau_Q: gsl_vector const *
+    tau_Z: gsl_vector const *
+    perm: gsl_permutation const *
+    rank: size_t const
+    b: gsl_vector const *
+    x: gsl_vector *
+    residual: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_COD_lssolve(QRZT, tau_Q, tau_Z, perm, rank, b, x, residual)
 
 def gsl_linalg_COD_lssolve2(_lambda, QRZT, tau_Q, tau_Z, perm, rank, b, x, residual, S, work):
-    """gsl_linalg_COD_lssolve2(double const _lambda, gsl_matrix const * QRZT, gsl_vector const * tau_Q, gsl_vector const * tau_Z, Permutation perm, size_t const rank, gsl_vector const * b, gsl_vector * x, gsl_vector * residual, gsl_matrix * S, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_COD_lssolve2(double const _lambda, gsl_matrix const * QRZT, gsl_vector const * tau_Q, gsl_vector const * tau_Z, Permutation perm, size_t const rank, gsl_vector const * b, gsl_vector * x, gsl_vector * residual, gsl_matrix * S, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    lambda: double const
+    QRZT: gsl_matrix const *
+    tau_Q: gsl_vector const *
+    tau_Z: gsl_vector const *
+    perm: gsl_permutation const *
+    rank: size_t const
+    b: gsl_vector const *
+    x: gsl_vector *
+    residual: gsl_vector *
+    S: gsl_matrix *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_COD_lssolve2(_lambda, QRZT, tau_Q, tau_Z, perm, rank, b, x, residual, S, work)
 
 def gsl_linalg_COD_unpack(QRZT, tau_Q, tau_Z, rank, Q, R, Z):
-    """gsl_linalg_COD_unpack(gsl_matrix const * QRZT, gsl_vector const * tau_Q, gsl_vector const * tau_Z, size_t const rank, gsl_matrix * Q, gsl_matrix * R, gsl_matrix * Z) -> int"""
+    """
+    gsl_linalg_COD_unpack(gsl_matrix const * QRZT, gsl_vector const * tau_Q, gsl_vector const * tau_Z, size_t const rank, gsl_matrix * Q, gsl_matrix * R, gsl_matrix * Z) -> int
+
+    Parameters
+    ----------
+    QRZT: gsl_matrix const *
+    tau_Q: gsl_vector const *
+    tau_Z: gsl_vector const *
+    rank: size_t const
+    Q: gsl_matrix *
+    R: gsl_matrix *
+    Z: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_COD_unpack(QRZT, tau_Q, tau_Z, rank, Q, R, Z)
 
 def gsl_linalg_COD_matZ(QRZT, tau_Z, rank, A, work):
-    """gsl_linalg_COD_matZ(gsl_matrix const * QRZT, gsl_vector const * tau_Z, size_t const rank, gsl_matrix * A, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_COD_matZ(gsl_matrix const * QRZT, gsl_vector const * tau_Z, size_t const rank, gsl_matrix * A, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    QRZT: gsl_matrix const *
+    tau_Z: gsl_vector const *
+    rank: size_t const
+    A: gsl_matrix *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_COD_matZ(QRZT, tau_Z, rank, A, work)
 
 def gsl_linalg_LQ_decomp(A, tau):
-    """gsl_linalg_LQ_decomp(gsl_matrix * A, gsl_vector * tau) -> int"""
+    """
+    gsl_linalg_LQ_decomp(gsl_matrix * A, gsl_vector * tau) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_decomp(A, tau)
 
 def gsl_linalg_LQ_solve_T(LQ, tau, b, x):
-    """gsl_linalg_LQ_solve_T(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_LQ_solve_T(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    tau: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_solve_T(LQ, tau, b, x)
 
 def gsl_linalg_LQ_svx_T(LQ, tau, x):
-    """gsl_linalg_LQ_svx_T(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_LQ_svx_T(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    tau: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_svx_T(LQ, tau, x)
 
 def gsl_linalg_LQ_lssolve_T(LQ, tau, b, x, residual):
-    """gsl_linalg_LQ_lssolve_T(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector const * b, gsl_vector * x, gsl_vector * residual) -> int"""
+    """
+    gsl_linalg_LQ_lssolve_T(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector const * b, gsl_vector * x, gsl_vector * residual) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    tau: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+    residual: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_lssolve_T(LQ, tau, b, x, residual)
 
 def gsl_linalg_LQ_Lsolve_T(LQ, b, x):
-    """gsl_linalg_LQ_Lsolve_T(gsl_matrix const * LQ, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_LQ_Lsolve_T(gsl_matrix const * LQ, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_Lsolve_T(LQ, b, x)
 
 def gsl_linalg_LQ_Lsvx_T(LQ, x):
-    """gsl_linalg_LQ_Lsvx_T(gsl_matrix const * LQ, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_LQ_Lsvx_T(gsl_matrix const * LQ, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_Lsvx_T(LQ, x)
 
 def gsl_linalg_L_solve_T(L, b, x):
-    """gsl_linalg_L_solve_T(gsl_matrix const * L, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_L_solve_T(gsl_matrix const * L, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    L: gsl_matrix const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_L_solve_T(L, b, x)
 
 def gsl_linalg_LQ_vecQ(LQ, tau, v):
-    """gsl_linalg_LQ_vecQ(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector * v) -> int"""
+    """
+    gsl_linalg_LQ_vecQ(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector * v) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    tau: gsl_vector const *
+    v: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_vecQ(LQ, tau, v)
 
 def gsl_linalg_LQ_vecQT(LQ, tau, v):
-    """gsl_linalg_LQ_vecQT(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector * v) -> int"""
+    """
+    gsl_linalg_LQ_vecQT(gsl_matrix const * LQ, gsl_vector const * tau, gsl_vector * v) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    tau: gsl_vector const *
+    v: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_vecQT(LQ, tau, v)
 
 def gsl_linalg_LQ_unpack(LQ, tau, Q, L):
-    """gsl_linalg_LQ_unpack(gsl_matrix const * LQ, gsl_vector const * tau, gsl_matrix * Q, gsl_matrix * L) -> int"""
+    """
+    gsl_linalg_LQ_unpack(gsl_matrix const * LQ, gsl_vector const * tau, gsl_matrix * Q, gsl_matrix * L) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    tau: gsl_vector const *
+    Q: gsl_matrix *
+    L: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_LQ_unpack(LQ, tau, Q, L)
 
 def gsl_linalg_LQ_update(Q, R, v, w):
-    """gsl_linalg_LQ_update(gsl_matrix * Q, gsl_matrix * R, gsl_vector const * v, gsl_vector * w) -> int"""
+    """
+    gsl_linalg_LQ_update(gsl_matrix * Q, gsl_matrix * R, gsl_vector const * v, gsl_vector * w) -> int
+
+    Parameters
+    ----------
+    Q: gsl_matrix *
+    R: gsl_matrix *
+    v: gsl_vector const *
+    w: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_update(Q, R, v, w)
 
 def gsl_linalg_LQ_LQsolve(Q, L, b, x):
-    """gsl_linalg_LQ_LQsolve(gsl_matrix * Q, gsl_matrix * L, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_LQ_LQsolve(gsl_matrix * Q, gsl_matrix * L, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    Q: gsl_matrix *
+    L: gsl_matrix *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_LQ_LQsolve(Q, L, b, x)
 
 def gsl_linalg_PTLQ_decomp(A, tau, p, norm):
-    """gsl_linalg_PTLQ_decomp(gsl_matrix * A, gsl_vector * tau, Permutation p, gsl_vector * norm) -> int"""
+    """
+    gsl_linalg_PTLQ_decomp(gsl_matrix * A, gsl_vector * tau, Permutation p, gsl_vector * norm) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau: gsl_vector *
+    p: gsl_permutation *
+    norm: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_PTLQ_decomp(A, tau, p, norm)
 
 def gsl_linalg_PTLQ_decomp2(A, q, r, tau, p, norm):
-    """gsl_linalg_PTLQ_decomp2(gsl_matrix const * A, gsl_matrix * q, gsl_matrix * r, gsl_vector * tau, Permutation p, gsl_vector * norm) -> int"""
+    """
+    gsl_linalg_PTLQ_decomp2(gsl_matrix const * A, gsl_matrix * q, gsl_matrix * r, gsl_vector * tau, Permutation p, gsl_vector * norm) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    q: gsl_matrix *
+    r: gsl_matrix *
+    tau: gsl_vector *
+    p: gsl_permutation *
+    norm: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_PTLQ_decomp2(A, q, r, tau, p, norm)
 
 def gsl_linalg_PTLQ_solve_T(QR, tau, p, b, x):
-    """gsl_linalg_PTLQ_solve_T(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_PTLQ_solve_T(gsl_matrix const * QR, gsl_vector const * tau, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    QR: gsl_matrix const *
+    tau: gsl_vector const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_PTLQ_solve_T(QR, tau, p, b, x)
 
 def gsl_linalg_PTLQ_svx_T(LQ, tau, p, x):
-    """gsl_linalg_PTLQ_svx_T(gsl_matrix const * LQ, gsl_vector const * tau, Permutation p, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_PTLQ_svx_T(gsl_matrix const * LQ, gsl_vector const * tau, Permutation p, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    tau: gsl_vector const *
+    p: gsl_permutation const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_PTLQ_svx_T(LQ, tau, p, x)
 
 def gsl_linalg_PTLQ_LQsolve_T(Q, L, p, b, x):
-    """gsl_linalg_PTLQ_LQsolve_T(gsl_matrix const * Q, gsl_matrix const * L, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_PTLQ_LQsolve_T(gsl_matrix const * Q, gsl_matrix const * L, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    Q: gsl_matrix const *
+    L: gsl_matrix const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_PTLQ_LQsolve_T(Q, L, p, b, x)
 
 def gsl_linalg_PTLQ_Lsolve_T(LQ, p, b, x):
-    """gsl_linalg_PTLQ_Lsolve_T(gsl_matrix const * LQ, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_PTLQ_Lsolve_T(gsl_matrix const * LQ, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_PTLQ_Lsolve_T(LQ, p, b, x)
 
 def gsl_linalg_PTLQ_Lsvx_T(LQ, p, x):
-    """gsl_linalg_PTLQ_Lsvx_T(gsl_matrix const * LQ, Permutation p, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_PTLQ_Lsvx_T(gsl_matrix const * LQ, Permutation p, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LQ: gsl_matrix const *
+    p: gsl_permutation const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_PTLQ_Lsvx_T(LQ, p, x)
 
 def gsl_linalg_PTLQ_update(Q, L, p, v, w):
-    """gsl_linalg_PTLQ_update(gsl_matrix * Q, gsl_matrix * L, Permutation p, gsl_vector const * v, gsl_vector * w) -> int"""
+    """
+    gsl_linalg_PTLQ_update(gsl_matrix * Q, gsl_matrix * L, Permutation p, gsl_vector const * v, gsl_vector * w) -> int
+
+    Parameters
+    ----------
+    Q: gsl_matrix *
+    L: gsl_matrix *
+    p: gsl_permutation const *
+    v: gsl_vector const *
+    w: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_PTLQ_update(Q, L, p, v, w)
 
 def gsl_linalg_cholesky_decomp(A):
-    """gsl_linalg_cholesky_decomp(gsl_matrix * A) -> int"""
+    """
+    gsl_linalg_cholesky_decomp(gsl_matrix * A) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_decomp(A)
 
 def gsl_linalg_cholesky_decomp1(A):
-    """gsl_linalg_cholesky_decomp1(gsl_matrix * A) -> int"""
+    """
+    gsl_linalg_cholesky_decomp1(gsl_matrix * A) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_decomp1(A)
 
 def gsl_linalg_cholesky_solve(cholesky, b, x):
-    """gsl_linalg_cholesky_solve(gsl_matrix const * cholesky, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_cholesky_solve(gsl_matrix const * cholesky, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    cholesky: gsl_matrix const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_solve(cholesky, b, x)
 
 def gsl_linalg_cholesky_svx(cholesky, x):
-    """gsl_linalg_cholesky_svx(gsl_matrix const * cholesky, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_cholesky_svx(gsl_matrix const * cholesky, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    cholesky: gsl_matrix const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_svx(cholesky, x)
 
 def gsl_linalg_cholesky_invert(cholesky):
-    """gsl_linalg_cholesky_invert(gsl_matrix * cholesky) -> int"""
+    """
+    gsl_linalg_cholesky_invert(gsl_matrix * cholesky) -> int
+
+    Parameters
+    ----------
+    cholesky: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_invert(cholesky)
 
 def gsl_linalg_cholesky_decomp_unit(A, D):
-    """gsl_linalg_cholesky_decomp_unit(gsl_matrix * A, gsl_vector * D) -> int"""
+    """
+    gsl_linalg_cholesky_decomp_unit(gsl_matrix * A, gsl_vector * D) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    D: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_decomp_unit(A, D)
 
 def gsl_linalg_cholesky_scale(A, S):
-    """gsl_linalg_cholesky_scale(gsl_matrix const * A, gsl_vector * S) -> int"""
+    """
+    gsl_linalg_cholesky_scale(gsl_matrix const * A, gsl_vector * S) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    S: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_scale(A, S)
 
 def gsl_linalg_cholesky_scale_apply(A, S):
-    """gsl_linalg_cholesky_scale_apply(gsl_matrix * A, gsl_vector const * S) -> int"""
+    """
+    gsl_linalg_cholesky_scale_apply(gsl_matrix * A, gsl_vector const * S) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    S: gsl_vector const *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_scale_apply(A, S)
 
 def gsl_linalg_cholesky_decomp2(A, S):
-    """gsl_linalg_cholesky_decomp2(gsl_matrix * A, gsl_vector * S) -> int"""
+    """
+    gsl_linalg_cholesky_decomp2(gsl_matrix * A, gsl_vector * S) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    S: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_decomp2(A, S)
 
 def gsl_linalg_cholesky_svx2(LLT, S, x):
-    """gsl_linalg_cholesky_svx2(gsl_matrix const * LLT, gsl_vector const * S, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_cholesky_svx2(gsl_matrix const * LLT, gsl_vector const * S, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LLT: gsl_matrix const *
+    S: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_svx2(LLT, S, x)
 
 def gsl_linalg_cholesky_solve2(LLT, S, b, x):
-    """gsl_linalg_cholesky_solve2(gsl_matrix const * LLT, gsl_vector const * S, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_cholesky_solve2(gsl_matrix const * LLT, gsl_vector const * S, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LLT: gsl_matrix const *
+    S: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_solve2(LLT, S, b, x)
 
 def gsl_linalg_cholesky_rcond(LLT, rcond, work):
-    """gsl_linalg_cholesky_rcond(gsl_matrix const * LLT, double * rcond, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_cholesky_rcond(gsl_matrix const * LLT, double * rcond, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    LLT: gsl_matrix const *
+    rcond: double *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_cholesky_rcond(LLT, rcond, work)
 
 def gsl_linalg_complex_cholesky_decomp(A):
-    """gsl_linalg_complex_cholesky_decomp(gsl_matrix_complex * A) -> int"""
+    """
+    gsl_linalg_complex_cholesky_decomp(gsl_matrix_complex * A) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_cholesky_decomp(A)
 
 def gsl_linalg_complex_cholesky_solve(cholesky, b, x):
-    """gsl_linalg_complex_cholesky_solve(gsl_matrix_complex const * cholesky, gsl_vector_complex const * b, gsl_vector_complex * x) -> int"""
+    """
+    gsl_linalg_complex_cholesky_solve(gsl_matrix_complex const * cholesky, gsl_vector_complex const * b, gsl_vector_complex * x) -> int
+
+    Parameters
+    ----------
+    cholesky: gsl_matrix_complex const *
+    b: gsl_vector_complex const *
+    x: gsl_vector_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_cholesky_solve(cholesky, b, x)
 
 def gsl_linalg_complex_cholesky_svx(cholesky, x):
-    """gsl_linalg_complex_cholesky_svx(gsl_matrix_complex const * cholesky, gsl_vector_complex * x) -> int"""
+    """
+    gsl_linalg_complex_cholesky_svx(gsl_matrix_complex const * cholesky, gsl_vector_complex * x) -> int
+
+    Parameters
+    ----------
+    cholesky: gsl_matrix_complex const *
+    x: gsl_vector_complex *
+
+    """
     return _gslwrap.gsl_linalg_complex_cholesky_svx(cholesky, x)
 
 def gsl_linalg_pcholesky_decomp(A, p):
-    """gsl_linalg_pcholesky_decomp(gsl_matrix * A, Permutation p) -> int"""
+    """
+    gsl_linalg_pcholesky_decomp(gsl_matrix * A, Permutation p) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    p: gsl_permutation *
+
+    """
     return _gslwrap.gsl_linalg_pcholesky_decomp(A, p)
 
 def gsl_linalg_pcholesky_solve(LDLT, p, b, x):
-    """gsl_linalg_pcholesky_solve(gsl_matrix const * LDLT, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_pcholesky_solve(gsl_matrix const * LDLT, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_pcholesky_solve(LDLT, p, b, x)
 
 def gsl_linalg_pcholesky_svx(LDLT, p, x):
-    """gsl_linalg_pcholesky_svx(gsl_matrix const * LDLT, Permutation p, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_pcholesky_svx(gsl_matrix const * LDLT, Permutation p, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_pcholesky_svx(LDLT, p, x)
 
 def gsl_linalg_pcholesky_decomp2(A, p, S):
-    """gsl_linalg_pcholesky_decomp2(gsl_matrix * A, Permutation p, gsl_vector * S) -> int"""
+    """
+    gsl_linalg_pcholesky_decomp2(gsl_matrix * A, Permutation p, gsl_vector * S) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    p: gsl_permutation *
+    S: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_pcholesky_decomp2(A, p, S)
 
 def gsl_linalg_pcholesky_solve2(LDLT, p, S, b, x):
-    """gsl_linalg_pcholesky_solve2(gsl_matrix const * LDLT, Permutation p, gsl_vector const * S, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_pcholesky_solve2(gsl_matrix const * LDLT, Permutation p, gsl_vector const * S, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    S: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_pcholesky_solve2(LDLT, p, S, b, x)
 
 def gsl_linalg_pcholesky_svx2(LDLT, p, S, x):
-    """gsl_linalg_pcholesky_svx2(gsl_matrix const * LDLT, Permutation p, gsl_vector const * S, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_pcholesky_svx2(gsl_matrix const * LDLT, Permutation p, gsl_vector const * S, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    S: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_pcholesky_svx2(LDLT, p, S, x)
 
 def gsl_linalg_pcholesky_invert(LDLT, p, Ainv):
-    """gsl_linalg_pcholesky_invert(gsl_matrix const * LDLT, Permutation p, gsl_matrix * Ainv) -> int"""
+    """
+    gsl_linalg_pcholesky_invert(gsl_matrix const * LDLT, Permutation p, gsl_matrix * Ainv) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    Ainv: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_pcholesky_invert(LDLT, p, Ainv)
 
 def gsl_linalg_pcholesky_rcond(LDLT, p, rcond, work):
-    """gsl_linalg_pcholesky_rcond(gsl_matrix const * LDLT, Permutation p, double * rcond, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_pcholesky_rcond(gsl_matrix const * LDLT, Permutation p, double * rcond, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    rcond: double *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_pcholesky_rcond(LDLT, p, rcond, work)
 
 def gsl_linalg_mcholesky_decomp(A, p, E):
-    """gsl_linalg_mcholesky_decomp(gsl_matrix * A, Permutation p, gsl_vector * E) -> int"""
+    """
+    gsl_linalg_mcholesky_decomp(gsl_matrix * A, Permutation p, gsl_vector * E) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    p: gsl_permutation *
+    E: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_mcholesky_decomp(A, p, E)
 
 def gsl_linalg_mcholesky_solve(LDLT, p, b, x):
-    """gsl_linalg_mcholesky_solve(gsl_matrix const * LDLT, Permutation p, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_mcholesky_solve(gsl_matrix const * LDLT, Permutation p, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_mcholesky_solve(LDLT, p, b, x)
 
 def gsl_linalg_mcholesky_svx(LDLT, p, x):
-    """gsl_linalg_mcholesky_svx(gsl_matrix const * LDLT, Permutation p, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_mcholesky_svx(gsl_matrix const * LDLT, Permutation p, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_mcholesky_svx(LDLT, p, x)
 
 def gsl_linalg_mcholesky_rcond(LDLT, p, rcond, work):
-    """gsl_linalg_mcholesky_rcond(gsl_matrix const * LDLT, Permutation p, double * rcond, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_mcholesky_rcond(gsl_matrix const * LDLT, Permutation p, double * rcond, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    rcond: double *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_mcholesky_rcond(LDLT, p, rcond, work)
 
 def gsl_linalg_mcholesky_invert(LDLT, p, Ainv):
-    """gsl_linalg_mcholesky_invert(gsl_matrix const * LDLT, Permutation p, gsl_matrix * Ainv) -> int"""
+    """
+    gsl_linalg_mcholesky_invert(gsl_matrix const * LDLT, Permutation p, gsl_matrix * Ainv) -> int
+
+    Parameters
+    ----------
+    LDLT: gsl_matrix const *
+    p: gsl_permutation const *
+    Ainv: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_mcholesky_invert(LDLT, p, Ainv)
 
 def gsl_linalg_symmtd_decomp(A, tau):
-    """gsl_linalg_symmtd_decomp(gsl_matrix * A, gsl_vector * tau) -> int"""
+    """
+    gsl_linalg_symmtd_decomp(gsl_matrix * A, gsl_vector * tau) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_symmtd_decomp(A, tau)
 
 def gsl_linalg_symmtd_unpack(A, tau, Q, diag, subdiag):
-    """gsl_linalg_symmtd_unpack(gsl_matrix const * A, gsl_vector const * tau, gsl_matrix * Q, gsl_vector * diag, gsl_vector * subdiag) -> int"""
+    """
+    gsl_linalg_symmtd_unpack(gsl_matrix const * A, gsl_vector const * tau, gsl_matrix * Q, gsl_vector * diag, gsl_vector * subdiag) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    tau: gsl_vector const *
+    Q: gsl_matrix *
+    diag: gsl_vector *
+    subdiag: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_symmtd_unpack(A, tau, Q, diag, subdiag)
 
 def gsl_linalg_symmtd_unpack_T(A, diag, subdiag):
-    """gsl_linalg_symmtd_unpack_T(gsl_matrix const * A, gsl_vector * diag, gsl_vector * subdiag) -> int"""
+    """
+    gsl_linalg_symmtd_unpack_T(gsl_matrix const * A, gsl_vector * diag, gsl_vector * subdiag) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    diag: gsl_vector *
+    subdiag: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_symmtd_unpack_T(A, diag, subdiag)
 
 def gsl_linalg_hermtd_decomp(A, tau):
-    """gsl_linalg_hermtd_decomp(gsl_matrix_complex * A, gsl_vector_complex * tau) -> int"""
+    """
+    gsl_linalg_hermtd_decomp(gsl_matrix_complex * A, gsl_vector_complex * tau) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix_complex *
+    tau: gsl_vector_complex *
+
+    """
     return _gslwrap.gsl_linalg_hermtd_decomp(A, tau)
 
 def gsl_linalg_hermtd_unpack(A, tau, U, diag, sudiag):
-    """gsl_linalg_hermtd_unpack(gsl_matrix_complex const * A, gsl_vector_complex const * tau, gsl_matrix_complex * U, gsl_vector * diag, gsl_vector * sudiag) -> int"""
+    """
+    gsl_linalg_hermtd_unpack(gsl_matrix_complex const * A, gsl_vector_complex const * tau, gsl_matrix_complex * U, gsl_vector * diag, gsl_vector * sudiag) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix_complex const *
+    tau: gsl_vector_complex const *
+    U: gsl_matrix_complex *
+    diag: gsl_vector *
+    sudiag: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_hermtd_unpack(A, tau, U, diag, sudiag)
 
 def gsl_linalg_hermtd_unpack_T(A, diag, subdiag):
-    """gsl_linalg_hermtd_unpack_T(gsl_matrix_complex const * A, gsl_vector * diag, gsl_vector * subdiag) -> int"""
+    """
+    gsl_linalg_hermtd_unpack_T(gsl_matrix_complex const * A, gsl_vector * diag, gsl_vector * subdiag) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix_complex const *
+    diag: gsl_vector *
+    subdiag: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_hermtd_unpack_T(A, diag, subdiag)
 
 def gsl_linalg_HH_solve(A, b, x):
-    """gsl_linalg_HH_solve(gsl_matrix * A, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_HH_solve(gsl_matrix * A, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_HH_solve(A, b, x)
 
 def gsl_linalg_HH_svx(A, x):
-    """gsl_linalg_HH_svx(gsl_matrix * A, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_HH_svx(gsl_matrix * A, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_HH_svx(A, x)
 
 def gsl_linalg_solve_symm_tridiag(diag, offdiag, b, x):
-    """gsl_linalg_solve_symm_tridiag(gsl_vector const * diag, gsl_vector const * offdiag, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_solve_symm_tridiag(gsl_vector const * diag, gsl_vector const * offdiag, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    diag: gsl_vector const *
+    offdiag: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_solve_symm_tridiag(diag, offdiag, b, x)
 
 def gsl_linalg_solve_tridiag(diag, abovediag, belowdiag, b, x):
-    """gsl_linalg_solve_tridiag(gsl_vector const * diag, gsl_vector const * abovediag, gsl_vector const * belowdiag, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_solve_tridiag(gsl_vector const * diag, gsl_vector const * abovediag, gsl_vector const * belowdiag, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    diag: gsl_vector const *
+    abovediag: gsl_vector const *
+    belowdiag: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_solve_tridiag(diag, abovediag, belowdiag, b, x)
 
 def gsl_linalg_solve_symm_cyc_tridiag(diag, offdiag, b, x):
-    """gsl_linalg_solve_symm_cyc_tridiag(gsl_vector const * diag, gsl_vector const * offdiag, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_solve_symm_cyc_tridiag(gsl_vector const * diag, gsl_vector const * offdiag, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    diag: gsl_vector const *
+    offdiag: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_solve_symm_cyc_tridiag(diag, offdiag, b, x)
 
 def gsl_linalg_solve_cyc_tridiag(diag, abovediag, belowdiag, b, x):
-    """gsl_linalg_solve_cyc_tridiag(gsl_vector const * diag, gsl_vector const * abovediag, gsl_vector const * belowdiag, gsl_vector const * b, gsl_vector * x) -> int"""
+    """
+    gsl_linalg_solve_cyc_tridiag(gsl_vector const * diag, gsl_vector const * abovediag, gsl_vector const * belowdiag, gsl_vector const * b, gsl_vector * x) -> int
+
+    Parameters
+    ----------
+    diag: gsl_vector const *
+    abovediag: gsl_vector const *
+    belowdiag: gsl_vector const *
+    b: gsl_vector const *
+    x: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_solve_cyc_tridiag(diag, abovediag, belowdiag, b, x)
 
 def gsl_linalg_bidiag_decomp(A, tau_U, tau_V):
-    """gsl_linalg_bidiag_decomp(gsl_matrix * A, gsl_vector * tau_U, gsl_vector * tau_V) -> int"""
+    """
+    gsl_linalg_bidiag_decomp(gsl_matrix * A, gsl_vector * tau_U, gsl_vector * tau_V) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau_U: gsl_vector *
+    tau_V: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_bidiag_decomp(A, tau_U, tau_V)
 
 def gsl_linalg_bidiag_unpack(A, tau_U, U, tau_V, V, diag, superdiag):
-    """gsl_linalg_bidiag_unpack(gsl_matrix const * A, gsl_vector const * tau_U, gsl_matrix * U, gsl_vector const * tau_V, gsl_matrix * V, gsl_vector * diag, gsl_vector * superdiag) -> int"""
+    """
+    gsl_linalg_bidiag_unpack(gsl_matrix const * A, gsl_vector const * tau_U, gsl_matrix * U, gsl_vector const * tau_V, gsl_matrix * V, gsl_vector * diag, gsl_vector * superdiag) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    tau_U: gsl_vector const *
+    U: gsl_matrix *
+    tau_V: gsl_vector const *
+    V: gsl_matrix *
+    diag: gsl_vector *
+    superdiag: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_bidiag_unpack(A, tau_U, U, tau_V, V, diag, superdiag)
 
 def gsl_linalg_bidiag_unpack2(A, tau_U, tau_V, V):
-    """gsl_linalg_bidiag_unpack2(gsl_matrix * A, gsl_vector * tau_U, gsl_vector * tau_V, gsl_matrix * V) -> int"""
+    """
+    gsl_linalg_bidiag_unpack2(gsl_matrix * A, gsl_vector * tau_U, gsl_vector * tau_V, gsl_matrix * V) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    tau_U: gsl_vector *
+    tau_V: gsl_vector *
+    V: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_bidiag_unpack2(A, tau_U, tau_V, V)
 
 def gsl_linalg_bidiag_unpack_B(A, diag, superdiag):
-    """gsl_linalg_bidiag_unpack_B(gsl_matrix const * A, gsl_vector * diag, gsl_vector * superdiag) -> int"""
+    """
+    gsl_linalg_bidiag_unpack_B(gsl_matrix const * A, gsl_vector * diag, gsl_vector * superdiag) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    diag: gsl_vector *
+    superdiag: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_bidiag_unpack_B(A, diag, superdiag)
 
 def gsl_linalg_balance_matrix(A, D):
-    """gsl_linalg_balance_matrix(gsl_matrix * A, gsl_vector * D) -> int"""
+    """
+    gsl_linalg_balance_matrix(gsl_matrix * A, gsl_vector * D) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    D: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_balance_matrix(A, D)
 
 def gsl_linalg_balance_accum(A, D):
-    """gsl_linalg_balance_accum(gsl_matrix * A, gsl_vector * D) -> int"""
+    """
+    gsl_linalg_balance_accum(gsl_matrix * A, gsl_vector * D) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    D: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_balance_accum(A, D)
 
 def gsl_linalg_balance_columns(A, D):
-    """gsl_linalg_balance_columns(gsl_matrix * A, gsl_vector * D) -> int"""
+    """
+    gsl_linalg_balance_columns(gsl_matrix * A, gsl_vector * D) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    D: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_balance_columns(A, D)
 
 def gsl_linalg_tri_upper_rcond(A, rcond, work):
-    """gsl_linalg_tri_upper_rcond(gsl_matrix const * A, double * rcond, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_tri_upper_rcond(gsl_matrix const * A, double * rcond, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    rcond: double *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_tri_upper_rcond(A, rcond, work)
 
 def gsl_linalg_tri_lower_rcond(A, rcond, work):
-    """gsl_linalg_tri_lower_rcond(gsl_matrix const * A, double * rcond, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_tri_lower_rcond(gsl_matrix const * A, double * rcond, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    A: gsl_matrix const *
+    rcond: double *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_tri_lower_rcond(A, rcond, work)
 
 def gsl_linalg_invnorm1(N, Ainvx, params, Ainvnorm, work):
-    """gsl_linalg_invnorm1(size_t const N, int (*)(CBLAS_TRANSPOSE_t,gsl_vector *,void *) Ainvx, void * params, double * Ainvnorm, gsl_vector * work) -> int"""
+    """
+    gsl_linalg_invnorm1(size_t const N, int (*)(CBLAS_TRANSPOSE_t,gsl_vector *,void *) Ainvx, void * params, double * Ainvnorm, gsl_vector * work) -> int
+
+    Parameters
+    ----------
+    N: size_t const
+    Ainvx: int (*)(CBLAS_TRANSPOSE_t,gsl_vector *,void *)
+    params: void *
+    Ainvnorm: double *
+    work: gsl_vector *
+
+    """
     return _gslwrap.gsl_linalg_invnorm1(N, Ainvx, params, Ainvnorm, work)
 
 def gsl_linalg_tri_upper_invert(T):
-    """gsl_linalg_tri_upper_invert(gsl_matrix * T) -> int"""
+    """
+    gsl_linalg_tri_upper_invert(gsl_matrix * T) -> int
+
+    Parameters
+    ----------
+    T: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_tri_upper_invert(T)
 
 def gsl_linalg_tri_lower_invert(T):
-    """gsl_linalg_tri_lower_invert(gsl_matrix * T) -> int"""
+    """
+    gsl_linalg_tri_lower_invert(gsl_matrix * T) -> int
+
+    Parameters
+    ----------
+    T: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_tri_lower_invert(T)
 
 def gsl_linalg_tri_upper_unit_invert(T):
-    """gsl_linalg_tri_upper_unit_invert(gsl_matrix * T) -> int"""
+    """
+    gsl_linalg_tri_upper_unit_invert(gsl_matrix * T) -> int
+
+    Parameters
+    ----------
+    T: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_tri_upper_unit_invert(T)
 
 def gsl_linalg_tri_lower_unit_invert(T):
-    """gsl_linalg_tri_lower_unit_invert(gsl_matrix * T) -> int"""
+    """
+    gsl_linalg_tri_lower_unit_invert(gsl_matrix * T) -> int
+
+    Parameters
+    ----------
+    T: gsl_matrix *
+
+    """
     return _gslwrap.gsl_linalg_tri_lower_unit_invert(T)
 
 def pygsl_linalg_LU_decomp(A, p):
-    """pygsl_linalg_LU_decomp(gsl_matrix * A, Permutation p) -> gsl_error_flag_drop"""
+    """
+    pygsl_linalg_LU_decomp(gsl_matrix * A, Permutation p) -> gsl_error_flag_drop
+
+    Parameters
+    ----------
+    A: gsl_matrix *
+    p: gsl_permutation *
+
+    """
     return _gslwrap.pygsl_linalg_LU_decomp(A, p)
 
 def pygsl_linalg_complex_LU_decomp(A, p):
-    """pygsl_linalg_complex_LU_decomp(gsl_matrix_complex * A, Permutation p) -> gsl_error_flag_drop"""
+    """
+    pygsl_linalg_complex_LU_decomp(gsl_matrix_complex * A, Permutation p) -> gsl_error_flag_drop
+
+    Parameters
+    ----------
+    A: gsl_matrix_complex *
+    p: gsl_permutation *
+
+    """
     return _gslwrap.pygsl_linalg_complex_LU_decomp(A, p)
 class Combination(_object):
     """Proxy of C gsl_combination_struct struct."""

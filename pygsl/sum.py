@@ -5,6 +5,8 @@
 # the SWIG interface file instead.
 
 """
+Sum modul for Levin u-transform
+
 This module provides a function for accelerating the convergence of
 series based on the Levin u-transform.  This method takes a small
 number of terms from the start of a series and uses a systematic
