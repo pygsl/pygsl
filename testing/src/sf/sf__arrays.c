@@ -14,6 +14,7 @@ static PyObject *module=NULL;
 #endif
 
 typedef  int (array_p_evaluator_iid_ad)(int nmin, int nmax, double x, double * result_array);
+#if 0
 static PyObject*
 PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args, 
 					 array_p_evaluator_iid_ad * eval)
@@ -53,6 +54,7 @@ PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args,
      Py_XDECREF(result);
      return NULL;
 }
+#endif
 
 static PyObject*
 PyGSL_sf_array_evaluator_iid_ad(PyObject *self, PyObject *args, 

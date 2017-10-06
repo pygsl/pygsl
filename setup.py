@@ -93,8 +93,8 @@ sys.path.insert(0, gsldist_path)
 #from distutils.core import setup, Extension
 from setuptools import setup, Extension
 
-
-import gsl_numobj
+# used to read array object ... do not need that any more
+# import gsl_numobj
 
 from gsl_Extension import gsl_Extension
 from swig_extension import SWIG_Extension as _SWIG_Extension
@@ -182,7 +182,7 @@ else:
 py_module_names = ['errors',
                    'statistics.__init__',
 		   '_numobj',
-		   '_mlab',
+		   #'_mlab',
                    '_block',
                    '_callback',
                    '_generic_solver',
