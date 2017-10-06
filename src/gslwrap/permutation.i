@@ -1,7 +1,8 @@
 /* -*- C -*- */
 /** 
- *  Author : Fabian Jakobs
- * $Id$
+ * Author : Fabian Jakobs, Pierre Schnizer <schnizer@users.sourceforge.net>
+ * Date: 2003, 2017
+ * $Id:$
  */
 %{
 #include <gsl/gsl_permutation.h>
