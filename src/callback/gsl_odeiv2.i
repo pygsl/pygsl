@@ -13,7 +13,7 @@
 %enddef
 
 %module(docstring=ODEIV2DOCSTRING)odeiv2
-%feature ("autodoc", "1");
+%feature ("autodoc", "3");
 %init{
   init_pygsl();
 }

@@ -9,7 +9,7 @@
  * defines the PY_ARRAY_UNIQUE_SYMBOL.
  */		 
 %module gslwrap
-%feature ("autodoc", "1");
+%feature ("autodoc", "3");
 
 %{
 #include <gsl/gsl_types.h>
