@@ -2062,22 +2062,6 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Il_l_l_l_l_l_l_l_l__Rd__O_data, /* N
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"sf_coupling_9j" /* name of py object */, f);
 
-PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O;
-PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_as_minor;
-
-/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O double ret = gsl_sf_coupling_6j_INCORRECT (I.int two_ja, I.int two_jb, I.int two_jc, I.int two_jd, I.int two_je, I.int two_jf)'*/
-f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_data, /* NULL ptr data */
-                             gsl_sf_coupling_6j_INCORRECT_data, /* call backs */
-                             PyGSL_sf_ufunc_Il_l_l_l_l_l__Rd__O_types, /* types */ 
-                             2, /* number of supported types */
-                             6, /* in args */
-                             1, /* out args */
-                             PyUFunc_None,
-                             "sf_coupling_6j_INCORRECT", /* name of py object */
-                             gsl_sf_coupling_6j_INCORRECT_doc, /* doc variable */ 
-                             0 /*check return*/); 
-PyDict_SetItemString(sf_dict,"sf_coupling_6j_INCORRECT" /* name of py object */, f);
-
 PyGSL_sf_ufunc_Id__Rl__Ord_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rl__Ord;
 PyGSL_sf_ufunc_Id__Rl__Ord_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rl__Ord_as_minor;
 
@@ -6958,22 +6942,6 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id_d__Rl__Ord_data, /* NULL ptr data
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"sf_cos_err_e" /* name of py object */, f);
 
-PyGSL_sf_ufunc_I__Rl__Od_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_I__Rl__Od;
-PyGSL_sf_ufunc_I__Rl__Od_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_I__Rl__Od_as_minor;
-
-/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_I__Rl__Od int ret = gsl_sf_angle_restrict_symm_e (O.double p theta)'*/
-f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_I__Rl__Od_data, /* NULL ptr data */
-                             gsl_sf_angle_restrict_symm_e_data, /* call backs */
-                             PyGSL_sf_ufunc_I__Rl__Od_types, /* types */ 
-                             2, /* number of supported types */
-                             0, /* in args */
-                             2, /* out args */
-                             PyUFunc_None,
-                             "sf_angle_restrict_symm_e", /* name of py object */
-                             gsl_sf_angle_restrict_symm_e_doc, /* doc variable */ 
-                             0 /*check return*/); 
-PyDict_SetItemString(sf_dict,"sf_angle_restrict_symm_e" /* name of py object */, f);
-
 PyGSL_sf_ufunc_Id__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O;
 PyGSL_sf_ufunc_Id__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O_as_minor;
 
@@ -7294,6 +7262,326 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id_d__RD__O_data, /* NULL ptr data *
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"complex_rect" /* name of py object */, f);
 
+PyGSL_sf_ufunc_ID__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__Rd__O;
+PyGSL_sf_ufunc_ID__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__Rd__O double ret = gsl_complex_arg (I.gsl_complex z)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__Rd__O_data, /* NULL ptr data */
+                             gsl_complex_arg_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arg", /* name of py object */
+                             gsl_complex_arg_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arg" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__Rd__O;
+PyGSL_sf_ufunc_ID__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__Rd__O double ret = gsl_complex_abs (I.gsl_complex z)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__Rd__O_data, /* NULL ptr data */
+                             gsl_complex_abs_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_abs", /* name of py object */
+                             gsl_complex_abs_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_abs" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__Rd__O;
+PyGSL_sf_ufunc_ID__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__Rd__O double ret = gsl_complex_abs2 (I.gsl_complex z)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__Rd__O_data, /* NULL ptr data */
+                             gsl_complex_abs2_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_abs2", /* name of py object */
+                             gsl_complex_abs2_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_abs2" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__Rd__O;
+PyGSL_sf_ufunc_ID__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__Rd__O double ret = gsl_complex_logabs (I.gsl_complex z)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__Rd__O_data, /* NULL ptr data */
+                             gsl_complex_logabs_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_logabs", /* name of py object */
+                             gsl_complex_logabs_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_logabs" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_D__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O;
+PyGSL_sf_ufunc_ID_D__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_D__RD__O gsl_complex ret = gsl_complex_add (I.gsl_complex a, I.gsl_complex b)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_D__RD__O_data, /* NULL ptr data */
+                             gsl_complex_add_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_D__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_add", /* name of py object */
+                             gsl_complex_add_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_add" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_D__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O;
+PyGSL_sf_ufunc_ID_D__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_D__RD__O gsl_complex ret = gsl_complex_sub (I.gsl_complex a, I.gsl_complex b)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_D__RD__O_data, /* NULL ptr data */
+                             gsl_complex_sub_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_D__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_sub", /* name of py object */
+                             gsl_complex_sub_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_sub" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_D__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O;
+PyGSL_sf_ufunc_ID_D__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_D__RD__O gsl_complex ret = gsl_complex_mul (I.gsl_complex a, I.gsl_complex b)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_D__RD__O_data, /* NULL ptr data */
+                             gsl_complex_mul_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_D__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_mul", /* name of py object */
+                             gsl_complex_mul_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_mul" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_D__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O;
+PyGSL_sf_ufunc_ID_D__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_D__RD__O gsl_complex ret = gsl_complex_div (I.gsl_complex a, I.gsl_complex b)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_D__RD__O_data, /* NULL ptr data */
+                             gsl_complex_div_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_D__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_div", /* name of py object */
+                             gsl_complex_div_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_div" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_add_real (I.gsl_complex a, I.double x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_add_real_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_add_real", /* name of py object */
+                             gsl_complex_add_real_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_add_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_sub_real (I.gsl_complex a, I.double x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_sub_real_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_sub_real", /* name of py object */
+                             gsl_complex_sub_real_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_sub_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_mul_real (I.gsl_complex a, I.double x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_mul_real_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_mul_real", /* name of py object */
+                             gsl_complex_mul_real_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_mul_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_div_real (I.gsl_complex a, I.double x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_div_real_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_div_real", /* name of py object */
+                             gsl_complex_div_real_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_div_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_add_imag (I.gsl_complex a, I.double y)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_add_imag_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_add_imag", /* name of py object */
+                             gsl_complex_add_imag_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_add_imag" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_sub_imag (I.gsl_complex a, I.double y)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_sub_imag_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_sub_imag", /* name of py object */
+                             gsl_complex_sub_imag_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_sub_imag" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_mul_imag (I.gsl_complex a, I.double y)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_mul_imag_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_mul_imag", /* name of py object */
+                             gsl_complex_mul_imag_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_mul_imag" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_div_imag (I.gsl_complex a, I.double y)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_div_imag_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_div_imag", /* name of py object */
+                             gsl_complex_div_imag_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_div_imag" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_conjugate (I.gsl_complex z)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_conjugate_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_conjugate", /* name of py object */
+                             gsl_complex_conjugate_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_conjugate" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_inverse (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_inverse_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_inverse", /* name of py object */
+                             gsl_complex_inverse_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_inverse" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_negative (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_negative_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_negative", /* name of py object */
+                             gsl_complex_negative_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_negative" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_sqrt (I.gsl_complex z)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_sqrt_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_sqrt", /* name of py object */
+                             gsl_complex_sqrt_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_sqrt" /* name of py object */, f);
+
 PyGSL_sf_ufunc_Id__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O;
 PyGSL_sf_ufunc_Id__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O_as_minor;
 
@@ -7309,6 +7597,214 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__RD__O_data, /* NULL ptr data */
                              gsl_complex_sqrt_real_doc, /* doc variable */ 
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"complex_sqrt_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_D__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O;
+PyGSL_sf_ufunc_ID_D__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_D__RD__O gsl_complex ret = gsl_complex_pow (I.gsl_complex a, I.gsl_complex b)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_D__RD__O_data, /* NULL ptr data */
+                             gsl_complex_pow_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_D__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_pow", /* name of py object */
+                             gsl_complex_pow_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_pow" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_d__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O;
+PyGSL_sf_ufunc_ID_d__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_d__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_d__RD__O gsl_complex ret = gsl_complex_pow_real (I.gsl_complex a, I.double b)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_d__RD__O_data, /* NULL ptr data */
+                             gsl_complex_pow_real_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_d__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_pow_real", /* name of py object */
+                             gsl_complex_pow_real_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_pow_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_exp (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_exp_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_exp", /* name of py object */
+                             gsl_complex_exp_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_exp" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_log (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_log_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_log", /* name of py object */
+                             gsl_complex_log_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_log" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_log10 (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_log10_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_log10", /* name of py object */
+                             gsl_complex_log10_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_log10" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID_D__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O;
+PyGSL_sf_ufunc_ID_D__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID_D__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID_D__RD__O gsl_complex ret = gsl_complex_log_b (I.gsl_complex a, I.gsl_complex b)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID_D__RD__O_data, /* NULL ptr data */
+                             gsl_complex_log_b_data, /* call backs */
+                             PyGSL_sf_ufunc_ID_D__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_log_b", /* name of py object */
+                             gsl_complex_log_b_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_log_b" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_sin (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_sin_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_sin", /* name of py object */
+                             gsl_complex_sin_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_sin" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_cos (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_cos_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_cos", /* name of py object */
+                             gsl_complex_cos_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_cos" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_sec (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_sec_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_sec", /* name of py object */
+                             gsl_complex_sec_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_sec" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_csc (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_csc_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_csc", /* name of py object */
+                             gsl_complex_csc_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_csc" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_tan (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_tan_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_tan", /* name of py object */
+                             gsl_complex_tan_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_tan" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_cot (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_cot_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_cot", /* name of py object */
+                             gsl_complex_cot_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_cot" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arcsin (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arcsin_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arcsin", /* name of py object */
+                             gsl_complex_arcsin_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arcsin" /* name of py object */, f);
 
 PyGSL_sf_ufunc_Id__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O;
 PyGSL_sf_ufunc_Id__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O_as_minor;
@@ -7326,6 +7822,22 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__RD__O_data, /* NULL ptr data */
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"complex_arcsin_real" /* name of py object */, f);
 
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arccos (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arccos_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arccos", /* name of py object */
+                             gsl_complex_arccos_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arccos" /* name of py object */, f);
+
 PyGSL_sf_ufunc_Id__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O;
 PyGSL_sf_ufunc_Id__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O_as_minor;
 
@@ -7341,6 +7853,22 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__RD__O_data, /* NULL ptr data */
                              gsl_complex_arccos_real_doc, /* doc variable */ 
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"complex_arccos_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arcsec (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arcsec_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arcsec", /* name of py object */
+                             gsl_complex_arcsec_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arcsec" /* name of py object */, f);
 
 PyGSL_sf_ufunc_Id__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O;
 PyGSL_sf_ufunc_Id__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O_as_minor;
@@ -7358,6 +7886,22 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__RD__O_data, /* NULL ptr data */
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"complex_arcsec_real" /* name of py object */, f);
 
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arccsc (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arccsc_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arccsc", /* name of py object */
+                             gsl_complex_arccsc_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arccsc" /* name of py object */, f);
+
 PyGSL_sf_ufunc_Id__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O;
 PyGSL_sf_ufunc_Id__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O_as_minor;
 
@@ -7373,6 +7917,166 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__RD__O_data, /* NULL ptr data */
                              gsl_complex_arccsc_real_doc, /* doc variable */ 
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"complex_arccsc_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arctan (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arctan_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arctan", /* name of py object */
+                             gsl_complex_arctan_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arctan" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arccot (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arccot_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arccot", /* name of py object */
+                             gsl_complex_arccot_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arccot" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_sinh (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_sinh_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_sinh", /* name of py object */
+                             gsl_complex_sinh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_sinh" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_cosh (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_cosh_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_cosh", /* name of py object */
+                             gsl_complex_cosh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_cosh" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_sech (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_sech_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_sech", /* name of py object */
+                             gsl_complex_sech_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_sech" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_csch (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_csch_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_csch", /* name of py object */
+                             gsl_complex_csch_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_csch" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_tanh (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_tanh_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_tanh", /* name of py object */
+                             gsl_complex_tanh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_tanh" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_coth (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_coth_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_coth", /* name of py object */
+                             gsl_complex_coth_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_coth" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arcsinh (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arcsinh_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arcsinh", /* name of py object */
+                             gsl_complex_arcsinh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arcsinh" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arccosh (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arccosh_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arccosh", /* name of py object */
+                             gsl_complex_arccosh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arccosh" /* name of py object */, f);
 
 PyGSL_sf_ufunc_Id__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O;
 PyGSL_sf_ufunc_Id__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O_as_minor;
@@ -7390,6 +8094,54 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__RD__O_data, /* NULL ptr data */
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"complex_arccosh_real" /* name of py object */, f);
 
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arcsech (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arcsech_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arcsech", /* name of py object */
+                             gsl_complex_arcsech_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arcsech" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arccsch (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arccsch_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arccsch", /* name of py object */
+                             gsl_complex_arccsch_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arccsch" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arctanh (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arctanh_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arctanh", /* name of py object */
+                             gsl_complex_arctanh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arctanh" /* name of py object */, f);
+
 PyGSL_sf_ufunc_Id__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O;
 PyGSL_sf_ufunc_Id__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__RD__O_as_minor;
 
@@ -7405,4 +8157,260 @@ f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__RD__O_data, /* NULL ptr data */
                              gsl_complex_arctanh_real_doc, /* doc variable */ 
                              0 /*check return*/); 
 PyDict_SetItemString(sf_dict,"complex_arctanh_real" /* name of py object */, f);
+
+PyGSL_sf_ufunc_ID__RD__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O;
+PyGSL_sf_ufunc_ID__RD__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_ID__RD__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_ID__RD__O gsl_complex ret = gsl_complex_arccoth (I.gsl_complex a)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_ID__RD__O_data, /* NULL ptr data */
+                             gsl_complex_arccoth_data, /* call backs */
+                             PyGSL_sf_ufunc_ID__RD__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "complex_arccoth", /* name of py object */
+                             gsl_complex_arccoth_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"complex_arccoth" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O;
+PyGSL_sf_ufunc_Id__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rd__O double ret = gsl_log1p (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rd__O_data, /* NULL ptr data */
+                             gsl_log1p_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "log1p", /* name of py object */
+                             gsl_log1p_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"log1p" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O;
+PyGSL_sf_ufunc_Id__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rd__O double ret = gsl_expm1 (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rd__O_data, /* NULL ptr data */
+                             gsl_expm1_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "expm1", /* name of py object */
+                             gsl_expm1_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"expm1" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id_d__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_d__Rd__O;
+PyGSL_sf_ufunc_Id_d__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_d__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id_d__Rd__O double ret = gsl_hypot (I.double q(const) x, I.double q(const) y)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id_d__Rd__O_data, /* NULL ptr data */
+                             gsl_hypot_data, /* call backs */
+                             PyGSL_sf_ufunc_Id_d__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "hypot", /* name of py object */
+                             gsl_hypot_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"hypot" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id_d_d__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_d_d__Rd__O;
+PyGSL_sf_ufunc_Id_d_d__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_d_d__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id_d_d__Rd__O double ret = gsl_hypot3 (I.double q(const) x, I.double q(const) y, I.double q(const) z)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id_d_d__Rd__O_data, /* NULL ptr data */
+                             gsl_hypot3_data, /* call backs */
+                             PyGSL_sf_ufunc_Id_d_d__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             3, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "hypot3", /* name of py object */
+                             gsl_hypot3_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"hypot3" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O;
+PyGSL_sf_ufunc_Id__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rd__O double ret = gsl_acosh (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rd__O_data, /* NULL ptr data */
+                             gsl_acosh_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "acosh", /* name of py object */
+                             gsl_acosh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"acosh" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O;
+PyGSL_sf_ufunc_Id__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rd__O double ret = gsl_asinh (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rd__O_data, /* NULL ptr data */
+                             gsl_asinh_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "asinh", /* name of py object */
+                             gsl_asinh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"asinh" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O;
+PyGSL_sf_ufunc_Id__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rd__O double ret = gsl_atanh (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rd__O_data, /* NULL ptr data */
+                             gsl_atanh_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "atanh", /* name of py object */
+                             gsl_atanh_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"atanh" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rl__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rl__O;
+PyGSL_sf_ufunc_Id__Rl__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rl__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rl__O int ret = gsl_isnan (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rl__O_data, /* NULL ptr data */
+                             gsl_isnan_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rl__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "isnan", /* name of py object */
+                             gsl_isnan_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"isnan" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rl__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rl__O;
+PyGSL_sf_ufunc_Id__Rl__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rl__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rl__O int ret = gsl_isinf (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rl__O_data, /* NULL ptr data */
+                             gsl_isinf_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rl__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "isinf", /* name of py object */
+                             gsl_isinf_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"isinf" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rl__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rl__O;
+PyGSL_sf_ufunc_Id__Rl__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rl__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rl__O int ret = gsl_finite (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rl__O_data, /* NULL ptr data */
+                             gsl_finite_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rl__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "finite", /* name of py object */
+                             gsl_finite_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"finite" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id_d__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_d__Rd__O;
+PyGSL_sf_ufunc_Id_d__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_d__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id_d__Rd__O double ret = gsl_fdiv (I.double q(const) x, I.double q(const) y)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id_d__Rd__O_data, /* NULL ptr data */
+                             gsl_fdiv_data, /* call backs */
+                             PyGSL_sf_ufunc_Id_d__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "fdiv", /* name of py object */
+                             gsl_fdiv_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"fdiv" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O;
+PyGSL_sf_ufunc_Id__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rd__O double ret = gsl_coerce_double (I.double q(const) x)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rd__O_data, /* NULL ptr data */
+                             gsl_coerce_double_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "coerce_double", /* name of py object */
+                             gsl_coerce_double_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"coerce_double" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id_l__Rd__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_l__Rd__O;
+PyGSL_sf_ufunc_Id_l__Rd__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_l__Rd__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id_l__Rd__O double ret = gsl_ldexp (I.double q(const) x, I.int q(const) e)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id_l__Rd__O_data, /* NULL ptr data */
+                             gsl_ldexp_data, /* call backs */
+                             PyGSL_sf_ufunc_Id_l__Rd__O_types, /* types */ 
+                             2, /* number of supported types */
+                             2, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "ldexp", /* name of py object */
+                             gsl_ldexp_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"ldexp" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id__Rd__Ol_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__Ol;
+PyGSL_sf_ufunc_Id__Rd__Ol_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id__Rd__Ol_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id__Rd__Ol double ret = gsl_frexp (I.double q(const) x, O.int p e)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id__Rd__Ol_data, /* NULL ptr data */
+                             gsl_frexp_data, /* call backs */
+                             PyGSL_sf_ufunc_Id__Rd__Ol_types, /* types */ 
+                             2, /* number of supported types */
+                             1, /* in args */
+                             2, /* out args */
+                             PyUFunc_None,
+                             "frexp", /* name of py object */
+                             gsl_frexp_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"frexp" /* name of py object */, f);
+
+PyGSL_sf_ufunc_Id_d_d__Rl__O_data[0] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_d_d__Rl__O;
+PyGSL_sf_ufunc_Id_d_d__Rl__O_data[1] = (PyUFuncGenericFunction) PyGSL_sf_ufunc_Id_d_d__Rl__O_as_minor;
+
+/*Object declaration for 'sf_prototype_build: PyGSL_sf_ufunc_Id_d_d__Rl__O int ret = gsl_fcmp (I.double q(const) x1, I.double q(const) x2, I.double q(const) epsilon)'*/
+f = PyUFunc_FromFuncAndData( PyGSL_sf_ufunc_Id_d_d__Rl__O_data, /* NULL ptr data */
+                             gsl_fcmp_data, /* call backs */
+                             PyGSL_sf_ufunc_Id_d_d__Rl__O_types, /* types */ 
+                             2, /* number of supported types */
+                             3, /* in args */
+                             1, /* out args */
+                             PyUFunc_None,
+                             "fcmp", /* name of py object */
+                             gsl_fcmp_doc, /* doc variable */ 
+                             0 /*check return*/); 
+PyDict_SetItemString(sf_dict,"fcmp" /* name of py object */, f);
 
