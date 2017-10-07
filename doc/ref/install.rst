@@ -104,14 +104,22 @@ it yourself. The pygsl windows binaries distributed over
 http://sourceforge.net/projects/pygsl/ are built using the mingw
 compiler.
 
-In a first step install Msys. Execute the commands given in the shell
+Building the GSL library
+~~~~~~~~~~~~~~~~~~~~~~~~
+In a first step install Msys http://www.msys2.org/ .
+Execute the commands given in the shell
 script below (it is also given in ``doc/win/pygsl_msys2_prepare.sh``
 or can be dowloaded :download:`here </win/pygsl_msys2_prepare.sh>`):
 
 .. literalinclude:: ../win/pygsl_msys2_prepare.sh  
     :language: bash
 
-This will build gsl using the mingw compiler. Then copy the file
+This will build gsl using the mingw compiler.
+
+Building the pygsl interface
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Copy the file
 ``gsl_dist/gsl_site_example.py`` to 
 ``gsl_dist/gsl_site.py``. Edit it so that it reflects your
 installation.
