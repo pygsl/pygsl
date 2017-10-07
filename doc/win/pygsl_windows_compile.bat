@@ -1,4 +1,4 @@
-c:@echo off
+@echo off
 rem Batch processing file for building pygsl with mingw64 from msys2
 
 rem The path to your python installation
@@ -26,20 +26,11 @@ set LIBRARY_PATH=%MYPYTHONDIR%;
 
 rem config now possible on windows :-)
 rem lets see what your GSL installation provides
-rem %PYTHONEXE% setup.py config --compiler=mingw32
+%PYTHONEXE% setup.py config --compiler=mingw32
 rem %PYTHONEXE% setup.py gsl_wrappers
 
 rem build the code
-rem %PYTHONEXE% setup.py build --compiler=mingw32
-rem set PYTHONPATH=%cd%
-%PYTHONEXE% setup.py build_ext -i --compiler=mingw32
+%PYTHONEXE% setup.py build --compiler=mingw32
 
 rem and make the installer
-rem %PYTHONEXE% setup.py build_sphinx
-
-%PYTHONEXE% setup.py test
-
-
-rem %PYTHONEXE% setup.py build --compiler=mingw32 bdist --formats=msi
-rem %PYTHONEXE% setup.py build --compiler=mingw32 install
-
+%PYTHONEXE% setup.py build --compiler=mingw32 bdist --formats=msi
