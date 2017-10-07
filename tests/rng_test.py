@@ -34,12 +34,10 @@ rng_types = convert_rng_names()
 
 
 class _rng_basics(unittest.TestCase):
-    """
-    here are things tested like allocation, destruction, initialisation
+    """here are things tested like allocation, destruction, initialisation
     """
     def test_alloc(self):
-        """
-        allocate the default rng
+        """allocate the default rng
         """
 
         rng=self._type()
@@ -48,8 +46,7 @@ class _rng_basics(unittest.TestCase):
         rng=None
 
     def test_uniform(self):
-        """
-        get one value from rng
+        """get one value from rng
         """
         rng=self._type()
         value=rng.uniform()
@@ -58,14 +55,13 @@ class _rng_basics(unittest.TestCase):
                     "value of %f not expected from uniform distribution"%value)
 
     def test_uniform_pos(self):
-        """
-        get one value from rng
+        """get one value from rng
         """
         rng=self._type()
         value=rng.uniform_pos()
         rng=None
         self.assertFalse(value<0 or value>1.0,
-                    "value of %f not expected from uniform distribution"%value)
+                         "value of %f not expected from uniform distribution"%value)
 
 
     def test_rng_reproduce(self):
@@ -77,8 +73,7 @@ class _rng_basics(unittest.TestCase):
         self.assertFalse(value1!=value2,"values from rng not reproducable")
 
 class _rng_distributions(unittest.TestCase):
-    """
-    test different distributions
+    """test different distributions
     """
     def setUp(self):
         #print ("Testing Class ", self.__class__.__name__)
