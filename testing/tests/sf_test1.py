@@ -2,7 +2,7 @@
 import sys
 sys.stdout = sys.stderr
 import unittest
-import Numeric
+import pygsl._numobj as numx
 import pygsl.testing.sf as sf
 
 #class PolarToRectangle(unittest.TestCase):
