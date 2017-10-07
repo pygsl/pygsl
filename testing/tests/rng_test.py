@@ -2,8 +2,7 @@ import types
 import unittest
 import math
 import copy
-import Numeric
-import MLab
+import pygsl._numobj as numx
 import pygsl.testing.rng as rngmodule
 import sys
 sys.stdout = sys.stderr
@@ -61,13 +60,11 @@ class _rng_basics(unittest.TestCase):
         self.failIf(value1!=value2,"values from rng not reproducable")
 
 class _rng_distributions(unittest.TestCase):
-    """
-    test different distributions
+    """test different distributions
     """
     def setUp(self):
-	#print "Testing Class ", self.__class__.__name__
-	sys.stdout.flush()
-	sys.stderr.flush()
+        sys.stdout.flush()
+        sys.stderr.flush()
         self.rng=rngmodule.rng(self._type)
 
     def tearDown(self):
@@ -107,15 +104,15 @@ class _rng_distributions(unittest.TestCase):
                 p = apply(pdf_method, (d,) + args)
                 assert(type(p) == types.FloatType)
             da = apply(method, args + (10,))
-            assert(type(da) == Numeric.ArrayType)
+            assert(type(da) == numx.ArrayType)
             assert(len(da.shape) == 1)
             assert(da.typecode() == arraytype)
             assert(da.shape[0] == 10)
             if pdf_method:
                 pa = apply(pdf_method, (da,) + args)
-                assert(type(pa) == Numeric.ArrayType)
+                assert(type(pa) == numx.ArrayType)
                 assert(len(pa.shape) == 1)
-                assert(pa.typecode() == Numeric.Float)
+                assert(pa.typecode() == numx.Float)
                 assert(pa.shape[0] == 10)                
             test = 1
         finally:
@@ -124,11 +121,11 @@ class _rng_distributions(unittest.TestCase):
 
     def _test_ui_return_one(self, method, pdf_method, *args):
         self._test_generic_return_generic(method, pdf_method, types.LongType,
-                                          Numeric.Int, *args)
+                                          numx.Int, *args)
         
     def _test_double_return_one(self, method, pdf_method, *args):
         self._test_generic_return_generic(method, pdf_method, types.FloatType,
-                                          Numeric.Float, *args)
+                                          numx.Float, *args)
             
                 
     def _test_nd_return_one(self, method, pdf_method, n, *args):
@@ -142,16 +139,16 @@ class _rng_distributions(unittest.TestCase):
                 p = apply(pdf_method, tuple(d) + args)
                 assert(type(p) == types.FloatType)
             da = apply(method, args + (10,))
-            assert(type(da) == Numeric.ArrayType)
-            assert(da.typecode() == Numeric.Float)
+            assert(type(da) == numx.ArrayType)
+            assert(da.typecode() == numx.Float)
             assert(len(da.shape) == 2)
             assert(da.shape[0] == 10)
             assert(da.shape[1] == n)
             test = 1
             if pdf_method:                
                 pa = apply(pdf_method, (da[:,0], da[:,1]) + args)
-                assert(type(pa) == Numeric.ArrayType)
-                assert(pa.typecode() == Numeric.Float)
+                assert(type(pa) == numx.ArrayType)
+                assert(pa.typecode() == numx.Float)
                 assert(len(pa.shape) == 1)
                 assert(pa.shape[0] == 10)
                 assert(type(p) == types.FloatType)
@@ -268,18 +265,18 @@ class _rng_distributions(unittest.TestCase):
         self._test_nd_return_one(self.rng.dir_nd, None, 6, 6)
 
     def test_dirichlet(self):
-        a = Numeric.arange(10) * .1 + .1
+        a = numx.arange(10) * .1 + .1
         d = self.rng.dirichlet(a)
-        assert(type(d) == Numeric.ArrayType)
-        assert(d.typecode() == Numeric.Float)
+        assert(type(d) == numx.ArrayType)
+        assert(d.typecode() == numx.Float)
         assert(len(d.shape) == 1)
         assert(d.shape[0] == a.shape[0])
-        ra = Numeric.reshape(a, (a.shape[0], -1))
-        ra = Numeric.transpose(ra)
+        ra = numx.reshape(a, (a.shape[0], -1))
+        ra = numx.transpose(ra)
         p = rngmodule.dirichlet_pdf(d,ra)
         d = self.rng.dirichlet(a,100)
-        assert(type(d) == Numeric.ArrayType)
-        assert(d.typecode() == Numeric.Float)
+        assert(type(d) == numx.ArrayType)
+        assert(d.typecode() == numx.Float)
         assert(len(d.shape) == 2)
         assert(d.shape[0] == 100)
         assert(d.shape[1] == a.shape[0])
@@ -292,7 +289,7 @@ class _rng_distributions(unittest.TestCase):
         count=0
         num=10000
         accepted_deviation=math.sqrt(num)*5.0
-        sum = Numeric.add.reduce(self.rng.gaussian(1.0, num))
+        sum = numx.add.reduce(self.rng.gaussian(1.0, num))
         self.failIf(abs(sum)>accepted_deviation,"the sum of %d gaussian values is %g"%(num,sum))
 
     def test_gaussian_tail(self):
