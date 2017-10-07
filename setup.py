@@ -231,10 +231,6 @@ if sys.version_info[0] <= 2:
     exts = exts + extsOnly2
     sys.stdout.write("Bulding for '%s'\n" %(sys.version,))
     
-extends = ""
-if "bdist" in sys.argv:
-    extends = "_" + str(gsl_numobj.nummodule)
-
 
 class gsl_Config_Path(gsl_Config.gsl_Config):
     """
@@ -246,7 +242,7 @@ print("#%d extension modules" %(len(exts),))
 
 proj_name ="pygsl"
 setup (name = proj_name,
-       version = version + extends,
+       version = version,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
        long_description = "This project provides a python interface for the GNU scientific library (gsl)",
