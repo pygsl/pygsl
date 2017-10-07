@@ -1,5 +1,5 @@
 ***************************************
-pygsl application programming interface
+PyGSL application programming interface
 ***************************************
 
 pygsl module
