@@ -1,3 +1,4 @@
+#include <pygsl/transition.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/string_helpers.h>
 #include <pygsl/utils.h>
@@ -44,11 +45,12 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
  * Allows storing the information without calling python states
  * UFuncs release GIL .
  */
+#define PYGSL_REASON_BUFFER_N 2048
 struct _pygsl_error_state{
-  const char * reason;
   const char * file;
   int line;
   int gsl_errno;  
+  char reason[PYGSL_REASON_BUFFER_N];
 }; 
 
 typedef struct _pygsl_error_state pygsl_error_state_t;
@@ -59,7 +61,9 @@ static void
 PyGSL_gsl_error_handler_save_reset(void)  
 {
 	FUNC_MESS_BEGIN();
-	save_error_state.reason = "state resetted";
+	memset(save_error_state.reason, 0, PYGSL_REASON_BUFFER_N);
+	strncpy(save_error_state.reason, "state resetted", PYGSL_REASON_BUFFER_N - 2);
+	save_error_state.reason[PYGSL_REASON_BUFFER_N - 1] = '\0';
 	save_error_state.file = __FILE__;
 	save_error_state.line = -1;
 	save_error_state.gsl_errno = PyGSL_EINIT;
@@ -129,11 +133,15 @@ PyGSL_gsl_error_handler_save(const char *reason, /* name of function*/
 			     int gsl_error)			     
 {
 	FUNC_MESS_BEGIN();	
-	save_error_state.reason = reason;
+
 	save_error_state.file = file;
 	save_error_state.line = line;
 	save_error_state.gsl_errno = gsl_error;
-	
+
+	memset(save_error_state.reason, 0, PYGSL_REASON_BUFFER_N);
+	strncpy(save_error_state.reason, reason, PYGSL_REASON_BUFFER_N - 2);
+	save_error_state.reason[PYGSL_REASON_BUFFER_N - 1] = '\0';
+
 	DEBUG_MESS(2, "Storing GSL error %s@%d: %d, %s",
 		   save_error_state.file, save_error_state.line,
 		   save_error_state.gsl_errno, save_error_state.reason
@@ -147,10 +155,34 @@ PyGSL_error_flag(long flag)
 {
      FUNC_MESS_BEGIN();
      if(PyGSL_DEBUG_LEVEL() > 2){
-	     fprintf(stderr,"I got an Error %ld\n", flag);
+	     fprintf(stderr, "%s:%s@%d I got an Error %ld\n",
+		     __FILE__, __FUNCTION__, __LINE__, flag);
      }
      if(PyErr_Occurred()){
+	     int status;
 	     DEBUG_MESS(3, "Already a python error registered for flag %ld", flag);
+	     status = save_error_state.gsl_errno;
+	     if (flag == status){
+		     DEBUG_MESS(2, "PyErr Occured already: Called with flag = status was %d", flag);
+		     return status;
+	     } else {
+		     /*
+		      * XXX
+		      * perhaps a source of trouble. better to return the current status ...
+		      */
+		     switch(flag){
+		     case PyGSL_ANY:
+			     DEBUG_MESS(2, "PyErr Occured already: called with flag = %ld (== PyGSL_ANY)"
+					" returning status %d", flag, status);
+			     return status;
+		     default:
+			     DEBUG_MESS(2, "PyErr Occured already: called with flag = %ld (!= PyGSL_ANY)"
+					" NOT MATCHING status %d. Still needs to be understood",
+					flag, status);
+			     return PyGSL_ENOMATCH;
+		     }
+	     }
+
 	     return GSL_FAILURE;
      }
      if(flag>0){
@@ -182,7 +214,11 @@ PyGSL_error_flag(long flag)
 	    * all sorts of race conditions if more than one thread is active.
 	    * But still better than no info or crashing the python interpreter
 	    */
-	  if(save_error_state.gsl_errno == flag){
+	     int status =  save_error_state.gsl_errno;
+	  DEBUG_MESS(2, "Called received errno %ld saved was %d", flag, status);
+	  if((save_error_state.gsl_errno == flag) || (flag == PyGSL_ANY) ){
+		  DEBUG_MESS(2, "called with flag = %ld (PyGSL_ANY = %d)"
+			     " returning status %d", flag, PyGSL_ANY,  status);
 		  PyGSL_internal_error_handler(save_error_state.reason, 
 					       save_error_state.file, 
 					       save_error_state.line, 
@@ -190,8 +226,14 @@ PyGSL_error_flag(long flag)
 					       HANDLE_ERROR);
 		  PyGSL_gsl_error_handler_save_reset();
 	  } else {
+		  DEBUG_MESS(2, "called with flag = %ld (!= PyGSL_ANY)"
+			     " NOT MATCHING status %d. Still needs to be understood",
+			     flag, status);
 		  PyGSL_internal_error_handler("Unknown Reason. It was not set by GSL",  __FILE__, 
 					       __LINE__, flag, HANDLE_ERROR);
+		  /*
+		   * XXX should one not clear the error here too ?
+		   */
 	  }
 	  /* 
 	   * So lets keep the flag to return ... who knows what it will be used for...
@@ -226,6 +268,10 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
      PyFrameObject *py_frame = NULL;
      
      FUNC_MESS_BEGIN();
+
+     DEBUG_MESS(2, "module %s file %s func %s @ line %d",
+		"", filename, funcname, lineno);
+
      DEBUG_MESS(2, "add_c_tracebacks = %d = %s",
 		add_c_tracebacks, (add_c_tracebacks == 0)? "disabled" : "enabled");
      if (add_c_tracebacks == 0){
@@ -234,16 +280,10 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 
      if(filename == NULL)
 	  filename = "file ???";
-     py_srcfile = PyGSL_string_from_string(filename);
-     if (py_srcfile == NULL) 
-	  goto fail;
 
      if(funcname == NULL)
 	  funcname = "function ???";
 
-     py_funcname = PyGSL_string_from_string(funcname);
-     if (py_funcname == NULL) 
-	  goto fail;
 
      /* Use the module if provided */
      if(module == NULL){
@@ -254,6 +294,35 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
      if (py_globals == NULL) 
 	  goto fail;
 
+#ifdef PyGSL_PY3K
+     py_code = PyCode_NewEmpty(filename, funcname, lineno);
+     if (py_code == NULL)
+	  goto fail;
+
+     py_frame = PyFrame_New(
+	  PyThreadState_Get(), /*PyThreadState *tstate,*/
+	  py_code,             /*PyCodeObject *code,*/
+	  py_globals,          /*PyObject *globals,*/
+	  0                    /*PyObject *locals*/
+	  );
+
+     if (py_frame == NULL)
+	     goto fail;
+     py_frame->f_lineno = lineno;
+     PyTraceBack_Here(py_frame);
+     DEBUG_MESS(2, "Added traceback for %s.%s @ %d",
+		filename, funcname, lineno);
+#else /* PyGSL_Py3K */
+#error "Code needs to be checked!"
+
+     py_srcfile = PyGSL_string_from_string(filename);
+     if (py_srcfile == NULL)
+	  goto fail;
+
+     py_funcname = PyGSL_string_from_string(funcname);
+     if (py_funcname == NULL)
+	  goto fail;
+
      empty_tuple = PyTuple_New(0);
      if (empty_tuple == NULL) 
 	  goto fail;
@@ -262,8 +331,6 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
      if (empty_string == NULL) 
 	  goto fail;
 
-#if Py3K_TRANSITION_DELAYED
-#error "Should not compile!"
      py_code = PyCode_New(
 	  0,            /*int argcount,*/
 	  0,            /*int nlocals,*/
@@ -296,7 +363,7 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 	  goto fail;
      py_frame->f_lineno = lineno;
      PyTraceBack_Here(py_frame);
-#endif
+#endif  /* PyGSL_Py3K */
 
      FUNC_MESS_END();
      return;
@@ -626,6 +693,7 @@ PyGSL_module_error_handler(const char *reason, /* name of function*/
 /* #error "Should not use now ... " */
      PyGSL_internal_error_handler(reason, file, line,  gsl_error, HANDLE_ERROR);
 #else  /* _PyGSL_MODULE_ERROR_HANDLER_OLD_STYLE */
+/* #error "Should not use now ... " */
      PyGSL_gsl_error_handler_save(reason, file, line,  gsl_error);
 #endif /* _PyGSL_MODULE_ERROR_HANDLER_OLD_STYLE */
      FUNC_MESS_END();
