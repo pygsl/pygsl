@@ -56,12 +56,22 @@ class SWIG_Extension(gsl_Extension):
             target = m.groups()[0]
         if c_dir:
             target = c_dir + "/" + target
-
         self._run_swig(sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name)    
 
         #spawn(cmd, search_path, verbose, dry_run)
         # SWIG generates two files. A py proxy file and a .so. The so appends a _ to the module name.
-        gsl_Extension.__init__(self, '_' + name, [target,],
+        t_dirs, t_name = self._split_name_to_file_and_dir(name)
+        t_name = '_' + t_name
+        t_path = '.'.join(t_dirs)
+        if t_path == '':
+            t_path = t_name
+        else:
+            t_path = t_path + '.' + t_name
+        #fmt = "c_dir %s c_target %s name %s -> (%s,%s) target %s"
+        #print(fmt %(c_dir, target, name, t_dirs, t_name, t_path))
+        del name
+
+        gsl_Extension.__init__(self, t_path, [target,],
                                include_dirs,
                                define_macros,
                                undef_macros,
@@ -76,7 +86,19 @@ class SWIG_Extension(gsl_Extension):
                                gsl_min_version,
                                python_min_version)
         return
-    
+
+    def _split_name_to_file_and_dir(self, name):
+        """Addaption to build swig generated extensions not in the root directory
+        """
+        t_dirs = []
+        if "." in name:
+            tmp = name.split('.')
+            t_dirs = tmp[:-1]
+            t_name = tmp[-1]
+        else:
+            t_name = name
+        return t_dirs, t_name
+
     def _run_swig(self, sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name):
         if newer_group(sources + swig_dependencies, target):
             includes = []
@@ -87,14 +109,19 @@ class SWIG_Extension(gsl_Extension):
             cmd.extend(['-o', target] + sources)
             sys.stderr.write(" ".join(cmd) + "\n")
             spawn(cmd, 1, 1)
-            dst = name
-            src = name + '.py'
+            t_dirs, t_name = self._split_name_to_file_and_dir(name)
+            del name
+
+            src = t_name + '.py'
             if c_dir:
                 src = c_dir + "/" + src
+            #dst = '/'.join(t_dirs) + '/' + t_name
             dst = "."
             if py_dir:
-                dst = py_dir + "/"
-            copy_file(src, dst)
+                dst = py_dir + "/" +"/".join(t_dirs) + "/"
+            dst_name, was_copied = copy_file(src, dst)
+            # print("Copied file '%s' to '%s' ? %s dst was %s" %(src, dst_name, was_copied, dst))
+            assert(was_copied == True)
 
 class SWIG_Extension_Nop(SWIG_Extension):
     """

@@ -3,7 +3,7 @@
 # created: May 2001
 # modified: Sep 2017
 # file: pygsl/gsl_dist/gsl_extension.py
-# $Id$
+# $Id:$
 #
 # module for gsl extensions compilation
 
@@ -21,11 +21,8 @@ from sys import argv,version_info
 
 from gsl_Location import gsl_Location
 
-try:
-        from array_includes import array_include_dirs        
-except ImportError:
-        from pygsl.gsl_dist.array_includes import array_include_dirs
-
+from numpy.distutils.misc_util import get_numpy_include_dirs
+array_include_dirs = get_numpy_include_dirs()
 
 #def check_dependencies(sources, depends):
 #	"""Check if any of the dependencies is newer than the src

@@ -6,6 +6,9 @@
 	* pygsl.integrate will now check the return status internally and raise
 	  an error if appropriate. The flag is still returned for compatability
 	  with old code
+	* added support for multifit_nlinear
+	* added support for sparse: matrix, blas, linalg
+
 
 2016-04          Pierre Schnizer <schnizer@user.sourceforge.net>	
 	* Started refurbishment of gsl sf interface generators

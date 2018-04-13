@@ -92,17 +92,55 @@ try:
 except AttributeError:
     pass
 if flag:
-        exts.append(SWIG_Extension("multifit_robust",
-                                   ["src/callback/gsl_multifit_robust.i"],
-                                   include_dirs=["src/callback"],
-                                   swig_include_dirs=["src/callback"],
-                                   swig_flags = swig_flags,
-                                   #gsl_min_version=(1,2),
-                                   define_macros = macros,
-                                   python_min_version=(2,1),
-                                   ) 
-            )
-        
+    exts.append(
+        SWIG_Extension("multifit_robust",
+                               ["src/callback/gsl_multifit_robust.i"],
+                               include_dirs=["src/callback"],
+                               swig_include_dirs=["src/callback"],
+                               swig_flags = swig_flags,
+                               #gsl_min_version=(1,2),
+                               define_macros = macros,
+                               python_min_version=(2,1),
+        )
+    )
+flag = 0
+try:
+    # XXX: Requires test for the new gsl multilarge nlinear interface
+    flag = False
+except AttributeError:
+    pass
+if flag:
+    exts.append(
+        SWIG_Extension("multilarge_nlinear",
+                               ["src/callback/gsl_multilarge_nlinear.i"],
+                               include_dirs=["src/callback"],
+                               swig_include_dirs=["src/callback"],
+                               swig_flags = swig_flags,
+                               #gsl_min_version=(1,2),
+                               define_macros = macros,
+                               python_min_version=(2,1),
+        )
+    )
+
+flag = 0
+try:
+    # XXX: Requires test for the new gsl mutlifit nlinear interface
+    flag = True
+except AttributeError:
+    pass
+if flag:
+    exts.append(
+        SWIG_Extension("multifit_nlinear",
+                               ["src/callback/gsl_multifit_nlinear.i"],
+                               include_dirs=["src/callback"],
+                               swig_include_dirs=["src/callback"],
+                               swig_flags = swig_flags,
+                               #gsl_min_version=(1,2),
+                               define_macros = macros,
+                               python_min_version=(2,1),
+        )
+    )
+
 flag = 0
 try:
     flag = gsl_features.odeiv2
@@ -137,6 +175,16 @@ exts.append(SWIG_Extension("_block",
                            swig_flags = swig_flags,
                            #gsl_min_version=(1,2),
                           python_min_version=(2,1)
+                          )
+            )
+
+exts.append(SWIG_Extension("sparse.sparse_wrapper",
+                          ["src/block/gsl_sparse_wrapper.i"],
+                           swig_include_dirs=["src/block"],
+                           define_macros = macros,
+                           swig_flags = swig_flags,
+                           #gsl_min_version=(1,2),
+                           python_min_version=(2,1)
                           )
             )
 
