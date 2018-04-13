@@ -33,20 +33,22 @@ PyObject *pygsl_module_for_error_treatment = NULL;
  * I think the second approach should be the preferred one. 
  */
 /*
-%typemap(python, arginit) gsl_error_flag %{
-     int gsl_error_flag$argnum;
-%}
 %typemap(python, default) gsl_error_flag %{
      $1 = gsl_error_flag$argnum;
 %}
 */
-
+/*
+%typemap(arginit) gsl_error_flag %{
+     int gsl_error_flag_save$argnum = GSL_SUCCESS;
+     int gsl_error_flag_save = GSL_SUCCESS;
+%}
+*/
 /* Warning: Swig will treat it as an pointer !! */
 %typemap(out) gsl_error_flag {
      $result = PyGSL_ERROR_FLAG_TO_PYINT($1);
      if ($result == NULL){ 
 	  PyGSL_add_traceback(pygsl_module_for_error_treatment, __FILE__, 
-			      __FUNCTION__, __LINE__);
+			      __FUNCTION__, __LINE__ - 2);
 	  goto fail;
      }
 }

@@ -142,6 +142,14 @@ class IntegrateTest(unittest.TestCase):
         assert(Numeric.absolute(result - 2) < 1e-7)
         assert(error<1e-8)
 
+    def test_no_object_returned(self):
+        """Test that the user is flagged an error if no object is returned
+        """
+        def f1(x, *args):
+            return None
+
+        sys = integrate.gsl_function(f1, None)
+        self.assertRaises(pygsl.errors.gsl_BadFuncError, integrate.qng, sys, 0, Numeric.pi, 1e-8, 1e-8)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,3 +1,12 @@
+2018-04 Pierre Schnizer <schnizer@user.sourceforge.net>
+        * clean up of error handling code:
+	    * (re)enabled module error handler (now code should show messages)
+	    * reason string is copied into static memory ....
+	    * the error string is not thread safe
+	* pygsl.integrate will now check the return status internally and raise
+	  an error if appropriate. The flag is still returned for compatability
+	  with old code
+
 2016-04          Pierre Schnizer <schnizer@user.sourceforge.net>	
 	* Started refurbishment of gsl sf interface generators
 	* Added sf tests: translated from gsl source

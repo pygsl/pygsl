@@ -105,8 +105,8 @@ PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
      DEBUG_MESS(3, "requesting flags %d", requires);
      a_array = (PyArrayObject * ) PyArray_FromAny(src, PyArray_DescrFromType(array_type), nd, nd, requires, NULL);
      if(a_array == NULL){
-	  goto fail;
 	  line = __LINE__ - 1;
+	  goto fail;
      }
 
      DEBUG_MESS(4, "Got an array @ %p with refcnt %ld", (void *)a_array, 

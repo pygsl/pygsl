@@ -117,15 +117,20 @@
 (setjmp(p->buffer) == 0) ? p->buffer_is_set = 1 : p->buffer_is_set = 0
 */
 /*
- * I am too lazy to convert the Object to the pointer myself so I use 
- *  check. Is this hack acceptable? */
+ * I am too lazy to convert the Object to the pointer myself so I use
+ *  check. Is this hack acceptable?
+ *
+ *  April 2018:
+ *        since gsl_error does not call back into python directly any more
+ *        and set a python exception this has to be done here
+ *
+ */
 %typemap(check) gsl_fsolver * BUFFER {
      int flag;
      callback_function_params * p;
 
      FUNC_MESS("\t\t Setting jump buffer");
      assert($1);
-
 
      _solver$argnum = $1;
      p = (callback_function_params *) 
@@ -137,9 +142,13 @@
      } else {
 	  FUNC_MESS("\t\t Returning from Jmp Buffer");
 	  p->buffer_is_set = 0;
-	  goto fail;
+	  /* converting to python exception due to changes gsl_error */
+	  if(GSL_SUCCESS != PyGSL_ERROR_FLAG(flag)){
+	    PyGSL_add_traceback(pygsl_module_for_error_treatment, __FILE__,
+			     __FUNCTION__, __LINE__);
+	    goto fail;
+	  }
      }
-
      FUNC_MESS("\t\t END Setting jump buffer");
 }
 

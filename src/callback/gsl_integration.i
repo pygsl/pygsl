@@ -1,9 +1,9 @@
 /* -*- C -*- */
 /**
  * Author : Pierre Schnizer
- * Date : January 2003
+ * Date : January 2003, April 2018
  *
- * Warning nearly no function tested, so a danergous to use allready!
+ * Warning nearly no function tested, so a danergous to use already!
  */
 %{
 #include <gsl/gsl_integration.h>
@@ -35,7 +35,7 @@ gsl_integration_workspace_get_size(gsl_integration_workspace * w);
 gsl_integration_qaws_table * 
 gsl_integration_qaws_table_alloc (double alpha, double beta, int mu, int nu);
 
-int
+gsl_error_flag
 gsl_integration_qaws_table_set (gsl_integration_qaws_table * t,
                                 double alpha, double beta, int mu, int nu);
 
@@ -52,12 +52,12 @@ gsl_integration_qawo_table_alloc (double omega, double L,
                                   enum gsl_integration_qawo_enum sine,
                                   size_t n);
 
-int
+gsl_error_flag
 gsl_integration_qawo_table_set (gsl_integration_qawo_table * t,
                                 double omega, double L,
                                 enum gsl_integration_qawo_enum sine);
 
-int
+gsl_error_flag
 gsl_integration_qawo_table_set_length (gsl_integration_qawo_table * t,
                                        double L);
 
@@ -108,42 +108,49 @@ enum gsl_integ_gauss
     GSL_INTEG_GAUSS61	/* 61 point Gauss-Kronrod rule */
   };
 
-int gsl_integration_qng (const gsl_function *  BUFFER,
-			 double a, double b,
-			 double epsabs, double epsrel,
-			 double *result, double *abserr,
-			 size_t * neval);
 
-int gsl_integration_qag (const gsl_function *  BUFFER,
-			 double a, double b,
-			 double epsabs, double epsrel, size_t limit,
-			 int key,
-			 gsl_integration_workspace * workspace,
-			 double *result, double *abserr);
+gsl_error_flag
+gsl_integration_qng (const gsl_function *  BUFFER,
+		     double a, double b,
+		     double epsabs, double epsrel,
+		     double *result, double *abserr,
+		     size_t * neval);
 
-int gsl_integration_qagi (gsl_function *  BUFFER,
-			  double epsabs, double epsrel, size_t limit,
-			  gsl_integration_workspace * workspace,
-			  double *result, double *abserr);
+gsl_error_flag
+gsl_integration_qag (const gsl_function *  BUFFER,
+		     double a, double b,
+		     double epsabs, double epsrel, size_t limit,
+		     int key,
+		     gsl_integration_workspace * workspace,
+		     double *result, double *abserr);
 
-int gsl_integration_qagiu (gsl_function *  BUFFER,
-			   double a,
-			   double epsabs, double epsrel, size_t limit,
-			   gsl_integration_workspace * workspace,
-			   double *result, double *abserr);
+gsl_error_flag
+gsl_integration_qagi (gsl_function *  BUFFER,
+		      double epsabs, double epsrel, size_t limit,
+		      gsl_integration_workspace * workspace,
+		      double *result, double *abserr);
 
-int gsl_integration_qagil (gsl_function *  BUFFER,
-			   double b,
-			   double epsabs, double epsrel, size_t limit,
-			   gsl_integration_workspace * workspace,
-			   double *result, double *abserr);
+gsl_error_flag
+gsl_integration_qagiu (gsl_function *  BUFFER,
+		       double a,
+		       double epsabs, double epsrel, size_t limit,
+		       gsl_integration_workspace * workspace,
+		       double *result, double *abserr);
+
+gsl_error_flag
+gsl_integration_qagil (gsl_function *  BUFFER,
+		       double b,
+		       double epsabs, double epsrel, size_t limit,
+		       gsl_integration_workspace * workspace,
+		       double *result, double *abserr);
 
 
-int gsl_integration_qags (const gsl_function *  BUFFER,
-			  double a, double b,
-			  double epsabs, double epsrel, size_t limit,
-			  gsl_integration_workspace * workspace,
-			  double *result, double *abserr);
+gsl_error_flag
+gsl_integration_qags (const gsl_function *  BUFFER,
+		      double a, double b,
+		      double epsabs, double epsrel, size_t limit,
+		      gsl_integration_workspace * workspace,
+		      double *result, double *abserr);
 
 %typemap(arginit) (double *pts, size_t npts) %{
      PyArrayObject * volatile _PyVector$argnum = NULL;
@@ -160,20 +167,23 @@ int gsl_integration_qags (const gsl_function *  BUFFER,
      Py_XDECREF(_PyVector$argnum);
 };
 
-int gsl_integration_qagp (const gsl_function *  BUFFER,
+gsl_error_flag
+gsl_integration_qagp (const gsl_function *  BUFFER,
 			  double *pts, size_t npts,
 			  double epsabs, double epsrel, size_t limit,
 			  gsl_integration_workspace * workspace,
 			  double *result, double *abserr);
 
-int gsl_integration_qawc (gsl_function * BUFFER,
+gsl_error_flag
+gsl_integration_qawc (gsl_function * BUFFER,
 			  const double a, const double b, const double c,
 			  const double epsabs, const double epsrel, 
 			  const size_t limit,
 			  gsl_integration_workspace * workspace,
 			  double * result, double * abserr);
 
-int gsl_integration_qaws (gsl_function *  BUFFER,
+gsl_error_flag
+gsl_integration_qaws (gsl_function *  BUFFER,
 			  const double a, const double b,
 			  gsl_integration_qaws_table * t,
 			  const double epsabs, const double epsrel,
@@ -181,7 +191,8 @@ int gsl_integration_qaws (gsl_function *  BUFFER,
 			  gsl_integration_workspace * workspace,
 			  double *result, double *abserr);
 
-int gsl_integration_qawo (gsl_function *  BUFFER,
+gsl_error_flag
+gsl_integration_qawo (gsl_function *  BUFFER,
 			  const double a,
 			  const double epsabs, const double epsrel,
 			  const size_t limit,
@@ -189,7 +200,8 @@ int gsl_integration_qawo (gsl_function *  BUFFER,
 			  gsl_integration_qawo_table * wf,
 			  double *result, double *abserr);
 
-int gsl_integration_qawf (gsl_function *  BUFFER,
+gsl_error_flag
+gsl_integration_qawf (gsl_function *  BUFFER,
 			  const double a,
 			  const double epsabs,
 			  const size_t limit,
