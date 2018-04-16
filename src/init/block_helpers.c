@@ -133,6 +133,7 @@ PyGSL_stride_recalc(PyGSL_array_index_t strides, int basic_type_size,
      pygsl_error("Can not convert the stride to a GSL stride", 
 	       filename, __LINE__, PyGSL_ESTRIDE);
      PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);     
+     FUNC_MESS_END();
      return PyGSL_ESTRIDE;
 }
 /* ========================================================================= */
@@ -271,9 +272,12 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 
  fail:
      PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
-     PyGSL_ERROR_FLAG(error_flag);
+     if(save_error_state.gsl_errno == GSL_SUCCESS){
+	     PyGSL_ERROR_FLAG(error_flag);
+     }
      DEBUG_MESS(4, "common array types: Double %d, CDouble %d", NPY_DOUBLE, NPY_CDOUBLE);
      DEBUG_MESS(4, "integer: Long %d, Int %d, Short %d", NPY_LONG, NPY_INT, NPY_SHORT);
+     FUNC_MESS_FAILED();
      /* DEBUG_MESS(8, "Char type %d  Byte type %d String type %d", PyArray_CHAR, PyArray_BYTE, PyArray_STRING); */
      return error_flag;
 }
@@ -302,7 +306,7 @@ PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
 	  sprintf(pygsl_error_str, "I could not convert argument number % 3d. to an integer.",
 		  argnum);
 	 PyErr_SetString(PyExc_TypeError, pygsl_error_str);
-	 return NULL;
+	 goto fail;
      }
      dimension = _PyGSL_WRAP_LONG_FROM_PyObject(src);
      Py_DECREF(tmp);
@@ -311,15 +315,19 @@ PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
 		  "Argument number % 3d is % 10ld< 0. Its the size of the vector and thus must be positive!",
 		  argnum, (long)dimension);
 	 PyErr_SetString(PyExc_TypeError, pygsl_error_str);
-	 return NULL;
+	 goto fail;
      }
      
      a_array = (PyArrayObject *) PyGSL_New_Array(1, &dimension, array_type);
      if(NULL == a_array){
-	  return NULL;
+	     goto fail;
      }
      FUNC_MESS_END();
      return a_array;
+
+  fail:
+     FUNC_MESS_FAILED();
+     return NULL;
 }
 
 static PyArrayObject * 
@@ -338,8 +346,8 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 	  sprintf(pygsl_error_str, "I need a sequence of two elements as argument number % 3d",
 		  argnum);
 	 PyErr_SetString(PyExc_TypeError, pygsl_error_str);
+	 goto fail;
 	 return NULL;
-
      }
 
      for(i = 0; i<2; i++){
@@ -348,6 +356,7 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 	       sprintf(pygsl_error_str, "I could not convert argument number % 3d. for dimension %3d to an integer.",
 		       argnum, i);
 	       PyErr_SetString(PyExc_TypeError, pygsl_error_str);
+	       goto fail;
 	       return NULL;
 	  }
 
@@ -357,6 +366,7 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 	       sprintf(pygsl_error_str, "Argument number % 3d is % 10ld< 0. Its the size of the vector and thus must be positive!",
 		       argnum, (long)dimensions[i]);
 	       PyErr_SetString(PyExc_TypeError, pygsl_error_str);
+	       goto fail;
 	       return NULL;
 	  }
 
@@ -366,8 +376,12 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 
      a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, array_type);
      if(NULL == a_array){
-	  return NULL;
+	     goto fail;
      }
+     FUNC_MESS_END();
+
+  fail:
+     FUNC_MESS_FAILED();
      return a_array;
 }
 
@@ -381,7 +395,10 @@ PyGSL_copy_gslvector_to_pyarray(const gsl_vector *x)
      FUNC_MESS_BEGIN();
      dimension = x->size;
      a_array = (PyArrayObject *) PyGSL_New_Array(1, &dimension, NPY_DOUBLE);
-     if (a_array == NULL) return NULL;
+     if (a_array == NULL){
+	     FUNC_MESS_FAILED();
+	     return NULL;
+     }
 
      ptr = ((double *) PyArray_DATA(a_array));
      for (i=0;i<dimension;i++){
@@ -406,7 +423,10 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x)
      dimensions[0] = x->size1;
      dimensions[1] = x->size2;
      a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, NPY_DOUBLE);
-     if (a_array == NULL) return NULL;
+     if (a_array == NULL){
+	     FUNC_MESS_FAILED();
+	     return NULL;
+     }
 
      strides = PyArray_STRIDES(a_array);
      data = (char *) PyArray_DATA(a_array);
@@ -432,17 +452,27 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object,  PyGSL_array_in
 {
      PyArrayObject *a_array = NULL;
      double tmp;
-     int i, argnum = -1;
+     int i, argnum = -1, line = __LINE__;
      char *data;
      
      PyGSL_array_index_t *dimensions =NULL,  *strides = NULL;
 
+
      FUNC_MESS_BEGIN();
-     if (info)
+
+     if(!f){
+	     line = __LINE__ - 1;
+	     pygsl_error("target vector f == NULL", __FILE__, line, GSL_ESANITY);
+	     goto fail;
+     }
+     if (info){
 	  argnum = info->argnum;
+     }
+
      a_array = PyGSL_vector_check(object, n, PyGSL_DARRAY_INPUT(argnum), NULL, info);
      if(a_array == NULL){
-          FUNC_MESS("PyArray_FromObject failed");
+          line = __LINE__ -1;
+          DEBUG_MESS(2, "PyGSL_vector_check failed for object %p", (void *) object);
 	  goto fail;
      }
 
@@ -457,22 +487,24 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object,  PyGSL_array_in
     for (i=0;i<n;i++){
 	 tmp = *((double *) (data + strides[0] * i));
 	 gsl_vector_set(f, i, tmp);
-	 DEBUG_MESS(3, "\t\ta_array_%d = %f\n", i, tmp);
+	 DEBUG_MESS(10, "a_array_%d = %f\n", i, tmp);
 
      }
     FUNC_MESS_END();
     Py_DECREF(a_array);
     return GSL_SUCCESS;
+
  fail:
-    PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
-    FUNC_MESS("Failure");
+    PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
+    FUNC_MESS_FAILED();
     Py_XDECREF(a_array);
-    return GSL_FAILURE;
+    return PyGSL_ANY;
 }
 
     
 
 
+#define _PyGSL_BLOCK_MSG_BUFFER_SIZE 1024
 static int
 PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object,  PyGSL_array_index_t n,
 				PyGSL_array_index_t p,  PyGSL_error_info * info)
@@ -480,47 +512,92 @@ PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object,  PyGSL_array_in
      PyArrayObject *a_array = NULL;
      double tmp;
      char *myptr, *data=NULL;
-     int argnum=-1;
-     PyGSL_array_index_t *dimensions,  *strides, i, j;
+     char msg[_PyGSL_BLOCK_MSG_BUFFER_SIZE];
+     int argnum=-1, line = __LINE__, can_memcpy = 0;
+     PyGSL_array_index_t *strides, ma_stride1, ma_stride2, i, j;
 
      FUNC_MESS_BEGIN();
 
-
-     
      if (info){
 	  argnum = info->argnum;
      }
+     if(!f){
+	     line = __LINE__ - 1;
+	     pygsl_error("target matrix f == NULL", __FILE__, line, GSL_ESANITY);
+	     goto fail;
+     }
      
-     a_array = PyGSL_matrix_check(object, n, p, PyGSL_DARRAY_CINPUT(info->argnum), NULL, NULL, info);
+     a_array = PyGSL_matrix_check(object, n, p, PyGSL_DARRAY_CINPUT(argnum), &ma_stride1, &ma_stride2, info);
      if(a_array == NULL){
-	  FUNC_MESS(" PyGSL_PyArray_PREPARE_gsl_matrix_view failed!");
+	     DEBUG_MESS(2, " PyGSL_PyArray_PREPARE_gsl_matrix_view failed! n1 = %ld n2 =%ld",
+			(unsigned long) n, (unsigned long) p);
 	  goto fail;
      }
-
+     /* a bit of a double check */
+     if(f->size1 != (size_t) p){
+	     line = __LINE__ - 1;
+	     snprintf(msg, _PyGSL_BLOCK_MSG_BUFFER_SIZE - 2,
+		      "target matrix f-size1 %ld != p %ld%c",
+		      (long) f->size1, (long) p, '\0');
+	     msg[1023] = '\0';
+	     pygsl_error(msg, __FILE__, line, GSL_ESANITY);
+	     goto fail;
+     }
+     if(f->size2 != (size_t) n){
+	     line = __LINE__ - 1;
+	     snprintf(msg,  _PyGSL_BLOCK_MSG_BUFFER_SIZE - 2,
+		      "target matrix f-size2 %ld != p %ld%c",
+		      (long) f->size2, (long) n, '\0');
+	     msg[1023] = '\0';
+	     pygsl_error("target matrix f-size2 != n", __FILE__, line, GSL_ESANITY);
+	     goto fail;
+     }
      
-    assert(f->size1 == (size_t) n);
-    assert(f->size2 == (size_t) p);
+     strides = PyArray_STRIDES(a_array);
+     data = (char *) PyArray_DATA(a_array);
 
-    strides = PyArray_STRIDES(a_array);
-    dimensions = PyArray_DIMS(a_array);
-    data = (char *) PyArray_DATA(a_array);
+     /* XXX Optimise for contiguous layout */
+     if(f->tda == 0){
+	     int contiguous_columns, ncols;
 
-    for (i=0;i<n;i++){
-	 for (j=0;j<p;j++){
-	      myptr =  data + strides[0] * i + strides[1] * j;
-	      tmp = *((double *)(myptr));
-	      DEBUG_MESS(3, "\t\ta_array[%ld,%ld] = %f\n", i, j, tmp);
-	      gsl_matrix_set(f, i, j, tmp);
-	 }
-    }
-    FUNC_MESS_END();
-    Py_DECREF(a_array);
-    return GSL_SUCCESS;
- fail:
-    PyGSL_add_traceback(NULL, filename, __FUNCTION__, __LINE__);
-    FUNC_MESS_FAILED();
-    Py_XDECREF(a_array);
-    return GSL_FAILURE;
+	     contiguous_columns =  strides[1] / sizeof(double);
+	     ncols = strides[0] / sizeof(double);
+
+	     if(contiguous_columns == ma_stride2 && ncols == ma_stride1){
+		     /*
+		      * is that the correct condition?
+		      * Single out in separate function
+		      */
+	     }
+     } /* f->tda == =*/
+     if(can_memcpy){
+     }else{
+	     for (i=0; i<n; ++i){
+		     for (j=0; j<p; ++j){
+			     myptr =  data + strides[0] * i + strides[1] * j;
+			     tmp = *((double *)(myptr));
+			     if((PyGSL_DEBUG_LEVEL()) > 8){
+				     if(PyErr_Occurred()){
+					     line = __LINE__ - 1;
+					     goto fail;
+				     }
+				     /* if enabled also print */
+				     DEBUG_MESS(3, "\t\ta_array[%ld,%ld] = %f\n",
+						(long) i, (long) j, tmp);
+			     }
+			     gsl_matrix_set(f, i, j, tmp);
+		     }
+	     }
+     } /* memcpy(f, a) */
+     Py_DECREF(a_array);
+     FUNC_MESS_END();
+     return GSL_SUCCESS;
+
+  fail:
+     PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
+     FUNC_MESS_FAILED();
+     Py_XDECREF(a_array);
+     return PyGSL_ANY;
 }
 
 static PyArrayObject * 
@@ -588,7 +665,7 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
      PyArrayObject * a_array = NULL;
      int array_type, flag,  argnum, type_size;
 
-     PyGSL_array_index_t *dimensions,  *strides;
+     PyGSL_array_index_t  *strides;
 	  
 	  
      FUNC_MESS_BEGIN();
@@ -675,9 +752,9 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 	  }
 
      }/* number of tries */
-     DEBUG_MESS(7, "Checking refcount src obj @ %p had %ld cts and array @ %p has now %ld cts", 
-		(void *) src,  src->ob_refcnt, (void *)a_array, 
-		PyGSL_PY_ARRAY_GET_REFCNT(a_array));
+     DEBUG_MESS(7, "Checking refcount src obj @ %p had %ld cts and array @ %p has now %ld cts",
+		(void *) src,  (long) src->ob_refcnt, (void *)a_array,
+		(long) PyGSL_PY_ARRAY_GET_REFCNT(a_array));
     	  
     /* handling failed stride recalc */
      FUNC_MESS_END();
@@ -685,8 +762,11 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
      return a_array;
      
  fail:
-     FUNC_MESS("Fail");
-     PyGSL_ERROR_FLAG(status);
+     FUNC_MESS_FAILED();
+     if (save_error_state.gsl_errno == GSL_SUCCESS){
+       DEBUG_MESS(2, "setting error %d; not expected to be necessary here", status);
+       PyGSL_ERROR_FLAG(status);
+     }
      PyGSL_add_traceback(NULL, filename, __FUNCTION__, line);
      Py_XDECREF(a_array);
      return NULL;
@@ -712,7 +792,7 @@ PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t
      PyArrayObject * a_array = NULL;
      PyGSL_array_index_t * stride;
      int array_type, flag,  argnum, type_size;
-     PyGSL_array_index_t *dimensions,  *strides;
+     PyGSL_array_index_t  *strides;
 
      FUNC_MESS_BEGIN();
 
@@ -728,11 +808,11 @@ PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t
       * a contiguous array is demanded.
       */
      for(tries = 0; tries <2; ++tries){
-#if 0 
+#if 0
 	  a_array = PyGSL_MATRIX_CONVERT(src, array_type, flag);
 	  if(a_array !=  NULL && a_array->nd == 1 && 
 	     (size1 == -1 || a_array->dimensions[0] == size1) &&
-	     (size2 == -1 || a_array->dimensions[1] == size2)) 
+	     (size2 == -1 || a_array->dimensions[1] == size2))
 #else
 	  if(0)
 #endif

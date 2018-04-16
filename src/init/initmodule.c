@@ -65,7 +65,7 @@ _PyGSL_string_as_string(PyObject * unicode_obj)
 	return r;
 	
   fail:
-	FUNC_MESS("FAIL");
+	FUNC_MESS_FAILED();
 	Py_XDECREF(bytes_obj);
 	return NULL;
 }
