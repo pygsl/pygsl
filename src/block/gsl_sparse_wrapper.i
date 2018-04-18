@@ -4,6 +4,15 @@
  * Date: April 2018
  */
 
+/*
+%module(threads="1") MyModule
+%nothread;
+
+%thread;
+%include "MyExpensiveFunctions.h"
+%nothread;
+*/
+
 %{
 static PyObject *pygsl_sparse_matrix_module = NULL;
 #include <limits.h>
@@ -177,6 +186,7 @@ const int CRS;
 // %rename("gsl_%s") "";
 /* name clashes */
 typedef struct{
+  
 }pygsl_spmatrix;
 
 static pygsl_spmatrix* pygsl_spmatrix_alloc_helper(void);
@@ -346,7 +356,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
     return self->mat->sptype;
   }
 #if 0
-  gsl_error_flag_drop set_from_object(PyObject * obj){
+  gsl_error_flag_drop set_from_object(PyObject * indices, PyObject * data){
     Py_buffer buffer;
     int status = GSL_EFAILED, line = __LINE__, flag, is_buf_set = 0, t_dim = 0;
     FUNC_MESS_BEGIN();
@@ -400,6 +410,67 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
     return status;
   }
 #endif
+
+  gsl_error_flag_drop set_from_object(PyObject * i_o, PyObject * d_o){
+
+    PyArrayObject *indices = NULL, * data = NULL;
+    PyGSL_array_index_t stride_v, stride_m0=0, stride_m1=0, dim=0, elem, i, j;
+    double datum;
+    char *cptr = NULL, *idx_data = NULL, *data_data = NULL;
+    int status = GSL_EFAILED, line = __LINE__;
+    
+    FUNC_MESS_BEGIN();
+    indices = PyGSL_matrix_check(i_o,  -1, 2,
+				 PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, NPY_LONG, sizeof(long), 1),
+				 NULL, NULL, NULL);
+    if(indices == NULL){
+      line = __LINE__ - 5;
+      goto fail;
+    }
+    dim = PyArray_DIM(indices, 0);
+    
+    data = PyGSL_vector_check(i_o, dim, PyGSL_DARRAY_INPUT(2), NULL, NULL);
+    if(data == NULL){
+      line = __LINE__ - 2;
+      goto fail;
+    }
+
+    idx_data = PyArray_DATA(indices);
+    data_data = PyArray_DATA(data);
+
+    stride_m0 = PyArray_STRIDE(indices, 0);
+    stride_m1 = PyArray_STRIDE(indices, 1);
+
+    stride_v = PyArray_STRIDE(data, 0);
+
+    
+    for(elem = 0; elem < dim; ++elem){
+      cptr = idx_data + stride_m0 * elem + stride_m1 * 0;
+      i = *((long long *) cptr);
+      
+      cptr = idx_data + stride_m0 * elem + stride_m1 * 1;
+      j = *((long long *) cptr);
+      
+      cptr = data_data + stride_v * elem;
+      datum = *((long long *) cptr);
+
+      status = gsl_spmatrix_set(self->mat, i, j, datum);
+      if(status != GSL_SUCCESS){
+	line = __LINE__ - 2;
+	goto fail;
+      }
+    }
+    FUNC_MESS_END();
+    return GSL_SUCCESS;
+
+  fail:
+    FUNC_MESS_FAILED();
+    PyGSL_add_traceback(pygsl_sparse_matrix_module, __FILE__, __FUNCTION__, line);
+    Py_XDECREF(indices);
+    Py_XDECREF(data);
+    PyGSL_error_flag(status);
+    return status;
+  }
 
   gsl_error_flag_drop set_zero(void){
     return gsl_spmatrix_set_zero(self->mat);
@@ -592,33 +663,32 @@ static pygsl_spmatrix * pygsl_spmatrix_fscanf(FILE * stream);
 /* blas part */
 %{
 static PyObject *
-  pygsl_spblas_dgemv(const CBLAS_TRANSPOSE_t TransA, const double alpha, const pygsl_spmatrix * A, const gsl_vector * x, const double beta)
+  pygsl_spblas_dgemv(const CBLAS_TRANSPOSE_t TransA, const double alpha, const pygsl_spmatrix * A, const gsl_vector * x, const double beta, PyObject *y)
 {
   PyArrayObject * y_a = NULL;
   gsl_vector_view y_v;
   PyGSL_array_index_t dim = 0, tmp=0;
   int line, status = PyGSL_ANY;
 
-  dim = x->size;
-  y_a = PyGSL_New_Array(1, &dim, NPY_DOUBLE);
+  FUNC_MESS_BEGIN();
+  y_a = PyGSL_Copy_Array(y);
   if(y_a == NULL){
     line = __LINE__ -2;
     status = GSL_ENOMEM;
     goto fail;
   }
+  //Py_DECREF(y);
   status = PyGSL_STRIDE_RECALC(PyArray_STRIDE(y_a, 0), sizeof(double), &tmp);
   if(status != GSL_SUCCESS){
     line = __LINE__ -2;
     goto fail;
   }
-  if(tmp != 1){
-    line = __LINE__ -2;
-    status = GSL_ESANITY;
-    gsl_error("stride of newly created array was not 1", __FILE__, line, status);
-    goto fail;
-  }
-  y_v = gsl_vector_view_array(PyArray_DATA(y_a), PyArray_DIM(y_a, 0));
+  y_v = gsl_vector_view_array_with_stride(PyArray_DATA(y_a), tmp, PyArray_DIM(y_a, 0));
+
+  NPY_BEGIN_ALLOW_THREADS
   status = gsl_spblas_dgemv(TransA, alpha, A->mat, x, beta, &y_v.vector);
+  NPY_END_ALLOW_THREADS
+  
   if(status != GSL_SUCCESS){
     line = __LINE__ -2;
     goto fail;
@@ -636,7 +706,12 @@ static PyObject *
 int
 pygsl_spblas_dgemm(const double alpha, const pygsl_spmatrix * A, const pygsl_spmatrix * B, pygsl_spmatrix * C)
 {
-  return gsl_spblas_dgemm(alpha, A->mat, B->mat, C->mat);
+  int status;
+
+  //NPY_BEGIN_ALLOW_THREADS
+  status = gsl_spblas_dgemm(alpha, A->mat, B->mat, C->mat);
+  //NPY_END_ALLOW_THREADS
+    return status;
 }
 
 %}
@@ -654,7 +729,7 @@ pygsl_splinalg_itersolve_iterate(const pygsl_spmatrix * A, const gsl_vector * b,
   FUNC_MESS_BEGIN();
 
   dim = b->size;
-  x_in =PyGSL_vector_check(x_o, dim, PyGSL_DARRAY_INPUT(5), &stride, NULL);
+  x_in = PyGSL_vector_check(x_o, dim, PyGSL_DARRAY_INPUT(5), &stride, NULL);
   if(x_in == NULL){
     line = __LINE__ -2;
     status = GSL_ENOMEM;
@@ -677,7 +752,10 @@ pygsl_splinalg_itersolve_iterate(const pygsl_spmatrix * A, const gsl_vector * b,
 	     (void *)&x_v.vector, (unsigned long)  x_v.vector.size, (long) dim,
 	     (unsigned long) x_v.vector.stride, (long) stride);
 
+  //NPY_BEGIN_ALLOW_THREADS
   status = gsl_splinalg_itersolve_iterate(A->mat, b, tol, &x_v.vector, w);
+  //NPY_END_ALLOW_THREADS
+  
   line = __LINE__ -1;
   switch(status){
   case GSL_SUCCESS:
@@ -701,10 +779,10 @@ pygsl_splinalg_itersolve_iterate(const pygsl_spmatrix * A, const gsl_vector * b,
 gsl_error_flag_drop
 pygsl_spblas_dgemm(const double alpha, const pygsl_spmatrix * A, const pygsl_spmatrix * B, pygsl_spmatrix * C);
 PyObject *
-pygsl_spblas_dgemv(const int TransA, const double alpha, const pygsl_spmatrix * A, const gsl_vector * x, const double beta);
+pygsl_spblas_dgemv(const int TransA, const double alpha, const pygsl_spmatrix * A, const gsl_vector * x, const double beta, PyObject *y);
 
 /* lapack */
-extern gsl_splinalg_itersolve_type *gsl_splinalg_itersolve_gmres;
+extern const gsl_splinalg_itersolve_type *gsl_splinalg_itersolve_gmres;
 typedef struct{
 }gsl_splinalg_itersolve;
 

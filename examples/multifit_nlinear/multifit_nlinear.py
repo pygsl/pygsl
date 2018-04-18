@@ -2,7 +2,7 @@
 """
 import sys
 import pygsl
-from pygsl import multifit_nlinear, rng, errors, blas
+from pygsl import multifit_nlinear, rng, errors, blas, errno
 import numpy as np
 
 #for val in dir(multifit_nlinear):
@@ -23,7 +23,7 @@ def expb_f(x, args):
     Y = A * np.exp(- lambda_ * t) + b
 
     f = Y - y
-    return f
+    return errno.GSL_SUCCESS, f
 
 def expb_df(x, args):
     A, lambda_, b = x
@@ -41,7 +41,7 @@ def expb_df(x, args):
     stream = sys.stderr
     #stream.write("J.shape = %s\n" %(J.shape,))
     #stream.flush()
-    return J
+    return errno.GSL_SUCCESS, J
 
 def callback(w, t_iter, *args):
     #print("cb w", w)

@@ -1,0 +1,505 @@
+/* -*- C -*- */
+#include "pygsl_multifit_nlinear_generic.h"
+#include <Python.h>
+
+/*
+ * callbacks f and df are quite the same code for a large extend
+ */
+static int
+PyMODULEWRAP(callback_obj_intern)(PyObject * callback, const gsl_vector * x,
+			    PyMODULEWRAP(params) * t_params, PyObject **ob)
+{
+	PyArrayObject *x_array = NULL;
+	PyObject *object=NULL, *args = NULL, *stat_o = NULL, *ret = NULL;
+	PyGSL_error_info  info;
+	int status = PyGSL_ANY, flag = PyGSL_ANY;
+	
+	FUNC_MESS_BEGIN();    
+	assert(ob != NULL);
+	*ob = NULL;
+	/* the line number to appear in the traceback */ 
+	int trb_lineno = -1;
+
+	assert(t_params != NULL);
+     
+	/* Do I need to copy the array ??? */
+	x_array = PyGSL_copy_gslvector_to_pyarray(x);
+	if (x_array == NULL){
+		trb_lineno = __LINE__ - 2;
+		goto fail;
+	}
+
+	args = t_params->args;
+	Py_XINCREF(args);
+	/*  XXX required ? arsg can be NULL
+	    assert(args != NULL);
+	*/
+	DEBUG_MESS(2, "callback (f|df) = %p, x_array  = %p, args = %p",
+		   callback, x_array, args);
+
+	assert(callback != NULL);
+	FUNC_MESS("    Call Python Object BEGIN");
+	ret = PyObject_CallFunctionObjArgs(callback, x_array, args, NULL);
+	x_array = NULL;
+	args = NULL;
+	FUNC_MESS("    Call Python Object END");
+
+	info.callback = callback;
+	info.message  = __FUNCTION__;
+	info.error_description = NULL;
+	info.argnum = 0;
+	if(PyGSL_CHECK_PYTHON_RETURN(ret, 2, &info) != GSL_SUCCESS){
+		trb_lineno = __LINE__ - 1;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+
+	stat_o = PyTuple_GET_ITEM(ret, 0);
+	if (stat_o == NULL){
+		trb_lineno = __LINE__ - 2;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+
+	info.argnum = 1;
+	trb_lineno = __LINE__ + 1;
+	flag = PyGSL_pyint_to_int(stat_o, &status, &info);
+	/* 
+	 * what are the flags that should be returned to to GSL ?
+	 * an exception would have returned NULL and would not end up here 
+	 */
+	switch(flag){		
+	case GSL_SUCCESS:
+		break;
+	default:
+		status = flag;
+		pygsl_error("user func returned error flag", __FILE__, __LINE__, status);
+		goto fail;
+	}
+	
+	object = PyTuple_GET_ITEM(ret, 1);
+	if (object == NULL){
+		trb_lineno = __LINE__ - 2;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+	
+	Py_INCREF(object); /* part of the return tuple */
+	Py_DECREF(ret);
+	ret = NULL;
+	*ob = object;
+	FUNC_MESS_END();
+	return status;
+     
+  fail:
+	PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, trb_lineno);
+	FUNC_MESS_FAILED();
+	Py_XDECREF(args);
+	Py_XDECREF(ret);
+	Py_XDECREF(x_array);
+	/* Py_XDECREF(object); */
+	return status;
+}
+/* 1. A_n O -> A_p  */
+static int
+PyMODULEWRAP(callback_f)(const gsl_vector * x, void * param, gsl_vector *f)
+{
+	PyObject *object=NULL, *callback = NULL;
+	PyGSL_error_info  info;
+	PyMODULEWRAP(params) * t_params;
+	int status = PyGSL_ANY, trb_lineno = __LINE__;
+
+	FUNC_MESS_BEGIN();    
+
+	assert(param != NULL);
+	t_params = (PyMODULEWRAP(params) *) param;
+	callback = t_params->f;
+	
+	status = PyMODULEWRAP(callback_obj_intern)(callback, x, param, &object);
+	switch(status){
+	case GSL_SUCCESS:
+		break;
+	default:
+		trb_lineno = __LINE__ - 5;
+		goto fail;
+	}
+	
+	info.callback = callback;
+	info.message  = __FUNCTION__;
+	info.error_description = NULL;
+	info.argnum = 1;
+	status = PyGSL_copy_pyarray_to_gslvector(f, object, f->size, &info);
+	if(status != GSL_SUCCESS){
+		trb_lineno = __LINE__ - 2;
+		goto fail;
+	}
+	Py_DECREF(object);
+	object = NULL;
+	FUNC_MESS_END();
+	return status;
+	
+  fail:
+	PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, trb_lineno);
+	FUNC_MESS_FAILED();
+	Py_XDECREF(object);
+	return status;
+}
+
+
+static int
+PyMODULEWRAP(callback_fvv)(const gsl_vector * x, const gsl_vector * v,
+				    void * params, gsl_vector * fvv)
+{
+	PyObject * callback = NULL, *args = NULL, *object = NULL,
+		*stat_o = NULL, *ret = NULL;
+	PyArrayObject *x_array = NULL, *v_array = NULL;
+	
+	PyMODULEWRAP(params) *t_params;
+	PyGSL_error_info  info;
+	int status = GSL_EFAILED, flag = GSL_EFAILED, line = __LINE__;
+
+	FUNC_MESS_BEGIN();
+	assert(params != NULL);
+	t_params = (PyMODULEWRAP(params) *) params;
+    
+	callback = t_params->fvv;
+	if(callback == NULL){
+		line = __LINE__ - 1;
+		status =  GSL_EINVAL;
+		gsl_error("Function call unexpected. No python callback found",
+			  __FILE__, line, status);
+		goto fail;
+	}
+
+	x_array = PyGSL_copy_gslvector_to_pyarray(x);
+	if (x_array == NULL){
+		line = __LINE__ - 2;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+	
+	v_array = PyGSL_copy_gslvector_to_pyarray(v);
+	if (v_array == NULL){
+		line = __LINE__ - 2;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+
+	args = t_params->args;
+	Py_XINCREF(args);
+	
+	FUNC_MESS("BC   fvv");
+	ret = PyObject_CallFunctionObjArgs(callback, x_array, v_array, args, NULL);
+	x_array = v_array = NULL;	
+	args = NULL;
+	FUNC_MESS("EC  fvv");
+
+      
+	info.callback = callback;
+	info.message  = __FUNCTION__;
+	info.error_description = NULL;
+	info.argnum = 0;
+	if(PyGSL_CHECK_PYTHON_RETURN(ret, 2, &info) != GSL_SUCCESS){
+		line = __LINE__ - 1;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+	info.argnum = 1;
+
+
+	stat_o = PyTuple_GET_ITEM(ret, 0);
+	if (stat_o == NULL){
+		line = __LINE__ - 2;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+
+	info.argnum = 2;
+	line = __LINE__ + 1;
+	flag = PyGSL_pyint_to_int(stat_o, &status, &info);
+	/* 
+	 * what are the flags that should be returned to to GSL ?
+	 * an exception would have returned NULL and would not end up here 
+	 */
+	switch(flag){		
+	case GSL_SUCCESS:
+		break;
+	default:
+		status = flag;
+		goto fail;
+	}
+	
+	object = PyTuple_GET_ITEM(ret, 1);
+	if (object == NULL){
+		line = __LINE__ - 2;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+
+	flag = PyGSL_copy_pyarray_to_gslvector(fvv, object, fvv->size, &info);
+	if(flag != GSL_SUCCESS){
+		line = __LINE__ - 2;
+		goto fail;
+	}     
+	if (fvv->size >= 2){
+		DEBUG_MESS(2, "fvv[0] = %g, fvv[1] =%g",
+			   gsl_vector_get(fvv, 0), gsl_vector_get(fvv, 1));	
+	}
+	Py_DECREF(ret);
+	object = NULL;
+	FUNC_MESS_END();
+	return status;
+	
+ fail:
+	PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, line);
+	FUNC_MESS_FAILED();
+	Py_XDECREF(x_array);
+	Py_XDECREF(v_array);
+	Py_XDECREF(ret);
+	flag = (flag == GSL_SUCCESS) ? PyGSL_ANY : flag;
+	if(t_params->buf_is_set){
+		DEBUG_MESS(2, "calling longjmp with flag %d", flag);
+		longjmp(t_params->env, flag);
+	}
+	return status;
+}
+
+static void
+PyMODULEWRAP(callback)(const size_t iter, void *params,
+		       const MODULEWRAP(workspace) *w)
+{
+
+	//PyMODULEWRAP(workspace *work_space = NULL;
+	PyMODULEWRAP(params) *t_params = NULL;
+	PyObject *object = NULL, *callback = NULL, *args = NULL,
+		*py_work_space = NULL, *iter_obj = NULL;
+	int trb_lineno = __LINE__, status = GSL_SUCCESS;
+	PyGSL_error_info  info;
+	
+
+	FUNC_MESS_BEGIN();
+
+	assert(params != NULL);
+	t_params = (PyMODULEWRAP(params) *) params;
+	//work_space = (PyMODULEWRAP(workspace *) params;
+
+	callback = t_params->callback;
+	assert(callback != NULL);
+	
+	args = t_params->callback_params;
+	/* 
+	 *  I guess the user interface is more consitent if one calls the 
+	 *  callback with args = None rather than having an inconsistent interface.
+	 */	  
+	if(args == NULL){
+		args = Py_None;
+	}
+	Py_XINCREF(args);
+	
+	/* also as for args ... keep positional arguments to their spot */
+	py_work_space = t_params->self_pyobj;
+	if(py_work_space == NULL){
+		py_work_space = Py_None;
+	}
+	assert(py_work_space != NULL);
+	Py_INCREF(py_work_space);
+
+	iter_obj = PyLong_FromSize_t(iter);
+	if(iter_obj == NULL){
+		trb_lineno = __LINE__ - 2;
+		status = PyGSL_ANY;
+		goto fail;
+	}
+ 	DEBUG_MESS(2, "(status) callback = %p,  py_work_space = %p, args = %p",
+		   callback, py_work_space, args);
+	
+	FUNC_MESS("    Call Python Object BEGIN");
+	object = PyObject_CallFunctionObjArgs(callback, py_work_space, iter_obj, args, NULL);
+	args = NULL;
+	py_work_space = NULL;
+	iter_obj = NULL;
+	FUNC_MESS("    Call Python Object END");
+
+	info.callback = callback;
+	info.message  = __FUNCTION__;
+	info.error_description = NULL;
+	info.argnum = 0;
+	status = PyGSL_CHECK_PYTHON_RETURN(object, 0, &info);
+	if(status != GSL_SUCCESS){
+		trb_lineno = __LINE__ - 1;
+		goto fail;
+	}
+	Py_XDECREF(object);
+	FUNC_MESS_END();
+	return;
+	
+  fail:
+	FUNC_MESS_FAILED();
+	PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, trb_lineno);
+	Py_XDECREF(args);
+	Py_XDECREF(py_work_space);
+	Py_XDECREF(iter_obj);
+	Py_XDECREF(object);
+	DEBUG_MESS(2, "Failed execution of callback at line %d", trb_lineno);
+	
+	status = (status == GSL_SUCCESS) ? PyGSL_ANY : status;
+	if(t_params->buf_is_set){
+		longjmp(t_params->env, status);
+	}
+	return;
+	
+}
+
+static int
+PyMODULEWRAP(driver)(PyMODULEWRAP(workspace) *self,
+		     const size_t maxiter, const double xtol,
+		     const double gtol, const double ftol,
+		     PyObject *callback, PyObject *callback_params,
+		     int *OUTPUT)
+{
+	void *callback_ptr = NULL;
+	void *callback_params_ptr = NULL;
+	int status = GSL_EFAILED, line = __LINE__;
+
+	FUNC_MESS_BEGIN();
+	Py_XDECREF(self->params.callback);
+	self->params.callback = NULL;
+	Py_XDECREF(self->params.callback_params);
+	self->params.callback_params = NULL;
+	
+	DEBUG_MESS(2, "Callback %p", callback);
+	if((callback != NULL) && (callback != Py_None)){
+		if(PyCallable_Check(callback) == 0){
+			DEBUG_MESS(2, "Callback %p not callable!", callback);
+			GSL_ERROR("Callback given but not callable!", GSL_EINVAL);
+		}
+	      
+		DEBUG_MESS(2, "Callable callback %p!", callback);
+		Py_INCREF(callback);
+		self->params.callback = callback;
+
+		Py_XINCREF(callback_params);
+		self->params.callback_params = callback_params;
+		
+		callback_ptr = PyMODULEWRAP(callback);
+		callback_params_ptr = &self->params;
+	}
+
+	DEBUG_MESS(2, "Callback %p == PyMODULEWRAP(callback): %s", callback_ptr,
+		   (PyMODULEWRAP(callback) == callback_ptr) ? "True" : "False");
+
+	self->params.buf_is_set = 0;
+	if( (status = setjmp(self->params.env)) == 0){
+		self->params.buf_is_set = 1;
+		DEBUG_MESS(2, "Calling driver with jmp buffer set %d", self->params.buf_is_set);
+		status = MODULEWRAP(driver)(maxiter, xtol, gtol, ftol,
+						     callback_ptr, callback_params_ptr,
+						     OUTPUT, self->w);
+		self->params.buf_is_set = 0;
+		if(status != GSL_SUCCESS){
+			line = __LINE__ - 5;
+			goto fail;
+		}
+	} else {
+		self->params.buf_is_set = 0;	
+		if(status != GSL_SUCCESS){
+			line = __LINE__ - 13;
+			goto fail;
+		}
+	}
+	Py_XDECREF(self->params.callback);
+	self->params.callback = NULL;
+	Py_XDECREF(self->params.callback_params);
+	self->params.callback_params = NULL;
+	FUNC_MESS_END();
+	assert(status == GSL_SUCCESS);
+	return status;
+    
+  fail:
+	FUNC_MESS_FAILED();
+	PyGSL_add_traceback(pygsl_multifit_nlinear_module, __FILE__, __FUNCTION__, line);
+	Py_XDECREF(self->params.callback);
+	self->params.callback = NULL;
+	Py_XDECREF(self->params.callback_params);
+	self->params.callback_params = NULL;
+	return status;
+}
+  
+static int
+PyMODULEWRAP(handle_callbacks)(PyMODULEWRAP(workspace) *self,
+					PyObject * f, PyObject *df, PyObject *fvv,
+					PyObject *args)
+{
+	int status = GSL_EINVAL, line = __LINE__;
+
+	FUNC_MESS_BEGIN();
+    
+	Py_XDECREF(self->params.f);
+	self->params.f = NULL;
+	Py_XDECREF(self->params.df);
+	self->params.df = NULL;
+	Py_XDECREF(self->params.fvv);
+	self->params.fvv = NULL;
+	Py_XDECREF(self->params.args);
+	self->params.args = NULL;
+
+	self->params.args = args;
+
+	DEBUG_MESS(2, "Checking PyObject f = %p", f);
+	if(PyCallable_Check(f) == 0){
+		line = __LINE__ - 1;
+		status = GSL_EINVAL;
+		DEBUG_MESS(2, "f %p must be callable", (void *) f);
+		gsl_error("Argument f must be callable", __FILE__, line, status);
+		goto fail;
+	}else {
+		Py_INCREF(f);
+		self->params.f = f;
+	}
+    
+	DEBUG_MESS(2, "Checking PyObject df = %p", df);
+	if(PyCallable_Check(df) == 0){
+		if(df == NULL || df == Py_None){
+			/* derivaties can be computed internally if required */
+			self->params.fdf.df = NULL;
+		} else {
+			line = __LINE__ - 4;
+			status = GSL_EINVAL;
+			DEBUG_MESS(2, "df %p must be callable or PyNone", (void *) df);
+			gsl_error("Argument df must be callable", __FILE__, line, status);
+			goto fail;
+		}
+	} else {
+		Py_INCREF(df);
+		self->params.df = df;
+		self->params.fdf.df = PyMODULEWRAP(callback_df);
+	}
+    
+	DEBUG_MESS(2, "Checking PyObject fvv = %p", fvv);
+	if(PyCallable_Check(fvv) == 0){
+		if(fvv == NULL || fvv == Py_None){
+			/* geodesic acceleration is not mandated */
+			self->params.fdf.fvv = NULL;
+		} else {
+			line = __LINE__ - 4;
+			status = GSL_EINVAL;
+			DEBUG_MESS(2, "fvv %p must be callable", (void *) fvv);
+			gsl_error("Argument fvv must be callable or None", __FILE__, line, status);
+			goto fail;
+		}
+	} else {
+		Py_INCREF(fvv);
+		self->params.fvv = fvv;
+		self->params.fdf.fvv = PyMODULEWRAP(callback_fvv);
+	}
+    
+	FUNC_MESS_END();
+	return GSL_SUCCESS;
+
+  fail:
+	FUNC_MESS_FAILED();
+	return status;
+}
+/*
+ * c-set-style: python
+ */

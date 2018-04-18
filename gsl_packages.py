@@ -103,24 +103,6 @@ if flag:
                                python_min_version=(2,1),
         )
     )
-flag = 0
-try:
-    # XXX: Requires test for the new gsl multilarge nlinear interface
-    flag = False
-except AttributeError:
-    pass
-if flag:
-    exts.append(
-        SWIG_Extension("multilarge_nlinear",
-                               ["src/callback/gsl_multilarge_nlinear.i"],
-                               include_dirs=["src/callback"],
-                               swig_include_dirs=["src/callback"],
-                               swig_flags = swig_flags,
-                               #gsl_min_version=(1,2),
-                               define_macros = macros,
-                               python_min_version=(2,1),
-        )
-    )
 
 flag = 0
 try:
@@ -140,6 +122,25 @@ if flag:
                                python_min_version=(2,1),
         )
     )
+flag = 0
+try:
+    # XXX: Requires test for the new gsl multilarge nlinear interface
+    flag = True
+except AttributeError:
+    pass
+if flag:
+    exts.append(
+        SWIG_Extension("multilarge_nlinear",
+                               ["src/callback/gsl_multilarge_nlinear.i"],
+                               include_dirs=["src/callback"],
+                               swig_include_dirs=["src/callback"],
+                               swig_flags = swig_flags,
+                               #gsl_min_version=(1,2),
+                               define_macros = macros,
+                               python_min_version=(2,1),
+        )
+    )
+
 
 flag = 0
 try:

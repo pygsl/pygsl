@@ -18,7 +18,7 @@
 //%feature("python:slot", "tp_repr", functype="reprfunc") parameters::print_repr;
 
 %rename(trust_state) MODULEWRAP(trust_state);
-%rename(workspace)   pygsl_multifit_nlinear_workspace;
+%rename(workspace)   PyMODULEWRAP(workspace);
 
 
 %rename(CTRDIFF) GSL_MULTIFIT_NLINEAR_CTRDIFF;
@@ -46,7 +46,7 @@
 
 %ignore MODULEWRAP(trust);
 %ignore _pygsl_multifit_nlinear_covar;
-%rename(covar) pygsl_multifit_nlinear_covar;
+%rename(covar) PyMODULEWRAP(covar);
 
 %rename(trust)           MODULEWRAP(trust);
 
@@ -70,31 +70,60 @@
 
 
 typedef struct{
-  gsl_multifit_nlinear_fdf fdf;
+  MODULEWRAP(fdf) fdf;
   %immutable;
   int buf_is_set;
-}pygsl_multifit_nlinear_params;
+}PyMODULEWRAP(params);
 
 typedef struct{
   %immutable;
-  gsl_multifit_nlinear_workspace * w;
-  pygsl_multifit_nlinear_params params;
-}pygsl_multifit_nlinear_workspace;
-
-static PyObject *
-pygsl_multifit_nlinear_covar(const gsl_matrix *J, const double epsrel,
-			     const long p);
+  MODULEWRAP(workspace) * w;
+  %mutable;
+  PyMODULEWRAP(params) params;
+}PyMODULEWRAP(workspace);
 
 
-%extend pygsl_multifit_nlinear_workspace {
-  pygsl_multifit_nlinear_workspace(const MODULEWRAP(type) * T,
+%extend MODULEWRAP(workspace) {
+  MODULEWRAP(workspace)(const MODULEWRAP(type) * T,
+			const MODULEWRAP(parameters) * params,
+			const size_t n, const size_t p){
+    return MODULEWRAP(alloc)(T, params, n, p);
+  }
+  ~MODULEWRAP(workspace)(void){
+    MODULEWRAP(free)(self);
+  }
+  const char * name(void){
+      return  MODULEWRAP(name)(self);
+  }
+  const char * trs_name(void){
+    return  MODULEWRAP(trs_name)(self);
+  }
+  double avratio(void){
+    return MODULEWRAP(avratio)(self);
+  }
+}
+
+#define _PYGSL_WRAP_SETJMP(cmd)                       \
+    do{                                               \
+      self->params.buf_is_set = 0;		      \
+      if( (status = setjmp(self->params.env)) == 0){  \
+	self->params.buf_is_set = 1;		      \
+	status = cmd;				      \
+	self->params.buf_is_set = 0;                  \
+      } else {					      \
+	self->params.buf_is_set = 0;		      \
+      }						      \
+    }while(0)
+    
+%extend PyMODULEWRAP(workspace) {
+  PyMODULEWRAP(workspace)(const MODULEWRAP(type) * T,
 				   const MODULEWRAP(parameters) * params,
 				 const size_t n, const size_t p){
     
-    pygsl_multifit_nlinear_workspace * obj = NULL;
+    PyMODULEWRAP(workspace) * obj = NULL;
     int line = __LINE__;
     
-    obj = (pygsl_multifit_nlinear_workspace *) calloc(1, sizeof(pygsl_multifit_nlinear_workspace));
+    obj = (PyMODULEWRAP(workspace) *) calloc(1, sizeof(PyMODULEWRAP(workspace)));
 
     memset(&obj->params.fdf, 0, sizeof(MODULEWRAP(fdf)) );
 
@@ -110,7 +139,7 @@ pygsl_multifit_nlinear_covar(const gsl_matrix *J, const double epsrel,
     obj->params.fdf.fvv = NULL;
     obj->params.self_pyobj = NULL;
     obj->w = NULL;
-    
+    //obj->thread = NULL;
     obj->w = MODULEWRAP(alloc)(T, params, n, p);
     if(obj->w == NULL){
       PyGSL_add_traceback(pygsl_multifit_nlinear_module, __FILE__, __FUNCTION__, line - 2);
@@ -119,7 +148,7 @@ pygsl_multifit_nlinear_covar(const gsl_matrix *J, const double epsrel,
       return NULL;
     }
 
-    obj->params.fdf.f = PyGSL_multifit_nlinear_callback_f;
+    obj->params.fdf.f = PyMODULEWRAP(callback_f);
     obj->params.fdf.p = p;
     obj->params.fdf.n = n;
     Py_INCREF(Py_None);
@@ -129,7 +158,7 @@ pygsl_multifit_nlinear_covar(const gsl_matrix *J, const double epsrel,
     return obj;
   }
   
-  ~pygsl_multifit_nlinear_workspace(void){
+  ~PyMODULEWRAP(workspace)(void){
     FUNC_MESS_BEGIN();
     Py_XDECREF(self->params.f);
     self->params.f = NULL;
@@ -154,24 +183,28 @@ pygsl_multifit_nlinear_covar(const gsl_matrix *J, const double epsrel,
     int status = GSL_SUCCESS, line = __LINE__;
 
     FUNC_MESS_BEGIN();
-    status = pygsl_multifit_nlinear_handle_callbacks(self, f, df, fvv, args);
+    status = PyMODULEWRAP(handle_callbacks)(self, f, df, fvv, args);
     if(status != GSL_SUCCESS){
       line = __LINE__ - 2;
       goto fail;
     }
 
-    DEBUG_MESS(2, "Calling MODULEWRAP(init x[0] = %e", gsl_vector_get(x, 0));
-    status = MODULEWRAP(init)(x, &self->params.fdf, self->w);
+    DEBUG_MESS(2, "Calling MODULEWRAP(init) x[0] = %e", gsl_vector_get(x, 0));
+    _PYGSL_WRAP_SETJMP(    MODULEWRAP(init)(x, &self->params.fdf, self->w) );
     if(status != GSL_SUCCESS){
-      line = __LINE__ - 2;
-      goto fail;
+      line = __LINE__ - 13;
+      goto fail;    
     }
     
     FUNC_MESS_END();
     return status;
       
   fail:
-    FUNC_MESS("FAIL");
+    FUNC_MESS_FAILED();
+    DEBUG_MESS(2, "fdf->n %lu fdf->p %lu x->size %lu",
+	       (unsigned long) self->params.fdf.p, (unsigned long) self->params.fdf.n,
+	       (unsigned long) x->size);
+    DEBUG_MESS(2, "Failed at line %d", line);
     PyGSL_add_traceback(pygsl_multifit_nlinear_module, __FILE__, __FUNCTION__, line);
     return status;
   }
@@ -182,29 +215,49 @@ pygsl_multifit_nlinear_covar(const gsl_matrix *J, const double epsrel,
     int status = GSL_SUCCESS, line = __LINE__;
 
     FUNC_MESS_BEGIN();
-    status = pygsl_multifit_nlinear_handle_callbacks(self, f, df, fvv, args);
+    status = PyMODULEWRAP(handle_callbacks)(self, f, df, fvv, args);
     if(status != GSL_SUCCESS){
       line = __LINE__ - 2;
       goto fail;
     }
-    
-    status = MODULEWRAP(winit)(x, wts, &self->params.fdf, self->w);
+
+    _PYGSL_WRAP_SETJMP(  MODULEWRAP(winit)(x, wts, &self->params.fdf, self->w));
     if(status != GSL_SUCCESS){
-      line = __LINE__ - 2;
-      goto fail;
+      line = __LINE__ - 13;
+      goto fail;    
     }
 
     FUNC_MESS_END();
     return status;
     
   fail:
-    FUNC_MESS("FAIL");
+    FUNC_MESS_FAILED();
+    DEBUG_MESS(2, "Failed at line %d", line);
     PyGSL_add_traceback(pygsl_multifit_nlinear_module, __FILE__, __FUNCTION__, line);
     return status;
  }
 
   gsl_error_flag_drop iterate(void){
-    self->params.exception_occured = GSL_SUCCESS;
+    int status = GSL_SUCCESS, line = __LINE__;
+
+    FUNC_MESS_BEGIN();
+    _PYGSL_WRAP_SETJMP(  MODULEWRAP(iterate)(self->w));
+    if(status != GSL_SUCCESS){
+      line = __LINE__ - 13;
+      goto fail;    
+    }
+
+    FUNC_MESS_END();
+    return status;
+    
+  fail:
+    FUNC_MESS_FAILED();
+    DEBUG_MESS(2, "Failed at line %d", line);
+    PyGSL_add_traceback(pygsl_multifit_nlinear_module, __FILE__, __FUNCTION__, line);
+    return status;
+    
+    
+
     return MODULEWRAP(iterate)(self->w);
   }
 
@@ -224,16 +277,13 @@ pygsl_multifit_nlinear_covar(const gsl_matrix *J, const double epsrel,
     FUNC_MESS_BEGIN();
 
     self->params.exception_occured = GSL_SUCCESS;
-    status = PyGSL_multifit_nlinear_driver(self, maxiter, xtol, gtol, ftol,
-					   callback, callback_params, OUTPUT);
-    
-    switch(status){
-    case GSL_SUCCESS:
-      break;
-      line = __LINE__ - 5;
-      goto fail;
+
+    _PYGSL_WRAP_SETJMP(PyMODULEWRAP(driver)(self, maxiter, xtol, gtol, ftol,
+				callback, callback_params, OUTPUT) );
+    if(status != GSL_SUCCESS){
+      line = __LINE__ - 13;
+      goto fail;    
     }
-    
     FUNC_MESS_END();
     return status;
     
@@ -241,12 +291,6 @@ pygsl_multifit_nlinear_covar(const gsl_matrix *J, const double epsrel,
     FUNC_MESS("FAIL");
     PyGSL_add_traceback(pygsl_multifit_nlinear_module, __FILE__, __FUNCTION__, line);
     return status;
-  }
-
-  PyObject * jac(void){
-    gsl_matrix * m = NULL;
-    m = MODULEWRAP(jac)(self->w);
-    return (PyObject*) PyGSL_copy_gslmatrix_to_pyarray(m);
   }
   
   PyObject * position(void){
