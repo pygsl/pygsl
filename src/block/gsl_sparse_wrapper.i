@@ -411,7 +411,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
   }
 #endif
 
-  gsl_error_flag_drop set_from_object(PyObject * i_o, PyObject * d_o){
+  gsl_error_flag_drop set_from_triplet(PyObject * i_o, PyObject * d_o){
 
     PyArrayObject *indices = NULL, * data = NULL;
     PyGSL_array_index_t stride_v, stride_m0=0, stride_m1=0, dim=0, elem, i, j;
@@ -421,7 +421,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
     
     FUNC_MESS_BEGIN();
     indices = PyGSL_matrix_check(i_o,  -1, 2,
-				 PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, NPY_LONG, sizeof(long), 1),
+				 PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, NPY_LONGLONG, sizeof(long), 1),
 				 NULL, NULL, NULL);
     if(indices == NULL){
       line = __LINE__ - 5;
@@ -429,7 +429,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
     }
     dim = PyArray_DIM(indices, 0);
     
-    data = PyGSL_vector_check(i_o, dim, PyGSL_DARRAY_INPUT(2), NULL, NULL);
+    data = PyGSL_vector_check(d_o, dim, PyGSL_DARRAY_INPUT(2), NULL, NULL);
     if(data == NULL){
       line = __LINE__ - 2;
       goto fail;
@@ -452,7 +452,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
       j = *((long long *) cptr);
       
       cptr = data_data + stride_v * elem;
-      datum = *((long long *) cptr);
+      datum = *((double *) cptr);
 
       status = gsl_spmatrix_set(self->mat, i, j, datum);
       if(status != GSL_SUCCESS){
@@ -468,7 +468,6 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
     PyGSL_add_traceback(pygsl_sparse_matrix_module, __FILE__, __FUNCTION__, line);
     Py_XDECREF(indices);
     Py_XDECREF(data);
-    PyGSL_error_flag(status);
     return status;
   }
 
@@ -708,9 +707,9 @@ pygsl_spblas_dgemm(const double alpha, const pygsl_spmatrix * A, const pygsl_spm
 {
   int status;
 
-  //NPY_BEGIN_ALLOW_THREADS
+  NPY_BEGIN_ALLOW_THREADS
   status = gsl_spblas_dgemm(alpha, A->mat, B->mat, C->mat);
-  //NPY_END_ALLOW_THREADS
+  NPY_END_ALLOW_THREADS
     return status;
 }
 
@@ -752,9 +751,9 @@ pygsl_splinalg_itersolve_iterate(const pygsl_spmatrix * A, const gsl_vector * b,
 	     (void *)&x_v.vector, (unsigned long)  x_v.vector.size, (long) dim,
 	     (unsigned long) x_v.vector.stride, (long) stride);
 
-  //NPY_BEGIN_ALLOW_THREADS
+  NPY_BEGIN_ALLOW_THREADS
   status = gsl_splinalg_itersolve_iterate(A->mat, b, tol, &x_v.vector, w);
-  //NPY_END_ALLOW_THREADS
+  NPY_END_ALLOW_THREADS
   
   line = __LINE__ -1;
   switch(status){

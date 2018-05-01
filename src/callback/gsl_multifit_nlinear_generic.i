@@ -116,66 +116,14 @@ typedef struct{
     }while(0)
     
 %extend PyMODULEWRAP(workspace) {
-  PyMODULEWRAP(workspace)(const MODULEWRAP(type) * T,
-				   const MODULEWRAP(parameters) * params,
-				 const size_t n, const size_t p){
-    
-    PyMODULEWRAP(workspace) * obj = NULL;
-    int line = __LINE__;
-    
-    obj = (PyMODULEWRAP(workspace) *) calloc(1, sizeof(PyMODULEWRAP(workspace)));
+  PyMODULEWRAP(workspace)(const MODULEWRAP(type) * T, const MODULEWRAP(parameters) * params,
+			  const size_t n, const size_t p){
 
-    memset(&obj->params.fdf, 0, sizeof(MODULEWRAP(fdf)) );
-
-    obj->params.f = NULL;
-    obj->params.df = NULL;
-    obj->params.fvv = NULL;
-    obj->params.args = NULL;
-    obj->params.callback = NULL;
-    obj->params.callback_params = NULL;
-    obj->params.fdf.params = &obj->params;
-    obj->params.fdf.f = NULL;
-    obj->params.fdf.df = NULL;
-    obj->params.fdf.fvv = NULL;
-    obj->params.self_pyobj = NULL;
-    obj->w = NULL;
-    //obj->thread = NULL;
-    obj->w = MODULEWRAP(alloc)(T, params, n, p);
-    if(obj->w == NULL){
-      PyGSL_add_traceback(pygsl_multifit_nlinear_module, __FILE__, __FUNCTION__, line - 2);
-      free(obj);
-      PyGSL_error_flag(PyGSL_ANY);
-      return NULL;
-    }
-
-    obj->params.fdf.f = PyMODULEWRAP(callback_f);
-    obj->params.fdf.p = p;
-    obj->params.fdf.n = n;
-    Py_INCREF(Py_None);
-    obj->params.self_pyobj = Py_None;
-    obj->params.callback_params = NULL;
-    obj->params.buf_is_set = 0;
-    return obj;
+    return PyMODULEWRAP(alloc)(T, params, n, p);
   }
   
   ~PyMODULEWRAP(workspace)(void){
-    FUNC_MESS_BEGIN();
-    Py_XDECREF(self->params.f);
-    self->params.f = NULL;
-    Py_XDECREF(self->params.df);
-    self->params.df = NULL;
-    Py_XDECREF(self->params.fvv);
-    self->params.fvv = NULL;
-    Py_XDECREF(self->params.args);
-    self->params.args = NULL;
-    Py_XDECREF(self->params.callback);
-    self->params.callback = NULL;
-    Py_XDECREF(self->params.callback_params);
-    self->params.callback_params = NULL;
-
-    Py_XDECREF(self->params.self_pyobj);
-    self->params.self_pyobj = NULL;
-    FUNC_MESS_END();
+    PyMODULEWRAP(deallocate)(self);
   }
 
   gsl_error_flag_drop init(const gsl_vector * x, PyObject * f, PyObject *df = NULL,

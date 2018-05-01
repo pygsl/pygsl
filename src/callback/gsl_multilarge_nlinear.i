@@ -38,7 +38,6 @@ static PyObject * pygsl_multifit_nlinear_module = NULL;
 }
 
 
-
 typedef struct
 {
   %mutable;
@@ -65,6 +64,8 @@ typedef struct
 %ignore gsl_multilarge_nlinear_eval_df;
 %ignore gsl_multilarge_nlinear_eval_fdfvv;
 %ignore gsl_multilarge_nlinear_parameters;
+/* trust region subproblem methods */
+%rename(trs_cgst)  gsl_multilarge_nlinear_trs_cgst;
 %include gsl/gsl_multilarge_nlinear.h
 %mutable;
 

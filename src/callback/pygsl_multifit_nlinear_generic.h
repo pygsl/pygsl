@@ -34,7 +34,7 @@ typedef struct{
   //%immutable;
   MODULEWRAP(workspace) * w;
   PyMODULEWRAP(params) params;
-  //PyThreadState *thread;
+  PyThreadState *thread;  
 }PyMODULEWRAP(workspace);
 
 static int

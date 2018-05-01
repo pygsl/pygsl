@@ -63,13 +63,18 @@ PyMODULEWRAP(callback_df)(CBLAS_TRANSPOSE_t TransJ, const gsl_vector * x,
 	}
 	
 	args = t_params->args;
-	Py_XINCREF(args);
+	/* Py_XINCREF(args); */
 	
 	FUNC_MESS_CB_BEGIN();
 	ret = PyObject_CallFunctionObjArgs(callback, trans_j_o, x_a, u_a, v_a, JTJ_a, args, NULL);
-	trans_j_o = args = NULL;
-	x_a = u_a = v_a = JTJ_a = NULL;	
 	FUNC_MESS_CB_END();
+	Py_XDECREF(trans_j_o);
+	trans_j_o = NULL;
+	Py_XDECREF(x_a);
+	Py_XDECREF(u_a);
+	Py_XDECREF(v_a);
+	Py_XDECREF(JTJ_a);
+	x_a = u_a = v_a = JTJ_a = NULL;	
 
 	info.callback = callback;
 	info.message  = __FUNCTION__;
@@ -145,7 +150,6 @@ PyMODULEWRAP(callback_df)(CBLAS_TRANSPOSE_t TransJ, const gsl_vector * x,
 	Py_XDECREF(u_a);
 	Py_XDECREF(v_a);
 	Py_XDECREF(JTJ_a);
-	Py_XDECREF(args);
 	Py_XDECREF(ret);
 	return status;
 }
