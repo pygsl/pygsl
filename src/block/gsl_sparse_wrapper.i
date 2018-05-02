@@ -26,6 +26,7 @@ static PyObject *pygsl_sparse_matrix_module = NULL;
 struct _pygsl_spmatrix{
   gsl_spmatrix *mat;
 };
+
 typedef struct _pygsl_spmatrix pygsl_spmatrix;
 
 /* static pygsl_spmatrix* pygsl_spmatrix_alloc_helper(void); */
@@ -49,7 +50,7 @@ static pygsl_spmatrix* pygsl_spmatrix_alloc_helper(void)
   return obj;
 }
 
-static pygsl_spmatrix* pygsl_spmatrix_convert(const pygsl_spmatrix *src,
+static pygsl_spmatrix *pygsl_spmatrix_convert(const pygsl_spmatrix *src,
 					      gsl_spmatrix *(*func)(const gsl_spmatrix *) )
 {
     pygsl_spmatrix * obj = NULL;
@@ -62,7 +63,8 @@ static pygsl_spmatrix* pygsl_spmatrix_convert(const pygsl_spmatrix *src,
       goto fail;
     }
 
-    obj->mat =  gsl_spmatrix_ccs(src->mat);
+    //obj->mat = gsl_spmatrix_ccs(src->mat);
+    obj->mat = func(src->mat);
     if(obj->mat == NULL){
       line = __LINE__ - 2;
       goto fail;
@@ -165,12 +167,19 @@ pygsl_spmatrix_memcpy_helper(const pygsl_spmatrix *self,
 %include typemaps.i
 
 %define MODULEDOCSTRING
-"Wrapper for gsl sparse module"
+"""Wrapper for sparse matrix, sparse blas and sparse linalg functions.
+
+Users should rather use
+
+    * :py:mod:`pygsl.sparse.matrix`
+    * :py:mod:`pygsl.sparse.blas`
+    * :py:mod:`pygsl.sparse.linalg`
+
+"""
 %enddef
 
-
-%module(docstring=MODULEDOCSTRING) sparse_wrapper;
 %feature ("autodoc", "3");
+%module(docstring=MODULEDOCSTRING) sparse_wrapper;
 
 %{
 const int TRIPLET = GSL_SPMATRIX_TRIPLET;
@@ -182,11 +191,8 @@ const int TRIPLET;
 const int CCS;
 const int CRS;
 
-
-// %rename("gsl_%s") "";
 /* name clashes */
 typedef struct{
-  
 }pygsl_spmatrix;
 
 static pygsl_spmatrix* pygsl_spmatrix_alloc_helper(void);
@@ -199,15 +205,19 @@ static pygsl_spmatrix* pygsl_spmatrix_alloc_helper(void);
 %newobject pygsl_spmatrix::transpose_memcpy;
 
 
+// XXX: requires to be fixed
 %feature("python:compare", "Py_EQ") pygsl_spmatrix_equal;
 
 //%feature("python:slot", "nb_inplace_multiply", functype="hashfunc") MyClass::myHashFunc;
-%attribute(pygsl_spmatrix, PyObject *, shape, get_shape);
+// Allows defining attribute without macros
+%extend pygsl_spmatrix{
+  %immutable;
+  PyObject * shape;
+}
 %{
-  /* #ifdef pygsl_spmatrix_shape_get */
-#undef pygsl_spmatrix_shape_get
-  /* #endif */ /* pygsl_spmatrix_shape_get */
-#define pygsl_spmatrix_shape_get(self_) pygsl_spmatrix_get_shape(self_)
+  static PyObject * pygsl_spmatrix_shape_get(pygsl_spmatrix *self){
+    return pygsl_spmatrix_get_shape(self);
+  }
 %}
 
 %extend pygsl_spmatrix {
@@ -361,7 +371,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
     int status = GSL_EFAILED, line = __LINE__, flag, is_buf_set = 0, t_dim = 0;
     FUNC_MESS_BEGIN();
 
-    if(PyObject_CheckBuffer(obj) == 0){    
+    if(PyObject_CheckBuffer(obj) == 0){
       char msg[256];
 
       line = __LINE__ - 3;
@@ -393,7 +403,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
       DEBUG_MESS(2, "Buffer @ %p: dim %d shape %ld stride %ld suboffsets %ld",
 		 &buffer,
 		 (long) buffer.shape[t_dim], (long) buffer.strides[t_dim],
-		 (long) buffer.suboffsets[t_dim]);    
+		 (long) buffer.suboffsets[t_dim]);
     }
 
     PyBuffer_Release(&buffer);
@@ -418,7 +428,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
     double datum;
     char *cptr = NULL, *idx_data = NULL, *data_data = NULL;
     int status = GSL_EFAILED, line = __LINE__;
-    
+
     FUNC_MESS_BEGIN();
     indices = PyGSL_matrix_check(i_o,  -1, 2,
 				 PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, NPY_LONGLONG, sizeof(long), 1),
@@ -428,7 +438,7 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
       goto fail;
     }
     dim = PyArray_DIM(indices, 0);
-    
+
     data = PyGSL_vector_check(d_o, dim, PyGSL_DARRAY_INPUT(2), NULL, NULL);
     if(data == NULL){
       line = __LINE__ - 2;
@@ -443,14 +453,14 @@ gsl_error_flag_drop set(const size_t i, const size_t j, const double x){
 
     stride_v = PyArray_STRIDE(data, 0);
 
-    
+
     for(elem = 0; elem < dim; ++elem){
       cptr = idx_data + stride_m0 * elem + stride_m1 * 0;
       i = *((long long *) cptr);
-      
+
       cptr = idx_data + stride_m0 * elem + stride_m1 * 1;
       j = *((long long *) cptr);
-      
+
       cptr = data_data + stride_v * elem;
       datum = *((double *) cptr);
 
@@ -676,6 +686,9 @@ static PyObject *
     status = GSL_ENOMEM;
     goto fail;
   }
+  /* XXX
+   * Check array dimensions!
+   */
   //Py_DECREF(y);
   status = PyGSL_STRIDE_RECALC(PyArray_STRIDE(y_a, 0), sizeof(double), &tmp);
   if(status != GSL_SUCCESS){
@@ -687,7 +700,7 @@ static PyObject *
   NPY_BEGIN_ALLOW_THREADS
   status = gsl_spblas_dgemv(TransA, alpha, A->mat, x, beta, &y_v.vector);
   NPY_END_ALLOW_THREADS
-  
+
   if(status != GSL_SUCCESS){
     line = __LINE__ -2;
     goto fail;
@@ -754,7 +767,7 @@ pygsl_splinalg_itersolve_iterate(const pygsl_spmatrix * A, const gsl_vector * b,
   NPY_BEGIN_ALLOW_THREADS
   status = gsl_splinalg_itersolve_iterate(A->mat, b, tol, &x_v.vector, w);
   NPY_END_ALLOW_THREADS
-  
+
   line = __LINE__ -1;
   switch(status){
   case GSL_SUCCESS:
@@ -781,16 +794,20 @@ PyObject *
 pygsl_spblas_dgemv(const int TransA, const double alpha, const pygsl_spmatrix * A, const gsl_vector * x, const double beta, PyObject *y);
 
 /* lapack */
-extern const gsl_splinalg_itersolve_type *gsl_splinalg_itersolve_gmres;
 typedef struct{
 }gsl_splinalg_itersolve;
 
 
-%attribute(gsl_splinalg_itersolve, const char *, name, get_name);
+%extend gsl_splinalg_itersolve{
+  %immutable;
+  const char * name;
+};
 %{
-#undef gsl_splinalg_itersolve_name_get
-#define gsl_splinalg_itersolve_name_get(self) gsl_splinalg_itersolve_get_name(self)
+  static const char * gsl_splinalg_itersolve_name_get(gsl_splinalg_itersolve *self) {
+    return gsl_splinalg_itersolve_get_name(self);
+  }
 %}
+
 %extend gsl_splinalg_itersolve{
   gsl_splinalg_itersolve(const gsl_splinalg_itersolve_type * T, const size_t n, const size_t m){
     gsl_splinalg_itersolve *obj = NULL;
@@ -819,3 +836,6 @@ typedef struct{
     return gsl_splinalg_itersolve_normr(self);
   }
 }
+
+%immutable;
+extern const gsl_splinalg_itersolve_type *gsl_splinalg_itersolve_gmres;
