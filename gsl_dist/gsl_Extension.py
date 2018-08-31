@@ -67,56 +67,57 @@ class gsl_Extension(Extension):
 		     gsl_min_version=None,
 		     python_min_version=None,
 		     depends=None,
-            gsl_configurable_module=None,
+			 gsl_configurable_module=None,
 		     **kws
 		     ):
 
 
+		self.gsl_configurable_module = gsl_configurable_module
 	    # get real prefix
-	    self.gsl_prefix=self.get_gsl_prefix()
+		self.gsl_prefix=self.get_gsl_prefix()
 
-	    gsl_major_version, gsl_minor_version = self.get_gsl_version()
+		gsl_major_version, gsl_minor_version = self.get_gsl_version()
 	    # check gsl version
-	    if gsl_min_version is not None and \
+		if gsl_min_version is not None and \
 	       not self.check_gsl_version(gsl_min_version):
 		    raise DistutilsExecError("min gsl version %s required"%repr(gsl_min_version))
 
 	    # check python version
-	    if python_min_version is not None and \
+		if python_min_version is not None and \
 	       not self.check_python_version(python_min_version):
 		    raise DistutilsExecError("min python version %s required"%repr(python_min_version))
 
 	    # prepend include directory
-	    if include_dirs is None: include_dirs=[]
-	    include_dirs.append('Include')
-	    include_dirs.append('.')
-	    include_dirs =  gsl_Location.get_gsl_include_dirs() + include_dirs
-	    include_dirs = include_dirs + array_include_dirs
+		if include_dirs is None: include_dirs=[]
+		include_dirs.append('Include')
+		include_dirs.append('.')
+		include_dirs =  gsl_Location.get_gsl_include_dirs() + include_dirs
+		include_dirs = include_dirs + array_include_dirs
 
 	    # prepend library directory
-	    if library_dirs is None: library_dirs=[]
-	    library_dirs = library_dirs + gsl_Location.get_gsl_library_dirs()
+		if library_dirs is None: library_dirs=[]
+		library_dirs = library_dirs + gsl_Location.get_gsl_library_dirs()
 
 	    # Testing linking to non standard location if standard location is available
 	    #runtime_library_dirs = gsl_Location.get_gsl_library_dirs()
-	    if libraries is None: libraries=[]
+		if libraries is None: libraries=[]
 	    #libraries.append('pygsl')
-	    libraries.extend(gsl_Location.get_gsl_lib_list())
+		libraries.extend(gsl_Location.get_gsl_lib_list())
 
 	    # test if Numeric module is available
-	    if define_macros is None:
+		if define_macros is None:
 		    define_macros=[]
-	    try:
+		try:
 		    imp.find_module("Numeric")
 		    define_macros = define_macros + [("NUMERIC",1),]
-	    except ImportError:
+		except ImportError:
 		    define_macros = define_macros + [("NUMERIC",0), ]
 
-	    if undef_macros == None:
+		if undef_macros == None:
 		    undef_macros = []
-	    if 'NDEBUG' not in undef_macros:
+		if 'NDEBUG' not in undef_macros:
 		    undef_macros.append('NDEBUG')
-	    tmp = map(lambda x: x[0], define_macros)
+		tmp = map(lambda x: x[0], define_macros)
 
 	    # Now config will test of GSL_MAJOR_VERSION and GSL_MINOR_VERSION is defined
 	    #if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
@@ -132,7 +133,7 @@ class gsl_Extension(Extension):
 	    # if depends is not None:
 	    #	    depends = check_dependencies(sources, depends)
 
-	    Extension.__init__(self, name, sources,
+		Extension.__init__(self, name, sources,
 			       include_dirs,
 			       define_macros,
 			       undef_macros,
