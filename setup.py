@@ -101,11 +101,9 @@ gsldist_path = os.path.join(pygsldir, "gsl_dist")
 sys.path.insert(0, gsldist_path)
 
 
-#import subprocess
-#import distutils
-#from distutils.core import setup, Extension
+import subprocess
 import setuptools
-import setuptools.command.build_py
+import setuptools.command.build_ext
 #from setuptools import setup, Extension, command
 
 # used to read array object ... do not need that any more
@@ -164,60 +162,30 @@ class gsl_Config_Path(gsl_Config.gsl_Config):
     """
     _pygsl_dir = pygsldir
 
+_has_gsl_config = 0
+try:
+    import gsl_features
+    _has_gsl_config = 1
+except ImportError:
+    # No config run
+    pass
 
-class BuildWithConfig(setuptools.command.build_py.build_py):
-  """Execute config if required."""
+if _has_gsl_config == 0:
+    if "config" not in sys.argv:
+        # if config is given explicitly it shall be the only command
+        argv = gsl_Config.config_compiler_flags_from_argv(sys.argv)
+        print("No config requested but required")
+        args = [sys.executable, sys.argv[0]] + argv
+        print("Executing config by %s" % (args))
+        subprocess.run(args, stdout=sys.stdout, stderr=sys.stderr)
 
-  def _checkConfig(self):
-    """see if a configuration tool was already there
-    """
-    has_gsl_config = 0
-    try:
+        # Now that must work ... in particular for the packages further down the
+        # list
         import gsl_features
-        has_gsl_config = 1
-        logger.info("import gsl_features succeeded: config already run")
-    except ImportError:
-        logger.info("No configuration step run before")
-
-    return has_gsl_config
-
-
-  def _executeConfigIfRequired(self):
-      if not self._checkConfig():
-          logger.debug("Running config")
-          self.run_command("config")
-
-  def run(self):
-    """
-
-    Todo:
-        run only config if required.
-    """
-    self._executeConfigIfRequired()
-    setuptools.command.build_py.build_py.run(self)
-
-_has_gsl_config = 1
-#if "config" not in sys.argv:
-#        # trying
-#        msg = """Could not import gsl_config. Trying to execute the
-#config process on your behalf using %s
-#"""
-        #spoof_argv = sys.argv[0:1] + ["config"] + sys.argv[1:]
-        #sys.argv = spoof_argv
-        #print(msg % (spoof_argv,))
-        #subprocess.call(spoof_argv, stdout = sys.stdout, stderr=sys.stderr)
-        #    else:
-        #        msg = """ You have to execute the config step first.
-#Presumed commnd: %s %s config
-#"""
-        #        spoof_argv = sys.argv[0:1] + ["config"] + sys.argv[1:]
-        #        print(msg % (spoof_argv,))
-        #        sys.exit(1)
-
-
 
 exts = []
 extsOnly2 = []
+
 
 #if sys.argv[-1] == 'tag':
 #    os.system("git tag -a %s -m 'version %s'" % (version, version))
@@ -230,14 +198,6 @@ extsOnly2 = []
 
 
 
-#if _has_gsl_config == 0:
-#    # Presumably running config
-#    pass
-#else:
-#    assert(_has_gsl_config)
-#    #Just checking that the module is there
-#    gsl_features
-#
 if 1 == 1:
     # now gsl_packages can be loaded. Using gsl_features only the available ones
     # will be added to the to be built extensions
@@ -305,8 +265,6 @@ if sys.version_info[0] <= 2:
     sys.stdout.write("Bulding for '%s'\n" %(sys.version,))
 
 
-
-
 print("#%d extension modules" %(len(exts),))
 
 logging.basicConfig(level = "DEBUG", format = '%(asctime)-15s %(levelname)-7s : %(message)s')
@@ -327,8 +285,7 @@ setuptools.setup (name = proj_name,
        headers = headers,
        cmdclass = {'config' : gsl_Config_Path,
                    'gsl_wrappers': gsl_CodeGenerator.gsl_CodeGenerator,
-                    'build_py': BuildWithConfig,
-                   #'build_sphinx': BuildDoc
+                    #'build_sphinx': BuildDoc
                    },
        install_requires = ['numpy'],
        command_options = {

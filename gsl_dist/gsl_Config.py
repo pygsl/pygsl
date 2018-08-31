@@ -25,6 +25,65 @@ logger = logging.getLogger("setup.py")
 from distutils.command import config
 
 
+def config_compiler_flags_from_argv(argv):
+    """Add build flags to config if given
+
+    Todo:
+        Gain experience from real world
+
+        Expects to find a build or build_ext command
+    """
+    spoof_argv = copy.copy(argv)
+
+    r = ["config"]
+
+    logger.debug("Start stealing compiler arguments from build for config'%s'" %(spoof_argv,))
+
+    # Todo: not yet prepared if there is only an install command ....
+    while True:
+        try:
+            arg = spoof_argv.pop(0)
+        except IndexError:
+            # No build argument .... nothing to do here
+            return r
+
+        logger.debug("arg %s" %(arg,))
+        # Lets look for the build command
+        if arg in ("build", "build_ext"):
+            # but be careful. could a install command trigger a build?
+            # but do I need to worry? In this case there are no compiler flags which are
+            # passed around
+            #
+            # Todo: what about config file options?
+            break
+
+    # Now let's check the options for compiler linker options etc ... currently
+    # take everthing after the command
+    #
+    # cache it as it has to be inserted in between config and build
+    while True:
+        try:
+            arg = spoof_argv.pop(0)
+        except IndexError:
+            # No more arguments to process
+            break
+
+        if (len(arg) == 2 and arg[0] == '-') or arg[:2] == "--":
+            # I prefer to break out of the loop but leave the rest
+            # straight ahead
+            pass
+        else:
+            # All other cases not handeled
+            msg = "Stopping stealing build compiler argurments at %s"
+            logger.debug(msg % (arg,))
+            break
+
+        # copy long and short options up to the next command
+        r.append(arg)
+
+    # Now rebuild argument vector
+    return r
+
 
 import gsl_Location
 gsl_loc = gsl_Location.gsl_Location
@@ -33,137 +92,7 @@ gsl_loc = gsl_Location.gsl_Location
 conf = config.config
 
 class ConfigUsingBuildCompilerFlags(conf):
-
-    def __init__(self, *args, **kws):
-        self.spoof_argv = None
-        self.spoof_argv = self.stealBuildCompilerOptions()
-        self.save_argv = None
-        self.save_argv = sys.argv
-        super().__init__(*args, **kws)
-
-    def stealBuildCompilerOptions(self):
-        """Get all compiler options given to the build or build_ext command
-
-        Some commands e.g. config are run before build and should use the same
-        flags
-
-        Todo:
-            Check if this is a duplication of setuptools or similar ...
-       """
-
-        spoof_argv = copy.copy(sys.argv)
-        logger.debug("Start stealing compiler arguments from '%s'" %(spoof_argv,))
-
-        spoof_argv = spoof_argv
-        while True:
-            # Index error not acceptable here: there should be at least a build
-            # command
-            # Todo:
-            #    check if it works with config
-            arg = spoof_argv.pop(0)
-            logger.debug("arg %s" %(arg,))
-            # Lets look for the build command
-            if arg in ("build", "build_ext"):
-                # but be careful. could a install command trigger a build?
-                break
-
-        logger.debug("Start stealing after build statement '%s'" %(spoof_argv,))
-
-        # Now lets start stealing
-        # right away with the build command
-        r = ["config"]
-        while True:
-            try:
-                arg = spoof_argv.pop(0)
-            except IndexError:
-                # No more arguments to process
-                break
-
-            if (len(arg) == 2 and arg[0] == '-') or arg[:2] == "--":
-                # I prefer to break out of the loop but leave the rest
-                # straight ahead
-                pass
-            else:
-                # All other cases not handeled
-                msg = "Stopping stealing build compiler argurments at %s"
-                logger.debug(msg % (arg,))
-                break
-
-            # copy long and short options up to the next command
-            r.append(arg)
-
-        assert(sys.argv[0] == "setup.py")
-        r = ["setup.py"] + list(r)
-        return r
-
-
-    def initialize_options(self):
-        logger.debug("initzalise options")
-
-        self.save_argv = sys.argv
-        logger.debug("finalise_options: Stole %s compiler arguments from sys.argv %s" % (self.spoof_argv, sys.argv))
-        try:
-            sys.argv = self.spoof_argv
-            r = super().initialize_options()
-        finally:
-            #sys.argv = self.save_argv
-            pass
-        logger.debug("finalise_options: Self._check_compiler end  compiler '%s'" %(self.compiler,))
-
-        if self.compiler is not None:
-            fmt = "self.compiler %s is not None"
-            raise AssertionError(fmt % (self.compiler,))
-
-        return r
-
-    def finalize_options(self):
-        logger.debug("Finalize options")
-        if self.compiler is not None:
-            fmt = "self.compiler %s is not None"
-            raise AssertionError(fmt % (self.compiler,))
-
-        sys.argv = self.spoof_argv
-        try:
-            r = super().finalize_options()
-        finally:
-            #sys.argv = self.save_argv
-            pass
-
-        if self.compiler is not None:
-            fmt = "self.compiler %s is not None"
-            raise AssertionError(fmt % (self.compiler,))
-
-        return r
-
-    def _check_compiler(self):
-        if self.compiler is not None:
-            fmt = "self.compiler %s is not None"
-            raise AssertionError(fmt % (self.compiler,))
-
-        assert(self.compiler is None)
-        logger.debug("Self_check_compiler start compiler '%s'" %(self.compiler,))
-
-        logger.debug("Stole %s compiler arguments from sys.argv %s" % (self.spoof_argv, sys.argv))
-        try:
-            sys.argv = self.spoof_argv
-            r = super()._check_compiler()
-        finally:
-            sys.argv = self.save_argv
-
-        logger.debug("Self._check_compiler end  compiler '%s'" %(self.compiler,))
-
-        if self.compiler is not None:
-            fmt = "self.compiler %s is not None"
-            raise AssertionError(fmt % (self.compiler,))
-
-        return r
-
-        # Steal the appropriate compiler options
-        # Let's make sure that the config and build process are running
-      #"""
-      #    compiler_args = self.stealBuildCompilerOptions()
-      #    args = ('config',) + compiler_args
-#"""
+    pass
 
 class gsl_Config(ConfigUsingBuildCompilerFlags):
     """Check the available features.
@@ -188,7 +117,6 @@ with the path of the pygsl_dir
         """
         headers need to include gsl header directory
         """
-        assert(self.compiler is None)
         kws = self._handle_include_dir_kw(kws)
         return super().check_header(*args, **kws)
 
@@ -666,9 +594,6 @@ the config process was run.
         self._check_sf()
 
     def run(self):
-        if self.compiler is not None:
-            fmt = "self.compiler %s is not None"
-            raise AssertionError(fmt % (self.compiler,))
         logger.info("Running config!")
         self._run_checks()
         self._write_module_config_file()
