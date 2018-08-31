@@ -6,7 +6,16 @@
 # file: pygsl/setup.py
 # $Id$
 #
-# setup script for building and installing pygsl
+"""setup script for building and installing pygsl
+
+Warning:
+    Automatic configuration during build is currently not taking
+    --gsl-prefix nor any other arguments into account. It is currently
+    just there to see if it allows building and distributing wheels
+
+    For Windows the config build will not work for the configuration out of the
+    box
+"""
 
 
 # Use SWIG to generate the approbriate wrapper files. This is only necessary
@@ -63,7 +72,7 @@ DEBUG_LEVEL = 1
 #DEBUG_LEVEL = 10
 #####
 #------------------------------------------------------------------------------
-# As long as you are not taking part in the development process, I hope that 
+# As long as you are not taking part in the development process, I hope that
 # you do not need to modify anything here.
 
 
@@ -72,7 +81,10 @@ import sys
 import time
 import string
 import glob
+import logging
+import copy
 
+logger = logging.getLogger("setup.py")
 # Add the gsldist path
 import os
 pygsldir = os.path.dirname("__name__")
@@ -89,9 +101,12 @@ gsldist_path = os.path.join(pygsldir, "gsl_dist")
 sys.path.insert(0, gsldist_path)
 
 
+#import subprocess
 #import distutils
 #from distutils.core import setup, Extension
-from setuptools import setup, Extension
+import setuptools
+import setuptools.command.build_py
+#from setuptools import setup, Extension, command
 
 # used to read array object ... do not need that any more
 # import gsl_numobj
@@ -140,32 +155,90 @@ import gsl_CodeGenerator
 import gsl_Config
 # config has to be run before any other "build" or "install" commmand
 # perhaps not required for sdist?
-_has_gsl_config = 0
-try:
-    import gsl_features
-    _has_gsl_config = 1
-except ImportError:
-    # Config is required ... no need to proceed any further
-    if "config" not in sys.argv:
-        msg = """Could not import gsl_config. You have to execute the config
-step first.
-Presumed commnd: %s %s config
-"""          
-        print(msg % (sys.executable, "setup.py"))
-        sys.exit(1)
+
+
+
+class gsl_Config_Path(gsl_Config.gsl_Config):
+    """
+    Only required here to set the pygsl directory
+    """
+    _pygsl_dir = pygsldir
+
+
+class BuildWithConfig(setuptools.command.build_py.build_py):
+  """Execute config if required."""
+
+  def _checkConfig(self):
+    """see if a configuration tool was already there
+    """
+    has_gsl_config = 0
+    try:
+        import gsl_features
+        has_gsl_config = 1
+        logger.info("import gsl_features succeeded: config already run")
+    except ImportError:
+        logger.info("No configuration step run before")
+
+    return has_gsl_config
+
+
+  def _executeConfigIfRequired(self):
+      if not self._checkConfig():
+          logger.debug("Running config")
+          self.run_command("config")
+
+  def run(self):
+    """
+
+    Todo:
+        run only config if required.
+    """
+    self._executeConfigIfRequired()
+    setuptools.command.build_py.build_py.run(self)
+
+_has_gsl_config = 1
+#if "config" not in sys.argv:
+#        # trying
+#        msg = """Could not import gsl_config. Trying to execute the
+#config process on your behalf using %s
+#"""
+        #spoof_argv = sys.argv[0:1] + ["config"] + sys.argv[1:]
+        #sys.argv = spoof_argv
+        #print(msg % (spoof_argv,))
+        #subprocess.call(spoof_argv, stdout = sys.stdout, stderr=sys.stderr)
+        #    else:
+        #        msg = """ You have to execute the config step first.
+#Presumed commnd: %s %s config
+#"""
+        #        spoof_argv = sys.argv[0:1] + ["config"] + sys.argv[1:]
+        #        print(msg % (spoof_argv,))
+        #        sys.exit(1)
+
+
 
 exts = []
 extsOnly2 = []
 
+#if sys.argv[-1] == 'tag':
+#    os.system("git tag -a %s -m 'version %s'" % (version, version))
+#    os.system("git push --tags")
+#    sys.exit()
+#if sys.argv[-1] == 'publish':
+#    os.system("python setup.py sdist upload")
+#    os.system("python setup.py bdist_wheel upload")
+#    sys.exit()
 
-if _has_gsl_config == 0:
-    # Presumably running config
-    pass
-else:
-    assert(_has_gsl_config)
-    #Just checking that the module is there    
-    gsl_features
 
+
+#if _has_gsl_config == 0:
+#    # Presumably running config
+#    pass
+#else:
+#    assert(_has_gsl_config)
+#    #Just checking that the module is there
+#    gsl_features
+#
+if 1 == 1:
     # now gsl_packages can be loaded. Using gsl_features only the available ones
     # will be added to the to be built extensions
     a_file_name =  "gsl_packages.py"
@@ -175,7 +248,7 @@ else:
     del text
     t_file.close()
     del t_file
-    
+
 
 
 
@@ -225,23 +298,20 @@ if INSTALL_HEADERS == 1:
     headers = glob.glob("Include/pygsl/*.h")
     gsldist = ['gsl_dist.' + os.path.basename(x)[:-3] for x in glob.glob("gsl_dist/*.py")]
 
-py_modules = ['pygsl.' + x for x in py_module_names] + gsldist 
+py_modules = ['pygsl.' + x for x in py_module_names] + gsldist
 
 if sys.version_info[0] <= 2:
     exts = exts + extsOnly2
     sys.stdout.write("Bulding for '%s'\n" %(sys.version,))
-    
 
-class gsl_Config_Path(gsl_Config.gsl_Config):
-    """
-    Only required here to set the pygsl directory
-    """
-    _pygsl_dir = pygsldir
+
+
 
 print("#%d extension modules" %(len(exts),))
 
+logging.basicConfig(level = "DEBUG", format = '%(asctime)-15s %(levelname)-7s : %(message)s')
 proj_name ="pygsl"
-setup (name = proj_name,
+setuptools.setup (name = proj_name,
        version = version,
        #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
        description = "GNU Scientific Library Interface",
@@ -249,7 +319,7 @@ setup (name = proj_name,
        license = "GPL",
        author = "Achim Gaedke, Pierre Schnizer",
        author_email = "AchimGaedke@users.sourceforge.net, schnizer@users.sourceforge.net",
-       url = "http://pygsl.sourceforge.net",       
+       url = "http://pygsl.sourceforge.net",
        package_dir = {'pygsl' : 'pygsl', 'pygsl.gsl_dist' : 'gsl_dist'},
        packages = ['pygsl', 'pygsl.testing', 'pygsl.statistics', 'pygsl.gsl_dist'],
        ext_package = 'pygsl',
@@ -257,8 +327,10 @@ setup (name = proj_name,
        headers = headers,
        cmdclass = {'config' : gsl_Config_Path,
                    'gsl_wrappers': gsl_CodeGenerator.gsl_CodeGenerator,
+                    'build_py': BuildWithConfig,
                    #'build_sphinx': BuildDoc
                    },
+       install_requires = ['numpy'],
        command_options = {
            'build_sphinx': {
                'project': ('setup.py', proj_name),
@@ -266,4 +338,3 @@ setup (name = proj_name,
                }
             }
        )
-

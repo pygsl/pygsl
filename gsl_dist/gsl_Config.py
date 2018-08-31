@@ -14,20 +14,160 @@ from __future__ import print_function
 import sys
 import os.path
 import string
+import copy
+import logging
+
+logger = logging.getLogger("setup.py")
 # Add the gsldist path
 
-import distutils
-from distutils.core import setup, Extension
+# Setuptools does currently not provide a config command
+#from setuptools.command import config
 from distutils.command import config
+
+
 
 import gsl_Location
 gsl_loc = gsl_Location.gsl_Location
 
 
 conf = config.config
-class gsl_Config(conf):
+
+class ConfigUsingBuildCompilerFlags(conf):
+
+    def __init__(self, *args, **kws):
+        self.spoof_argv = None
+        self.spoof_argv = self.stealBuildCompilerOptions()
+        self.save_argv = None
+        self.save_argv = sys.argv
+        super().__init__(*args, **kws)
+
+    def stealBuildCompilerOptions(self):
+        """Get all compiler options given to the build or build_ext command
+
+        Some commands e.g. config are run before build and should use the same
+        flags
+
+        Todo:
+            Check if this is a duplication of setuptools or similar ...
+       """
+
+        spoof_argv = copy.copy(sys.argv)
+        logger.debug("Start stealing compiler arguments from '%s'" %(spoof_argv,))
+
+        spoof_argv = spoof_argv
+        while True:
+            # Index error not acceptable here: there should be at least a build
+            # command
+            # Todo:
+            #    check if it works with config
+            arg = spoof_argv.pop(0)
+            logger.debug("arg %s" %(arg,))
+            # Lets look for the build command
+            if arg in ("build", "build_ext"):
+                # but be careful. could a install command trigger a build?
+                break
+
+        logger.debug("Start stealing after build statement '%s'" %(spoof_argv,))
+
+        # Now lets start stealing
+        # right away with the build command
+        r = ["config"]
+        while True:
+            try:
+                arg = spoof_argv.pop(0)
+            except IndexError:
+                # No more arguments to process
+                break
+
+            if (len(arg) == 2 and arg[0] == '-') or arg[:2] == "--":
+                # I prefer to break out of the loop but leave the rest
+                # straight ahead
+                pass
+            else:
+                # All other cases not handeled
+                msg = "Stopping stealing build compiler argurments at %s"
+                logger.debug(msg % (arg,))
+                break
+
+            # copy long and short options up to the next command
+            r.append(arg)
+
+        assert(sys.argv[0] == "setup.py")
+        r = ["setup.py"] + list(r)
+        return r
+
+
+    def initialize_options(self):
+        logger.debug("initzalise options")
+
+        self.save_argv = sys.argv
+        logger.debug("finalise_options: Stole %s compiler arguments from sys.argv %s" % (self.spoof_argv, sys.argv))
+        try:
+            sys.argv = self.spoof_argv
+            r = super().initialize_options()
+        finally:
+            #sys.argv = self.save_argv
+            pass
+        logger.debug("finalise_options: Self._check_compiler end  compiler '%s'" %(self.compiler,))
+
+        if self.compiler is not None:
+            fmt = "self.compiler %s is not None"
+            raise AssertionError(fmt % (self.compiler,))
+
+        return r
+
+    def finalize_options(self):
+        logger.debug("Finalize options")
+        if self.compiler is not None:
+            fmt = "self.compiler %s is not None"
+            raise AssertionError(fmt % (self.compiler,))
+
+        sys.argv = self.spoof_argv
+        try:
+            r = super().finalize_options()
+        finally:
+            #sys.argv = self.save_argv
+            pass
+
+        if self.compiler is not None:
+            fmt = "self.compiler %s is not None"
+            raise AssertionError(fmt % (self.compiler,))
+
+        return r
+
+    def _check_compiler(self):
+        if self.compiler is not None:
+            fmt = "self.compiler %s is not None"
+            raise AssertionError(fmt % (self.compiler,))
+
+        assert(self.compiler is None)
+        logger.debug("Self_check_compiler start compiler '%s'" %(self.compiler,))
+
+        logger.debug("Stole %s compiler arguments from sys.argv %s" % (self.spoof_argv, sys.argv))
+        try:
+            sys.argv = self.spoof_argv
+            r = super()._check_compiler()
+        finally:
+            sys.argv = self.save_argv
+
+        logger.debug("Self._check_compiler end  compiler '%s'" %(self.compiler,))
+
+        if self.compiler is not None:
+            fmt = "self.compiler %s is not None"
+            raise AssertionError(fmt % (self.compiler,))
+
+        return r
+
+        # Steal the appropriate compiler options
+        # Let's make sure that the config and build process are running
+      #"""
+      #    compiler_args = self.stealBuildCompilerOptions()
+      #    args = ('config',) + compiler_args
+#"""
+
+class gsl_Config(ConfigUsingBuildCompilerFlags):
     """Check the available features.
-    
+
 C defines are stored in a header file. See method _write_header_config_file
 for details.
 
@@ -35,41 +175,42 @@ A class has to be drived from this class which defines the member _pygsl_dir
 with the path of the pygsl_dir
 """
     _pygsl_dir = None
-    
+
     def __init__(self, *args, **kws):
-        conf.__init__(self, *args, **kws)
+        super().__init__(*args, **kws)
 
         self._header_variables_dict = {}
-        self._found_modules_dict = {}       
+        self._found_modules_dict = {}
 
         self._gsl_config_version_info = None
-        
+
     def check_header(self, *args, **kws):
         """
         headers need to include gsl header directory
         """
-        kws = self._handle_include_dir_kw(kws)        
-        return conf.check_header(self, *args, **kws)
+        assert(self.compiler is None)
+        kws = self._handle_include_dir_kw(kws)
+        return super().check_header(*args, **kws)
 
     def check_func(self, *args, **kws):
 
         kws = self._handle_include_dir_kw(kws)
         kws = self._handle_library_dir_kw(kws)
         kws = self._handle_libraries_kw(kws)
-        
-        return conf.check_func(self, *args, **kws)
+
+        return super().check_func(*args, **kws)
 
     def initialize_options(self):
-        conf.initialize_options(self)
+        super().initialize_options()
         self.define = None
 
     def finalize_options(self):
-        conf.finalize_options(self)
+        super().finalize_options()
         if self.define is not None:
             # 'define' option is a list of (name,value) tuples
             for (name, value) in self.define:
                 self.compiler.define_macro(name, value)
-                
+
     def _get_gsl_include_dirs(self):
         dirs = gsl_loc.get_gsl_include_dirs()
         return dirs
@@ -120,13 +261,13 @@ with the path of the pygsl_dir
         kws[library_dirs] = dirs
         return kws
 
-        
+
     def set_pygsl_dir(self, dir):
         self._pygsl_dir = dir
-        
+
     def _add_header_variables_dict(self, name, val):
         t_dict = self._header_variables_dict
-        t_dict[name] = val   
+        t_dict[name] = val
 
     def _add_found_module(self, name, val):
         t_dict = self._found_modules_dict
@@ -142,7 +283,7 @@ with the path of the pygsl_dir
 Automatically detected modules
 
 This file contains variables which reflect which modules were found in GSL when
-the config process was run. 
+the config process was run.
 '''
         """
         stream.write(msg % __name__)
@@ -157,7 +298,7 @@ the config process was run.
         for key in keys:
             val = t_dict[key]
             stream.write("%s = %s\n" %(key, val) )
-        
+
     def _write_module_config_file(self):
         file_name = "gsl_features.py"
 
@@ -172,7 +313,7 @@ the config process was run.
         finally:
             stream.close()
             del stream
-    
+
     def _write_header_config_file_intern(self, stream):
         t_dict = self._header_variables_dict
 
@@ -190,9 +331,9 @@ the config process was run.
 
         msg ="""
 #ifdef %s
-#warning The name %s 
-#warning is used as preprocessor directive which is automatically defined during 
-#warning the config process. The variable given here could be overwritten by the 
+#warning The name %s
+#warning is used as preprocessor directive which is automatically defined during
+#warning the config process. The variable given here could be overwritten by the
 #warning definitions below.
 #endif /* %s */
 """
@@ -201,9 +342,9 @@ the config process was run.
         keys = list(keys)
         keys.sort()
         keys = tuple(keys)
-        
+
         for key in keys:
-            val = t_dict[key]            
+            val = t_dict[key]
             stream.write(msg %(key,key,key))
         stream.write("/* end check that no config variables are predefined */\n\n")
 
@@ -215,13 +356,13 @@ the config process was run.
                     val = 1
                 stream.write("#define %s %s\n" %(key, val) )
         stream.write("/* end definition of config variables */\n\n")
-            
+
         stream.write("\n#endif /* %s */\n" % (header,))
 
     def _write_header_config_file(self):
         pygsl_dir = self._pygsl_dir
         assert(pygsl_dir != None)
-        
+
         path = os.path.join(pygsl_dir, 'Include', 'pygsl', 'pygsl_features_config.h')
         stream = open(path, "wt")
 
@@ -230,7 +371,7 @@ the config process was run.
         finally:
             stream.close()
             del stream
-            
+
     def _check_module_abs(self):
         return self.check_func("abs", headers=("stdlib.h",))
 
@@ -239,7 +380,7 @@ the config process was run.
         c_define = c_prefix + mod_name.upper()
         self._add_header_variables_dict(c_define, flag)
         self._add_found_module(mod_name, flag)
-        
+
     def _check_module_mksa(self):
         flag = self.check_header("gsl/gsl_const_mksa.h")
         self._handle_found_module("const_mksa", flag)
@@ -255,7 +396,7 @@ the config process was run.
     def _check_module_cgs(self):
         flag = self.check_header("gsl/gsl_const_cgs.h")
         self._handle_found_module("const_cgs", flag)
-        
+
     def _check_module_deriv(self):
         flag = self.check_func("gsl_deriv_central", headers=("gsl/gsl_deriv.h",))
         self._handle_found_module("deriv", flag)
@@ -263,7 +404,7 @@ the config process was run.
     def _check_module_multfit_robust(self):
         flag = self.check_func("gsl_multifit_robust_type", headers=("gsl/gsl_multifit.h",))
         self._handle_found_module("multfit_robust", flag)
-        
+
     def _check_module_bspline(self):
         flag = self.check_header("gsl/gsl_bspline.h")
         self._handle_found_module("bspline", flag)
@@ -271,7 +412,7 @@ the config process was run.
     def _check_module_odeiv2(self):
         flag = self.check_header("gsl/gsl_odeiv2.h")
         self._handle_found_module("odeiv2", flag)
-        
+
     def _check_module_wavelet(self):
         flag = self.check_header("gsl/gsl_wavelet.h")
         self._handle_found_module("wavelet", flag)
@@ -279,7 +420,7 @@ the config process was run.
     def _check_module_interp2d(self):
         flag = self.check_header("gsl/gsl_interp2d.h")
         self._handle_found_module("interp2d", flag)
-        
+
     def _check_multimin_solvers(self):
         headers = ["gsl/gsl_multimin.h"]
 
@@ -288,7 +429,7 @@ the config process was run.
 
         flag = self.check_func("gsl_multimin_fminimizer_nmsimplex",      headers = headers)
         self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIMIN_FMINIMIZER_NMSIMPLEX", flag)
-        
+
         flag = self.check_func("gsl_multimin_fminimizer_nmsimplex2",     headers = headers)
         self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIMIN_FMINIMIZER_NMSIMPLEX2", flag)
 
@@ -298,11 +439,11 @@ the config process was run.
         flag = self.check_func("gsl_multimin_fdfminimizer_vector_bfgs2", headers = headers)
         self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIMIN_FDFMINIMIZER_VECTOR_BFGS2", flag)
 
-        # XXX Check if it has not been removed by later versions 
+        # XXX Check if it has not been removed by later versions
         #flag = self.check_func("gsl_multimin_fdfminimizer_vector_steepest_descent", headers = headers)
         #self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIMIN_FDFMINIMIZER_STEEPEST_DESCENT", flag)
 
-    def _check_multifit_nlin_lmniel(self):        
+    def _check_multifit_nlin_lmniel(self):
         flag = self.check_func("gsl_multifit_fdfsolver_lmniel", headers=["gsl/gsl_multifit_nlin.h",] )
         self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTFIT_FDFSOLVER_LMNIEL", flag)
 
@@ -324,7 +465,7 @@ the config process was run.
 
     def _check_multifit_linear_workspace(self):
         """
-        GSL 2.0 changed the workspace struct members 
+        GSL 2.0 changed the workspace struct members
         """
         headers = ["gsl/gsl_multifit.h"]
 
@@ -336,7 +477,7 @@ the config process was run.
             # Should be that way
             assert(flag_pmax)
             flag = True
-            
+
         self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX", flag)
         del flag, flag_nmax, flag_pmax
 
@@ -357,10 +498,10 @@ the config process was run.
 
         flag = self.check_func(method_name, headers)
         self._add_header_variables_dict(cpp_define, flag)
-    
+
     def _check_permutation(self):
         headers = ["gsl/gsl_permutation.h"]
-        
+
         methods = (
             "linear_to_canonical",
             "canonical_to_linear",
@@ -369,7 +510,7 @@ the config process was run.
             "linear_cycles",
             "mul",
             )
-        
+
         for method in methods:
             name = "gsl_permutation_" + method
             self._check_and_flag_method(name, headers)
@@ -397,7 +538,7 @@ the config process was run.
             "balance_matrix",
             "balance_accum",
             )
-        
+
         for func in funcs:
             name = "gsl_linalg_" + func
             self._check_and_flag_method(name, headers)
@@ -416,9 +557,9 @@ the config process was run.
     def _check_rngs(self):
         flag = self.check_func("gsl_rng_knuthran2002", headers=("gsl/gsl_rng.h",))
         self._add_header_variables_dict("_PYGSL_GSL_HAS_RNG_KNUTHRAN2002", flag)
-        
+
     def _check_sf(self):
-    
+
         headers = ["gsl/gsl_sf.h",]
         funcs = (
             "legendre_Plm_array",
@@ -431,12 +572,12 @@ the config process was run.
         #    name = "gsl_sf_" + func
         #    self._check_and_flag_method(name, headers)
         # qreturn
-            
+
         for func in funcs:
             method_name = "gsl_sf_" + func
             cpp_define = "_PYGSL_GSL_HAS_LINK_"
             cpp_define += method_name.upper()
-       
+
             method_name += "(0, 0, 0.0, NULL)"
             flag = self.check_func(method_name, headers)
             self._add_header_variables_dict(cpp_define, flag)
@@ -451,25 +592,25 @@ the config process was run.
 
         self._gsl_config_version_info = tmp
         return self._gsl_config_version_info
-        
+
     def _check_gsl_major_minor_definition(self):
 
         headers = ["gsl/gsl_version.h"]
-        
+
         major = "GSL_MAJOR_VERSION"
         minor = "GSL_MINOR_VERSION"
 
         major_minor_available = 0
-        
+
         info = self._gsl_location_get_gsl_version()
-        
+
         flag = self.check_func(major, headers=headers)
         if flag:
             self._add_header_variables_dict("PYGSL_" + major, major)
             major_minor_available = 1
         else:
             self._add_header_variables_dict("PYGSL_" + major, info[0])
-            
+
         flag = self.check_func(minor, headers=headers)
         if flag:
             if not major_minor_available:
@@ -490,11 +631,11 @@ the config process was run.
     def _check_swig(self):
         # Check for -builtin
         pass
-    
+
     def _run_checks(self):
 
         self._check_swig()
-        
+
         self._check_gsl_major_minor_definition()
 
         self._check_module_mksa()
@@ -503,29 +644,32 @@ the config process was run.
         self._check_module_cgs()
 
         self._check_rngs()
-        
+
         self._check_module_deriv()
 
         self._check_multifit_nlin_lmniel()
-        self._check_multifit_nlin_jacobian()        
+        self._check_multifit_nlin_jacobian()
         self._check_multifit_linear_workspace()
         self._check_multimin_solvers()
-        
+
         self._check_module_wavelet()
         self._check_module_interp2d()
 
         self._check_module_bspline()
         self._check_module_odeiv2()
         self._check_module_multfit_robust()
-        
+
         self._check_permutation()
         self._check_linalg()
         self._check_eigen()
-        
-        self._check_sf()
-        
-    def run(self):
 
-        self._run_checks()        
+        self._check_sf()
+
+    def run(self):
+        if self.compiler is not None:
+            fmt = "self.compiler %s is not None"
+            raise AssertionError(fmt % (self.compiler,))
+        logger.info("Running config!")
+        self._run_checks()
         self._write_module_config_file()
         self._write_header_config_file()

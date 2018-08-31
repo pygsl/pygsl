@@ -29,7 +29,7 @@ array_include_dirs = get_numpy_include_dirs()
 #
 #	It assumes that the dependencies are in the same directory as the
 #	src file
-#	
+#
 #	Returns:
 #	     the deps if they are newer than the src file, None if not
 #	"""
@@ -41,7 +41,7 @@ array_include_dirs = get_numpy_include_dirs()
 #		print("src %s is old %s" % (src, is_old))
 #		if is_old == True:
 #			break
-#		
+#
 #	if is_old == False:
 #		return None
 #
@@ -67,10 +67,11 @@ class gsl_Extension(Extension):
 		     gsl_min_version=None,
 		     python_min_version=None,
 		     depends=None,
+            gsl_configurable_module=None,
 		     **kws
 		     ):
 
-		
+
 	    # get real prefix
 	    self.gsl_prefix=self.get_gsl_prefix()
 
@@ -108,7 +109,7 @@ class gsl_Extension(Extension):
 	    try:
 		    imp.find_module("Numeric")
 		    define_macros = define_macros + [("NUMERIC",1),]
-	    except ImportError:	    
+	    except ImportError:
 		    define_macros = define_macros + [("NUMERIC",0), ]
 
 	    if undef_macros == None:
@@ -117,7 +118,7 @@ class gsl_Extension(Extension):
 		    undef_macros.append('NDEBUG')
 	    tmp = map(lambda x: x[0], define_macros)
 
-	    # Now config will test of GSL_MAJOR_VERSION and GSL_MINOR_VERSION is defined 
+	    # Now config will test of GSL_MAJOR_VERSION and GSL_MINOR_VERSION is defined
 	    #if "PYGSL_GSL_MAJOR_VERSION" not in tmp:
 	    #        define_macros = define_macros + [("PYGSL_GSL_MAJOR_VERSION", gsl_major_version),]
 
@@ -127,10 +128,10 @@ class gsl_Extension(Extension):
 	    #        define_macros = define_macros + [("PYGSL_GSL_MINOR_VERSION", gsl_minor_version),]
 
 	    # dependes triggers always a recompile ...
-	    # try to fix it 
+	    # try to fix it
 	    # if depends is not None:
 	    #	    depends = check_dependencies(sources, depends)
-		    
+
 	    Extension.__init__(self, name, sources,
 			       include_dirs,
 			       define_macros,
@@ -206,4 +207,14 @@ class gsl_Extension(Extension):
 
 	def get_gsl_version(self):
 		return gsl_Location.get_gsl_version()
+
+    # THat would be nice ... but I have to build the list of packages
+    # So untested code ...
+    # super(gsl_Extension,self)
+
+	#def has_config(self):
+	#	return self.distribution.has_config()
+
+    #+ super(Extension, cls).sub_commands
+	 #sub_commands = [("config", has_config)] + Extension.sub_commands
 

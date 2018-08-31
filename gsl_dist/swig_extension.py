@@ -41,7 +41,8 @@ class SWIG_Extension(gsl_Extension):
                  swig_dependencies=[],
                  swig_flags=[],
                  c_dir=None,
-                 py_dir=None
+                 py_dir=None,
+                 gsl_configurable_module=None,
                  ):
 
 
