@@ -16,6 +16,7 @@ import os.path
 import string
 import copy
 import logging
+import setuptools.command.build_ext
 
 logger = logging.getLogger("setup.py")
 # Add the gsldist path
@@ -23,6 +24,70 @@ logger = logging.getLogger("setup.py")
 # Setuptools does currently not provide a config command
 #from setuptools.command import config
 from distutils.command import config
+
+
+def add_build_flags_to_config(argv):
+
+    # Not prepared for that...
+    # If user asks for an explicit config step lets have the user full
+    # control
+    assert("config" not in argv)
+
+    spoof_argv = copy.copy(argv)
+    logger.debug("Start stealing compiler arguments from build for config'%s'" %(spoof_argv,))
+    r = []
+
+    # Todo: not yet prepared if there is only an install command ....
+    while True:
+        try:
+            arg = spoof_argv.pop(0)
+        except IndexError:
+            # No build argument .... nothing to do here
+            return r
+
+        logger.debug("arg %s" %(arg,))
+        # Lets look for the build command
+        if arg in ("build", "build_ext"):
+            # but be careful. could a install command trigger a build?
+            # but do I need to worry? In this case there are no compiler flags which are
+            # passed around
+            #
+            # Todo: what about config file options?
+            break
+        r.append(arg)
+
+    build_arg = arg
+
+    # The following flags have to be repeated
+    cached = []
+
+    # Now let's check the options for compiler linker options etc ... currently
+    # take everthing after the command
+    #
+    # cache it as it has to be inserted in between config and build
+    while True:
+        try:
+            arg = spoof_argv.pop(0)
+        except IndexError:
+            # No more arguments to process
+            break
+
+        if (len(arg) == 2 and arg[0] == '-') or arg[:2] == "--":
+            # I prefer to break out of the loop but leave the rest
+            # straight ahead
+            pass
+        else:
+            # All other cases not handeled
+            msg = "Stopping stealing build compiler argurments at %s"
+            logger.debug(msg % (arg,))
+            break
+
+        # copy long and short options up to the next command
+        cached.append(arg)
+
+    result = r + ["config"] + cached + [build_arg] + cached + spoof_argv
+    # Now rebuild argument vector
+    return result
 
 
 def config_compiler_flags_from_argv(argv):
@@ -90,6 +155,57 @@ gsl_loc = gsl_Location.gsl_Location
 
 
 conf = config.config
+
+
+class BuildWithConfig(setuptools.command.build_ext.build_ext):
+    """Execute config if required."""
+
+    def _checkConfig(self):
+        """see if a configuration tool was already there
+        """
+        has_gsl_config = 0
+        try:
+            import gsl_features
+            has_gsl_config = 1
+            logger.info("import gsl_features succeeded: config already run")
+        except ImportError:
+            logger.info("No configuration step run before")
+
+        return has_gsl_config
+
+    def _executeConfigIfRequired(self):
+        if not self._checkConfig():
+            logger.debug("Running config")
+            self.run_command("config")
+
+            # Now the import must work
+            import gsl_features
+
+    def run(self):
+        """
+
+        Todo:
+           how to exclude packages that were not configured?
+        """
+        self._executeConfigIfRequired()
+        super().run()
+
+    def build_extension(self, ext):
+        """build extension unless configuration found that it does not exist
+        """
+        import gsl_features
+
+        conf_mod = ext.gsl_configurable_module
+        if  conf_mod is not None:
+            try:
+                getattr(gsl_features, conf_mod)
+            except AttributeError:
+                logger.info("Config process did not find gsl module %s" %(conf_mod,))
+                return
+
+        # Module should exist
+        super().build_extension(ext)
+
 
 class ConfigUsingBuildCompilerFlags(conf):
     pass

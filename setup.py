@@ -172,16 +172,9 @@ except ImportError:
 
 if _has_gsl_config == 0:
     if "config" not in sys.argv:
-        # if config is given explicitly it shall be the only command
-        argv = gsl_Config.config_compiler_flags_from_argv(sys.argv)
-        print("No config requested but required")
-        args = [sys.executable, sys.argv[0]] + argv
-        print("Executing config by %s" % (args))
-        subprocess.run(args, stdout=sys.stdout, stderr=sys.stderr)
-
-        # Now that must work ... in particular for the packages further down the
-        # list
-        import gsl_features
+        argv = gsl_Config.add_build_flags_to_config(sys.argv)
+        print("Extemsind sys.argv so that  config will be executed %s" % (argv))
+        sys.argv = argv
 
 exts = []
 extsOnly2 = []
@@ -284,6 +277,7 @@ setuptools.setup (name = proj_name,
        ext_modules = exts,
        headers = headers,
        cmdclass = {'config' : gsl_Config_Path,
+                   'build_ext' : gsl_Config.BuildWithConfig,
                    'gsl_wrappers': gsl_CodeGenerator.gsl_CodeGenerator,
                     #'build_sphinx': BuildDoc
                    },

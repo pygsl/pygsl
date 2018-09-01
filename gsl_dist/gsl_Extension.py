@@ -72,7 +72,7 @@ class gsl_Extension(Extension):
 		     ):
 
 
-		self.gsl_configurable_module = gsl_configurable_module
+		self._gsl_configurable_module = gsl_configurable_module
 	    # get real prefix
 		self.gsl_prefix=self.get_gsl_prefix()
 
@@ -147,6 +147,10 @@ class gsl_Extension(Extension):
 			       depends = depends,
 			       **kws
 			       )
+
+	@property
+	def gsl_configurable_module(self):
+		return self._gsl_configurable_module
 
 	def check_version(self, required_version, this_version):
 		this_version = tuple(this_version)
