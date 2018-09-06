@@ -57,7 +57,9 @@ class SWIG_Extension(gsl_Extension):
             target = m.groups()[0]
         if c_dir:
             target = c_dir + "/" + target
-        self._run_swig(sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name)    
+
+
+        self._run_swig_args = sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name 
 
         #spawn(cmd, search_path, verbose, dry_run)
         # SWIG generates two files. A py proxy file and a .so. The so appends a _ to the module name.
@@ -85,7 +87,8 @@ class SWIG_Extension(gsl_Extension):
                                export_symbols,
                                gsl_prefix,
                                gsl_min_version,
-                               python_min_version)
+                               python_min_version,
+                               gsl_configurable_module=gsl_configurable_module)
         return
 
     def _split_name_to_file_and_dir(self, name):
@@ -101,6 +104,11 @@ class SWIG_Extension(gsl_Extension):
         return t_dirs, t_name
 
     def _run_swig(self, sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name):
+        """
+
+        Todo:
+            check if numpy or setuptools provide facilities for storing swig files
+        """
         if newer_group(sources + swig_dependencies, target):
             includes = []
             for i in swig_include_dirs:
@@ -123,6 +131,10 @@ class SWIG_Extension(gsl_Extension):
             dst_name, was_copied = copy_file(src, dst)
             # print("Copied file '%s' to '%s' ? %s dst was %s" %(src, dst_name, was_copied, dst))
             assert(was_copied == True)
+
+    def runSourceGenerator(self):
+        self._run_swig(*self._run_swig_args)
+
 
 class SWIG_Extension_Nop(SWIG_Extension):
     """
