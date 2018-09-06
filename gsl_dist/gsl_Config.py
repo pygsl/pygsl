@@ -90,7 +90,7 @@ def add_build_flags_to_config(argv):
     return result
 
 
-def config_compiler_flags_from_argv(argv):
+def config_compiler_flags_from_argv_obsolete(argv):
     """Add build flags to config if given
 
     Todo:
@@ -157,8 +157,43 @@ gsl_loc = gsl_Location.gsl_Location
 conf = config.config
 
 
-class BuildWithConfig(setuptools.command.build_ext.build_ext):
-    """Execute config if required."""
+
+_build_ext = setuptools.command.build_ext.build_ext
+class BuildWithConfig(_build_ext):
+    """Execute config if required.
+
+    Appetite comes with eating.
+    """
+
+    # pygsl supports different versions of GSL. Therefore  a separate build
+    # directory should be used for the different GSL versions.
+    #
+    # Todo: put gsl_features there too
+    user_options = _build_ext.user_options + [("gsl-version-in-build-path", "V",
+    "add GSL version to the build temporary path") ]
+    boolean_options = _build_ext.boolean_options + ["gsl-version-in-build-path"]
+
+    def initialize_options(self):
+        super().initialize_options()
+        #self.define = None
+        self.gsl_version_in_build_path = True
+
+    def finalize_options(self):
+        super().finalize_options()
+        if self.define is not None:
+            # 'define' option is a list of (name,value) tuples
+            for (name, value) in self.define:
+                self.compiler.define_macro(name, value)
+
+
+        if self.gsl_version_in_build_path:
+            import gsl_version
+            # Does the name need mangling?
+            version_txt = "gsl_" + gsl_version.gsl_version
+            self.build_temp = os.path.join(self.build_temp, version_txt)
+            self.build_lib  = os.path.join(self.build_lib, version_txt)
+            fmt = "Build temp path %s  and lib path %s now contains gsl version"
+            logger.info(fmt %(self.build_temp, self.build_lib))
 
     def _checkConfig(self):
         """see if a configuration tool was already there
@@ -171,6 +206,15 @@ class BuildWithConfig(setuptools.command.build_ext.build_ext):
         except ImportError:
             logger.info("No configuration step run before")
 
+        if has_gsl_config:
+            # Then gsl_version must exist too
+            import gsl_version
+            # And these attributes
+            gsl_version.gsl_version
+
+            # gsl-1.13 does not provide that
+            # gsl_version.gsl_major_minor
+
         return has_gsl_config
 
     def _executeConfigIfRequired(self):
@@ -180,6 +224,8 @@ class BuildWithConfig(setuptools.command.build_ext.build_ext):
 
             # Now the import must work
             import gsl_features
+            # and the gsl version must be defined
+            import gsl_version
 
     def run(self):
         """
@@ -190,21 +236,40 @@ class BuildWithConfig(setuptools.command.build_ext.build_ext):
         self._executeConfigIfRequired()
         super().run()
 
+    def _runSourceGenerator(self, ext):
+        """Run swig if the extension requires it
+        """
+
+        ext.runSourceGenerator()
+
     def build_extension(self, ext):
         """build extension unless configuration found that it does not exist
         """
         import gsl_features
 
+        assert(self.build_temp is not None)
+        #assert(self.lib_temp is not None)
+
+        flag = None
+
         conf_mod = ext.gsl_configurable_module
         if  conf_mod is not None:
             try:
-                getattr(gsl_features, conf_mod)
+                flag =  getattr(gsl_features, conf_mod)
             except AttributeError:
-                logger.info("Config process did not find gsl module %s" %(conf_mod,))
+                logger.warn("Config process did not set gsl module %s" %(conf_mod,))
                 return
+        else:
+            # A module which should always be built: it is not configurable
+            flag = True
 
-        # Module should exist
-        super().build_extension(ext)
+        logger.debug("extension %s module %s available? %s" %(ext.name, conf_mod, flag))
+
+        if flag:
+            self._runSourceGenerator(ext)
+
+            # Module should exist
+            super().build_extension(ext)
 
 
 class ConfigUsingBuildCompilerFlags(conf):
@@ -213,12 +278,12 @@ class ConfigUsingBuildCompilerFlags(conf):
 class gsl_Config(ConfigUsingBuildCompilerFlags):
     """Check the available features.
 
-C defines are stored in a header file. See method _write_header_config_file
-for details.
+    C defines are stored in a header file. See method _write_header_config_file
+    for details.
 
-A class has to be drived from this class which defines the member _pygsl_dir
-with the path of the pygsl_dir
-"""
+    A class has to be drived from this class which defines the member _pygsl_dir
+    with the path of the pygsl_dir
+    """
     _pygsl_dir = None
 
     def __init__(self, *args, **kws):
@@ -247,6 +312,13 @@ with the path of the pygsl_dir
     def initialize_options(self):
         super().initialize_options()
         self.define = None
+
+        # Let's default to not noisy ... config did not make too much trouble for me
+        # yet
+        # but it has no effect yet?
+        # self.noisy = 0
+        # but it has no effect yet?
+        # self.dump_source = 0
 
     def finalize_options(self):
         super().finalize_options()
@@ -462,7 +534,11 @@ the config process was run.
         self._handle_found_module("wavelet", flag)
 
     def _check_module_interp2d(self):
-        flag = self.check_header("gsl/gsl_interp2d.h")
+        logger.debug("Checking for interpolation 2d ....")
+        # At least on msys the missing header is not detected that way ...
+        #flag = self.check_header("gsl/gsl_interp2d.h")
+        flag = self.check_func("gsl_interp2d_type", headers=("gsl/gsl_interp2d.h",))
+        logger.debug("interpolation 2d  available? " + (flag and "Yes" or "No"))
         self._handle_found_module("interp2d", flag)
 
     def _check_multimin_solvers(self):
@@ -637,8 +713,60 @@ the config process was run.
         self._gsl_config_version_info = tmp
         return self._gsl_config_version_info
 
-    def _check_gsl_major_minor_definition(self):
 
+    def _check_gsl_major_minor_definition2(self):
+        """Write GSL Major and minor definitions from preprocessor to file
+
+        This way it can be ensured that the build process will use the  version
+        information from the header files.
+
+        There can be always a mismatch...
+        """
+
+        config_file = os.path.join(self._pygsl_dir, "gsl_dist", "gsl_version.py")
+        config_file = os.path.abspath(config_file)
+        logger.info("GSL version config file at %s" %(config_file,))
+
+        body = r"""
+        int main(int argc, char * argv[])
+        {
+            FILE *fp = NULL;
+            const char config_file[] = "%s";
+
+
+            printf("Writing GSL Versions from <gsl/gsl_version.h> to %%s\n", config_file);
+            fp = fopen(config_file, "wt");
+            if(fp == NULL){
+                perror("Failed to open config file:");
+                exit(1);
+            }
+            fprintf(fp, "gsl_version = \"%%s\"\n", GSL_VERSION);
+            #ifdef GSL_MAJOR_VERSION
+                fprintf(fp, "gsl_major_minor =  %%d, %%d\n", GSL_MAJOR_VERSION, GSL_MINOR_VERSION);
+            #endif /* GSL_MAJOR_VERSION */
+            fflush(fp);
+            fclose(fp);
+            printf("Wrote gsl_verskon %%s to config file %%s\n", GSL_VERSION, config_file);
+            return 0;
+        }
+        """ % (config_file.replace('\\', '\\\\'),)
+
+        kws = {}
+        kws = self._handle_include_dir_kw(kws)
+        kws = self._handle_library_dir_kw(kws)
+        kws = self._handle_libraries_kw(kws)
+
+        self.try_run(headers = ["stdio.h", "gsl/gsl_version.h"], body=body, **kws)
+
+    def _check_gsl_major_minor_definition(self):
+        """Returns the version gsl as typically found from gsl_config
+
+        Todo:
+            On windows the user is asked to set this version in
+            gsl_dist/gsl_site.py by hand. THus it would be more
+            advisable to use the preprocessor info available which
+            is stored in gsl_dist/gsl_version.py?
+        """
         headers = ["gsl/gsl_version.h"]
 
         major = "GSL_MAJOR_VERSION"
@@ -681,6 +809,11 @@ the config process was run.
         self._check_swig()
 
         self._check_gsl_major_minor_definition()
+        self._check_gsl_major_minor_definition2()
+
+        self._check_module_interp2d()
+        self._check_module_multfit_robust()
+        self._check_module_odeiv2()
 
         self._check_module_mksa()
         self._check_module_cgsm()
@@ -697,11 +830,8 @@ the config process was run.
         self._check_multimin_solvers()
 
         self._check_module_wavelet()
-        self._check_module_interp2d()
 
         self._check_module_bspline()
-        self._check_module_odeiv2()
-        self._check_module_multfit_robust()
 
         self._check_permutation()
         self._check_linalg()
