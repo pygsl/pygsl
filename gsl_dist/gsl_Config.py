@@ -154,7 +154,6 @@ import gsl_Location
 gsl_loc = gsl_Location.gsl_Location
 
 
-conf = config.config
 
 
 
@@ -174,12 +173,12 @@ class BuildWithConfig(_build_ext):
     boolean_options = _build_ext.boolean_options + ["gsl-version-in-build-path"]
 
     def initialize_options(self):
-        super().initialize_options()
+        _build_ext.initialize_options(self)
         #self.define = None
         self.gsl_version_in_build_path = True
 
     def finalize_options(self):
-        super().finalize_options()
+        _build_ext.finalize_options(self)
         if self.define is not None:
             # 'define' option is a list of (name,value) tuples
             for (name, value) in self.define:
@@ -234,7 +233,7 @@ class BuildWithConfig(_build_ext):
            how to exclude packages that were not configured?
         """
         self._executeConfigIfRequired()
-        super().run()
+        _build_ext.run(self)
 
     def _runSourceGenerator(self, ext):
         """Run swig if the extension requires it
@@ -269,13 +268,11 @@ class BuildWithConfig(_build_ext):
             self._runSourceGenerator(ext)
 
             # Module should exist
-            super().build_extension(ext)
+            _build_ext.build_extension(self, ext)
 
+conf = config.config
 
-class ConfigUsingBuildCompilerFlags(conf):
-    pass
-
-class gsl_Config(ConfigUsingBuildCompilerFlags):
+class gsl_Config(conf):
     """Check the available features.
 
     C defines are stored in a header file. See method _write_header_config_file
@@ -287,7 +284,7 @@ class gsl_Config(ConfigUsingBuildCompilerFlags):
     _pygsl_dir = None
 
     def __init__(self, *args, **kws):
-        super().__init__(*args, **kws)
+        conf.__init__(self, *args, **kws)
 
         self._header_variables_dict = {}
         self._found_modules_dict = {}
@@ -299,7 +296,7 @@ class gsl_Config(ConfigUsingBuildCompilerFlags):
         headers need to include gsl header directory
         """
         kws = self._handle_include_dir_kw(kws)
-        return super().check_header(*args, **kws)
+        return conf.check_header(self, *args, **kws)
 
     def check_func(self, *args, **kws):
 
@@ -307,10 +304,10 @@ class gsl_Config(ConfigUsingBuildCompilerFlags):
         kws = self._handle_library_dir_kw(kws)
         kws = self._handle_libraries_kw(kws)
 
-        return super().check_func(*args, **kws)
+        return conf.check_func(self, *args, **kws)
 
     def initialize_options(self):
-        super().initialize_options()
+        conf.initialize_options(self)
         self.define = None
 
         # Let's default to not noisy ... config did not make too much trouble for me
@@ -321,7 +318,7 @@ class gsl_Config(ConfigUsingBuildCompilerFlags):
         # self.dump_source = 0
 
     def finalize_options(self):
-        super().finalize_options()
+        conf.finalize_options(self)
         if self.define is not None:
             # 'define' option is a list of (name,value) tuples
             for (name, value) in self.define:
