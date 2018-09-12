@@ -28,7 +28,7 @@ PyGSL_add_c_traceback_frames(PyObject * self, PyObject *args)
 	FUNC_MESS_BEGIN();
 	if(!PyArg_ParseTuple(args, "i", &add_c_tracebacks))
 		return NULL;
-	
+
 	Py_INCREF(Py_None);
 	FUNC_MESS_END();
 	return Py_None;
@@ -49,16 +49,16 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
 struct _pygsl_error_state{
   const char * file;
   int line;
-  int gsl_errno;  
+  int gsl_errno;
   char reason[PYGSL_REASON_BUFFER_N];
-}; 
+};
 
 typedef struct _pygsl_error_state pygsl_error_state_t;
 
 pygsl_error_state_t save_error_state = {NULL, PyGSL_EINIT, -1};
 
 static void
-PyGSL_gsl_error_handler_save_reset(void)  
+PyGSL_gsl_error_handler_save_reset(void)
 {
 	const char reset_msg[] = "no message stored since error save state was reset";
 	FUNC_MESS_BEGIN();
@@ -68,11 +68,11 @@ PyGSL_gsl_error_handler_save_reset(void)
 	save_error_state.file = __FILE__;
 	save_error_state.line = -1;
 	save_error_state.gsl_errno = PyGSL_EINIT;
-	FUNC_MESS_END();	
+	FUNC_MESS_END();
 }
 
 static PyObject *
-PyGSL_pygsl_error_handler_save_reset(PyObject *src, PyObject *args)  
+PyGSL_pygsl_error_handler_save_reset(PyObject *src, PyObject *args)
 {
 	PyGSL_gsl_error_handler_save_reset();
 	Py_INCREF(Py_None);
@@ -115,7 +115,7 @@ PyGSL_get_gsl_error_handler_saved_state(PyObject *src, PyObject *args)
 	PyTuple_SET_ITEM(result, 1, (PyObject *) f_o);
 	PyTuple_SET_ITEM(result, 2, (PyObject *) l_o);
 	PyTuple_SET_ITEM(result, 3, (PyObject *) e_o);
-	
+
 	return result;
 
   fail:
@@ -131,9 +131,9 @@ static void
 PyGSL_gsl_error_handler_save(const char *reason, /* name of function*/
 			     const char *file, /*from CPP*/
 			     int line,   /*from CPP*/
-			     int gsl_error)			     
+			     int gsl_error)
 {
-	FUNC_MESS_BEGIN();	
+	FUNC_MESS_BEGIN();
 
 
 	DEBUG_MESS(3, "Storing GSL error: currently saved status  %s@%d: %d, %s",
@@ -164,7 +164,7 @@ PyGSL_gsl_error_handler_save(const char *reason, /* name of function*/
 }
 
 
-static int  
+static int
 PyGSL_error_flag(long flag)
 {
 	int status = PyGSL_ANY, requires_saving = 0, last_status = 0, l = 0, bufmax = 0;
@@ -298,33 +298,33 @@ PyGSL_error_flag(long flag)
 				flag, status, save_error_state.reason);
 		     FUNC_MESS_END();
 		     return PyGSL_ENOMATCH;
-	     }  
+	     }
 	     FUNC_MESS_END();
 	     return GSL_FAILURE;
      }
 
      if(flag>0){
-	  /* 
-	   * How can I end here without an Python error? 
+	  /*
+	   * How can I end here without an Python error?
 	   *
 	   * 3. April 2016
 	   * Or the new PyGSL_gsl_error_handler_save is used. So now the appropriate
 	   * message needs to be set up
 	   *
 	   * 25. October 2008
-	   * Well, very simply when the GSL_ERROR_HANDLER is set to off. 
+	   * Well, very simply when the GSL_ERROR_HANDLER is set to off.
 	   *
 	   * All GSL modules are
 	   * supposed to call GSL_ERROR which should call the default error
 	   * handler.
 	   *
 	   * 25. October 2008
-	   * No not when the handler is set to off, which is necessary in 
+	   * No not when the handler is set to off, which is necessary in
 	   * a threaded python. That's why it was a bad idea to call the
 	   * gsl_error_handler here!
 	   */
 	  /*
-	   * gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__, 
+	   * gsl_error("Unknown Reason. It was not set by GSL.",  __FILE__,
 	   *	    __LINE__, flag);
 	   */
 	   /*
@@ -352,7 +352,7 @@ PyGSL_error_flag(long flag)
 		   * XXX should one not clear the error here too ?
 		   */
 	  }
-	  /* 
+	  /*
 	   * So lets keep the flag to return ... who knows what it will be used for...
 	   * return GSL_FAILURE;
 	   */
@@ -364,7 +364,7 @@ PyGSL_error_flag(long flag)
 #endif
 }
 
-static PyObject * 
+static PyObject *
 PyGSL_error_flag_to_pyint(long flag)
 {
      PyObject * result = NULL;
@@ -379,14 +379,14 @@ PyGSL_error_flag_to_pyint(long flag)
      return result;
 }
 
-static void 
+static void
 PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname, int lineno)
 {
      PyObject *py_srcfile = NULL, *py_funcname = NULL, *py_globals = NULL,
 	  *empty_tuple = NULL,  *empty_string = NULL;
      PyCodeObject *py_code = NULL;
      PyFrameObject *py_frame = NULL;
-     
+
      FUNC_MESS_BEGIN();
 
      DEBUG_MESS(2, "module %s file %s func %s @ line %d",
@@ -411,8 +411,8 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 	  py_globals = PyDict_New();
      } else {
 	  py_globals = PyModule_GetDict(module);
-     } 
-     if (py_globals == NULL) 
+     }
+     if (py_globals == NULL)
 	  goto fail;
 
 #ifdef PyGSL_PY3K
@@ -434,7 +434,6 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
      DEBUG_MESS(2, "Added traceback for %s.%s @ %d",
 		filename, funcname, lineno);
 #else /* PyGSL_Py3K */
-#error "Code needs to be checked!"
 
      py_srcfile = PyGSL_string_from_string(filename);
      if (py_srcfile == NULL)
@@ -445,11 +444,11 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 	  goto fail;
 
      empty_tuple = PyTuple_New(0);
-     if (empty_tuple == NULL) 
+     if (empty_tuple == NULL)
 	  goto fail;
 
      empty_string = PyGSL_string_from_string("");
-     if (empty_string == NULL) 
+     if (empty_string == NULL)
 	  goto fail;
 
      py_code = PyCode_New(
@@ -469,8 +468,8 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 	  empty_string  /*PyObject *lnotab*/
 	  );
 
-     
-     if (py_code == NULL) 
+
+     if (py_code == NULL)
 	  goto fail;
 
      py_frame = PyFrame_New(
@@ -480,7 +479,7 @@ PyGSL_add_traceback(PyObject *module, const char *filename, const char *funcname
 	  0                    /*PyObject *locals*/
 	  );
 
-     if (py_frame == NULL) 
+     if (py_frame == NULL)
 	  goto fail;
      py_frame->f_lineno = lineno;
      PyTraceBack_Here(py_frame);
@@ -526,7 +525,7 @@ PyGSL_register_accel_err_object(PyObject * err_ob, long test_errno)
      assert(err_ob);
      tmp = errno_accel[test_errno];
      if(tmp != NULL){
-	  PyErr_Format(PyExc_ValueError, 
+	  PyErr_Format(PyExc_ValueError,
 		       "In errno_accel: errno %ld already occupied with object %p!\n",
 		       test_errno, (void *) tmp);
 	  FUNC_MESS_END();
@@ -548,7 +547,7 @@ _PyGSL_register_err_object(PyObject *dict, PyObject * err_ob, PyObject *the_errn
      assert(error_dict);
      test = PyDict_GetItem(dict, the_errno);
      if(test != NULL){
-	  PyErr_Format(PyExc_ValueError, 
+	  PyErr_Format(PyExc_ValueError,
 		       "In dict %p: key %p already occupied with object %p!\n",
 		       dict, the_errno, (void *) test);
 	  FUNC_MESS_END();
@@ -591,7 +590,7 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
 		FUNC_MESS_END();
 		return -1;
 	}
-     
+
 	if(!PyLong_CheckExact(tmp)){
 		fprintf(stderr, "errno %p from err_ob %p was not an exact int!\n",
 			(void *) tmp, (void *) err_ob);
@@ -707,7 +706,7 @@ PyGSL_get_error_object(int the_errno, PyObject ** accel, int accel_max, PyObject
 	return NULL;
 }
 
-static int 
+static int
 PyGSL_init_errno(void)
 {
      int i;
@@ -716,7 +715,7 @@ PyGSL_init_errno(void)
      PyGSL_gsl_error_handler_save_reset();
 
      for(i = 0; i< PyGSL_ERRNO_MAX; ++i){
-	  DEBUG_MESS(3, "setting errno_accel[%d] to NULL; was %p", 
+	  DEBUG_MESS(3, "setting errno_accel[%d] to NULL; was %p",
 		     i, (void*) (errno_accel[i]));
 	  errno_accel[i] = NULL;
      }
@@ -746,7 +745,7 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
 			     const char *file, /*from CPP*/
 			     int line,   /*from CPP*/
 			     int gsl_error,
-			     enum handleflag flag)			     
+			     enum handleflag flag)
 {
 	const char* error_explanation;
 	char error_text[PYGSL_REASON_BUFFER_N];
@@ -839,7 +838,7 @@ PyGSL_internal_error_handler(const char *reason, /* name of function*/
 /*
  * sets the right exception, but does not return to python!
  */
-static void 
+static void
 PyGSL_module_error_handler(const char *reason, /* name of function*/
 			   const char *file, /*from CPP*/
 			   int line,   /*from CPP*/
