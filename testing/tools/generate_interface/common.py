@@ -1,4 +1,9 @@
-"""Some parts
+"""Collection of classes which are used by other modules
+
+Currently these are (at least)
+    * :mod:`ufunc_arg`
+    * :mod:`gsl_arg`
+    
 """
 from __future__ import print_function, absolute_import, division
 
@@ -21,7 +26,11 @@ class _ArgumentType(object):
         self._return_argument = None
 
     def _CheckArgumentTypeIntern(self):
+        """Check that the argument is only one of input|output|return type
 
+        Todo:
+            Consider using :class:`collection.Enum`
+        """
         _false = (None, False)
         if self._input_argument:
             assert(self._output_argument in _false)
@@ -38,6 +47,9 @@ class _ArgumentType(object):
     def _CheckArgumentType(self):
         """
         Check that only one of the argument types is set
+
+        Todo:
+            Move print to :meth:`logging.Logger.warn`?
         """
         test = 0
         try:

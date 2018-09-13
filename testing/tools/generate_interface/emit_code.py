@@ -1,11 +1,35 @@
+"""Emits all the required C code based on
+:class:`sf_prototype.sf_prototype`
+"""
 import sys
+import logging
 import sf_prototype
+
+logger = logging.Logger(__file__)
+
 
 def add_indent(lines, indent):
     result = []
     for line in lines:
         result.append(indent + line)
     return result
+
+
+def emit_tests(sf_valid, stream):
+
+    lines = []
+    for sf in sf_valid:
+        config_macro_name = sf.GetConfigMacroName()
+        if not config_macro_name:
+            continue
+        if config_macro_name == "":
+            continue
+
+        name = sf.GetFunctionName()
+        lines.append('"%s","%s"' %(name, config_macro_name) )
+    txt = "\n".join(lines)
+    stream.write(txt)
+
 
 def emit_doc(sf, stream):
     """
@@ -107,7 +131,7 @@ def emit_evaluator(sf, minor = None, stream = sys.stdout, verbose = False):
     ret_arg = convert(ret_arg)
 
 
-    print("/* operating on '%s' '%s'*/" %(str(sf), repr(sf)) )
+    logger.info("/* operating on '%s' '%s'*/" %(str(sf), repr(sf)) )
     fp_decl = sf.GetFunctionPointerDeclaration()
     del sf
 
@@ -279,13 +303,14 @@ def emit_data_types(sf, stream):
                 test = 1
             finally:
                 if test == 0:
-                    print("Processing", t_arg)
+                    logger.warn("Processing %s" %( t_arg,) )
             t_decl = "/*%s*/% 10s" %(desc, codes)
             t_types.append(t_decl)
         defs.append("\t" + ", ".join(t_types))
     defs = ",\n".join(defs)
     lines.append(defs)
     lines.append("};\n")
+
     txt = "\n".join(lines)
     stream.write(txt + "\n")
 
@@ -315,7 +340,14 @@ def emit_callbacks(sf, stream):
     decl = ["(void *) %s" %(func,)] * 2
     tmp = ", ".join(decl)
     a_line = "static void * %s_data[] = {%s};" % (func, tmp)
+
+    config_macro_name = sf.GetConfigMacroName()
+    if config_macro_name:
+        lines.append("#ifdef %s" %(config_macro_name))
     lines.append(a_line)
+    if config_macro_name:
+        lines.append("#endif /* %s */" %(config_macro_name))
+
     
     txt = "\n".join(lines)
     stream.write(txt + "\n")
@@ -357,10 +389,13 @@ def emit_object(sf, stream):
     n_out = sf.GetUFuncNOutArgs()
     full_name = sf.GetFunctionName()
     name = sf.GetPyFunctionName()
-    
+
+    config_macro_name = sf.GetConfigMacroName()
+
     lines = []
     lines.append("%s_data[0] = (PyUFuncGenericFunction) %s;" %(UFuncName, UFuncName))
     lines.append("%s_data[1] = (PyUFuncGenericFunction) %s;" %(UFuncName, UFuncNameMinor))
+
     
     obj_decl = """
 /*Object declaration for '%s'*/
@@ -384,7 +419,11 @@ PyDict_SetItemString(sf_dict,"%s" /* name of py object */, f);
     args = (sf, data, callbacks, types, n_in, n_out, name, doc, name)
     #print(args)
     tmp = obj_decl % args
+    if config_macro_name:
+        lines.append("#ifdef %s" % (config_macro_name,) )
     lines.append(tmp)
+    if config_macro_name:
+        lines.append("#endif /* %s */" % (config_macro_name,) )
     txt = "\n".join(lines)
     stream.write(txt + "\n")
     

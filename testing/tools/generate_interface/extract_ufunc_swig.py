@@ -17,10 +17,15 @@ from __future__ import print_function
 import copy
 import sys
 import os
+import logging
 import xml.etree.ElementTree as ElementTree
 import gsl_arg
 import sf_prototype
 import emit_code
+import function_lists
+
+
+logger = logging.Logger(__file__)
 
 class ExtractError(Exception):
     pass
@@ -54,7 +59,7 @@ def extract_value(element, name):
     """
     n, v = extract_name_value(element)
     if name != n:
-        raise ExtractError("Expected attr name '%s' != '%s'!" %(name, n))
+        raise ExtractError("Expected attr name '%s' != '%s'" %(name, n))
 
     return v
 
@@ -63,9 +68,9 @@ def check_name_value(element, name, value):
     """    
     v = extract_value(element, name)
     if value != v:
-        raise ExtractError("Expected attr name '%s' != '%s'!" %(value,  v))        
+        raise ExtractError("Expected attr name '%s' != '%s'" %(value,  v))        
 
-    
+
 def extract_func_parameter(par_n, level = None):
     """Extract one function parameter
     """
@@ -147,7 +152,7 @@ def create_sf_prototype(f_name, f_params, ret_type):
             test = 1
         finally:
             if test == 0:
-                print(f_name)
+                logger.debug(f_name)
         args.append(arg)
     args = tuple(args)
         
@@ -163,81 +168,20 @@ def create_sf_prototype(f_name, f_params, ret_type):
 
     pass
 
-# Functions to exclude from the whole list.
-exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and output. not properly recognized.
-                'gsl_sf_angle_restrict_symm_e',
-                # use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
-                'gsl_sf_result_smash_e', # the only one to use a const pointer as input. Not recognized by the tool.
-                # Complex Functions are wrapped manually.
-                'gsl_sf_complex_dilog_e',   # polar to rect
-                'gsl_sf_lngamma_complex_e', # rect to polar
-                'gsl_sf_complex_log_e',     # rect to polar
-                'gsl_sf_complex_sin_e',     # rect to rect
-                'gsl_sf_complex_cos_e',     # rect to rect
-                'gsl_sf_complex_logsin_e',
-                #Deprecated functions
-                'gsl_sf_coupling_6j_INCORRECT_e',
-                'gsl_sf_coupling_6j_INCORRECT',
-                # Not a direct map
-                'gsl_sf_polar_to_rect',
-                'gsl_sf_rect_to_polar',
-                # Functions returning arrays are not mapped currently.
-                'gsl_sf_bessel_sequence_Jnu_e',
-                'gsl_sf_bessel_Jn_array',
-                'gsl_sf_bessel_Yn_array',
-                'gsl_sf_bessel_In_array',
-                'gsl_sf_bessel_In_scaled_array',
-                'gsl_sf_bessel_Kn_array',
-                'gsl_sf_bessel_Kn_scaled_array',
-                'gsl_sf_bessel_jl_array',
-                'gsl_sf_bessel_jl_steed_array',
-                'gsl_sf_bessel_yl_array',
-                'gsl_sf_bessel_il_scaled_array',
-                'gsl_sf_bessel_kl_scaled_array',
-                'gsl_sf_coulomb_wave_F_array',
-                'gsl_sf_coulomb_wave_FG_array',
-                'gsl_sf_coulomb_wave_FGp_array',
-                'gsl_sf_coulomb_wave_sphF_array',
-                'gsl_sf_coulomb_CL_array',
-                'gsl_sf_gegenpoly_array',
-                'gsl_sf_legendre_Pl_array',
-                'gsl_sf_legendre_Pl_deriv_array',
-                'gsl_sf_legendre_Plm_array',
-                'gsl_sf_legendre_Plm_deriv_array',
-                'gsl_sf_legendre_sphPlm_array',
-                'gsl_sf_legendre_sphPlm_deriv_array',
-                'gsl_sf_legendre_array_size',
-                'gsl_sf_legendre_H3d_array',
-               'gsl_sf_legendre_array',
-               'gsl_sf_legendre_array_e',
-               'gsl_sf_legendre_deriv_array_e',
-               'gsl_sf_legendre_deriv_array',
-               'gsl_sf_legendre_deriv_alt_array',
-               'gsl_sf_legendre_deriv_alt_array_e',
-               'gsl_sf_legendre_deriv2_array',
-               'gsl_sf_legendre_deriv2_array_e',
-               'gsl_sf_legendre_deriv2_alt_array',
-               'gsl_sf_legendre_deriv2_alt_array_e',
-               'gsl_sf_legendre_array_n',
-               'gsl_sf_legendre_array_index',
-                'gsl_sf_legendre_nlm',
-               'gsl_sf_mathieu_ce_array',
-               'gsl_sf_mathieu_se_array',
-               'gsl_sf_mathieu_Mc_array',
-               'gsl_sf_mathieu_Ms_array',
-                'gsl_sf_mathieu_a_array',
-                'gsl_sf_mathieu_b_array',
-                'gsl_sf_mathieu_workspace',
-                'gsl_sf_mathieu_alloc',
-                'gsl_sf_mathieu_free',
-                "gsl_sf_mathieu_a_coeff",
-                "gsl_sf_mathieu_b_coeff",
-                ]
+
 
 def extract_func(attr_l, level=None, verbose = None):
     """Get a node and try to build the pattern
 
-    Needs documentation
+
+    This function will also:
+        * not operate (ommit) the functions listed in
+          :any:`function_lists.exclude_list`
+        * add config macros for all functions listed in 
+          :any:`function_lists.config_list`
+    
+    Todo:
+        Improve documentation of this function
     """
     indent = get_indent(level)
 
@@ -245,7 +189,7 @@ def extract_func(attr_l, level=None, verbose = None):
     f_name = extract_value(attr_l[0], "sym_name")
     f_name_check = extract_value(attr_l[1], "name")
 
-    if f_name in exclude_list:
+    if f_name in function_lists.exclude_list:
         return
     
     f_decl = extract_value(attr_l[2], "decl")
@@ -279,11 +223,12 @@ def extract_func(attr_l, level=None, verbose = None):
     args_str = map(lambda x: " ".join(x), f_params)
     args_str = ", ".join(args_str)
 
-    if verbose:
-        print( "Function: %s%s %s(%s) = %s" %(indent, ret_type, f_name,  args_str, f_decl))
-
+    logger.debug( "Function: %s%s %s(%s) = %s" %(indent, ret_type, f_name,  args_str, f_decl))
+        
     
-    sf = create_sf_prototype(f_name, f_params, ret_type) 
+    sf = create_sf_prototype(f_name, f_params, ret_type)
+    if f_name in function_lists.config_list:
+        sf.SetRequiresConfig()
     
     return sf
         
@@ -315,14 +260,16 @@ def handle_cdecl(cdecl, level=0, verbose = None):
             sf_s.append(sf)
             sub_nodes = 1
         except ExtractError as ve:
-            print("extract func failed with extract error : '%s'" %(ve,))
+            msg = "extract func '%s' failed with extract error : '%s', cdecl = '%s' children %s"
+            tup = func, ve, cdecl.tag, cdecl.attrib
+            logger.error(msg % tup )
+            del msg, tup
         #except FunctionFormatError as ffe:
         #    print("extract func failed with function format error: '%s'" %(ffe,))
         #    verbose = True
 
-    if verbose:
-        print("%s %s %s:%s" % ("CD", indent, cdecl.tag, cdecl.attrib) )
-        print("%s %s %s:%s" % ("Func", indent, func.tag, func.attrib) )
+    logger.debug("%s %s %s:%s" % ("CD", indent, cdecl.tag, cdecl.attrib) )
+    logger.debug("%s %s %s:%s" % ("Func", indent, func.tag, func.attrib) )
         
         
     if sub_nodes  == 0:
@@ -356,11 +303,10 @@ def handle_nodes(top, level = 0, mark = None, only_node_name = None, verbose = N
     else:
         t_mark = mark
 
-    if 1 == 0 and verbose:
-        if tag in only_node_name:
-            print("TAG %s %s %s:" % (t_mark, indent, top.tag) )
-        else:
-            print("NTAG %s %s %s: %s" % (t_mark, indent, top.tag, attr))
+    if tag in only_node_name:
+        logger.debug("TAG %s %s %s:" % (t_mark, indent, top.tag) )
+    else:
+        logger.debug("NTAG %s %s %s: %s" % (t_mark, indent, top.tag, attr))
     
     for child in top.getchildren():
         names = only_node_name
@@ -381,10 +327,9 @@ def traverse_tree(tree, verbose = None):
     """Build up sf_prototype instances for the different functions found
     """
     top = tree.getroot()
-    if verbose:
-        print(top, top.attrib)
+    logger.debug("top = '%s', top.attrib = '%s'" %(top, top.attrib))
 
-    print("starting processing")
+    logger.info("starting processing")
     sf_s = []
     for child in top.getchildren():
         sf = handle_nodes(child, level=1, verbose = verbose)
@@ -393,25 +338,27 @@ def traverse_tree(tree, verbose = None):
 
     
 
-def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_dir = None):
+def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_dir = None, gsl_prefix = None,
+                      test_dir = None):
 
     assert(file_name is not None)
     assert(output_dir is not None)
     assert(prefix is not None)
     assert(doc_dir is not None)
+    assert(test_dir is not None)
 
     output_prefix = prefix
     
     tree = ElementTree.parse(file_name)
     sf_s = traverse_tree(tree, verbose= False)
 
-    print("Found sf's ------")
+    logger.info("Found sf's ------")
 
     sf_valid = []
     for sf in sf_s:
         if sf is None:
             continue
-        print(sf)
+        logger.info(sf)
         sf_valid.append(sf)
         #break
 
@@ -470,6 +417,10 @@ def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_di
 
     emit_sf_doc(sf_valid, doc_dir = doc_dir, output_prefix = prefix)
 
+    #: file name that will contain the config tests
+    file_name_test = os.path.join(test_dir, output_prefix + "_config_test.csv")
+    with open(file_name_test, "wt") as test_file:
+        emit_code.emit_tests(sf_valid, test_file)
     
 def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
     sf_valid_doc = copy.copy(sf_valid)
@@ -527,7 +478,7 @@ def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
         to_remove = []
         for name in names:
             if sec in name:
-                print("Sorting %s in sec %s" %(name, sec))
+                logger.info("Sorting %s in sec %s" %(name, sec))
                 sf = sf_dic[name]
                 emit_code.emit_doc(sf, doc_f)
                 to_remove.append(name)
@@ -574,12 +525,12 @@ def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
                 sort_sf_to_file(sf_dic, names, sec, doc_f)
 
     # the names left over
-    print("Not sorted in different sections: %d items" %(len(names)) )
+    logger.info("Not sorted in different sections: %d items" %(len(names)) )
     doc_name = os.path.join(doc_dir, output_prefix + "_" + "misc" + "_doc.rst")
     with open(doc_name, "wt") as doc_f:
         for name in names:
             sf = sf_dic[name]
-            print(name)
+            logger.info(name)
             emit_code.emit_doc(sf, doc_f)
 
                 
@@ -600,10 +551,8 @@ if __name__ == '__main__':
     parser.add_argument("--output-dir", help = "directory where to put the wrapper c-files")
     parser.add_argument("--prefix",  help = "perfix of the c wrapper file")
     parser.add_argument("--doc-dir", help = "directory where to put the documentation files to")
+    parser.add_argument("--test-dir", help = "directory where to put the info to build config tests")
     args = parser.parse_args()
-    print(args)
-    print (dir(args))
-    print (args.input)
     #print (parser.())
     build_ufunc_files(file_name = args.input, output_dir = args.output_dir,
-                      prefix = args.prefix, doc_dir = args.doc_dir)
+                      prefix = args.prefix, doc_dir = args.doc_dir, test_dir = args.test_dir)
