@@ -17,7 +17,7 @@
 %{
 #include <pygsl/pygsl_features.h>
   
-#ifdef _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC
+#ifdef _PYGSL_GSL_HAS_MULTIFIT_NLIN_FDFSOLVER_JAC
   PyObject * _gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
   {
     int flag;
@@ -44,8 +44,8 @@
     Py_XDECREF(J_a);
     return NULL;
   }  
-  #else /* _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC */
-  #ifndef _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_STRUCT_MEMBER_J
+  #else /* _PYGSL_GSL_HAS_MULTIFIT_NLIN_FDFSOLVER_JAC */
+  #ifndef _PYGSL_GSL_HAS_MULTIFIT_NLIN_FDFSOLVER_STRUCT_MEMBER_J
   #error automatically generater header did not define that the function gsl_multifit_fdfsolver_jac  
   #error was available (GSL 2.x). but then the gsl_multifit_fdfsolver struct should contain
   #error a member J which was not found neither ... 
@@ -60,7 +60,7 @@
        DEBUG_MESS(2, "Jacobian=%p ->  py_array=%p", (void *) s->J, (void*) j_a);
        return (PyObject *) j_a;
   }
-  #endif /* _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC */
+  #endif /* _PYGSL_GSL_HAS_MULTIFIT_NLIN_FDFSOLVER_JAC */
 %}
 
 %inline %{
@@ -175,7 +175,7 @@ extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmsder;
 	 * config process checked the available minimizers.
 	 * If not available define them as NULL
 	 */
-#ifdef _PYGSL_GSL_HAS_MULTFIT_FDFSOLVER_LMNIEL
+#ifdef _PYGSL_GSL_HAS_MULTIFIT_FDFSOLVER_LMNIEL
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmniel;
 #else
 const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmniel = NULL;
