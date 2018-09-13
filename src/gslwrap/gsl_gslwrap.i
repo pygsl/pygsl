@@ -15,13 +15,9 @@
 #include <gsl/gsl_types.h>
 #include <stdio.h>
 #include <pygsl/error_helpers.h>
+#include <pygsl/pygsl_features.h>
 
 static PyObject *module = NULL;
-
-static const char _pygsl_gsl_unimpl_feature[] =  "Feature not implemented in your version of GSL";
-#define _PyGSL_ERROR_UNIMPL pygsl_error(_pygsl_gsl_unimpl_feature, __FILE__, __LINE__, GSL_EUNIMPL)
-#define PyGSL_ERROR_UNIMPL      do{_PyGSL_ERROR_UNIMPL; PyGSL_ERROR_FLAG(GSL_EUNIMPL); return GSL_EUNIMPL; }while(0);
-#define PyGSL_ERROR_UNIMPL_NULL do{_PyGSL_ERROR_UNIMPL; PyGSL_ERROR_FLAG(GSL_EUNIMPL); return GSL_EUNIMPL; }while(0);
 %}
 
 %init {
