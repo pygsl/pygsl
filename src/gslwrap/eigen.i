@@ -82,17 +82,22 @@
 
 %ignore gsl_eigen_nonsymmv_params;
 %{
+#ifdef _PYGSL_GSL_HAS_GSL_EIGEN_NONSYMM_PARAMS
   static int
   pygsl_eigen_nonsymm_params (const int t, const int balance, gsl_eigen_nonsymm_workspace * self)
-  {
-#ifdef _PYGSL_GSL_HAS_GSL_EIGEN_NONSYMM_PARAMS
-  gsl_eigen_nonsymm_params (t, balance, self);
-  return GSL_SUCCESS;
+  {    
+      
+      gsl_eigen_nonsymm_params (t, balance, self);
+      return GSL_SUCCESS;
+    }
 #else
+  static int
+    pygsl_eigen_nonsymm_params (const int t, const int balance, void * self) {
 	 PyGSL_ERROR_UNIMPL
-#endif 
-	   }
+    }
+#endif 	   
 %}
+
 %extend gsl_eigen_nonsymm_workspace {
   gsl_eigen_nonsymm_workspace(const size_t n) {
     return gsl_eigen_nonsymm_alloc(n);
