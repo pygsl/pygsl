@@ -1,5 +1,6 @@
 %module sf
 
+#include <pygsl/pygsl_features_config.h>
 %ignore gsl_sf_angle_restrict_pos_e; // use a double * for input and output. not properly recognized.
 // use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
 %ignore gsl_sf_result_smash_e; // the only one to use a const pointer as input. Not recognized by the tool.
@@ -87,6 +88,7 @@
 %include <gsl/gsl_sf_log.h>
 
  /* */
+#ifdef _PYGSL_GSL_HAS_SF_MATHIEU
 %ignore gsl_sf_mathieu_ce_array;
 %ignore gsl_sf_mathieu_se_array;
 %ignore gsl_sf_mathieu_Mc_array;
@@ -100,6 +102,8 @@
 %ignore gsl_sf_mathieu_b_coeff;
 
 %include <gsl/gsl_sf_mathieu.h>
+#endif
+
  /* */
 %include <gsl/gsl_sf_pow_int.h>
 %include <gsl/gsl_sf_psi.h>
