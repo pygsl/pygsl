@@ -60,7 +60,7 @@ class SWIG_Extension(gsl_Extension):
             swig_flags = swig_flags_default
 
         if swig_extra_flags:
-            swig_flags += swig_extra_flags
+            swig_flags = swig_flags + swig_extra_flags
             
         self.swig_flags = swig_flags
         self._run_swig_args = sources, swig_dependencies, target,  swig_flags, py_dir, c_dir, name 
