@@ -90,68 +90,9 @@ def add_build_flags_to_config(argv):
     return result
 
 
-def config_compiler_flags_from_argv_obsolete(argv):
-    """Add build flags to config if given
-
-    Todo:
-        Gain experience from real world
-
-        Expects to find a build or build_ext command
-    """
-    spoof_argv = copy.copy(argv)
-
-    r = ["config"]
-
-    logger.debug("Start stealing compiler arguments from build for config'%s'" %(spoof_argv,))
-
-    # Todo: not yet prepared if there is only an install command ....
-    while True:
-        try:
-            arg = spoof_argv.pop(0)
-        except IndexError:
-            # No build argument .... nothing to do here
-            return r
-
-        logger.debug("arg %s" %(arg,))
-        # Lets look for the build command
-        if arg in ("build", "build_ext"):
-            # but be careful. could a install command trigger a build?
-            # but do I need to worry? In this case there are no compiler flags which are
-            # passed around
-            #
-            # Todo: what about config file options?
-            break
-
-    # Now let's check the options for compiler linker options etc ... currently
-    # take everthing after the command
-    #
-    # cache it as it has to be inserted in between config and build
-    while True:
-        try:
-            arg = spoof_argv.pop(0)
-        except IndexError:
-            # No more arguments to process
-            break
-
-        if (len(arg) == 2 and arg[0] == '-') or arg[:2] == "--":
-            # I prefer to break out of the loop but leave the rest
-            # straight ahead
-            pass
-        else:
-            # All other cases not handeled
-            msg = "Stopping stealing build compiler argurments at %s"
-            logger.debug(msg % (arg,))
-            break
-
-        # copy long and short options up to the next command
-        r.append(arg)
-
-    # Now rebuild argument vector
-    return r
 
 
 import gsl_Location
-gsl_loc = gsl_Location.gsl_Location
 
 
 
@@ -176,6 +117,7 @@ class BuildWithConfig(_build_ext):
         _build_ext.initialize_options(self)
         #self.define = None
         self.gsl_version_in_build_path = True
+        self._gsl_location = None
 
     def finalize_options(self):
         _build_ext.finalize_options(self)
@@ -188,7 +130,7 @@ class BuildWithConfig(_build_ext):
         if self.gsl_version_in_build_path:
             import gsl_version
             # Does the name need mangling?
-            version_txt = "gsl_" + gsl_version.gsl_version
+            version_txt = "gsl_" + gsl_version.version
             self.build_temp = os.path.join(self.build_temp, version_txt)
             self.build_lib  = os.path.join(self.build_lib, version_txt)
             fmt = "Build temp path %s  and lib path %s now contains gsl version"
@@ -209,8 +151,9 @@ class BuildWithConfig(_build_ext):
             # Then gsl_version must exist too
             import gsl_version
             # And these attributes
-            gsl_version.gsl_version
+            gsl_version.version
 
+            
             # gsl-1.13 does not provide that
             # gsl_version.gsl_major_minor
 
@@ -241,6 +184,16 @@ class BuildWithConfig(_build_ext):
 
         ext.runSourceGenerator()
 
+    def _LoadGSLLocation(self):
+        if self._gsl_location is None:
+            self._gsl_location = gsl_Location.gsl_Location_File()
+        assert(self._gsl_location is not None)
+        
+    @property
+    def gsl_location(self):
+        self._LoadGSLLocation()
+        return self._gsl_location
+    
     def build_extension(self, ext):
         """build extension unless configuration found that it does not exist
         """
@@ -262,13 +215,19 @@ class BuildWithConfig(_build_ext):
             # A module which should always be built: it is not configurable
             flag = True
 
-        logger.debug("extension %s module %s available? %s" %(ext.name, conf_mod, flag))
+        logger.debug("extension %s module configurable %s? available %s?" %(ext.name, conf_mod, flag))
 
-        if flag:
-            self._runSourceGenerator(ext)
+        if not flag:
+            return
 
-            # Module should exist
-            _build_ext.build_extension(self, ext)
+        ext.gsl_location = self.gsl_location
+        self._runSourceGenerator(ext)
+
+        # Module should exist
+        ext.include_dirs += self.gsl_location.get_gsl_include_dirs()
+        ext.library_dirs += self.gsl_location.get_gsl_library_dirs()
+        ext.libraries += self.gsl_location.get_gsl_lib_list()
+        _build_ext.build_extension(self, ext)
 
 conf = config.config
 
@@ -283,6 +242,11 @@ class gsl_Config(conf):
     """
     _pygsl_dir = None
 
+    user_options = conf.user_options
+    user_options += [("gsl-prefix=", "P",
+                      "gsl prefix path")]
+
+
     def __init__(self, *args, **kws):
         conf.__init__(self, *args, **kws)
 
@@ -290,7 +254,9 @@ class gsl_Config(conf):
         self._found_modules_dict = {}
 
         self._gsl_config_version_info = None
-
+        self._gsl_location = None
+        self.gsl_prefix = None
+        
     def check_header(self, *args, **kws):
         """
         headers need to include gsl header directory
@@ -324,16 +290,23 @@ class gsl_Config(conf):
             for (name, value) in self.define:
                 self.compiler.define_macro(name, value)
 
+    @property
+    def gsl_location(self):
+        if self._gsl_location is None:
+            self._gsl_location = gsl_Location.gsl_Location_for_config(gsl_prefix_option=self.gsl_prefix)
+        assert(self._gsl_location is not None)
+        return self._gsl_location
+    
     def _get_gsl_include_dirs(self):
-        dirs = gsl_loc.get_gsl_include_dirs()
+        dirs = self.gsl_location.get_gsl_include_dirs()
         return dirs
 
     def _get_gsl_lib_dirs(self):
-        dirs = gsl_loc.get_gsl_library_dirs()
+        dirs = self.gsl_location.get_gsl_library_dirs()
         return dirs
 
     def _get_gsl_lib_list(self):
-        return gsl_loc.get_gsl_lib_list()
+        return self.gsl_location.get_gsl_lib_list()
 
     def _handle_include_dir_kw(self, kws):
         include_dirs = "include_dirs"
@@ -562,7 +535,7 @@ the config process was run.
 
     def _check_multifit_nlin_lmniel(self):
         flag = self.check_func("gsl_multifit_fdfsolver_lmniel", headers=["gsl/gsl_multifit_nlin.h",] )
-        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTFIT_FDFSOLVER_LMNIEL", flag)
+        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIFIT_FDFSOLVER_LMNIEL", flag)
 
     def _check_multifit_nlin_jacobian(self):
         """
@@ -575,10 +548,10 @@ the config process was run.
         headers = ["gsl/gsl_multifit_nlin.h"]
 
         flag = self.check_func("gsl_multifit_fdfsolver_jac", headers = headers)
-        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC", flag)
+        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIFIT_NLIN_FDFSOLVER_JAC", flag)
 
         flag = self.check_func("((gsl_multifit_fdfsolver *) 0)->J", headers = headers)
-        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_STRUCT_MEMBER_J", flag)
+        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIFIT_NLIN_FDFSOLVER_STRUCT_MEMBER_J", flag)
 
     def _check_multifit_linear_workspace(self):
         """
@@ -595,7 +568,7 @@ the config process was run.
             assert(flag_pmax)
             flag = True
 
-        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX", flag)
+        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX", flag)
         del flag, flag_nmax, flag_pmax
 
         flag = False
@@ -606,7 +579,7 @@ the config process was run.
             assert(flag_p)
             flag = True
 
-        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P", flag)
+        self._add_header_variables_dict("_PYGSL_GSL_HAS_MULTIFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P", flag)
         del flag, flag_n, flag_p
 
     def _check_and_flag_method(self, method_name, headers):
@@ -699,12 +672,29 @@ the config process was run.
             flag = self.check_func(method_name, headers)
             self._add_header_variables_dict(cpp_define, flag)
 
+
+    def dump_gsl_config(self):
+
+        header = """#
+# -----------------------------------------------------------------------------
+# Warning! Automatically generated file
+# Edit %s instead!
+# -----------------------------------------------------------------------------
+""" % (__file__,)
+        dirname = os.path.dirname(__file__)
+        version = os.path.join(dirname, "gsl_version.py")
+        info = self.gsl_location.dump_info()
+        with open(version, "wt") as fp:
+            fp.write(header)
+            fp.write(info)
+            
+            
     def _gsl_location_get_gsl_version(self):
         info = self._gsl_config_version_info
         if info != None:
             return info
 
-        tmp = gsl_loc.get_gsl_version()
+        tmp = self.gsl_location.get_gsl_version()
         assert(len(tmp) == 2)
 
         self._gsl_config_version_info = tmp
@@ -718,9 +708,16 @@ the config process was run.
         information from the header files.
 
         There can be always a mismatch...
+
+        Warning:
+            Will not work if the current directory is not in $PATH. Thus it is
+            not used by default.
+
+        Todo:
+            Seems to work on windows. perhaps to use it there
         """
 
-        config_file = os.path.join(self._pygsl_dir, "gsl_dist", "gsl_version.py")
+        config_file = os.path.join(self._pygsl_dir, "gsl_dist", "gsl_version_from_c_header.py")
         config_file = os.path.abspath(config_file)
         logger.info("GSL version config file at %s" %(config_file,))
 
@@ -771,7 +768,7 @@ the config process was run.
 
         major_minor_available = 0
 
-        info = self._gsl_location_get_gsl_version()
+        info = self.gsl_location.get_gsl_version()
 
         flag = self.check_func(major, headers=headers)
         if flag:
@@ -793,7 +790,7 @@ the config process was run.
         # compiler includes then /usr/local/include/ before /usr/include
         # So lets store the version information in the header file: could help
         # to track done some wired issues
-        val = gsl_loc.get_gsl_config_version()
+        val = self.gsl_location.get_gsl_config_version()
         val = val.strip()
         self._add_header_variables_dict("PYGSL_GSL_CONFIG_GSL_VERSION", '"%s"' %(val,))
 
@@ -802,7 +799,7 @@ the config process was run.
         pass
 
     def _run_checks(self):
-
+        self.dump_gsl_config()
         self._check_swig()
 
         self._check_gsl_major_minor_definition()

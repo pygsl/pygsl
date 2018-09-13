@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Currently no control when SWIG will be run.
 """
-from gsl_Extension import gsl_Extension, gsl_Location
+from gsl_Extension import gsl_Extension#, gsl_Location
 from distutils.util import spawn
 from distutils.dep_util import newer_group
 from distutils.file_util import copy_file
@@ -12,15 +12,11 @@ import re
 import string
 remove_underscore=re.compile("_*(.*)")
 
-gsl_include_dir = gsl_Location.get_gsl_prefix() + '/include'
 swig_flags_default = ['-python', '-keyword', '-shadow', '-Itypemaps', 
-              # faster wrappers ... requires python 2.5 or greater
-              #'-builtin', 
-              #'-cpperraswarn',
-              '-I' + gsl_include_dir]
-swig_flags = ['-python', '-builtin', '-modern', '-keyword', '-O', '-Itypemaps', #'-cpperraswarn',
-              '-I' + gsl_include_dir]
-
+                      # faster wrappers ... requires python 2.5 or greater
+                      #'-builtin', 
+                      #'-cpperraswarn',
+                      ]
 
 class SWIG_Extension(gsl_Extension):
     def __init__(self, name, sources,
@@ -39,7 +35,8 @@ class SWIG_Extension(gsl_Extension):
                  python_min_version=None,
                  swig_include_dirs=[],
                  swig_dependencies=[],
-                 swig_flags=[],
+                 swig_flags=None,
+                 swig_extra_flags = None,
                  c_dir=None,
                  py_dir=None,
                  gsl_configurable_module=None,
@@ -58,8 +55,15 @@ class SWIG_Extension(gsl_Extension):
         if c_dir:
             target = c_dir + "/" + target
 
+        self.swig_include_dirs = swig_include_dirs
+        if swig_flags is None:
+            swig_flags = swig_flags_default
 
-        self._run_swig_args = sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name 
+        if swig_extra_flags:
+            swig_flags += swig_extra_flags
+            
+        self.swig_flags = swig_flags
+        self._run_swig_args = sources, swig_dependencies, target,  swig_flags, py_dir, c_dir, name 
 
         #spawn(cmd, search_path, verbose, dry_run)
         # SWIG generates two files. A py proxy file and a .so. The so appends a _ to the module name.
@@ -85,10 +89,8 @@ class SWIG_Extension(gsl_Extension):
                                extra_compile_args,
                                extra_link_args,
                                export_symbols,
-                               gsl_prefix,
-                               gsl_min_version,
-                               python_min_version,
-                               gsl_configurable_module=gsl_configurable_module)
+                               gsl_configurable_module=gsl_configurable_module,
+            )
         return
 
     def _split_name_to_file_and_dir(self, name):
@@ -103,18 +105,24 @@ class SWIG_Extension(gsl_Extension):
             t_name = name
         return t_dirs, t_name
 
-    def _run_swig(self, sources, swig_dependencies, target, swig_include_dirs, swig_flags, py_dir, c_dir, name):
+    def _run_swig(self, sources, swig_dependencies, target, swig_flags, py_dir, c_dir, name):
         """
 
         Todo:
             check if numpy or setuptools provide facilities for storing swig files
         """
         if newer_group(sources + swig_dependencies, target):
+
+
             includes = []
-            for i in swig_include_dirs:
+            for i in self.swig_include_dirs:
                 includes.append('-I' + i)
-            t_swig_flags = swig_flags_default + swig_flags
-            cmd = [gsl_Location.get_swig(),] + t_swig_flags + includes
+
+            for i in self.gsl_location.get_gsl_include_dirs():
+                includes.append('-I' + i)
+                
+            t_swig_flags = self.swig_flags
+            cmd = [self.gsl_location.get_swig(),] + t_swig_flags + includes
             cmd.extend(['-o', target] + sources)
             sys.stderr.write(" ".join(cmd) + "\n")
             spawn(cmd, 1, 1)
