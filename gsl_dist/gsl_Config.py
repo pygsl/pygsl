@@ -102,21 +102,28 @@ _build_ext = setuptools.command.build_ext.build_ext
 class BuildWithConfig(_build_ext):
     """Execute config if required.
 
+    The config step tests for the available modules. Then :mod:`build_ext`
+
     Appetite comes with eating.
+
+    Warning:
+        Do not use gsl-version-in-build-path (yet). This will break the complete
+        build process.
     """
 
     # pygsl supports different versions of GSL. Therefore  a separate build
     # directory should be used for the different GSL versions.
     #
     # Todo: put gsl_features there too
-    user_options = _build_ext.user_options + [("gsl-version-in-build-path", "V",
-    "add GSL version to the build temporary path") ]
+    # user_options = _build_ext.user_options + [("gsl-version-in-build-path", "V",
+    # "add GSL version to the build temporary path") ]
+
     boolean_options = _build_ext.boolean_options + ["gsl-version-in-build-path"]
 
     def initialize_options(self):
         _build_ext.initialize_options(self)
         #self.define = None
-        self.gsl_version_in_build_path = True
+        self.gsl_version_in_build_path = False
         self._gsl_location = None
 
     def finalize_options(self):
@@ -153,7 +160,7 @@ class BuildWithConfig(_build_ext):
             # And these attributes
             gsl_version.version
 
-            
+
             # gsl-1.13 does not provide that
             # gsl_version.gsl_major_minor
 
@@ -188,35 +195,42 @@ class BuildWithConfig(_build_ext):
         if self._gsl_location is None:
             self._gsl_location = gsl_Location.gsl_Location_File()
         assert(self._gsl_location is not None)
-        
+
     @property
     def gsl_location(self):
         self._LoadGSLLocation()
         return self._gsl_location
-    
-    def build_extension(self, ext):
-        """build extension unless configuration found that it does not exist
+
+    def _feature_available(self, module_name):
+        """Is this module available for this GSL version
+
+        The wrapper
         """
         import gsl_features
 
-        assert(self.build_temp is not None)
-        #assert(self.lib_temp is not None)
-
         flag = None
-
-        conf_mod = ext.gsl_configurable_module
-        if  conf_mod is not None:
+        if  module_name is not None:
             try:
-                flag =  getattr(gsl_features, conf_mod)
+                flag =  getattr(gsl_features, module_name)
             except AttributeError:
-                logger.warn("Config process did not set gsl module %s" %(conf_mod,))
+                logger.warn("Config process did not set gsl module %s" %(module_name,))
                 return
         else:
             # A module which should always be built: it is not configurable
             flag = True
+        return flag
 
-        logger.debug("extension %s module configurable %s? available %s?" %(ext.name, conf_mod, flag))
 
+    def build_extension(self, ext):
+        """build extension unless configuration found that it does not exist
+        """
+        assert(self.build_temp is not None)
+        #assert(self.lib_temp is not None)
+
+        conf_mod = ext.gsl_configurable_module
+        flag = self._feature_available(conf_mod)
+        fmt = "extension %s module configurable %s? available %s?"
+        logger.debug(fmt %(ext.name, conf_mod, flag))
         if not flag:
             return
 
@@ -228,6 +242,32 @@ class BuildWithConfig(_build_ext):
         ext.library_dirs += self.gsl_location.get_gsl_library_dirs()
         ext.libraries += self.gsl_location.get_gsl_lib_list()
         _build_ext.build_extension(self, ext)
+
+
+    def copy_extensions_to_source(self):
+        """Copy only the available modules
+
+        Removes temporary the extensions which do not exist in this version
+
+        Todo:
+            Fix the hack
+        """
+        extensions_save = self.extensions
+
+        # Only the extensions that really exist
+        extensions  = []
+        for ext in self.extensions:
+            module_name = ext.gsl_configurable_module
+            if self._feature_available(module_name):
+                extensions.append(ext)
+
+        self.extensions = extensions
+        try:
+            r = _build_ext.copy_extensions_to_source(self)
+        finally:
+            self.extensions = extensions_save
+
+        return r
 
 conf = config.config
 
@@ -256,7 +296,9 @@ class gsl_Config(conf):
         self._gsl_config_version_info = None
         self._gsl_location = None
         self.gsl_prefix = None
-        
+        self.noisy = False
+        self.dump_source = False
+
     def check_header(self, *args, **kws):
         """
         headers need to include gsl header directory
@@ -279,9 +321,9 @@ class gsl_Config(conf):
         # Let's default to not noisy ... config did not make too much trouble for me
         # yet
         # but it has no effect yet?
-        # self.noisy = 0
+        self.noisy = 0
         # but it has no effect yet?
-        # self.dump_source = 0
+        self.dump_source = 0
 
     def finalize_options(self):
         conf.finalize_options(self)
@@ -296,7 +338,7 @@ class gsl_Config(conf):
             self._gsl_location = gsl_Location.gsl_Location_for_config(gsl_prefix_option=self.gsl_prefix)
         assert(self._gsl_location is not None)
         return self._gsl_location
-    
+
     def _get_gsl_include_dirs(self):
         dirs = self.gsl_location.get_gsl_include_dirs()
         return dirs
@@ -687,8 +729,8 @@ the config process was run.
         with open(version, "wt") as fp:
             fp.write(header)
             fp.write(info)
-            
-            
+
+
     def _gsl_location_get_gsl_version(self):
         info = self._gsl_config_version_info
         if info != None:
