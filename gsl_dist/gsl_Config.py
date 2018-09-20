@@ -529,17 +529,27 @@ the config process was run.
         flag = self.check_func("gsl_deriv_central", headers=("gsl/gsl_deriv.h",))
         self._handle_found_module("deriv", flag)
 
-    def _check_module_multfit_robust(self):
+    def _check_module_multifit_robust(self):
         flag = self.check_func("gsl_multifit_robust_type", headers=("gsl/gsl_multifit.h",))
-        self._handle_found_module("multfit_robust", flag)
+        self._handle_found_module("multifit_robust", flag)
 
     def _check_module_bspline(self):
         flag = self.check_header("gsl/gsl_bspline.h")
         self._handle_found_module("bspline", flag)
 
     def _check_module_odeiv2(self):
-        flag = self.check_header("gsl/gsl_odeiv2.h")
+
+        header = "gsl/gsl_odeiv2.h"
+        flag = self.check_header(header)
         self._handle_found_module("odeiv2", flag)
+
+        flag = self.check_func("gsl_odeiv2_driver_reset_hstart", headers = [header])
+        self._add_header_variables_dict("_PYGSL_GSL_HAS_ODEIV2_DRIVER_RESET_HSTART", flag)
+
+
+    def _check_sparse(self):
+        flag = self.check_header("gsl/gsl_spmatrix.h")
+        self._handle_found_module("spmatrix", flag)
 
     def _check_module_wavelet(self):
         flag = self.check_header("gsl/gsl_wavelet.h")
@@ -848,7 +858,7 @@ the config process was run.
         self._check_gsl_major_minor_definition2()
 
         self._check_module_interp2d()
-        self._check_module_multfit_robust()
+        self._check_module_multifit_robust()
         self._check_module_odeiv2()
 
         self._check_module_mksa()
@@ -874,6 +884,7 @@ the config process was run.
         self._check_eigen()
 
         self._check_sf()
+        self._check_sparse()
 
     def run(self):
         logger.info("Running config!")
