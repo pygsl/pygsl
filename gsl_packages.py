@@ -1,22 +1,16 @@
 pygsl_errno=gsl_Extension("errno",
 			 ['src/init/errorno.c'],
-                         gsl_min_version=(1,),
                          define_macros = macros,
-                         python_min_version=(2,1),
                          )
 exts.append(pygsl_errno)
 pygsl_init=gsl_Extension("init",
 			 ['src/init/initmodule.c'],
-                         gsl_min_version=(1,),
                          define_macros = macros,
-                         python_min_version=(2,1),
                          )
 exts.append(pygsl_init)
 pygsl_init=gsl_Extension("inittest",
 			 ['src/init/inittestmodule.c'],
-                         gsl_min_version=(1,),
                          define_macros = macros,
-                         python_min_version=(2,1),
                          )
 exts.append(pygsl_init)
 
@@ -26,8 +20,6 @@ exts.append(SWIG_Extension("gslwrap",
                            # -builtin does not yet work for gslwrap
                            # swig_flags = swig_flags,
                            define_macros = macros,
-                           #gsl_min_version=(1,10),
-                           python_min_version=(2,1)
                        )
         )
 
@@ -36,19 +28,15 @@ exts.append(SWIG_Extension("hankel",
                            ["src/hankel/gsl_hankel.i"],
                            swig_include_dirs=["src/hankel"],
                            swig_extra_flags = swig_flags,
-                           gsl_min_version=(1,0),
                            define_macros = macros,
-                           python_min_version=(2,0),
                           )
 
             )
 
 exts.append(SWIG_Extension("sum",
                           ["src/sum/gsl_sum.i"],
-                          gsl_min_version=(1,0),
                           swig_extra_flags = swig_flags,
                           define_macros = macros,
-                          python_min_version=(2,0),
                           )
             )
 
@@ -57,18 +45,10 @@ exts.append(SWIG_Extension("bspline",
 				include_dirs=["src/bspline"],
 				swig_include_dirs=["src/bspline"],
 				swig_extra_flags = swig_flags,
-				#gsl_min_version=(1,9),
 				define_macros = macros,
-				python_min_version=(2,1),
-                gsl_configurable_module="bspline",
+				gsl_configurable_module="bspline",
 			)
 		)
-
-#flag = 0
-#try:
-#    flag = gsl_features.interp2d
-#except AttributeError:
-#    pass
 
 exts.append(SWIG_Extension("interpolation2d_wrap",
                                ["src/gslwrap/interpolation2d.i"],
@@ -76,17 +56,9 @@ exts.append(SWIG_Extension("interpolation2d_wrap",
                                swig_include_dirs=["src/gslwrap"],
                                swig_extra_flags = swig_flags,
                                define_macros = macros,
-                               python_min_version=(2,1),
                             gsl_configurable_module="interp2d",
                            )
             )
-
-
-#flag = 0
-#try:
-#    flag = gsl_features.multfit_robust
-#except AttributeError:
-#    pass
 
 exts.append(
         SWIG_Extension("multifit_robust",
@@ -94,10 +66,8 @@ exts.append(
                                include_dirs=["src/callback"],
                                swig_include_dirs=["src/callback"],
                                swig_extra_flags = swig_flags,
-                               #gsl_min_version=(1,2),
                                define_macros = macros,
-                               python_min_version=(2,1),
-gsl_configurable_module="multifit_robust",
+			       gsl_configurable_module="multifit_robust",
         )
     )
 
@@ -108,10 +78,8 @@ exts.append(
                                include_dirs=["src/callback"],
                                swig_include_dirs=["src/callback"],
                                swig_extra_flags = swig_flags,
-                               #gsl_min_version=(1,2),
                                define_macros = macros,
-                               python_min_version=(2,1),
-gsl_configurable_module="multfit2",
+			       gsl_configurable_module="multfit2",
         )
     )
 
@@ -122,10 +90,9 @@ exts.append(
                                include_dirs=["src/callback"],
                                swig_include_dirs=["src/callback"],
                                swig_extra_flags = swig_flags,
-                               #gsl_min_version=(1,2),
                                define_macros = macros,
                                python_min_version=(2,1),
-gsl_configurable_module="multifit_nlinear",
+			       gsl_configurable_module="multifit_nlinear",
         )
     )
 
@@ -135,10 +102,8 @@ exts.append(
                                include_dirs=["src/callback"],
                                swig_include_dirs=["src/callback"],
                                swig_extra_flags = swig_flags,
-                               #gsl_min_version=(1,2),
                                define_macros = macros,
-                               python_min_version=(2,1),
-                                gsl_configurable_module="multilarge_nlinear",
+			       gsl_configurable_module="multilarge_nlinear",
         )
     )
 
@@ -149,10 +114,8 @@ exts.append(SWIG_Extension("odeiv2",
                                include_dirs=["src/callback"],
                                swig_include_dirs=["src/callback"],
                                swig_extra_flags = swig_flags,
-                               #gsl_min_version=(1,2),
                                define_macros = macros,
-                               python_min_version=(2,1),
-gsl_configurable_module="odeiv2",
+			       gsl_configurable_module="odeiv2",
                                )
         )
 
@@ -161,8 +124,6 @@ exts.append(SWIG_Extension("_poly",
                           include_dirs=["src/poly"],
                            swig_extra_flags = swig_flags,
                           define_macros = macros,
-                          #gsl_min_version=(1,2),
-                          python_min_version=(2,1)
                           )
             )
 
@@ -171,8 +132,6 @@ exts.append(SWIG_Extension("_block",
                            swig_include_dirs=["src/block"],
                           define_macros = macros,
                            swig_extra_flags = swig_flags,
-                           #gsl_min_version=(1,2),
-                          python_min_version=(2,1)
                           )
             )
 
@@ -181,25 +140,19 @@ exts.append(SWIG_Extension("sparse.sparse_wrapper",
                            swig_include_dirs=["src/block"],
                            define_macros = macros,
 			   swig_extra_flags = swig_flags,
-                           #gsl_min_version=(1,2),
-                           python_min_version=(2,1),
-			   gsl_configurable_module="sparse_",
+			   gsl_configurable_module="spmatrix",
                           )
             )
 
 pygsl_siman=gsl_Extension("_siman",
                           ['src/simanmodule.c'],
                           define_macros = macros,
-                          #gsl_min_version=(1,2),
-                          python_min_version=(2,1)
                           )
 exts.append(pygsl_siman)
 
 pygsl_const=gsl_Extension("const",
 			  ['src/constmodule.c'],
                           define_macros = macros,
-                          #gsl_min_version=(1,2),
-                          python_min_version=(2,1)
                           )
 exts.append(pygsl_const)
 if BUILD_DEPRECATED:
@@ -224,9 +177,7 @@ pygsl__callback = SWIG_Extension("_callback",
                            swig_include_dirs=["src/callback"],
                            # -builtin can still have problems for some functions
                            swig_extra_flags = swig_flags,
-                           #gsl_min_version=(1,2),
                            define_macros = macros,
-                           python_min_version=(2,1),
 )
 print(pygsl__callback)
 exts.append(pygsl__callback)
@@ -246,14 +197,12 @@ exts.append(pygsl_transform)
 
 pygsl_rng=gsl_Extension("rng",
                         ['src/rng/rngmodule.c'],
-                        gsl_min_version=(1,0),
                         define_macros = macros,
                     )
 exts.append(pygsl_rng)
 
 pygsl_ieee=gsl_Extension("ieee",
                          ['src/ieeemodule.c'],
-                         gsl_min_version=(1,),
                          define_macros = macros,
 )
 exts.append(pygsl_ieee)
