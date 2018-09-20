@@ -34,7 +34,7 @@
     J = gsl_matrix_view_array((double *) PyArray_DATA(J_a), PyArray_DIM(J_a, 0), PyArray_DIM(J_a, 1));
     
     flag = gsl_multifit_fdfsolver_jac(s, &J.matrix);
-    if (PyGSL_error_flag(flag) !=  GSL_SUCCESS){
+    if (PyGSL_ERROR_FLAG(flag) !=  GSL_SUCCESS){
       goto fail;
     }
     
