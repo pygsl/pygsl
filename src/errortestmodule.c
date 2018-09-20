@@ -9,6 +9,7 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/general_helpers.h>
 #include <pygsl/string_helpers.h>
+#include <pygsl/block_helpers.h>
 
 static char trigger_doc [] = "Calls pygsl_error with the passed error number";
 static char trigger_gsl_doc [] = 
@@ -254,11 +255,77 @@ gsl_strerror_wrap(PyObject *self, PyObject *arg)
 	if(obj == NULL){
 		goto fail;
 	}
-	return obj;
 	FUNC_MESS_END();
+	return obj;
 
   fail:
 	FUNC_MESS_FAILED();
+	return NULL;
+
+}
+
+
+static PyObject *
+matrix_convert(PyObject *self, PyObject *args)
+{
+
+	PyArrayObject * x_a = NULL;
+	PyObject *x_o;
+
+	int dim0 = 0, dim1 = 0, line = __LINE__;
+
+	if (0 == PyArg_ParseTuple(args, "Oii", &x_o, &dim0, &dim1)){
+		line = __LINE__ - 1;
+		goto fail;
+	}
+
+	x_a = PyGSL_matrix_check(x_o, dim0, dim1, PyGSL_DARRAY_INPUT(1), NULL, NULL, NULL);
+	if(x_a == NULL){
+		/* the function above should have set the error */
+		line = __LINE__ - 1;
+		goto fail;
+	}
+	Py_XDECREF(x_a);
+	Py_INCREF(Py_None);
+	FUNC_MESS_END();
+	return Py_None;
+
+  fail:
+	FUNC_MESS_FAILED();
+	PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line);
+	Py_XDECREF(x_a);
+	return NULL;
+
+}
+static PyObject *
+vector_convert(PyObject *self, PyObject *args)
+{
+
+	PyArrayObject * x_a = NULL;
+	PyObject *x_o;
+
+	int dim0 = 0, line = __LINE__;
+
+	if (0 == PyArg_ParseTuple(args, "Oi", &x_o, &dim0)){
+		line = __LINE__ - 1;
+		goto fail;
+	}
+
+	x_a = PyGSL_vector_check(x_o, dim0, PyGSL_DARRAY_INPUT(1), NULL, NULL);
+	if(x_a == NULL){
+		/* the function above should have set the error */
+		line = __LINE__ - 1;
+		goto fail;
+	}
+	Py_XDECREF(x_a);
+	Py_INCREF(Py_None);
+	FUNC_MESS_END();
+	return Py_None;
+
+  fail:
+	FUNC_MESS_FAILED();
+	PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line);
+	Py_XDECREF(x_a);
 	return NULL;
 
 }
@@ -270,7 +337,9 @@ static PyMethodDef errortestMethods[] = {
      {"trigger_save_test", trigger_save_state, METH_VARARGS, NULL},
      {"check_installed_error_handler", check_installed_error_handler, METH_NOARGS, NULL},
      {"select_error_handler", select_error_handler, METH_O, NULL},
-     {"gsl_strerror", gsl_strerror_wrap, METH_O, "Calls gsl_streror for the given integer\n"},
+     {"gsl_strerror", gsl_strerror_wrap, METH_O, "Calls gsl_strerror for the given integer\n"},
+     {"vector_convert", vector_convert, METH_VARARGS, "Allows testing pygsl vector conversion"},
+     {"matrix_convert", matrix_convert, METH_VARARGS, "Allows testing pygsl matrix conversion"},
      {NULL, NULL, 0, NULL} /*sentinel */
 };
 

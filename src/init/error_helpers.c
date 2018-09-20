@@ -167,7 +167,8 @@ PyGSL_gsl_error_handler_save(const char *reason, /* name of function*/
 static int
 PyGSL_error_flag(long flag)
 {
-	int status = PyGSL_ANY, requires_saving = 0, last_status = 0, l = 0, bufmax = 0;
+	int status = PyGSL_ANY, requires_saving = 0, last_status = 0, bufmax = 0;
+	long l=0;
 	PyObject *py_exception = NULL;
 
 	FUNC_MESS_BEGIN();
@@ -175,7 +176,8 @@ PyGSL_error_flag(long flag)
 	DEBUG_MESS(2, "status to handle %ld saved status %d (PyGSL_EINIT %d|PyGSL_ANY %d)\n",
 		   flag, save_error_state.gsl_errno, PyGSL_EINIT, PyGSL_ANY);
 
-	status = last_status;
+	/* why that ? */
+	/* status = last_status; */
 	/* Let's check if the storted status is that relevant .... */
 	switch(save_error_state.gsl_errno){
 		/* the clean original state */
@@ -188,9 +190,9 @@ PyGSL_error_flag(long flag)
 		requires_saving = 1;
 
 	case PyGSL_ANY:
-		DEBUG_MESS(3, "Saved status %d  Setting to flaged %ld",
+		DEBUG_MESS(3, "Saved status %d  Setting to flagged %ld",
 			   save_error_state.gsl_errno, flag);
-		save_error_state.gsl_errno = flag;
+		save_error_state.gsl_errno = (int) flag;
 		/* do we need to resave the msg ? */
 		break;
 
@@ -259,16 +261,26 @@ PyGSL_error_flag(long flag)
 	 * no python exception
 	 */
 
-	DEBUG_MESS(2, "called with flag = %ld (!= PyGSL_ANY)"
-		   " NOT MATCHING status %d. Still needs to be understood",
-		   flag, status);
-	l = strlen(save_error_state.reason);
+	l =  strlen(save_error_state.reason);
 	bufmax = PYGSL_REASON_BUFFER_N - 5;
 	l = (l > bufmax) ? bufmax : l;
 	save_error_state.reason[l]   = ' ';
 	save_error_state.reason[l+1] = '?';
 	save_error_state.reason[l+2] = '\0';
-	PyGSL_internal_error_handler(save_error_state.reason, __FILE__, __LINE__, flag, HANDLE_ERROR);
+
+	switch(flag){
+	case PyGSL_ANY:
+		/* None specified. lets used the saved state */
+		flag = save_error_state.gsl_errno;
+		break;
+	default:
+		break;
+	}
+	DEBUG_MESS(2, "called with flag = %ld (!= PyGSL_ANY %d ?)"
+		   " NOT MATCHING status %d. Still needs to be understood",
+		   flag, PyGSL_ANY, status);
+	PyGSL_internal_error_handler(save_error_state.reason, __FILE__, __LINE__, (int) flag, HANDLE_ERROR);
+	
 
 	FUNC_MESS_END();
 	return status;
@@ -338,7 +350,7 @@ PyGSL_error_flag(long flag)
 			     " returning status %d", flag, PyGSL_ANY,  status);
 	  } else {
 	          int l, bufmax;
-		  DEBUG_MESS(2, "called with flag = %ld (!= PyGSL_ANY)"
+		  DEBUG_MESS(2, "called with flag = %ld (!= PyGSL_ANY?)"
 			     " NOT MATCHING status %d. Still needs to be understood",
 			     flag, status);
 		  l = strlen(save_error_state.reason);
@@ -616,7 +628,8 @@ _PyGSL_register_error(PyObject *dict, int errno_max, PyObject * err_ob)
 static PyObject*
 PyGSL_register_error_objs(PyObject *self, PyObject *args, PyObject *dict, int errno_max)
 {
-	int flag, i, len;
+	int flag;
+	long len, i;
 	PyObject *tmp;
 
 	FUNC_MESS_BEGIN();
@@ -625,12 +638,12 @@ PyGSL_register_error_objs(PyObject *self, PyObject *args, PyObject *dict, int er
 	}
 
 	len = PySequence_Size(args);
-	DEBUG_MESS(5, "Recieved %d error objects", len);
+	DEBUG_MESS(5, "Recieved %ld error objects", len);
 	for(i = 0; i < len; ++i){
 		tmp = PySequence_GetItem(args, i);
 		flag = _PyGSL_register_error(dict, errno_max, tmp);
 		if(flag != 0){
-			fprintf(stderr, "Failed to register error object %d\n", i);
+			fprintf(stderr, "Failed to register error object %ld\n", i);
 			goto fail;
 		}
 	}

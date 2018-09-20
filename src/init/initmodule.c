@@ -44,6 +44,8 @@ static const char pygsl_debug_name[] = "pygsl_debug";
 #endif
 /* End */
 
+#define PyGSL_ERROR_STATE_NOT_SET(error_state)   ( (((error_state)->gsl_errno == PyGSL_EINIT) || ((error_state)->gsl_errno == GSL_SUCCESS)) )
+
 /*
  * Used as a buffer to generate error messages.
  */
