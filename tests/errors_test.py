@@ -192,6 +192,62 @@ class TestErrorMsg(_TestException):
         #errortest.select_error_handler(0)
         pass
 
+
+class TestErrorVectorConversion(unittest.TestCase):
+    """Test if vector conversions creates an exception
+    """
+    def test0_correct_length(self):
+        """Test if a vector with right lenght will not raise an error
+        """
+        tmp = [1, 2, 3]
+        l = len(tmp)
+        errortest.vector_convert(tmp, l)
+        
+    def test1_wrong_length(self):
+        """Test if a vector with a wrong length will create an exception
+        """
+        tmp = [1, 2, 3]
+        l = len(tmp) - 1
+        pygsl.add_c_traceback_frames(True)
+        #pygsl.set_debug_level(5)
+        try:
+            self.assertRaises(errors.gsl_BadLength, errortest.vector_convert, tmp, l)
+        finally:
+            #pygsl.set_debug_level(0)
+            pass
+
+
+class TestErrorVectorMatrixConversion(unittest.TestCase):
+    """Test if vector conversions creates an exception
+    """
+    def test0_correct_length(self):
+        """Test if a vector with right lenght will not raise an error
+        """
+        tmp = ([1, 2, 3],
+               [4, 5, 6],)
+        
+        l1 = len(tmp)
+        l2 = len(tmp[0])
+        errortest.matrix_convert(tmp, l1, l2)
+        
+    def test1_wrong_length(self):
+        """Test if a vector with a wrong length will create an exception
+        """
+        tmp = [1, 2, 3]
+        tmp = ([1, 2, 3],
+               [4, 5, 6],)
+        
+        l1 = len(tmp)
+        l2 = len(tmp[0])
+        l2 -= 1
+        pygsl.add_c_traceback_frames(True)
+        #pygsl.set_debug_level(5)
+        try:
+            self.assertRaises(errors.gsl_BadLength, errortest.matrix_convert, tmp, l1, l2)
+        finally:
+            #pygsl.set_debug_level(0)
+            pass
+        
 del _TestException, _TestExceptionGSL
 
 if __name__ == '__main__':
