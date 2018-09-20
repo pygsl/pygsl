@@ -14,7 +14,7 @@ The result shows a smooth interpolation of the original points.  The
 interpolation method can changed simply by varing spline. .
 
 """
-from pygsl import spline, errors
+from pygsl import spline, errors, init
 from pygsl import _numobj as numx
 
 print ("#m=0,S=2")
@@ -32,7 +32,11 @@ myspline = spline.linear(n)
 #acc = myspline._object.get_accel_object()
 #print "Accel object", dir(acc)
 # initalise with the vector of the independent and the dependent
-myspline.init(x, y)
+init.add_c_traceback_frames(1)
+#init.set_debug_level(10)
+myspline.init(x, y[:3])
+#print("Saved error state", init.error_handler_state_get())
+
 x1 = numx.arange(n * 20) / 20.
 for xi in x1:
     #print xi, myspline.eval(xi)
