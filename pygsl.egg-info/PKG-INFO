@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: pygsl
+Version: 2.3.0
+Summary: GNU Scientific Library Interface
+Home-page: http://pygsl.sourceforge.net
+Author: Achim Gaedke, Pierre Schnizer
+Author-email: AchimGaedke@users.sourceforge.net, schnizer@users.sourceforge.net
+License: GPL
+Description: This project provides a python interface for the GNU scientific library (gsl)
+Platform: UNKNOWN

@@ -337,7 +337,7 @@ def zgerc(alpha, X, Y, A):
     return an
 
 
-def dsyr(alpha, X, A, Uplo=CblasLower, overwrite_a = False):
+def dsyr(alpha, X, A, Uplo=CblasLower):
     """
     returns A'
 
@@ -348,10 +348,7 @@ def dsyr(alpha, X, A, Uplo=CblasLower, overwrite_a = False):
     are used, and when Uplo is CblasLower then the lower triangle and
     diagonal of A are used.
     """
-    if overwrite_a:
-        an = A
-    else:
-        an = array_typed_copy(A)
+    an = array_typed_copy(A)
     _gslwrap.gsl_blas_dsyr(Uplo, alpha, X, an)
     return an
 

@@ -22,22 +22,15 @@ __BEGIN_DECLS
  * GSL.
  */
 enum{
-     PyGSL_ESTRIDE  = 64, /*
-			   *  Can not convert the stride from a Python array
-			   *  object to a GSL Vector/Matrix stride
+     PyGSL_ESTRIDE = 64, /* 
+			  *  Can not convert the stride from a Python array
+			  *  object to a GSL Vector/Matrix stride 
+			  */
+     PyGSL_EUNIMPL = 65,  /*
+			   * the version of GSL compiled against did not 
+			   * provide this feature
 			   */
-     PyGSL_EUNIMPL  = 65,  /*
-			    * the version of GSL compiled against did not
-			    * provide this feature
-			    */
-     PyGSL_EINIT    = 66,  /* pygsl gsl-error state was not initisalised */
-     PyGSL_ENOMATCH = 67,  /*
-			    *  stored errno does not match the errno which
-			    *  should be returned to the user.
-			    *
-			    * 1. April 2018: Up to now GSL_EFAILED was used
-			    */
-     PyGSL_ANY     = 68,  /* use the stored state */
+     PyGSL_EINIT   = 66,  /* pygsl gsl-error state was not initisalised */
 };
 
 __END_DECLS

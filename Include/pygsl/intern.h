@@ -181,22 +181,7 @@ static int pygsl_debug_level = 0;
 #endif /*  DEBUG == 1 */
 
 
-/*
- * if this variable is defined the macro _PyGSL_MODULE_ERROR_HANDLER_FUNC is used
- * to register the function PyGSL_module_error_handler as the error handler for gsl
- *
- * This module error handler is then used to copy the error strings to a static
- * location. Then when the function returns to the user a call
- * PyGSL_error_flag(status) with the known status will create an appropriate
- * exception object if required. Ise PyGSL_ANY if the status is not known.
- *
- * If this set to zero, the error handler is turned off.
- *
- * Warning:
- *      This function is not thread safe. But in the worst case the error message
- *      is faulty. The error path is propated within the thread.
- */
-#define PyGSL_SET_GSL_ERROR_HANDLER 1
+/* #define PyGSL_SET_GSL_ERROR_HANDLER 1 */
 /* define the following variable if you want to have the old style error handler */
 /* #define _PyGSL_MODULE_ERROR_HANDLER_OLD_STYLE 1 */
 #define _PyGSL_MODULE_ERROR_HANDLER_FUNC \

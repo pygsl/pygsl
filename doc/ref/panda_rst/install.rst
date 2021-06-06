@@ -1,0 +1,144 @@
+.. chapter  Status
+
+\paragraph*{Status of GSL-Library}
+The gsl-library is since version 1.0 stable and for general use.
+More information about it at \url{http://www.gnu.org/software/gsl/}.
+
+\paragraph*{Status of this interface}
+Nearly all modules are wrapped. A lot of tests are
+covering various functionality. Please report to the mailing list
+\url{pygsl-discuss@lists.sourceforge.net} if you find a bug.
+
+The hankel modules have been
+wrapped. Please write to the mailing list
+\url{pygsl-discuss@lists.sourceforge.net} 
+if you require one of the modules
+and are willing to help with a simple example. 
+If any other function is missing or some other module (e.g. ntuple) or
+function, do not hesitate to write to the list.
+
+\paragraph*{Retriving the Interface}
+You can download it here: \url{http://sourceforge.net/projects/pygsl}
+
+\section{Requirements}
+
+To build the interface, you will need
+\begin{itemize}
+\item \ulink{gsl-1.x}{http://sources.redhat.com/gsl},
+\item \ulink{python2.6}{http://www.python.org} or better,
+\item \ulink{NumPy}{http://numpy.sf.net}, and
+\item a c compiler (like \ulink{gcc}{http://gcc.gnu.org}).
+\end{itemize}
+
+Supported Platforms are:
+\begin{itemize}
+\item Linux (Redhat/Debian/SuSE) with python2.* and gsl-1.*
+\item Win32
+\end{itemize}
+It was tested and is tested on an irregular basis on the following platforms
+\begin{itemize}
+\item SUN
+\item Cygwin
+\item MacOS X
+\end{itemize}
+but is supposed to build on any POSIX platforms.
+
+\section{Installing the pygsl interface}
+
+\program{gsl-config} must be on your path:\nopagebreak
+\begin{verbatim}
+# unpack the source distribution
+gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
+cd pygsl-x.y.z
+# do this with your prefered python version
+# to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl
+python setup.py build
+# change to an user id, that is allowed to do installation
+python setup.py install
+\end{verbatim}
+Ready....
+
+{\bf Do not test the interface in the distribution root or in the directories
+ \file{src} or \file{pygsl}.}
+
+If you find unresolved symbols later on, delete the C source in the
+swig_src files. Check that swig can be called from the command line. 
+Then start the build process again. 
+
+In this case swig will rebuild the C files. The swig_src files
+distributed with pygsl are to an up to date version of GSL (1.16 as of
+this writing). Swig parses partly some header header files and builds
+the appropriate interface functions. If you have an older GSL version 
+locally installed, the sources in the swig_src directory can contain 
+links to symbols which are not defined by the locally installed GSL
+version.
+
+\subsection{Building on win32}
+
+Windows by default does not allow to run a posix shell. Here a different path
+is required. First change into the directory \file{gsl_dist}. Copy the file 
+\file{gsl_site_example.py}
+and edit it to reflect your installation of GSL and SWIG if you want to run it
+yourself. The pygsl windows binaries distributed over 
+\url{http://sourceforge.net/projects/pygsl/} are built using the mingw32 
+compiler. 
+
+\paragraph*{Uninstall GSL interface}
+\code{rm -r }"python install path"\code{/lib/python}"version"\code{/site-packages/pygsl}
+
+\paragraph*{Testing}
+the directory \file{tests} contains several testsuites, based on python
+\module{unittest}.
+The script \file{run_test.py} in this directory will run one after the other.
+
+\paragraph*{Support}
+Please send mails to our mailinglist at
+\email{pygsl-discuss@lists.sourceforge.net}.
+
+\paragraph*{Developement}
+You can browse our cvs tree at
+\url{http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/pygsl/pygsl/}.
+\\
+Type this to check out the actual version:
+\begin{verbatim}
+cvs -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl login
+#Hit return for no password.
+cvs -z3 -d:pserver:anonymous@cvs.pygsl.sourceforge.net:/cvsroot/pygsl co pygsl
+\end{verbatim}
+The script \program{tools/extract_tool.py} generates most of the special 
+function code.
+
+%\input{install_advanced.tex}
+\paragraph*{ToDo}
+Implement other parts:
+
+
+\paragraph*{History}
+\begin{itemize}
+\item a gsl-interface for python was needed for a project at
+\ulink{Center for Applied Informatics Cologne}{http://www.zaik.uni-koeln.de/AFS}.
+\item \file{gsl-0.0.3} was released at May 23, 2001
+\item \file{gsl-0.0.4} was released at January 8, 2002
+\item \file{gsl-0.0.5} is growing since January, 2002
+\item \file{gsl-0.2.0} was released at 
+\item \file{gsl-0.3.0} was released at 
+\item \file{gsl-0.3.1} was released at 
+\item \file{gsl-0.3.2} was released at 
+\item \file{gsl-0.9.4} was released at 25. October 2008
+\end{itemize}
+
+\paragraph*{Thanks}
+Jochen K\"upper (\email{jochen@jochen-kuepper.de}) for 
+\module{pygsl.statistics} part\\
+Fabian Jakobs for \module{pygsl.blas}, \module{pygsl.eigen}
+\module{pygsl.linalg}, \module{pygsl.permutation}\\ 
+Leonardo Milano for rpm build\\
+Eric Gurrola and  Peter Stoltz for testing and supporting the port of pygsl to
+the MAC\\
+Sebastien Maret for supporting the Fink \url{http://fink.sourceforge.net}
+port of pygsl.
+
+
+\paragraph*{Maintainers}
+Achim G\"adke (\email{AchimGaedke@users.sourceforge.net}),\\
+Pierre Schnizer (\email{schnizer@users.sourceforge.net})

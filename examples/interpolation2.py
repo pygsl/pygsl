@@ -1,14 +1,12 @@
 #!/usr/bin/env python
-from __future__ import division, print_function
 #------------------------------------------------------------------------------
 # Original Author: Julien
 # Author: Pierre Schnizer <schnizer@users.sourceforge.net>
-# Date : August, 2008, 2018
+# Date : August, 2008
 #
 # Illustrates how much time is required if the interpolation vectors
 # have to be converted all the time.
 #------------------------------------------------------------------------------
-import sys
 import time
 import pygsl
 # pygsl can be compiled 
@@ -34,19 +32,17 @@ c.init(a, b)
 save_cnt = pygsl.init.vector_transform_counter()
 
 t_start = time_()
-
-stream = sys.stdout
-stream.write("->")
+print "->"
 for i in range(0,50):
     c.eval(50000)
-    stream.write(".")
-stream.write(" done")
+    print ".",
+print " done"
 t_final = time_()
 end_cnt = pygsl.init.vector_transform_counter()
 
-print ("Total time =", t_final-t_initial)
-print ("Time for evaluation =", t_final-t_start)
-print ("Required %d vector type transformations" %(end_cnt - save_cnt,))
+print "Total time =", t_final-t_initial
+print "Time for evaluation =", t_final-t_start
+print "Required %d vector type transformations" %(end_cnt - save_cnt,)
 
 # The spline module also has a eval_vector function, That gives an obvious
 # speed up..
