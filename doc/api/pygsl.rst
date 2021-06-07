@@ -577,10 +577,10 @@ Obsolete Modules
 .. toctree::
 
 
-pygsl\.diff module
+pygsl\.deriv module
 ------------------
 
-.. automodule:: pygsl.diff
+.. automodule:: pygsl.deriv
     :members:
     :undoc-members:
     :show-inheritance:

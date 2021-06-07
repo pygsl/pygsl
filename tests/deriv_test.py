@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 import unittest
-import pygsl.diff
+import pygsl.deriv
 
 lone = lambda x: x**3
 ltwo = lambda x, y: x**3
@@ -50,16 +50,17 @@ class _TestDiff(unittest.TestCase):
         Check if it flags an error if more than a float is returned
         """
         self.failUnlessRaises(TypeError, self.func, lfour, 1) 
-       
+
 class TestCentral(_TestDiff):
-    func = pygsl.diff.central
+    func = pygsl.deriv.central
 
 class TestForward(_TestDiff):
-    func = pygsl.diff.forward
+    func = pygsl.deriv.forward
 
 class TestBackward(_TestDiff):
-    func = pygsl.diff.backward
+    func = pygsl.deriv.backward
 
-del _TestDiff	
+del _TestDiff
+
 if __name__ == '__main__':
     unittest.main()
