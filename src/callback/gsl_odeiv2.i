@@ -4,7 +4,7 @@
  * created: November 2015
  * file: src/odeiv/gsl_odeiv2.i
  *
- * This interface file was generated for gsl version 2.0. It uses hand coded 
+ * This interface file was generated for gsl version 2.0. It uses hand coded
  * wrappers for the callback. See odeiv_func2.ic
  *
  */
@@ -31,10 +31,10 @@ typedef struct{
 	PyGSL_odeiv_parameter_pass params;
 }pygsl_odeiv2_system;
 
-/* 
+/*
  * workarounds to avoid name clashes: the methods extending the type would
- * otherwise get the same name by SWIG as the function names of GSL 
- *  
+ * otherwise get the same name by SWIG as the function names of GSL
+ *
 */
 typedef gsl_odeiv2_step pygsl_odeiv2_step;
 typedef struct{
@@ -50,7 +50,7 @@ typedef struct{
 	PyArrayObject * scale;
 	size_t dimension;
 } pygsl_odeiv2_driver;
-	
+
 static int _pygsl_odeiv2_system_set_function(pygsl_odeiv2_system *self, PyObject * cb)
 {
 	if(!PyCallable_Check(cb)){
@@ -71,11 +71,11 @@ static int _pygsl_odeiv2_system_set_jacobian(pygsl_odeiv2_system *self, PyObject
 		self->dydt.jacobian = NULL;
 		return GSL_SUCCESS;
 	}
-	
+
 	if(!PyCallable_Check(cb)){
-		PyGSL_ERROR("Object for function callback not callable!", GSL_EINVAL);			
+		PyGSL_ERROR("Object for function callback not callable!", GSL_EINVAL);
 	}
-	
+
 	Py_XDECREF(self->params.py_jac);
 	self->params.py_jac = cb;
 	Py_INCREF(self->params.py_jac);
@@ -87,9 +87,96 @@ static int _pygsl_odeiv2_system_set_dimension(pygsl_odeiv2_system *self, size_t 
 {
 	self->params.dimension = dimension;
 	self->dydt.dimension = dimension;
-	
+
 	return GSL_SUCCESS;
 }
+
+/*
+ * some steppers require an jacobian. These seem to crash if the jacobian is not available.
+ */
+
+struct _pygsl_odeiv2_steppers_require_jacobian{
+	const gsl_odeiv2_step_type *type;
+	int requires_jacobian;
+};
+
+static int _pygsl_odeiv2_check_step_jacobian(const pygsl_odeiv2_step *step, const pygsl_odeiv2_system *sys)
+{
+
+	int line = __LINE__, status = GSL_EFAILED;
+	struct _pygsl_odeiv2_steppers_require_jacobian *p, _require_jac[]= {
+		{gsl_odeiv2_step_rk2, 0},
+		{gsl_odeiv2_step_rk4, 0},
+		{gsl_odeiv2_step_rkf45, 0},
+		{gsl_odeiv2_step_rkck, 0},
+		{gsl_odeiv2_step_rk8pd, 0},
+		{gsl_odeiv2_step_rk1imp, 1},
+		{gsl_odeiv2_step_rk2imp, 1},
+		{gsl_odeiv2_step_rk4imp, 1},
+		{gsl_odeiv2_step_bsimp, 1},
+		{gsl_odeiv2_step_msadams, 0},
+		{gsl_odeiv2_step_msbdf, 1},
+		/* sentinel */
+		{NULL, -1}
+	};
+
+	FUNC_MESS_BEGIN();
+
+	for (p = _require_jac; p->type != NULL; ++p){
+
+		if(p->type != step->type){
+			/* not the stepper to handle */
+			continue;
+		}
+		switch(p->requires_jacobian){
+		case 0:
+			DEBUG_MESS(2, "Stepper %s does not require an jacobian",  gsl_odeiv2_step_name(step));
+			FUNC_MESS_END();
+			return GSL_SUCCESS;
+		case 1:
+			/* need to treat this case*/
+			break;
+
+		default:
+			line = __LINE__;
+			status =  GSL_ESANITY;
+			/* should that not be a pygsl_error */
+			DEBUG_MESS(2, "Unexpected requires_jacobian value %d. Expected [0|1]", p->requires_jacobian);
+			gsl_error("Unexpected definition of required jacobian", __FILE__, line, status);
+			goto fail;
+		}
+
+		/*
+		 * so this function requires an jacobian ....
+		 */
+		if(sys->dydt.jacobian){
+			/* one found ... goood */
+			DEBUG_MESS(2, "Stepper %s  requires jacobian, one found!",
+				   gsl_odeiv2_step_name(step));
+			FUNC_MESS_END();
+			return GSL_SUCCESS;
+		}
+		status =  GSL_EINVAL;
+		line = __LINE__;
+		DEBUG_MESS(2, "Stepper %s  requires jacobian, but none defined!",
+			   gsl_odeiv2_step_name(step));
+		gsl_error("Stepper requires jacobian but none defined", __FILE__, line, status);
+		goto fail;
+
+	}
+	/* so stepper was not listed if it requires an jacobian ... tsss */
+	DEBUG_MESS(2, "Stepper %s unknown if jacobian required: add to internal list!",
+		   gsl_odeiv2_step_name(step));
+	line = __LINE__;
+	status =  GSL_ESANITY;
+	gsl_error("Stepper not listed if it requires jacobian", __FILE__, line, status);
+
+  fail:
+	FUNC_MESS_FAILED();
+	PyGSL_add_traceback(NULL, __FILE__,  __FUNCTION__, line);
+	return status;
+}
+
 
 %}
 
@@ -127,7 +214,7 @@ It provides the following methods:
 	pygsl_odeiv2_system(PyObject * func, PyObject *jac, size_t dimension, PyObject *args){
 		pygsl_odeiv2_system *sys = NULL;
 		int flag;
-		
+
 		sys = PyMem_NEW(pygsl_odeiv2_system, 1);
 		sys->params.py_func = NULL;
 		sys->params.py_jac = NULL;
@@ -138,7 +225,7 @@ It provides the following methods:
 		if(flag != GSL_SUCCESS){
 			goto fail;
 		}
-	
+
 		flag = _pygsl_odeiv2_system_set_function(sys, func);
 		if(flag != GSL_SUCCESS){
 			goto fail;
@@ -148,20 +235,20 @@ It provides the following methods:
 		if(flag != GSL_SUCCESS){
 			goto fail;
 		}
-		
+
 		sys->params.arguments = args;
 		Py_INCREF(sys->params.arguments);
 
-		sys->dydt.params = (void *)&sys->params;		
+		sys->dydt.params = (void *)&sys->params;
 		return sys;
 
 	  fail:
 		Py_XDECREF(sys->params.py_func);
 		Py_XDECREF(sys->params.py_jac);
 		Py_XDECREF(sys->params.arguments);
-		PyMem_FREE(sys);		
+		PyMem_FREE(sys);
 		sys = NULL;
-		return NULL;				
+		return NULL;
 	}
 
 	~pygsl_odeiv2_system(void){
@@ -170,7 +257,7 @@ It provides the following methods:
 		Py_XDECREF(self->params.py_jac);
 		Py_XDECREF(self->params.arguments);
 		self->dydt.function = NULL;
-		self->dydt.jacobian  = NULL;		
+		self->dydt.jacobian  = NULL;
 		PyMem_FREE(self);
 		self = NULL;
 	}
@@ -189,11 +276,11 @@ typedef struct{
 		}
 		return gsl_odeiv2_step_alloc(T, dim);
 	}
-	
+
 	~pygsl_odeiv2_step(void){
 		gsl_odeiv2_step_free(self);
 	}
-	
+
 	gsl_error_flag_drop reset(void){
 		return gsl_odeiv2_step_reset(self);
 	}
@@ -205,22 +292,30 @@ typedef struct{
 	}
 
 	/*
-	 * should keep a reference to the driver ... 
+	 * should keep a reference to the driver ...
 	 gsl_error_flag_drop set_driver(const gsl_odeiv2_driver * d){
 		return gsl_odeiv2_step_set_driver(self, d);
 	}
 	*/
 
-	PyObject *apply(double t, double h, PyObject * y_o, PyObject *dydt_in_o, PyObject *dydt_out_o, 
+	PyObject *apply(double t, double h, PyObject * y_o, PyObject *dydt_in_o, PyObject *dydt_out_o,
 			pygsl_odeiv2_system * dydt)
 	{
-		
+
 		PyObject *returnobj = NULL, *three =NULL;
 		PyArrayObject *yerr_a = NULL, *dydt_in_a  = NULL, *dydt_out_a = NULL;
 		PyArrayObject *y_out_a = NULL, *y_in_a = NULL;
 		double * yerr = NULL, *dydt_in = NULL, *dydt_out = NULL, *y =NULL;
 		PyGSL_array_index_t dim = 0;
 		int flag, line = __LINE__;
+
+
+		FUNC_MESS_BEGIN();
+
+		flag = _pygsl_odeiv2_check_step_jacobian(self, dydt);
+		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(flag)){
+			line = __LINE__ - 2; goto fail;
+		}
 
 		dim = dydt->params.dimension;
 
@@ -229,7 +324,7 @@ typedef struct{
 			pygsl_error("Type None/NULL not accepted", __FILE__, line, GSL_EINVAL);
 			goto fail;
 		}
-			
+
 
 		y_in_a = PyGSL_vector_check(y_o, dim, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
 		if(y_in_a == NULL){
@@ -248,7 +343,7 @@ typedef struct{
 			line = __LINE__ - 2; goto fail;
 		}
 
-		if(dydt_in_o != Py_None){
+		if(dydt_in_o == Py_None){
 			dydt_in_a = PyGSL_New_Array(1,  &dim, NPY_FLOAT);
 			if(dydt_in_a == NULL){
 				line = __LINE__ - 2; goto fail;
@@ -256,7 +351,7 @@ typedef struct{
 			dydt_in = (double *)PyArray_DATA(dydt_in_a);
 		}
 
-		if(dydt_out_o != Py_None){
+		if(dydt_out_o == Py_None){
 			dydt_out_a = PyGSL_New_Array(1,  &dim, NPY_FLOAT);
 			if(dydt_out_a == NULL){
 				line = __LINE__ - 2; goto fail;
@@ -268,7 +363,7 @@ typedef struct{
 		if(y == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
-		yerr =  (double *) PyArray_DATA(yerr_a);		
+		yerr =  (double *) PyArray_DATA(yerr_a);
 		if(yerr == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -278,14 +373,14 @@ typedef struct{
 		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(flag)){
 			line = __LINE__ - 2; goto fail;
 		}
-		
+
 		Py_XDECREF(dydt_in_a);
 		dydt_in_a = NULL;
 
 		returnobj = PyTuple_New(3);
 		if (returnobj == NULL){
 			line = __LINE__ - 2; goto fail;
-		}	
+		}
 		PyTuple_SetItem(returnobj, 0, (PyObject *) y_out_a);
 		PyTuple_SetItem(returnobj, 1, (PyObject *) yerr_a);
 		if(dydt_out_a == NULL){
@@ -296,9 +391,11 @@ typedef struct{
 		}
 		PyTuple_SetItem(returnobj, 2, three);
 
+		FUNC_MESS_END();
 		return returnobj;
-		
+
 	  fail:
+		FUNC_MESS_FAILED();
 		PyGSL_add_traceback(NULL, __FILE__,  __FUNCTION__, line);
 		Py_XDECREF(y_in_a);
 		Py_XDECREF(y_out_a);
@@ -311,17 +408,17 @@ typedef struct{
 	}
 }
 
-%rename(step_rk2)     gsl_odeiv2_step_rk2;	    
-%rename(step_rk4)     gsl_odeiv2_step_rk4;	    
-%rename(step_rkf45)   gsl_odeiv2_step_rkf45;   
-%rename(step_rkck)    gsl_odeiv2_step_rkck;    
-%rename(step_rk8pd)   gsl_odeiv2_step_rk8pd;   
-%rename(step_rk2imp)  gsl_odeiv2_step_rk2imp;  
-%rename(step_rk4imp)  gsl_odeiv2_step_rk4imp;  
-%rename(step_bsimp)   gsl_odeiv2_step_bsimp;   
-%rename(step_rk1imp)  gsl_odeiv2_step_rk1imp;  
-%rename(step_msadams) gsl_odeiv2_step_msadams; 
-%rename(step_msbdf)   gsl_odeiv2_step_msbdf;   
+%rename(step_rk2)     gsl_odeiv2_step_rk2;
+%rename(step_rk4)     gsl_odeiv2_step_rk4;
+%rename(step_rkf45)   gsl_odeiv2_step_rkf45;
+%rename(step_rkck)    gsl_odeiv2_step_rkck;
+%rename(step_rk8pd)   gsl_odeiv2_step_rk8pd;
+%rename(step_rk2imp)  gsl_odeiv2_step_rk2imp;
+%rename(step_rk4imp)  gsl_odeiv2_step_rk4imp;
+%rename(step_bsimp)   gsl_odeiv2_step_bsimp;
+%rename(step_rk1imp)  gsl_odeiv2_step_rk1imp;
+%rename(step_msadams) gsl_odeiv2_step_msadams;
+%rename(step_msbdf)   gsl_odeiv2_step_msbdf;
 
 /* available steppers */
 extern const gsl_odeiv2_step_type *gsl_odeiv2_step_rk2;
@@ -334,7 +431,7 @@ extern const gsl_odeiv2_step_type *gsl_odeiv2_step_rk4imp;
 extern const gsl_odeiv2_step_type *gsl_odeiv2_step_bsimp;
 extern const gsl_odeiv2_step_type *gsl_odeiv2_step_rk1imp;
 extern const gsl_odeiv2_step_type *gsl_odeiv2_step_msadams;
-extern const gsl_odeiv2_step_type *gsl_odeiv2_step_msbdf;   
+extern const gsl_odeiv2_step_type *gsl_odeiv2_step_msbdf;
 
 %inline{
 const int hadj_inc = GSL_ODEIV_HADJ_INC;
@@ -343,7 +440,7 @@ const int hadj_dec = GSL_ODEIV_HADJ_DEC;
 }
 
 typedef struct{
-	%immutable;     
+	%immutable;
 } pygsl_odeiv2_control;
 
 %extend pygsl_odeiv2_control{
@@ -360,7 +457,7 @@ typedef struct{
 		r->control = NULL;
 		r->scale = NULL;
 		r->dimension = 0;
-		
+
 		if(scale_abs == Py_None){
 			r->control = gsl_odeiv2_control_standard_new(eps_abs, eps_rel, a_y, a_dydt);
 			if(r->control == NULL){
@@ -369,7 +466,7 @@ typedef struct{
 			return r;
 		}
 		/*
-		 * Warning potential crash ... wrapper must ensure that scale abs 
+		 * Warning potential crash ... wrapper must ensure that scale abs
 		 * lives as long as required!
 		 * Thus reference in self->control
 		 */
@@ -377,14 +474,14 @@ typedef struct{
 		if(sa == NULL){
 			goto fail;
 		}
-		r->scale = sa;		
-		s_abs = (double *) PyArray_DATA(sa);		
+		r->scale = sa;
+		s_abs = (double *) PyArray_DATA(sa);
 		r->control = gsl_odeiv2_control_scaled_new(eps_abs, eps_rel, a_y, a_dydt, s_abs, dim);
 		if(r->control == NULL){
 			goto fail;
 		}
 		return r;
-		
+
 	  fail:
 		Py_XDECREF(sa);
 		PyMem_FREE(r);
@@ -392,10 +489,10 @@ typedef struct{
 	}
 
 	~pygsl_odeiv2_control(void){
-		gsl_odeiv2_control_free(self->control);	       
+		gsl_odeiv2_control_free(self->control);
 		self->control = NULL;
 		Py_XDECREF(self->scale);
-		self->scale = NULL;		
+		self->scale = NULL;
 	}
 
 	gsl_error_flag_drop init(double eps_abs, double eps_rel, double a_y, double a_dydt){
@@ -405,7 +502,7 @@ typedef struct{
 		return  gsl_odeiv2_control_name(self->control);
 	}
 
-	PyObject * hadjust(gsl_odeiv2_step * s, PyObject * y_o, PyObject *yerr_o, PyObject * dydt_o, double h_in){
+	PyObject * hadjust(pygsl_odeiv2_step * s, PyObject * y_o, PyObject *yerr_o, PyObject * dydt_o, double h_in){
 		PyObject *returnobj = NULL, *h_o = NULL, *flag_o = NULL;
 		PyArrayObject *y_a = NULL,  *yerr_a = NULL, *dydt_a = NULL;
 		double *dydt = NULL, *y = NULL, *yerr = NULL, h=0;
@@ -450,9 +547,9 @@ typedef struct{
 		returnobj = PyTuple_New(2);
 		if (returnobj == NULL){
 			goto fail;
-		}	
+		}
 		PyTuple_SetItem(returnobj, 0, (PyObject *) flag_o);
-		PyTuple_SetItem(returnobj, 1, (PyObject *) h_o);	       
+		PyTuple_SetItem(returnobj, 1, (PyObject *) h_o);
 
 		Py_DECREF(y_a);
 		Py_DECREF(yerr_a);
@@ -472,11 +569,11 @@ typedef struct{
 	gsl_error_flag_drop errlevel(const double y, const double dydt, const double h, const size_t ind, double * errlev){
 		return gsl_odeiv2_control_errlevel(self->control, y, dydt, h, ind, errlev);
 	}
-		
+
 }
 
 typedef struct{
-	%immutable;     
+	%immutable;
 } pygsl_odeiv2_evolve;
 
 %extend pygsl_odeiv2_evolve{
@@ -492,7 +589,7 @@ typedef struct{
 		return gsl_odeiv2_evolve_reset(self);
 	}
 	PyObject * get_yerr(void){
-		const gsl_vector_view v = gsl_vector_view_array(self->yerr, self->dimension);				
+		const gsl_vector_view v = gsl_vector_view_array(self->yerr, self->dimension);
 		return (PyObject *) PyGSL_copy_gslvector_to_pyarray(&v.vector);
 	}
 
@@ -520,6 +617,12 @@ typedef struct{
 			pygsl_error("sys object not set?", __FILE__, __LINE__, GSL_EINVAL);
 			line = __LINE__ - 2; goto fail;
 		}
+
+		status = _pygsl_odeiv2_check_step_jacobian(step, sys);
+		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(status)){
+			line = __LINE__ - 2; goto fail;
+		}
+
 		dim = self->dimension;
 		if(sys->dydt.dimension != dim){
 			pygsl_error("sys dimension does not match evolve dimension", __FILE__, __LINE__, GSL_EINVAL);
@@ -530,7 +633,7 @@ typedef struct{
 			line = __LINE__ - 2; goto fail;
 		}
 
-		y_out_a = PyGSL_Copy_Array(y_in_a); 
+		y_out_a = PyGSL_Copy_Array(y_in_a);
 		if(y_out_a == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -565,11 +668,11 @@ typedef struct{
 		returnobj = PyTuple_New(4);
 		if (returnobj == NULL){
 			line = __LINE__ - 2; goto fail;
-		}	
+		}
 		PyTuple_SetItem(returnobj, 0, (PyObject *) s_o);
 		PyTuple_SetItem(returnobj, 1, (PyObject *) t_out_o);
 		PyTuple_SetItem(returnobj, 2, (PyObject *) h_out_o);
-		PyTuple_SetItem(returnobj, 3, (PyObject *) y_out_a);	       
+		PyTuple_SetItem(returnobj, 3, (PyObject *) y_out_a);
 		return  returnobj;
 
 	  fail:
@@ -611,12 +714,18 @@ typedef struct{
 			pygsl_error("sys dimension does not match evolve dimension", __FILE__, __LINE__, GSL_EINVAL);
 			line = __LINE__ - 2; goto fail;
 		}
+
+		status = _pygsl_odeiv2_check_step_jacobian(step, &sys->dydt);
+		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(status)){
+			line = __LINE__ - 2; goto fail;
+		}
+
 		y_in_a = PyGSL_vector_check(y_in_o, dim, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
 		if(y_in_a == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
 
-		y_out_a = PyGSL_Copy_Array(y_in_a); 
+		y_out_a = PyGSL_Copy_Array(y_in_a);
 		if(y_out_a == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -629,7 +738,7 @@ typedef struct{
 		}
 
 		t = t_in;
-		status = gsl_odeiv2_evolve_apply_fixed_step(self, con->control, step, &sys->dydt, &t, h0, y);	
+		status = gsl_odeiv2_evolve_apply_fixed_step(self, con->control, step, &sys->dydt, &t, h0, y);
 		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(status)){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -645,10 +754,10 @@ typedef struct{
 		returnobj = PyTuple_New(3);
 		if (returnobj == NULL){
 			line = __LINE__ - 2; goto fail;
-		}	
+		}
 		PyTuple_SetItem(returnobj, 0, (PyObject *) s_o);
 		PyTuple_SetItem(returnobj, 1, (PyObject *) t_out_o);
-		PyTuple_SetItem(returnobj, 2, (PyObject *) y_out_a);	       
+		PyTuple_SetItem(returnobj, 2, (PyObject *) y_out_a);
 		return  returnobj;
 
 	  fail:
@@ -664,7 +773,7 @@ typedef struct{
 }
 
 typedef struct{
-	%immutable;     
+	%immutable;
 } pygsl_odeiv2_driver;
 
 
@@ -678,7 +787,7 @@ typedef struct{
 		PyMem_Free(self);
 		self = NULL;
 	}
-	
+
 	/* the different allocators can be easily given as derived classes */
 	pygsl_odeiv2_driver(PyObject *sys_o,
 			    const gsl_odeiv2_step_type *T,
@@ -687,8 +796,8 @@ typedef struct{
 			    const double epsrel,
 			    const double a_y,
 			    const double a_dydt,
-			    PyObject * scale_abs_o){		
-		
+			    PyObject * scale_abs_o){
+
 		pygsl_odeiv2_driver *d =NULL;
 		double *scale_abs;
 		PyArrayObject * scale_abs_a = NULL;
@@ -723,8 +832,8 @@ typedef struct{
 		d->scale = NULL;
 		d->sys = NULL;
 		d->dimension = dim;
-		
-		/* 
+
+		/*
 		 *  make sure the sys object lives as long as a reference to
 		 *  the sys memory is used
 		 */
@@ -746,7 +855,7 @@ typedef struct{
 		d->scale = scale_abs_a;
 		scale_abs_a = NULL;
 		scale_abs =  (double *) PyArray_DATA(d->scale);
-		d->driver =  gsl_odeiv2_driver_alloc_scaled_new(sys, T, hstart, epsabs, epsrel, a_y, a_dydt, scale_abs);     
+		d->driver =  gsl_odeiv2_driver_alloc_scaled_new(sys, T, hstart, epsabs, epsrel, a_y, a_dydt, scale_abs);
 		if(d->driver == NULL){
 			goto fail;
 		}
@@ -761,7 +870,7 @@ typedef struct{
 		}
 		return NULL;
 	}
-	
+
 	gsl_error_flag_drop set_hmin(const double h_min){
 		return gsl_odeiv2_driver_set_hmin(self->driver, h_min);
 	}
@@ -773,7 +882,7 @@ typedef struct{
 	gsl_error_flag_drop set_nmax(const unsigned long int nmax){
 		return gsl_odeiv2_driver_set_nmax(self->driver, nmax);
 	}
-	
+
 	gsl_error_flag_drop reset(void){
 		return gsl_odeiv2_driver_reset(self->driver);
 	}
@@ -796,7 +905,7 @@ typedef struct{
 			line = __LINE__ - 2; goto fail;
 		}
 
-		y_out_a = PyGSL_Copy_Array(y_in_a); 
+		y_out_a = PyGSL_Copy_Array(y_in_a);
 		if(y_out_a == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -808,6 +917,12 @@ typedef struct{
 			line = __LINE__ - 2; goto fail;
 		}
 
+		status = _pygsl_odeiv2_check_step_jacobian(self->driver->s, self->driver->sys);
+		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(status)){
+			line = __LINE__ - 2; goto fail;
+		}
+
+
 		status = gsl_odeiv2_driver_apply_fixed_step(self->driver, &t, h, n, y);
 		DEBUG_MESS(2, "gsl_odeiv2_driver_apply_fixed_step failed with %d", status);
 		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(status)){
@@ -816,13 +931,13 @@ typedef struct{
 		returnobj = PyTuple_New(2);
 		if (returnobj == NULL){
 			line = __LINE__ - 2; goto fail;
-		}	
+		}
 		t_out_o = PyFloat_FromDouble(t);
 		if(t_out_o == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
 		PyTuple_SetItem(returnobj, 0, (PyObject *) t_out_o);
-		PyTuple_SetItem(returnobj, 1, (PyObject *) y_out_a);	       
+		PyTuple_SetItem(returnobj, 1, (PyObject *) y_out_a);
 		return  returnobj;
 
 	  fail:
@@ -843,12 +958,19 @@ typedef struct{
 
 		t = tin;
 		dim = self->driver->sys->dimension;
+
+		status = _pygsl_odeiv2_check_step_jacobian(self->driver->s, self->driver->sys);
+		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(status)){
+			line = __LINE__ - 2; goto fail;
+		}
+
+
 		y_in_a = PyGSL_vector_check(y_o, dim, PyGSL_DARRAY_CINPUT(3), NULL, NULL);
 		if(y_in_a == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
 
-		y_out_a = PyGSL_Copy_Array(y_in_a); 
+		y_out_a = PyGSL_Copy_Array(y_in_a);
 		if(y_out_a == NULL){
 			line = __LINE__ - 2; goto fail;
 		}
@@ -872,9 +994,9 @@ typedef struct{
 		returnobj = PyTuple_New(2);
 		if (returnobj == NULL){
 			line = __LINE__ - 2; goto fail;
-		}	
+		}
 		PyTuple_SetItem(returnobj, 0, (PyObject *) t_out_o);
-		PyTuple_SetItem(returnobj, 1, (PyObject *) y_out_a);	       
+		PyTuple_SetItem(returnobj, 1, (PyObject *) y_out_a);
 		return  returnobj;
 
 	  fail:
@@ -887,4 +1009,3 @@ typedef struct{
 		return NULL;
 	}
 }
-
