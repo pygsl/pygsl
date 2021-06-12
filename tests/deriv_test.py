@@ -4,7 +4,10 @@ from __future__ import print_function
 import unittest
 import pygsl.deriv
 
-lone = lambda x: x**3
+def one_arg(x, args):
+    assert(args is None)
+    return x**3
+
 ltwo = lambda x, y: x**3
 lthree = lambda x, y: x**3 * y
 lfour = lambda x, y: (x**3, y)
@@ -14,50 +17,55 @@ def lfive(x, args):
 
 class _TestDiff(unittest.TestCase):
     func = None
+    eps  = None
+
+    def test0(self):
+        '''Test that missing eps is reported
+        '''
+        self.assertRaises(TypeError, self.func, one_arg, 1)
+
     def test1(self):
-        self.failUnlessRaises(TypeError, self.func, lone, 1)
-	
+        '''Test function taking one argument
+        '''
+        y, y_err = self.func(one_arg, 1, self.eps)
+        #self.assertRaises(TypeError, )
+
     def test2(self):
-        tmp = self.func(ltwo, 1)
-        test = 0
-        try:
-            assert((tmp[0] - 3) < tmp[1]*5)
-            test = 1
-        finally:
-            if test == 0:
-                print ("I recieved %s. But it should be (3, ??)" % (tmp,))
+        '''Test if function accepts two arguments
+        '''
+        tmp = self.func(ltwo, 1, self.eps)
+        self.assertAlmostEqual(tmp[0], 3, delta=tmp[1])
+        self.assertAlmostEqual(tmp[1], 0, places=4)
 
     def test3(self):
-        tmp = self.func(lthree, 1, 2)
-        test = 0
-        try:
-            assert((tmp[0] - 3*2) < tmp[1]*5)
-            test = 1
-        finally:
-            if test == 0:
-                print ("I recieved %s. But it should be (3, ??)" % (tmp,))
+        '''Check if correct value is returned
+        '''
+        tmp = self.func(lthree, 1, self.eps, 2)
+        self.assertAlmostEqual(tmp[0], 6, delta=tmp[1])
+        self.assertAlmostEqual(tmp[1], 0, places=4)
 
     def test4(self):
-        """
-        Check if it flags an error if not a float is returned
+        """Check if it flags an error if not a float is returned
 
         Why is it put to float, and not the number of arguments are checked?XF
         """
-        self.failUnlessRaises(TypeError, self.func, lfour, 1) 
+        self.assertRaises(TypeError, self.func, lfour, self.eps, 1)
 
     def test5(self):
+        """Check if it flags an error if more than a float is returned
         """
-        Check if it flags an error if more than a float is returned
-        """
-        self.failUnlessRaises(TypeError, self.func, lfour, 1) 
+        self.assertRaises(TypeError, self.func, lfour, self.eps, 1)
 
 class TestCentral(_TestDiff):
+    eps = 1e-3
     func = pygsl.deriv.central
 
 class TestForward(_TestDiff):
+    eps = 1e-3
     func = pygsl.deriv.forward
 
 class TestBackward(_TestDiff):
+    eps = 1e-3
     func = pygsl.deriv.backward
 
 del _TestDiff
