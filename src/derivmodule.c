@@ -23,7 +23,7 @@ DERIV_FUNCTION(backward)
 DERIV_FUNCTION(forward)
 DERIV_FUNCTION(central)
 
-	
+
 
 /* module initialization */
 #define PyGSL_DIFF_USAGE  "\n See module doc string for function call description."
@@ -41,7 +41,7 @@ static PyMethodDef derivMethods[] = {
 };
 
 
-static const char deriv_module_doc[] = 
+static const char deriv_module_doc[] =
 "Numerical differentation \n\
 \n\
 This module allows to differentiate functions numerically. It provides\n\
@@ -67,7 +67,7 @@ All have the same usage:\n\
 static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
         "pygsl.rng",
-        NULL,
+        deriv_module_doc,
         -1,
 	derivMethods,
         NULL,
@@ -104,18 +104,21 @@ DL_EXPORT(void) initderiv(void)
 	dict = PyModule_GetDict(m);
 	if (dict == NULL)
 		return  RETVAL;
-	
+
 	if (!(item = PyGSL_string_from_string(deriv_module_doc))){
-		PyErr_SetString(PyExc_ImportError, 
+		PyErr_SetString(PyExc_ImportError,
 				"I could not generate module doc string!");
 		return  RETVAL;
 	}
+
+#ifndef PyGSL_PY3K
+
 	if (PyDict_SetItemString(dict, "__doc__", item) != 0){
-		PyErr_SetString(PyExc_ImportError, 
+		PyErr_SetString(PyExc_ImportError,
 				"I could not init doc string!");
 		return  RETVAL;
 	}
-
+#endif
 	return  RETVAL;
 }
 
