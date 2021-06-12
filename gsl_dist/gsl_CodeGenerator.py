@@ -5,26 +5,29 @@ import distutils.log
 import setuptools
 import subprocess
 from distutils.file_util import copy_file
-from gsl_Location import gsl_Location_File
 
-_Command = distutils.cmd.Command
-class gsl_CodeGenerator(_Command):
+from gsl_Extension import gsl_Location
+class gsl_CodeGenerator(distutils.cmd.Command):
   """Create code using GSL code generator
   """
 
   description = 'Code generator for GSL'
+  user_options = [
+      # The format is (long option, short option, description).
+      #('pylint-rcfile=', None, 'path to Pylint config file'),
+  ]
 
-  def __init__(self, *args, **kws):
-    _Command.__init__(self, *args, **kws)
-    self._gsl_location = None
+  def initialize_options(self):
+    """Set default values for options."""
+    # Each user option must be listed here with their default value.
+    #self.pylint_rcfile = ''
 
-  @property
-  def gsl_location(self):
-    if self._gsl_location is None:
-      self._gsl_location = gsl_Location()
-    assert(self._gsl_location)
-    return self._gsl_location
-  
+  def finalize_options(self):
+    """Post-process options."""
+    #if self.pylint_rcfile:
+    #  assert os.path.exists(self.pylint_rcfile), (
+    #      'Pylint config file %s does not exist.' % self.pylint_rcfile)
+
   def _get_gsl_src_dir(self):
     this_dir = os.path.dirname(__file__)
     tmp = os.path.join(this_dir, os.path.pardir)
@@ -45,7 +48,6 @@ class gsl_CodeGenerator(_Command):
     See :func:`_create_ufunc_wrapper`
     """
     inc = []
-
     for a_inc in gsl_Location.get_gsl_include_dirs():
       inc.append('-I' + a_inc)
 
@@ -68,12 +70,10 @@ class gsl_CodeGenerator(_Command):
     tool = os.path.join(tools_dir, "extract_ufunc_swig.py")
     swig_xml_file = os.path.join(sf_src_dir, "sf_wrap.xml")
 
-    test_dir = os.path.dirname(__file__)
     prefix = "sf_"
     command = [sys.executable, tool,
                "--input",  swig_xml_file, "--output-dir", sf_src_dir,
-               "--prefix", "sf_", "--doc-dir", api_doc_dir,
-               "--test-dir", test_dir]
+               "--prefix", "sf_", "--doc-dir", api_doc_dir]
     self.announce(
       'Creating ufunc wrappers: %s' % str(command),
       level=distutils.log.INFO)

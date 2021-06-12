@@ -15,7 +15,7 @@ import copy
 exp = Numeric.exp
 _eps = 1e-7
 
-def testfunc(t, A = 1., _lambda = .1, b=.5):
+def examplefunc(t, A = 1., _lambda = .1, b=.5):
         return  A * exp(- _lambda * t) + b
 
 def exp_f(x, params):
@@ -27,7 +27,7 @@ def exp_f(x, params):
     yi      = params[1]
     sigma   = params[2]
     
-    Yi = testfunc(t, A, lambda_, b)
+    Yi = examplefunc(t, A, lambda_, b)
     f = (Yi -yi) / sigma
     return f
 
@@ -66,7 +66,7 @@ class DefaultCase(unittest.TestCase):
     
     def setUp(self):
         t = Numeric.arange(self._getn());
-        y = testfunc(t, self.A, self.lambda_, self.b)
+        y = examplefunc(t, self.A, self.lambda_, self.b)
         sigma = Numeric.ones(self._getn()) * 0.1
         self.data = Numeric.array((t,y,sigma), Float)
         self.sys = multifit_nlin.gsl_multifit_function_fdf(exp_f, exp_df,

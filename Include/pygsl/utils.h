@@ -33,19 +33,20 @@ __BEGIN_DECLS
 #error "Do not support a DEBUG level over" PyGSL_DEBUG_MAX 
 #endif
 
-#define FUNC_MESS(mess)                            \
-        ((PyGSL_DEBUG_LEVEL()))  ?                 \
-	fprintf(stderr,				   \
-		mess "%s@%d:%s\n",	           \
-		__FILE__, __LINE__, __FUNCTION__)  \
-       :                                           \
-         0
+#define FUNC_MESS(mess)                                                \
+        ((PyGSL_DEBUG_LEVEL()))  ?                                  \
+                        fprintf(stderr,                             \
+                                "%s %s In File %s at line %d\n",    \
+                                mess,                               \
+                                __FUNCTION__, __FILE__, __LINE__)   \
+       :                                                            \
+         0  
 
-#define DEBUG_MESS(level, mess, args...)           \
-     ((PyGSL_DEBUG_LEVEL()) > level)  ?            \
-fprintf(stderr,                                    \
-	"D   %s@%d:%s\n\t" mess "\n",		   \
-	__FILE__,  __LINE__, __FUNCTION__, args)   \
+#define DEBUG_MESS(level, mess, args...)                                 \
+     ((PyGSL_DEBUG_LEVEL()) > level)  ?                              \
+fprintf(stderr,                                                      \
+	"In Function %s from File %s at line %d "  mess      "\n" ,  \
+        __FUNCTION__, __FILE__, __LINE__, args)               \
 : \
       0 
 #else /* DEBUG > 0 */
@@ -53,11 +54,9 @@ fprintf(stderr,                                    \
 #define DEBUG_MESS(level, mess,  args...)
 #endif /* DEBUG */
 
-#define FUNC_MESS_BEGIN()  FUNC_MESS("B ")
-#define FUNC_MESS_END()    FUNC_MESS("E ")
-#define FUNC_MESS_FAILED() FUNC_MESS("F ")
-#define FUNC_MESS_CB_BEGIN()  FUNC_MESS("CB")
-#define FUNC_MESS_CB_END()    FUNC_MESS("CE")
+#define FUNC_MESS_BEGIN()  FUNC_MESS("BEGIN ")
+#define FUNC_MESS_END()    FUNC_MESS("END   ")
+#define FUNC_MESS_FAILED() FUNC_MESS("FAILED")
 #ifndef DEBUG
 #define DEBUG 0
 #endif

@@ -398,26 +398,6 @@ Used gsl functions:
         from pygsl import init
         return init.error_handler_state_reset()
 
-    @property
-    def reason(self):
-        dic = self.get()
-        return dic["reason"]
-
-    @property
-    def file(self):
-        dic = self.get()
-        return dic["file"]
-
-    @property
-    def line(self):
-        dic = self.get()
-        return dic["line"]
-
-    @property
-    def errno(self):
-        dic = self.get()
-        return dic["errno"]
-
 error_safe_state = _ErrorSafeState()
 #"""Access to the last error stored by gsl
 #

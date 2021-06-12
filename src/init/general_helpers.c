@@ -9,7 +9,6 @@
 #include <pygsl/utils.h>
 #include <pygsl/profile.h>
 
-#define PyGSL_ERROR_STRING_BFFER_N 2048
 PyGSL_API_EXTERN int
 PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 {
@@ -18,10 +17,8 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
      const char * message = "";
      const char * error_description = "";
      const char * mmesg;
-     char * name, msg[PyGSL_ERROR_STRING_BFFER_N];
+     char * name, msg[1024];
      char *formatstring = "For the callback %s evaluted  for function %s, an error occured : %s";
-
-     int status;
 
      FUNC_MESS_BEGIN();    
      callback = info->callback;
@@ -47,7 +44,6 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 	 PyErr_SetString(PyExc_AttributeError, 
 			 "While I was treating an errornous callback object,"
 			 " I found that it had no attribute '__name__'!");
-	 DEBUG_MESS(2, "Coukd not get the name of the callback %p", (void *) callback);
 	 PyGSL_ERROR("Could not get the name of the callback!", GSL_EBADFUNC);
 	 goto fail;
      }
@@ -55,28 +51,24 @@ PyGSL_set_error_string_for_callback(PyGSL_error_info * info)
 	  PyErr_SetString(PyExc_TypeError, 
 			  " For an errornous callback object,"  
 			  " the attribute '__name__' was not a Python string!");
-	 DEBUG_MESS(2, "Nameobject of the callback  %p was not a string", (void *) name_o);
 	 PyGSL_ERROR("Nameobject of the callback was not a string!", GSL_EBADFUNC);
 	 goto fail;
      }     
      name = PyGSL_string_as_string(name_o);
 
      /* A non completly standard but safe function. */
-     DEBUG_MESS(2, "making string for %s", name);
-     snprintf(msg,  PyGSL_ERROR_STRING_BFFER_N, formatstring, name, mmesg, error_description);
+     FUNC_MESS("\tmakeing string");
+     snprintf(msg, 1024, formatstring, name, mmesg, error_description);     
      if(DEBUG > 2){
-       DEBUG_MESS(2, "error message %s", msg);
+	  fprintf(stderr, "ERROR: \t%s", msg);
      }
-     status = GSL_EBADFUNC;
-     pygsl_error(msg, __FILE__, __LINE__, status);
+     PyGSL_ERROR(msg, GSL_EBADFUNC);
 
      FUNC_MESS_END();
      return GSL_EBADFUNC;
      /* Py_XDECREF(name_o);  ??? */
-
  fail:
-     FUNC_MESS_FAILED();
-     return status;
+     return GSL_EBADFUNC;
      /* Py_XDECREF(name_o);  ??? */
 }
 
@@ -208,40 +200,27 @@ PyGSL_check_python_return(PyObject *object, int nargs, PyGSL_error_info  *info)
 {
      int tuple_size, flag=-1;
      char *msg;
-     int status;
-     PyObject *py_exception = NULL;
+
+
+     FUNC_MESS_BEGIN();  
      
-     FUNC_MESS_BEGIN();
+     assert(info);
 
-     DEBUG_MESS(2, "Return object  = %p expected args = %d info = %p",
-		object, nargs, info);
 
-     if(info == NULL){
-	     DEBUG_MESS(2, "info %p must not be NULL ", info);
-	  FUNC_MESS_FAILED();
-	  return GSL_EBADFUNC;
-     }
 
-     DEBUG_MESS(2, "info->message = '%s' info->info.error_description = '%s'",
-		info->message, info->error_description);
 
-     py_exception = PyErr_Occurred();
-     DEBUG_MESS(2, "Py_Exception = %p", py_exception);
-
-     if(object == NULL && py_exception){
+     if(object == NULL && PyErr_Occurred()){
 	  /* 
 	   * Error was apparently raised by the function, so lets just add a
 	   * traceback frame .... 
 	   */
 	  info->error_description = "User function raised exception!";
 	  PyGSL_add_traceback(NULL, "Unknown file", info->message, __LINE__);
-	  FUNC_MESS_END();
 	  return GSL_EBADFUNC;
      }
-     if(py_exception){
+     if(PyErr_Occurred()){
 	  info->error_description = "Function raised an exception.";
 	  PyGSL_add_traceback(NULL, "Unknown file", info->message, __LINE__);
-	  FUNC_MESS_END();
 	  return GSL_EBADFUNC;
 	  /* return PyGSL_set_error_string_for_callback(info); */
      }
@@ -250,12 +229,8 @@ PyGSL_check_python_return(PyObject *object, int nargs, PyGSL_error_info  *info)
      if(nargs == 0){
 	  if(object != Py_None){
 	       info->error_description = "I expected 0 arguments, but I got an object different from None.";
-	       FUNC_MESS_END();
-	       status = PyGSL_set_error_string_for_callback(info);
-	       FUNC_MESS_END();
-	       return status;
+	       return PyGSL_set_error_string_for_callback(info);
 	  } else {
-	       FUNC_MESS_END();
 	       return GSL_SUCCESS;
 	  }
      }
@@ -264,11 +239,8 @@ PyGSL_check_python_return(PyObject *object, int nargs, PyGSL_error_info  *info)
 	  if(object == Py_None){
 	       info->error_description = "Expected 1 argument, but None was returned. This value is not acceptable for" 
 		    " the following arithmetic calculations.";
-	       status = PyGSL_set_error_string_for_callback(info);
-	       FUNC_MESS_END();
-	       return status;
+	       return PyGSL_set_error_string_for_callback(info);
 	  } else {
-	       FUNC_MESS_END();
 	       return GSL_SUCCESS;
 	  } 
      }

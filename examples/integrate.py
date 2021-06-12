@@ -8,31 +8,8 @@ the "numerical singularity" (please could someone change it to the approbriate
 expression?) x = 0. qawf is used to integrate towards infinity.
 
 """
-from __future__ import print_function, absolute_import, division
-
 from  pygsl import integrate
 from  pygsl import _numobj as numx
-
-def run_fail():
-    """Demonstrates pygsl capabilites in finding problems with callbacks
-    """
-    def f1(x, *args):
-        return None
-
-    import pygsl
-
-    sys = integrate.gsl_function(f1, None)
-
-    # Enables printing debug messages. The higher the level the more information
-    # will be displayed
-    #pygsl.set_debug_level(3)
-
-    # Quite a few functions add traceback frames when they propage the error
-    # through the different levels. If you can not understand the error messages
-    # directly, looking at the source where the error occured can help.
-    #pygsl.add_c_traceback_frames(True)
-    flag, result, error, method = integrate.qng(sys, 0, numx.pi, 1e-8, 1e-8)
-    pygsl.set_debug_level(0)
 
 def run():
     def f2(x,y):
@@ -62,12 +39,8 @@ def run():
                                           cyclew, table1)
     flag, result3, error = integrate.qawf(sys3, numx.pi, 1e-8,  100, w,
                                           cyclew, table2)
-
-    r = result1 + result2 + result3
-    dr = r - numx.pi
-    dlr = dr/numx.pi * 1e6
-    print( "Result of integration is : %s, Deviation %e = %e ppm" %(r, dr, dlr) )
+    
+    print "Result of integration is :", result1 + result2 + result3
 
 if __name__ == '__main__':
     run()
-    #run_fail()

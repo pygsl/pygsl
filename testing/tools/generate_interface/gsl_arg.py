@@ -1,19 +1,3 @@
-"""Ufuncs that match different entries directly to the appropriate members of
-the c-structures.
-
-GSL uses c-structures e.g.:
-    * gsl_result with its members .val, .err
-    * gsl_result_e with its members .val, .err, .e10
-    * complex types
-
-These structures require that more than one python object has to be matched to
-the appopriate structure entry. Therefore appropriate temporary variables have
-to be created in the ufunc evaluation loop.
-
-Furthermore the ufuncs can be used with minor types: e.g. an array of float can
-be passed in. The ufunc will call the double function and store the results in
-a float array on output.
-"""
 from __future__ import print_function
 import ufunc_arg
 import common

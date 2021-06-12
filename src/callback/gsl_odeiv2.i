@@ -22,7 +22,6 @@
 #include <stddef.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_odeiv2.h>
-#include <pygsl/pygsl_features.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/error_helpers.h>
 #include <odeiv_func2.ic>
@@ -780,11 +779,7 @@ typedef struct{
 	}
 
 	gsl_error_flag_drop reset_hstart(const double hstart){
-%#ifdef _PYGSL_GSL_HAS_ODEIV2_DRIVER_RESET_HSTART
 		return gsl_odeiv2_driver_reset_hstart(self->driver, hstart);
-%#else
-	        PyGSL_ERROR_UNIMPL;
-%#endif
 	}
 
 	PyObject * apply_fixed_step(const double tin, const double h, const unsigned long int n, PyObject *y_o){

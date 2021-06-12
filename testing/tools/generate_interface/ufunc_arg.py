@@ -6,9 +6,6 @@
 Provides converters from each ufunc pointer type to the appropriate C types
 * sphinx compatible description of the variable type
 * code for the appropriate temporary variables.
-
-The main assumption is: one python object (or array entry) matches exactly to
-one c-type.
 """
 import common
 
@@ -82,9 +79,9 @@ class _UFuncArgument(_UFuncPosNum, _ArgumentType):
         assert(self.__value_for_failed is not None)
         assert(self.__value_for_failed is not None)
 
-        # That*s always the case?        
-        assert(self._c_sub_type is not None)
+        # That*s always the case?
         
+        assert(self._c_sub_type is not None)
     def SetName(self, name):
         assert(name is not None)
         self._name = name

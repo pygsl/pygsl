@@ -1,7 +1,4 @@
 import copy
-import logging
-
-logger = logging.Logger(__file__)
 
 def get_py_ufunc_name(sf_prototype, minor = False):
     """Derive a semi standard name from the function signature
@@ -35,19 +32,15 @@ class sf_prototype(object):
     """contains all necessary informations about the prototype
     and can contain code for it
 
-    The prototype only needs to provide its arguments:
-        * the in arguments
-        * the out arguments
-        * the return arguments
+    The prototype only needs to provide these arguments.
 
-    The arguments must provide at least the interface of
-    :class:`ufunc_arg._UFuncArgument`
+    The arguments must provide the ufunc_arg._UFuncArgument
     """
-    __slots__ = ("_in_args", "_out_args", "_return_arg", "_parameters")
+    __slots__ = ("_in_args", "_out_args", "_return_arg", "_parameters") 
 
     def GetFunctionPointerDeclaration(self):
         code = []
-        for par in self.GetInArguments():
+        for par in self.GetInArguments():            
             code.append(par.GetGSLType())
 
         for par in self.GetOutArguments():
@@ -77,7 +70,7 @@ class sf_prototype_build(sf_prototype):
     """Collects the information of the prototype
     """
 
-    __slots__ = ("_return_value", "_name",  "_use_return_value", "_all_parameters_handled", "_comment", "_requires_config")
+    __slots__ = ("_return_value", "_name",  "_use_return_value", "_all_parameters_handled", "_comment")
     def __init__(self, comment = None, name = None, ret = None, params = None, use_return_value = 0):
 
         self._comment = None
@@ -97,7 +90,7 @@ class sf_prototype_build(sf_prototype):
         self._out_args = None
         self._return_arg = None
         self._all_parameters_handled = False
-        self._requires_config = None
+
         self._AllParametersHandled()
 
     def _AllParametersHandled(self):
@@ -122,7 +115,8 @@ class sf_prototype_build(sf_prototype):
 
         parameters = list(copy.copy(self._parameters))
         verbose = False
-        logger.debug("Parameters %s" % (parameters,))
+        if verbose:
+            print("Parameters", parameters)
         
         left_overs = []
         while 1:
@@ -337,14 +331,3 @@ class sf_prototype_build(sf_prototype):
         t_str += ")"
         return t_str
 
-    def SetRequiresConfig(self, required = True):
-        self._requires_config = required
-
-    def GetConfigMacroName(self):
-        if not self._requires_config:            
-            return ""
-
-        func_name = self.GetFunctionName()
-        tmp = func_name.upper()
-        macro = "_PyGSL_GSL_HAS_SF_FUNC_%s" %(tmp,)
-        return macro

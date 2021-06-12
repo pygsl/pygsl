@@ -18,24 +18,24 @@
 #define  _PyGSL_TO_ARRAY_INDEX_CAST(arg) ((PyGSL_array_index_t) (arg))
 #if PYGSL_GSL_MAJOR_VERSION == 2
 #if PYGSL_GSL_MINOR_VERSION == 0
-#error GSL 2.0 implementation of multifit has a bug in multifit_wlinear
+#error GSL 2.0 implementation of multifit has a bug in multifit_wliner
 #endif /* PYGSL_GSL_MINOR_VERSION == 0 */
 #endif /* PYGSL_GSL_MAJOR_VERSION == 2 */
   
-#ifdef _PYGSL_GSL_HAS_MULTIFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX
+#ifdef _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX
 #define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->nmax))
 #define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->pmax))
   /* fix a bug in multifit_wlinear ... */
 #define _PyGSL_MULTIFIT_WORKSPACE_SET(s) s->n = s->nmax; (s->p = s->pmax);
-#else /*  _PYGSL_GSL_HAS_MULTIFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX */
-#ifndef _PYGSL_GSL_HAS_MULTIFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P
+#else /*  _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX */
+#ifndef _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P
 #error "I expected that if nmax and pmax is not found that n and p are always"  
 #error "found"
-#endif /* _PYGSL_GSL_HAS_MULTIFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P */
+#endif /* _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P */
 #define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
 #define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->n))
 #define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->p))
-#endif /* _PYGSL_GSL_HAS_MULTIFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX */
+#endif /* _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX */
 %}
 %include typemaps.i
 %include gsl_block_typemaps.i
@@ -259,8 +259,63 @@ gsl_multifit_wlinear_svd (const gsl_matrix * IN_AND_SIZE,
                           double * chisq,
                           gsl_multifit_linear_workspace * work_provide);
 
-%include gsl_multifit_common.i
+gsl_error_flag_drop
+gsl_multifit_linear_est (const gsl_vector * x, 
+			 const gsl_vector * c, 
+			 const gsl_matrix * IN, 
+			 double * Y, double *Y_ERR);
 
+/*
+gsl_error_flag_drop
+gsl_multifit_linear_residuals(const gsl_matrix * IN, 
+			      const gsl_vector * y, 
+			      const gsl_vector * c, 
+			      gsl_vector * r);
+
+*/
+
+
+PyObject *
+gsl_multifit_linear_est_matrix (const gsl_matrix * x, 
+				const gsl_vector * c, 
+				const gsl_matrix * cov);
+
+PyObject *
+pygsl_multifit_linear_residuals (const gsl_matrix *X, const gsl_vector *y,
+                               const gsl_vector *c);
+
+%{
+PyObject *
+pygsl_multifit_linear_residuals (const gsl_matrix *X, const gsl_vector *y,
+                               const gsl_vector *c)
+{
+
+	int flag, line = __LINE__;
+
+	PyArrayObject *r_a = NULL;
+	gsl_vector_view r;
+	PyGSL_array_index_t dim = 0;
+	FUNC_MESS_BEGIN();
+
+	dim = y->size;
+	r_a = PyGSL_New_Array(1, &dim, NPY_DOUBLE);
+	if(r_a == NULL){
+		goto fail;
+	}
+	r = gsl_vector_view_array(PyArray_DATA(r_a), PyArray_DIM(r_a, 0)); 
+	flag = gsl_multifit_linear_residuals(X, y, c, &r.vector);
+	if(GSL_SUCCESS != PyGSL_ERROR_FLAG(flag)){
+		goto fail;
+	}
+	FUNC_MESS_END();
+
+	return (PyObject *) r_a;
+  fail:
+	FUNC_MESS("Fail");
+	Py_XDECREF(r_a);	
+	return NULL;
+}
+%}
 
 %apply (double *, size_t){(const double * x, const size_t xstride),
 			  (const double * y, const size_t ystride),
