@@ -29,32 +29,36 @@ Complex = pygsl.Complex
 def LU_decomp(A):
     """
     returns (LU, P, signum)
-    
+
     This function factorizes the square matrix A into the LU decomposition
     PA = LU. On output the diagonal and upper triangular part of the return
     matrix contain the matrix U. The lower triangular part of the input matrix
     (excluding the diagonal) contains L. The diagonal elements of L are unity,
     and are not stored.
-    
+
     The permutation matrix P is encoded in the permutation p. The j-th column
     of the matrix P is given by the k-th column of the identity matrix, where
     k = p_j the j-th element of the permutation vector. The sign of the
     permutation is given by signum. It has the value (-1)^n, where n is the
     number of interchanges in the permutation.
-    
+
     The algorithm used in the decomposition is Gaussian Elimination with
     partial pivoting (Golub & Van Loan, Matrix Computations, Algorithm 3.4.1).
+
+
+    Todo:
+        Check if creating a copy of array A is required
     """
-    
+
     p = Permutation(A.shape[1])
     code = get_typecode(A)
-    An = array_typed_copy(A)
+    tmp = array_typed_copy(A)
     if code == Complex:
         # Now all error flags are turned into python exceptions. So no
         # unpack necessary any longer.
-        signum = _gslwrap.pygsl_linalg_complex_LU_decomp(An, p)
+        An, signum = _gslwrap.pygsl_linalg_complex_LU_decomp(tmp, p)
     elif code == Float:
-        signum = _gslwrap.pygsl_linalg_LU_decomp(An, p)
+        An, signum = _gslwrap.pygsl_linalg_LU_decomp(tmp, p)
     else:
         #print code, Float, Complex
         raise TypeError("LU must be of type Float or Complex")
@@ -64,7 +68,7 @@ def LU_decomp(A):
 def LU_unpack(LU):
     """
     returns (L,U)
-    
+
     This function splits the matrix LU into the the upper matrix U and
     the lower matrix L. The diagonal of L is the identity.
     """
@@ -76,7 +80,7 @@ def LU_unpack(LU):
         l[i, 0:i] = LU[i, :i]
     return (l, u)
 
-        
+
 def LU_solve(LU, p, b):
     """
     This function solves the system A x = b using the LU decomposition of A
@@ -99,7 +103,7 @@ def LU_refine(A, LU, p, b, x):
 
     This functions applies an iterative improvement to x, the solution
     of A x = b, using the LU decomposition of A into (LU,p). The initial
-    residual r = A x - b is also computed and stored in residual. 
+    residual r = A x - b is also computed and stored in residual.
     """
     code = get_typecode(LU)
     raise NotImplementedError("This function is not (yet implemented)")
@@ -109,7 +113,7 @@ def LU_refine(A, LU, p, b, x):
 #        _gslwrap.gsl_linalg_LU_refine
 #    else:
 #        raise TypeError, "LU must be of type Float or Complex"
-    
+
 
 def LU_invert(LU, p):
     """
@@ -177,7 +181,7 @@ def LU_sgndet(LU, signum):
         return _gslwrap.gsl_linalg_LU_sgndet(LU, signum)
     else:
         raise TypeError("LU must be of type Float or Complex")
-    
+
 
 #
 # QR Decomposition
@@ -186,7 +190,7 @@ def LU_sgndet(LU, signum):
 def QR_decomp(A):
     """
     returns (QR, tau)
-    
+
     Function: int gsl_linalg_QR_decomp (gsl_matrix * A, gsl_vector * tau)
     This function factorizes the M-by-N matrix A into the QR
     decomposition A = Q R. On output the diagonal and upper triangular
@@ -212,7 +216,7 @@ def QR_decomp(A):
 def QR_solve(QR, tau, b):
     """
     returns x
-    
+
     This function solves the system A x = b using the QR decomposition of
     A into (QR, tau) given by gsl_linalg_QR_decomp.
     """
@@ -225,7 +229,7 @@ def QR_solve(QR, tau, b):
 def QR_lssolve(QR, tau, b):
     """
     returns (x, residual)
-    
+
     This function finds the least squares solution to the overdetermined
     system A x = b where the matrix A has more rows than columns. The least
     squares solution minimizes the Euclidean norm of the residual, ||Ax - b||.
@@ -257,7 +261,7 @@ def QR_QTvec(QR, tau, v):
 def QR_Qvec(QR, tau, v):
     """
     returns v'
-    
+
     This function applies the matrix Q encoded in the decomposition
     (QR,tau) to the vector v, storing the result Q v in v'. The matrix
     multiplication is carried out directly using the encoding of the
@@ -266,12 +270,12 @@ def QR_Qvec(QR, tau, v):
     vn = array_typed_copy(v)
     _gslwrap.gsl_linalg_QR_Qvec(QR,tau,vn)
     return vn
-    
+
 
 def QR_Rsolve(QR, b):
     """
     returns x
-    
+
     This function solves the triangular system R x = b for x.
     It may be useful if the product b' = Q^T b has already been computed
     using gsl.linalg.QR_QTvec.
@@ -279,12 +283,12 @@ def QR_Rsolve(QR, b):
     x = zeros(QR.shape[1], get_typecode(b))
     _gslwrap.gsl_linalg_QR_Rsolve(QR, b, x)
     return x
-    
-    
+
+
 def QR_unpack(QR, tau):
     """
     returns (Q, R)
-    
+
     This function unpacks the encoded QR decomposition (QR,tau) into the
     matrices Q and R, where Q is M-by-M and R is M-by-N.
     """
@@ -294,12 +298,12 @@ def QR_unpack(QR, tau):
     r = zeros([m,n], code)
     _gslwrap.gsl_linalg_QR_unpack(QR, tau, q, r)
     return (q,r)
-    
+
 
 def QR_QRsolve(Q, R, b):
     """
     returns x
-    
+
     This function solves the system R x = Q^T b for x. It can be used when
     the QR decomposition of a matrix is available in unpacked form as (Q,R).
     """
@@ -323,19 +327,19 @@ def QR_update(Q, R, w, v):
 def R_solve(R, b):
     """
     returns x
-    
+
     This function solves the triangular system R x = b for the N-by-N
     matrix R.
     """
     x = zeros(R.shape[1], get_typecode(R))
     _gslwrap.gsl_linalg_QR_QRsolve(R, b, x)
     return x
-    
+
 
 #
 # SVD Singular Value Decomposition
 #
-    
+
 def SV_decomp(A):
     """
     returns (U, V, S)
@@ -347,9 +351,9 @@ def SV_decomp(A):
     contains the elements of V in untransposed form. To form the product
     U S V^T it is necessary to take the transpose of V. A workspace of
     length N is required in work.
-    
+
     This routine uses the Golub-Reinsch SVD algorithm.
-    """    
+    """
     code = get_typecode(A)
     n = A.shape[1]
     u = array_typed_copy(A, code)
@@ -358,12 +362,12 @@ def SV_decomp(A):
     work = zeros(A.shape[1], code)
     _gslwrap.gsl_linalg_SV_decomp(u, v, s, work)
     return (u, v, s)
-    
+
 
 def SV_decomp_mod(A):
     """
     returns (u, v, s)
-    
+
     This function computes the SVD using the modified Golub-Reinsch
     algorithm, which is faster for M>>N. It requires the vector work
     and the N-by-N matrix X as additional working space.
@@ -377,7 +381,7 @@ def SV_decomp_mod(A):
     work = zeros(A.shape[1], code)
     _gslwrap.gsl_linalg_SV_decomp_mod(u, x, v, s, work)
     return (u, v, s)
-    
+
 
 def SV_decomp_jacobi(A):
     """
@@ -394,12 +398,12 @@ def SV_decomp_jacobi(A):
     v = zeros((n, n), code)
     _gslwrap.gsl_linalg_SV_decomp_jacobi(u, v, s)
     return (u, v, s)
-    
+
 
 def SV_solve(U, V, S, b):
     """
     returns x
-    
+
     This function solves the system A x = b using the singular value
     decomposition (U, S, V) of A given by gsl_linalg_SV_decomp.
 
@@ -410,7 +414,7 @@ def SV_solve(U, V, S, b):
 
     In the over-determined case where A has more rows than columns the
     system is solved in the least squares sense, returning the solution x
-    which minimizes ||A x - b||_2. 
+    which minimizes ||A x - b||_2.
     """
     x = zeros(U.shape[1], get_typecode(b))
     _gslwrap.gsl_linalg_SV_solve(U, V, S, b, x)
@@ -441,7 +445,7 @@ def cholesky_decomp(A):
 def cholesky_unpack(L):
     """
     returns (L, L^T)
-    
+
     This function splits the matrix L into the the upper matrix L^T and
     the lower matrix L. The diagonal of L is the identical for both.
     """
@@ -456,7 +460,7 @@ def cholesky_unpack(L):
 def cholesky_solve(cholesky, b):
     """
     returns x
-    
+
     This function solves the system A x = b using the Cholesky decomposition
     of A into the matrix cholesky given by cholesky_decomp.
     """
@@ -479,7 +483,7 @@ def cholesky_solve(cholesky, b):
 def symmtd_decomp(A):
     """
     returns (QT, tau)
-    
+
     This function factorizes the symmetric square matrix A into the
     symmetric tridiagonal decomposition Q T Q^T. On output the diagonal
     and subdiagonal part of the input matrix A contain the tridiagonal
@@ -499,7 +503,7 @@ def symmtd_decomp(A):
 def symmtd_unpack(A, tau):
     """
     returns (Q, diag, subdiag)
-    
+
     This function unpacks the encoded symmetric tridiagonal decomposition
     (A, tau) obtained from gsl_linalg_symmtd_decomp into the orthogonal
     matrix Q, the vector of diagonal elements diag and the vector of
@@ -513,7 +517,7 @@ def symmtd_unpack(A, tau):
     _gslwrap.gsl_linalg_symmtd_unpack(A, tau, Q, diag, subdiag)
     return (Q, diag, subdiag)
 
-    
+
 def symmtd_unpack_T(A):
     """
     returns (diag, subdiag)
@@ -563,7 +567,7 @@ def symmtd_unpack_diag(diag, subdiag):
 def hermtd_decomp(A):
     """
     returns (QT, tau)
-    
+
     This function factorizes the hermitian matrix A into the symmetric
     tridiagonal decomposition U T U^T. On output the real parts of the
     diagonal and subdiagonal part of the input matrix A contain the
@@ -583,7 +587,7 @@ def hermtd_decomp(A):
 def hermtd_unpack(A, tau):
     """
     returns (Q, diag, subdiag)
-    
+
     This function unpacks the encoded tridiagonal decomposition (A, tau)
     obtained from gsl_linalg_hermtd_decomp into the unitary matrix U, the
     real vector of diagonal elements diag and the real vector of subdiagonal
@@ -597,7 +601,7 @@ def hermtd_unpack(A, tau):
     _gslwrap.gsl_linalg_hermtd_unpack(A, tau, Q, diag, subdiag)
     return (Q, diag, subdiag)
 
-    
+
 def symmtd_unpack_T(A):
     """
     returns (diag, subdiag)
@@ -660,7 +664,7 @@ def bidiag_decomp(A):
 def bidiag_unpack(A, tau_U, tau_V):
     """
     returns (U, V, diag, superdiag)
-    
+
     This function unpacks the bidiagonal decomposition of A given by
     gsl.linalg.bidiag_decomp, (A, tau_U, tau_V) into the separate
     orthogonal matrices U, V and the diagonal vector diag and
@@ -679,7 +683,7 @@ def bidiag_unpack(A, tau_U, tau_V):
 def bidiag_unpack_B(A):
     """
     returns (diag, superdiag)
-    
+
     This function unpacks the diagonal and superdiagonal of the bidiagonal
     decomposition of A given by gsl_linalg_bidiag_decomp, into the diagonal
     vector diag and superdiagonal vector superdiag.
@@ -716,7 +720,7 @@ def bidiag_unpack_diag(diag, superdiag):
 def HH_solve(A,b):
     """
     returns x
-    
+
     This function solves the system A x = b directly using Householder
     transformations. On output the solution is stored in x and b is not
     modified.
@@ -731,7 +735,7 @@ def HH_solve(A,b):
 #
 # Tridiagonal Systems
 #
- 
+
 def solve_tridiag(diag, e, f, b):
     """
     returns x
@@ -768,7 +772,7 @@ def solve_symm_tridiag(diag, e, b):
 def solve_symm_cyc_tridiag(diag, e, b):
     """
     returns x
-    
+
     This function solves the general N-by-N system A x = b where A is
     symmetric cyclic tridiagonal. The form of A for the 4-by-4 case is
     shown below,
@@ -781,4 +785,3 @@ def solve_symm_cyc_tridiag(diag, e, b):
     x = zeros(diag.shape, get_typecode(diag))
     _gslwrap.gsl_linalg_solve_symm_cyc_tridiag(diag, e, b, x)
     return x
-    

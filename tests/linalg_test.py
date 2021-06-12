@@ -43,8 +43,8 @@ class LinalgTestCase(GSLTestCase):
         self.assertTrue(res)
 
     def testLU_det(self):
-        (lu, p, s) = LU_decomp(self.m1_4)
-        det = LU_det(lu,s)
+        (lu, p, signum) = LU_decomp(self.m1_4)
+        det = LU_det(lu, signum)
         result = fpcompare(det, 15.744, 3)
         self.assertTrue(result)
 
@@ -53,10 +53,10 @@ class LinalgTestCase(GSLTestCase):
         lndet = LU_lndet(lu)
         result = fpcompare(lndet, numx.log(15.744), 3)
         self.assertTrue(result)
-        
+
     def testLU_sgndet(self):
-        (lu, p, s) = LU_decomp(self.m1_4)
-        det = LU_sgndet(lu,s)
+        (lu, p, signum) = LU_decomp(self.m1_4)
+        det = LU_sgndet(lu, signum)
         self.assertTrue(det == 1)
 
     def testSV_decomp(self):
@@ -135,7 +135,7 @@ class LinalgTestCase(GSLTestCase):
         (qr,tau) = QR_decomp(A)
         (x, res) = QR_lssolve(qr, tau, b)
         assert(numx.absolute(x[0]) < 1e-7)
-        assert(numx.absolute(x[1] - 0.25925) < 1e-4)        
+        assert(numx.absolute(x[1] - 0.25925) < 1e-4)
         res2 = arrayCompare(res, [0.48148, 0.2222, -0.037037037, -0.296296], 4)
         self.assertTrue(res2)
 
@@ -150,7 +150,7 @@ class LinalgTestCase(GSLTestCase):
         for i in result:
             res = res and abs(i) < 0.0000001
         self.assertTrue(res)
-        
+
     def testQR_Qvec(self):
         (qr, tau) = QR_decomp(self.m1_4)
         v = array([1,2,3,4], Float)
@@ -197,7 +197,7 @@ class LinalgTestCase(GSLTestCase):
         (diag2, subdiag2) = symmtd_unpack_T(A)
         result = arrayIsZero(diag2-diag1) and arrayIsZero(subdiag1-subdiag2)
         self.assertTrue(result)
-        
+
     def testHermtd(self):
         (A, tau) = hermtd_decomp(self.herm)
         (Q, diag, subdiag) = hermtd_unpack(A, tau)
@@ -254,7 +254,3 @@ class LinalgTestCase(GSLTestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-
-
-
