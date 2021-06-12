@@ -1,0 +1,28 @@
+# Files generated locally during config process
+Include/pygsl/pygsl_features_config.h
+gsl_dist/gsl_features.py
+gsl_dist/gsl_version.py
+
+# swig generated files ... copied to pygsl directory during build process
+swig_src/*.py
+
+# emacs generated files
+*~
+
+# build directory
+build/
+
+# dist directory
+dist/
+
+# build files
+*.o
+
+# Library files or C Extension
+*.so
+*.a
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
