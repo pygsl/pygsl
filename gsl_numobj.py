@@ -80,24 +80,24 @@ def switchpreference(array_preference):
 	if array_preference != None:
 	    if array_preference == 'numpy':
                 if have_numpy == 1:
-                        use_numpy = 1
+                    use_numpy = 1
                 else:
-                        sys.stdout.write( "Did not find the numpy module you asked for")            
+                    sys.stdout.write( "Did not find the numpy module you asked for")
 
 	    if array_preference == 'Numeric':
-                    sys.stdout.write("Numeric supported any longer. If you still need it write to pygsl-discuss@lists.sourceforge.net")
-#		if have_numeric == 1:
-#		    use_numeric = 1
-#		else:
-#                         sys.stdout.write("Did not find the Numeric module you asked for")          
+                sys.stdout.write("Numeric module not supported any longer.")
+#                if have_numeric == 1:
+#                   use_numeric = 1
+#                else:
+#                   sys.stdout.write("Did not find the Numeric module you asked for")
 	    elif array_preference == 'numarray':
-                        sys.stdout.write("numarray supported any longer. If you still need it write to pygsl-discuss@lists.sourceforge.net")
-#		    if have_numarray == 1:
-#			use_numarray = 1
-#		    else:
-#			sys.stdout.write( "Did not find the numarray module you asked for")
+                sys.stdout.write("numarray module not supported any longer.")
+#                if have_numarray == 1:
+#                    use_numarray = 1
+#                else:
+#                    sys.stdout.write( "Did not find the numarray module you asked for")
 
-	if use_numeric == 0 and use_numarray == 0 and use_numpy == 0:            
+	if use_numeric == 0 and use_numarray == 0 and use_numpy == 0:
 	    if have_numpy == 1:
                     use_numpy = 1
 	    elif have_numarray == 1:
@@ -105,20 +105,20 @@ def switchpreference(array_preference):
 	    elif have_numeric == 1:
                     use_numeric = 1
 	    else:
-                    raise  DistutilsModuleError("I need either numpy, nummarray, or Numeric!")
-	
+                    raise DistutilsModuleError("I need either numpy, nummarray, or Numeric!")
+
 	if use_numpy == 1:
 		use_numeric = 0
 		use_numarray = 0
 		nummodule = "numpy"
-		
+
 	elif use_numeric == 1:
 		#print "Using Numeric as array Package"
 		use_numpy = 0
 		use_numarray = 0
 		nummodule = "Numeric"
 
-	elif use_numarray == 1:    
+	elif use_numarray == 1:
 		#print "Using nummarray as array Package"
 		use_numeric = 0
 		use_numpy = 0

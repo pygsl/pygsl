@@ -246,7 +246,7 @@ setup (name = proj_name,
        license = "GPL",
        author = "Achim Gaedke, Pierre Schnizer",
        author_email = "AchimGaedke@users.sourceforge.net, schnizer@users.sourceforge.net",
-       url = "http://pygsl.sourceforge.net",       
+       url = "https://github.com/pygsl/pygsl",
        package_dir = {'pygsl' : 'pygsl', 'pygsl.gsl_dist' : 'gsl_dist'},
        packages = ['pygsl', 'pygsl.testing', 'pygsl.statistics', 'pygsl.gsl_dist'],
        ext_package = 'pygsl',
@@ -264,4 +264,3 @@ setup (name = proj_name,
                }
             }
        )
-

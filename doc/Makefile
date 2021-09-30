@@ -35,9 +35,8 @@ ALLHTMLFILES=$(INDEXFILES)
 ALLCSSFILES=$(HTMLCSSFILES)
 
 # some information for generated html
-MAILINGLIST	= pygsl@lists.sourceforge.net
-ADDRESS		= ""
-# Send comments to the <a href=\"mailto:$(MAILINGLIST)\">PyGSL community</a>."
+MAILINGLIST	=
+ADDRESS		= "https://github.com/pygsl/pygsl"
 OPTIONS 	= --address=$(ADDRESS) --split=4
 
 WEBDIR		= schnizer,pygsl@web.sf.net:htdocs/reference/pygsl/

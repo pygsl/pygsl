@@ -33,10 +33,10 @@ This module provides the following submodules:
     * sf
     * statistics
 
-         
-Homepage: http://pygsl.sourceforge.net
 
-Warning: 
+Homepage: https://github.com/pygsl/pygsl
+
+Warning:
    If you want to use setup from the environement you have to call
    :func:`pygsl.ieee.env_setup()` and :func:`pygsl.rng.env_setup()` explicitly!
 """
@@ -60,7 +60,7 @@ use
 to add the necessary extension module in the local pygsl/ directory!
 
 Please read the README first! Any further questions or missing information
-please post to pygsl-discuss@lists.sourceforge.net!
+please report on https://github.com/pygsl/pygsl!
 """
 
 
