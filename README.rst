@@ -50,8 +50,8 @@ gsl-config must be on your path.
    python setup.py build
    # Running only
    python setup.py
-   # can result in an error. So if you see an error running setup.py please
-   run python setup.py build
+   # can result in an error. So if you see an error running setup.py please run
+   python setup.py build
    # change to a id, that is allowed to do installation
    python setup.py install
 
@@ -118,11 +118,6 @@ Currently it is being tested using GitHub Actions continuous integration on:
 
 - Python 3.8, numpy-latest and GSL 2.5 under Ubuntu Linux 20.04.
 
-The version 2.1.1 was tested with
-
-- Python 2.6, NumPy 1.4 and GSL 1.13 (on Linux RedHat)
-- Python 2.7, NumPy 1.8 and GSL 1.16 (on MacOS X, Fink)
-- Python 3.4, NumPy 1.8 and GSL 1.16 (on Linux Debian stable)
 
 Testing
 -------
@@ -220,6 +215,7 @@ pygsl-0.0.3 was released on May 23, 2001.
 Thanks
 ------
 
+* Charl Linssen for continous integration
 * Jochen Küpper for pygsl.statistics
 * Fabian Jakobs for pygsl.blas, pygsl.eigen,
   pygsl.linalg and pygsl.permutation
