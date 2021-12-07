@@ -7,6 +7,7 @@ ENV TERM=xterm \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential libtool automake autotools-dev \
+    nano \
     swig \
     libgsl-dev \
     python3-dev \

@@ -66,10 +66,11 @@ PyGSL is installed to the Python packages path, and can be uninstalled by typing
 Installation via PyPI
 ---------------------
 
-PyGSL can also be installed using the pip package installer. Simply type:
+PyGSL can also be installed using the pip package installer. This requires the Python packages ``setuptools`` and ``wheel`` to be already installed. Simply type:
 
 .. code-block:: sh
 
+   python -m pip install setuptools wheel
    python -m pip install pygsl
 
 To remove PyGSL, use:

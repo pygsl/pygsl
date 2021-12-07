@@ -76,6 +76,7 @@ import glob
 # Add the gsldist path
 import os
 pygsldir = os.path.dirname("__name__")
+
 # Get the version information
 versionfile = open(os.path.join(pygsldir, "pygsl", "_version.py"))
 versiontext = versionfile.read()
@@ -88,25 +89,19 @@ del versiontext
 gsldist_path = os.path.join(pygsldir, "gsl_dist")
 sys.path.insert(0, gsldist_path)
 
+from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
 
-#import distutils
-#from distutils.core import setup, Extension
 import setuptools
 import setuptools.command
 import setuptools.command.install
 import setuptools.command.bdist_egg
 from setuptools import setup, Extension
 
-# used to read array object ... do not need that any more
-# import gsl_numobj
-
 from gsl_Extension import gsl_Extension
 from swig_extension import SWIG_Extension as _SWIG_Extension
 from swig_extension import SWIG_Extension_Nop as _SWIG_Extension_Nop
 
 from distutils import sysconfig
-#from common_objects import libpygsl
-
 
 
 if USE_SWIG == 0:
@@ -188,6 +183,15 @@ class CustomInstallCommand(setuptools.command.install.install):
         setuptools.command.install.install.run(self)
         #super().run()
 
+class CustomBdistWheelCommand(_bdist_wheel):
+    def run(self):
+        # first re-generate GSL wrappers using SWIG
+        self.run_command('gsl_wrappers')
+        # then configure
+        self.run_command('config')
+        # then install
+        _bdist_wheel.run(self)
+        #super().run()
 
 py_module_names = ['errors',
                    'statistics.__init__',
@@ -235,12 +239,12 @@ if INSTALL_HEADERS == 1:
     headers = glob.glob("Include/pygsl/*.h")
     gsldist = ['gsl_dist.' + os.path.basename(x)[:-3] for x in glob.glob("gsl_dist/*.py")]
 
-py_modules = ['pygsl.' + x for x in py_module_names] + gsldist 
+py_modules = ['pygsl.' + x for x in py_module_names] + gsldist
 
 if sys.version_info[0] <= 2:
     exts = exts + extsOnly2
     sys.stdout.write("Bulding for '%s'\n" %(sys.version,))
-    
+
 
 class gsl_Config_Path(gsl_Config.gsl_Config):
     """
@@ -266,7 +270,8 @@ setup (name = proj_name,
        ext_package = 'pygsl',
        ext_modules = exts,
        headers = headers,
-       cmdclass = {'config' : gsl_Config_Path,
+       cmdclass = {'bdist_wheel': CustomBdistWheelCommand,
+                   'config' : gsl_Config_Path,
                    'gsl_wrappers': gsl_CodeGenerator.gsl_CodeGenerator,
                    'install': CustomInstallCommand,
                    #'build_sphinx': BuildDoc
