@@ -1,5 +1,5 @@
 FROM ubuntu:focal
-LABEL maintainer="s.graber@fz-juelich.de"
+LABEL maintainer="https://github.com/pygsl/pygsl"
 
 ENV TERM=xterm \
     TZ=Europe/Berlin \
@@ -21,20 +21,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 10 && \
     update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
 
-RUN python3 -m pip install --upgrade pip setuptools wheel
+RUN python3 -m pip install --upgrade pip setuptools wheel pytest
 #RUN python3 -m pip install --index-url https://test.pypi.org/simple/ pygsl
 RUN python3 -m pip install pygsl
 
-# add user 'nest'
-RUN adduser --disabled-login --gecos 'NEST' --home /home/nest nest && \
-    chown nest:nest /home/nest
+# add user 'user'
+RUN adduser --disabled-login --gecos 'USER' --home /home/user user && \
+    chown user:user /home/user
 
-# copy entrypoint to nest home folder
-COPY entrypoint.sh /home/nest
-RUN chown nest:nest /home/nest/entrypoint.sh && \
-    chmod +x /home/nest/entrypoint.sh
+# copy entrypoint to user home folder
+COPY entrypoint.sh /home/user
+RUN chown user:user /home/user/entrypoint.sh && \
+    chmod +x /home/user/entrypoint.sh
 
-EXPOSE 7003
-WORKDIR /home/nest
-USER nest
-ENTRYPOINT ["/home/nest/entrypoint.sh"]
+WORKDIR /home/user
+USER user
+ENTRYPOINT ["/home/user/entrypoint.sh"]
