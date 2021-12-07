@@ -3,8 +3,14 @@ partly been implemented using hand coded wrappers, partly using SWIG (see
 http://www.swig.org). Here the people are credited and the used tools are
 listed. "Test" indicates if tests exist.
 
-Parts:
-======
+Packaging and integration
+=========================
+
+
+Devops usage at github, pypi packaging
+--------------------------------------
+Charl
+
 building pygsl:
 ---------------
 Achim, Pierre,
@@ -12,6 +18,10 @@ Achim, Pierre,
 building rpms:
 --------------
 Leonardo Milano
+
+
+Parts:
+======
 
 rng:
 ----
@@ -43,7 +53,7 @@ Test
 
 matrix:
 -------
-Achim, c Module, 
+Achim, c Module,
 
 error:
 ------
