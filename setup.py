@@ -284,7 +284,7 @@ setup (name = proj_name,
                    'install': CustomInstallCommand,
                    #'build_sphinx': BuildDoc
                    },
-       install_requires = ['numpy'],
+       install_requires = ['numpy', 'wheel'],
        command_options = {
            'build_sphinx': {
                'project': ('setup.py', proj_name),
