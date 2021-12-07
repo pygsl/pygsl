@@ -19,14 +19,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cmake wget git curl && \
     rm -rf /var/lib/apt/lists/* && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 10 && \
-    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10 && \
-    python3 -m pip install --upgrade pip
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
 
 RUN python3 -m pip install --upgrade pip setuptools wheel
-RUN python3 -m pip install --index-url https://test.pypi.org/simple/ pygsl
-#RUN python3 -m pip install git+https://github.com/
-# RUN python3 -m pip install nestml
-#RUN git clone https://github.com/clinssen/nestml && cd nestml && git branch -a && git checkout jit-third-factor &&  python3 setup.py install
+#RUN python3 -m pip install --index-url https://test.pypi.org/simple/ pygsl
+RUN python3 -m pip install pygsl
 
 # add user 'nest'
 RUN adduser --disabled-login --gecos 'NEST' --home /home/nest nest && \
