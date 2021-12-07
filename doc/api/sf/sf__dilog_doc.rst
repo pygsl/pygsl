@@ -30,6 +30,17 @@
     :rtype:  tuple(:param int ret: positional argument 2, :param double imag_sp.val: positional argument 3, :param double imag_sp.err: positional argument 4, :param double real_sp.val: positional argument 5, :param double real_sp.err: positional argument 6) 
     :return: result 
 
+.. py:function:: sf_dilog(x [, ret])
+
+    Wrapper for :c:func:`gsl_sf_dilog`
+    c code signature: double gsl_sf_dilog(const double x)
+    Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__O`
+    
+    :param double x: positional argument 0
+    :param double ret: positional argument 1
+    :rtype:  double 
+    :return: result 
+
 .. py:function:: sf_dilog_e(x [, ret, result.val, result.err])
 
     Wrapper for :c:func:`gsl_sf_dilog_e`
@@ -41,16 +52,5 @@
     :param double result.val: positional argument 2
     :param double result.err: positional argument 3
     :rtype:  tuple(:param int ret: positional argument 1, :param double result.val: positional argument 2, :param double result.err: positional argument 3) 
-    :return: result 
-
-.. py:function:: sf_dilog(x [, ret])
-
-    Wrapper for :c:func:`gsl_sf_dilog`
-    c code signature: double gsl_sf_dilog(const double x)
-    Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id__Rd__O`
-    
-    :param double x: positional argument 0
-    :param double ret: positional argument 1
-    :rtype:  double 
     :return: result 
 

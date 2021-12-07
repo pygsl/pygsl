@@ -91,6 +91,10 @@ sys.path.insert(0, gsldist_path)
 
 #import distutils
 #from distutils.core import setup, Extension
+import setuptools
+import setuptools.command
+import setuptools.command.install
+import setuptools.command.bdist_egg
 from setuptools import setup, Extension
 
 # used to read array object ... do not need that any more
@@ -160,7 +164,7 @@ if _has_gsl_config == 0:
     pass
 else:
     assert(_has_gsl_config)
-    #Just checking that the module is there    
+    #Just checking that the module is there
     gsl_features
 
     # now gsl_packages can be loaded. Using gsl_features only the available ones
@@ -172,8 +176,29 @@ else:
     del text
     t_file.close()
     del t_file
-    
 
+
+class CustomInstallCommand(setuptools.command.install.install):
+    def run(self):
+        # first re-generate GSL wrappers using SWIG
+        self.run_command('gsl_wrappers')
+        # then configure
+        self.run_command('config')
+        # then install
+        setuptools.command.install.install.run(self)
+        #super().run()
+
+
+from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
+class CustomBdistWheelCommand(_bdist_wheel):
+    def run(self):
+        # first re-generate GSL wrappers using SWIG
+        self.run_command('gsl_wrappers')
+        # then configure
+        self.run_command('config')
+        # then install
+        _bdist_wheel.run(self)
+        #super().run()
 
 
 py_module_names = ['errors',
@@ -235,6 +260,7 @@ class gsl_Config_Path(gsl_Config.gsl_Config):
     """
     _pygsl_dir = pygsldir
 
+
 print("#%d extension modules" %(len(exts),))
 
 proj_name ="pygsl"
@@ -252,8 +278,10 @@ setup (name = proj_name,
        ext_package = 'pygsl',
        ext_modules = exts,
        headers = headers,
-       cmdclass = {'config' : gsl_Config_Path,
+       cmdclass = {'bdist_wheel': CustomBdistWheelCommand,
+                   'config' : gsl_Config_Path,
                    'gsl_wrappers': gsl_CodeGenerator.gsl_CodeGenerator,
+                   'install': CustomInstallCommand,
                    #'build_sphinx': BuildDoc
                    },
        install_requires = ['numpy'],
@@ -262,5 +290,6 @@ setup (name = proj_name,
                'project': ('setup.py', proj_name),
                'version': ('setup.py', version),
                }
-            }
+            },
+       package_data={"pygsl": ["testing/src/sf/sf.i"]}
        )

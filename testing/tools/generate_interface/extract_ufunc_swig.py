@@ -69,13 +69,13 @@ def check_name_value(element, name, value):
 def extract_func_parameter(par_n, level = None):
     """Extract one function parameter
     """
-    al_l = par_n.getchildren()
+    al_l = list(par_n)
     assert(len(al_l) == 1)
     
     al = al_l[0]
     assert(al.tag == "attributelist")
 
-    ch = al.getchildren()    
+    ch = list(al)
     assert(len(ch) >= 2)
     var_name = extract_value(ch[0], "name")
     var_type = extract_value(ch[1], "type")
@@ -268,7 +268,7 @@ def extract_func(attr_l, level=None, verbose = None):
     f_params = []
     args = []
     cnt = 0
-    for par_n in parl_n.getchildren():
+    for par_n in list(parl_n):
         # The parameter of each variable        
         assert(par_n.tag == "parm")        
         var_type, var_name = extract_func_parameter(par_n, level = level+1)    
@@ -296,14 +296,14 @@ def handle_cdecl(cdecl, level=0, verbose = None):
     sf_s = []
     indent = get_indent(level)
 
-    children = cdecl.getchildren()
+    children = list(cdecl)
     l = len(children)
     assert(l == 1)
 
     al = children[0]    
     assert(al.tag == "attributelist")
 
-    cl = al.getchildren()
+    cl = list(al)
     l = len(cl)
     assert(l >= 1)
 
@@ -362,7 +362,7 @@ def handle_nodes(top, level = 0, mark = None, only_node_name = None, verbose = N
         else:
             print("NTAG %s %s %s: %s" % (t_mark, indent, top.tag, attr))
     
-    for child in top.getchildren():
+    for child in list(top):
         names = only_node_name
         if child.tag == "cdecl":
             names = ()
@@ -386,7 +386,7 @@ def traverse_tree(tree, verbose = None):
 
     print("starting processing")
     sf_s = []
-    for child in top.getchildren():
+    for child in list(top):
         sf = handle_nodes(child, level=1, verbose = verbose)
         sf_s.extend(sf)
     return sf_s
