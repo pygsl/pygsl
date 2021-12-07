@@ -189,18 +189,6 @@ class CustomInstallCommand(setuptools.command.install.install):
         #super().run()
 
 
-from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
-class CustomBdistWheelCommand(_bdist_wheel):
-    def run(self):
-        # first re-generate GSL wrappers using SWIG
-        self.run_command('gsl_wrappers')
-        # then configure
-        self.run_command('config')
-        # then install
-        _bdist_wheel.run(self)
-        #super().run()
-
-
 py_module_names = ['errors',
                    'statistics.__init__',
 		   '_numobj',
@@ -278,13 +266,12 @@ setup (name = proj_name,
        ext_package = 'pygsl',
        ext_modules = exts,
        headers = headers,
-       cmdclass = {'bdist_wheel': CustomBdistWheelCommand,
-                   'config' : gsl_Config_Path,
+       cmdclass = {'config' : gsl_Config_Path,
                    'gsl_wrappers': gsl_CodeGenerator.gsl_CodeGenerator,
                    'install': CustomInstallCommand,
                    #'build_sphinx': BuildDoc
                    },
-       install_requires = ['numpy', 'wheel'],
+       install_requires = ['numpy'],
        command_options = {
            'build_sphinx': {
                'project': ('setup.py', proj_name),
