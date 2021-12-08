@@ -1,4 +1,7 @@
-2016-04          Pierre Schnizer <schnizer@user.sourceforge.net>	
+v2.3.2 (2021-12) Charl Linssen <c.linssen@fz-juelich.de>
+	* Support for pip installing pygsl on Linux systems.
+
+2016-04          Pierre Schnizer <schnizer@user.sourceforge.net>
 	* Started refurbishment of gsl sf interface generators
 	* Added sf tests: translated from gsl source
 	* Added interpolation2d

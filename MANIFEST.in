@@ -53,3 +53,4 @@ include MANIFEST.in
 include MANIFEST
 include COPYING
 
+include testing/src/sf/sf.i
