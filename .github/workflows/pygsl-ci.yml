@@ -95,6 +95,7 @@ jobs:
 
       - name: install
         run: |
+          python setup.py config
           python setup.py install
 
       - name: test
@@ -102,3 +103,7 @@ jobs:
           # make sure to move out of the source directory
           cd /tmp
           python -m pytest -s /home/runner/work/pygsl/pygsl/tests
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3.9

@@ -25,17 +25,26 @@ Installing from a release archive
 
 First, uninstall old versions of PyGSL. ``gsl-config`` must be on your path.
 
-You can download a ``.tar.gz`` file of the latest release at https://github.com/pygsl/pygsl/releases.
+Make sure that the Python package ``wheel`` is installed:
+
+.. code-block:: sh
+
+   pip install wheel
+
+It is needed by the PyGSL installer.
+
+You can download a ``.tar.gz`` file of the latest PyGSL release at https://github.com/pygsl/pygsl/releases. Then run:
 
 .. code-block:: sh
 
    tar -xvzf pygsl-x.y.z.tar.gz
    cd pygsl-x.y.z
+   python setup.py config
    sudo python setup.py install
 
-This will install PyGSL system-wide; for a local install that does not require superuser privileges, use for example ``python setup.py --prefix=/home/work/.local``.
+This will install PyGSL system-wide; for a local install that does not require superuser privileges, specify an installation prefix, for example ``--prefix=/home/work/.local``.
 
-To set the GSL location explicitly, use ``python setup.py install --gsl-prefix=/path/to/gsl``.
+To set the GSL location explicitly, use the argument ``--gsl-prefix=/path/to/gsl``.
 
 PyGSL is installed to the Python packages path, and can be uninstalled by typing:
 
@@ -50,13 +59,13 @@ PyGSL can also be installed using the pip package installer. Simply type:
 
 .. code-block:: sh
 
-   python -m pip install pygsl
+   pip install pygsl
 
 To remove PyGSL, use:
 
 .. code-block:: sh
 
-   python -m pip uninstall pygsl
+   pip uninstall pygsl
    
 Development installation
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,8 +75,8 @@ Pre-generated SWIG wrappers are included in the PyGSL release. To re-generate th
 .. code-block:: sh
 
    python setup.py gsl_wrappers
-   python setup.py config
-   python setup.py install
+
+then continue with the rest of the installation steps (``config``, ``install``).
 
 Using PyGSL
 -----------

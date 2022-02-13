@@ -227,11 +227,23 @@ class gsl_Config_Path(gsl_Config.gsl_Config):
 
 
 class CustomInstallCommand(setuptools.command.install.install):
-    sub_commands = setuptools.command.install.install.sub_commands + [('build', None)]
+    sub_commands = [('config', None), ('build_ext', None)] + setuptools.command.install.install.sub_commands + [('config', None), ('build_ext', None)]
+
+    def run(self):
+        self.run_command("config")
+        self.run_command("build")
+        self.run_command("build_ext")
+        super().run()
 
 
 class CustomBdistWheelCommand(_bdist_wheel):
-    sub_commands = _bdist_wheel.sub_commands + [('build', None)]
+    sub_commands = [('config', None), ('build_ext', None)] + _bdist_wheel.sub_commands + [('config', None), ('build_ext', None)]
+
+    def run(self):
+        self.run_command("config")
+        self.run_command("build")
+        self.run_command("build_ext")
+        super().run()
 
 
 print("#%d extension modules" %(len(exts),))
@@ -264,5 +276,5 @@ setup (name = proj_name,
                'version': ('setup.py', version),
                }
             },
-       package_data={"pygsl": ["testing/src/sf/sf.i", "../Include/pygsl/pygsl_features_config.h", "../gsl_dist/gsl_features.py"]}
+       package_data={"pygsl": ["testing/src/sf/sf.i"]}
        )
