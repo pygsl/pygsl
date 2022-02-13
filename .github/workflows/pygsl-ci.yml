@@ -33,11 +33,6 @@ jobs:
           python -m pip install pytest numpy scipy matplotlib wheel
           python -m pip install pycodestyle
 
-      # Static code analysis
-      #- name: Static code style analysis
-      #  run: |
-      #    python3 -m pycodestyle $GITHUB_WORKSPACE -v --ignore=E241,E501,E303,E714,E713,E714,E252,W503 --exclude=$GITHUB_WORKSPACE/doc,$GITHUB_WORKSPACE/.github
-
       - name: gsl_wrappers
         run: |
           python setup.py gsl_wrappers
@@ -45,10 +40,6 @@ jobs:
       - name: config
         run: |
           python setup.py config
-
-      - name: build
-        run: |
-          python setup.py build
 
       - name: install
         run: |
@@ -93,9 +84,12 @@ jobs:
           python -m pip install pycodestyle
           python -m pip install wheel setuptools --upgrade
 
-      - name: install
+      - name: config
         run: |
           python setup.py config
+
+      - name: install
+        run: |
           python setup.py install
 
       - name: test
@@ -103,7 +97,3 @@ jobs:
           # make sure to move out of the source directory
           cd /tmp
           python -m pytest -s /home/runner/work/pygsl/pygsl/tests
-
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3.9
