@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#!/usr/bin/env python3
 #
 # author: Achim Gaedke, Pierre Schnizer
 # created: May 2001
@@ -94,7 +94,6 @@ from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
 import setuptools
 import setuptools.command
 import setuptools.command.install
-import setuptools.command.bdist_egg
 from setuptools import setup, Extension
 
 from gsl_Extension import gsl_Extension
@@ -172,27 +171,6 @@ else:
     t_file.close()
     del t_file
 
-
-class CustomInstallCommand(setuptools.command.install.install):
-    def run(self):
-        # first re-generate GSL wrappers using SWIG
-        self.run_command('gsl_wrappers')
-        # then configure
-        self.run_command('config')
-        # then install
-        setuptools.command.install.install.run(self)
-        #super().run()
-
-class CustomBdistWheelCommand(_bdist_wheel):
-    def run(self):
-        # first re-generate GSL wrappers using SWIG
-        self.run_command('gsl_wrappers')
-        # then configure
-        self.run_command('config')
-        # then install
-        _bdist_wheel.run(self)
-        #super().run()
-
 py_module_names = ['errors',
                    'statistics.__init__',
 		   '_numobj',
@@ -241,16 +219,19 @@ if INSTALL_HEADERS == 1:
 
 py_modules = ['pygsl.' + x for x in py_module_names] + gsldist
 
-if sys.version_info[0] <= 2:
-    exts = exts + extsOnly2
-    sys.stdout.write("Bulding for '%s'\n" %(sys.version,))
-
-
 class gsl_Config_Path(gsl_Config.gsl_Config):
     """
     Only required here to set the pygsl directory
     """
     _pygsl_dir = pygsldir
+
+
+class CustomInstallCommand(setuptools.command.install.install):
+    sub_commands = setuptools.command.install.install.sub_commands + [('build', None)]
+
+
+class CustomBdistWheelCommand(_bdist_wheel):
+    sub_commands = _bdist_wheel.sub_commands + [('build', None)]
 
 
 print("#%d extension modules" %(len(exts),))
@@ -273,7 +254,7 @@ setup (name = proj_name,
        cmdclass = {'bdist_wheel': CustomBdistWheelCommand,
                    'config' : gsl_Config_Path,
                    'gsl_wrappers': gsl_CodeGenerator.gsl_CodeGenerator,
-                   'install': CustomInstallCommand,
+                   'install': CustomInstallCommand
                    #'build_sphinx': BuildDoc
                    },
        install_requires = ['numpy'],
@@ -283,5 +264,5 @@ setup (name = proj_name,
                'version': ('setup.py', version),
                }
             },
-       package_data={"pygsl": ["testing/src/sf/sf.i"]}
+       package_data={"pygsl": ["testing/src/sf/sf.i", "../Include/pygsl/pygsl_features_config.h", "../gsl_dist/gsl_features.py"]}
        )

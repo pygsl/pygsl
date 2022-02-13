@@ -2,7 +2,8 @@ name: PyGSL build
 on: [push, pull_request]
 
 jobs:
-  build:
+  wrap_and_build:
+    # Re-generate SWIG wrappers, then build and test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -29,13 +30,17 @@ jobs:
       - name: Python dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest numpy scipy matplotlib wheel setuptools
+          python -m pip install pytest numpy scipy matplotlib wheel
           python -m pip install pycodestyle
 
       # Static code analysis
       #- name: Static code style analysis
       #  run: |
       #    python3 -m pycodestyle $GITHUB_WORKSPACE -v --ignore=E241,E501,E303,E714,E713,E714,E252,W503 --exclude=$GITHUB_WORKSPACE/doc,$GITHUB_WORKSPACE/.github
+
+      - name: gsl_wrappers
+        run: |
+          python setup.py gsl_wrappers
 
       - name: config
         run: |
@@ -44,6 +49,49 @@ jobs:
       - name: build
         run: |
           python setup.py build
+
+      - name: install
+        run: |
+          python setup.py install
+
+      - name: test
+        run: |
+          # make sure to move out of the source directory
+          cd /tmp
+          python -m pytest -s /home/runner/work/pygsl/pygsl/tests
+
+  build:
+    # Build and test only, use pre-generated SWIG wrappers
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      # Checkout the repository contents
+      - name: Checkout PyGSL code
+        uses: actions/checkout@v2
+
+      # Setup Python version
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      # Install dependencies
+      - name: Install apt dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libgsl0-dev libncurses5-dev libreadline6-dev pkg-config
+          sudo apt-get install python3-all-dev python3-matplotlib python3-numpy python3-scipy
+          sudo apt remove --yes --purge "^swig.*"
+
+      # Install Python dependencies
+      - name: Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest numpy scipy matplotlib
+          python -m pip install pycodestyle
+          python -m pip install wheel setuptools --upgrade
 
       - name: install
         run: |

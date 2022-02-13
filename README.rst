@@ -1,21 +1,11 @@
 PyGSL: Python interface for GNU Scientific Library
 ==================================================
 
-Status of GSL-Library
----------------------
+PyGSL is a Python wrapper for the `GNU Scientific Library (GSL) <http://www.gnu.org/software/gsl/>`_. Nearly all modules are wrapped. A lot of tests are covering various functionality.
 
-The gsl-library is since version 1.0 stable and for general use. Read more
-about it at the `GSL homepage <http://www.gnu.org/software/gsl/>`_.
+Please report it as a `Github Issue <https://github.com/pygsl/pygsl/issues>`_ if you find a bug. We are looking forward to contributions of new submodules, while maintaining the available code, and welcome `pull requests <https://github.com/pygsl/pygsl/pulls>`_.
 
 PyGSL moved from Sourceforge to GitHub in 2021.
-
-Status of this interface
-------------------------
-
-We are collecting implementations of parts of GSL. So the interface is not
-complete. We are looking forward to contributions of new submodules, while
-maintaining the available code. See `TODO <TODO.html>`_.
-
 
 Requirements
 ------------
@@ -27,35 +17,25 @@ To build the interface, you will need
 - `NumPy <https://www.numpy.org/>`_
 - an ANSI C compiler (e.g. gcc).
 
-Retrieving the Interface
-------------------------
+Installing PyGSL
+----------------
 
-You can download PyGSL at https://github.com/pygsl/pygsl/releases.
+Installing from a release archive
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Installing GSL interface
-------------------------
+First, uninstall old versions of PyGSL. ``gsl-config`` must be on your path.
 
-Uninstall the old version of PyGSL.
-
-gsl-config must be on your path.
+You can download a ``.tar.gz`` file of the latest release at https://github.com/pygsl/pygsl/releases.
 
 .. code-block:: sh
 
-   gzip -d -c pygsl-x.y.z.tar.gz|tar xvf-
+   tar -xvzf pygsl-x.y.z.tar.gz
    cd pygsl-x.y.z
-   # do this with your preferred python version
-   # to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl
-   # If your are using cvs, remove your build directory.
-   python setup.py config
-   python setup.py build
-   # Running only
-   python setup.py
-   # can result in an error. So if you see an error running setup.py please run
-   python setup.py build
-   # change to a id, that is allowed to do installation
-   python setup.py install
+   sudo python setup.py install
 
-Ready!
+This will install PyGSL system-wide; for a local install that does not require superuser privileges, use for example ``python setup.py --prefix=/home/work/.local``.
+
+To set the GSL location explicitly, use ``python setup.py install --gsl-prefix=/path/to/gsl``.
 
 PyGSL is installed to the Python packages path, and can be uninstalled by typing:
 
@@ -64,13 +44,12 @@ PyGSL is installed to the Python packages path, and can be uninstalled by typing
    rm -r <python install path>/lib/python<version>/site-packages/pygsl
 
 Installation via PyPI
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
-PyGSL can also be installed using the pip package installer. This requires the Python packages ``setuptools`` and ``wheel`` to be already installed. Simply type:
+PyGSL can also be installed using the pip package installer. Simply type:
 
 .. code-block:: sh
 
-   python -m pip install setuptools wheel
    python -m pip install pygsl
 
 To remove PyGSL, use:
@@ -78,6 +57,17 @@ To remove PyGSL, use:
 .. code-block:: sh
 
    python -m pip uninstall pygsl
+   
+Development installation
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pre-generated SWIG wrappers are included in the PyGSL release. To re-generate these wrappers, run:
+
+.. code-block:: sh
+
+   python setup.py gsl_wrappers
+   python setup.py config
+   python setup.py install
 
 Using PyGSL
 -----------
