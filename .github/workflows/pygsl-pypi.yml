@@ -1,0 +1,57 @@
+name: PyGSL from PyPI
+on:
+  schedule:
+    #        ┌───────────── minute (0 - 59)
+    #        │ ┌───────────── hour (0 - 23)
+    #        │ │ ┌───────────── day of the month (1 - 31)
+    #        │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+    #        │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+    #        │ │ │ │ │
+    #        │ │ │ │ │
+    #        │ │ │ │ │
+    #        * * * * *
+    - cron: '30 5 * * 0'
+
+jobs:
+  pypi:
+    # Build and test only, use pre-generated SWIG wrappers, install from PyPI
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      # Checkout the repository contents
+      - name: Checkout PyGSL code
+        uses: actions/checkout@v2
+
+      # Setup Python version
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      # Install dependencies
+      - name: Install apt dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libgsl0-dev libncurses5-dev libreadline6-dev pkg-config
+          sudo apt-get install python3-all-dev python3-matplotlib python3-numpy python3-scipy
+          sudo apt remove --yes --purge "^swig.*"
+
+      # Install Python dependencies
+      - name: Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest numpy scipy matplotlib
+          python -m pip install pycodestyle
+          python -m pip install wheel setuptools --upgrade
+
+      - name: install
+        run: |
+          python -m pip install pygsl
+
+      - name: test
+        run: |
+          # make sure to move out of the source directory
+          cd /tmp
+          python -m pytest -s /home/runner/work/pygsl/pygsl/tests
