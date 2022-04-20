@@ -21,7 +21,7 @@ import pygsl
 from . import _gslwrap
 from . import gslwrap
 import numpy as np
-import typing
+import enum
 
 get_typecode = pygsl.get_typecode
 array_typed_copy = pygsl.array_typed_copy
@@ -31,6 +31,20 @@ eigen_symmv_workspace = gslwrap.gsl_eigen_symmv_workspace
 eigen_herm_workspace = gslwrap.gsl_eigen_symm_workspace
 eigen_hermv_workspace = gslwrap.gsl_eigen_symmv_workspace
 eigen_nonsymm_workspace = gslwrap.gsl_eigen_nonsymm_workspace
+eigen_nonsymmv_workspace = gslwrap.gsl_eigen_nonsymmv_workspace
+
+#: sort non symmetric eigen values. see `SortType` for applicable sort strategy
+eigen_nonsymmv_sort = gslwrap.gsl_eigen_nonsymmv_sort
+#: sort symmetric eigen values. see `SortType` for applicable sort strategy
+eigensymm_sort = gslwrap.gsl_eigen_symmv_sort
+eigensymmv_sort = gslwrap.gsl_eigen_symmv_sort
+
+
+class SortType(enum.IntEnum):
+    val_asc = gslwrap.GSL_EIGEN_SORT_VAL_ASC
+    val_desc = gslwrap.GSL_EIGEN_SORT_VAL_DESC
+    abs_asc = gslwrap.GSL_EIGEN_SORT_ABS_ASC
+    abs_desc = gslwrap.GSL_EIGEN_SORT_ABS_DESC
 
 
 def eigenvalues(a, ws=None):
@@ -73,11 +87,11 @@ def eigenvectors(a, ws=None):
 
 def eigenvectors_nonsymm(
     a: np.ndarray,
-    compute_t=False,
-    balance=False,
-    schur=False,
+    compute_t: bool = False,
+    balance: bool = False,
+    schur: bool = False,
     ws: eigen_nonsymm_workspace = None,
-):
+) -> (int, np.ndarray, np.ndarray):
     """computes eigenvectors for a non symmetic array a
 
     Args:
@@ -86,13 +100,20 @@ def eigenvectors_nonsymm(
          balance   : balance matix (defaults to false)
          schur     : compute additionally Schur from (useful if balanced is used)
          ws        : the workspace (default None).
+
     Returns:
-         n_evals, t_eval, evec
+         n_evals, t_eval, evec if (schur is false).
 
-    Returns number of eigen vectors, the result stored in matrix (a) and
-    the eigen values.
+    Returns number of eigen vectors, the result stored in matrix (a)
+    and the eigen values. In case schur is true, additionally the
+    vector Z is returned.
 
-    `compute_t` and `balance` will only be used if `ws = None`
+    `compute_t` and `balance` will only be used if `ws = None`. In case
+    you provide a workspace, use :meth:`eigen_nonsymm_workspace.params`
+    to set the required parameters.
+
+    Note:
+        annotation is made for the case that shur is false.
     """
     if ws is None:
         n = a.shape[1]
@@ -104,6 +125,42 @@ def eigenvectors_nonsymm(
         t_eval, evec = ws.non_symm_int(a, False)
     n_evals = ws.n_evals
     res = n_evals, t_eval, evec
+    if schur:
+        res += (Z,)
+    return res
+
+
+def eigenvectors_nonsymmv(
+    a: np.ndarray,
+    balance: bool = False,
+    schur: bool = False,
+    ws: eigen_nonsymmv_workspace = None,
+) -> (np.ndarray, np.ndarray, np.ndarray):
+    """computes right eigenvectors for a non symmetic array a
+
+    Args:
+         a:          the non symmetric matrix
+         balance   : balance matix (defaults to false)
+         schur     : compute additionally Schur from
+         ws        : the workspace (default None).
+
+    Returns:
+        A, eval, evec (if schur is `False`).
+
+    In case schur is `True` additionally the matrix Z is returned.
+
+    Note:
+        annotation is made for the case that schur is false.
+    """
+    if ws is None:
+        n = a.shape[1]
+        ws = eigen_nonsymmv_workspace(n)
+        ws.params(balance)
+    if schur:
+        A, t_eval, evec, Z = ws.non_symmv_int(a, True)
+    else:
+        A, t_eval, evec = ws.non_symmv_int(a, False)
+    res = A, t_eval, evec
     if schur:
         res += (Z,)
     return res
@@ -130,7 +187,7 @@ def Heigenvectors(a, ws=None):
     """Heigenvectors(a, ws=None) -> (eval, evec)
 
     This function computes the eigenvalues and eigenvectors of the complex
-    hermitian matrix A.The imaginary parts of the diagonal are assumed to be
+    hermitian matrix A. The imaginary parts of the diagonal are assumed to be
     zero and are not referenced. The eigenvalues are stored in the vector
     eval and are unordered. The corresponding complex eigenvectors are
     stored in the columns of the matrix evec. For example, the eigenvector
