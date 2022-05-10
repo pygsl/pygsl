@@ -1,3 +1,6 @@
+v2.3.3 (2022-05) Charl Linssen <c.linssen@fz-juelich.de>
+	* Fix install from PyPI when swig is not available.
+
 v2.3.2 (2021-12) Charl Linssen <c.linssen@fz-juelich.de>
 	* Support for pip installing pygsl on Linux systems.
 
