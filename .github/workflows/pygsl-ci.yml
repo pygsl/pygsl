@@ -97,3 +97,62 @@ jobs:
           # make sure to move out of the source directory
           cd /tmp
           python -m pytest -s /home/runner/work/pygsl/pygsl/tests
+
+  build_whl:
+    # Build and test only, use pre-generated SWIG wrappers
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      # Checkout the repository contents
+      - name: Checkout PyGSL code
+        uses: actions/checkout@v2
+
+      # Setup Python version
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      # Install dependencies
+      - name: Install apt dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libgsl0-dev libncurses5-dev libreadline6-dev pkg-config
+          sudo apt-get install python3-all-dev python3-matplotlib python3-numpy python3-scipy
+          sudo apt remove --yes --purge "^swig.*"
+
+      # Install Python dependencies
+      - name: Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest numpy scipy matplotlib
+          python -m pip install pycodestyle
+          python -m pip install wheel setuptools --upgrade
+
+      - name: config
+        run: |
+          python setup.py config
+
+      - name: bdist_wheel
+        run: |
+          python setup.py bdist_wheel
+
+      - name: install
+        run: |
+          ls -l dist
+          python -m pip install dist/pygsl-*.whl
+
+      - name: test
+        run: |
+          # make sure to move out of the source directory
+          cd /tmp
+          python -m pytest -s /home/runner/work/pygsl/pygsl/tests
+
+      - name: upload_wheel
+        uses: actions/upload-artifact@v3
+        with:
+          name: pygsl_wheel
+          path: dist/pygsl-*.whl
+          retention-days: 1
