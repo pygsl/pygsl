@@ -123,11 +123,6 @@
 //%ignore gsl_sf_complex_sin_e;     // rect to rect
 //%ignore gsl_sf_complex_cos_e;     // rect to rect
 //%ignore gsl_sf_complex_logsin_e;
-<<<<<<< HEAD
-=======
-
->>>>>>> 3c83c89 (SWIG parsing of sf header files: INLINE_DECL moved up)
-
 
 
 %include <gsl/gsl_complex_math.h>
