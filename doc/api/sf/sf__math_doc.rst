@@ -68,6 +68,18 @@
     :rtype:  tuple(:param double ret: positional argument 1, :param int e: positional argument 2) 
     :return: result 
 
+.. py:function:: hypot(x, y [, ret])
+
+    Wrapper for :c:func:`gsl_hypot`
+    c code signature: double gsl_hypot(const double x, const double y)
+    Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_d__Rd__O`
+    
+    :param double x: positional argument 0
+    :param double y: positional argument 1
+    :param double ret: positional argument 2
+    :rtype:  double 
+    :return: result 
+
 .. py:function:: hypot3(x, y, z [, ret])
 
     Wrapper for :c:func:`gsl_hypot3`
@@ -78,18 +90,6 @@
     :param double y: positional argument 1
     :param double z: positional argument 2
     :param double ret: positional argument 3
-    :rtype:  double 
-    :return: result 
-
-.. py:function:: hypot(x, y [, ret])
-
-    Wrapper for :c:func:`gsl_hypot`
-    c code signature: double gsl_hypot(const double x, const double y)
-    Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_d__Rd__O`
-    
-    :param double x: positional argument 0
-    :param double y: positional argument 1
-    :param double ret: positional argument 2
     :rtype:  double 
     :return: result 
 

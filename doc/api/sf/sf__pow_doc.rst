@@ -1,15 +1,3 @@
-.. py:function:: sf_pow_int(x, n [, ret])
-
-    Wrapper for :c:func:`gsl_sf_pow_int`
-    c code signature: double gsl_sf_pow_int(const double x, const int n)
-    Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_l__Rd__O`
-    
-    :param double x: positional argument 0
-    :param int n: positional argument 1
-    :param double ret: positional argument 2
-    :rtype:  double 
-    :return: result 
-
 .. py:function:: complex_pow_real(a, b [, ret])
 
     Wrapper for :c:func:`gsl_complex_pow_real`
@@ -20,6 +8,18 @@
     :param double b: positional argument 1
     :param gsl_complex ret: positional argument 2
     :rtype:  gsl_complex 
+    :return: result 
+
+.. py:function:: sf_pow_int(x, n [, ret])
+
+    Wrapper for :c:func:`gsl_sf_pow_int`
+    c code signature: double gsl_sf_pow_int(const double x, const int n)
+    Wrapped by ufunc :class:`PyGSL_sf_ufunc_Id_l__Rd__O`
+    
+    :param double x: positional argument 0
+    :param int n: positional argument 1
+    :param double ret: positional argument 2
+    :rtype:  double 
     :return: result 
 
 .. py:function:: sf_pow_int_e(x, n [, ret, result.val, result.err])
