@@ -2,78 +2,74 @@
 PyGSL application programming interface
 ***************************************
 
-pygsl module
-============
+.. toctree::
+        :maxdepth: 8
+
+pygsl
+=====
 
 .. automodule:: pygsl
     :members:
     :undoc-members:
     :show-inheritance:
 .. autofunction:: pygsl.set_debug_level
-.. autofunction:: pygsl.get_debug_level		
+.. autofunction:: pygsl.get_debug_level
 
 
-Subpackages
-===========
 
-.. toctree::
-    pygsl.statistics
-    pygsl.testing
-    
-		  
 Submodules
 ==========
 
-pygsl\.errno module
--------------------
+errno
+-----
 
 .. automodule:: pygsl.errno
     :members:
     :undoc-members:
     :show-inheritance:
-   
-.. autodata:: pygsl.errno.GSL_SUCCESS     
-.. autodata:: pygsl.errno.GSL_FAILURE 
+
+.. autodata:: pygsl.errno.GSL_SUCCESS
+.. autodata:: pygsl.errno.GSL_FAILURE
 .. autodata:: pygsl.errno.GSL_CONTINUE
-.. autodata:: pygsl.errno.GSL_EDOM     
-.. autodata:: pygsl.errno.GSL_ERANGE   
-.. autodata:: pygsl.errno.GSL_EFAULT   
-.. autodata:: pygsl.errno.GSL_EINVAL   
-.. autodata:: pygsl.errno.GSL_EFAILED  
-.. autodata:: pygsl.errno.GSL_EFACTOR  
-.. autodata:: pygsl.errno.GSL_ESANITY  
-.. autodata:: pygsl.errno.GSL_ENOMEM   
-.. autodata:: pygsl.errno.GSL_EBADFUNC 
-.. autodata:: pygsl.errno.GSL_ERUNAWAY 
-.. autodata:: pygsl.errno.GSL_EMAXITER 
-.. autodata:: pygsl.errno.GSL_EZERODIV 
-.. autodata:: pygsl.errno.GSL_EBADTOL  
-.. autodata:: pygsl.errno.GSL_ETOL     
-.. autodata:: pygsl.errno.GSL_EUNDRFLW 
-.. autodata:: pygsl.errno.GSL_EOVRFLW  
-.. autodata:: pygsl.errno.GSL_ELOSS    
-.. autodata:: pygsl.errno.GSL_EROUND   
-.. autodata:: pygsl.errno.GSL_EBADLEN  
-.. autodata:: pygsl.errno.GSL_ENOTSQR  
-.. autodata:: pygsl.errno.GSL_ESING    
-.. autodata:: pygsl.errno.GSL_EDIVERGE 
-.. autodata:: pygsl.errno.GSL_EUNSUP   
-.. autodata:: pygsl.errno.GSL_EUNIMPL  
-.. autodata:: pygsl.errno.GSL_ECACHE   
-.. autodata:: pygsl.errno.GSL_ETABLE   
-.. autodata:: pygsl.errno.GSL_ENOPROG  
-.. autodata:: pygsl.errno.GSL_ENOPROGJ 
-.. autodata:: pygsl.errno.GSL_ETOLF    
-.. autodata:: pygsl.errno.GSL_ETOLX    
-.. autodata:: pygsl.errno.GSL_ETOLG    
-.. autodata:: pygsl.errno.GSL_EOF      
-	      
+.. autodata:: pygsl.errno.GSL_EDOM
+.. autodata:: pygsl.errno.GSL_ERANGE
+.. autodata:: pygsl.errno.GSL_EFAULT
+.. autodata:: pygsl.errno.GSL_EINVAL
+.. autodata:: pygsl.errno.GSL_EFAILED
+.. autodata:: pygsl.errno.GSL_EFACTOR
+.. autodata:: pygsl.errno.GSL_ESANITY
+.. autodata:: pygsl.errno.GSL_ENOMEM
+.. autodata:: pygsl.errno.GSL_EBADFUNC
+.. autodata:: pygsl.errno.GSL_ERUNAWAY
+.. autodata:: pygsl.errno.GSL_EMAXITER
+.. autodata:: pygsl.errno.GSL_EZERODIV
+.. autodata:: pygsl.errno.GSL_EBADTOL
+.. autodata:: pygsl.errno.GSL_ETOL
+.. autodata:: pygsl.errno.GSL_EUNDRFLW
+.. autodata:: pygsl.errno.GSL_EOVRFLW
+.. autodata:: pygsl.errno.GSL_ELOSS
+.. autodata:: pygsl.errno.GSL_EROUND
+.. autodata:: pygsl.errno.GSL_EBADLEN
+.. autodata:: pygsl.errno.GSL_ENOTSQR
+.. autodata:: pygsl.errno.GSL_ESING
+.. autodata:: pygsl.errno.GSL_EDIVERGE
+.. autodata:: pygsl.errno.GSL_EUNSUP
+.. autodata:: pygsl.errno.GSL_EUNIMPL
+.. autodata:: pygsl.errno.GSL_ECACHE
+.. autodata:: pygsl.errno.GSL_ETABLE
+.. autodata:: pygsl.errno.GSL_ENOPROG
+.. autodata:: pygsl.errno.GSL_ENOPROGJ
+.. autodata:: pygsl.errno.GSL_ETOLF
+.. autodata:: pygsl.errno.GSL_ETOLX
+.. autodata:: pygsl.errno.GSL_ETOLG
+.. autodata:: pygsl.errno.GSL_EOF
+
 .. autodata:: pygsl.errno.PyGSL_ESTRIDE
 .. autodata:: pygsl.errno.PyGSL_EUNIMPL
 .. autodata:: pygsl.errno.PyGSL_EINIT
 
-pygsl\.errors module
---------------------
+errors
+------
 
 .. automodule:: pygsl.errors
     :members:
@@ -82,53 +78,38 @@ pygsl\.errors module
 
 .. autoclass:: pygsl.errors._ErrorSafeState
 .. autodata:: pygsl.errors.error_safe_state
-       
-
-pygsl\.math module
-------------------
-
-.. automodule:: pygsl.math
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 
-pygsl\.testing\.complex module
-------------------------------
+math
+----
+.. py:module:: pygsl.math
 
-.. module:: pygsl.testing.complex
-.. include:: sf/sf__gsl_complex_doc.rst
+.. include:: sf/sf__math_doc.rst
 
-pygsl\.poly module
-------------------
+
+.. include:: sf_func.rst
+
+
+
+poly
+----
 
 .. automodule:: pygsl.poly
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. module:: pygsl.testing.sf
-.. include:: sf_func.rst
 
-..
-  pygsl\.sf module
-  ----------------
-  
-  .. automodule:: pygsl.sf
-      :members:
-      :undoc-members:
-      :show-inheritance:
-
-pygsl\.permutation module
--------------------------
+permutation
+-----------
 
 .. automodule:: pygsl.permutation
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.combination module
--------------------------
+combination
+-----------
 
 .. automodule:: pygsl.combination
     :members:
@@ -136,35 +117,35 @@ pygsl\.combination module
     :show-inheritance:
 
 .. autoclass:: pygsl.combination.Combination
-	       
 
-pygsl\.blas module
-------------------
-    
+
+blas
+----
+
 .. automodule:: pygsl.blas
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.linalg module
---------------------
+linalg
+------
 
 .. automodule:: pygsl.linalg
     :members:
     :undoc-members:
     :show-inheritance:
-       
 
-pygsl\.eigen module
--------------------
+
+eigen
+-----
 
 .. automodule:: pygsl.eigen
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.fft module
------------------
+fft
+---
 
 .. automodule:: pygsl.fft
     :members:
@@ -210,7 +191,7 @@ pygsl\.fft module
     :members:
     :undoc-members:
     :show-inheritance:
-       
+
 .. autoclass:: complex_wavetable_float
     :members:
     :undoc-members:
@@ -245,45 +226,46 @@ pygsl\.fft module
     :members:
     :undoc-members:
     :show-inheritance:
-    
-pygsl\.integrate module
------------------------
+
+integrate
+---------
 
 .. automodule:: pygsl.integrate
     :members:
     :undoc-members:
     :show-inheritance:
-       
 
-pygsl\.rng module
------------------
+
+rng
+---
 
 .. automodule:: pygsl.rng
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. autclass:: pygsl.rng.mt19937
+.. currentmodule :: pygsl.rng
+.. autoclass:: pygsl.rng.mt19937
     :members:
     :undoc-members:
     :show-inheritance:
 
-	      
-pygsl\.qrng module
-------------------
+
+qrng
+----
 
 .. automodule:: pygsl.qrng
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.statistics module
-------------------------
-.. include   pygsl.statistics
+statistics
+----------
+.. include::  pygsl.statistics
 
 
-pygsl\.monte module
--------------------
+monte
+-----
 
 .. automodule:: pygsl.monte
     :members:
@@ -294,10 +276,10 @@ pygsl\.monte module
     :members:
     :undoc-members:
     :show-inheritance:
-       
 
-pygsl\.siman module
--------------------
+
+siman
+-----
 
 .. automodule:: pygsl.siman
     :members:
@@ -305,62 +287,99 @@ pygsl\.siman module
     :show-inheritance:
 
 
-pygsl\.odeiv2 module
---------------------
+odeiv2
+------
 
 .. automodule:: pygsl.odeiv2
      :members:
      :undoc-members:
      :show-inheritance:
 
+.. currentmodule:: pygsl.odeiv2
+.. py:module:: pygsl.odeive2
 .. autoclass:: pygsl.odeiv2.system
      :members:
      :undoc-members:
-    :inherited-members:
+     :inherited-members:
      :show-inheritance:
-	       
+
+.. autoclass:: pygsl.odeiv2.pygsl_odeiv2_step
+     :members:
+     :undoc-members:
+     :inherited-members:
+     :show-inheritance:
+
+.. autoclass:: pygsl.odeiv2.pygsl_odeiv2_control
+     :members:
+     :undoc-members:
+     :inherited-members:
+     :show-inheritance:
+
+.. autoclass:: pygsl.odeiv2.pygsl_odeiv2_evolve
+     :members:
+     :undoc-members:
+     :inherited-members:
+     :show-inheritance:
+
+.. autoclass:: pygsl.odeiv2.pygsl_odeiv2_drive
+     :members:
+     :undoc-members:
+     :inherited-members:
+     :show-inheritance:
+
 .. automethod:: pygsl.odeiv2.system.set_dimension
 .. automethod:: pygsl.odeiv2.system.set_func
 .. automethod:: pygsl.odeiv2.system.set_jacobian
 .. autoclass:: pygsl.odeiv2.pygsl_odeiv2_step
 .. autoclass:: pygsl.odeiv2.pygsl_odeiv2_control
-	
+
 .. autodata:: pygsl.odeiv2.hadj_nil
 .. autodata:: pygsl.odeiv2.hadj_inc
 .. autodata:: pygsl.odeiv2.hadj_dec
 
+.. autodata:: pygsl.odeiv2.step_rk2
+.. autodata:: pygsl.odeiv2.step_rk4
+.. autodata:: pygsl.odeiv2.step_rkf45
+.. autodata:: pygsl.odeiv2.step_rkck
+.. autodata:: pygsl.odeiv2.step_rk8pd
+.. autodata:: pygsl.odeiv2.step_rk2imp
+.. autodata:: pygsl.odeiv2.step_rk4imp
+.. autodata:: pygsl.odeiv2.step_bsimp
+.. autodata:: pygsl.odeiv2.step_rk1imp
+.. autodata:: pygsl.odeiv2.step_msadams
+.. autodata:: pygsl.odeiv2.step_msbdf
 
-pygsl\.interpolation module
----------------------------
+interpolation
+-------------
 
 .. automodule:: pygsl.interpolation
     :members:
     :inherited-members:
     :undoc-members:
     :show-inheritance:
-    
+
 
 .. autoclass:: pygsl.interpolation._common
     :members:
     :inherited-members:
     :undoc-members:
     :show-inheritance:
-       
+
 .. autoclass:: pygsl.interpolation._interpolation
     :members:
     :inherited-members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.spline module
---------------------
+spline
+------
 
 .. automodule:: pygsl.spline
     :members:
     :inherited-members:
     :undoc-members:
     :show-inheritance:
-       
+
 .. autoclass:: pygsl.spline._spline
     :members:
     :inherited-members:
@@ -368,9 +387,9 @@ pygsl\.spline module
     :show-inheritance:
 
 
-       
-pygsl\.interpolation2d module
------------------------------
+
+interpolation2d
+---------------
 
 .. automodule:: pygsl.interpolation2d
     :members:
@@ -378,8 +397,8 @@ pygsl\.interpolation2d module
     :show-inheritance:
 
 
-pygsl\.deriv module
--------------------
+deriv
+-----
 
 .. automodule:: pygsl.deriv
     :members:
@@ -387,42 +406,42 @@ pygsl\.deriv module
     :show-inheritance:
 
 
-pygsl\.chebyshev module
------------------------
+chebyshev
+---------
 
 .. automodule:: pygsl.chebyshev
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.sum module
------------------
+sum
+---
 
 .. automodule:: pygsl.sum
     :members:
     :undoc-members:
     :show-inheritance:
-       
-pygsl\.wavelet module
----------------------
+
+wavelet
+-------
 
 .. automodule:: pygsl.wavelet
     :members:
     :undoc-members:
     :show-inheritance:
-	      
 
-pygsl\.hankel module
---------------------
+
+hankel
+------
 
 .. automodule:: pygsl.hankel
     :members:
     :undoc-members:
     :show-inheritance:
-       
 
-pygsl\.roots module
--------------------
+
+roots
+-----
 
 .. automodule:: pygsl.roots
     :members:
@@ -433,10 +452,10 @@ pygsl\.roots module
     :members:
     :undoc-members:
     :show-inheritance:
-       
 
-pygsl\.minimize module
-----------------------
+
+minimize
+--------
 
 .. automodule:: pygsl.minimize
     :members:
@@ -449,8 +468,8 @@ pygsl\.minimize module
     :show-inheritance:
 
 
-pygsl\.multiroots module
-------------------------
+multiroots
+----------
 
 .. automodule:: pygsl.multiroots
     :members:
@@ -461,49 +480,49 @@ pygsl\.multiroots module
     :members:
     :undoc-members:
     :show-inheritance:
-       
+
 .. autoclass:: pygsl.multiroots._fdfsolver
     :members:
     :undoc-members:
     :show-inheritance:
-       
 
-pygsl\.multiminimize module
----------------------------
+
+multiminimize
+-------------
 
 .. automodule:: pygsl.multiminimize
     :members:
     :undoc-members:
     :show-inheritance:
-            
+
 .. autoclass:: pygsl.multiminimize._fsolver
     :members:
     :undoc-members:
     :show-inheritance:
-       
+
 .. autoclass:: pygsl.multiminimize._fdfsolver
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.fit module
------------------
+fit
+---
 
 .. automodule:: pygsl.fit
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.multifit module
-----------------------
+multifit
+--------
 
 .. automodule:: pygsl.multifit
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.multifit\_nlin module
-----------------------------
+multifit\_nlin
+--------------
 
 .. automodule:: pygsl.multifit_nlin
     :members:
@@ -514,39 +533,80 @@ pygsl\.multifit\_nlin module
     :members:
     :undoc-members:
     :show-inheritance:
-       
+
 .. autoclass:: pygsl.multifit_nlin._fdfsolver
     :members:
     :undoc-members:
     :show-inheritance:
-       
-pygsl\.multifit\_robust module
-------------------------------
+
+multifit\_robust
+----------------
 
 .. automodule:: pygsl.multifit_robust
+     :members:
+     :undoc-members:
+     :show-inheritance:
+
+.. py:module:: pygsl.multifit_robust
+.. currentmodule:: pygsl.multifit_robust
+
+.. autoclass:: pygsl.multifit_robust.stats
     :members:
-    :undoc-members:
-    :show-inheritance:
-       
+    :private-members:
+    :special-members:
+
+.. autoclass:: pygsl.multifit_robust.workspace
+    :members:
+    :private-members:
+    :special-members:
 
 
-pygsl\.bspline module
----------------------
+.. autofunction:: pygsl.multifit_robust.est
+.. autofunction:: pygsl.multifit_robust.est_vector
+
+.. autodata:: pygsl.multifit_robust.default
+.. autodata:: pygsl.multifit_robust.bisquare
+.. autodata:: pygsl.multifit_robust.cauchy
+.. autodata:: pygsl.multifit_robust.fair
+.. autodata:: pygsl.multifit_robust.huber
+.. autodata:: pygsl.multifit_robust.ols
+.. autodata:: pygsl.multifit_robust.welsch
+
+
+
+bspline
+-------
 
 .. automodule:: pygsl.bspline
     :members:
     :undoc-members:
     :show-inheritance:
 
-	      
-pygsl\.ieee module
-------------------
+.. py:module:: pygsl.bspline
+.. currentmodule:: pygsl.bspline
+.. autoclass:: pygsl.bspline.bspline
+    :members:
+    :undoc-members:
+    :inherited-members:
+    :show-inheritance:
 
-.. automodule:: pygsl.ieee		
+.. automethod:: pygsl.bspline.bspline.get_internal_knots
+.. automethod:: pygsl.bspline.bspline.knots
+.. automethod:: pygsl.bspline.bspline.knots_uniform
+.. automethod:: pygsl.bspline.bspline.eval_vector
+.. automethod:: pygsl.bspline.bspline.eval_dep
+.. automethod:: pygsl.bspline.bspline.eval_dep_yerr
+
+
+
+ieee
+----
+
+.. automodule:: pygsl.ieee
     :members:
     :undoc-members:
     :show-inheritance:
-       
+
 .. autodata:: pygsl.ieee.single_precision
 .. autodata:: pygsl.ieee.double_precision
 .. autodata:: pygsl.ieee.extended_precision
@@ -566,72 +626,88 @@ pygsl\.ieee module
 .. autodata:: pygsl.ieee.type_normal
 .. autodata:: pygsl.ieee.type_denormal
 .. autodata:: pygsl.ieee.type_zero
-       
+
 
 **************************************
 Modules not considered part of the API
 **************************************
 
-Obsolete Modules
+Obsoletes
 ================
 .. toctree::
 
 
-pygsl\.deriv module
-------------------
+diff
+----
 
-.. automodule:: pygsl.deriv
+.. automodule:: pygsl.diff
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.odeiv module
--------------------
+odeiv
+-----
 
 .. automodule:: pygsl.odeiv
     :members:
     :undoc-members:
     :show-inheritance:
 
+sf
+---
+
+Not documented here. Name clashes with
+`pygsl.testing.sf` could occur.
+
+
+math
+----
+
+.. automodule:: pygsl.math
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
 
 Modules containing wrappers
 ===========================
 
-These wrappers are used by API modules. Typically these are not
+These wrappers are used by APIs. Typically these are not
 directly accessed by the user.
 
-pygsl\.init module
-------------------
+init
+----
 
 .. automodule:: pygsl.init
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.gsl\_function module
----------------------------
+gsl\_function
+-------------
 
 .. automodule:: pygsl.gsl_function
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.gslwrap module
----------------------
+gslwrap
+-------
 
 .. automodule:: pygsl.gslwrap
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.interpolation2d\_wrap module
------------------------------------
+interpolation2d\_wrap
+---------------------
 
 .. automodule:: pygsl.interpolation2d_wrap
     :members:
     :undoc-members:
     :show-inheritance:
-       
+
 *****************************
 Modules for testing internals
 *****************************
@@ -642,8 +718,8 @@ Submodules
 .. toctree::
 
 
-pygsl\.init module
-------------------
+init
+----
 
 .. automodule:: pygsl.init
     :members:
@@ -651,48 +727,47 @@ pygsl\.init module
     :show-inheritance:
 
 
-pygsl\.inittest module
-----------------------
+inittest
+--------
 
-Functions needed to test the :mod:`pygsl.init` module
+Functions needed to test the :mod:`pygsl.init`
 
 .. automodule:: pygsl.inittest
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.errortest module
------------------------
+errortest
+---------
 Functions needed to test the error handling provided by
-:mod:`pygsl.init` and the gsl error handler 
+:mod:`pygsl.init` and the gsl error handler
 :c:func:`gsl_error()`.
 
 .. automodule:: pygsl.errortest
     :members:
     :undoc-members:
     :show-inheritance:
-       
-pygsl\.block module
--------------------
+
+block
+-----
 
 .. automodule:: pygsl.block
     :members:
     :undoc-members:
     :show-inheritance:
-       
-pygsl\.vector module
---------------------
+
+vector
+------
 
 .. automodule:: pygsl.vector
     :members:
     :undoc-members:
     :show-inheritance:
 
-pygsl\.matrix\_pierre module
-----------------------------
+matrix\_pierre
+--------------
 
 .. automodule:: pygsl.matrix_pierre
     :members:
     :undoc-members:
     :show-inheritance:
-       

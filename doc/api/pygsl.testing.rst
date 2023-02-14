@@ -2,11 +2,13 @@ pygsl\.testing package
 ======================
 
 
+pygsl\.testing\.complex module
+------------------------------
 
-Submodules
-----------
-
-
+.. automodule:: pygsl.testing.complex
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 
 

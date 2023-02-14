@@ -26,10 +26,8 @@ Status of this interface
 ------------------------
 
 Nearly all modules are wrapped. A lot of tests are covering various
-functionality. Please report to the `pygsl-discuss`_ mailing list
-if you find a bug.
-
-.. _pygsl-discuss: :email:`pysl-discuss <pygsl-discuss@lists.sourceforge.net>`
+functionality. Please report to https://github.com/pygsl/pygsl/issues
+in case of any problems
 
 The hankel modules have been wrapped. Please write to the mailing list
 `pygsl-discuss`_ if you require one of the modules
@@ -39,28 +37,29 @@ to write to the list.
 
 Retriving the Interface
 -----------------------
-You can download it here: http://sourceforge.net/projects/pygsl
+You can download it here: https://github.com/pygsl/pygsl/
 
 Requirements
 ------------
 
 To build the interface, you will need
-    *  gsl-1.x or gsl-2.1 or newer http://www.gnu.org/software/gsl/
-    *  python2.7 or python3.x,
+    *  gsl-2.1 or newer http://www.gnu.org/software/gsl/
+    *  python3.x,
     *  numpy  http://numpy.sf.net
-    *  a c compiler like gcc 
+    *  a c compiler like gcc
 
 Supported Platforms are:
-    *  Linux (Redhat/Debian/SuSE) with python2.\* and gsl-1.\*
-    *  Win32
+    *  Linux with python3 and gsl-2
     *  MacOS X
 
-But is is supposed to build on any POSIX platforms.
+But is is supposed to build on any POSIX platforms. It should build on windos. But this build is not trivial. Descriptions follow below.
+
+
 
 Installing the pygsl interface
 ------------------------------
 
-The :program:`gsl-config` must be on your path on posix platforms. 
+The :program:`gsl-config` must be on your path on posix platforms.
 Then type:
 
 .. code-block:: shell
@@ -72,14 +71,25 @@ Then type:
     # to set the gsl location explicitly use setup.py --gsl-prefix=/path/to/gsl
     # First configure pygsl interface
     python setup.py config
-    #
+    # Build the wrappers (if required ... needs swig installed)
+    python setup.py gsl_wrappers
+    # Then build the interface
     python setup.py build
     # change to an user id, that is allowed to do installation
     python setup.py install
 
 Ready....
 
-**Do not test the interface in the distribution root** In this case 
+**NB**: e.g. Ubuntu 22.0 provides `swig` by name `swig4.0`. The gsl-wrapper want's to call a program named swig. This can be changed by specifing the environment variable `SWIG` to
+
+.. code-block:: shell
+
+   export SWIG=swig4.0
+
+
+
+
+**Do not test the interface in the distribution root** In this case
 python will search for all modules in the distribution directory ``pygsl``.
 
 If you find unresolved symbols later on, delete the C source in the
@@ -111,7 +121,7 @@ Execute the commands given in the shell
 script below (it is also given in ``doc/win/pygsl_msys2_prepare.sh``
 or can be dowloaded :download:`here </win/pygsl_msys2_prepare.sh>`):
 
-.. literalinclude:: ../win/pygsl_msys2_prepare.sh  
+.. literalinclude:: ../win/pygsl_msys2_prepare.sh
     :language: bash
 
 This will build gsl using the mingw compiler.
@@ -120,10 +130,10 @@ Building the pygsl interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Copy the file
-``gsl_dist/gsl_site_example.py`` to 
+``gsl_dist/gsl_site_example.py`` to
 ``gsl_dist/gsl_site.py``. Edit it so that it reflects your
 installation.
-Now open a windows command shell. An example batch file  
+Now open a windows command shell. An example batch file
 is found at ``doc/win/pygsl_windows_compile.bat`` or can be downloaded
 :download:`here  </win/pygsl_windows_compile.bat>`. Change it to your
 needs and start it from the command shell.
@@ -144,45 +154,39 @@ Testing
 
 The directory ``tests`` contains several testsuites, based on python :mod:`unittest`. The script
 ``run_test.py`` in this directory will run one test suit after the
-other. Alternatively you can run
+other. Alternatively you can change into the test's directory and run
 
 .. code-block:: bash
 
-    python setup.py nosetests
+   pytest
 
 
 Support
 -------
 
-Please send mails to our mailinglist at `pygsl-discuss`_
+Please report issues at https://github.com/pygsl/pygsl/issues
 
 Development
 -----------
 At last the development tree was migrated to git.
 You can browse our git tree at
-https://sourceforge.net/p/pygsl/GitRepro/ci/master/tree/
- 
-Type this to check out the repository:
-   
-.. code-block:: bash
-
-   git clone https://git.code.sf.net/p/pygsl/GitRepro pygsl-GitRepro
+https://github.com/pygsl/pygsl/
 
 
 Some wrappers use swig http://swig.org ; thus a runnable recent swig
 is a perequisite. The wrapper code which is distributed together with
-the source is built using swig-3.
+the source is built using swig-4.
 
 PyGSL provides tools for generating the wrapper code from source
-files. These tools can be executed by 
+files. These tools can be executed by
 
 .. code-block:: bash
 
     python setup.py gsl_wrappers
 
 Currently the wrapper code is generated for special functions.  These
-are wrapped as numpy universal functions. 
- 
+are wrapped as numpy universal functions.
+
 
 
 ToDo
@@ -199,7 +203,7 @@ History
 
 
 *  a gsl-interface for python was needed for a project at
-*  Center for Applied Informatics Cologne  http://www.zaik.uni-koeln.de/AFS 
+*  Center for Applied Informatics Cologne  http://www.zaik.uni-koeln.de/AFS
 *
 *  gsl-0.0.3 was released at May 23, 2001
 *  gsl-0.0.4 was released at January 8, 2002
@@ -228,4 +232,5 @@ Maintainers
 -----------
 
 *  :email:`Pierre Schnizer <schnizer@users.sourceforge.net>`
+*  `Charl Linsen https://github.com/clinssen`
 *  :email:`Achim Gädke <AchimGaedke@users.sourceforge.net>`
