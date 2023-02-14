@@ -4,9 +4,11 @@
 %ignore gsl_sf_angle_restrict_pos_e; // use a double * for input and output. not properly recognized.
 // use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
 %ignore gsl_sf_result_smash_e; // the only one to use a const pointer as input. Not recognized by the tool.
- 
 
 %include <gsl/gsl_sf_result.h>
+
+// makes swig preprocessor derail if not defined empty
+#define INLINE_DECL
 
 //Deprecated functions
 %ignore gsl_sf_coupling_6j_INCORRECT_e;
@@ -38,7 +40,7 @@
 %include <gsl/gsl_sf_bessel.h>
 %include <gsl/gsl_sf_clausen.h>
 
-%ignore gsl_sf_coulomb_wave_F_array;           
+%ignore gsl_sf_coulomb_wave_F_array;
 %ignore gsl_sf_coulomb_wave_FG_array;
 %ignore gsl_sf_coulomb_wave_FGp_array;
 %ignore gsl_sf_coulomb_wave_sphF_array;
@@ -120,11 +122,10 @@
 //%ignore gsl_sf_complex_log_e;     // rect to polar
 //%ignore gsl_sf_complex_sin_e;     // rect to rect
 //%ignore gsl_sf_complex_cos_e;     // rect to rect
-//%ignore gsl_sf_complex_logsin_e;  
+//%ignore gsl_sf_complex_logsin_e;
 
 
 
-#define INLINE_DECL
 %include <gsl/gsl_complex_math.h>
  //%ignore gsl_complex_sqrt_real;
  //%ignore gsl_complex_polar;
