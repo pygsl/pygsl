@@ -4473,7 +4473,7 @@ SWIGINTERN gsl_error_flag_drop pygsl_odeiv2_driver_set_hmin(pygsl_odeiv2_driver 
 		return gsl_odeiv2_driver_set_hmin(self->driver, h_min);
 	}
 SWIGINTERN gsl_error_flag_drop pygsl_odeiv2_driver_set_hmax(pygsl_odeiv2_driver *self,double const h_max){
-		return gsl_odeiv2_driver_set_hmin(self->driver, h_max);
+		return gsl_odeiv2_driver_set_hmax(self->driver, h_max);
 	}
 SWIGINTERN gsl_error_flag_drop pygsl_odeiv2_driver_set_nmax(pygsl_odeiv2_driver *self,unsigned long const nmax){
 		return gsl_odeiv2_driver_set_nmax(self->driver, nmax);

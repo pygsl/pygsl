@@ -876,7 +876,7 @@ typedef struct{
 	}
 
 	gsl_error_flag_drop set_hmax(const double h_max){
-		return gsl_odeiv2_driver_set_hmin(self->driver, h_max);
+		return gsl_odeiv2_driver_set_hmax(self->driver, h_max);
 	}
 
 	gsl_error_flag_drop set_nmax(const unsigned long int nmax){
