@@ -39,6 +39,7 @@ You can download a ``.tar.gz`` file of the latest PyGSL release at https://githu
 
    tar -xvzf pygsl-x.y.z.tar.gz
    cd pygsl-x.y.z
+   python setup.py gsl_wrappers
    python setup.py config
    sudo python setup.py install
 
@@ -55,7 +56,9 @@ PyGSL is installed to the Python packages path, and can be uninstalled by typing
 Installation via PyPI
 ~~~~~~~~~~~~~~~~~~~~~
 
-PyGSL can also be installed using the pip package installer. Simply type:
+PyGSL can also be installed using the pip package installer. SWIG is required to be installed and can usually be found via your distribution's package manager (for example, ``apt install swig``).
+
+To install PyGSL from PyPI, simply type:
 
 .. code-block:: sh
 
@@ -67,17 +70,6 @@ To remove PyGSL, use:
 
    pip uninstall pygsl
    
-Development installation
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Pre-generated SWIG wrappers are included in the PyGSL release. To re-generate these wrappers, run:
-
-.. code-block:: sh
-
-   python setup.py gsl_wrappers
-
-then continue with the rest of the installation steps (``config``, ``install``).
-
 Using PyGSL
 -----------
 
@@ -116,7 +108,7 @@ but is supposed to compile and run on any posix platform.
 
 Currently it is being tested using GitHub Actions continuous integration on:
 
-- Python 3.8, numpy-latest and GSL 2.5 under Ubuntu Linux 20.04.
+- Python 3.8, numpy-latest and GSL 2.7.1 under Ubuntu Linux 22.04.2.
 
 
 Testing
