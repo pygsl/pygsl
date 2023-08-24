@@ -129,7 +129,7 @@ class brent(_minsolver):
     type = _callback.cvar.gsl_min_fminimizer_brent
 
 class goldensection(_minsolver):
-    """
+    r"""
     The "golden section algorithm" is the simplest method of bracketing
     the minimum of a function.  It is the slowest algorithm provided
     by the library, with linear convergence.
@@ -153,7 +153,7 @@ class goldensection(_minsolver):
 
 
 def test_interval(x_lower, x_upper, epsabs, epsrel):
-    """
+    r"""
     This function tests for the convergence of the interval [X_LOWER,
      X_UPPER] with absolute error EPSABS and relative error EPSREL.
      The test returns `GSL_SUCCESS' if the following condition is

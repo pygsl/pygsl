@@ -42,49 +42,49 @@ gsl_blas_sdsdot = gslwrap.gsl_blas_sdsdot
 #
 
 def ddot(x, y):
-    """This function computes the scalar product \M{x^T y} for the vectors x and y,
+    r"""This function computes the scalar product \M{x^T y} for the vectors x and y,
     returning the result. 
     """
     return _gslwrap.gsl_blas_ddot(x, y)#[1]
 
 
 def zdotu(x, y):
-    """This function computes the complex scalar product \M{x^T y} for the
+    r"""This function computes the complex scalar product \M{x^T y} for the
     vectors x and y, returning the result.
     """
     return _gslwrap.gsl_blas_zdotu(x, y, 1j)#[1]
 
 
 def zdotc(x, y):
-    """This function computes the complex conjugate scalar product \M{x^H y} for the
+    r"""This function computes the complex conjugate scalar product \M{x^H y} for the
     vectors x and y, returning the result. 
     """
     return _gslwrap.gsl_blas_zdotc(x, y, 1j)#[1]
 
 
 def dnrm2(x):
-    """This function computes the Euclidean norm \M{||x||_2 = \sqrt {\sum x_i^2}}
+    r"""This function computes the Euclidean norm \M{||x||_2 = \sqrt {\sum x_i^2}}
     of the vector x. 
     """
     return _gslwrap.gsl_blas_dnrm2(x)
 
 
 def dznrm2(x):
-    """This function computes the Euclidean norm of the complex vector x,
+    r"""This function computes the Euclidean norm of the complex vector x,
     \M{||x||_2 = \sqrt {\sum (\Re(x_i)^2 + \Im(x_i)^2)}}.
     """
     return _gslwrap.gsl_blas_dznrm2(x)
 
 
 def dasum(x):
-    """This function computes the absolute sum \M{\sum |x_i|} of the elements
+    r"""This function computes the absolute sum \M{\sum |x_i|} of the elements
     of the vector x. 
     """
     return _gslwrap.gsl_blas_dasum(x)
 
 
 def dzasum(x):
-    """This function computes the absolute sum \M{\sum |\Re(x_i)| + |\Im(x_i)|}
+    r"""This function computes the absolute sum \M{\sum |\Re(x_i)| + |\Im(x_i)|}
     of the elements of the vector x. 
     """
     return _gslwrap.gsl_blas_dzasum(x)
@@ -100,7 +100,7 @@ def idamax(x):
 
 
 def izamax(x):
-    """This function returns the index of the largest element of the vector x.
+    r"""This function returns the index of the largest element of the vector x.
     The largest element is determined by the sum of the magnitudes of the
     real and imaginary parts \M{|\Re(x_i)| + |\Im(x_i)|}. If the largest value
     occurs several times then the index of the first occurrence is returned. 
@@ -109,7 +109,7 @@ def izamax(x):
 
 
 def daxpy(alpha, x, y):
-    """This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
+    r"""This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     yn = array_typed_copy(y, Float)
     _gslwrap.gsl_blas_daxpy(alpha, x, yn)
@@ -117,13 +117,13 @@ def daxpy(alpha, x, y):
 
 
 def daxpy_cr(alpha, x, y_CR):
-    """This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
+    r"""This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     _gslwrap.gsl_blas_daxpy(alpha, x, y_CR)
     
 
 def zaxpy(alpha, x, y):
-    """This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
+    r"""This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     yn = array_typed_copy(y, Complex)
     _gslwrap.gsl_blas_zaxpy(alpha, x, yn)
@@ -131,13 +131,13 @@ def zaxpy(alpha, x, y):
 
 
 def zaxpy_cr(alpha, x, y_CR):
-    """This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
+    r"""This function computes the sum \M{y = S{alpha} x + y} for the vectors x and y.
     """
     _gslwrap.gsl_blas_zaxpy(alpha, x, y_CR)
  
 
 def drot(x, y, c, s):
-    """This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
+    r"""This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
     to the vectors x, y.
     """
     xn = array_typed_copy(x, Float)
@@ -147,7 +147,7 @@ def drot(x, y, c, s):
 
 
 def drot_cr(x_CR, y_CR, c, s):
-    """This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
+    r"""This function applies a Givens rotation \M{(x', y') = (c x + s y, -s x + c y)}
     to the vectors x, y.
     """
     _gslwrap.gsl_blas_drot(x_CR, y_CR, c, s)
@@ -158,7 +158,7 @@ def drot_cr(x_CR, y_CR, c, s):
 #
 
 def dgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
-    """This function computes the matrix-vector product and
+    r"""This function computes the matrix-vector product and
     sum \M{y = S{alpha} op(A) x + S{beta} y}, where op(A) = \M{A, A^T, A^H} for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
@@ -168,7 +168,7 @@ def dgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
     
 
 def zgemv(alpha, a, x, beta, y, TransA=CblasNoTrans):
-    """This function computes the matrix-vector product and
+    r"""This function computes the matrix-vector product and
     sum \M{y = S{alpha} op(A) x + S{beta} y}, where \M{op(A) = A, A^T, A^H} for
     TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
     """
@@ -269,7 +269,7 @@ def ztrsv(A,
 
 
 def dsymv(alpha, A, X, beta, Y, Uplo=CblasLower):
-    """
+    r"""
     returns y'
 
     This function computes the matrix-vector product and
@@ -285,7 +285,7 @@ def dsymv(alpha, A, X, beta, Y, Uplo=CblasLower):
 
 
 def zhemv(alpha, A, X, beta, Y, Uplo=CblasLower):
-    """
+    r"""
     returns y'
     
     This function computes the matrix-vector product and
@@ -302,7 +302,7 @@ def zhemv(alpha, A, X, beta, Y, Uplo=CblasLower):
 
 
 def dger(alpha, X, Y, A):
-    """
+    r"""
     returns A'
 
     This function computes the rank-1 update \M{A' = S{alpha} x y^T + A} of
@@ -314,7 +314,7 @@ def dger(alpha, X, Y, A):
 
 
 def zgeru(alpha, X, Y, A):
-    """
+    r"""
     returns A'
 
     This function computes the rank-1 update \M{A' = S{alpha} x y^T + A} of
@@ -326,7 +326,7 @@ def zgeru(alpha, X, Y, A):
 
 
 def zgerc(alpha, X, Y, A):
-    """
+    r"""
     returns A'
 
     This function computes the conjugate rank-1 update
@@ -338,7 +338,7 @@ def zgerc(alpha, X, Y, A):
 
 
 def dsyr(alpha, X, A, Uplo=CblasLower):
-    """
+    r"""
     returns A'
 
     This function computes the symmetric rank-1 update
@@ -354,7 +354,7 @@ def dsyr(alpha, X, A, Uplo=CblasLower):
 
 
 def zher(alpha, X, A, Uplo=CblasLower):
-    """
+    r"""
     returns A'
 
     This function computes the hermitian rank-1 update
@@ -371,7 +371,7 @@ def zher(alpha, X, A, Uplo=CblasLower):
 
 
 def dsyr2(alpha, X, Y, A, Uplo=CblasLower):
-    """
+    r"""
     returns A'
 
     This function computes the symmetric rank-2 update
@@ -387,7 +387,7 @@ def dsyr2(alpha, X, Y, A, Uplo=CblasLower):
 
 
 def zher2(alpha, X, Y, A, Uplo=CblasLower):
-    """
+    r"""
     returns A'
 
     This function computes the hermitian rank-2 update
@@ -412,7 +412,7 @@ def dgemm(alpha,
           beta, C,
           TransA=CblasNoTrans,
           TransB=CblasNoTrans):
-    """
+    r"""
     returns C'
     
     This function computes the matrix-matrix product and sum
@@ -430,7 +430,7 @@ def zgemm(alpha,
           beta, C,
           TransA=CblasNoTrans,
           TransB=CblasNoTrans):
-    """
+    r"""
     returns C'
     
     This function computes the matrix-matrix product and sum
@@ -446,7 +446,7 @@ def zgemm(alpha,
 def dsymm(alpha, A, B, beta, C,
           Side=CblasLeft,
           Uplo=CblasLower):
-    """
+    r"""
     returns C'
     
     This function computes the matrix-matrix product and
@@ -464,7 +464,7 @@ def dsymm(alpha, A, B, beta, C,
 def zsymm(alpha, A, B, beta, C,
           Side=CblasLeft,
           Uplo=CblasLower):
-    """
+    r"""
     returns C'
     
     This function computes the matrix-matrix product and
@@ -482,7 +482,7 @@ def zsymm(alpha, A, B, beta, C,
 def zhemm(alpha, A, B, beta, C,
           Side=CblasLeft,
           Uplo=CblasLower):
-    """
+    r"""
     returns C'
     
     This function computes the matrix-matrix product and
@@ -503,7 +503,7 @@ def dtrmm(alpha, A, B,
           Uplo=CblasLower,
           TransA=CblasNoTrans,
           Diag=CblasNonUnit):
-    """
+    r"""
     returns B'
 
     This function computes the matrix-matrix product
@@ -526,7 +526,7 @@ def ztrmm(alpha, A, B,
           Uplo=CblasLower,
           TransA=CblasNoTrans,
           Diag=CblasNonUnit):
-    """
+    r"""
     returns B'
 
     This function computes the matrix-matrix product
@@ -549,7 +549,7 @@ def dtrsm(alpha, A, B,
           Uplo=CblasLower,
           TransA=CblasNoTrans,
           Diag=CblasNonUnit):
-    """
+    r"""
     returns B'
     
     This function computes the matrix-matrix product
@@ -572,13 +572,13 @@ def ztrsm(alpha, A, B,
          Uplo=CblasLower,
          TransA=CblasNoTrans,
          Diag=CblasNonUnit):
-    """
+    r"""
     Returns:
           :math:`B'`
     
     This function computes the matrix-matrix product
     \M{B' = S{alpha} op(inv(A)) B} for Side is CblasLeft and
-   \M{ B' = S{alpha} B op(inv(A))} for Side is CblasRight. The matrix A is
+    \M{B' = S{alpha} B op(inv(A))} for Side is CblasRight. The matrix A is
     triangular and op(A) = A, A^T, A^H for TransA = CblasNoTrans,
     CblasTrans, CblasConjTrans When Uplo is CblasUpper then the upper
     triangle of A is used, and when Uplo is CblasLower then the lower
@@ -594,7 +594,7 @@ def ztrsm(alpha, A, B,
 def dsyrk(alpha, A, beta, C,
          Uplo=CblasLower,
          Trans=CblasNoTrans):
-    """
+    r"""
     returns C'
     
     This function computes a rank-k update of the symmetric matrix C,
@@ -613,7 +613,7 @@ def dsyrk(alpha, A, beta, C,
 def zsyrk(alpha, A, beta, C,
          Uplo=CblasLower,
          Trans=CblasNoTrans):
-    """
+    r"""
     returns C'
     
     This function computes a rank-k update of the symmetric matrix C,
@@ -684,7 +684,7 @@ def triang2herm(A,
 def zherk(alpha, A, beta, C,
           Uplo=CblasLower,
           Trans=CblasNoTrans):          
-    """
+    r"""
     returns C'
     
     This function computes a rank-k update of the hermitian matrix C,
@@ -704,7 +704,7 @@ def zherk(alpha, A, beta, C,
 def dsyr2k(alpha, A, B, beta, C,
           Uplo=CblasLower,
           Trans=CblasNoTrans):                     
-    """
+    r"""
     returns C'
     
     This function computes a rank-2k update of the symmetric
@@ -723,7 +723,7 @@ def dsyr2k(alpha, A, B, beta, C,
 def zsyr2k(alpha, A, B, beta, C,
           Uplo=CblasLower,
           Trans=CblasNoTrans):                     
-    """
+    r"""
     returns C'
     
     This function computes a rank-2k update of the symmetric
@@ -742,7 +742,7 @@ def zsyr2k(alpha, A, B, beta, C,
 def zher2k(alpha, A, B, beta, C,
           Uplo=CblasLower,
           Trans=CblasNoTrans):                     
-    """
+    r"""
     returns C'
     
     This function computes a rank-2k update of the hermitian matrix C,

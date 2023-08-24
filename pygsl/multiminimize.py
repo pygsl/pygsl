@@ -215,7 +215,7 @@ if _t_type:
         type = _t_type
     
 def test_gradient(g, epsabs):
-    """
+    r"""
     This function tests the norm of the gradient  against the
     absolute tolerance epsabs. The gradient of a multidimensional
     function goes to zero at a minimum. The test returns `GSL_SUCCESS'

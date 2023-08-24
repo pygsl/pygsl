@@ -154,7 +154,7 @@ def LU_det(LU, signum):
 
 
 def LU_lndet(LU):
-    """
+    r"""
     This function computes the logarithm of the absolute value of the
     determinant of a matrix A, \ln|det(A)|, from its LU decomposition, LU.
     This function may be useful if the direct computation of the determinant
@@ -188,7 +188,7 @@ def LU_sgndet(LU, signum):
 #
 
 def QR_decomp(A):
-    """
+    r"""
     returns (QR, tau)
 
     Function: int gsl_linalg_QR_decomp (gsl_matrix * A, gsl_vector * tau)

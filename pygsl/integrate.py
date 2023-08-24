@@ -47,7 +47,7 @@ class workspace(_workspace):
         return self._size(self._ptr)
 
 class qaws_table(_workspace):
-    """Integration table for qaws
+    r"""Integration table for qaws
 
     This class allocates space for a `gsl_integration_qaws_table'
     struct and associated workspace describing a singular weight
@@ -84,7 +84,7 @@ class qaws_table(_workspace):
         self._ptr = self._alloc(alpha, beta, mu, nu)
 
     def set(self, alpha, beta, mu, nu):
-        """
+        r"""
          This function modifies the parameters (\alpha, \beta, \mu, \nu)
 
          input : alpha, beta, mu, nu
@@ -93,7 +93,7 @@ class qaws_table(_workspace):
 
 
 class qawo_table(_workspace):
-    """Table for qawo
+    r"""Table for qawo
     
         This class manages space for a `qawo_table'
       and its associated workspace describing a sine or cosine
@@ -256,7 +256,7 @@ def qagp(f, pts, epsabs, epsrel, limit, workspace):
                                           workspace._ptr)
 
 def qagi(f, epsabs, epsrel, limit, workspace):
-    """
+    r"""
     This function computes the integral of the function F over the
      infinite interval (-\infty,+\infty).  The integral is mapped onto
      the interval (0,1] using the transformation x = (1-t)/t,
@@ -278,7 +278,7 @@ def qagi(f, epsabs, epsrel, limit, workspace):
                                             workspace._ptr)
 
 def qagiu(f, a, epsabs, epsrel, limit, workspace):
-    """
+    r"""
      This function computes the integral of the function F over the
      semi-infinite interval (a,+\infty).  The integral is mapped onto
      the interval (0,1] using the transformation x = a + (1-t)/t,
@@ -296,8 +296,8 @@ def qagiu(f, a, epsabs, epsrel, limit, workspace):
                                             workspace._ptr)
 
 def qagil(f, b, epsabs, epsrel, limit, workspace):
-    """
-    his function computes the integral of the function F over the
+    r"""
+    This function computes the integral of the function F over the
      semi-infinite interval (-\infty,b).  The integral is mapped onto
      the region (0,1] using the transformation x = b - (1-t)/t,
 
@@ -314,7 +314,7 @@ def qagil(f, b, epsabs, epsrel, limit, workspace):
                                             workspace._ptr)
 
 def qawc(f, a, b, c, epsabs, epsrel, limit, workspace):
-    """
+    r"""
      This function computes the Cauchy principal value of the integral
      of f over (a,b), with a singularity at C,
 
@@ -336,7 +336,7 @@ def qawc(f, a, b, c, epsabs, epsrel, limit, workspace):
                                             workspace._ptr)
 
 def qaws(f, a, b, qwas_table, epsabs, epsrel, limit, workspace):
-    """
+    r"""
     This function computes the integral of the function f(x) over the
      interval (a,b) with the singular weight function (x-a)^\alpha
      (b-x)^\beta \log^\mu (x-a) \log^\nu (b-x).  The parameters of the
@@ -361,7 +361,7 @@ def qaws(f, a, b, qwas_table, epsabs, epsrel, limit, workspace):
 
 
 def qawo(f, a, epsabs, epsrel, limit, workspace, qwao_table):
-    """
+    r"""
     This function uses an adaptive algorithm to compute the integral of
      f over (a,b) with the weight function \sin(\omega x) or
      \cos(\omega x) defined by the table WF.
@@ -392,7 +392,7 @@ def qawo(f, a, epsabs, epsrel, limit, workspace, qwao_table):
                                           workspace._ptr, qwao_table._ptr)
 
 def qawf(f, a, epsabs, limit, workspace, cycleworkspace, qwao_table):
-    """
+    r"""
         This function attempts to compute a Fourier integral of the
      function F over the semi-infinite interval [a,+\infty).
 

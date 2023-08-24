@@ -22,7 +22,7 @@ GSL_FAILURE = pygsl.errno.GSL_FAILURE
 
 
 def poly_eval(*args):
-    """
+    r"""
     This function evaluates the polynomial
     c[0] + c[1] x + c[2] x^2 + \dots + c[len-1] x^{len-1}
     using Horner's method for stability
