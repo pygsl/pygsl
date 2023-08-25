@@ -13,7 +13,7 @@ def run_file_posix(file):
         #print "Executing child %d" % os.getpid()
         absfile = os.path.abspath(file)
         print("Executing file %s %s" % (sys.executable,  absfile))
-        os.execl(sys.executable, "", absfile)
+        os.execl(sys.executable, sys.executable, absfile)
         #print "Exit status of %s is %d" % (absfile, flag)
         #sys.exit(flag)
 	
@@ -23,7 +23,7 @@ def run_file_posix(file):
         cpid, status = os.waitpid(pid, os.P_WAIT)
         assert(cpid == pid)
         if os.WIFSIGNALED(status):
-            print("Recieved signal when executing file %s, status %d" % (file, status))
+            print("Received signal when executing file %s, status %d" % (file, status))
         return
     elif pid < 0:
         print("Fork error!")
