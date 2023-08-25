@@ -11,18 +11,18 @@ from setuptools import setup, Extension
 from distutils.errors import DistutilsModuleError, DistutilsExecError
 from distutils.dep_util import newer_group
 
+import importlib
 import os
 import os.path
 import re
 import string
 import types
-import imp
 from sys import argv,version_info
 
 from gsl_Location import gsl_Location
 
 try:
-        from array_includes import array_include_dirs        
+        from array_includes import array_include_dirs
 except ImportError:
         from pygsl.gsl_dist.array_includes import array_include_dirs
 
@@ -109,9 +109,9 @@ class gsl_Extension(Extension):
 	    if define_macros is None:
 		    define_macros=[]
 	    try:
-		    imp.find_module("Numeric")
+		    importlib.util.find_spec("Numeric")
 		    define_macros = define_macros + [("NUMERIC",1),]
-	    except ImportError:	    
+	    except ImportError:
 		    define_macros = define_macros + [("NUMERIC",0), ]
 
 	    if undef_macros == None:
