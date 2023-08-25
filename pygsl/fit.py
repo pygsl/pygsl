@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
 #  Date  : January 2003, 2017
-"""
+r"""
 
 The functions described in this section can be used to perform
 least-squares fits to a straight line model, 
@@ -42,7 +42,7 @@ def linear(x, y):
     return _callback.gsl_fit_linear(x,y)
 
 def wlinear(x, y, w):
-    """Weighted linear fit
+    r"""Weighted linear fit
 
     Args:
          x ... independent data
@@ -116,7 +116,7 @@ def mul(x,y):
     return _callback.gsl_fit_mul(x,y)
 
 def wmul(x, y, w):
-    """compute weighted best linear regression (without abszissa)
+    r"""compute weighted best linear regression (without abszissa)
 
     Args:
          x: independent data

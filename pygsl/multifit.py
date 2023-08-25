@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""
+r"""
    The functions described in this section perform least-squares fits
 to a general linear model, y = X c where y is a vector of n
 observations, X is an n by p matrix of predictor variables, and c are
@@ -72,7 +72,7 @@ class linear_workspace(_workspace):
         self._ptr = self._alloc(n, p)
 
 def linear(X, y, work=None):
-    """
+    r"""
     This function computes the best-fit parameters C of the model y =
     X c for the observations Y and the matrix of predictor variables
     X.  The variance-covariance matrix of the model parameters COV is
@@ -112,7 +112,7 @@ def linear_usvd(X, y, tol, work=None):
     return _callback.gsl_multifit_linear_usvd(X, y, tol, work._ptr)
     
 def wlinear(X, w, y, work=None):
-    """
+    r"""
     This function computes the best-fit parameters C of the model y =
     X c for the observations Y and the matrix of predictor variables
     X.  The covariance matrix of the model parameters COV is estimated

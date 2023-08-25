@@ -97,7 +97,7 @@ class _fdfsolver(_fsolver):
         self._isset = 1
         
 def test_interval(x_lower, x_upper, eps_abs, eps_rel):
-    """
+    r"""
      This function tests for the convergence of the interval [X_LOWER,
      X_UPPER] with absolute error EPSABS and relative error EPSREL.
      The test returns `GSL_SUCCESS' if the following condition is
@@ -221,7 +221,7 @@ class newton(_fdfsolver):
     type = _callback.cvar.gsl_root_fdfsolver_newton
 
 class secant(_fdfsolver):
-    """
+    r"""
     The "secant method" is a simplified version of Newton's method does
      not require the computation of the derivative on every step.
 

@@ -87,7 +87,7 @@ def test_delta(dx, x, epsabs, epsrel):
     return _callback.gsl_multiroot_test_delta(dx, x, epsabs, epsrel)
 
 def test_residual(f, epsabs):
-    """
+    r"""
     This function tests the residual value F against the absolute
      error bound EPSABS.  The test returns `GSL_SUCCESS' if the
      following condition is achieved,
@@ -104,7 +104,7 @@ def test_residual(f, epsabs):
     return _callback.gsl_multiroot_test_residual(f, epsabs)
 
 class dnewton(_fsolver):
-    """
+    r"""
     The "discrete Newton algorithm" is the simplest method of solving a
      multidimensional system.  It uses the Newton iteration
 
@@ -127,7 +127,7 @@ class dnewton(_fsolver):
     type = _callback.cvar.gsl_multiroot_fsolver_dnewton
     
 class broyden(_fsolver):
-    """
+    r"""
     The "Broyden algorithm" is a version of the discrete Newton
      algorithm which attempts to avoids the expensive update of the
      Jacobian matrix on each iteration.  The changes to the Jacobian
@@ -193,7 +193,7 @@ class newton(_fdfsolver):
     type = _callback.cvar.gsl_multiroot_fdfsolver_newton
     
 class gnewton(_fdfsolver):
-    """
+    r"""
         This is a modified version of Newton's method which attempts to
      improve global convergence by requiring every step to reduce the
      Euclidean norm of the residual, |f(x)|.  If the Newton step leads
@@ -208,7 +208,7 @@ class gnewton(_fdfsolver):
     type = _callback.cvar.gsl_multiroot_fdfsolver_gnewton
     
 class hybridj(_fdfsolver):
-    """
+    r"""
     This algorithm is an unscaled version of `hybridsj'.  The steps are
      controlled by a spherical trust region |x' - x| < \delta, instead
      of a generalized region.  This can be useful if the generalized
@@ -218,7 +218,7 @@ class hybridj(_fdfsolver):
     type = _callback.cvar.gsl_multiroot_fdfsolver_hybridj
     
 class hybridsj(_fdfsolver):
-    """
+    r"""
         This is a modified version of Powell's Hybrid method as
      implemented in the HYBRJ algorithm in MINPACK.  Minpack was
      written by Jorge J. More', Burton S. Garbow and Kenneth E.

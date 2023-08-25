@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Wrapper for the Simulated Annealing Solver provided by GSL.
+r"""Wrapper for the Simulated Annealing Solver provided by GSL.
 
 The  simulated annealing  algorithm  takes random  walks  through the  problem
 space,  looking for  points  with low  energies;  in these  random walks,  the

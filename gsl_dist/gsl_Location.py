@@ -60,7 +60,7 @@ class _gsl_Location:
         def _split_version(self, version):
                 if version[-1] == '+':
                         version = version[:-1]
-                return re.split('\.',version)
+                return re.split(r'\.',version)
 
         def get_swig(self):
                 assert(self.swig)

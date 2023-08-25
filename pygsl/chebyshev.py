@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Author : Pierre Schnizer 
-"""Chebyshev  approximation
+r"""Chebyshev  approximation
 
 This module describes routines for computing Chebyshev
 approximations to univariate functions.  A Chebyshev approximation is a
@@ -73,7 +73,7 @@ class cheb_series(_workspace):
         _workspace.__init__(self, size)
         
     def init(self, f, a, b):
-        """computes the Chebyshev approximation for the
+        r"""computes the Chebyshev approximation for the
         function F over the range (a,b) to the previously specified order.
 
         The computation of the Chebyshev approximation is an \M{O(n^2)}
