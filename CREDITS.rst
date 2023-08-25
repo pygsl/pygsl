@@ -29,7 +29,7 @@ Achim, Pierre, c Module
 Test
 
 rng distributions:
------------------
+------------------
 Achim, Pierre, c Module
 
 histogram:
@@ -65,17 +65,17 @@ Pierre, c Module swig, python class
 Test
 
 permutation:
------------
+------------
 Fabian, c Module swig
 Test
 
 blas, linalg, eigen:
--------------------
+--------------------
 Fabian
 Test
 
 numerical integration:
----------------------
+----------------------
 Pierre c Module swig, python class
 Test
 
@@ -97,12 +97,12 @@ multimin:
 Achim, c Module
 
 odeiv:
------
+------
 Pierre, swig
 Test
 
 interpolation:
--------------
+--------------
 Pierre, swig
 Test
 
@@ -115,7 +115,7 @@ Chebyshev Approximations:
 Pierre, swig
 
 One dim Minimization:
---------------------
+---------------------
 Pierre, swig
 Test
 
