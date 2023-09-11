@@ -9,7 +9,7 @@ PyGSL_New_Array(int nd,  PyGSL_array_index_t *dimensions, int type)
      if (nd > 2){
           status = GSL_ESANITY;
           pygsl_error("This function must not be called to create an array with more than two dimensions!",
-		    filename, __LINE__, status);	  
+		    filename, __LINE__, status);
 	  goto fail;
      }
      if(nd <= 0){
@@ -59,7 +59,7 @@ PyGSL_Copy_Array(PyArrayObject *ob, int type)
 #define __PyGSL_GENERATE_TYPE_INFO(flag) \
         ( NOTSWAPPED |  ALIGNED | \
          __PyGSL_ARRAY_FLAG(PyGSL_CONTIGUOUS, flag) * CONTIGUOUS |\
-         ((!__PyGSL_ARRAY_FLAG(PyGSL_INPUT_ARRAY, flag)) * WRITEABLE) ) 
+         ((!__PyGSL_ARRAY_FLAG(PyGSL_INPUT_ARRAY, flag)) * WRITEABLE) )
 
 #define PyGSL_ARRAY_CONVERT(src, array_type, nd, flag) \
          ((PyArrayObject *) (PyArray_FromAny(src, PyArray_DescrFromType(array_type), nd, nd, \
@@ -70,13 +70,13 @@ PyGSL_Copy_Array(PyArrayObject *ob, int type)
 
 #define PyGSL_MATRIX_CONVERT(src, array_type, flag) \
          PyGSL_ARRAY_CONVERT(src, array_type, 2, flag)
-          
+
 static
- 
+
 #ifdef HAVE_INLINE
 inline
 #endif
-PyArrayObject * 
+PyArrayObject *
 PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
 {
      PyArrayObject * a_array = NULL;
@@ -85,7 +85,7 @@ PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
      int requires;
 
      FUNC_MESS_BEGIN();
-     
+
      if ( (flag & PyGSL_INPUT_ARRAY) ==  PyGSL_INPUT_ARRAY){
 	  requires = 0;
      } else if ( (flag & PyGSL_OUTPUT_ARRAY) == PyGSL_OUTPUT_ARRAY){
@@ -109,17 +109,17 @@ PyGSL_numpy_convert(PyObject *src, int array_type, int nd, int flag)
 	  line = __LINE__ - 1;
      }
 
-     DEBUG_MESS(4, "Got an array @ %p with refcnt %ld", (void *)a_array, 
+     DEBUG_MESS(4, "Got an array @ %p with refcnt %ld", (void *)a_array,
 		PyGSL_PY_ARRAY_GET_REFCNT(a_array));
      FUNC_MESS_END();
 
-     return a_array;          
+     return a_array;
 
  fail:
-     PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, line);     
+     PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, line);
      DEBUG_MESS(3, "contiguous = %d, array_type = %d", contiguous, array_type);
      DEBUG_MESS(4, "common array types: Double %d, CDouble %d", NPY_DOUBLE, NPY_CDOUBLE);
-     DEBUG_MESS(8, "Char type %d", NPY_CHAR);
+     DEBUG_MESS(8, "Char type %d", NPY_STRING);
      return NULL;
 }
 
@@ -127,10 +127,10 @@ static
 #ifdef HAVE_INLINE
 inline
 #endif
-PyArrayObject * 
+PyArrayObject *
 PyGSL_PyArray_prepare_gsl_vector_view(PyObject *src,
 				      int array_type,
-				      int flag, 
+				      int flag,
 				      PyGSL_array_index_t size, int argnum, PyGSL_error_info * info)
 {
      PyArrayObject * a_array = NULL;
@@ -165,8 +165,8 @@ inline
 PyArrayObject *
 PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
 				      int array_type,
-				      int flag, 
-				      PyGSL_array_index_t size1, PyGSL_array_index_t size2, int argnum, 
+				      int flag,
+				      PyGSL_array_index_t size1, PyGSL_array_index_t size2, int argnum,
 				      PyGSL_error_info * info)
 {
      PyArrayObject * a_array = NULL;
@@ -186,7 +186,7 @@ PyGSL_PyArray_prepare_gsl_matrix_view(PyObject *src,
      if(PyGSL_PyArray_Check(a_array, array_type, flag,  2, dimensions, argnum, info) != GSL_SUCCESS)
 	  goto fail;
 
-     DEBUG_MESS(3, "a_array @ %p is a matrix with refcnt %ld", (void *) a_array, 
+     DEBUG_MESS(3, "a_array @ %p is a matrix with refcnt %ld", (void *) a_array,
 		PyGSL_PY_ARRAY_GET_REFCNT(a_array));
      FUNC_MESS_END();
      return a_array;
