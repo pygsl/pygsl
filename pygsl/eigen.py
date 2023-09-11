@@ -23,6 +23,11 @@ from . import gslwrap
 import numpy as np
 import enum
 
+
+# I am not sure yet if that works for all versions of numpy directly
+_np_complex_t = complex
+_np_float_t = float
+
 get_typecode = pygsl.get_typecode
 array_typed_copy = pygsl.array_typed_copy
 
@@ -175,8 +180,8 @@ def Heigenvalues(a, ws=None):
     unordered.
     """
     n = a.shape[1]
-    an = a.astype(np.complex)
-    eval = np.zeros((n,), np.float)
+    an = a.astype(_np_complex_t)
+    eval = np.zeros((n,), _np_float_t)
     if ws is None:
         ws = gslwrap.gsl_eigen_herm_workspace(n)
     _gslwrap.gsl_eigen_herm(an, eval, ws)
@@ -196,9 +201,9 @@ def Heigenvectors(a, ws=None):
     unit magnitude.
     """
     n = a.shape[0]
-    an = a.astype(np.complex)
-    eval = np.zeros((n,), np.float)
-    evec = np.zeros((n, n), np.complex)
+    an = a.astype(_np_complex_t)
+    eval = np.zeros((n,), _np_float_t)
+    evec = np.zeros((n, n), _np_complex_t)
     if ws is None:
         ws = gslwrap.gsl_eigen_hermv_workspace(n)
     _gslwrap.gsl_eigen_hermv(an, eval, evec, ws)
