@@ -54,12 +54,12 @@ __BEGIN_DECLS
 /*
  * Build array info out of various parts.
  *
- * array_flag 
+ * array_flag
  */
 
 #if ULONG_MAX < 0xffffff
 #error "unsigned long not big enough for array info"
-#else 
+#else
 typedef unsigned long PyGSL_array_info_t;
 #endif
 
@@ -71,40 +71,15 @@ typedef unsigned long PyGSL_array_info_t;
 typedef int Py_ssize_t;
 #endif
 */
-#include <pygsl/arrayobject.h>
-#ifndef PyGSL_NUMPY
-#error "Only numpy interface supported any longer"
-#endif 
-#ifdef PyGSL_NUMPY
-#include <numpy/arrayobject.h>
-#endif
-#ifdef PyGSL_NUMERIC
-#include <Numeric/arrayobject.h>
-#endif
-#ifdef PyGSL_NUMARRAY
-#include <numarray/libnumarray.h>
-#endif
-#if (!defined PyGSL_NUMPY) && (!defined  PyGSL_NUMERIC) && (!defined PyGSL_NUMARRAY)
-#error "Neither numpy nor numarray nor Numeric is defined!"
-#endif
-/* 
+/*
  *  required for 64 bit machines; backward compability. I rather perfer
  *  to declare it as a long as its just my functions.
  *
  *  For now I keep it as the same type as the underlaying array package
  *  uses for its conversions.
  */
-#ifdef PyGSL_NUMERIC
-typedef int PyGSL_array_index_t;
-#endif
-#ifdef PyGSL_NUMARRAY
-typedef maybelong PyGSL_array_index_t;
-#endif
-#ifdef PyGSL_NUMPY
-/* typedef intp PyGSL_array_index_t; */
+#include <numpy/arrayobject.h>
 typedef npy_intp PyGSL_array_index_t;
-#endif 
-
 
 
 #include <gsl/gsl_vector.h>
@@ -125,7 +100,7 @@ enum PyGSL_Array_Flags {
 #define PyGSL_GET_ARRAYFLAG(flag) (( (flag) >>  0) & 0x000000ff)
 #define PyGSL_GET_ARRAYTYPE(flag) (( (flag) >>  8) & 0x000000ff)
 #define PyGSL_GET_TYPESIZE(flag)  (( (flag) >> 16) & 0x000000ff)
-#define PyGSL_GET_ARGNUM(flag)    (( (flag) >> 24) & 0x000000ff) 
+#define PyGSL_GET_ARGNUM(flag)    (( (flag) >> 24) & 0x000000ff)
 
 #define PyGSL_BUILD_ARRAY_INFO(array_flag, array_type, type_size, argnum) \
 (\
@@ -137,22 +112,22 @@ enum PyGSL_Array_Flags {
 
 
 #define PyGSL_DARRAY_INFO(array_flag, argnum)  \
-   PyGSL_BUILD_ARRAY_INFO(array_flag, NPY_DOUBLE, sizeof(double), argnum) 
-#define PyGSL_DARRAY_CINPUT(argnum)  PyGSL_DARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_INPUT_ARRAY, argnum) 
-#define PyGSL_DARRAY_INPUT(argnum)   PyGSL_DARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, argnum) 
-#define PyGSL_DARRAY_CIO(argnum)     PyGSL_DARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_IO_ARRAY,    argnum) 
+   PyGSL_BUILD_ARRAY_INFO(array_flag, NPY_DOUBLE, sizeof(double), argnum)
+#define PyGSL_DARRAY_CINPUT(argnum)  PyGSL_DARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_INPUT_ARRAY, argnum)
+#define PyGSL_DARRAY_INPUT(argnum)   PyGSL_DARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, argnum)
+#define PyGSL_DARRAY_CIO(argnum)     PyGSL_DARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_IO_ARRAY,    argnum)
 
 
 #define PyGSL_CARRAY_INFO(array_flag, argnum)				\
    PyGSL_BUILD_ARRAY_INFO(array_flag, NPY_CDOUBLE, 2 * sizeof(double), argnum)
-#define PyGSL_CARRAY_CINPUT(argnum)  PyGSL_CARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_INPUT_ARRAY, argnum) 
-#define PyGSL_CARRAY_CIO(argnum)     PyGSL_CARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_IO_ARRAY,    argnum) 
+#define PyGSL_CARRAY_CINPUT(argnum)  PyGSL_CARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_INPUT_ARRAY, argnum)
+#define PyGSL_CARRAY_CIO(argnum)     PyGSL_CARRAY_INFO(PyGSL_CONTIGUOUS     | PyGSL_IO_ARRAY,    argnum)
 
 /*
  * PyGSL_New_Array:
  *                Generate an new array with the specified dimensions.
  *
- *                The numpy backend expects an array of int, whereas 
+ *                The numpy backend expects an array of int, whereas
  *                the numarray backend expects  an array of long
  */
 PyGSL_API_EXTERN PyArrayObject *
@@ -177,7 +152,7 @@ PyGSL_Copy_Array(PyArrayObject *, int type);
  *         -1: Conversion Failed
  *         pos : recalculated stride
  */
-PyGSL_API_EXTERN int 
+PyGSL_API_EXTERN int
 PyGSL_stride_recalc(PyGSL_array_index_t strides, int basis_type_size,
 		    PyGSL_array_index_t * stride_recalc);
 
@@ -188,19 +163,19 @@ PyGSL_stride_recalc(PyGSL_array_index_t strides, int basis_type_size,
  * PyGSL_PyArray_generate_gsl_vector_view :
  *                                 Generate an new array of given dimensions .
  *
- *  This function will try to convert the object, to a Python integer and 
+ *  This function will try to convert the object, to a Python integer and
  *  generate an apropriate one dimensional numpy array.
  *
- * Input : 
+ * Input :
  *         object              : a general python object
  *         array_type          : the required C type for the array
  *         argument number     : The argument number. Used for error reporting
  *
- * Output: 
- *                             : a pointer to a PyArrayObject or NULL in case 
+ * Output:
+ *                             : a pointer to a PyArrayObject or NULL in case
  *                              of error. This object must be dereferenced.
  */
-PyGSL_API_EXTERN PyArrayObject * 
+PyGSL_API_EXTERN PyArrayObject *
 PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
 				       int array_type,
 				       int argnum);
@@ -209,19 +184,19 @@ PyGSL_PyArray_generate_gsl_vector_view(PyObject *src,
  * PyGSL_PyArray_generate_gsl_matrix_view :
  *                                 Generate an new array of given dimensions .
  *
- *  This function will try to convert the object, to a sequence of two Python 
+ *  This function will try to convert the object, to a sequence of two Python
  *  integer and generate an apropriate two dimensional numpy array.
  *
- * Input : 
+ * Input :
  *         object              : a general python object
  *         array_type          : the required C type for the array
  *         argument number     : The argument number. Used for error reporting
  *
- * Output: 
- *                             : a pointer to a PyArrayObject or NULL in case 
+ * Output:
+ *                             : a pointer to a PyArrayObject or NULL in case
  *                              of error. This object must be dereferenced.
  */
-PyGSL_API_EXTERN PyArrayObject * 
+PyGSL_API_EXTERN PyArrayObject *
 PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
 				       int array_type,
 				       int argnum);
@@ -242,7 +217,7 @@ PyGSL_PyArray_generate_gsl_matrix_view(PyObject *src,
  *                 ... shall it be contiguous?
  *      argnum     ... the positional argument number. Used when reporting an
  *                     error
- *      
+ *
  *                     Information if the stride of the vector should be
  *                     recalulated to the native C type.
  *      type_size  ... the size of the native C type (typically sizeof(type)).
@@ -279,8 +254,8 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size, PyGSL_array_info_t a
  *                     shall it be contiguous?
  *      argnum     ... the positional argument number. Used when reporting an
  *                     error
- *      
- *                     Information if the stride of the vector should be 
+ *
+ *                     Information if the stride of the vector should be
  *                     recalulated to the native C type.
  *      type_size  ... the size of the native C type (typically sizeof(type)).
  *                     If stride is NULL this value is without meaning.
@@ -296,7 +271,7 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size, PyGSL_array_info_t a
  *       PyGSL_DMATRIX_CHECK(src, size1, size2, flag, argnum, stride1, stride2, info)
  */
 PyGSL_API_EXTERN PyArrayObject *
-PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t size2, 
+PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t size2,
 		   PyGSL_array_info_t ainfo,
 		   PyGSL_array_index_t *stride1, PyGSL_array_index_t *stride2,
 		   PyGSL_error_info * info);
@@ -314,12 +289,12 @@ PyGSL_matrix_check(PyObject *src, PyGSL_array_index_t size1, PyGSL_array_index_t
  *                               reporting during callback evaluation. Pass
  *                               NULL if not needed.
  *
- * Output: 
+ * Output:
  *                             : GSL_SUCCESS | GSL_FAILURE
  *
  */
 PyGSL_API_EXTERN int
-PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, PyGSL_array_index_t n, 
+PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, PyGSL_array_index_t n,
 				PyGSL_error_info * info);
 
 /*
@@ -329,7 +304,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, PyGSL_array_ind
  *
  * Input :
  *         f                   : a pointer to the target gsl_vector
- *         object              : a general python object referring to a numpy 
+ *         object              : a general python object referring to a numpy
  *                               array
  *         n                   : number of elements in the first dimension
  *         p                   : number of elements in the second dimension
@@ -337,7 +312,7 @@ PyGSL_copy_pyarray_to_gslvector(gsl_vector *f, PyObject *object, PyGSL_array_ind
  *                               reporting during callback evaluation. Pass
  *                               NULL if not needed.
  *
- * Output: 
+ * Output:
  *                             : GSL_SUCCESS | GSL_FAILURE
  *
  */
@@ -345,7 +320,7 @@ PyGSL_API_EXTERN int
 PyGSL_copy_pyarray_to_gslmatrix(gsl_matrix *f, PyObject *object,  PyGSL_array_index_t n,
 				PyGSL_array_index_t p, PyGSL_error_info * info);
 
-PyGSL_API_EXTERN PyArrayObject * 
+PyGSL_API_EXTERN PyArrayObject *
 PyGSL_vector_or_double(PyObject *src, PyGSL_array_info_t ainfo, PyGSL_array_index_t size,
 		       PyGSL_error_info * info);
 
@@ -356,10 +331,10 @@ PyGSL_vector_or_double(PyObject *src, PyGSL_array_info_t ainfo, PyGSL_array_inde
  *                data of the vector to it.
  *
  *
- * Input : 
+ * Input :
  *              x              : a gsl_vector
- * Output: 
- *                             : a pointer to a PyArrayObject or NULL in case 
+ * Output:
+ *                             : a pointer to a PyArrayObject or NULL in case
  *                              of error. This object must be dereferenced.
  */
 PyGSL_API_EXTERN PyArrayObject *
@@ -371,10 +346,10 @@ PyGSL_copy_gslvector_to_pyarray(const gsl_vector *x);
  *                data of the matrix to it.
  *
  *
- * Input : 
+ * Input :
  *              x              : a gsl_matrix
- * Output: 
- *                             : a pointer to a PyArrayObject or NULL in case 
+ * Output:
+ *                             : a pointer to a PyArrayObject or NULL in case
  *                              of error. This object must be dereferenced.
  */
 PyGSL_API_EXTERN PyArrayObject *
@@ -395,10 +370,10 @@ PyGSL_copy_gslmatrix_to_pyarray(const gsl_matrix *x);
                                                                      PyGSL_API[PyGSL_PyArray_prepare_gsl_matrix_view_NUM])
 #endif /* NO_PyGSL_LEGACY */
 #define PyGSL_PyArray_generate_gsl_vector_view \
-(*(PyArrayObject *(*)(PyObject *, int, int))          PyGSL_API[PyGSL_PyArray_generate_gsl_vector_view_NUM]) 
+(*(PyArrayObject *(*)(PyObject *, int, int))          PyGSL_API[PyGSL_PyArray_generate_gsl_vector_view_NUM])
 
 #define PyGSL_PyArray_generate_gsl_matrix_view \
-(*(PyArrayObject *(*)(PyObject *, int, int))          PyGSL_API[PyGSL_PyArray_generate_gsl_matrix_view_NUM]) 
+(*(PyArrayObject *(*)(PyObject *, int, int))          PyGSL_API[PyGSL_PyArray_generate_gsl_matrix_view_NUM])
 
 #define PyGSL_copy_pyarray_to_gslvector \
 (*(int (*) (gsl_vector *, PyObject *, PyGSL_array_index_t, PyGSL_error_info *))      PyGSL_API[PyGSL_copy_pyarray_to_gslvector_NUM])
@@ -446,17 +421,7 @@ PyGSL_vector_check(src, size, PyArray_DOUBLE, sizeof(double), flag, argnum, stri
 PyGSL_vector_check(src, size1, size2, PyArray_DOUBLE, sizeof(double), flag, argnum, stride1, stride2, info)
 */
 
-#ifdef PyGSL_NUMPY
 #include <pygsl/block_helpers_numpy.h>
-#endif
-
-#ifdef PyGSL_NUMERIC
-#include <pygsl/block_helpers_numeric.h>
-#endif
-
-#ifdef PyGSL_NUMARRAY
-#include <pygsl/block_helpers_numarray.h>
-#endif
 
 __END_DECLS
 #endif /* PyGSL_BLOCK_HELPERS_H */
