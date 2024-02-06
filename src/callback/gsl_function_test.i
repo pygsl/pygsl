@@ -1,7 +1,7 @@
 /* -*- C -*- */
 /**
  * Author: Pierre Schnizer
- */   
+ */
 %module callback_function_test
 
 %{
@@ -10,7 +10,7 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/general_helpers.h>
 #include "function_helpers.c"
-#include "chars.c"   
+#include "chars.c"
 
 
 %}
@@ -54,7 +54,7 @@ int pygsl_test_gsl_function_cb(gsl_function * BUFFER, double x, double *OUTPUT)
   result = GSL_FN_EVAL(BUFFER, x);
   *OUTPUT = result;
   return GSL_SUCCESS;
-  
+
 }
 
 
@@ -65,7 +65,7 @@ int test_callback(PyObject *callback, PyObject * arguments, int nargs, char *mes
      int istuple = -1, tuple_size = -1;
      PyGSL_error_info  info;
 
-     
+
      if(!PyCallable_Check(callback)){
 	  goto fail;
      }
@@ -79,10 +79,10 @@ int test_callback(PyObject *callback, PyObject * arguments, int nargs, char *mes
      assert(arglist != NULL);
      assert(callback != NULL);
      FUNC_MESS("    Call Python Object BEGIN");
-     object  = PyEval_CallObject(callback, arglist);
+     object  = PyObject_CallObject(callback, arglist);
      FUNC_MESS("    Call Python Object END");
 
-     fprintf(stderr, "callback = %p, Py_None = %p, nargs = %d, message = %s\n", 
+     fprintf(stderr, "callback = %p, Py_None = %p, nargs = %d, message = %s\n",
 	     callback, Py_None, nargs, message);
 
      if(PyGSL_CHECK_PYTHON_RETURN(object, nargs, &info) != GSL_SUCCESS){
@@ -93,10 +93,10 @@ int test_callback(PyObject *callback, PyObject * arguments, int nargs, char *mes
 	  if( ( istuple = PyTuple_Check(object) ) )
 	       tuple_size = PyTuple_Size(object);
 
-     fprintf(stderr, "object = %p, PyTuple_Check(object) = %d len(object) = %d\n", 
+     fprintf(stderr, "object = %p, PyTuple_Check(object) = %d len(object) = %d\n",
 	     object,  istuple, tuple_size);
 
-	  
+
      return GSL_SUCCESS;
  fail:
      Py_XDECREF(arglist);
@@ -104,4 +104,3 @@ int test_callback(PyObject *callback, PyObject * arguments, int nargs, char *mes
      return GSL_FAILURE;
 }
 %}
-

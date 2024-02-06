@@ -10,15 +10,15 @@
 
 /* 1. A_n O -> A_p  */
 int
-PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback, 
+PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback,
 			PyObject * arguments, int n, int p, const char *c_func_name)
 {
      PyArrayObject *a_array = NULL;
      PyObject *object=NULL, *arglist=NULL;
      PyGSL_error_info  info;
-     /* the line number to appear in the traceback */ 
+     /* the line number to appear in the traceback */
      int trb_lineno = -1;
-     FUNC_MESS_BEGIN();    
+     FUNC_MESS_BEGIN();
 
      arglist = PyTuple_New(2);
      if(arglist == NULL){
@@ -42,7 +42,7 @@ PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callbac
      assert(arglist != NULL);
      assert(callback != NULL);
      FUNC_MESS("    Call Python Object BEGIN");
-     object  = PyEval_CallObject(callback, arglist);
+     object  = PyObject_CallObject(callback, arglist);
      FUNC_MESS("    Call Python Object END");
 
      info.callback = callback;
@@ -57,9 +57,9 @@ PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callbac
      if(PyGSL_copy_pyarray_to_gslvector(f, object, p, &info) != GSL_SUCCESS){
 	  trb_lineno = __LINE__ - 1;
 	  goto fail;
-     }     
-     Py_DECREF(arglist);    
-     Py_DECREF(object);    
+     }
+     Py_DECREF(arglist);
+     Py_DECREF(object);
      FUNC_MESS_END();
      return GSL_SUCCESS;
  fail:
@@ -79,10 +79,10 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
      PyArrayObject *a_array = NULL;
      PyObject *result = NULL, *arglist=NULL;
      PyGSL_error_info  info;
-     /* the line number to appear in the traceback */ 
+     /* the line number to appear in the traceback */
      int trb_lineno = -1;
 
-     FUNC_MESS_BEGIN();    
+     FUNC_MESS_BEGIN();
 
 
      arglist = PyTuple_New(2);
@@ -99,7 +99,7 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
 	  goto fail;
      }
      PyTuple_SET_ITEM(arglist, 0, (PyObject *) a_array);
-     a_array = NULL; 
+     a_array = NULL;
      Py_INCREF(arguments);
      PyTuple_SET_ITEM(arglist, 1, arguments);
      DEBUG_MESS(2, "callback = %p, arglist = %p", callback, arglist);
@@ -107,7 +107,7 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
      assert(arglist != NULL);
      assert(callback != NULL);
      FUNC_MESS("    Call Python Object BEGIN");
-     result  = PyEval_CallObject(callback, arglist);
+     result  = PyObject_CallObject(callback, arglist);
      FUNC_MESS("    Call Python Object END");
 
      info.callback = callback;
@@ -121,7 +121,7 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
 	  trb_lineno = __LINE__ - 1;
 	  goto fail;
      }
-     Py_DECREF(arglist);    
+     Py_DECREF(arglist);
      Py_DECREF(result);
      FUNC_MESS_END();
      return GSL_SUCCESS;
@@ -149,10 +149,10 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
      PyArrayObject *a_array = NULL;
      PyObject *object=NULL, *arglist=NULL, *tmp=NULL;
      PyGSL_error_info  info;
-     /* the line number to appear in the traceback */ 
+     /* the line number to appear in the traceback */
      int trb_lineno = -1;
 
-     FUNC_MESS_BEGIN();    
+     FUNC_MESS_BEGIN();
 
      arglist = PyTuple_New(2);
      if(arglist == NULL){
@@ -162,9 +162,9 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 
      a_array = PyGSL_copy_gslvector_to_pyarray(x);
      if (a_array == NULL){
-	  trb_lineno = __LINE__ - 2;	       
+	  trb_lineno = __LINE__ - 2;
 	  goto fail;
-     }     
+     }
      PyTuple_SET_ITEM(arglist, 0, (PyObject *) a_array);
      a_array = NULL;
      Py_INCREF(arguments);
@@ -174,11 +174,11 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
      assert(arglist != NULL);
      assert(callback != NULL);
      FUNC_MESS("\tCall Python Object BEGIN");
-     object  = PyEval_CallObject(callback, arglist);
+     object  = PyObject_CallObject(callback, arglist);
      FUNC_MESS("\tCall Python Object END");
 
      info.callback = callback;
-     info.message  = c_func_name;	  
+     info.message  = c_func_name;
      FUNC_MESS(" Checking Return Values");
      if(result2 == NULL){
 	  if(PyGSL_CHECK_PYTHON_RETURN(object, 1, &info) != GSL_SUCCESS){
@@ -202,7 +202,7 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
      if(DEBUG>2){
        fprintf(stderr,"\tresult1 = %f\n", *result1);
      }
-     
+
      if(result2 != NULL){
 	  FUNC_MESS("\tCOPYING df");
 	  tmp = PyTuple_GET_ITEM(object, 1);
@@ -212,8 +212,8 @@ PyGSL_function_wrap_On_O(const gsl_vector * x, PyObject *callback,
 	       goto fail;
 	  }
      }
-     Py_DECREF(arglist);    
-     Py_DECREF(object);    
+     Py_DECREF(arglist);
+     Py_DECREF(object);
      FUNC_MESS_END();
      return GSL_SUCCESS;
 
@@ -235,10 +235,10 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
      PyArrayObject *a_array = NULL;
      PyObject *object = NULL, *r1=NULL, *r2 = NULL, *arglist=NULL;
      PyGSL_error_info  info;
-     /* the line number to appear in the traceback */ 
+     /* the line number to appear in the traceback */
      int trb_lineno = -1;
 
-     FUNC_MESS_BEGIN();    
+     FUNC_MESS_BEGIN();
 
      arglist = PyTuple_New(2);
      if(arglist == NULL){
@@ -262,11 +262,11 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
      assert(callback != NULL);
 
      FUNC_MESS("    Call Python Object BEGIN");
-     object  = PyEval_CallObject(callback, arglist);
+     object  = PyObject_CallObject(callback, arglist);
      FUNC_MESS("    Call Python Object END");
 
      info.callback = callback;
-     info.message  = c_func_name;	  
+     info.message  = c_func_name;
      if(PyGSL_CHECK_PYTHON_RETURN(object, 2, &info) != GSL_SUCCESS){
 	  trb_lineno = __LINE__ - 1;
 	  goto fail;
@@ -285,8 +285,8 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
 	  FUNC_MESS("   Could not convert df to gsl matrix!");
 	  goto fail;
      }
-     Py_DECREF(arglist);    
-     Py_DECREF(object);    
+     Py_DECREF(arglist);
+     Py_DECREF(object);
      FUNC_MESS_END();
      return GSL_SUCCESS;
 
@@ -301,7 +301,7 @@ PyGSL_function_wrap_Op_On_Opn(const gsl_vector * x, gsl_vector *f1, gsl_matrix *
 
 /* -------------------------------------------------------------------------
       Register Python Call backs
-      
+
       Generic Helper Functions
    ------------------------------------------------------------------------ */
 /* Callbacks using one function */
@@ -313,12 +313,12 @@ PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, const
 
      FUNC_MESS_BEGIN();
      /*
-      * check perhaps if SWIG pointer to allow call back to a real C 
-      * function ? 
+      * check perhaps if SWIG pointer to allow call back to a real C
+      * function ?
       */
      if(size == NULL && size2 == NULL){
 	  if(!(PyArg_ParseTuple(object, "OO", &func, &args))){
-	       PyErr_SetString(PyExc_ValueError, 
+	       PyErr_SetString(PyExc_ValueError,
 			       "I expect a tuple as input for the gsl_function!\n"
 			       "The first item is the function and the second item it's "
 			       "additional arguments.");
@@ -328,7 +328,7 @@ PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, const
      else if(size2 == NULL)
      {
 	  if(!(PyArg_ParseTuple(object, "OOi", &func, &args, size))){
-	       PyErr_SetString(PyExc_ValueError, 
+	       PyErr_SetString(PyExc_ValueError,
 			       "I expect a tuple as input for the gsl_function!\n"
 			       "The first item is the function, the second item it's "
 			       "additional arguments and the third the size of the problem.");
@@ -341,7 +341,7 @@ PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, const
      else
      {
 	  if(!(PyArg_ParseTuple(object, "OOii", &func, &args, size, size2))){
-	       PyErr_SetString(PyExc_ValueError, 
+	       PyErr_SetString(PyExc_ValueError,
 			       "I expect a tuple as input for the gsl_function!\n"
 			       "The first item is the function, the second item it's "
 			       "additional arguments, the third the number of parameters "
@@ -353,7 +353,7 @@ PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, const
 	  }
      }
      if(!(PyCallable_Check(func))){
-	  PyErr_SetString(PyExc_TypeError, 
+	  PyErr_SetString(PyExc_TypeError,
 			  "The first item of the tuple for the gsl_function"
 			  "must be callable");
 	  return NULL;
@@ -364,7 +364,7 @@ PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, const
      }
      Py_INCREF(func);
      Py_INCREF(args);
-  
+
      params->function = func;
      params->arguments = args;
      params->c_func_name = c_func_name;
@@ -375,7 +375,7 @@ PyGSL_convert_to_generic_function(PyObject *object, int *size, int *size2, const
 
 /* Callbacks using 3  functions */
 callback_function_params_fdf *
-PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2, 
+PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2,
 				      const char * c_f_func_name, const char * c_df_func_name, const char * c_fdf_func_name)
 {
      PyObject *f = NULL, *df = NULL, *fdf = NULL, *args = NULL;
@@ -388,12 +388,12 @@ PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2,
 	  return NULL;
      }
      /*
-      * check perhaps if SWIG pointer to allow call back to a real C 
-      * function ? 
+      * check perhaps if SWIG pointer to allow call back to a real C
+      * function ?
       */
      if(size == NULL && size2 == NULL){
        if(!(PyArg_ParseTuple(object, "OOOO:setting functions for gsl_function", &f, &df, &fdf, &args))){
-	 PyErr_SetString(PyExc_ValueError, 
+	 PyErr_SetString(PyExc_ValueError,
 			 "I expect a tuple as input for the gsl_function_fdf!\n"
 			 "The first 3 items are functions and the last item it's"
 			 "additional arguments.");
@@ -401,7 +401,7 @@ PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2,
        }
      } else if(size2  == NULL) {
        if(!(PyArg_ParseTuple(object, "OOOOi:setting parameters for gsl_function_fdf", &f, &df, &fdf, &args, &tmp))){
-	 PyErr_SetString(PyExc_ValueError, 
+	 PyErr_SetString(PyExc_ValueError,
 			 "I expect a tuple as input for the gsl_function_fdf!\n"
 			 "The first 3 items are functions the 4 item it's"
 			 "additional arguments. The 5 is the size of the problem");
@@ -409,30 +409,30 @@ PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2,
        }
        *size = tmp;
      } else {
-	  if (!(PyArg_ParseTuple(object, "OOOOii:setting parameters for gsl_function_fdf", 
+	  if (!(PyArg_ParseTuple(object, "OOOOii:setting parameters for gsl_function_fdf",
 				 &f, &df, &fdf, &args, size, size2))){
-	       PyErr_SetString(PyExc_ValueError, 
+	       PyErr_SetString(PyExc_ValueError,
 			       "I expect a tuple as input for the gsl_function_fdf!\n"
 			       "The first 3 items are functions the 4 item it's "
-			       "additional arguments. The 5 is the number of parameters " 
+			       "additional arguments. The 5 is the number of parameters "
 			       "and the 6 is the size of the problem");
 	       return NULL;
 	  }
      }
      if(!(PyCallable_Check(f))){
-	  PyErr_SetString(PyExc_TypeError, 
+	  PyErr_SetString(PyExc_TypeError,
 			  "The first item of the tuple for the gsl_function"
 			  "must be callable");
 	  return NULL;
      }
      if(!(PyCallable_Check(df))){
-	  PyErr_SetString(PyExc_TypeError, 
+	  PyErr_SetString(PyExc_TypeError,
 			  "The second item of the tuple for the gsl_function"
 			  "must be callable");
 	  return NULL;
      }
      if(!(PyCallable_Check(fdf))){
-	  PyErr_SetString(PyExc_TypeError, 
+	  PyErr_SetString(PyExc_TypeError,
 			  "The third item of the tuple for the gsl_function"
 			  "must be callable");
 	  return NULL;
@@ -457,7 +457,7 @@ PyGSL_convert_to_generic_function_fdf(PyObject *object, int *size, int *size2,
      return params;
 }
 
-void 
+void
 PyGSL_params_free(callback_function_params *p)
 {
 
@@ -468,13 +468,13 @@ PyGSL_params_free(callback_function_params *p)
 		Py_DECREF(p->function);
 		Py_DECREF(p->arguments);
 		free(p);
-	}else{		
+	}else{
 		DEBUG_MESS(2, "f->params = %p", (void *) p);
-	}	
-  
+	}
+
 }
 
-void 
+void
 PyGSL_params_free_fdf(callback_function_params_fdf *p)
 {
 
@@ -491,7 +491,7 @@ PyGSL_params_free_fdf(callback_function_params_fdf *p)
 		free(p);
 	} else {
 		if(DEBUG){
-			fprintf(stderr,"In %s at line % d,  f->params = %p\n", 
+			fprintf(stderr,"In %s at line % d,  f->params = %p\n",
 				__FUNCTION__,__LINE__, (void *)p);
 		}
 	}
@@ -499,14 +499,14 @@ PyGSL_params_free_fdf(callback_function_params_fdf *p)
 
 /* -------------------------------------------------------------------------
       Register Python Call backs
-      
+
       Type Specific Functions
    ------------------------------------------------------------------------ */
 /* -------------------------------------------------------------------------
    Special Helper Functions
    ------------------------------------------------------------------------ */
 
-double 
+double
 PyGSL_function_wrap(double x, void * params)
 {
      int flag;
@@ -528,7 +528,7 @@ PyGSL_function_wrap(double x, void * params)
      }
      return result;
 }
-double 
+double
 PyGSL_function_wrap_f(double x, void * params)
 {
      int flag;
@@ -551,7 +551,7 @@ PyGSL_function_wrap_f(double x, void * params)
      return result;
 
 }
-double 
+double
 PyGSL_function_wrap_df(double x, void * params)
 {
      int flag;
@@ -596,7 +596,7 @@ PyGSL_function_wrap_fdf(double x,  void * params, double *f, double * fdf)
 
 }
 
-gsl_function *  
+gsl_function *
 PyGSL_convert_to_gsl_function(PyObject * object)
 {
      gsl_function * f = NULL;
@@ -613,21 +613,21 @@ PyGSL_convert_to_gsl_function(PyObject * object)
 	  return NULL;
      }
      f->function = PyGSL_function_wrap;
-     f->params   = params; 
+     f->params   = params;
      FUNC_MESS_END();
      return f;
 }
 
 
-gsl_function_fdf *  
+gsl_function_fdf *
 PyGSL_convert_to_gsl_function_fdf(PyObject * object)
 {
 
      gsl_function_fdf * F = NULL;
      callback_function_params_fdf *params;
-  
+
      FUNC_MESS_BEGIN();
-     params = PyGSL_convert_to_generic_function_fdf(object, NULL, NULL, 
+     params = PyGSL_convert_to_generic_function_fdf(object, NULL, NULL,
 					      pygsl_gsl_f_function, pygsl_gsl_df_function, pygsl_gsl_fdf_function);
      if(params == NULL){
 	  return NULL;
@@ -639,14 +639,14 @@ PyGSL_convert_to_gsl_function_fdf(PyObject * object)
      }
      F->f = PyGSL_function_wrap_f;
      F->df = PyGSL_function_wrap_df;
-     F->fdf = PyGSL_function_wrap_fdf;    
+     F->fdf = PyGSL_function_wrap_fdf;
      F->params   = params;
      FUNC_MESS_END();
      return F;
 }
 
 
-int 
+int
 PyGSL_multiroot_function_wrap(const gsl_vector *x, void *params, gsl_vector *f)
 {
      callback_function_params *p;
@@ -657,7 +657,7 @@ PyGSL_multiroot_function_wrap(const gsl_vector *x, void *params, gsl_vector *f)
      }
      return PyGSL_function_wrap_Op_On(x, f, p->function, p->arguments, x->size, x->size, p->c_func_name);
 }
-int 
+int
 PyGSL_multiroot_function_wrap_f(const gsl_vector *x, void *params, gsl_vector *f)
 {
      callback_function_params_fdf *p;
@@ -665,7 +665,7 @@ PyGSL_multiroot_function_wrap_f(const gsl_vector *x, void *params, gsl_vector *f
      DEBUG_MESS(6, "Using arguments p->arguments %p", p->arguments);
      return PyGSL_function_wrap_Op_On(x, f, p->f, p->arguments, x->size, x->size, p->c_f_func_name);
 }
-int 
+int
 PyGSL_multiroot_function_wrap_df(const gsl_vector *x, void *params, gsl_matrix *J)
 {
      callback_function_params_fdf *p;
@@ -673,7 +673,7 @@ PyGSL_multiroot_function_wrap_df(const gsl_vector *x, void *params, gsl_matrix *
      DEBUG_MESS(6, "Using arguments p->arguments %p", p->arguments);
      return PyGSL_function_wrap_Op_Opn(x, J, p->df, p->arguments, x->size, x->size, p->c_df_func_name);
 }
-int 
+int
 PyGSL_multiroot_function_wrap_fdf(const gsl_vector *x, void *params, gsl_vector *f, gsl_matrix *J)
 {
      callback_function_params_fdf *p;
@@ -681,8 +681,8 @@ PyGSL_multiroot_function_wrap_fdf(const gsl_vector *x, void *params, gsl_vector 
      DEBUG_MESS(6, "Using arguments p->arguments %p", p->arguments);
      return PyGSL_function_wrap_Op_On_Opn(x, f, J, p->fdf, p->arguments, x->size, x->size, p->c_fdf_func_name);
 }
- 
-gsl_multiroot_function *  
+
+gsl_multiroot_function *
 PyGSL_convert_to_gsl_multiroot_function(PyObject * object)
 {
      gsl_multiroot_function * f = NULL;
@@ -702,21 +702,21 @@ PyGSL_convert_to_gsl_multiroot_function(PyObject * object)
 
      f->f = PyGSL_multiroot_function_wrap;
      f->n = size;
-     f->params   = params; 
+     f->params   = params;
      FUNC_MESS_END();
      return f;
 }
 
 
-gsl_multiroot_function_fdf *  
+gsl_multiroot_function_fdf *
 PyGSL_convert_to_gsl_multiroot_function_fdf(PyObject * object){
 
      gsl_multiroot_function_fdf * F = NULL;
      callback_function_params_fdf *params;
      int size;
      FUNC_MESS_BEGIN();
-     params = PyGSL_convert_to_generic_function_fdf(object, &size, NULL, pygsl_multiroot_f_function, 
-					      pygsl_multiroot_df_function, 
+     params = PyGSL_convert_to_generic_function_fdf(object, &size, NULL, pygsl_multiroot_f_function,
+					      pygsl_multiroot_df_function,
 					      pygsl_multiroot_fdf_function);
      if(params == NULL){
 	  return NULL;
@@ -784,7 +784,7 @@ PyGSL_multimin_function_wrap_df(const gsl_vector *x, void *params, gsl_vector *g
 {
      int flag;
      callback_function_params_fdf *p;
-     
+
      p = (callback_function_params_fdf *) params;
      flag = PyGSL_function_wrap_Op_On(x, g, p->df, p->arguments, x->size, x->size, p->c_df_func_name);
      if (flag!= GSL_SUCCESS){
@@ -794,7 +794,7 @@ PyGSL_multimin_function_wrap_df(const gsl_vector *x, void *params, gsl_vector *g
 	  } else {
 	       FUNC_MESS("\t\t Jump buffer was not defined!");
 	       gsl_vector_set_all(g, gsl_nan());
-	       
+
 	  }
      }
 
@@ -822,7 +822,7 @@ PyGSL_multimin_function_wrap_fdf(const gsl_vector *x, void *params, double *f, g
 
 }
 
-gsl_multimin_function *  
+gsl_multimin_function *
 PyGSL_convert_to_gsl_multimin_function(PyObject * object)
 {
      gsl_multimin_function * f = NULL;
@@ -843,20 +843,20 @@ PyGSL_convert_to_gsl_multimin_function(PyObject * object)
      /* f->f =  double (*) (const gsl_vector *, void *) PyGSL_multimin_function_wrap; */
      f->f =  PyGSL_multimin_function_wrap;
      f->n = size;
-     f->params   = params; 
+     f->params   = params;
      FUNC_MESS_END();
      return f;
 }
 
-gsl_multimin_function_fdf *  
+gsl_multimin_function_fdf *
 PyGSL_convert_to_gsl_multimin_function_fdf(PyObject * object){
 
      gsl_multimin_function_fdf * F = NULL;
-     callback_function_params_fdf *params;  
+     callback_function_params_fdf *params;
      int size = 0;
 
      FUNC_MESS_BEGIN();
-     params = PyGSL_convert_to_generic_function_fdf(object, &size, NULL, pygsl_multimin_f_function, 
+     params = PyGSL_convert_to_generic_function_fdf(object, &size, NULL, pygsl_multimin_f_function,
 					      pygsl_multimin_df_function, pygsl_multimin_fdf_function);
      if(!params){
 	  return NULL;
@@ -868,7 +868,7 @@ PyGSL_convert_to_gsl_multimin_function_fdf(PyObject * object){
      }
      F->f   = PyGSL_multimin_function_wrap_f;
      F->df  = PyGSL_multimin_function_wrap_df;
-     F->fdf = PyGSL_multimin_function_wrap_fdf;    
+     F->fdf = PyGSL_multimin_function_wrap_fdf;
      F->n = size;
      F->params   = params;
      FUNC_MESS_END();
@@ -876,7 +876,7 @@ PyGSL_convert_to_gsl_multimin_function_fdf(PyObject * object){
 }
 
 
-int 
+int
 PyGSL_multifit_function_wrap(const gsl_vector *x, void *params, gsl_vector *f)
 {
      callback_function_params *p;
@@ -884,7 +884,7 @@ PyGSL_multifit_function_wrap(const gsl_vector *x, void *params, gsl_vector *f)
      return PyGSL_function_wrap_Op_On(x, f, p->function, p->arguments, x->size, f->size, p->c_func_name);
 }
 
-int 
+int
 PyGSL_multifit_function_wrap_f(const gsl_vector *x, void *params, gsl_vector *f)
 {
      callback_function_params_fdf *p;
@@ -892,16 +892,16 @@ PyGSL_multifit_function_wrap_f(const gsl_vector *x, void *params, gsl_vector *f)
      return PyGSL_function_wrap_Op_On(x, f, p->f, p->arguments, x->size, f->size, p->c_f_func_name);
 }
 
-int 
+int
 PyGSL_multifit_function_wrap_df(const gsl_vector *x, void *params, gsl_matrix *df)
 {
      callback_function_params_fdf *p;
-     p = (callback_function_params_fdf *) params; 
+     p = (callback_function_params_fdf *) params;
      /* size 1 or size 2 from matrix ? */
      return PyGSL_function_wrap_Op_Opn(x, df, p->df, p->arguments, df->size1, x->size, p->c_df_func_name);
 }
 
-int 
+int
 PyGSL_multifit_function_wrap_fdf(const gsl_vector *x, void *params, gsl_vector *f, gsl_matrix *df)
 {
      callback_function_params_fdf *p;
@@ -909,8 +909,8 @@ PyGSL_multifit_function_wrap_fdf(const gsl_vector *x, void *params, gsl_vector *
      /* size 1 or size 2 from matrix ? */
      return PyGSL_function_wrap_Op_On_Opn(x, f, df, p->fdf, p->arguments, f->size, x->size, p->c_fdf_func_name);
 }
- 
-gsl_multifit_function *  
+
+gsl_multifit_function *
 PyGSL_convert_to_gsl_multifit_function(PyObject * object)
 {
      gsl_multifit_function * f = NULL;
@@ -929,7 +929,7 @@ PyGSL_convert_to_gsl_multifit_function(PyObject * object)
      }
 
      f->f = PyGSL_multifit_function_wrap;
-     f->params   = params; 
+     f->params   = params;
      f->p = p;
      f->n = n;
      FUNC_MESS_END();
@@ -937,7 +937,7 @@ PyGSL_convert_to_gsl_multifit_function(PyObject * object)
 }
 
 
-gsl_multifit_function_fdf *  
+gsl_multifit_function_fdf *
 PyGSL_convert_to_gsl_multifit_function_fdf(PyObject * object){
 
      gsl_multifit_function_fdf * F = NULL;
@@ -945,7 +945,7 @@ PyGSL_convert_to_gsl_multifit_function_fdf(PyObject * object){
      int p,n;
 
      FUNC_MESS_BEGIN();
-     params = PyGSL_convert_to_generic_function_fdf(object, &n, &p, pygsl_multifit_f_function, 
+     params = PyGSL_convert_to_generic_function_fdf(object, &n, &p, pygsl_multifit_f_function,
 					      pygsl_multifit_df_function, pygsl_multifit_fdf_function);
      if(params == NULL){
 	  return NULL;
@@ -957,7 +957,7 @@ PyGSL_convert_to_gsl_multifit_function_fdf(PyObject * object){
      }
      F->f   = PyGSL_multifit_function_wrap_f;
      F->df  = PyGSL_multifit_function_wrap_df;
-     F->fdf = PyGSL_multifit_function_wrap_fdf;    
+     F->fdf = PyGSL_multifit_function_wrap_fdf;
      F->params   = params;
      F->p = p;
      F->n = n;
@@ -981,7 +981,7 @@ PyGSL_monte_function_wrap(double *x,  size_t dim, void *params)
      view = gsl_vector_view_array(x, dim);
      p = (callback_function_params *) params;
      flag = PyGSL_function_wrap_On_O(&view.vector, p->function, p->arguments,
-				     &tmp, NULL, view.vector.size, 
+				     &tmp, NULL, view.vector.size,
 				     p->c_func_name);
      if (flag!= GSL_SUCCESS) {
 	  if(p->buffer_is_set == 1){
@@ -1015,9 +1015,8 @@ PyGSL_convert_to_gsl_monte_function(PyObject * object)
      }
 
      f->f = PyGSL_monte_function_wrap;
-     f->params = params; 
+     f->params = params;
      f->dim = n;
      FUNC_MESS_END();
      return f;
 }
-
