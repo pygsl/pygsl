@@ -8,14 +8,14 @@
 
 /* 3   dO -> d      gsl_function     */
 /* 3.1 dO -> d d    gsl_function_fdf */
-PyGSL_API_EXTERN int 
+PyGSL_API_EXTERN int
 PyGSL_function_wrap_helper(double x, double * result, double *result2,
 			   PyObject *callback, PyObject *arguments, const char *c_func_name)
 {
      PyObject *object = NULL, *arglist = NULL, *tmp = NULL;
      int flag;
      PyGSL_error_info  info;
-     /* the line number to appear in the traceback */ 
+     /* the line number to appear in the traceback */
      int trb_lineno = -1;
 
      FUNC_MESS_BEGIN();
@@ -28,9 +28,9 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
      if(DEBUG > 2){
 	  fprintf(stderr, "callback = %p, arglist = %p\n", callback, arglist);
      }
-     object  = PyEval_CallObject(callback, arglist);
+     object  = PyObject_CallObject(callback, arglist);
      info.callback = callback;
-     info.message  = c_func_name;	  
+     info.message  = c_func_name;
 
      Py_DECREF(arglist);
      FUNC_MESS("    Call Python Object END");
@@ -79,4 +79,3 @@ PyGSL_function_wrap_helper(double x, double * result, double *result2,
      Py_XDECREF(object);
      return flag;
 }
-

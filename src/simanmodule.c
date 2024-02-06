@@ -2,7 +2,7 @@
  * Original Author:
  * * author: Jochen K"upper
  * * created: April 2002
- * 
+ *
  * author: Pierre Schnizer
  * created: December 2003
  * file: pygsl/src/simanmodule.c
@@ -27,7 +27,7 @@
 
 /*
  * Common to all objects of one problem
- * Currently the individual method pointers are not used. Instead the method 
+ * Currently the individual method pointers are not used. Instead the method
  * is resolved every time. Do you know which method is faster? Is it advicable
  * to resolve it once and store it here? Pierre
  */
@@ -45,7 +45,7 @@ typedef struct{
 /*
  * The Linked list keeping the reference to the individual objects.
  *
- * Necessary as I have to use longjmp as the current implementation does 
+ * Necessary as I have to use longjmp as the current implementation does
  * not allow error propagation yet!
  */
 struct _pygsl_siman_t{
@@ -75,12 +75,12 @@ static const char Print_name[]  = "Print";
 /*
  * Get a callable method from a object.
  *
- * Basically it is a flat wrapper around PyObject_GetAttrString but 
+ * Basically it is a flat wrapper around PyObject_GetAttrString but
  * checks if the method is callable and adds a Traceback frame
  *
- * Flag usage: 
+ * Flag usage:
  *           flag == 1 Must exist and must be callable
- *           flag == 2 If it exists it must be callable 
+ *           flag == 2 If it exists it must be callable
  *
  * For the traceback frame all arguments following the module are needed.
  * If you do not know the module, you can pass a NULL pointer.
@@ -100,13 +100,13 @@ PyGSL_get_callable_method(PyObject *o, const char * attr, int flag, PyObject *mo
 		}else if(flag == 2){
 			/* Clear the error otherwise it will show up later on! */
 			PyErr_Clear();
-		}		
+		}
 		return NULL;
 	}
 	if(!(PyCallable_Check(method))) {
 		/* I must add the method name! I must change it to an more descriptive exception! */
 		PyGSL_add_traceback(module, (const char *) filename, func_name, lineno);
-		PyErr_SetString(PyExc_TypeError, "Found a attribute which was not callable!" 
+		PyErr_SetString(PyExc_TypeError, "Found a attribute which was not callable!"
 				"XXX must add the method name!");
 		return NULL;
 	}
@@ -116,11 +116,11 @@ PyGSL_get_callable_method(PyObject *o, const char * attr, int flag, PyObject *mo
 }
 
 /* This function type should return the energy of a configuration XP. */
-static double 
+static double
 PyGSL_siman_efunc(void *xp)
 {
 
-	
+
 	PyObject *result = NULL, *callback = NULL, *arglist = NULL;
 	PyGSL_error_info info;
 	pygsl_siman_t *x;
@@ -130,10 +130,10 @@ PyGSL_siman_efunc(void *xp)
 
 	FUNC_MESS_BEGIN();
 
-	assert(xp);	
+	assert(xp);
 	x = (pygsl_siman_t *) xp;
 
-	DEBUG_MESS(2, "Found a pygsl_siman_t at %p and a pygsl_siman_func_t at %p and x at %p", 
+	DEBUG_MESS(2, "Found a pygsl_siman_t at %p and a pygsl_siman_func_t at %p and x at %p",
 		   (void *)x, (void *) x->func, (void *) x->x);
 
 	assert(x);
@@ -149,7 +149,7 @@ PyGSL_siman_efunc(void *xp)
 	info.argnum = 1;
 
 	arglist = PyTuple_New(0);
-	result = PyEval_CallObject(callback, arglist);
+	result = PyObject_CallObject(callback, arglist);
 	Py_DECREF(arglist);
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 1, &info)) != GSL_SUCCESS){
 		PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__);
@@ -172,11 +172,11 @@ PyGSL_siman_efunc(void *xp)
 
 
 
-/* 
+/*
  *  This function type should modify the configuration XP using a random step
- *  taken from the generator R, up to a maximum distance of STEP_SIZE. 
+ *  taken from the generator R, up to a maximum distance of STEP_SIZE.
  */
-static void 
+static void
 PyGSL_siman_step(const gsl_rng *r, void *xp, double step_size)
 {
 
@@ -206,11 +206,11 @@ PyGSL_siman_step(const gsl_rng *r, void *xp, double step_size)
 
 	/* create argument list */
 	arglist = PyTuple_New(2);
-	PyTuple_SET_ITEM(arglist, 0, x->func->rng); 
+	PyTuple_SET_ITEM(arglist, 0, x->func->rng);
 	Py_INCREF(x->func->rng); /* Don't forget tuple is owner! */
 	PyTuple_SET_ITEM(arglist, 1, PyFloat_FromDouble(step_size));
 
-	result = PyEval_CallObject(callback, arglist);
+	result = PyObject_CallObject(callback, arglist);
 	Py_DECREF(arglist);
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 0, &info)) != GSL_SUCCESS){
 		PyGSL_add_traceback(module, filename, __FUNCTION__, __LINE__);
@@ -231,7 +231,7 @@ PyGSL_siman_step(const gsl_rng *r, void *xp, double step_size)
 
 /* This function type should return the distance between two configurations XP
    and YP. */
-static double 
+static double
 PyGSL_siman_metric(void *xp, void *yp)
 {
 
@@ -246,7 +246,7 @@ PyGSL_siman_metric(void *xp, void *yp)
 	x = (pygsl_siman_t *) xp;
 	y = (pygsl_siman_t *) yp;
 
-	DEBUG_MESS(2, "Found x at (%p,%p) and y at (%p %p)", 
+	DEBUG_MESS(2, "Found x at (%p,%p) and y at (%p %p)",
 		   (void *) x, (void *)x->x, (void *) y, (void *) y->x);
 
 	assert(x);
@@ -262,12 +262,12 @@ PyGSL_siman_metric(void *xp, void *yp)
 	info.message  = __FUNCTION__;
 	info.error_description = "???";
 	info.argnum = 1;
-		
+
 	arglist = PyTuple_New(1);
-	PyTuple_SET_ITEM(arglist, 0, y->x); 
+	PyTuple_SET_ITEM(arglist, 0, y->x);
 	Py_INCREF(y->x); /* Tuple is owner! */
 
-	result = PyEval_CallObject(callback, arglist);
+	result = PyObject_CallObject(callback, arglist);
 	Py_XDECREF(arglist);
 
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 0, &info)) != GSL_SUCCESS){
@@ -292,7 +292,7 @@ PyGSL_siman_metric(void *xp, void *yp)
 
 
 /* This function type should print the contents of the configuration XP. */
-static void 
+static void
 PyGSL_siman_print(void *xp)
 {
 	PyObject *result = NULL, *callback=NULL, *arglist=NULL;
@@ -312,9 +312,9 @@ PyGSL_siman_print(void *xp)
 	info.message  = __FUNCTION__;
 	info.error_description = "what goes here ???";
 	info.argnum = 1;
-		
+
 	arglist = PyTuple_New(0);
-	result = PyEval_CallObject(callback, arglist);
+	result = PyObject_CallObject(callback, arglist);
 	Py_DECREF(arglist);
 
 	if((flag = PyGSL_CHECK_PYTHON_RETURN(result, 0, &info)) != GSL_SUCCESS){
@@ -334,15 +334,15 @@ PyGSL_siman_print(void *xp)
 }
 
 /*
- * As Python is generating the new objects I can not skip the reference 
- * counting, but must add a reference for each object in construct and 
+ * As Python is generating the new objects I can not skip the reference
+ * counting, but must add a reference for each object in construct and
  * depose it here and in the siman_destroy function.
  *
  * siman_solve will call siman_release_x anyway at the end to clear up
  * all objects. Necessary to non existing error propagation in the siman
  * module.
  */
-static void 
+static void
 PyGSL_siman_copy(void *src, void *dst)
 {
 	PyObject *callback=NULL, *t_new = NULL, *arglist = NULL;
@@ -354,7 +354,7 @@ PyGSL_siman_copy(void *src, void *dst)
 	FUNC_MESS_BEGIN();
 	x = (pygsl_siman_t *) src;
 	y = (pygsl_siman_t *) dst;
-	
+
 	DEBUG_MESS(2, "Got source at %p, Destination at %p", (void *) x, (void *) y);
 	assert(x->x);
 	callback = PyGSL_get_callable_method(x->x, Clone_name, 1, module, filename, __FUNCTION__, __LINE__);
@@ -362,7 +362,7 @@ PyGSL_siman_copy(void *src, void *dst)
 		goto fail;
 
 	arglist = PyTuple_New(0);
-	t_new = PyEval_CallObject(callback, arglist);
+	t_new = PyObject_CallObject(callback, arglist);
 	Py_DECREF(arglist);
 
 	info.callback = callback;
@@ -384,7 +384,7 @@ PyGSL_siman_copy(void *src, void *dst)
 	FUNC_MESS("Fail");
 	Py_XDECREF(t_new);
 	longjmp(x->func->buffer, flag);
-	
+
 }
 
 static void *
@@ -392,7 +392,7 @@ PyGSL_siman_copy_construct(void *t_new)
 {
 	pygsl_siman_t * ret, * n, *p;
 	int flag = GSL_ENOMEM;
-	
+
 	FUNC_MESS_BEGIN();
 	n   = (pygsl_siman_t *) t_new;
 
@@ -400,9 +400,9 @@ PyGSL_siman_copy_construct(void *t_new)
 	ret = (pygsl_siman_t *) calloc(1, sizeof(pygsl_siman_t));
 	DEBUG_MESS(2, "T_New was %p, Constructed a new object at %p", t_new, (void *) ret);
 	if(ret == NULL){
-		pygsl_error("Could not allocate the object for the linked list", 
+		pygsl_error("Could not allocate the object for the linked list",
 			  filename, __LINE__ - 3, GSL_ENOMEM);
-		goto fail;	
+		goto fail;
 	}
 	/* Put the Link to the old object so that I can clone when I need to copy */
 	ret->x    = n->x;
@@ -438,11 +438,11 @@ PyGSL_siman_destroy(void * old)
 	pygsl_siman_t * o;
 
 	FUNC_MESS_BEGIN();
-	o = (pygsl_siman_t *) old;	
+	o = (pygsl_siman_t *) old;
 	assert(o);
 
 
-	/* fprintf(stderr, "Destroying: Previous object = %p, Next Object = %p\n", 
+	/* fprintf(stderr, "Destroying: Previous object = %p, Next Object = %p\n",
 	   (void *)o->prev, (void *)o->next); */
 
 	/* Reconnect the linked list */
@@ -460,7 +460,7 @@ PyGSL_siman_destroy(void * old)
 		DEBUG_MESS(2, "I do not dispose the last element %p!", (void *) o);
 		return;
 	}
-	
+
 	/* Dispose the object */
 	Py_XDECREF(o->x);
 	free(o);
@@ -468,7 +468,7 @@ PyGSL_siman_destroy(void * old)
 }
 
 /* Clean up of the linked list of objects */
-int 
+int
 PyGSL_siman_release_x(pygsl_siman_t * myargs, pygsl_siman_t * x)
 {
 	pygsl_siman_t *p=NULL;
@@ -476,8 +476,8 @@ PyGSL_siman_release_x(pygsl_siman_t * myargs, pygsl_siman_t * x)
 
 	p = myargs;
 	/* fprintf(stderr, "Releasing list!\n"); */
-	while(1){		
-		/* fprintf(stderr, "Previous object = %p, Next Object = %p\n", 
+	while(1){
+		/* fprintf(stderr, "Previous object = %p, Next Object = %p\n",
 		   (void *)p->prev, (void *)p->next); */
 		/* Don't delete the object containing the result! */
 		if(p != x){
@@ -492,7 +492,7 @@ PyGSL_siman_release_x(pygsl_siman_t * myargs, pygsl_siman_t * x)
 	return GSL_SUCCESS;
 }
 
-static const char pygsl_siman_solve_doc[] = 
+static const char pygsl_siman_solve_doc[] =
 "Simulated annealing driver.\n\
 \n\
 Usage:\n\
@@ -544,8 +544,8 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 
 
 	pygsl_siman_func_t   myargs_func = {NULL};
-	pygsl_siman_t        myargs = {NULL, NULL, NULL, NULL}; 
-	
+	pygsl_siman_t        myargs = {NULL, NULL, NULL, NULL};
+
 
 	/* static const char  * functionname = __FUNCTION__; */
 
@@ -570,10 +570,10 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 	if( efunc == NULL || step == NULL || metric == NULL || clone == NULL){
 		return NULL;
 	}
-	
+
 	/* optional print */
 	if(do_print == 0){
-		a_print = NULL;		
+		a_print = NULL;
 	} else {
 		print  = PyGSL_get_callable_method(x_o, Print_name,  1, module, filename, __FUNCTION__, __LINE__);
 		if(print == NULL){
@@ -606,8 +606,8 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 
 	x0 = (void *) &myargs;
 	DEBUG_MESS(2, "x0 @ %p; myargs at %p; myargs_func at %p", x0, (void *) &myargs, (void *) &myargs_func);
-	DEBUG_MESS(2, "Found a pygsl_siman_t at %p and a pygsl_siman_func_t at %p", 
-		   (void *) x0, 
+	DEBUG_MESS(2, "Found a pygsl_siman_t at %p and a pygsl_siman_func_t at %p",
+		   (void *) x0,
 		   (void *) (((pygsl_siman_t *) x0)->func));
 
 	if((flag = setjmp(myargs_func.buffer)) == 0){
@@ -641,7 +641,7 @@ PyGSL_siman_solve(PyObject *self, PyObject *args, PyObject *kw)
 
 /* module initialization */
 static PyMethodDef simanMethods[] = {
-	{"solve", (PyCFunction) PyGSL_siman_solve, 
+	{"solve", (PyCFunction) PyGSL_siman_solve,
 	 METH_VARARGS | METH_KEYWORDS, (char *) pygsl_siman_solve_doc},
 	{NULL, NULL} /* Sentinel */
 };
@@ -699,4 +699,3 @@ DL_EXPORT(void) init_siman(void)
  * c-file-style: "python"
  * End:
  */
-
