@@ -35,6 +35,7 @@ problem as described in the GSL reference document.
 # Author: Pierre Schnizer
 # Date  : 2003, 2017
 
+from abc import abstractmethod, abcmeta
 import copy
 
 from . import _siman
@@ -42,20 +43,20 @@ from . import _siman
 # The real solver
 solve = _siman.solve
 
-class NumericEnsemble:
+class NumericEnsemble(metaclass=abcmeta):
     """
     A base class implementation to support the use of numeric arrays as
     configurations. You must overload the following functions
-    
+
     * :meth:`EFunc`
     * :meth:`Step`
     * :meth:`Metric`
     * :meth:`Clone`
-                   
+
     in a derived class.
 
     If you want, that the solver prints it status to the stdout add a
-    * :meth:`Print` method.    
+    * :meth:`Print` method.
     """
     def __init__(self):
         self._data = None
@@ -66,27 +67,29 @@ class NumericEnsemble:
     def GetData(self):
         return self._data
 
-    def EFunc(self):
+    @abstractmethod
+    def EFunc(self) -> float:
         """Calculate the energy of the current status.
 
         Returns:
               energy: a Python float of the current energy
         """
-        return energy
+        raise NotImplementedError
 
-    def Step(self, rng, step_size):
+    @abstractmethod
+    def Step(self, rng, step_size) -> None:
         """Take a step
-        
+
         Args:
              rng:       a pygsl.rng instance
              step_size: a python float for the step size to be taken
         """
         return None
-    
 
-    def Metric(self, other):
+    @abstractmethod
+    def Metric(self, other) -> float:
         """Calculate the distance between this object and the other.
-        
+
         Args:
             other: a instance of the same type
 
@@ -94,12 +97,12 @@ class NumericEnsemble:
             length: a python float for the distance between this instance
                     and the other.
         """
-        return length
+        raise NotImplementedError
 
     def Clone(self):
         """Make a clone of the current object. Please be careful how you step and
         clone so that your objects are different!
-        
+
         Output:
             clone ... a identical clone of this object.
         """
@@ -108,9 +111,9 @@ class NumericEnsemble:
         return clone
 
     def Print(self):
-        """Print the current state of the ensemble        
+        """Print the current state of the ensemble
         """
-        
+
     def __del__(self):
         # Not necessary, just illustration
         del self._data

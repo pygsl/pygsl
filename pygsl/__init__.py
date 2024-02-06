@@ -64,13 +64,11 @@ please report on https://github.com/pygsl/pygsl!
 """
 
 
-__test = 0
-try:    
+try:
     import pygsl.init
-    __test = 1
-finally:
-    if __test == 0:
-        sys.stderr.write(_init_import_errm)
+except Exception:
+    sys.stderr.write(_init_import_errm)
+    raise
 
 from . import  _version
 version= _version.version
@@ -107,7 +105,7 @@ __all__=['blas', 'chebyshev', 'combination', 'const', 'deriv', 'eigen', 'fit',
 
 get_typecode_numpy = lambda x: x.dtype
 get_typecode_default = lambda x: x.typecode()
-    
+
 if _numobj.nummodule == "numpy":
     get_typecode = get_typecode_numpy
 else:
@@ -138,7 +136,7 @@ try:
 except AttributeError:
     # For numpy 1.0
     ArrayType = _numobj.ndarray
-    
+
 def array_typed_copy(array, code = None):
     """
     Return a new copy for the array
@@ -146,7 +144,7 @@ def array_typed_copy(array, code = None):
     if code == None:
         code = get_typecode(array)
     return array.astype(code)
-    
+
 #import pygsl._mlab
 def get_debug_level():
     """Get the debug level
@@ -157,16 +155,16 @@ def get_debug_level():
 
 def set_debug_level(level):
     """Allows to set the debug level if implemented in the init function.
-        
+
     Args:
          level:   A level of 0 deactivates all messages. The higher the
                   level gets the more messages are printed.
-    
+
     Silently ignores this function if the functionality was not compiled into
     pygsl during build time.
 
     These messages are compiled into the modules written in C. The level is
-    stored as a c variable in the module level for each module. This can be 
+    stored as a c variable in the module level for each module. This can be
     useful to find the reason why PyGSL crashes during execution.
     """
     try:
@@ -195,7 +193,7 @@ def _zeros_default(dimensions, array):
     """Generate zeros of the same type as the array
     """
     return _zeros(dimensions, array.typecode())
- 
+
 def _zeros_numpy(dimensions, array):
     """ Generate zeros of the same type as the array
     """
