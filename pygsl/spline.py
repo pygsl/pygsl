@@ -34,7 +34,7 @@ class _spline(_common):
             raise errors.gsl_InvalidArgumentError(msg % (n,))
 
         tmp = gslwrap.pygsl_spline(self._type, n)
-        if tmp is not None:
+        if tmp is None:
             raise errors.gsl_GenericError("Failed to allocate spline!")
         self._object = tmp
 
