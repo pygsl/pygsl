@@ -1,3 +1,7 @@
+v2.3.4 (2024-02) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
+        * Odeiv2: fix check of driver if jacobian is available
+	* cleanup: removed old code that would support Numeric / numarray
+
 v2.3.3 (2022-05) Charl Linssen <c.linssen@fz-juelich.de>
 	* Fix install from PyPI when swig is not available.
 
@@ -9,13 +13,13 @@ v2.3.2 (2021-12) Charl Linssen <c.linssen@fz-juelich.de>
 	* Added sf tests: translated from gsl source
 	* Added interpolation2d
 	* Started compiling against gsl-2.1.
-	* Modified the pygsl error handler: 
+	* Modified the pygsl error handler:
 	If PyGSL does not set gsl_error handler to off, the installed error
 	handler will now store the arguments passed by gsl_error_handler to a
 	single static variable in the initmodule.
 	The variable errors.error_safe_state allows retrieving the information
 	or resetting it.
-	
+
 	Normally the status of all functions are converted to python exceptions.
 	During this process the saved state is reset to zero. This conversion
 	checks if the to be returned gsl errno is identical to the stored one.
@@ -26,10 +30,10 @@ v2.3.2 (2021-12) Charl Linssen <c.linssen@fz-juelich.de>
 
 2016-03          Pierre Schnizer <schnizer@user.sourceforge.net>
 	* Added multfit_robust
-	* Added config option for setup.py. Now it is necessary to run first 
+	* Added config option for setup.py. Now it is necessary to run first
 	  "python setup.py config", which will check what the used GSL library
 	 provides. Only the found modules are built then.
-	
+
 2015-09          Pierre Schnizer <schnizer@user.sourceforge.net>
 	* Ported code base to python 3. Examples and test files expect
 	   a python2 version providing the print function. The C code
@@ -41,14 +45,14 @@ v2.3.2 (2021-12) Charl Linssen <c.linssen@fz-juelich.de>
 	  immediatley (called of 5 years ago)
 
 	* Made the interface header files compatible with c++. The pygsl
-	  code itself should best be compiled with a C compiler. 
-	
+	  code itself should best be compiled with a C compiler.
+
 
 2010-02-17    Pierre Schnizer <schnizer@sourceforge.net>
 	* gsl_function_typemaps.i had a memory leak. Thanks for Nor Pirzkal
 	  for reporting this problem. Added the module callback function_test
 	  helping in debugging the callback function helpers
-	
+
 	* interpolation / splines: changed the internal representation
 	Now the memory managment is handled by python. Further the arrays are
 	only converted once when the interpolation is used ...
@@ -62,78 +66,78 @@ v2.3.2 (2021-12) Charl Linssen <c.linssen@fz-juelich.de>
 	* rng: fixed the rng helper PyGSL_rng_uidA_to_uiA which handles the
 	  rng method multinomial
 
-	
+
 2009-09-22    Pierre Schnizer <schnizer@sourceforge.net>
         * I used to undefine GSL_ERROR macros as well as define
 	  the GSL error function as a macro with 0 arguments to find
-	  usage of gsl_error within the wrapper. 
+	  usage of gsl_error within the wrapper.
 	  This is uncommented as it created trouble within the code.
 
-	* Fixed the tool exporting constant functions. The const module was 
+	* Fixed the tool exporting constant functions. The const module was
 	  updated to the constants of gsl version 1.13
-	
+
 2008-10-25    Pierre Schnizer <schnizer@sourceforge.net>
 	* Changed the default error handling within PyGSL
-	  Before I installed a gsl_error handler. This handler would then 
+	  Before I installed a gsl_error handler. This handler would then
 	  translate the error numbers to python exceptions. Now this handler
 	  is switched off, as the above approach requires the GIL, which
-	  numpy's ufunc dispose. 
+	  numpy's ufunc dispose.
 	  Now the error object is set up by the called function before giving
 	  control back to python. Unfortunately the description is lost this
 	  way.
 	  From now on all C code within pygsl must us pygsl_error and PyGSL_ERROR
 	  and associated to get the translater function called.
-	  
-	
+
+
 2008-06-11   Pierre Schnizer <schnizer@sourceforge.net>
 	* Fixed memory leak in spline / interpolation due to freearg wrongly
 	named argfree!
-	
+
 2008-02-18   Pierre Schnizer <schnizer@sourceforge.net>
 	* Found out that I should consider Changelog more seriously
 	* Changes according to my (lossy) mind
 	   -- Fixed memory leak in rng
 	   -- Moved odeiv.apply to odeiv.apply_vector
 	   -- Readded Function (odeiv.apply)
-	   -- Fixed memory leak in odeiv.apply_vector	  
+	   -- Fixed memory leak in odeiv.apply_vector
 	* Added support for numpy. On this way I found out, (as required
 	  for 64bit architectures)
-	   - converted all code to use pygsl_array_index_t 
+	   - converted all code to use pygsl_array_index_t
 	     (see Include/pygsl/block_helpers.h)
 	  -  added internal methods PyGSL_vector_check and PyGSL_array_check.
 	     These can now also handle arrays which have a non native stride.
 	     In this case they will make a contiguous copy
-	* Added testing.sf and testing.complex module. This now exports the 
-	  relevant functions. These all are implemented as Numeric or numpy 
-	  ufuncs. 
+	* Added testing.sf and testing.complex module. This now exports the
+	  relevant functions. These all are implemented as Numeric or numpy
+	  ufuncs.
 	* What did I do the last years? I do not remember ....
-	
+
 2005-06-01  Pierre Schnizer <schnizer@sourceforge.net>
 	* Fixed an off by one error in the siman module
-	
+
 2005-04-04  Pierre Schnizer <schnizer@sourceforge.net>
 	* input1 was used as second input in functions
 	  PyGSL_statistics_d_AA, PyGSL_statistics_d_AAd, PyGSL_statistics_d_AAdd
- 	   Fixed.	
+ 	   Fixed.
 	* removed a tangling goto in PyGSL_statistics_d_AA
 
 2005-1-22  Pierre Schnizer <schnizer@users.sourceforge.net>
 	   * Changed the build process. Will read the last selection
 	   for numarray/Numeric if already made. If not, looks which
-	   one it can import, and this it will use. Preference is 
+	   one it can import, and this it will use. Preference is
 	   Numeric. You can make a selection on the command line using
 	   --array-object=Numeric|numarray.
 
 2005-1     Pierre Schnizer <schnizer@users.sourceforge.net>
 	   * Added switchable debug prints for the C modules
-	     Compile the software with debug=1. Then you can 
-	     use pygsl.init.set_debug_level() to switch the 
+	     Compile the software with debug=1. Then you can
+	     use pygsl.init.set_debug_level() to switch the
              debug prints off and on
-	
+
 2004-12    Pierre Schnizer <schnizer@users.sourceforge.net>
 	   * Added fft module
-	   
-	
+
+
 2004-04    Pierre Schnizer <schnizer@users.sourceforge.net>
 	   * Added support for numarray. Now numarray
 	     can be defined at compile time and numarray
@@ -141,25 +145,25 @@ v2.3.2 (2021-12) Charl Linssen <c.linssen@fz-juelich.de>
 
 2004-03-24 Pierre Schnizer <schnizer@users.sourceforge.net>,
            Eric Gurrola, Peter Stoltz
-	* Moved common functions to one python module to support the 
+	* Moved common functions to one python module to support the
 	  MAC OSX platform
-	* Rewrite of the statistics module. Moved common functions to 
+	* Rewrite of the statistics module. Moved common functions to
 	  one module. Made them generic and changed the macros to use these
 	  generic functions.
-	
+
 2004-01-09 Leonardo Milano
 	* Added support for rpm generation
-	
+
 2003-12-27  Pierre Schnizer <schnizer@users.sourceforge.net>
         * Reimplementation of the siman module
-	
+
 2003-12-22  Pierre Schnizer <schnizer@users.sourceforge.net>
-	* Added Monte Carlo support    
-	
+	* Added Monte Carlo support
+
 2003-12-17 Pierre Schnizer <schnizer@users.sourceforge.net>
 	* error return codes are translated to python exceptions internally.
 	  This changed the API for many functions
-	  
+
 2003-12-16 Pierre Schnizer <schnizer@users.sourceforge.net>
         * Reimplementation of the rng module supporting internal sampling.
            moved to main tree
@@ -169,42 +173,42 @@ v2.3.2 (2021-12) Charl Linssen <c.linssen@fz-juelich.de>
 	  -- Added checks of the return values of the python callback
 	  -- Simplified the code
 	  -- Thread safety
-	   
+
 2003-05-25 Pierre Schnizer <schnizer@users.sourceforge.net>
 	* Added build support for platforms without a shell
-	
+
 2003-10-5   Pierre Schnizer <schnizer@users.sourceforge.net>
 	* Added translation of the GSL error number code into the approbriate
 	  python exception.
 
 2003-06-03 Pierre Schnizer <schnizer@users.sourceforge.net>
         * combined all helper functions in a library.
-	* added support for Monte Carlo Integration and Combination. 
-	* added methods to the permutation. Moved the tolist method to a C 
+	* added support for Monte Carlo Integration and Combination.
+	* added methods to the permutation. Moved the tolist method to a C
 	  implementation.
 	* Fixed a bug in the error reporting of the float conversion routine.
 	* added Hankel transform support
-	* Fixed the spline implementation (was using the interpolation 
+	* Fixed the spline implementation (was using the interpolation
 	  implementation instead of the spline implementation)
-	
+
 2003-05-18  Achim Gädke  <achim.gaedke@physik.tu-darmstadt.de>
 
 	* now checked in several changes to create a new release.
 	  activated all available modules, updated README.html
 
 2003-02-09 Pierre Schnizer <schnizer@users.sourceforge.net>
-	
+
         * src/poly, src/callback, src/gslwrap : added these directories, which
  	  provide low level wrapper interface files for swig. These provide low
-	  level interfaces for polynomial, blas, eigen, linalg, integration, 
+	  level interfaces for polynomial, blas, eigen, linalg, integration,
 	  root finding, minimization, multi roots finding, chebychev series
 	  multi dimensional non linear fit
-	
-	* pygsl/blas.py, pygsl/eigen.py pygsl/linalg.py 
+
+	* pygsl/blas.py, pygsl/eigen.py pygsl/linalg.py
 	  These wrappers were written by Fabian Jakobs.
 
 	* pygsl/
-	
+
 	* Makefile : added. It is only used for developing the swig wrappers.
 
 2003-03-07  Jochen Küpper  <jochen@jochen-kuepper.de>
