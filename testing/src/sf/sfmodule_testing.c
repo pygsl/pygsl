@@ -4,22 +4,14 @@
  */
 #include <pygsl/error_helpers.h>
 #include <pygsl/string_helpers.h>
-#include <pygsl/arrayobject.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_complex.h>
 #include <gsl/gsl_complex_math.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_nan.h>
-#undef _PyGSL_UFUNC_SUPPORTED
-#ifdef PyGSL_NUMPY
 #include <numpy/arrayobject.h>
 #include <numpy/ufuncobject.h>
-#define _PyGSL_UFUNC_SUPPORTED
-#endif
-#ifndef _PyGSL_UFUNC_SUPPORTED
-#error "UFUNCs not supported by the selected/found array module!"
-#endif
 #include <pygsl/block_helpers.h>
 /*
    #include <pygsl/utils.h>
@@ -36,7 +28,7 @@ static inline int
 _pygsl_sf_long_to_int(long val, int * result)
 {
 	int status = GSL_EFAILED;
-	
+
 	FUNC_MESS_BEGIN();
 
 	if (val > (long) INT_MAX){
@@ -51,7 +43,7 @@ _pygsl_sf_long_to_int(long val, int * result)
 	}
 
 	FUNC_MESS_END();
-	
+
 	return status;
 }
 
@@ -66,7 +58,7 @@ _pygsl_sf_long_to_unsigned_int(long val, unsigned int * result)
 	DEBUG_MESS(2, "l-> ui: input %ld", val);
 	DEBUG_MESS(8, "sizeof(unsigned int) = %d sizeof(long) =%d", sizeof(unsigned int), sizeof(long));
 	DEBUG_MESS(8, "UINT_MAX = %u ", UINT_MAX, sizeof(unsigned int), sizeof(long));
-	
+
 	if (val < 0){
 		status = GSL_EINVAL;
 		*result = 0;
@@ -100,17 +92,17 @@ _pygsl_sf_long_to_unsigned_int(long val, unsigned int * result)
 #endif
 
 #ifdef IMPORTALL
-#include "sf__evals.c" 
+#include "sf__evals.c"
 #include "sf__data.c"
 #endif
 
 static void * polar_to_rect_data [] = { (void *) gsl_sf_polar_to_rect, (void *) gsl_sf_polar_to_rect};
 static void * rect_to_polar_data [] = { (void *) gsl_sf_rect_to_polar, (void *) gsl_sf_rect_to_polar};
 
-static char PyGSL_sf_ufunc_qi_dd_D_one_types [] = { NPY_FLOAT,  NPY_FLOAT,  NPY_CFLOAT, 
+static char PyGSL_sf_ufunc_qi_dd_D_one_types [] = { NPY_FLOAT,  NPY_FLOAT,  NPY_CFLOAT,
                                                     NPY_DOUBLE, NPY_DOUBLE, NPY_CDOUBLE };
 
-static char PyGSL_sf_ufunc_qi_D_dd_one_types [] = { NPY_CFLOAT,  NPY_FLOAT,  NPY_FLOAT, 
+static char PyGSL_sf_ufunc_qi_D_dd_one_types [] = { NPY_CFLOAT,  NPY_FLOAT,  NPY_FLOAT,
                                                     NPY_CDOUBLE, NPY_DOUBLE, NPY_DOUBLE };
 
 typedef int PyGSL_sf_ufunc_qi_dd_D_one(double, double, gsl_sf_result *, gsl_sf_result *);
@@ -146,7 +138,7 @@ void  PyGSL_sf_ufunc_qi_dd_D_as_ff_F(char **args, int *dimensions, int *steps, v
 	DEBUG_MESS(2, "dimensions = %d %d %d", dimensions[0], dimensions[1],dimensions[2]);
 	DEBUG_MESS(2, "steps = %d %d %d", steps[0], steps[1], steps[2]);
 	DEBUG_MESS(2, "args = %p %p %p", args[0], args[1], args[2]);
-        for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){	     
+        for(i = 0; i<dimensions[0]; i++, ip0+=is0, ip1+=is1, op0+=os0){
 	     DEBUG_MESS(2, "i = %d", i);
 	     tmp = ((PyGSL_sf_ufunc_qi_dd_D_one *) func)((double) *((float *)ip0), (double) *((float *)ip1), &x, &y);
 	     *((float *)op0) = (float) x.val;
@@ -202,7 +194,7 @@ static PyUFuncGenericFunction PyGSL_sf_ufunc_qi_D_dd_one_data[] = {(PyUFuncGener
 
 static char *PyGSL_polar_to_rect_doc = "Convert r, theta into a complex representation";
 static char *PyGSL_rect_to_polar_doc = "Convert a complex into r and theta. Theta will be in the range [-pi,pi]";
-static char * sf_module_doc = 
+static char * sf_module_doc =
 "GSL Special Functions wrapped mostly as Numeric ufuncs. \n\
 Use print sf.<function>.__doc__ to get more information about the ufunc.\n\
 Help does not display the information stored there!\n";
@@ -219,7 +211,7 @@ static struct PyModuleDef moduledef = {
         NULL,
         NULL
 };
-#endif 
+#endif
 
 #ifdef PyGSL_PY3K
 PyObject *PyInit__ufuncs(void)
@@ -237,12 +229,12 @@ DL_EXPORT(void) init_ufuncs(void)
 
 #ifdef PyGSL_PY3K
   sf_module = PyModule_Create(&moduledef);
-#else /* PyGSL_PY3K */    
+#else /* PyGSL_PY3K */
   sf_module=Py_InitModule("_ufuncs", sf_array_functions);
 #endif /* PyGSL_PY3K */
   if(sf_module == NULL)
     goto fail;
-  
+
   module = sf_module;
 
   import_array();
@@ -260,12 +252,12 @@ DL_EXPORT(void) init_ufuncs(void)
 
   sf_dict=PyModule_GetDict(sf_module);
   if (!(item = PyGSL_string_from_string(sf_module_doc))){
-       PyErr_SetString(PyExc_ImportError, 
+       PyErr_SetString(PyExc_ImportError,
 		       "I could not generate module doc string!");
        goto fail;
   }
   if (PyDict_SetItemString(sf_dict, "__doc__", item) != 0){
-       PyErr_SetString(PyExc_ImportError, 
+       PyErr_SetString(PyExc_ImportError,
 		       "I could not add doc string to module dict!");
        goto fail;
   }
@@ -284,7 +276,7 @@ DL_EXPORT(void) init_ufuncs(void)
 			      PyUFunc_None,
 			      "polar_to_rect",
 			      PyGSL_polar_to_rect_doc,
-			      0 /*check return*/);   
+			      0 /*check return*/);
   PyDict_SetItemString(sf_dict, "polar_to_rect", f);
   /* Py_DECREF(f); */
 
@@ -298,7 +290,7 @@ DL_EXPORT(void) init_ufuncs(void)
 			       PyUFunc_None,
 			       "rect_to_polar",
 			       PyGSL_rect_to_polar_doc,
-			       0 /*check return*/);   
+			       0 /*check return*/);
   PyDict_SetItemString(sf_dict, "rect_to_polar", f);
   /* Py_DECREF(f); */
 

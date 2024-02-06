@@ -20,12 +20,7 @@
 /* include real functions for different data-types */
 
 #define STATMOD_APPEND_PY_TYPE(X) X ## Int
-
-#if (defined PyGSL_NUMARRAY) || (defined PyGSL_NUMERIC)
-#define STATMOD_APPEND_PYC_TYPE(X) X ## CHAR
-#else /* PyGSL_NUMARRAY */ 
 #define STATMOD_APPEND_PYC_TYPE(X) X ## BYTE
-#endif /* PyGSL_NUMARRAY */
 
 #define STATMOD_FUNC_EXT(X, Y) X ## _char ## Y
 #define STATMOD_PY_AS_C PyInt_AsLong
