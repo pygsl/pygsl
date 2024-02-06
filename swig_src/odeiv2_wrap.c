@@ -3545,7 +3545,7 @@ struct _pygsl_odeiv2_steppers_require_jacobian{
 	int requires_jacobian;
 };
 
-static int _pygsl_odeiv2_check_step_jacobian(const pygsl_odeiv2_step *step, const pygsl_odeiv2_system *sys)
+static int _pygsl_odeiv2_check_step_jacobian(const pygsl_odeiv2_step *step, const gsl_odeiv2_system *dydt)
 {
 
 	int line = __LINE__, status = GSL_EFAILED;
@@ -3594,7 +3594,7 @@ static int _pygsl_odeiv2_check_step_jacobian(const pygsl_odeiv2_step *step, cons
 		/*
 		 * so this function requires an jacobian ....
 		 */
-		if(sys->dydt.jacobian){
+		if(dydt->jacobian){
 			/* one found ... goood */
 			DEBUG_MESS(2, "Stepper %s  requires jacobian, one found!",
 				   gsl_odeiv2_step_name(step));
@@ -3981,7 +3981,7 @@ SWIGINTERN PyObject *pygsl_odeiv2_step_apply(pygsl_odeiv2_step *self,double t,do
 
 		FUNC_MESS_BEGIN();
 
-		flag = _pygsl_odeiv2_check_step_jacobian(self, dydt);
+		flag = _pygsl_odeiv2_check_step_jacobian(self, &dydt->dydt);
 		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(flag)){
 			line = 317 - 2; goto fail;
 		}
@@ -4241,7 +4241,7 @@ SWIGINTERN PyObject *pygsl_odeiv2_evolve_apply(pygsl_odeiv2_evolve *self,pygsl_o
 			line = 618 - 2; goto fail;
 		}
 
-		status = _pygsl_odeiv2_check_step_jacobian(step, sys);
+		status = _pygsl_odeiv2_check_step_jacobian(step, &sys->dydt);
 		if(GSL_SUCCESS != PyGSL_ERROR_FLAG(status)){
 			line = 623 - 2; goto fail;
 		}
