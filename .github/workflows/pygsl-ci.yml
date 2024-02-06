@@ -1,5 +1,10 @@
 name: PyGSL build
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   wrap_and_build:
