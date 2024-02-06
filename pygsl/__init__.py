@@ -174,7 +174,7 @@ def set_debug_level(level):
         pass
 
 #
-add_c_traceback_frames = init.add_c_traceback_frames
+add_c_traceback_frames = init.add_c_traceback_frames # noqa: F821
 
 def import_all():
     """Import all functions of all
