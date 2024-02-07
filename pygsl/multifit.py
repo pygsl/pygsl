@@ -44,7 +44,7 @@ value decomposition of the matrix X.
 
 """
 # Author : Pierre Schnizer <pierre@itp.tu-graz.ac.at>
-#  Date  : January 2003
+#  Date  : January 2003, 2024
 
 from . import _callback
 from ._generic_solver import _workspace
@@ -56,7 +56,7 @@ class linear_workspace(_workspace):
     """
     _alloc = _callback.gsl_multifit_linear_alloc
     _free  = _callback.gsl_multifit_linear_free
-    
+
     def __init__(self, n, p):
         """
         Allocates a workspace for fitting a model to N
@@ -79,7 +79,7 @@ def linear(X, y, work=None):
     estimated from the scatter of the observations about the best-fit.
     The sum of squares of the residuals from the best-fit, \chi^2, is
     returned in CHISQ.
-    
+
     The best-fit is found by singular value decomposition of the matrix
     X using the preallocated workspace provided in WORK. The modified
     Golub-Reinsch SVD algorithm is used, with column scaling to
@@ -110,7 +110,7 @@ def linear_usvd(X, y, tol, work=None):
         work = linear_workspace(X.shape[0], X.shape[1])
 
     return _callback.gsl_multifit_linear_usvd(X, y, tol, work._ptr)
-    
+
 def wlinear(X, w, y, work=None):
     r"""
     This function computes the best-fit parameters C of the model y =
@@ -135,17 +135,17 @@ def wlinear(X, w, y, work=None):
 def wlinear_svd(X, y, w, work=None):
     """
     Similar to wlinear, except that this function returns
-    
+
     """
     if work == None:
         work = linear_workspace(X.shape[0], X.shape[1])
 
     return _callback.gsl_multifit_wlinear_svd(X, y, w, work._ptr)
 
-def wlinear_usvd(X, y, w, work=None):
+def wlinear_usvd(X, y, w, tol, work=None):
     """
     Similar to wlinear, except that this function returns
-    
+
     """
     if work == None:
         work = linear_workspace(X.shape[0], X.shape[1])
@@ -164,7 +164,7 @@ def linear_est(x, c, cov):
 def linear_est_matrix(X, c, cov):
     """
     This function is similar to linear_est, but instead of a vector x it iterates
-    over a matrix X 
+    over a matrix X
     """
     return _callback.gsl_multifit_linear_est_matrix(X, c, cov)
 

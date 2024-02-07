@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-# Author : Pierre Schnizer 
+# Author : Pierre Schnizer
 from . import _block
 
-class _generic:    
+class _generic:
     """
     Generic block class. Handles common operation.
     """
@@ -20,7 +20,7 @@ class _generic:
         # base is matrix or vector or .....
         assert self._base != None, 'Use a derived class!'
         base =  self._base
-        function = eval('_block.gsl_' + base + tmp + suffix)        
+        function = eval('_block.gsl_' + base + tmp + suffix)
         return function
 
     def __init__(self):
@@ -36,7 +36,7 @@ class _generic:
         input:  file, size of the vector
         output: flag, the vector
         """
-        return apply(self._fread, args)
+        return self._fread(*args)
 
     def fwrite(self, *args):
         """
@@ -44,7 +44,7 @@ class _generic:
         input:  file, vector
         output: flag if sucessful
         """
-        return apply(self._fwrite  , args)
+        return self._fwrite(*args)
 
     def fscanf(self, *args):
         """
@@ -52,7 +52,7 @@ class _generic:
         input:   file, length of the vector to be read
         output:  flag, the vector
         """
-        return apply(self._fscanf  , args)
+        return self._fscanf(*args)
 
     def fprintf(self, file, vector, format):
         """
@@ -84,9 +84,3 @@ class _generic_block(_generic):
             self.max_index      = self._get_function('max_index')
             self.min_index      = self._get_function('min_index')
             self.minmax_index   = self._get_function('minmax_index')
-
-
-
-
-
-
