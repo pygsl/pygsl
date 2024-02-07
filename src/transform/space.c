@@ -61,7 +61,7 @@ static PyMethodDef PyGSL_transform_generic_methods[] = {
 
 #ifdef PyGSL_PY3K
 static PyTypeObject PyGSL_transform_space_pytype = {
-	PyObject_HEAD_INIT(NULL)
+        PyVarObject_HEAD_INIT(NULL, 0)
 	"PyGSL_transform_space",                    /* tp_name */
 	sizeof(PyGSL_transform_space),              /* tp_basicsize */
 	0,                                          /* tp_itemsize */
@@ -150,7 +150,7 @@ PyGSL_transform_space_get_n(PyGSL_transform_space *self)
 	case REAL_WORKSPACE:              n = self->space.rws ->n;   break;
 	case COMPLEX_WAVETABLE:           n = self->space.cwt ->n;   break;
 	case REAL_WAVETABLE:	          n = self->space.rwt ->n;   break;
-	case HALFCOMPLEX_WAVETABLE:       n = self->space.hcwt->n;   break;	       
+	case HALFCOMPLEX_WAVETABLE:       n = self->space.hcwt->n;   break;
 	case COMPLEX_WORKSPACE_FLOAT:     n = self->space.cwsf ->n;  break;
 	case REAL_WORKSPACE_FLOAT:        n = self->space.rwsf ->n;  break;
 	case COMPLEX_WAVETABLE_FLOAT:     n = self->space.cwtf ->n;  break;
@@ -179,10 +179,10 @@ static PyObject *
 PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyObject *args)
 {
 
-       PyGSL_array_index_t nf, i;                                                           
+       PyGSL_array_index_t nf, i;
        long *data=NULL;
        size_t *cp_data=NULL;
-       PyArrayObject * a_array = NULL;					    
+       PyArrayObject * a_array = NULL;
        int lineno;
 
        FUNC_MESS_BEGIN();
@@ -192,14 +192,14 @@ PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyObject *args)
        switch(self->type){
        case COMPLEX_WAVETABLE:           nf = self->space.cwt ->nf;  cp_data = self->space.cwt ->factor;  break;
        case REAL_WAVETABLE:	         nf = self->space.rwt ->nf;  cp_data = self->space.rwt ->factor;  break;
-       case HALFCOMPLEX_WAVETABLE:       nf = self->space.hcwt->nf;  cp_data = self->space.hcwt->factor;  break;	       
+       case HALFCOMPLEX_WAVETABLE:       nf = self->space.hcwt->nf;  cp_data = self->space.hcwt->factor;  break;
        case COMPLEX_WAVETABLE_FLOAT:     nf = self->space.cwtf ->nf; cp_data = self->space.cwtf ->factor; break;
        case REAL_WAVETABLE_FLOAT:        nf = self->space.rwtf ->nf; cp_data = self->space.rwtf ->factor; break;
-       case HALFCOMPLEX_WAVETABLE_FLOAT: nf = self->space.hcwtf->nf; cp_data = self->space.hcwtf->factor; break;	       
-       default: 
+       case HALFCOMPLEX_WAVETABLE_FLOAT: nf = self->space.hcwtf->nf; cp_data = self->space.hcwtf->factor; break;
+       default:
 	    lineno = __LINE__ - 1;
-	    pygsl_error("Got unknown switch", filename, lineno, GSL_ESANITY); 
-	    goto fail; 
+	    pygsl_error("Got unknown switch", filename, lineno, GSL_ESANITY);
+	    goto fail;
 	    break;
        }
 
@@ -211,7 +211,7 @@ PyGSL_transform_space_get_factors(PyGSL_transform_space *self, PyObject *args)
 
        data = (long *) PyArray_DATA(a_array);
 
-       
+
        for(i=0; i<nf; i++){
 	    data[i] = (long) cp_data[i];
        }
@@ -260,21 +260,21 @@ static PyObject *
 PyGSL_transform_wavetable_get_factors(PyGSL_transform_space *self, PyObject *args)
 {
 	pygsl_error("Method not existing for wavelets (you see this as a "
-		    "result of a hack to be cleaned up)!", __FILE__, 
+		    "result of a hack to be cleaned up)!", __FILE__,
 		    __LINE__, GSL_EFAILED);
 	return NULL;
 }
 
 /* Py3K does not support the dynamic methods that directly ... */
-static PyObject * 
+static PyObject *
 PyGSL_transform_generic_get_factors(PyGSL_transform_space *self, PyObject *args)
 {
      PyObject *tmp = NULL;
      FUNC_MESS_BEGIN();
-     assert(PyGSL_transform_space_check(self));     
+     assert(PyGSL_transform_space_check(self));
      switch(self->type){
      case  COMPLEX_WORKSPACE:
-     case  REAL_WORKSPACE:    
+     case  REAL_WORKSPACE:
      case  COMPLEX_WORKSPACE_FLOAT:
      case  REAL_WORKSPACE_FLOAT:
 	     tmp = PyGSL_transform_space_get_factors(self, args);
@@ -283,7 +283,7 @@ PyGSL_transform_generic_get_factors(PyGSL_transform_space *self, PyObject *args)
      }
      FUNC_MESS_END();
      return tmp;
-	
+
 }
 
 
@@ -306,10 +306,10 @@ PyGSL_transform_space_getattr(PyGSL_transform_space *self, char *name)
 {
      PyObject *tmp = NULL;
      FUNC_MESS_BEGIN();
-     assert(PyGSL_transform_space_check(self));     
+     assert(PyGSL_transform_space_check(self));
      switch(self->type){
      case  COMPLEX_WORKSPACE:
-     case  REAL_WORKSPACE:    
+     case  REAL_WORKSPACE:
      case  COMPLEX_WORKSPACE_FLOAT:
      case  REAL_WORKSPACE_FLOAT:
 	     tmp = Py_FindMethod(PyGSL_transform_space_methods, (PyObject *) self, name);
@@ -325,7 +325,7 @@ static void
 PyGSL_transform_space_dealloc(PyGSL_transform_space * self)
 {
      FUNC_MESS_BEGIN();
-     assert(PyGSL_transform_space_check(self));     
+     assert(PyGSL_transform_space_check(self));
      assert(self->space.v);
      switch(self->type){
      case COMPLEX_WORKSPACE:           gsl_fft_complex_workspace_free(self->space.cws);       break;
@@ -350,7 +350,7 @@ PyGSL_transform_space_dealloc(PyGSL_transform_space * self)
 
 
 
-static PyObject* 
+static PyObject*
 PyGSL_transform_space_init(PyObject *self, PyObject *args, const enum pygsl_transform_space_type type)
 {
 	PyGSL_transform_space *o=NULL;
@@ -371,11 +371,11 @@ PyGSL_transform_space_init(PyObject *self, PyObject *args, const enum pygsl_tran
 	}
 	o->type = type;
 	switch(type){
-	case COMPLEX_WORKSPACE:           o->space.cws  = gsl_fft_complex_workspace_alloc(n);            break;
-	case COMPLEX_WAVETABLE:           o->space.cwt  = gsl_fft_complex_wavetable_alloc(n);            break;
-	case REAL_WORKSPACE:              o->space.rws  = gsl_fft_real_workspace_alloc(n);               break;
-	case REAL_WAVETABLE:	          o->space.rwt  = gsl_fft_real_wavetable_alloc(n);               break;
-	case HALFCOMPLEX_WAVETABLE:       o->space.hcwt = gsl_fft_halfcomplex_wavetable_alloc(n);        break;
+	case COMPLEX_WORKSPACE:           o->space.cws   = gsl_fft_complex_workspace_alloc(n);           break;
+	case COMPLEX_WAVETABLE:           o->space.cwt   = gsl_fft_complex_wavetable_alloc(n);           break;
+	case REAL_WORKSPACE:              o->space.rws   = gsl_fft_real_workspace_alloc(n);              break;
+	case REAL_WAVETABLE:	          o->space.rwt   = gsl_fft_real_wavetable_alloc(n);              break;
+	case HALFCOMPLEX_WAVETABLE:       o->space.hcwt  = gsl_fft_halfcomplex_wavetable_alloc(n);       break;
 	case COMPLEX_WORKSPACE_FLOAT:     o->space.cwsf  = gsl_fft_complex_workspace_float_alloc(n);     break;
 	case COMPLEX_WAVETABLE_FLOAT:     o->space.cwtf  = gsl_fft_complex_wavetable_float_alloc(n);     break;
 	case REAL_WORKSPACE_FLOAT:        o->space.rwsf  = gsl_fft_real_workspace_float_alloc(n);        break;
@@ -398,16 +398,16 @@ static PyObject *                                             \
 PyGSL_transform_space_init_ ## TYPE (PyObject *self, PyObject *args)\
 {                                                             \
      return PyGSL_transform_space_init(self, args, TYPE);           \
-}                                                             
+}
 PyGSL_SPACE_ALLOC(COMPLEX_WORKSPACE)
 PyGSL_SPACE_ALLOC(COMPLEX_WAVETABLE)
-PyGSL_SPACE_ALLOC(REAL_WORKSPACE)      
+PyGSL_SPACE_ALLOC(REAL_WORKSPACE)
 PyGSL_SPACE_ALLOC(REAL_WAVETABLE)
 PyGSL_SPACE_ALLOC(HALFCOMPLEX_WAVETABLE)
 
 PyGSL_SPACE_ALLOC(COMPLEX_WORKSPACE_FLOAT)
 PyGSL_SPACE_ALLOC(COMPLEX_WAVETABLE_FLOAT)
-PyGSL_SPACE_ALLOC(REAL_WORKSPACE_FLOAT)      
+PyGSL_SPACE_ALLOC(REAL_WORKSPACE_FLOAT)
 PyGSL_SPACE_ALLOC(REAL_WAVETABLE_FLOAT)
 PyGSL_SPACE_ALLOC(HALFCOMPLEX_WAVETABLE_FLOAT)
 
