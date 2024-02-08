@@ -35,7 +35,7 @@ static PyObject * rng_call(PyGSL_rng *self, PyObject *args);
 static void
 rng_delete(PyGSL_rng *self);
 
-static PyObject *	
+static PyObject *
 rng_call (PyGSL_rng *self, PyObject *args);
 static PyObject *
 rng_get(PyGSL_rng *self, PyObject *args);
@@ -52,7 +52,7 @@ static PyObject * rng_name(PyGSL_rng *self, PyObject *args);
 static PyObject * rng_clone(PyGSL_rng *self, PyObject *args);
 
 #define RNG_DISTRIBUTION(name, function)                                     \
-static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args);              
+static PyObject* rng_ ## name (PyGSL_rng *self, PyObject *args);
 #include "rng_distributions.h"
 #undef RNG_DISTRIBUTION
 
@@ -117,7 +117,7 @@ static struct PyMethodDef rng_methods[] = {
   {"hypergeometric",(PyCFunction)rng_hypergeometric,METH_VARARGS, rng_hypergeometric_doc},
   {"logarithmic",(PyCFunction)rng_logarithmic,METH_VARARGS, rng_logarithmic_doc},
   {"landau",(PyCFunction)rng_landau,METH_VARARGS, rng_landau_doc},
-  {"erlang",(PyCFunction)rng_erlang,METH_VARARGS, NULL},  
+  {"erlang",(PyCFunction)rng_erlang,METH_VARARGS, NULL},
   {"multinomial",(PyCFunction)rng_multinomial,METH_VARARGS, multinomial_doc},
   {"dirichlet",(PyCFunction)rng_dirichlet,METH_VARARGS, rng_dirichlet_doc},
   {NULL, NULL}
@@ -126,7 +126,7 @@ static struct PyMethodDef rng_methods[] = {
 
 #ifdef PyGSL_PY3K
 static PyTypeObject PyGSL_rng_pytype = {
-	PyObject_HEAD_INIT(NULL)
+        PyVarObject_HEAD_INIT(NULL, 0)
 	"PyGSL_rng",                    /* tp_name */
 	sizeof(PyGSL_rng),              /* tp_basicsize */
 	0,                                          /* tp_itemsize */
@@ -240,16 +240,16 @@ static PyObject* PyGSL_rng_init_ ## name (PyObject *self, PyObject *args)    \
 #include "rng_list.h"
 
 static PyObject *
-PyGSL_rng_init_default(PyObject *self, PyObject *args)              
-{                                                                    
-     PyObject *tmp = NULL;                                           
-     FUNC_MESS_BEGIN();                                              
-     tmp = PyGSL_rng_init(self, args,  NULL);            
-     if (tmp == NULL){                                               
+PyGSL_rng_init_default(PyObject *self, PyObject *args)
+{
+     PyObject *tmp = NULL;
+     FUNC_MESS_BEGIN();
+     tmp = PyGSL_rng_init(self, args,  NULL);
+     if (tmp == NULL){
 	  PyGSL_add_traceback(module, __FILE__, __FUNCTION__, __LINE__ - 1);
-     }                                                               
-     FUNC_MESS_END();                                                
-     return tmp;                                                     
+     }
+     FUNC_MESS_END();
+     return tmp;
 }
 
 
@@ -345,7 +345,7 @@ rng_set(PyGSL_rng *self, PyObject *args)
      if(!seed){lineno = __LINE__ - 1; goto fail;}
      useed =  PyLong_AsUnsignedLong(seed);
      gsl_rng_set(self->rng, useed);
-     
+
      Py_INCREF(Py_None);
      FUNC_MESS_END();
      return Py_None;
@@ -439,9 +439,9 @@ rng_getattr(PyGSL_rng *self, char *name)
 
      FUNC_MESS_BEGIN();
      assert(PyGSL_RNG_Check(self));
- 
+
      tmp = Py_FindMethod(rng_methods, (PyObject *) self, name);
-     if(NULL == tmp){	  
+     if(NULL == tmp){
 	  PyGSL_add_traceback(module, __FILE__, "rng.__attr__", __LINE__ - 1);
 	  return NULL;
      }
@@ -478,10 +478,10 @@ rng_create_list(PyObject *self, PyObject *args)
 	     item = PyGSL_string_from_string(tmp);
 	     if(item == NULL)
 		     goto fail;
-	  
+
 	     Py_INCREF(item);
 	     assert(item);
-	     
+
 	     if(PyList_Append(list, item) != 0)
 		     goto fail;
 	     thisRNGType++;
@@ -514,17 +514,17 @@ static PyObject* rng_ ## name ## _pdf (PyObject *self, PyObject *args)     \
 #include "rng_distributions.h"
 
 
-static PyObject* rng_dirichlet_lnpdf (PyObject *self, PyObject *args)         
-{ 
+static PyObject* rng_dirichlet_lnpdf (PyObject *self, PyObject *args)
+{
      PyObject *tmp;
      FUNC_MESS_BEGIN();
-     tmp = PyGSL_pdf_dA_to_dA(self, args, gsl_ran_dirichlet_lnpdf); 
+     tmp = PyGSL_pdf_dA_to_dA(self, args, gsl_ran_dirichlet_lnpdf);
      FUNC_MESS_END();
      return tmp;
 }
 
 static PyObject* rng_multinomial_lnpdf (PyObject *self, PyObject *args)
-{ 
+{
      PyObject *tmp;
      FUNC_MESS_BEGIN();
      tmp = PyGSL_pdf_uidA_to_uiA(self, args, gsl_ran_multinomial_lnpdf);
@@ -533,7 +533,7 @@ static PyObject* rng_multinomial_lnpdf (PyObject *self, PyObject *args)
 }
 
 
-static const char rng_env_setup_doc[] = 
+static const char rng_env_setup_doc[] =
 "This function reads the environment variables `GSL_RNG_TYPE' and\n\
 `GSL_RNG_SEED'.\n\
 The environment variable `GSL_RNG_TYPE' should be the name of a\n\
@@ -648,18 +648,18 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
      {"pascal_pdf",rng_pascal_pdf,METH_VARARGS, rng_pascal_pdf_doc},
      {"geometric_pdf",rng_geometric_pdf,METH_VARARGS, rng_geometric_pdf_doc},
      {"hypergeometric_pdf",rng_hypergeometric_pdf,METH_VARARGS, rng_hypergeometric_pdf_doc},
-     {"logarithmic_pdf",rng_logarithmic_pdf,METH_VARARGS, rng_logarithmic_pdf_doc},  
-     {"landau_pdf",rng_landau_pdf,METH_VARARGS, rng_landau_pdf_doc},  
+     {"logarithmic_pdf",rng_logarithmic_pdf,METH_VARARGS, rng_logarithmic_pdf_doc},
+     {"landau_pdf",rng_landau_pdf,METH_VARARGS, rng_landau_pdf_doc},
      {"erlang_pdf",rng_erlang_pdf,METH_VARARGS, NULL},
-     {"multinomial_pdf",rng_multinomial_pdf,METH_VARARGS,multinomial_pdf_doc},  
+     {"multinomial_pdf",rng_multinomial_pdf,METH_VARARGS,multinomial_pdf_doc},
      {"dirichlet_pdf",rng_dirichlet_pdf,METH_VARARGS, rng_dirichlet_pdf_doc},
-     {"multinomial_lnpdf",rng_multinomial_lnpdf,METH_VARARGS, NULL},  
+     {"multinomial_lnpdf",rng_multinomial_lnpdf,METH_VARARGS, NULL},
      {"dirichlet_lnpdf",rng_dirichlet_lnpdf,METH_VARARGS, rng_dirichlet_lnpdf_doc},
      {"env_setup",PyGSL_rng_env_setup,METH_NOARGS, (char*) rng_env_setup_doc},
      {NULL, NULL, 0}        /* Sentinel */
 };
 
-static void 
+static void
 set_api_pointer(void)
 {
 
@@ -710,7 +710,7 @@ DL_EXPORT(void) initrng(void)
 
 	if(m == NULL)
 	  return RETVAL;
-	
+
      assert(m);
      /* import_array(); */
      init_pygsl();
@@ -721,14 +721,14 @@ DL_EXPORT(void) initrng(void)
      dict = PyModule_GetDict(m);
      if(!dict)
 	  goto fail;
-     
+
      if (!(item = PyGSL_string_from_string(rng_module_doc))){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "I could not generate module doc string!");
 	  goto fail;
      }
      if (PyDict_SetItemString(dict, "__doc__", item) != 0){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "I could not init doc string!");
 	  goto fail;
      }
@@ -745,16 +745,16 @@ DL_EXPORT(void) initrng(void)
      api = PyCapsule_New((void *) PyGSL_API, _PyGSL_RNG_API_CAP, NULL);
      if(api == NULL)
        goto fail;
-     
+
      assert(api);
      if (PyDict_SetItemString(dict, "_PYGSL_RNG_API", api) != 0){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "I could not add  _PYGSL_RNG_API!");
 	  goto fail;
      }
-     
+
      return RETVAL;
-     
+
  fail:
      if(!PyErr_Occurred()){
 	  PyErr_SetString(PyExc_ImportError, "I could not init rng module!");

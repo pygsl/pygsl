@@ -2,7 +2,7 @@
 #include "wavelet.h"
 
 
-static void 
+static void
 PyGSL_wavelet_dealloc(PyGSL_wavelet *self);
 
 #define PYGSL_WAVLET_DEF(direction) \
@@ -26,9 +26,9 @@ static PyMethodDef PyGSL_wavelet_methods[] = {
 	{"transform_forward",     (PyCFunction)PyGSL_wavelet_forward,     METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
 	{"transform_inverse",     (PyCFunction)PyGSL_wavelet_inverse,     METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},
 	{"transform2d_forward",   (PyCFunction)PyGSL_wavelet2d_forward,   METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
-	{"transform2d_inverse",   (PyCFunction)PyGSL_wavelet2d_inverse,   METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},	
+	{"transform2d_inverse",   (PyCFunction)PyGSL_wavelet2d_inverse,   METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},
 	{"nstransform2d_forward", (PyCFunction)PyGSL_wavelet2d_nsforward, METH_VARARGS,  (char *)PyGSL_wavelet_forward_doc},
-	{"nstransform2d_inverse", (PyCFunction)PyGSL_wavelet2d_nsinverse, METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},	
+	{"nstransform2d_inverse", (PyCFunction)PyGSL_wavelet2d_nsinverse, METH_VARARGS,  (char *)PyGSL_wavelet_inverse_doc},
 	{"get_n",                 (PyCFunction)PyGSL_wavelet_get_n_py,    METH_NOARGS,  NULL},
 	{NULL, NULL, 0, NULL}           /* sentinel */
 };
@@ -40,7 +40,7 @@ PyGSL_wavelet_getattr(PyGSL_wavelet *self, const char * name);
 
 #ifdef PyGSL_PY3K
 static PyTypeObject PyGSL_wavelet_pytype = {
-	PyObject_HEAD_INIT(NULL)
+	PyVarObject_HEAD_INIT(NULL, 0)
 	"PyGSL_wavelet",                    /* tp_name */
 	sizeof(PyGSL_wavelet),              /* tp_basicsize */
 	0,                                          /* tp_itemsize */
@@ -95,7 +95,7 @@ PyTypeObject PyGSL_wavelet_pytype = {
 	(setattrfunc) 0,		 /* tp_setattr  "x.attr=v"    */
 	(cmpfunc)     0,		   /* tp_compare  "x > y"       */
 	(reprfunc)    0,                 /* tp_repr     `x`, print x  */
-	
+
 	/* type categories */
 	0,				/* tp_as_number   +,-,*,/,%,&,>>,pow...*/
 	0,				/* tp_as_sequence +,[i],[i:j],len, ...*/
@@ -121,7 +121,7 @@ typedef int (complex_transform)(gsl_complex_packed_array
           gsl_fft_complex_workspace * WORK);
 */
 
-static void 
+static void
 PyGSL_wavelet_dealloc(PyGSL_wavelet *self)
 {
 	FUNC_MESS_BEGIN();
@@ -231,7 +231,7 @@ PyGSL_wavelet_init(PyObject *self, PyObject *args, const gsl_wavelet_type *type)
 
 	if((o->wavelet = gsl_wavelet_alloc(type, n)) == NULL){
 		line = __LINE__ - 1;
-		/* 
+		/*
 		 * If the wrong parameter n is given, it will call PyGSL_ERROR()
 		 * and return NULL. I hope it does that in case of no memory as
 		 * well. The installed error handler will then call
@@ -241,7 +241,7 @@ PyGSL_wavelet_init(PyObject *self, PyObject *args, const gsl_wavelet_type *type)
 	}
 	FUNC_MESS_END();
 	return (PyObject *) o;
-	
+
  fail:
 	FUNC_MESS("Fail");
 	PyGSL_add_traceback(module, filename, __FUNCTION__, line);

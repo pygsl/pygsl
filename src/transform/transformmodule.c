@@ -43,9 +43,9 @@ static const char filename[] = __FILE__;
 #include "space.c"
 /* Function to copy the different arrays. */
 #include "arraycopy.c"
-/* 
+/*
  * Macros and functions which set the information up and call the
- * PyGSL_transform functions 
+ * PyGSL_transform functions
  */
 #include "fft.c"
 /*
@@ -60,7 +60,7 @@ static const char filename[] = __FILE__;
 #define PyGSL_WAVELET_TRANSFORM_TYPE(name)
 #endif
 /*
- * The real workers. 
+ * The real workers.
  */
 #include "core.c"
 
@@ -81,24 +81,24 @@ static PyMethodDef transformMethods[] = {
 #endif
 	/* transform functions */
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_forward",             fft_complex_forward,              cf_doc)
-	PyGSL_TRANSFORM_FD_FUNCTION("complex_backward",            fft_complex_backward,             cb_doc)	
-	PyGSL_TRANSFORM_FD_FUNCTION("complex_inverse",             fft_complex_inverse,              ci_doc)	
-	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_forward",      fft_complex_radix2_forward,       cf_doc_r2)	
+	PyGSL_TRANSFORM_FD_FUNCTION("complex_backward",            fft_complex_backward,             cb_doc)
+	PyGSL_TRANSFORM_FD_FUNCTION("complex_inverse",             fft_complex_inverse,              ci_doc)
+	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_forward",      fft_complex_radix2_forward,       cf_doc_r2)
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_backward",     fft_complex_radix2_backward,      cb_doc_r2)
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_inverse",      fft_complex_radix2_inverse,       ci_doc_r2)
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_forward",  fft_complex_radix2_dif_forward,   cf_doc_r2_dif)
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_backward", fft_complex_radix2_dif_backward,  cb_doc_r2_dif)
 	PyGSL_TRANSFORM_FD_FUNCTION("complex_radix2_dif_inverse",  fft_complex_radix2_dif_inverse,   ci_doc_r2_dif)
-	PyGSL_TRANSFORM_FD_FUNCTION("real_transform",              fft_real_transform,               rt_doc)	
+	PyGSL_TRANSFORM_FD_FUNCTION("real_transform",              fft_real_transform,               rt_doc)
 	PyGSL_TRANSFORM_FD_FUNCTION("halfcomplex_transform",       fft_halfcomplex_transform,        hc_doc)
 	PyGSL_TRANSFORM_FD_FUNCTION("halfcomplex_inverse",         fft_halfcomplex_inverse,          hi_doc)
-	PyGSL_TRANSFORM_FD_FUNCTION("real_radix2_transform",       fft_real_radix2_transform,        rt_doc_r2)	
+	PyGSL_TRANSFORM_FD_FUNCTION("real_radix2_transform",       fft_real_radix2_transform,        rt_doc_r2)
 	PyGSL_TRANSFORM_FD_FUNCTION("halfcomplex_radix2_transform",fft_halfcomplex_radix2_transform, hc_doc_r2)
 	PyGSL_TRANSFORM_FD_FUNCTION("halfcomplex_radix2_inverse",  fft_halfcomplex_radix2_inverse,   hi_doc_r2)
 	/* helper functions */
 	{"halfcomplex_radix2_unpack",         PyGSL_fft_halfcomplex_radix2_unpack,       METH_VARARGS, (char*)un_doc_r2},
 	{"halfcomplex_radix2_unpack_float",   PyGSL_fft_halfcomplex_radix2_unpack_float, METH_VARARGS, (char*)float_doc},
-	/* wavelet inits */ 
+	/* wavelet inits */
 #ifdef _PYGSL_GSL_HAS_WAVELET
 	PyGSL_WAVELET_TRANSFORM_TYPE(daubechies)
 	PyGSL_WAVELET_TRANSFORM_TYPE(haar)
@@ -109,9 +109,9 @@ static PyMethodDef transformMethods[] = {
 
 
 /*
- * Set the various function pointers for the different transforms. See the 
- * structure _pygsl_transform_func_s for the functions. Some architectures do 
- * not allow to initalise function pointers in static structures on the heap. 
+ * Set the various function pointers for the different transforms. See the
+ * structure _pygsl_transform_func_s for the functions. Some architectures do
+ * not allow to initalise function pointers in static structures on the heap.
  * (some solaris versions? )
  */
 #define PYGSL_INIT_FUNCS(helpers, space, table, spacet, tablet) \
@@ -121,7 +121,7 @@ static PyMethodDef transformMethods[] = {
 	helpers.table_free  = (pygsl_transform_help_t *)  gsl_fft_ ## table ## _free; \
 	helpers.space_type  = spacet; \
 	helpers.table_type  = tablet; \
-       
+
 #define PYGSL_INIT_FUNCS_DF(helpers, space, table, spacet, tablet) \
        PYGSL_INIT_FUNCS(helpers ## _funcs, space, table, spacet, tablet) \
        PYGSL_INIT_FUNCS(helpers ## _float ## _funcs, space ## _float, table ## _float, spacet ## _FLOAT, tablet ## _FLOAT)
@@ -134,18 +134,18 @@ init_helpers(void)
 	PYGSL_INIT_FUNCS_DF(real,        real_workspace,    real_wavetable, REAL_WORKSPACE, REAL_WAVETABLE)
 	PYGSL_INIT_FUNCS_DF(halfcomplex, real_workspace,    halfcomplex_wavetable, REAL_WORKSPACE, HALFCOMPLEX_WAVETABLE)
 
-       DEBUG_MESS(3, "PyArray_FLOAT   = %d ", NPY_FLOAT  ); 
+        DEBUG_MESS(3, "PyArray_FLOAT   = %d ", NPY_FLOAT  );
 	DEBUG_MESS(3, "PyArray_DOUBLE  = %d ", NPY_DOUBLE );
 	DEBUG_MESS(3, "PyArray_CFLOAT  = %d ", NPY_CFLOAT );
 	DEBUG_MESS(3, "PyArray_CDOUBLE = %d ", NPY_CDOUBLE);
 
-#ifdef _PYGSL_GSL_HAS_WAVELET	
+#ifdef _PYGSL_GSL_HAS_WAVELET
 	DEBUG_MESS(4, "%s @ %p", "daubechies", gsl_wavelet_daubechies);
 	DEBUG_MESS(4, "%s @ %p", "daubechies_centered", gsl_wavelet_daubechies_centered);
 	DEBUG_MESS(4, "%s @ %p", "haar", gsl_wavelet_haar);
 	DEBUG_MESS(4, "%s @ %p", "haar_centered", gsl_wavelet_haar_centered);
 	DEBUG_MESS(4, "%s @ %p", "bspline", gsl_wavelet_bspline);
-	DEBUG_MESS(4, "%s @ %p", "bspline_centered", gsl_wavelet_bspline_centered);     
+	DEBUG_MESS(4, "%s @ %p", "bspline_centered", gsl_wavelet_bspline_centered);
 #endif
 	FUNC_MESS_END();
 
@@ -179,9 +179,9 @@ DL_EXPORT(void) init_transform(void)
 #endif /* PyGSL_PY3K */
 {
      	PyObject *m = NULL, *dict = NULL, *item = NULL;
-	
+
 	FUNC_MESS_BEGIN();
- 
+
 	if (PyType_Ready(&PyGSL_transform_space_pytype) < 0)
 		return RETVAL;
 
@@ -205,14 +205,14 @@ DL_EXPORT(void) init_transform(void)
 	dict = PyModule_GetDict(m);
 	if (dict == NULL)
 		return RETVAL;
-	
+
 	if (!(item = PyGSL_string_from_string(transform_module_doc))){
-		PyErr_SetString(PyExc_ImportError, 
+		PyErr_SetString(PyExc_ImportError,
 				"I could not generate module doc string!");
 		return RETVAL;
 	}
 	if (PyDict_SetItemString(dict, "__doc__", item) != 0){
-		PyErr_SetString(PyExc_ImportError, 
+		PyErr_SetString(PyExc_ImportError,
 				"I could not init doc string!");
 		return RETVAL;
 	}
