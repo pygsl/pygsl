@@ -4,7 +4,7 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_statistics.h>
-#include <Python.h>
+//#include <Python.h>
 
 /*
  * This api will be only exported to the various  statistics
@@ -15,9 +15,9 @@ static void **PyGSL_STATISTICS_API = NULL;
 
 
 #define PyGSL_STATISTICS_d_A_NUM    0
-#define PyGSL_STATISTICS_l_A_NUM    1 
+#define PyGSL_STATISTICS_l_A_NUM    1
 #define PyGSL_STATISTICS_d_Ad_NUM   2
-#define PyGSL_STATISTICS_d_AA_NUM   3 
+#define PyGSL_STATISTICS_d_AA_NUM   3
 #define PyGSL_STATISTICS_d_AAd_NUM  4
 #define PyGSL_STATISTICS_d_AAdd_NUM 5
 #define PyGSL_STATISTICS_d_Add_NUM  6
@@ -29,7 +29,7 @@ static void **PyGSL_STATISTICS_API = NULL;
 
 #define PyGSL_STATISTICS_d_A_PROTO  (PyObject *self, PyObject *args, \
 		     double (*pointer)(const void *, size_t, size_t),\
-		     int array_type, int basis_type_size) 
+		     int array_type, int basis_type_size)
 
 #define PyGSL_STATISTICS_l_A_PROTO   (PyObject *self, PyObject *args, \
 		      size_t (*pointer)(const void *, size_t, size_t), \
@@ -61,15 +61,15 @@ static void **PyGSL_STATISTICS_API = NULL;
 		      int array_type, int basis_type_size)
 
 
-#if defined(PyGSL_STATISTICS_IMPORT_API)                   
+#if defined(PyGSL_STATISTICS_IMPORT_API)
 extern PyObject *  PyGSL_statistics_d_A    PyGSL_STATISTICS_d_A_PROTO;
 extern PyObject *  PyGSL_statistics_l_A    PyGSL_STATISTICS_l_A_PROTO;
-extern PyObject *  PyGSL_statistics_d_Ad   PyGSL_STATISTICS_d_Ad_PROTO;  
-extern PyObject *  PyGSL_statistics_d_AA   PyGSL_STATISTICS_d_AA_PROTO;  
-extern PyObject *  PyGSL_statistics_d_AAd  PyGSL_STATISTICS_d_AAd_PROTO; 
+extern PyObject *  PyGSL_statistics_d_Ad   PyGSL_STATISTICS_d_Ad_PROTO;
+extern PyObject *  PyGSL_statistics_d_AA   PyGSL_STATISTICS_d_AA_PROTO;
+extern PyObject *  PyGSL_statistics_d_AAd  PyGSL_STATISTICS_d_AAd_PROTO;
 extern PyObject *  PyGSL_statistics_d_AAdd PyGSL_STATISTICS_d_AAdd_PROTO;
-extern PyObject *  PyGSL_statistics_d_Add  PyGSL_STATISTICS_d_Add_PROTO; 
-extern PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;  
+extern PyObject *  PyGSL_statistics_d_Add  PyGSL_STATISTICS_d_Add_PROTO;
+extern PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;
 
 #define PyGSL_statistics_d_A    (*(PyObject* (*) PyGSL_STATISTICS_d_A_PROTO)    PyGSL_STATISTICS_API[PyGSL_STATISTICS_d_A_NUM])
 #define PyGSL_statistics_l_A    (*(PyObject* (*) PyGSL_STATISTICS_l_A_PROTO)    PyGSL_STATISTICS_API[PyGSL_STATISTICS_l_A_NUM])
@@ -80,17 +80,17 @@ extern PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;
 #define PyGSL_statistics_d_Add  (*(PyObject* (*) PyGSL_STATISTICS_d_Add_PROTO)  PyGSL_STATISTICS_API[PyGSL_STATISTICS_d_Add_NUM])
 #define PyGSL_statistics_ll_A   (*(PyObject* (*) PyGSL_STATISTICS_ll_A_PROTO)   PyGSL_STATISTICS_API[PyGSL_STATISTICS_ll_A_NUM])
 
-#else 
+#else
 static PyObject *  PyGSL_statistics_d_A    PyGSL_STATISTICS_d_A_PROTO;
 static PyObject *  PyGSL_statistics_l_A    PyGSL_STATISTICS_l_A_PROTO;
-static PyObject *  PyGSL_statistics_d_Ad   PyGSL_STATISTICS_d_Ad_PROTO;  
-static PyObject *  PyGSL_statistics_d_AA   PyGSL_STATISTICS_d_AA_PROTO;  
-static PyObject *  PyGSL_statistics_d_AAd  PyGSL_STATISTICS_d_AAd_PROTO; 
+static PyObject *  PyGSL_statistics_d_Ad   PyGSL_STATISTICS_d_Ad_PROTO;
+static PyObject *  PyGSL_statistics_d_AA   PyGSL_STATISTICS_d_AA_PROTO;
+static PyObject *  PyGSL_statistics_d_AAd  PyGSL_STATISTICS_d_AAd_PROTO;
 static PyObject *  PyGSL_statistics_d_AAdd PyGSL_STATISTICS_d_AAdd_PROTO;
-static PyObject *  PyGSL_statistics_d_Add  PyGSL_STATISTICS_d_Add_PROTO; 
-static PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;  
+static PyObject *  PyGSL_statistics_d_Add  PyGSL_STATISTICS_d_Add_PROTO;
+static PyObject *  PyGSL_statistics_ll_A   PyGSL_STATISTICS_ll_A_PROTO;
 
-#endif 
+#endif
 
 #define _PyGSL_STAT_API  "pygsl_stat_api"
 #define import_pygsl_stats() \

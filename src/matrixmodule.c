@@ -5,7 +5,7 @@
  * $Id$
  */
 
-#include <Python.h>
+//#include <Python.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_matrix.h>
 #include <pygsl/error_helpers.h>
@@ -36,7 +36,7 @@ static PyObject* matrix_matrix_get(PyObject *self,
     return NULL;
   }
 
-  /* get index */  
+  /* get index */
   if (0==PyArg_ParseTuple(args,"ll",&i,&j))
       return NULL;
   if (i<0 || i>=matrix->size1) {
@@ -70,7 +70,7 @@ static PyObject* matrix_matrix_set(PyObject *self,
     return NULL;
   }
 
-  /* get index */  
+  /* get index */
   if (0==PyArg_ParseTuple(args,"lld",&i,&j,&x))
       return NULL;
   if (i<0 || i>=matrix->size1) {
@@ -89,7 +89,7 @@ static PyObject* matrix_matrix_set(PyObject *self,
   }
   gsl_matrix_set(matrix,i,j,x);
   Py_INCREF(Py_None);
-  return Py_None;  
+  return Py_None;
 }
 
 static PyObject* matrix_matrix_set_all(PyObject *self,
@@ -106,7 +106,7 @@ static PyObject* matrix_matrix_set_all(PyObject *self,
   }
   gsl_matrix_set_all(matrix,x);
   Py_INCREF(Py_None);
-  return Py_None;  
+  return Py_None;
 }
 
 
@@ -120,7 +120,7 @@ static PyObject* matrix_matrix_set_identity(PyObject *self)
   }
   gsl_matrix_set_identity(matrix);
   Py_INCREF(Py_None);
-  return Py_None;  
+  return Py_None;
 }
 
 static PyObject* matrix_matrix_set_zero(PyObject *self)
@@ -133,7 +133,7 @@ static PyObject* matrix_matrix_set_zero(PyObject *self)
   }
   gsl_matrix_set_zero(matrix);
   Py_INCREF(Py_None);
-  return Py_None;  
+  return Py_None;
 }
 
 static PyObject* matrix_matrix_transpose(PyObject *self)
@@ -146,7 +146,7 @@ static PyObject* matrix_matrix_transpose(PyObject *self)
   }
   gsl_matrix_transpose(matrix);
   Py_INCREF(Py_None);
-  return Py_None;  
+  return Py_None;
 }
 
 
@@ -203,7 +203,7 @@ static PyMethodDef matrix_matrix_methods[] = {
   {"set_zero",(PyCFunction)matrix_matrix_set_zero,METH_NOARGS,"sets all to 0"},
   {"set_identity",(PyCFunction)matrix_matrix_set_identity,METH_NOARGS,"sets diagonal to 1 and others to 0"},
   {"set_all",(PyCFunction)matrix_matrix_set_identity,METH_O,"sets all entries to x"},
-  {"transpose",(PyCFunction)matrix_matrix_transpose,METH_NOARGS,"transposes the matrix in place"}, 
+  {"transpose",(PyCFunction)matrix_matrix_transpose,METH_NOARGS,"transposes the matrix in place"},
   {NULL, NULL, 0, NULL}           /* sentinel */
 };
 
@@ -216,7 +216,7 @@ static int matrix_matrix_init(PyObject *self,
   PyObject* orig_matrix;
   long int n1;
   long int n2;
-  
+
   static char *kwlist1[] = {"matrix",NULL};
   static char *kwlist2[] = {"size1","size2",NULL};
 
@@ -257,7 +257,7 @@ static int matrix_matrix_init(PyObject *self,
       return -1;
     ((matrix_matrixObject*)self)->m=matrix;
     return 0;
-    
+
   }
   else {
     /* set own error message */

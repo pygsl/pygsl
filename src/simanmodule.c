@@ -3,7 +3,7 @@
  * * author: Jochen K"upper
  * * created: April 2002
  *
- * author: Pierre Schnizer
+ * author: Pierre Schnizer 2003, 2024
  * created: December 2003
  * file: pygsl/src/simanmodule.c
  * $Id$
@@ -13,7 +13,8 @@
  *
  */
 
-#include <Python.h>
+// #define PY_SSIZE_T_CLEAN
+// #include <Python.h>
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
