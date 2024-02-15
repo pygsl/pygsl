@@ -8,7 +8,7 @@
  */
 
 
-#include <Python.h>
+//#include <Python.h>
 #include <gsl/gsl_statistics.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
@@ -37,5 +37,3 @@ PyGSL_STATISTICS_INIT(float, "float")
  * c-file-style: "Stroustrup"
  * End:
  */
-
-

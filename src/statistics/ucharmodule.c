@@ -1,6 +1,7 @@
 /**
- * author: Jochen K"upper
+ * author: Jochen K"upper, Pierre Schnizer
  * created: Jan 2002
+ * updated: 2024
  * file: pygsl/src/statistics/longmodule.c
  * $Id$
  *
@@ -8,7 +9,7 @@
  */
 
 
-#include <Python.h>
+//#include <Python.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_statistics.h>
