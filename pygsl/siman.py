@@ -35,7 +35,7 @@ problem as described in the GSL reference document.
 # Author: Pierre Schnizer
 # Date  : 2003, 2017
 
-from abc import abstractmethod, abcmeta
+from abc import abstractmethod, ABCMeta
 import copy
 
 from . import _siman
@@ -43,7 +43,8 @@ from . import _siman
 # The real solver
 solve = _siman.solve
 
-class NumericEnsemble(metaclass=abcmeta):
+
+class NumericEnsemble(metaclass=ABCMeta):
     """
     A base class implementation to support the use of numeric arrays as
     configurations. You must overload the following functions
@@ -58,6 +59,7 @@ class NumericEnsemble(metaclass=abcmeta):
     If you want, that the solver prints it status to the stdout add a
     * :meth:`Print` method.
     """
+
     def __init__(self):
         self._data = None
 
@@ -111,8 +113,7 @@ class NumericEnsemble(metaclass=abcmeta):
         return clone
 
     def Print(self):
-        """Print the current state of the ensemble
-        """
+        """Print the current state of the ensemble"""
 
     def __del__(self):
         # Not necessary, just illustration
