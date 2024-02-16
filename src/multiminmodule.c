@@ -5,7 +5,6 @@
  * $Id$
  */
 
-// #include <Python.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_multimin.h>
 #include <pygsl/error_helpers.h>

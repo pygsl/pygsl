@@ -4,7 +4,6 @@
  * Date   : 5. October 2003, 2024
  * Only used to test the error handling of pygsl.
  */
-// #include <Python.h>
 #include <gsl/gsl_errno.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/general_helpers.h>

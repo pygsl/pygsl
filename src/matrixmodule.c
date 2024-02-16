@@ -1,11 +1,10 @@
 /*
  * author: Achim Gaedke
- * created: January 2001
+ * created: January 2001, 2024
  * file: pygsl/src/histogrammodule.c
  * $Id$
  */
 
-//#include <Python.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_matrix.h>
 #include <pygsl/error_helpers.h>
