@@ -8,7 +8,6 @@
  */
 
 
-// #include <Python.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_statistics.h>

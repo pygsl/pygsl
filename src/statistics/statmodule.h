@@ -4,7 +4,6 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_statistics.h>
-//#include <Python.h>
 
 /*
  * This api will be only exported to the various  statistics
