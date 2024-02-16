@@ -35,7 +35,7 @@ problem as described in the GSL reference document.
 # Author: Pierre Schnizer
 # Date  : 2003, 2017
 
-from abc import abstractmethod, ABCmeta
+from abc import abstractmethod, ABCMeta
 import copy
 
 from . import _siman
@@ -44,7 +44,7 @@ from . import _siman
 solve = _siman.solve
 
 
-class NumericEnsemble(metaclass=ABCmeta):
+class NumericEnsemble(metaclass=ABCMeta):
     """
     A base class implementation to support the use of numeric arrays as
     configurations. You must overload the following functions
