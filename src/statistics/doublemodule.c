@@ -6,7 +6,6 @@
 
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
-//#include <Python.h>
 #include <gsl/gsl_statistics.h>
 
 
