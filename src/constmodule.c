@@ -9,7 +9,6 @@
  *    7. October 2003 Added support for gsl-1.4 constants.
  */
 
-#include <Python.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_const_num.h>
 #include <pygsl/pygsl_features.h>
