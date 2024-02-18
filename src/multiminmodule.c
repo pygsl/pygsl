@@ -5,7 +5,6 @@
  * $Id$
  */
 
-#include <Python.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_multimin.h>
 #include <pygsl/error_helpers.h>
@@ -42,7 +41,7 @@ double pygsl_multimin_function(const gsl_vector* x, void* params) {
     PyList_Append(args,arg);
     Py_DECREF(arg);
   }
-  
+
   /* the other parameters are following */
   trailing_params=((multimin_multiminObject*)params)->trailing_params;
   if (trailing_params!=NULL) {
@@ -108,11 +107,11 @@ static PyObject* multimin_multimin_set(PyObject *self,
     PyErr_SetString(PyExc_RuntimeError, "start or steps are not a sequence");
     return NULL;
   }
-  
+
   if (PySequence_Size(x)!=n || PySequence_Size(steps)!=n) {
     PyErr_SetString(PyExc_RuntimeError, "start or steps are not of required size");
     return NULL;
-  }  
+  }
 
   if (((multimin_multiminObject*)self)->func!=NULL) {
     /* free the previous function and params */
@@ -250,8 +249,8 @@ static PyObject* multimin_multimin_init(PyObject *self,
     PyErr_SetString(PyExc_RuntimeError, "dimension must be >0");
     return NULL;
   }
-  
-  type=PyCObject_AsVoidPtr(type_py);  
+
+  type=PyCObject_AsVoidPtr(type_py);
   min=gsl_multimin_fminimizer_alloc(type,n);
   if (min==NULL) {
     return NULL;
