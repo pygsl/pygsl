@@ -20,7 +20,7 @@ if sys.version_info[0] >= 3:
     _longtype = type(1)
 else:
     _longtype = types.LongType
-    
+
 def convert_rng_names():
     names = rngmodule.list_available_rngs()
     result = []
@@ -88,11 +88,11 @@ class _rng_distributions(unittest.TestCase):
     def testMin(self):
         min = self.rng.min()
         assert(type(min) == _longtype)
-        
+
     def testMax(self):
         max = self.rng.max()
         assert(type(max) == _longtype)
-        
+
     def testMinMax(self):
         min = self.rng.min()
         max = self.rng.max()
@@ -126,7 +126,7 @@ class _rng_distributions(unittest.TestCase):
                     print("with args", tmp)
 
             assert(isfloat(p))
-            
+
         tmp = args + (10,)
         da = method(*tmp)
 
@@ -136,16 +136,16 @@ class _rng_distributions(unittest.TestCase):
             tmp = (da,) + args
             pa = pdf_method(*tmp)
             array_check(pa, Float, (10,))
-                
+
     def _test_ui_return_one(self, method, pdf_method, *args):
         self._test_generic_return_generic(method, pdf_method, type(10),
                                           Int, *args)
-        
+
     def _test_double_return_one(self, method, pdf_method, *args):
         self._test_generic_return_generic(method, pdf_method, type(10),
                                           Float, *args)
-            
-                
+
+
     def _test_nd_return_one(self, method, pdf_method, n, *args):
         test = 0
         try:
@@ -163,7 +163,7 @@ class _rng_distributions(unittest.TestCase):
                 y = da[:,1]
                 pa = pdf_method( *((x, y) + args))
                 array_check(da, Float, (10,2))
-            test = 1   
+            test = 1
         finally:
             if test == 0:
                 print( "I was testing ", method, "with args", args)
@@ -195,8 +195,8 @@ class _rng_distributions(unittest.TestCase):
                 if test == 0:
                     print( "I was operating on method", i, "of rng", self.rng.name())
                     print( "using", tmp, "and", pdf)
-                    
-    def _test_nd_return(self, methods, *args):       
+
+    def _test_nd_return(self, methods, *args):
         for i in methods:
             tmp = getattr(self.rng, i)
             pdf = None
@@ -206,44 +206,44 @@ class _rng_distributions(unittest.TestCase):
                 pass
             self._test_nd_return_one(tmp, pdf, *args)
 
-    def test_ui_to_double(self):        
+    def test_ui_to_double(self):
         self._test_double_return_one(self.rng.gamma_int, None, 1000)
-        
+
     def test_to_double(self):
-        t = ('ugaussian',              
-             'ugaussian_ratio_method', 
+        t = ('ugaussian',
+             'ugaussian_ratio_method',
              'landau')
 
         self._test_double_return(t)
-            
+
     def test_d_to_double(self):
-        t = ('gaussian',              
-             'gaussian_ratio_method', 
-             'ugaussian_tail',        
-             'exponential',           
-             'laplace',               
-             'cauchy',                
-             'rayleigh',              
-             'chisq',                 
-             'tdist',                 
+        t = ('gaussian',
+             'gaussian_ratio_method',
+             'ugaussian_tail',
+             'exponential',
+             'laplace',
+             'cauchy',
+             'rayleigh',
+             'chisq',
+             'tdist',
              'logistic'
              )
         self._test_double_return(t, 2.0)
-            
+
     def test_dd_to_double(self):
         t = ('gaussian_tail',
-             'exppow',       
+             'exppow',
              'rayleigh_tail',
-             'levy',         
-             'gamma',        
-             'flat',         
-             'lognormal',    
-             'fdist',        
-             'beta',         
-             'pareto',       
-             'weibull',      
-             'gumbel1',      
-             'gumbel2',      
+             'levy',
+             'gamma',
+             'flat',
+             'lognormal',
+             'fdist',
+             'beta',
+             'pareto',
+             'weibull',
+             'gumbel1',
+             'gumbel2',
              'erlang')
         self._test_double_return(t, 2.0, 3.0)
 
@@ -253,14 +253,14 @@ class _rng_distributions(unittest.TestCase):
 
 
     def test_d_to_ui(self):
-        t = ('poisson',    
-             'bernoulli',  
-             'geometric',  
+        t = ('poisson',
+             'bernoulli',
+             'geometric',
              'logarithmic')
         self._test_ui_return(t, 2.3)
-        
+
     def test_dd_to_ui(self):
-        t = ('binomial', 
+        t = ('binomial',
              'pascal',
              'negative_binomial')
         self._test_ui_return(t, 2.0, 4.5)
@@ -296,8 +296,9 @@ class _rng_distributions(unittest.TestCase):
         array_check(d, Float, (100, a.shape[0]))
 
     def test_multinomial(self):
-        pass
-     
+        phi = (0.2,0.2,0.2,0.4)
+        n = self.rng.multinomial(10, phi)
+
     def test_gaussian(self):
         sum=0
         count=0
@@ -318,7 +319,7 @@ rng_notimplemented_types = [
 class TestIfAll(unittest.TestCase):
     """
     Now all different rng's have to be added by hand. GSL and its wrapper
-    provide a list of all available rngs. Test if all are here    
+    provide a list of all available rngs. Test if all are here
     """
 
     def test(self):
@@ -347,15 +348,15 @@ for i in rng_types:
     if i in rng_notimplemented_types:
         print ("Skipping rng type", i)
         continue
-    
+
     tmp = "class %s(_rng_type): _type = rngmodule.%s" % ((i,) * 2)
     #print(tmp)
     exec(tmp)
-    
+
     tmp = "class %s_rng_basics(%s, _rng_basics): pass" % ((i,) *2)
     #print(tmp)
     exec(tmp)
-    
+
     tmp = "class %s_rng_distributions(%s, _rng_distributions): pass" % ((i,) *2)
     #print(tmp)
     exec(tmp)
@@ -368,5 +369,3 @@ del _rng_distributions
 
 if __name__ == "__main__":
     unittest.main()
-
-
