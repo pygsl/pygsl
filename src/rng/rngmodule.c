@@ -652,7 +652,7 @@ static PyMethodDef PyGSL_rng_module_functions[] = {
      {"logarithmic_pdf",rng_logarithmic_pdf,METH_VARARGS, rng_logarithmic_pdf_doc},
      {"landau_pdf",rng_landau_pdf,METH_VARARGS, rng_landau_pdf_doc},
      {"erlang_pdf",rng_erlang_pdf,METH_VARARGS, NULL},
-     // {"multinomial_pdf",rng_multinomial_pdf,METH_VARARGS,multinomial_pdf_doc},
+     {"multinomial_pdf",rng_multinomial_pdf,METH_VARARGS,multinomial_pdf_doc},
      {"dirichlet_pdf",rng_dirichlet_pdf,METH_VARARGS, rng_dirichlet_pdf_doc},
      {"multinomial_lnpdf",rng_multinomial_lnpdf,METH_VARARGS, NULL},
      {"dirichlet_lnpdf",rng_dirichlet_lnpdf,METH_VARARGS, rng_dirichlet_lnpdf_doc},

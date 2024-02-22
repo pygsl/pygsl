@@ -976,7 +976,7 @@ PyGSL_rng_uidA_to_uiA(PyGSL_rng *rng, PyObject *args,
      PyObject *tmp_n, *tmp_phi, *dimension_o = NULL;
      PyArrayObject *a_phi = NULL, *a_n =NULL, *a_array_out = NULL;
      double * pd_phi;
-     int use_array_dimension = 0, iterate_over_parameters = 0, line_no = __LINE__;
+     int line_no = __LINE__;
      unsigned int *data_out = NULL;
      unsigned int  *pui_n = NULL;
 
@@ -1248,6 +1248,15 @@ PyGSL_pdf_uidA_to_uiA(PyObject *self, PyObject *args,
      return r;
 }
 
+PyObject*
+PyGSL_pdf_uidA_to_d(PyObject *self, PyObject *args,
+		      double (*evaluator) (const size_t, const double [], const unsigned int []))
+{
+     PyObject *r;
+     if((r= PyGSL_pdf_dA_to_uint_or_dA(self, args, (void *) evaluator, NPY_DOUBLE)) == NULL)
+	  PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
+     return r;
+}
 
 
 /*
