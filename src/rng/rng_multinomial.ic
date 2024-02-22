@@ -1,0 +1,65 @@
+/* -*- C -*- */
+#if 0
+#define PY_SSIZE_T_CLEAN
+ /* numpy needs to be imported directly for the iterator */
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#include <numpy/arrayobject.h>
+#endif
+
+PyObject*
+PyGSL_rng_multinomial_hand(PyGSL_rng *rng, PyObject *args)
+{
+     PyObject *po;
+     PyArrayObject *array_p = NULL, *array_n = NULL;
+
+     int line = __LINE__;
+     int tmp_n;
+     unsigned int N;
+     PyGSL_array_index_t k = 0;
+
+     FUNC_MESS_BEGIN();
+     assert(args);
+
+     if(0 == PyArg_ParseTuple(args, "iO", &tmp_n, &po)){
+	  line = __LINE__ -1;
+	  goto fail;
+     }
+
+     if(tmp_n < 0){
+	 line =  __LINE__ -1;
+	 pygsl_error("N < 0", __FILE__, __LINE__, GSL_EDOM);
+	 goto fail;
+     }
+     N = tmp_n;
+
+     /* Todo: should be an at least 1d */
+     array_p = PyGSL_vector_check(po, -1, PyGSL_DARRAY_INPUT(1), NULL, NULL);
+     if(array_p == NULL){
+	  line = __LINE__ - 2;
+	  goto fail;
+     }
+     k = PyArray_DIM(array_p, 0);
+
+     array_n = PyGSL_New_Array(1, &k, NPY_UINT);
+     if(array_n == NULL){
+	  line = __LINE__ - 2;
+	  goto fail;
+     }
+
+     double *p = PyArray_DATA(array_p);
+     unsigned int *n = PyArray_DATA(array_n);
+     gsl_ran_multinomial(rng->rng, k, N, p, n);
+
+     DEBUG_MESS(4, "Built Matrix. Object @ %p with refcount %ld!", (void *) array_n, PyGSL_PY_ARRAY_GET_REFCNT(array_n));
+
+     DEBUG_MESS(4, "Dereferencing p @ %p", (void *) array_p);
+     Py_DECREF(array_p);
+     return (PyObject *) array_n;
+
+ fail:
+     FUNC_MESS("FAIL");
+     PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, line);
+     Py_XDECREF(array_p);
+     Py_XDECREF(array_n);
+     return NULL;
+}
