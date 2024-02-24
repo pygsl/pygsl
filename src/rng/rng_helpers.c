@@ -86,7 +86,7 @@ PyGSL_rng_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const gs
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "|i", &dimension)){
+     if(0 == PyArg_ParseTuple(args, "|l", &dimension)){
 	  return NULL;
      }
 
@@ -139,7 +139,7 @@ PyGSL_rng_d_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const 
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "d|i", &d, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "d|l", &d, &dimension)){
 	  return NULL;
      }
 #undef  RNG_ARGUMENTS
@@ -188,7 +188,7 @@ PyGSL_rng_dd_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "dd|i", &d1, &d2, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "dd|l", &d1, &d2, &dimension)){
 	  return NULL;
      }
 #undef  RNG_ARGUMENTS
@@ -236,7 +236,7 @@ PyGSL_rng_ddd_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(cons
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "ddd|i", &d1, &d2, &d3, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "ddd|l", &d1, &d2, &d3, &dimension)){
 	  return NULL;
      }
 #undef  RNG_ARGUMENTS
@@ -296,7 +296,7 @@ PyGSL_rng_ui_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "O|i", &tmp, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "O|l", &tmp, &dimension)){
 	  return NULL;
      }
      if(PyGSL_PYLONG_TO_ULONG(tmp, &limit, NULL) != GSL_SUCCESS)
@@ -371,7 +371,7 @@ PyGSL_rng_d_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(con
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "d|i", &d, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "d|l", &d, &dimension)){
 	  return NULL;
      }
 #define RNG_ARGUMENTS ,d
@@ -445,7 +445,7 @@ PyGSL_rng_dui_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(c
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "dO|i", &d, &tmp, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "dO|l", &d, &tmp, &dimension)){
 	  return NULL;
      }
      if(PyGSL_PYLONG_TO_ULONG(tmp, &llimit, NULL) != GSL_SUCCESS)
@@ -527,7 +527,7 @@ PyGSL_rng_dd_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(co
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "dd|i", &d1, &d2, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "dd|l", &d1, &d2, &dimension)){
 	  return NULL;
      }
 
@@ -600,7 +600,7 @@ PyGSL_rng_uiuiui_to_ui(PyGSL_rng *rng, PyObject *args,
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "OOO|i", &tmp1, &tmp2, &tmp3, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "OOO|l", &tmp1, &tmp2, &tmp3, &dimension)){
 	  return NULL;
      }
 
@@ -687,7 +687,7 @@ PyGSL_rng_ddd_to_dd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "ddd|i", &d1, &d2, &d3, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "ddd|l", &d1, &d2, &d3, &dimension)){
 	  return NULL;
      }
      dims[0] = dimension;
@@ -831,11 +831,11 @@ PyGSL_rng_to_generic_nd(PyGSL_rng *rng, PyObject *args, int type, void *evaluato
      assert(type == 2 || type == 3 || type == 0);
 
      if(type == 0){
-	  if(0 == PyArg_ParseTuple(args, "i|i", &ds, &dimension)){
+	  if(0 == PyArg_ParseTuple(args, "l|l", &ds, &dimension)){
 	       return NULL;
 	  }
      }else{
-	  if(0 == PyArg_ParseTuple(args, "|i", &dimension)){
+	  if(0 == PyArg_ParseTuple(args, "|l", &dimension)){
 	       return NULL;
 	  }
      }
@@ -919,7 +919,7 @@ PyGSL_rng_dA_to_dA(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_r
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "O|i", &tmp, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "O|l", &tmp, &dimension)){
 	  return NULL;
      }
 
@@ -1262,7 +1262,7 @@ PyGSL_rng_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evaluator
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "|i", &dimension)){
+     if(0 == PyArg_ParseTuple(args, "|l", &dimension)){
 	  return NULL;
      }
 
@@ -1295,7 +1295,7 @@ PyGSL_rng_ul_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evalua
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
-     if(0 == PyArg_ParseTuple(args, "O|i", &tmp, &dimension)){
+     if(0 == PyArg_ParseTuple(args, "O|l", &tmp, &dimension)){
 	  return NULL;
      }
      if(PyGSL_PYLONG_TO_ULONG(tmp, &limit, NULL) != GSL_SUCCESS) goto fail;
