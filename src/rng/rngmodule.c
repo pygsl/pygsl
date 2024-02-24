@@ -22,6 +22,7 @@
  */
 static PyObject *module = NULL;
 #include "rng_helpers.c"
+#include "rng_multinomial.ic"
 #include "rngmodule_docs.h"
 
 
@@ -118,7 +119,7 @@ static struct PyMethodDef rng_methods[] = {
   {"logarithmic",(PyCFunction)rng_logarithmic,METH_VARARGS, rng_logarithmic_doc},
   {"landau",(PyCFunction)rng_landau,METH_VARARGS, rng_landau_doc},
   {"erlang",(PyCFunction)rng_erlang,METH_VARARGS, NULL},
-  {"multinomial",(PyCFunction)rng_multinomial,METH_VARARGS, multinomial_doc},
+  {"multinomial",(PyCFunction)PyGSL_rng_multinomial_hand,METH_VARARGS, multinomial_doc},
   {"dirichlet",(PyCFunction)rng_dirichlet,METH_VARARGS, rng_dirichlet_doc},
   {NULL, NULL}
 };
