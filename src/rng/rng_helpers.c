@@ -83,7 +83,7 @@ PyObject *
 PyGSL_rng_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const gsl_rng *))
 {
      long dim = 1;
-     PyGSL_array_index_t dimension;
+     PyGSL_array_index_t dimension = 1;
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
@@ -136,8 +136,8 @@ PyGSL_pdf_to_double(PyObject *self, PyObject *args, double (*evaluator)(double))
 PyObject *
 PyGSL_rng_d_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const gsl_rng *, double))
 {
-     long dim=1;
-     PyGSL_array_index_t dimension;
+     long dim = 1;
+     PyGSL_array_index_t dimension = 1;
      double d;
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
@@ -187,8 +187,8 @@ PyGSL_pdf_d_to_double(PyObject *self, PyObject *args, double (*evaluator)(double
 PyObject *
 PyGSL_rng_dd_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const gsl_rng *, double, double))
 {
-     long dim=1;
-     PyGSL_array_index_t dimension;
+     long dim = 1;
+     PyGSL_array_index_t dimension = 1;
      double d1, d2;
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
@@ -214,7 +214,7 @@ PyGSL_pdf_dd_to_double(PyObject *self, PyObject *args, double (*evaluator)(doubl
      PyObject *tmp;
      PyArrayObject *array_in = NULL, *array_out = NULL;
      double d1, d2;
-     PyGSL_array_index_t dimension=1;
+     PyGSL_array_index_t dimension = 1;
 
 
      FUNC_MESS_BEGIN();
@@ -237,8 +237,8 @@ PyGSL_pdf_dd_to_double(PyObject *self, PyObject *args, double (*evaluator)(doubl
 PyObject *
 PyGSL_rng_ddd_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const gsl_rng *, double, double, double))
 {
-     long dim=1;
-     PyGSL_array_index_t dimension=-1;
+     long dim = 1;
+     PyGSL_array_index_t dimension = 1;
      double d1, d2, d3;
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
@@ -299,8 +299,8 @@ PyGSL_rng_ui_to_double(PyGSL_rng *rng, PyObject *args, double (*evaluator)(const
 {
      PyObject *tmp, *limit_o = NULL;
      unsigned long int limit;
-     long dim=1;
-     PyGSL_array_index_t dimension=1;
+     long dim = 1;
+     PyGSL_array_index_t dimension = 1;
 
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
@@ -339,7 +339,7 @@ PyGSL_pdf_ui_to_double(PyObject *self, PyObject *args, double (*evaluator)(unsig
      PyObject *tmp;
      PyArrayObject *array_in = NULL, *array_out = NULL;
      double d;
-     PyGSL_array_index_t dimension=1;
+     PyGSL_array_index_t dimension = 1;
 
 
      FUNC_MESS_BEGIN();
@@ -377,7 +377,7 @@ PyGSL_rng_d_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(con
 {
      double d;
      long dim = 1;
-     PyGSL_array_index_t dimension=1;
+     PyGSL_array_index_t dimension = 1;
 
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
@@ -449,8 +449,8 @@ PyGSL_rng_dui_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(c
 {
      PyObject *tmp;
      double d;
-     long dim=1;
-     PyGSL_array_index_t dimension=1;
+     long dim = 1;
+     PyGSL_array_index_t dimension = 1;
      unsigned long int llimit;
      unsigned int limit;
 
@@ -534,7 +534,7 @@ PyGSL_rng_dd_to_ui(PyGSL_rng *rng, PyObject *args, unsigned int  (*evaluator)(co
 {
 
      double d1, d2;
-     PyGSL_array_index_t dimension=1;
+     PyGSL_array_index_t dimension = 1;
      long dim = 1;
 
      FUNC_MESS_BEGIN();
@@ -607,8 +607,8 @@ PyGSL_rng_uiuiui_to_ui(PyGSL_rng *rng, PyObject *args,
 		       unsigned int  (*evaluator)(const gsl_rng *, unsigned int, unsigned int, unsigned int))
 {
      PyObject *tmp1, *tmp2, *tmp3;
-     PyGSL_array_index_t dimension=1;
-     long dim=1;
+     PyGSL_array_index_t dimension = 1;
+     long dim = 1;
      unsigned int u1, u2, u3;
      unsigned long int lu1, lu2, lu3;
 
@@ -695,8 +695,8 @@ PyGSL_pdf_uiuiui_to_ui(PyObject *self, PyObject *args,
 PyObject *
 PyGSL_rng_ddd_to_dd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_rng *, double, double, double, double *, double *))
 {
-     PyGSL_array_index_t dimension=1, dims[2], i;
-     long dim=1;
+     PyGSL_array_index_t dimension = 1, dims[2], i;
+     long dim = 1;
      PyArrayObject *a_array;
      double *data, d1, d2, d3;
 
@@ -835,8 +835,8 @@ PyGSL_pdf_ddd_to_dd(PyObject *self, PyObject *args,
 PyObject*
 PyGSL_rng_to_generic_nd(PyGSL_rng *rng, PyObject *args, int type, void *evaluator)
 {
-     PyGSL_array_index_t dimension=1, dims[2], i, ds=1;
-     long dim=1;
+     PyGSL_array_index_t dimension = 1, dims[2], i, ds = 1;
+     long dim = 1;
      PyArrayObject *a_array;
      double *data;
      void (*evaluator_2)(const gsl_rng *, double *, double *) = NULL;
@@ -849,11 +849,11 @@ PyGSL_rng_to_generic_nd(PyGSL_rng *rng, PyObject *args, int type, void *evaluato
      assert(type == 2 || type == 3 || type == 0);
 
      if(type == 0){
-	  if(0 == PyArg_ParseTuple(args, "l|l", &ds, &dimension)){
+	  if(0 == PyArg_ParseTuple(args, "l|l", &ds, &dim)){
 	       return NULL;
 	  }
      }else{
-	  if(0 == PyArg_ParseTuple(args, "|l", &dimension)){
+	  if(0 == PyArg_ParseTuple(args, "|l", &dim)){
 	       return NULL;
 	  }
      }
@@ -930,8 +930,8 @@ PyGSL_rng_to_nd(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_rng 
 PyObject *
 PyGSL_rng_dA_to_dA(PyGSL_rng *rng, PyObject *args, void (*evaluator)(const gsl_rng *, const size_t, const double * , double *))
 {
-     PyGSL_array_index_t dimension=1, dims[2], i;
-     long dim=1;
+     PyGSL_array_index_t dimension = 1, dims[2], i;
+     long dim = 1;
      PyObject *tmp;
      PyArrayObject *a_array_in =NULL, *a_array_out = NULL;
      double *data_out;
@@ -1269,15 +1269,6 @@ PyGSL_pdf_uidA_to_uiA(PyObject *self, PyObject *args,
      return r;
 }
 
-PyObject*
-PyGSL_pdf_uidA_to_d(PyObject *self, PyObject *args,
-		      double (*evaluator) (const size_t, const double [], const unsigned int []))
-{
-     PyObject *r;
-     if((r= PyGSL_pdf_dA_to_uint_or_dA(self, args, (void *) evaluator, NPY_DOUBLE)) == NULL)
-	  PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, __LINE__);
-     return r;
-}
 
 
 /*
@@ -1287,8 +1278,8 @@ PyGSL_pdf_uidA_to_d(PyObject *self, PyObject *args,
 PyObject *
 PyGSL_rng_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evaluator)(const gsl_rng *))
 {
-     PyGSL_array_index_t dimension=1;
-     long dim=1;
+     PyGSL_array_index_t dimension = 1;
+     long dim = 1;
      FUNC_MESS_BEGIN();
      assert(rng && args && evaluator);
 
@@ -1296,6 +1287,7 @@ PyGSL_rng_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evaluator
 	  return NULL;
      }
      dimension = dim;
+
 #define RNG_ARGUMENTS
 #define DATA_TYPE     unsigned long int
 #define ARRAY_TYPE    NPY_LONG
@@ -1317,8 +1309,8 @@ PyGSL_rng_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evaluator
 PyObject *
 PyGSL_rng_ul_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evaluator)(const gsl_rng *, unsigned long int))
 {
-     PyGSL_array_index_t dimension;
-     long dim=1;
+     PyGSL_array_index_t dimension = 1;
+     long dim = 1;
      PyObject *tmp;
      unsigned long int limit;
 
@@ -1329,6 +1321,7 @@ PyGSL_rng_ul_to_ulong(PyGSL_rng *rng, PyObject *args, unsigned long int (*evalua
 	  return NULL;
      }
      dimension = dim;
+
      if(PyGSL_PYLONG_TO_ULONG(tmp, &limit, NULL) != GSL_SUCCESS) goto fail;
 
 #define RNG_ARGUMENTS ,limit
