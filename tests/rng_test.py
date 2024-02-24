@@ -10,6 +10,7 @@ import pygsl.rng as rngmodule
 import sys
 sys.stdout = sys.stderr
 from pygsl import Float, Int
+import numpy as np
 from array_check import array_check
 from gsl_test import isfloat, iscomplex, array_max
 
@@ -298,6 +299,12 @@ class _rng_distributions(unittest.TestCase):
     def test_multinomial(self):
         phi = (0.2,0.2,0.2,0.4)
         n = self.rng.multinomial(10, phi)
+        array_check(n, np.uint32, [1, len(phi)])
+
+        n_sample = 3
+        n = self.rng.multinomial(10, phi, n_sample)
+        array_check(n, np.uint32, [n_sample, len(phi)])
+
 
     def test_gaussian(self):
         sum=0

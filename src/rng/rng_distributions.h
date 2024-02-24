@@ -100,5 +100,4 @@ RNG_DISTRIBUTION(dirichlet,              dA_to_dA)
  * needs a separate dedicated evaluator
  *
  */
-RNG_DISTRIBUTION(multinomial,            uidA_to_d)
 #endif
