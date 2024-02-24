@@ -78,12 +78,15 @@ PyGSL_rng_multinomial_pdf_support(PyObject *self, PyObject *args,
 	  goto fail;
      }
 
-     array_p = PyGSL_vector_check(po, -1, PyGSL_DARRAY_INPUT(1), NULL, NULL);
+     array_p = PyGSL_vector_check(po, -1, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
      if(array_p == NULL){
 	  line = __LINE__ - 2;
 	  goto fail;
      }
      k = PyArray_DIM(array_p, 0);
+
+     DEBUG_MESS(4, "array_p dims %d, [%ld] k %ld", PyArray_NDIM(array_p),
+		(long) PyArray_DIM(array_p, 0), (long) k);
 
      array_n = PyGSL_matrix_check(no, -1, k,
 				  PyGSL_BUILD_ARRAY_INFO(PyGSL_CONTIGUOUS|PyGSL_INPUT_ARRAY, NPY_UINT, sizeof(uint), 2),
@@ -93,20 +96,26 @@ PyGSL_rng_multinomial_pdf_support(PyObject *self, PyObject *args,
 	  goto fail;
      }
      n_sample = PyArray_DIM(array_n, 0);
-
-     pdfa = PyGSL_New_Array(1, &n_sample, NPY_UINT);
+     DEBUG_MESS(2, "array_n [%ld, %ld] n_sample %ld",
+		(long )PyArray_DIM(array_n, 0), (long) PyArray_DIM(array_n, 1), n_sample);
+     pdfa = PyGSL_New_Array(1, &n_sample, NPY_DOUBLE);
      if(pdfa == NULL){
 	  line = __LINE__ - 2;
 	  goto fail;
      }
 
+     DEBUG_MESS(4, "before evaluation: phi[%ld] @ %p pdf[%ld] of %d dims @ %p",
+		(long) PyArray_DIM(array_p, 0), (void *) array_p,
+		(long) PyArray_DIM(pdfa, 0), PyArray_NDIM(pdfa), (void *) pdfa);
+
      phi = (double *) PyArray_DATA(array_p);
      pdf = (double *) PyArray_DATA(pdfa);
+
 
      for(i = 0; i < n_sample; ++i){
 	 unsigned int *n = (unsigned int *) PyArray_GETPTR1(array_n, i);
 	 size_t K = n_sample;
-	 // pdf[i] = evaluator(K, phi, n);
+	 pdf[i] = evaluator(K, phi, n);
      }
 
      Py_DECREF(array_n);
