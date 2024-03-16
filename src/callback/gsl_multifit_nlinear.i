@@ -16,6 +16,17 @@
   init_pygsl();
 }
 
+%pythoncode {
+def strinfo(info: int) -> str:
+    """explanation of the integer info
+
+    info is either returned by the driver of by the
+    test method
+    """
+    d = {1: "small step size", 2: "small gradient"}
+    return d[info]
+
+}
 
 %{
 
@@ -408,6 +419,14 @@ typedef struct {
 	return self->fdf.nevalfvv;
     }
 
+    size_t get_n() {
+	return self->fdf.n;
+    }
+
+    size_t get_p() {
+	return self->fdf.p;
+    }
+
 
     PyObject* eval_f(const gsl_vector *IN, const gsl_vector *swts){
 	int status = GSL_EFAILED;
@@ -590,6 +609,9 @@ typedef struct {
 	return gsl_multifit_nlinear_test(xtol, gtol, ftol, OUTPUT, self->w);
     }
 
+    gsl_error_flag iterate () {
+	return gsl_multifit_nlinear_iterate(self->w);
+    }
 
     gsl_error_flag_drop init(const gsl_vector *x, PyObject* fdf_py) {
 	int status;
