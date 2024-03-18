@@ -1,13 +1,14 @@
 """first geodesic example as found in the documentation
 """
 from pygsl import multifit_nlinear
+from pygsl.blas import ddot
 from typing import Sequence
 import numpy as np
 
 
 def f(x, args):
     x1, x2 = x
-    f1 = 100 * (x2 - x1 **2)
+    f1 = 100 * (x2 - x1 ** 2)
     f2 = 1.0 - x1
     return f1, f2
 
@@ -24,7 +25,7 @@ def df(x, args):
 
 def fvv(x, v, args):
     v1, _ = v
-    fvv1 = -200 * v1**2
+    fvv1 = -200 * v1 ** 2
     fvv2 = 0.0
     return fvv1, fvv2
 
@@ -34,27 +35,37 @@ def callback(iter_, data, w):
     print(f"iter = {iter_:2d} x1 = {x1:f} x2 = {x2:f}")
 
 
-def solve_system(x0: Sequence[float], fdf: multifit_nlinear.fdf, parameters: multifit_nlinear.parameters):
+def solve_system(
+    x0: Sequence[float],
+    fdf: multifit_nlinear.fdf,
+    parameters: multifit_nlinear.parameters,
+):
 
     max_iter = 200
     gtol = ftol = xtol = 1e-8
-    solver = multifit_nlinear.workspace(multifit_nlinear.trust, parameters, fdf.get_n(), fdf.get_p())
-    f = solver.residual()
-    x = solver.position()
+    solver = multifit_nlinear.workspace(
+        multifit_nlinear.trust, parameters, fdf.get_n(), fdf.get_p()
+    )
 
-    chisq0 = np.dot(f, f)
     solver.init(x0, fdf)
-    info = multifit_nlinear.driver(maxiter=max_iter, xtol=xtol, ftol=ftol, gtol=gtol,
-                            callback=callback, args=None, workspace_o=solver
-                            )
+    f = solver.residual()
+    chisq0 = np.dot(f, f)
+    info = multifit_nlinear.driver(
+        maxiter=max_iter,
+        xtol=xtol,
+        ftol=ftol,
+        gtol=gtol,
+        callback=callback,
+        args=None,
+        workspace=solver,
+    )
     f = solver.residual()
     x1, x2 = solver.position()
-    chisq = np.dot(f, f)
+    chisq = ddot(f, f)
     rcond = solver.rcond()
     cond = 1.0 / rcond
 
-    txt = \
-f"""
+    txt = f"""
 n iter : {solver.niter()}
 number of iterations  {solver.niter():d}
 function evaluations  {fdf.nevalf()}

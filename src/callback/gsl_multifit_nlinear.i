@@ -55,7 +55,8 @@ typedef struct {
 
 
 
-int pygsl_multifit_nlinear_workspace_set_fdf_py(pygsl_multifit_nlinear_workspace *self, PyObject *fdf_py){
+static int
+pygsl_multifit_nlinear_workspace_set_fdf_py(pygsl_multifit_nlinear_workspace *self, PyObject *fdf_py){
     FUNC_MESS_BEGIN();
     self->fdf = NULL;
     Py_XDECREF(self->fdf_py);
@@ -64,14 +65,17 @@ int pygsl_multifit_nlinear_workspace_set_fdf_py(pygsl_multifit_nlinear_workspace
     if((SWIG_ConvertPtr(fdf_py, (void **) &self->fdf, SWIGTYPE_p_pygsl_multifit_nlinear_fdf, 1)) == -1){
 	FUNC_MESS_FAILED();
 	GSL_ERROR("object passed for fdf is not pygsl_multifit_nlinear_fdf", GSL_EINVAL);
+	return GSL_EINVAL;
     }
     Py_XINCREF(fdf_py);
     self->fdf_py = fdf_py;
+    assert(self->fdf);
     FUNC_MESS_END();
+    return GSL_SUCCESS;
 }
 
 
-int
+static int
 pygsl_multifit_nlinear_f(const gsl_vector *x, void *params, gsl_vector *f)
 {
     pygsl_multifit_nlinear_fdf *p = NULL;
@@ -91,7 +95,7 @@ pygsl_multifit_nlinear_f(const gsl_vector *x, void *params, gsl_vector *f)
 }
 
 
-int
+static int
 pygsl_multifit_nlinear_df(const gsl_vector *x, void *params, gsl_matrix *df)
 {
     pygsl_multifit_nlinear_fdf *p = NULL;
@@ -111,7 +115,7 @@ pygsl_multifit_nlinear_df(const gsl_vector *x, void *params, gsl_matrix *df)
 }
 
 
-int
+static int
 pygsl_multifit_nlinear_fvv(const gsl_vector * x, const gsl_vector * v, void * params, gsl_vector * fvv)
 {
     pygsl_multifit_nlinear_fdf *p = NULL;
@@ -130,13 +134,43 @@ pygsl_multifit_nlinear_fvv(const gsl_vector * x, const gsl_vector * v, void * pa
     return status;
 }
 
+static void
+PyGSL_multifit_nlinear_driver_callback(const size_t iter, void *params, const gsl_multifit_nlinear_workspace *w)
+{
+    int trb_lineno = __LINE__, status = GSL_EFAILED;
+    pygsl_multifitorlarge_nlinear_driver_callback * p = NULL;
 
-gsl_error_flag_drop driver(const size_t maxiter, const double xtol, const double gtol, const double ftol,
-			     PyObject *callback, PyObject *args, int *OUTPUT, PyObject *workspace_o)
+    FUNC_MESS_BEGIN();
+    if(!params){
+	trb_lineno = __LINE__ - 1;
+	status = GSL_ESANITY;
+	pygsl_error("multifit_nlinear_callback params NULL?", __FILE__, trb_lineno, status);
+	goto fail;
+     }
+    p = (pygsl_multifitorlarge_nlinear_driver_callback *) params;
+
+    PyGSL_multifitorlarge_nlinear_driver_callback(iter, p);
+    FUNC_MESS_END();
+    return;
+
+fail:
+    FUNC_MESS_FAILED();
+    DEBUG_MESS(2, "failed with status %d", status);
+    if(p){
+	longjmp(&p->jbuf, status);
+    } else{
+	fprintf(stderr, "ERROR ERROR ERROR\n gsl_status = %d can not flag error!\n ERROR ERROR ERROR", status);
+    }
+}
+
+
+static int
+driver(const size_t maxiter, const double xtol, const double gtol, const double ftol,
+       PyObject *callback, PyObject *args, int *OUTPUT, PyObject *workspace_o)
 {
     int status = GSL_EFAILED;
     void (*cb)(const size_t iter, void *params,  const gsl_multifit_nlinear_workspace *w) = NULL;
-    pygsl_multifit_nlinear_driver_callback cb_args;
+    pygsl_multifitorlarge_nlinear_driver_callback cb_args;
     pygsl_multifit_nlinear_workspace *workspace;
     void * cb_args_v = NULL;
 
@@ -167,13 +201,15 @@ gsl_error_flag_drop driver(const size_t maxiter, const double xtol, const double
     }
 
     DEBUG_MESS(2, "Calling driver with maxiter %ld cb %p cb_args_v %p", (long) maxiter, (void *) cb, cb_args_v);
-
-    if(cb_args_v){
 	if((status = setjmp(cb_args.jbuf)) != 0){
 	    DEBUG_MESS(2, "Jump buffer returned failure, status = %d!", status);
 	    goto fail;
 	}
+	DEBUG_MESS(2, "Jump buffer set, status = %d (should be 0)", status);
+
+    if(cb_args_v){
     }
+    assert(workspace->w->fdf);
     status = gsl_multifit_nlinear_driver(maxiter, xtol, gtol, ftol, cb, cb_args_v, OUTPUT, workspace->w);
     if(PyGSL_ERROR_FLAG(status) != GSL_SUCCESS){
 	goto fail;
@@ -183,8 +219,10 @@ gsl_error_flag_drop driver(const size_t maxiter, const double xtol, const double
 
 fail:
     FUNC_MESS_FAILED();
+    DEBUG_MESS(2, "Failed with status %d", status);
     return status;
 }
+
 
 PyObject* covar(const gsl_matrix *J, const double epsrel)
 {
@@ -358,9 +396,13 @@ typedef struct {
 	}
 	Py_XINCREF(f);
 	ptr->f = f;
-	if(!PyCallable_Check(df)){
+	if(df == Py_None){
+	    // nothing to do
+	    ptr->df = NULL;
+	    ptr->fdf.df = NULL;
+	} else if(!PyCallable_Check(df)){
 	    status = GSL_EINVAL;
-	    pygsl_error("Object for callback 'df' not callable!",  __FILE__, __LINE__, status);
+	    pygsl_error("Object for callback 'df' neither None nor  callable!",  __FILE__, __LINE__, status);
 	    goto fail;
 	}
 	Py_XINCREF(df);
@@ -369,6 +411,7 @@ typedef struct {
 	if(fvv == Py_None){
 	    // nothing to do
 	    ptr->fvv = NULL;
+	    ptr->fdf.fvv = NULL;
 	}else if(PyCallable_Check(fvv)){
 	    Py_XINCREF(fvv);
 	    ptr->fvv = fvv;
@@ -614,34 +657,44 @@ typedef struct {
     }
 
     gsl_error_flag_drop init(const gsl_vector *x, PyObject* fdf_py) {
-	int status;
+	int status = GSL_EFAILED;
 	FUNC_MESS_BEGIN();
 	status = pygsl_multifit_nlinear_workspace_set_fdf_py(self, fdf_py);
-	if(status == GSL_SUCCESS){
+	if(status != GSL_SUCCESS){
 	    FUNC_MESS_FAILED();
 	    return status;
 	}
+	assert(self->fdf);
+	assert(self->w);
+	self->w->fdf = &self->fdf->fdf;
+	assert(self->w->fdf);
 	assert(self->fdf->fdf.f);
-	assert(self->fdf->fdf.df);
+	// assert(self->fdf->fdf.df);
+	DEBUG_MESS(2, "fdf @ %p", &self->fdf->fdf);
 	status = gsl_multifit_nlinear_init(x, &self->fdf->fdf, self->w);
 	FUNC_MESS_END();
 	return status;
     }
 
     gsl_error_flag_drop winit(const gsl_vector *x, const gsl_vector *weights, PyObject* fdf_py) {
-	int status;
+	int status = GSL_EFAILED;
 	FUNC_MESS_BEGIN();
 	status = pygsl_multifit_nlinear_workspace_set_fdf_py(self, fdf_py);
-	if(status == GSL_SUCCESS){
+	if(status != GSL_SUCCESS){
 	    FUNC_MESS_FAILED();
 	    return status;
 	}
+	assert(self->fdf);
+	assert(self->w);
+	self->w->fdf = &self->fdf->fdf;
+	assert(self->w->fdf);
 	assert(self->fdf->fdf.f);
-	assert(self->fdf->fdf.df);
+	// assert(self->fdf->fdf.df);
 	DEBUG_MESS(2, "self @ %p, self->fdf @ %p self->fdf->fdf.params @ %p, self->fdf->arguments @ %p",
 		   (void * ) self, (void *) self->fdf, (void *) self->fdf->fdf.params,
 		   (void *) self->fdf->arguments
 	    );
+	DEBUG_MESS(2, "fdf @ %p", &self->fdf->fdf);
 	status = gsl_multifit_nlinear_winit(x, weights, &self->fdf->fdf, self->w);
 	FUNC_MESS_END();
 	return status;
@@ -728,7 +781,7 @@ typedef struct {
 
 
 gsl_error_flag_drop driver(const size_t maxiter, const double xtol, const double gtol, const double ftol,
-			   PyObject *callback, PyObject *args, int *OUTPUT, PyObject *workspace_o);
+			   PyObject *callback, PyObject *args, int *OUTPUT, PyObject *workspace);
 
 PyObject* covar(const gsl_matrix *j, const double epsrel);
 

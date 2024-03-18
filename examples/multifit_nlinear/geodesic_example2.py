@@ -2,23 +2,24 @@ from dataclasses import dataclass
 from typing import Sequence, Union
 import numpy as np
 from pygsl.blas import dnrm2
+
 # from numpy.typing import ArrayLike
 from pygsl import multifit_nlinear, rng, set_debug_level
 
 
 @dataclass
 class Data:
-    t : Sequence[float]
-    y : Sequence[float]
+    t: Sequence[float]
+    y: Sequence[float]
 
 
-def gaussian(a: float, b: float, c: float, t: Union[float|Sequence[float]]) -> float:
+def gaussian(a: float, b: float, c: float, t: Union[float | Sequence[float]]) -> float:
     r"""gaussian bell function
 
     model function :math:` a \cdot exp( \frac {-1/2} \cdot [ (t - b) / c ]^2 )`
     """
-    z = t - b / c
-    return a * np.exp(-0.5 * z**2)
+    z = (t - b) / c
+    return a * np.exp(-0.5 * z ** 2)
 
 
 def f(x: Sequence[float], args: Data) -> Sequence[float]:
@@ -35,11 +36,13 @@ def df(x: Sequence[float], args: Data):
     z = (t - b) / c
     e = np.exp(-0.5 * z ** 2)
 
-    return np.vstack([
-        -e,
-        - (a / c) * e * z,
-        - (a / c) * e * z**2,
-    ]).T
+    return np.vstack(
+        [
+            -e,
+            -(a / c) * e * z,
+            -(a / c) * e * z ** 2,
+        ]
+    ).T
 
 
 def fvv(x: Sequence[float], v: Sequence[float], args: Data):
@@ -85,28 +88,37 @@ def callback(iter_: int, args: Data, w: multifit_nlinear.workspace):
     )
 
 
-def solve_system(x0: Sequence[float], fdf: multifit_nlinear.fdf, parameters: multifit_nlinear.parameters,
-                 args: Data):
+def solve_system(
+    x0: Sequence[float],
+    fdf: multifit_nlinear.fdf,
+    parameters: multifit_nlinear.parameters,
+    args: Data,
+):
 
     max_iter = 200
     gtol = ftol = xtol = 1e-8
-    solver = multifit_nlinear.workspace(multifit_nlinear.trust, parameters, fdf.get_n(), fdf.get_p())
-    f = solver.residual()
-
-    chisq0 = np.dot(f, f)
-    set_debug_level(1)
+    solver = multifit_nlinear.workspace(
+        multifit_nlinear.trust, parameters, fdf.get_n(), fdf.get_p()
+    )
     solver.init(x0, fdf)
-    info = multifit_nlinear.driver(maxiter=max_iter, xtol=xtol, ftol=ftol, gtol=gtol,
-                            callback=callback, args=args, workspace_o=solver
-                            )
+    f = solver.residual()
+    chisq0 = np.dot(f, f)
+    info = multifit_nlinear.driver(
+        maxiter=max_iter,
+        xtol=xtol,
+        ftol=ftol,
+        gtol=gtol,
+        callback=callback,
+        args=args,
+        workspace=solver,
+    )
     f = solver.residual()
     a, b, c = solver.position()
     chisq = np.dot(f, f)
     rcond = solver.rcond()
     cond = 1.0 / rcond
 
-    txt = \
-f"""
+    txt = f"""
 n iter : {solver.niter()}
 number of iterations  {solver.niter():d}
 function evaluations  {fdf.nevalf()}
@@ -122,6 +134,7 @@ final   x             ({a:.12e}, {b:.12e}, {c:.12e})
 final   cond(J)       {cond:.12e}
 """
     print(txt, "\n\n")
+    return solver.position()
 
 
 n = 300
@@ -129,12 +142,13 @@ p = 3
 
 a = 5
 b = 0.4
-c = 15
+c = 0.15
 
 t = np.linspace(0, 1, num=n)
 r = rng.rng()
 y0 = gaussian(a, b, c, t)
-y = y0 + np.array([r.gaussian(0.1 * yi) for yi in y0])
+dy = np.array([r.gaussian(0.1 * yi) for yi in y0])
+y = y0 + dy
 data = Data(t=t, y=y)
 x0 = [1, 0, 1]
 fdf = multifit_nlinear.fdf(f=f, df=df, fvv=fvv, args=data, n=n, p=p)
@@ -144,4 +158,12 @@ parameters.set_trs(multifit_nlinear.trs_lm)
 solve_system(x0, fdf, parameters, data)
 
 parameters.set_trs(multifit_nlinear.trs_lmaccel)
-solve_system(x0, fdf, parameters, data)
+x = solve_system(x0, fdf, parameters, data)
+
+
+if True:
+    import matplotlib.pyplot as plt
+
+    plt.plot(data.t, data.y, "b.")
+    plt.plot(data.t, gaussian(*(list(x) + [data.t])), "r-")
+    plt.show()

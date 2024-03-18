@@ -1,11 +1,12 @@
 """first example as found in the documentation
 """
-from pygsl import multifit_nlinear, rng
+from pygsl import multifit_nlinear, rng, set_debug_level
 from pygsl.blas import dnrm2
 import numpy as np
 from dataclasses import dataclass
 from typing import Sequence
-import matplotlib.pyplot as plt
+import sys
+
 
 @dataclass
 class Data:
@@ -59,12 +60,21 @@ parameters = multifit_nlinear.parameters()
 fdf = multifit_nlinear.fdf(f=expb_f, df=expb_df, fvv=None, args=data, n=n, p=p)
 #: todo find out how should it be named:
 workspace = multifit_nlinear.workspace(multifit_nlinear.trust, parameters, n, p)
+# set_debug_level(3)
 workspace.winit(x_init, weights, fdf)
-
 f = workspace.residual()
 chisq0 = np.dot(f, f)
 
-info = multifit_nlinear.driver(100, xtol, gtol, ftol, callback, None, workspace)
+set_debug_level(4)
+info = multifit_nlinear.driver(
+    maxiter=100,
+    xtol=xtol,
+    gtol=gtol,
+    ftol=ftol,
+    callback=callback,
+    args=data,
+    workspace=workspace,
+)
 
 J = workspace.jac()
 covar = multifit_nlinear.covar(J, 0.0)
@@ -92,6 +102,9 @@ b                     {b_final:.5f} +/- {c * covar[1, 1]:.5f}
 """
 print(txt)
 
-plt.errorbar(data.t, data.y, yerr=s, color="b", linestyle="")
-plt.plot(data.t,A_final * np.exp(-lambda_final * data.t) + b_final, 'r-')
-plt.show()
+if True:
+    import matplotlib.pyplot as plt
+
+    plt.errorbar(data.t, data.y, yerr=s, color="b", linestyle="")
+    plt.plot(data.t, A_final * np.exp(-lambda_final * data.t) + b_final, "r-")
+    plt.show()

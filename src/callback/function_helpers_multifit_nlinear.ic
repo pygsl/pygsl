@@ -1,6 +1,6 @@
 /* -*- C -*- */
 /* 1. A_n O -> A_p  */
-int
+static int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback,
 			PyObject * arguments, int n, int p, const char *c_func_name)
 {
@@ -64,7 +64,7 @@ PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callbac
 
 
 /* 2. A_n O -> A_n_p */
-int
+static int
 PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
 			   PyObject *arguments, int n, int p, const char * c_func_name)
 {
@@ -129,7 +129,7 @@ PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callba
 
 
 /* 6. A_p A_p -> A_n  */
-int
+static int
 PyGSL_function_wrap_OpOp_On(const gsl_vector * x, const gsl_vector *v, gsl_vector *fvv, PyObject *callback,
 			      PyObject *arguments, int n, int p, const char * c_func_name)
 {
@@ -209,25 +209,19 @@ typedef struct {
     PyObject * callback_arguments;
     PyObject * workspace;
     jmp_buf jbuf;
-} pygsl_multifit_nlinear_driver_callback;
+} pygsl_multifitorlarge_nlinear_driver_callback;
 
-void
-PyGSL_multifit_nlinear_driver_callback(const size_t iter, void *params, const gsl_multifit_nlinear_workspace *w)
+
+static void
+PyGSL_multifitorlarge_nlinear_driver_callback(const size_t iter, pygsl_multifitorlarge_nlinear_driver_callback *p)
 {
 
      PyGSL_error_info  info;
      PyObject * arglist = NULL, *object = NULL, *niter_o = NULL;
-     pygsl_multifit_nlinear_driver_callback * p = NULL;
      int status = GSL_EFAILED, trb_lineno = __LINE__;
 
      FUNC_MESS_BEGIN();
-     if(!params){
-	 trb_lineno = __LINE__ - 1;
-	 status = GSL_ESANITY;
-	 pygsl_error("multifit_nlinear_callback params NULL?", __FILE__, trb_lineno, status);
-	 goto fail;
-     }
-     p = (pygsl_multifit_nlinear_driver_callback *) params;
+     assert(p);
 
      arglist = PyTuple_New(3);
      if(arglist == NULL){
@@ -251,6 +245,7 @@ PyGSL_multifit_nlinear_driver_callback(const size_t iter, void *params, const gs
 
      FUNC_MESS("    Call Python Object BEGIN");
      object  = PyObject_CallObject(p->callback, arglist);
+     arglist = NULL;
      FUNC_MESS("    Call Python Object END");
 
      info.callback = p->callback;
@@ -261,7 +256,6 @@ PyGSL_multifit_nlinear_driver_callback(const size_t iter, void *params, const gs
 	  trb_lineno = __LINE__ - 1;
 	  goto fail;
      }
-     Py_DECREF(arglist);
      FUNC_MESS_END();
      return;
 
@@ -270,7 +264,31 @@ PyGSL_multifit_nlinear_driver_callback(const size_t iter, void *params, const gs
      PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, trb_lineno);
      Py_XDECREF(arglist);
      if(p){
+	 DEBUG_MESS(2, "calling jmp buf with status %d", status);
 	 longjmp(p->jbuf, status);
      }
      return;
+}
+
+
+/* not optimised for efficiency */
+static int
+pygsl_matrix_copy_lower_triangle(const gsl_matrix * in, gsl_matrix *out)
+{
+    size_t i = 0, j = 0;
+
+    if(in->size1 != out->size1){
+	GSL_ERROR("copy triangle: size 1 of in and out matrix differ", GSL_EBADLEN);
+    }
+    if(in->size2 != out->size2){
+	GSL_ERROR("copy triangle: size 1 of in and out matrix differ", GSL_EBADLEN);
+    }
+    for(i = 0; i<in->size1; ++i){
+	for(j = 0; j<=i; ++j){
+	    double v = gsl_matrix_get(in, i, j);
+	    DEBUG_MESS(4, "Copying triangle matrix[%lu, %lu]",
+		       (unsigned long) i, (unsigned long) j);
+	    gsl_matrix_set(out, i, j, v);
+	}
+    }
 }
