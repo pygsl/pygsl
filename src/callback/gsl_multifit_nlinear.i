@@ -14,6 +14,8 @@
 
 %init{
   init_pygsl();
+  /* to use at traceback */
+  module = m;
 }
 
 %pythoncode {
@@ -32,6 +34,8 @@ def strinfo(info: int) -> str:
 
 #include <gsl/gsl_multifit_nlinear.h>
 #include <pygsl/block_helpers.h>
+
+static PyObject * module = NULL;
 #include "function_helpers_multifit_nlinear.ic"
 
 
@@ -157,7 +161,7 @@ fail:
     FUNC_MESS_FAILED();
     DEBUG_MESS(2, "failed with status %d", status);
     if(p){
-	longjmp(&p->jbuf, status);
+	longjmp(p->jbuf, status);
     } else{
 	fprintf(stderr, "ERROR ERROR ERROR\n gsl_status = %d can not flag error!\n ERROR ERROR ERROR", status);
     }
@@ -373,6 +377,12 @@ typedef struct {
 
 	FUNC_MESS_BEGIN();
 	ptr = (pygsl_multifit_nlinear_fdf *) calloc(1, sizeof(pygsl_multifit_nlinear_fdf));
+
+	if(!ptr){
+	    status = GSL_ENOMEM;
+	    pygsl_error("Could not allocate pygsl multfit_fdf struct!",  __FILE__, __LINE__, status);
+	    goto fail;
+	}
 	ptr->f = NULL;
 	ptr->df = NULL;
 	ptr->fvv = NULL;
@@ -382,12 +392,6 @@ typedef struct {
 	ptr->fdf.f = pygsl_multifit_nlinear_f;
 	ptr->fdf.df = pygsl_multifit_nlinear_df;
 	ptr->fdf.fvv = pygsl_multifit_nlinear_fvv;
-
-	if(!ptr){
-	    status = GSL_ENOMEM;
-	    pygsl_error("Could not allocate pygsl multfit_fdf struct!",  __FILE__, __LINE__, status);
-	    goto fail;
-	}
 
 	if(!PyCallable_Check(f)){
 	    status = GSL_EINVAL;
@@ -400,13 +404,14 @@ typedef struct {
 	    // nothing to do
 	    ptr->df = NULL;
 	    ptr->fdf.df = NULL;
-	} else if(!PyCallable_Check(df)){
+	} else if(PyCallable_Check(df)){
+	    Py_XINCREF(df);
+	    ptr->df = df;
+	} else {
 	    status = GSL_EINVAL;
 	    pygsl_error("Object for callback 'df' neither None nor  callable!",  __FILE__, __LINE__, status);
 	    goto fail;
 	}
-	Py_XINCREF(df);
-	ptr->df = df;
 
 	if(fvv == Py_None){
 	    // nothing to do
@@ -470,122 +475,8 @@ typedef struct {
 	return self->fdf.p;
     }
 
-
-    PyObject* eval_f(const gsl_vector *IN, const gsl_vector *swts){
-	int status = GSL_EFAILED;
-	PyArrayObject *ya = NULL;
-	npy_intp n = self->fdf.n;
-	gsl_vector_view y;
-
-	FUNC_MESS_BEGIN();
-	ya = PyGSL_New_Array(1,  &n, NPY_FLOAT);
-	if(!ya){
-	    PyGSL_ERROR_NULL("Could not allocate return array y", GSL_ENOMEM);
-	}
-	y = gsl_vector_view_array(PyArray_DATA(ya), PyArray_DIM(ya, 0));
-	status = gsl_multifit_nlinear_eval_f(&self->fdf, IN, swts, &y.vector);
-	if(PyGSL_ERROR_FLAG(status) != GSL_SUCCESS){
-	    FUNC_MESS_FAILED();
-	    Py_XDECREF(ya);
-	    return NULL;
-	}
-	FUNC_MESS_END();
-	return (PyObject *) ya;
-    }
-
-    PyObject* eval_df(const gsl_vector *x,
-		      const gsl_vector *f,
-		      const gsl_vector *swts,
-		      const double h,
-		      const gsl_multifit_nlinear_fdtype fdtype
-	){
-	int status = GSL_EFAILED;
-	PyArrayObject *dfa = NULL, *worka = NULL;
-	npy_intp dims[] = {self->fdf.n, self->fdf.p};
-	gsl_matrix_view df;
-	gsl_vector_view work;
-
-	FUNC_MESS_BEGIN();
-
-	dfa = PyGSL_New_Array(2,  dims, NPY_FLOAT);
-	if(!dfa){
-	    gsl_error("Could not allocate return matrix df",
-		      __FILE__, __LINE__,
-		      GSL_ENOMEM);
-	}
-	df = gsl_matrix_view_array(PyArray_DATA(dfa), PyArray_DIM(dfa, 0), PyArray_DIM(dfa, 1));
-
-	worka = PyGSL_New_Array(1, dims, NPY_FLOAT);
-	if(!worka){
-	    gsl_error("Could not allocate work vector",
-		      __FILE__, __LINE__,
-		      GSL_ENOMEM);
-	}
-	work = gsl_vector_view_array(PyArray_DATA(worka), PyArray_DIM(worka, 0));
-	status = gsl_multifit_nlinear_eval_df(x, f, swts, h, fdtype, &self->fdf, &df.matrix,  &work.vector);
-	if(PyGSL_ERROR_FLAG(status) != GSL_SUCCESS){
-	    goto fail;
-	}
-	Py_DECREF(worka);
-	FUNC_MESS_END();
-	return (PyObject *) dfa;
-
-    fail:
-	FUNC_MESS_FAILED();
-	Py_XDECREF(dfa);
-	Py_XDECREF(worka);
-	return NULL;
-    }
-
-    PyObject* eval_fvv(
-	const double h,
-	const gsl_vector *x,
-	const gsl_vector *v,
-	const gsl_vector *f,
-	const gsl_matrix *J,
-	const gsl_vector *swts
-	){
-
-	int status = GSL_EFAILED;
-	PyArrayObject *yvva = NULL, *worka = NULL;
-	npy_intp dims[] = {self->fdf.n, self->fdf.p};
-	gsl_vector_view yvv, work;
-
-	FUNC_MESS_BEGIN();
-
-	yvva = PyGSL_New_Array(1, dims, NPY_FLOAT);
-	if(!yvva){
-	    gsl_error("Could not allocate yvv vector",
-		      __FILE__, __LINE__,
-		      GSL_ENOMEM);
-	}
-	yvv = gsl_vector_view_array(PyArray_DATA(yvva), PyArray_DIM(yvva, 0));
-
-	worka = PyGSL_New_Array(1, dims, NPY_FLOAT);
-	if(!worka){
-	    gsl_error("Could not allocate work vector",
-		      __FILE__, __LINE__,
-		      GSL_ENOMEM);
-	}
-	work = gsl_vector_view_array(PyArray_DATA(worka), PyArray_DIM(worka, 0));
-
-	status = gsl_multifit_nlinear_eval_fvv(h, x, v, f, J, swts, &self->fdf, &yvv.vector, &work.vector);
-	if(PyGSL_ERROR_FLAG(status) != GSL_SUCCESS){
-	    goto fail;
-	}
-	FUNC_MESS_END();
-	return (PyObject *) yvva;
-
-    fail:
-	FUNC_MESS_FAILED();
-	Py_XDECREF(yvva);
-	Py_XDECREF(worka);
-	return NULL;
-    }
 }
 
-%{
-%}
 
 %apply const gsl_vector *IN {const gsl_vector * weights};
 
@@ -600,21 +491,28 @@ typedef struct {
 	FUNC_MESS_BEGIN();
 	pw = (pygsl_multifit_nlinear_workspace *) calloc(1, sizeof(pygsl_multifit_nlinear_workspace));
 	if(!pw){
-	    PyGSL_ERROR_NULL("could not allocate pygsl multifit nlinear workspace", GSL_ENOMEM);
+	    pygsl_error("could not allocate pygsl multifit nlinear workspace", __FILE__, __LINE__, GSL_ENOMEM);
 	    // Todo: set GSL_EMEM;
-	    return NULL;
+	    goto fail;
 	}
 	pw->w = NULL;
 	pw->fdf = NULL;
 	pw->fdf_py = NULL;
 	pw->w = gsl_multifit_nlinear_alloc(T, params, n, p);
 	if(!pw->w){
-	    PyGSL_ERROR_NULL("could not allocate multifit nlinear workspace", GSL_ENOMEM);
+	    pygsl_error("could not allocate multifit nlinear workspace", __FILE__, __LINE__, GSL_ENOMEM);
 	    // Todo: set GSL_EMEM / free memory;
-	    return NULL;
+	    goto fail;
 	}
 	FUNC_MESS_END();
 	return pw;
+
+    fail:
+	FUNC_MESS_FAILED();
+	if(pw){
+	    free(pw);
+	}
+	return NULL;
     }
 
     ~pygsl_multifit_nlinear_workspace(){

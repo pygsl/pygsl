@@ -273,22 +273,46 @@ PyGSL_multifitorlarge_nlinear_driver_callback(const size_t iter, pygsl_multifito
 
 /* not optimised for efficiency */
 static int
-pygsl_matrix_copy_lower_triangle(const gsl_matrix * in, gsl_matrix *out)
+_pygsl_matrix_copy_lower_triangle(const gsl_matrix * in, gsl_matrix *out)
 {
     size_t i = 0, j = 0;
+    int status = GSL_EBADLEN, line_no = __LINE__;
+
+    int gsl_matrix_tricpy(CBLAS_UPLO_t Uplo, CBLAS_DIAG_t Diag, gsl_matrix * dest, const gsl_matrix * src);
+    status = gsl_matrix_tricpy(CblasLower, CblasNonUnit, out, in);
+    if(status == GSL_SUCCESS){
+	FUNC_MESS_END();
+    } else {
+	line_no = __LINE__- 4;
+	goto fail;
+    }
 
     if(in->size1 != out->size1){
-	GSL_ERROR("copy triangle: size 1 of in and out matrix differ", GSL_EBADLEN);
+	line_no = -1;
+	DEBUG_MESS(2, "First dimension in %lu, out %lu",
+		   (unsigned long) in->size1, (unsigned long) out->size1 );
+	pygsl_error("copy triangle: size 1 of in and out matrix differ", __FILE__, line_no, status);
+	goto fail;
     }
     if(in->size2 != out->size2){
-	GSL_ERROR("copy triangle: size 1 of in and out matrix differ", GSL_EBADLEN);
+	line_no = -1;
+	DEBUG_MESS(2, "Second dimension in %lu, out %lu",
+		   (unsigned long) in->size2, (unsigned long) out->size2 );
+	pygsl_error("copy triangle: size 2 of in and out matrix differ",  __FILE__, line_no, status);
+	goto fail;
     }
+
     for(i = 0; i<in->size1; ++i){
-	for(j = 0; j<=i; ++j){
+	for(j = 0; (j<=i) && (j<in->size2); ++j){
 	    double v = gsl_matrix_get(in, i, j);
-	    DEBUG_MESS(4, "Copying triangle matrix[%lu, %lu]",
-		       (unsigned long) i, (unsigned long) j);
+	    DEBUG_MESS(4, "Setting triangle matrix[%lu, %lu] = %e",
+		       (unsigned long) i, (unsigned long) j, v);
 	    gsl_matrix_set(out, i, j, v);
 	}
     }
+    return GSL_SUCCESS;
+
+fail:
+    PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line_no);
+    return status;
 }
