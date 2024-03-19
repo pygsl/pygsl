@@ -4,7 +4,7 @@ Its main emphasis is to describe the callback interface.
 
 Here annotation is used for describing it
 """
-from pygsl import multilarge_nlinear, blas, errors, set_debug_level
+from pygsl import multilarge_nlinear, blas, set_debug_level
 import numpy as np
 from dataclasses import dataclass
 from typing import Sequence, Tuple, Union
@@ -38,7 +38,7 @@ def function(X, data: Data):
     dx = np.asarray(data.x) - x0
     dy = np.asarray(data.y) - y0
 
-    return x_scale * dx**2 + y_scale * dy**3
+    return x_scale * dx ** 2 + y_scale * dy ** 3
 
 
 def f_func(X, args: object):
@@ -63,20 +63,23 @@ def f_jac(X, args: object):
     y = np.asarray(args.y)
     dx = x - x0
     dy = y - y0
+
+    # fmt: off
     return np.vstack([
         - 2 * xs * dx,
         - 3 * ys * dy**2,
         dx**2,
         dy**3
     ]).T
+    # fmt: on
 
 
 def df_func(
-        trans_j: Union[blas.CblasNoTrans, blas.CblasTrans],
-        X: Sequence[float],
-        u: Sequence[float],
-        args: object,
-        compute_jtj: bool
+    trans_j: Union[blas.CblasNoTrans, blas.CblasTrans],
+    X: Sequence[float],
+    u: Sequence[float],
+    args: object,
+    compute_jtj: bool,
 ) -> Tuple[Sequence[float], Union[Sequence[Sequence[float]]], None]:
     """computes v and JTJ if requested
 
@@ -129,12 +132,14 @@ def func_fvv(X: Sequence[float], v: Sequence[float], args: object) -> Sequence[f
     Dx0x0 = 2 * xs
     Dx0xs = -2 * dx
     Dy0y0 = 6 * ys * dy
-    Dy0ys = -3 * dy**2
+    Dy0ys = -3 * dy ** 2
 
     # And now the sum
     fvv = (
-            Dx0x0 * vx0 + 2 * Dx0xs * vx0 * vxs
-            + Dy0y0 * vy0 **2 + 2 * Dy0ys * vy0 * vys
+        Dx0x0 * vx0 ** 2
+        + 2 * Dx0xs * vx0 * vxs
+        + Dy0y0 * vy0 ** 2
+        + 2 * Dy0ys * vy0 * vys
     )
     return fvv
 
@@ -148,20 +153,24 @@ def callback(iter_: int, args: object, w: multilarge_nlinear.workspace) -> None:
     print(f"iter {iter_:3d} {x0:.3f}, {y0:.3f}, {x_scale:.3f} {y_scale:.3f}")
 
 
-
 data = Data(
-    x = np.linspace(-3, 3, num=20),
-    y = np.linspace(-2, 2, num=20),
-    z = [],
-    pars=Parameters(x0=5, y0=-1./11., x_scale=23, y_scale=1./3.)
+    x=np.linspace(-3, 3, num=20),
+    y=np.linspace(-2, 2, num=20),
+    z=[],
+    pars=Parameters(x0=5, y0=-1.0 / 11.0, x_scale=23, y_scale=1.0 / 3.0),
 )
-data.z = function([data.pars.x0, data.pars.y0, data.pars.x_scale, data.pars.y_scale], data)
+data.z = function(
+    [data.pars.x0, data.pars.y0, data.pars.x_scale, data.pars.y_scale], data
+)
 
 n = len(data.x)
 p = 4
 parameters = multilarge_nlinear.parameters()
-# parameters.set_trs(multilarge_nlinear.trs_lm)
-# parameters.set_trs(multilarge_nlinear.trs_lmaccel)
+parameters.set_trs(multilarge_nlinear.trs_lm)
+parameters.set_trs(multilarge_nlinear.trs_lmaccel)
+# This does not seem o convege that fast 
+# parameters.set_trs(multilarge_nlinear.trs_dogleg)
+# parameters.set_trs(multilarge_nlinear.trs_subspace2D)
 parameters.set_trs(multilarge_nlinear.trs_cgst)
 
 # The system to solve
@@ -172,16 +181,17 @@ parameters.set_trs(multilarge_nlinear.trs_cgst)
 fdf = multilarge_nlinear.fdf(
     f=f_func,
     df=df_func,
-    #df= None,
-    fvv = None,
-    # fvv=func_fvv,
+    # df= None,
+    # fvv=None,
+    fvv=func_fvv,
     args=data,
     n=n,
-    p=p)
+    p=p,
+)
 
 # The workspace
 workspace = multilarge_nlinear.workspace(multilarge_nlinear.trust, parameters, n, p)
-x_init = [1, .2, 1, 1]
+x_init = [1, 0.2, 1, 1]
 
 # This init will call at least f and most probably df. If a not
 # understandable exception is raised or the interpreter crashes
@@ -189,7 +199,7 @@ x_init = [1, .2, 1, 1]
 # Then debug prints are made on stderr which will give hints
 # what went wrong.
 set_debug_level(0)
-workspace.init(x_init,  fdf)
+workspace.init(x_init, fdf)
 # you can it set back again if not required any more
 set_debug_level(0)
 
@@ -217,9 +227,9 @@ fvv      evaluations  {fdf.nevalfvv()}
 reason for stopping   {multilarge_nlinear.strinfo(info)}
 
 Solutions               found         expected
-x0                    {x0: 10.6f}    {data.pars.x0: 10.6f}          
-y0                    {y0: 10.6f}    {data.pars.y0: 10.6f}          
-xs                    {xs: 10.6f}    {data.pars.x_scale: 10.6f}          
-ys                    {ys: 10.6f}    {data.pars.y_scale: 10.6f}          
+x0                    {x0: 10.6f}    {data.pars.x0: 10.6f}
+y0                    {y0: 10.6f}    {data.pars.y0: 10.6f}
+xs                    {xs: 10.6f}    {data.pars.x_scale: 10.6f}
+ys                    {ys: 10.6f}    {data.pars.y_scale: 10.6f}
 """
 print(txt)
