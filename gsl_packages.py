@@ -181,8 +181,29 @@ pygsl__callback = SWIG_Extension("_callback",
                            define_macros = macros,
                            python_min_version=(2,1),
 )
-print(pygsl__callback)
 exts.append(pygsl__callback)
+
+multifit_nlinear = SWIG_Extension("multifit_nlinear",
+                                  ["src/callback/gsl_multifit_nlinear.i"],
+                                  include_dirs=["src/callback"],
+                                  swig_include_dirs=["src/callback"],
+                                  # -builtin can still have problems for some functions
+                                  swig_flags = swig_flags,
+                                  #gsl_min_version=(1,2),
+                                  define_macros = macros,
+                                  )
+exts.append(multifit_nlinear)
+
+multilarge_nlinear = SWIG_Extension("multilarge_nlinear",
+                                  ["src/callback/gsl_multilarge_nlinear.i"],
+                                  include_dirs=["src/callback"],
+                                  swig_include_dirs=["src/callback"],
+                                  # -builtin can still have problems for some functions
+                                  swig_flags = swig_flags,
+                                  #gsl_min_version=(1,2),
+                                  define_macros = macros,
+                                  )
+exts.append(multilarge_nlinear)
 
 flag = 0
 try:
