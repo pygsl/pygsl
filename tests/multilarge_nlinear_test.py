@@ -78,6 +78,10 @@ class Parameters:
     x_scale: float
     y_scale: float
 
+    def indeps(self):
+        return self.x0, self.y0, self.x_scale, self.y_scale
+
+
 @dataclass
 class Data:
     x: Sequence[float]
@@ -225,8 +229,9 @@ def test_run_df():
         print(ex)
 
     x = workspace.position()
-    for f, v in zip(x, [data.pars.x0, data.pars.y0, data.pars.x_scale, data.pars.y_scale]):
+    for f, v in zip(x, data.pars.indeps()):
         print(f, v)
+
 
 
 
