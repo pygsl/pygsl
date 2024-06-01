@@ -168,7 +168,7 @@ p = 4
 parameters = multilarge_nlinear.parameters()
 parameters.set_trs(multilarge_nlinear.trs_lm)
 parameters.set_trs(multilarge_nlinear.trs_lmaccel)
-# This does not seem o convege that fast 
+# This does not seem to converge that fast
 # parameters.set_trs(multilarge_nlinear.trs_dogleg)
 # parameters.set_trs(multilarge_nlinear.trs_subspace2D)
 parameters.set_trs(multilarge_nlinear.trs_cgst)
