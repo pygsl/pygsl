@@ -33,9 +33,9 @@ jobs:
       # Install dependencies
       - name: Install apt dependencies
         run: |
-          sudo apt update
-          sudo apt install libgsl0-dev libncurses5-dev libreadline6-dev pkg-config swig
-          sudo apt install python3-all-dev python3-matplotlib python3-numpy py
+          sudo apt-get update
+          sudo apt-get install libgsl0-dev libncurses5-dev libreadline6-dev pkg-config swig
+          sudo apt-get install python3-all-dev python3-matplotlib python3-numpy python3-scipy
           
       # Install Python dependencies
       - name: Python dependencies
@@ -92,9 +92,9 @@ jobs:
       # Install dependencies
       - name: Install apt dependencies
         run: |
-          sudo apt update
-          sudo apt install libgsl0-dev libncurses5-dev libreadline6-dev pkg-config swig
-          sudo apt install python3-all-dev python3-matplotlib python3-numpy python3-scipy
+          sudo apt-get update
+          sudo apt-get install libgsl0-dev libncurses5-dev libreadline6-dev pkg-config swig
+          sudo apt-get install python3-all-dev python3-matplotlib python3-numpy python3-scipy
 
       # Install Python dependencies
       - name: Python dependencies
