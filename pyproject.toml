@@ -5,3 +5,8 @@ requires = [
     "numpy"
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+dependencies = [
+    "numpy<2.0",
+]
