@@ -23,7 +23,7 @@
 __BEGIN_DECLS
 
 /*
- *  These macros convert a PyObect to  a complex if numeric
+ *  These macros convert a PyObject to a complex if numeric
  *  Input recieved. If complex, accessing the data, otherwise
  *  reverting to a function.
  */
