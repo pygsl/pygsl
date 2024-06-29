@@ -35,10 +35,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install libgsl0-dev libncurses5-dev libreadline6-dev pkg-config swig
-          sudo apt install python3-all-dev python3-matplotlib python3-numpy python3-scipy
-          # So that one can seee in the output which numpy version was run
-          python3 -c 'import numpy; print("numpy version", numpy.__version__)'
-
+          sudo apt install python3-all-dev python3-matplotlib python3-numpy py
           
       # Install Python dependencies
       - name: Python dependencies
@@ -49,7 +46,7 @@ jobs:
           python -m pip install "numpy<2.0" scipy matplotlib
           
           # So that one can seee in the output which numpy version was run
-          python3 -c "import numpy; print("numpy version", numpy.__version__)"
+          python3 -c 'import numpy; print("numpy version", numpy.__version__)'
 
       - name: gsl_wrappers
         run: |
