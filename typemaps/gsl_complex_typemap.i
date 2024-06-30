@@ -1,8 +1,8 @@
 /* -*- C -*- */
-/* ------------------------------------------------------------------------- 
-   ------------------------------------------------------------------------- 
+/* -------------------------------------------------------------------------
+   -------------------------------------------------------------------------
             Typemaps to translate python complex to gsl_complex.
-   ------------------------------------------------------------------------- 
+   -------------------------------------------------------------------------
    ------------------------------------------------------------------------- */
 /**
  * author: Pierre Schnizer
@@ -14,8 +14,8 @@
  */
 /*
  * Currently these typemaps just support the conversion of Python_complex.
- * gsl also supports complex built from float and long double. Numpy also 
- * supports such sizes. Therefore one could consider to accept Numeric arrays 
+ * gsl also supports complex built from float and long double. Numpy also
+ * supports such sizes. Therefore one could consider to accept Numeric arrays
  * as input and iterate over the array?
  */
 
@@ -37,7 +37,7 @@
      $1 = tmp;
 };
 
-/* ------------------------------------------------------------------------- 
+/* -------------------------------------------------------------------------
    Pointer Version
    ------------------------------------------------------------------------- */
 %typemap(arginit) gsl_complex * IN %{
@@ -59,24 +59,25 @@
   FUNC_MESS_END();
 }
 
-%typemap( argout) gsl_complex * OUT { 
+%typemap( argout) gsl_complex * OUT {
   PyObject *out = NULL;
   FUNC_MESS_BEGIN();
-  out = PyComplex_FromDoubles((double) $1->dat[0],(double) $1->dat[1]);
+  /* argout typemap */
+  out = PyComplex_FromDoubles(GSL_COMPLEX_P_REAL($1), GSL_COMPLEX_P_IMAG($1));
   if(out == NULL){
     PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-    goto fail;    
+    goto fail;
   }
   $result = SWIG_Python_AppendOutput($result, out);
   FUNC_MESS_END();
 }
 
 
-/* ------------------------------------------------------------------------- 
+/* -------------------------------------------------------------------------
    Direct  Version
    ------------------------------------------------------------------------- */
-/* 
- *  swig wraps structs as pointers anyway. So the pointer version can be 
+/*
+ *  swig wraps structs as pointers anyway. So the pointer version can be
  *  reused.
  */
 %typemap(arginit) gsl_complex * INOUT = gsl_complex *IN;
@@ -85,13 +86,13 @@
 
 /* %typemap( in)     gsl_complex IN = gsl_complex *IN; */
 
-%typemap( argout) gsl_complex OUT { 
+%typemap( argout) gsl_complex OUT {
   PyObject *out = NULL;
   FUNC_MESS_BEGIN();
-  out = PyComplex_FromDoubles((double) $1.dat[0],(double) $1.dat[1]);
+  out = PyComplex_FromDoubles(GSL_REAL($1), GSL_IMAG($1));
   if(out == NULL){
     PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-    goto fail;    
+    goto fail;
   }
   $result = SWIG_Python_AppendOutput($result, out);
   FUNC_MESS_END();
@@ -100,15 +101,15 @@
 %typemap( out) gsl_complex  {
   PyObject *out = NULL;
   FUNC_MESS_BEGIN();
-  out = PyComplex_FromDoubles((double) $1.dat[0],(double) $1.dat[1]);
+  out = PyComplex_FromDoubles(GSL_REAL($1), GSL_IMAG($1));
   if(out == NULL){
     PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-    goto fail;    
+    goto fail;
   }
   $result = out;
   FUNC_MESS_END();
 }
-/* ------------------------------------------------------------------------- 
+/* -------------------------------------------------------------------------
    Typemap copies
    ------------------------------------------------------------------------- */
 %apply gsl_complex *OUT {gsl_complex *OUTPUT};
@@ -116,18 +117,18 @@
 /* ---------------------------------------------------------------------------
    Cfloat
    --------------------------------------------------------------------------*/
-%apply gsl_complex *OUT {gsl_complex_float *OUTPUT, 
-			 gsl_complex_long_double *OUTPUT, 
-			 gsl_complex_float *OUT, 
+%apply gsl_complex *OUT {gsl_complex_float *OUTPUT,
+			 gsl_complex_long_double *OUTPUT,
+			 gsl_complex_float *OUT,
 			 gsl_complex_long_double *OUT};
 
-%apply gsl_complex * IN {gsl_complex_float        * IN, 
+%apply gsl_complex * IN {gsl_complex_float        * IN,
 			 gsl_complex_long_double *IN};
 
-%apply gsl_complex       {gsl_complex_float        , 
+%apply gsl_complex       {gsl_complex_float        ,
 			  gsl_complex_long_double };
 
 %apply gsl_complex * IN {gsl_complex_double       *,
-                         gsl_complex_float        *, 
+                         gsl_complex_float        *,
 			 gsl_complex_long_double  *};
 /* EOF */

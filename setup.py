@@ -63,7 +63,7 @@ DEBUG_LEVEL = 1
 #DEBUG_LEVEL = 10
 #####
 #------------------------------------------------------------------------------
-# As long as you are not taking part in the development process, I hope that 
+# As long as you are not taking part in the development process, I hope that
 # you do not need to modify anything here.
 
 
@@ -76,14 +76,6 @@ import glob
 # Add the gsldist path
 import os
 pygsldir = os.path.dirname("__name__")
-
-# Get the version information
-versionfile = open(os.path.join(pygsldir, "pygsl", "_version.py"))
-versiontext = versionfile.read()
-exec(versiontext)
-versionfile.close()
-del versionfile
-del versiontext
 
 # Make sure that we use the new one ...
 gsldist_path = os.path.join(pygsldir, "gsl_dist")
@@ -248,16 +240,7 @@ class CustomBdistWheelCommand(_bdist_wheel):
 
 print("#%d extension modules" %(len(exts),))
 
-proj_name ="pygsl"
-setup (name = proj_name,
-       version = version,
-       #version = "snapshot_" + string.join(map(str, time.gmtime()[:3]), '_'),
-       description = "GNU Scientific Library Interface",
-       long_description = "This project provides a python interface for the GNU scientific library (gsl)",
-       license = "GPL",
-       author = "Achim Gaedke, Pierre Schnizer",
-       author_email = "AchimGaedke@users.sourceforge.net, schnizer@users.sourceforge.net",
-       url = "https://github.com/pygsl/pygsl",
+setup (
        package_dir = {'pygsl' : 'pygsl', 'pygsl.gsl_dist' : 'gsl_dist'},
        packages = ['pygsl', 'pygsl.testing', 'pygsl.statistics', 'pygsl.gsl_dist'],
        ext_package = 'pygsl',
@@ -270,11 +253,5 @@ setup (name = proj_name,
                    #'build_sphinx': BuildDoc
                    },
        install_requires = ['numpy'],
-       command_options = {
-           'build_sphinx': {
-               'project': ('setup.py', proj_name),
-               'version': ('setup.py', version),
-               }
-            },
        package_data={"pygsl": ["testing/src/sf/sf.i"]}
        )

@@ -2,6 +2,8 @@
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
+#include <pygsl/complex_helpers.h>
+#include <gsl/gsl_complex.h>
 
 static PyObject * module = NULL;
 
@@ -12,9 +14,9 @@ PyGSL_test_GetPTR1(PyObject *self, PyObject *args)
 	PyArrayObject * a = NULL;
 	void *v =NULL, *ptr1=NULL, *vtest=NULL, *ptr2=NULL;
 	char *cptr=NULL, *ctest;
-	PyGSL_array_index_t stride = 0, dim=0, cnt;	
+	PyGSL_array_index_t stride = 0, dim=0, cnt;
 	int line = __LINE__;
-	
+
 	if(!PyArg_ParseTuple(args, "O", &tmp1)){
 		line = __LINE__ - 1;
 		goto fail;
@@ -35,15 +37,15 @@ PyGSL_test_GetPTR1(PyObject *self, PyObject *args)
 		   (void *)ptr1, (void *)v, (void *)cptr, ptr2);
 	for(cnt = 0; cnt < dim; ++cnt){
 		ptr1 = PyArray_GETPTR1(a, cnt);
-		vtest = 
-#ifdef __cplusplus 
+		vtest =
+#ifdef __cplusplus
 		  /* in c mode I want to test if it exists */
-		  (char *) 
+		  (char *)
 #endif
 		  v + stride * cnt;
 		ctest = cptr + stride * cnt;
 
-		if ((ptr1 == vtest) && (ptr1 == vtest)){	       	
+		if ((ptr1 == vtest) && (ptr1 == vtest)){
 			DEBUG_MESS(2, "cnt = %3ld:  ptr1 = data = bytes %p;",
 				   cnt, ptr1);
 		} else{
@@ -54,7 +56,7 @@ PyGSL_test_GetPTR1(PyObject *self, PyObject *args)
 			   ptr1 == ctest ? "TRUE" : "FALSE");
 		}
 	}
-	
+
 	Py_DECREF(a); a = NULL;
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -89,13 +91,13 @@ PyGSL_test_new_array(PyObject *self, PyObject *args)
 	  if(PyGSL_pylong_to_ulong(tmp2, &dim2, NULL) != GSL_SUCCESS){
 	       goto fail;
 	  }
-	  dimensions[1] = dim2;	  
+	  dimensions[1] = dim2;
      }
      DEBUG_MESS(4, "Creating an array with %d dimensions dim1 %lu and dim 2 with %lu", nd, dim1, dim2);
-     a = (PyArrayObject *) PyGSL_New_Array(nd, dimensions, NPY_DOUBLE);	  
+     a = (PyArrayObject *) PyGSL_New_Array(nd, dimensions, NPY_DOUBLE);
      if (a == NULL)
 	  goto fail;
-     FUNC_MESS_END();     
+     FUNC_MESS_END();
      return (PyObject *) a;
 
  fail:
@@ -106,11 +108,11 @@ PyGSL_test_new_array(PyObject *self, PyObject *args)
 static PyObject*
 PyGSL_vector_refcount(PyObject *self, PyObject *args)
 {
-     PyObject * ret = NULL, *tmp;     
+     PyObject * ret = NULL, *tmp;
      PyArrayObject *a = NULL;
      int line = -1;
      long result;
-     PyGSL_array_info_t info; 
+     PyGSL_array_info_t info;
 
      FUNC_MESS_BEGIN();
      if(!PyArg_ParseTuple(args, "O", &tmp)){
@@ -125,7 +127,7 @@ PyGSL_vector_refcount(PyObject *self, PyObject *args)
  	  line = __LINE__ - 1;
 	  goto fail;
      }
-     
+
      result = PyGSL_PY_ARRAY_GET_REFCNT(a);
      ret = PyLong_FromLong(result);
      Py_DECREF(a);
@@ -151,7 +153,7 @@ PyGSL_test_vector_or_double(PyObject *self, PyObject *args)
  	  line = __LINE__ - 1;
 	  goto fail;
      }
-     a = PyGSL_vector_or_double(obj, PyGSL_DARRAY_CINPUT(1), -1, NULL);     
+     a = PyGSL_vector_or_double(obj, PyGSL_DARRAY_CINPUT(1), -1, NULL);
      FUNC_MESS_END();
      return (PyObject *) a;
 
@@ -159,6 +161,42 @@ PyGSL_test_vector_or_double(PyObject *self, PyObject *args)
      PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line);
      Py_XDECREF(a);
      return NULL;
+}
+
+
+static PyObject*
+PyGSL_complex_conversion(PyObject *self, PyObject *args)
+{
+
+    int line = __LINE__, flag=GSL_EFAILED;
+    PyObject *obj, *r;
+    gsl_complex tmp;
+
+    FUNC_MESS_BEGIN();
+    if(!PyArg_ParseTuple(args, "O", &obj)){
+	line = __LINE__ - 1;
+	goto fail;
+    }
+
+    flag = PyGSL_PyComplex_to_gsl_complex(obj, &tmp);
+    if(GSL_SUCCESS != PyGSL_ERROR_FLAG(flag)){
+	line = __LINE__ - 1;
+	goto fail;
+    }
+    r = PyComplex_FromDoubles(GSL_REAL(tmp), GSL_IMAG(tmp));
+    if(!r){
+	line = __LINE__ - 1;
+	goto fail;
+    }
+    FUNC_MESS_END();
+    return r;
+
+fail:
+    FUNC_MESS_FAILED();
+    PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line);
+    Py_XDECREF(r);
+    return NULL;
+
 }
 
 
@@ -170,14 +208,15 @@ static char vector_or_double_doc[] = "Pass a vector or a double in. It will retu
 a Python Array Object\n";
 
 static char test_getptr1_doc[] = "Prints the offset calculated for the different cols for a matrix using stride or GetPtr1\n";
-
+static char complex_conversion_doc[] = "convert python complex to gsl complex and back to python complex\n";
 static PyMethodDef inittestMethods[] = {
+     {"complex_conversion", PyGSL_complex_conversion, METH_VARARGS, complex_conversion_doc},
      {"vector_refcount", PyGSL_vector_refcount, METH_VARARGS, refcount_doc},
      {"new_array", PyGSL_test_new_array, METH_VARARGS, new_array_doc},
      {"vector_or_double", PyGSL_test_vector_or_double, METH_VARARGS, vector_or_double_doc},
      {"test_getptr1",    PyGSL_test_GetPTR1, METH_VARARGS, test_getptr1_doc},
      {NULL,     NULL, 0, NULL}        /* sentinel */
-};  
+};
 
 
 #ifdef PyGSL_PY3K
@@ -192,7 +231,7 @@ static struct PyModuleDef moduledef = {
         NULL,
         NULL
 };
-#endif 
+#endif
 
 
 #ifdef __cplusplus

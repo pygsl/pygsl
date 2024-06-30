@@ -5910,10 +5910,10 @@ SWIGINTERN PyObject *_wrap_gsl_linalg_complex_householder_transform(PyObject *SW
   {
     PyObject *out = NULL;
     FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) (&result)->dat[0],(double) (&result)->dat[1]);
+    out = PyComplex_FromDoubles(GSL_REAL(result), GSL_IMAG(result));
     if(out == NULL){
       PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
+      goto fail;
     }
     resultobj = out;
     FUNC_MESS_END();
@@ -9083,10 +9083,10 @@ SWIGINTERN PyObject *_wrap_gsl_linalg_complex_LU_det(PyObject *SWIGUNUSEDPARM(se
   {
     PyObject *out = NULL;
     FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) (&result)->dat[0],(double) (&result)->dat[1]);
+    out = PyComplex_FromDoubles(GSL_REAL(result), GSL_IMAG(result));
     if(out == NULL){
       PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
+      goto fail;
     }
     resultobj = out;
     FUNC_MESS_END();
@@ -9182,10 +9182,10 @@ SWIGINTERN PyObject *_wrap_gsl_linalg_complex_LU_sgndet(PyObject *SWIGUNUSEDPARM
   {
     PyObject *out = NULL;
     FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) (&result)->dat[0],(double) (&result)->dat[1]);
+    out = PyComplex_FromDoubles(GSL_REAL(result), GSL_IMAG(result));
     if(out == NULL){
       PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
+      goto fail;
     }
     resultobj = out;
     FUNC_MESS_END();
@@ -26224,10 +26224,11 @@ SWIGINTERN PyObject *_wrap_gsl_blas_zdotu(PyObject *SWIGUNUSEDPARM(self), PyObje
   {
     PyObject *out = NULL;
     FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg3->dat[0],(double) arg3->dat[1]);
+    /* argout typemap */
+    out = PyComplex_FromDoubles(GSL_COMPLEX_P_REAL(arg3), GSL_COMPLEX_P_IMAG(arg3));
     if(out == NULL){
       PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
+      goto fail;
     }
     resultobj = SWIG_Python_AppendOutput(resultobj, out);
     FUNC_MESS_END();
@@ -26300,10 +26301,11 @@ SWIGINTERN PyObject *_wrap_gsl_blas_zdotc(PyObject *SWIGUNUSEDPARM(self), PyObje
   {
     PyObject *out = NULL;
     FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg3->dat[0],(double) arg3->dat[1]);
+    /* argout typemap */
+    out = PyComplex_FromDoubles(GSL_COMPLEX_P_REAL(arg3), GSL_COMPLEX_P_IMAG(arg3));
     if(out == NULL){
       PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
+      goto fail;
     }
     resultobj = SWIG_Python_AppendOutput(resultobj, out);
     FUNC_MESS_END();
@@ -41548,10 +41550,11 @@ SWIGINTERN PyObject *_wrap_gsl_schur_solve_equation_z(PyObject *SWIGUNUSEDPARM(s
   {
     PyObject *out = NULL;
     FUNC_MESS_BEGIN();
-    out = PyComplex_FromDoubles((double) arg3->dat[0],(double) arg3->dat[1]);
+    /* argout typemap */
+    out = PyComplex_FromDoubles(GSL_COMPLEX_P_REAL(arg3), GSL_COMPLEX_P_IMAG(arg3));
     if(out == NULL){
       PyErr_SetString(PyExc_TypeError, "Could not convert to complex!\n");
-      goto fail;    
+      goto fail;
     }
     resultobj = SWIG_Python_AppendOutput(resultobj, out);
     FUNC_MESS_END();
