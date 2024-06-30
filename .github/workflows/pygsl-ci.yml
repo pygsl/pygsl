@@ -62,7 +62,8 @@ jobs:
 
       - name: install
         run: |
-          ls -l dist/
+          # listing a non existing directory fails ..
+          ls -l dist/ || echo 'no dist directory'
           ls -l wheel/
           python -m pip install wheel/pygsl-*.whl
 
