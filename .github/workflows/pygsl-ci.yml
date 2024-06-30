@@ -79,10 +79,3 @@ jobs:
           # make sure to move out of the source directory
           cd /tmp
           python -m pytest -s /home/runner/work/pygsl/pygsl/tests
-
-      - name: upload_wheel
-        uses: actions/upload-artifact@v4
-        with:
-          name: pygsl_wheel
-          path: wheel/pygsl-*.whl
-          retention-days: 1
