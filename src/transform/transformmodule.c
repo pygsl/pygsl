@@ -130,9 +130,9 @@ static void
 init_helpers(void)
 {
 	FUNC_MESS_BEGIN();
-	PYGSL_INIT_FUNCS_DF(complex,     complex_workspace, complex_wavetable, COMPLEX_WORKSPACE, COMPLEX_WAVETABLE)
-	PYGSL_INIT_FUNCS_DF(real,        real_workspace,    real_wavetable, REAL_WORKSPACE, REAL_WAVETABLE)
-	PYGSL_INIT_FUNCS_DF(halfcomplex, real_workspace,    halfcomplex_wavetable, REAL_WORKSPACE, HALFCOMPLEX_WAVETABLE)
+	PYGSL_INIT_FUNCS_DF(pygsl_complex,     complex_workspace, complex_wavetable, COMPLEX_WORKSPACE, COMPLEX_WAVETABLE)
+	PYGSL_INIT_FUNCS_DF(pygsl_real,        real_workspace,    real_wavetable, REAL_WORKSPACE, REAL_WAVETABLE)
+	PYGSL_INIT_FUNCS_DF(pygsl_halfcomplex, real_workspace,    halfcomplex_wavetable, REAL_WORKSPACE, HALFCOMPLEX_WAVETABLE)
 
         DEBUG_MESS(3, "PyArray_FLOAT   = %d ", NPY_FLOAT  );
 	DEBUG_MESS(3, "PyArray_DOUBLE  = %d ", NPY_DOUBLE );
