@@ -3,12 +3,12 @@
  */
 
 
-static struct _pygsl_transform_func_rf_s complex_funcs, halfcomplex_funcs, real_funcs,
-	complex_float_funcs, halfcomplex_float_funcs, real_float_funcs;       
+static struct _pygsl_transform_func_rf_s pygsl_complex_funcs, pygsl_halfcomplex_funcs, pygsl_real_funcs,
+    pygsl_complex_float_funcs, pygsl_halfcomplex_float_funcs, pygsl_real_float_funcs;
 
 
 /*
- * Describes the type of the transform. 
+ * Describes the type of the transform.
  */
 #define _INIT_INFO(mode, datatype, input_array_type, output_array_type, data_offset, radix2, packed) \
                        {mode, datatype, \
@@ -18,18 +18,18 @@ static struct _pygsl_transform_func_rf_s complex_funcs, halfcomplex_funcs, real_
        _INIT_INFO(mode, MODE_ ## datatype, NPY_ ## inaugment ## datatype, \
 		  NPY_  ## outaugment ## datatype, data_offset, radix2, packed)
 static struct _pygsl_transform_info_s
-complex_info                  = INIT_INFO(ComplexComplex,  DOUBLE, C, C, 0, RADIX_FREE, PACKED_TYPE),
-halfcomplex_info              = INIT_INFO(HalfComplexReal, DOUBLE, C,  , 0, RADIX_FREE, SINGLE_TYPE),
-real_info                     = INIT_INFO(RealHalfcomplex, DOUBLE,  , C, 1, RADIX_FREE, PACKED_TYPE),
-complex_float_info            = INIT_INFO(ComplexComplex,  FLOAT,  C, C, 0, RADIX_FREE, PACKED_TYPE), 
-halfcomplex_float_info        = INIT_INFO(HalfComplexReal, FLOAT,  C,  , 0, RADIX_FREE, SINGLE_TYPE),
-real_float_info               = INIT_INFO(RealHalfcomplex, FLOAT,   , C, 1, RADIX_FREE, PACKED_TYPE),
-complex_info_radix2           = INIT_INFO(ComplexComplex,  DOUBLE, C, C, 0, RADIX_TWO,  PACKED_TYPE),
-halfcomplex_info_radix2       = INIT_INFO(HalfComplexReal, DOUBLE,  ,  , 0, RADIX_TWO,  SINGLE_TYPE),
-real_info_radix2              = INIT_INFO(RealHalfcomplex, DOUBLE,  ,  , 0, RADIX_TWO,  SINGLE_TYPE),
-complex_float_info_radix2     = INIT_INFO(ComplexComplex,  FLOAT,  C, C, 0, RADIX_TWO,  PACKED_TYPE), 
-halfcomplex_float_info_radix2 = INIT_INFO(HalfComplexReal, FLOAT,   ,  , 0, RADIX_TWO,  SINGLE_TYPE),
-real_float_info_radix2        = INIT_INFO(RealHalfcomplex, FLOAT,   ,  , 0, RADIX_TWO,  SINGLE_TYPE);
+pygsl_complex_info                  = INIT_INFO(ComplexComplex,  DOUBLE, C, C, 0, RADIX_FREE, PACKED_TYPE),
+pygsl_halfcomplex_info              = INIT_INFO(HalfComplexReal, DOUBLE, C,  , 0, RADIX_FREE, SINGLE_TYPE),
+pygsl_real_info                     = INIT_INFO(RealHalfcomplex, DOUBLE,  , C, 1, RADIX_FREE, PACKED_TYPE),
+pygsl_complex_float_info            = INIT_INFO(ComplexComplex,  FLOAT,  C, C, 0, RADIX_FREE, PACKED_TYPE),
+pygsl_halfcomplex_float_info        = INIT_INFO(HalfComplexReal, FLOAT,  C,  , 0, RADIX_FREE, SINGLE_TYPE),
+pygsl_real_float_info               = INIT_INFO(RealHalfcomplex, FLOAT,   , C, 1, RADIX_FREE, PACKED_TYPE),
+pygsl_complex_info_radix2           = INIT_INFO(ComplexComplex,  DOUBLE, C, C, 0, RADIX_TWO,  PACKED_TYPE),
+pygsl_halfcomplex_info_radix2       = INIT_INFO(HalfComplexReal, DOUBLE,  ,  , 0, RADIX_TWO,  SINGLE_TYPE),
+pygsl_real_info_radix2              = INIT_INFO(RealHalfcomplex, DOUBLE,  ,  , 0, RADIX_TWO,  SINGLE_TYPE),
+pygsl_complex_float_info_radix2     = INIT_INFO(ComplexComplex,  FLOAT,  C, C, 0, RADIX_TWO,  PACKED_TYPE),
+pygsl_halfcomplex_float_info_radix2 = INIT_INFO(HalfComplexReal, FLOAT,   ,  , 0, RADIX_TWO,  SINGLE_TYPE),
+pygsl_real_float_info_radix2        = INIT_INFO(RealHalfcomplex, FLOAT,   ,  , 0, RADIX_TWO,  SINGLE_TYPE);
 
 #define PyGSL_TRANSFORM(name, mode, transformp, radix2) \
     static PyObject * \
@@ -61,19 +61,19 @@ real_float_info_radix2        = INIT_INFO(RealHalfcomplex, FLOAT,   ,  , 0, RADI
 #define PyGSL_RTWO_DF(name, mode, direction) \
         PyGSL_TRANSFORM(name ## radix2_ ## direction, mode, (void *) gsl_ ## name  ## radix2_ ## direction, RADIX_TWO) \
         PyGSL_TRANSFORM(name ## radix2_ ## direction ## _float, mode ## _float, \
-                        (void *) gsl_ ## name  ## float_radix2_ ## direction, RADIX_TWO) 
+                        (void *) gsl_ ## name  ## float_radix2_ ## direction, RADIX_TWO)
 
 
-     
 #define PyGSL_COMPLEX(direction) \
-        PyGSL_RFREE_DF(fft_complex_, complex, direction) 
+        PyGSL_RFREE_DF(fft_complex_, pygsl_complex, direction)
 
 PyGSL_COMPLEX(forward)
 PyGSL_COMPLEX(backward)
 PyGSL_COMPLEX(inverse)
 
+
 #define PyGSL_COMPLEX_RADIX2(direction) \
-        PyGSL_RTWO_DF(fft_complex_, complex, direction) 
+        PyGSL_RTWO_DF(fft_complex_, pygsl_complex, direction)
 
 PyGSL_COMPLEX_RADIX2(forward)
 PyGSL_COMPLEX_RADIX2(backward)
@@ -83,24 +83,25 @@ PyGSL_COMPLEX_RADIX2(dif_forward)
 PyGSL_COMPLEX_RADIX2(dif_backward)
 PyGSL_COMPLEX_RADIX2(dif_inverse)
 
+
 #define PyGSL_REAL_RADIX2(direction) \
-        PyGSL_RTWO_DF(fft_real_, real, direction) 
+        PyGSL_RTWO_DF(fft_real_, pygsl_real, direction)
 
 PyGSL_REAL_RADIX2(transform)
 
 #define PyGSL_REAL(direction) \
-        PyGSL_RFREE_DF(fft_real_, real, direction) 
+        PyGSL_RFREE_DF(fft_real_, pygsl_real, direction)
 
 PyGSL_REAL(transform)
 
 #define PyGSL_HALFCOMPLEX(direction) \
-        PyGSL_RFREE_DF(fft_halfcomplex_, halfcomplex, direction)
- 
+        PyGSL_RFREE_DF(fft_halfcomplex_, pygsl_halfcomplex, direction)
+
 PyGSL_HALFCOMPLEX(transform)
 PyGSL_HALFCOMPLEX(inverse)
 
 #define PyGSL_HALFCOMPLEX_RADIX2(direction) \
-        PyGSL_RTWO_DF(fft_halfcomplex_, halfcomplex, direction)
+        PyGSL_RTWO_DF(fft_halfcomplex_, pygsl_halfcomplex, direction)
 
 PyGSL_HALFCOMPLEX_RADIX2(transform)
 PyGSL_HALFCOMPLEX_RADIX2(inverse)
@@ -109,4 +110,3 @@ PyGSL_HALFCOMPLEX_RADIX2(inverse)
 #define PyGSL_TRANSFORM_FD_FUNCTION(name, transform, ddoc) \
         {name, PyGSL_transform_ ## transform, METH_VARARGS, (char *) ddoc}, \
         {name "_float", PyGSL_transform_ ## transform ## _float, METH_VARARGS, (char *) float_doc},
-
