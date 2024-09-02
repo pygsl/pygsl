@@ -298,7 +298,7 @@ class _rng_distributions(unittest.TestCase):
 
     def test_multinomial(self):
         phi = (0.2,0.2,0.2,0.4)
-        n = self.rng.multinomial(10, phi)
+        n = self.rng.multinomial(10, phi, 1)
         array_check(n, np.uint32, [1, len(phi)])
 
         n_sample = 3
