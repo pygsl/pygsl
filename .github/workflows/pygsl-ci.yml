@@ -11,7 +11,7 @@ jobs:
     # Re-generate SWIG wrappers, then build and test
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         python-version: [ "3.8", "3.9", "3.10", "3.11" , "3.12" ]
         numpy-version : [ "numpy<2.0", "numpy>=2.0"]
@@ -19,12 +19,11 @@ jobs:
       # Checkout the repository contents
       - name: Checkout PyGSL code
         uses: actions/checkout@v4
-
-      # Setup Python version
-      - name: Setup Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }} ${{ matrix.numpy-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          numpy-version: ${{ matrix.numpy-version }}
           cache: 'pip'
           cache-dependency-path: |
            **/pyproject.toml
