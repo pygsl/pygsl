@@ -112,30 +112,10 @@ else:
     get_typecode = get_typecode_default
 
 
-
-try:
-    Int =  _numobj.Int
-except  AttributeError:
-    # For numpy 1.0
-    Int = _numobj.int_
-
-try:
-    Float = _numobj.Float
-except  AttributeError:
-    # For numpy 1.0
-    Float = _numobj.float_
-
-try:
-    Complex = _numobj.Complex
-except  AttributeError:
-    # For numpy 1.0
-    Complex = _numobj.complex_
-
-try:
-    ArrayType = _numobj.ArrayType
-except AttributeError:
-    # For numpy 1.0
-    ArrayType = _numobj.ndarray
+Int = int
+Float = float
+Complex = complex
+ArrayType = _numobj.ndarray
 
 def array_typed_copy(array, code = None):
     """
