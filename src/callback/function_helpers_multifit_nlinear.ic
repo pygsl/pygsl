@@ -1,4 +1,5 @@
 /* -*- C -*- */
+#include <setjmp.h>
 /* 1. A_n O -> A_p  */
 static int
 PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback,
