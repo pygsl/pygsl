@@ -30,6 +30,8 @@ def callback(iter_, data, w):
     f = w.residual()
     A, lambda_, b = w.position()
     rcond = w.rcond()
+    if rcond == 0:
+        return
     cond = 1 / rcond
     nrm = dnrm2(f)
     print(
@@ -65,7 +67,7 @@ workspace.winit(x_init, weights, fdf)
 f = workspace.residual()
 chisq0 = np.dot(f, f)
 
-set_debug_level(4)
+set_debug_level(0)
 info = multifit_nlinear.driver(
     maxiter=100,
     xtol=xtol,
