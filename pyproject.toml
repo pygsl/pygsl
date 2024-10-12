@@ -2,15 +2,15 @@
 requires = [
     "setuptools",
     "wheel",
-    "numpy<2.0"
+    "numpy"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygsl"
-version = "2.4.1"
+version = "2.5.0"
 dependencies = [
-    "numpy<2.0",
+    "numpy",
 ]
 
 description = "GNU Scientific Library Interface"
