@@ -45,7 +45,9 @@ jobs:
           python -m pip install ${{ matrix.numpy-version }}
 
           # So that one can seee in the output which numpy version was run
+          echo "showing numpy"
           python3 -c 'import numpy; print("numpy version", numpy.__version__)'
+          echo "done"
 
       - name: gsl_wrappers
         run: |
