@@ -22,7 +22,8 @@
 
 __BEGIN_DECLS
 
-#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+/* #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION */
+#define NPY_NO_DEPRECATED_API NPY_2_0_API_VERSION
 /*
 #define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 */
@@ -33,7 +34,7 @@ __BEGIN_DECLS
 #define PyGSL_API PyGSL_API_UNIQUE_SYMBOL
 #endif
 
-/* C API address pointer */ 
+/* C API address pointer */
 #if defined(PyGSL_NO_IMPORT_API)
 extern void **PyGSL_API;
 #else
@@ -54,7 +55,7 @@ static void **PyGSL_API;
 
 
 /*
- * The version of the API. Allows to check if the used 
+ * The version of the API. Allows to check if the used
  * API is correct.
  */
 #define PyGSL_API_VERSION       ((unsigned long) ( 0x3))
@@ -71,7 +72,7 @@ static void **PyGSL_API;
 #define PyGSL_pylong_to_ulong_NUM                       7
 #define PyGSL_pylong_to_uint_NUM                        8
 #define PyGSL_check_python_return_NUM                   9
-#define PyGSL_clear_name_NUM                           10 
+#define PyGSL_clear_name_NUM                           10
 
 #define PyGSL_PyComplex_to_gsl_complex_NUM             11
 #define PyGSL_PyComplex_to_gsl_complex_float_NUM       12
@@ -84,7 +85,7 @@ static void **PyGSL_API;
 
 #define PyGSL_PyArray_prepare_gsl_vector_view_NUM      17
 #define PyGSL_PyArray_prepare_gsl_matrix_view_NUM      18
-#define PyGSL_PyArray_generate_gsl_vector_view_NUM     19 
+#define PyGSL_PyArray_generate_gsl_vector_view_NUM     19
 #define PyGSL_PyArray_generate_gsl_matrix_view_NUM     20
 #define PyGSL_copy_pyarray_to_gslvector_NUM            21
 #define PyGSL_copy_pyarray_to_gslmatrix_NUM            22
@@ -95,7 +96,7 @@ static void **PyGSL_API;
 
 /* rng object */
 #define PyGSL_RNG_ObjectType_NUM                       26
-#define PyGSL_gsl_rng_from_pyobject_NUM                27 
+#define PyGSL_gsl_rng_from_pyobject_NUM                27
 #define PyGSL_function_wrap_helper_NUM                 28
 
 /* solver type */
@@ -137,21 +138,21 @@ static void **PyGSL_API;
 #endif /* _PyGSL_API_MODULE */
 
 /*
- * Entries in the API. 
- * WARNING: This is the length of the entries. 
+ * Entries in the API.
+ * WARNING: This is the length of the entries.
  * All Entries defined here with _NUM must be smaller than this number!!
  */
 
 
-/* 
- * I define the error handler here as the api import shall also set the error 
- * handler. The error handler must be set in each module speratley as on some 
+/*
+ * I define the error handler here as the api import shall also set the error
+ * handler. The error handler must be set in each module speratley as on some
  * platforms GSL is linked statically, thus each module has its seperate error
  * gsl handler.
- * And I think the other platforms can spare these extra cycles, so I do that 
+ * And I think the other platforms can spare these extra cycles, so I do that
  * on all platforms.
  */
-PyGSL_API_EXTERN void 
+PyGSL_API_EXTERN void
 PyGSL_module_error_handler(const char *reason, /* name of function */
 			   const char *file,   /* from CPP */
 			   int line,           /* from CPP */
@@ -161,7 +162,7 @@ PyGSL_module_error_handler(const char *reason, /* name of function */
 /*
  * Used to inform the module of the approbriate number
  */
-PyGSL_API_EXTERN int 
+PyGSL_API_EXTERN int
 PyGSL_register_debug_flag(int *, const char * module_name);
 
 #ifndef _PyGSL_API_MODULE
@@ -171,7 +172,7 @@ PyGSL_register_debug_flag(int *, const char * module_name);
  (*(int (*)(int *, const char *)) PyGSL_API[PyGSL_register_debug_flag_NUM])
 #endif  /* _PyGSL_API_MODULE */
 
-#if DEBUG == 1 
+#if DEBUG == 1
 static int pygsl_debug_level = 0;
 #define PyGSL_DEBUG_LEVEL() (pygsl_debug_level)
 #define PyGSL_init_debug()  (PyGSL_register_debug_flag(&pygsl_debug_level, __FILE__))
@@ -186,16 +187,16 @@ static int pygsl_debug_level = 0;
 /* #define _PyGSL_MODULE_ERROR_HANDLER_OLD_STYLE 1 */
 #define _PyGSL_MODULE_ERROR_HANDLER_FUNC \
     (*(void (*)(const char *, const char *, int, int))PyGSL_API[PyGSL_module_error_handler_NUM])
-#ifdef PyGSL_SET_GSL_ERROR_HANDLER 
+#ifdef PyGSL_SET_GSL_ERROR_HANDLER
 #define PyGSL_SET_ERROR_HANDLER() \
         gsl_set_error_handler(_PyGSL_MODULE_ERROR_HANDLER_FUNC)
 #define PyGSL_CHECK_ERROR_HANDLER() \
     if(PyGSL_SET_ERROR_HANDLER() != _PyGSL_MODULE_ERROR_HANDLER_FUNC){\
         fprintf(stderr, "Installation of error handler failed! In File %s\n", __FILE__);\
     }
-#else  /* PyGSL_SET_GSL_ERROR_HANDLER */ 
+#else  /* PyGSL_SET_GSL_ERROR_HANDLER */
 #define PyGSL_SET_ERROR_HANDLER() gsl_set_error_handler_off()
-#define PyGSL_CHECK_ERROR_HANDLER() 
+#define PyGSL_CHECK_ERROR_HANDLER()
 #endif /* PyGSL_SET_GSL_ERROR_HANDLER */
 
 #define pygsl_error(reason, file, line, pygsl_errorno)  \
@@ -235,7 +236,7 @@ static const char pygsl_api_name[] = "pygsl_api";
         PyGSL_API = NULL; \
         fprintf(stderr, "Import of pygsl.init Failed!!! File %s\n", __FILE__);\
    } \
-} 
+}
 
 __END_DECLS
 
