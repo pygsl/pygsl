@@ -1,0 +1,319 @@
+/* -*- C -*- */
+#include <setjmp.h>
+/* 1. A_n O -> A_p  */
+static int
+PyGSL_function_wrap_Op_On(const gsl_vector * x, gsl_vector *f, PyObject *callback,
+			PyObject * arguments, int n, int p, const char *c_func_name)
+{
+     PyArrayObject *a_array = NULL;
+     PyObject *object=NULL, *arglist=NULL;
+     PyGSL_error_info  info;
+     /* the line number to appear in the traceback */
+     int trb_lineno = -1;
+     FUNC_MESS_BEGIN();
+
+     arglist = PyTuple_New(2);
+     if(arglist == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
+
+     /* Do I need to copy the array ??? */
+     a_array = PyGSL_copy_gslvector_to_pyarray(x);
+     if (a_array == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
+
+     PyTuple_SET_ITEM(arglist, 0, (PyObject *) a_array);
+     a_array = NULL; /* stolen reference ... */
+     Py_INCREF(arguments);
+     PyTuple_SET_ITEM(arglist, 1, arguments);
+     DEBUG_MESS(2, "callback = %p, arglist = %p", callback, arglist);
+
+     assert(arglist != NULL);
+     assert(callback != NULL);
+     FUNC_MESS("    Call Python Object BEGIN");
+     object  = PyObject_CallObject(callback, arglist);
+     FUNC_MESS("    Call Python Object END");
+
+     info.callback = callback;
+     info.message  = c_func_name;
+     info.error_description = NULL;
+     info.argnum = 0;
+     if(PyGSL_CHECK_PYTHON_RETURN(object, 1, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
+	  goto fail;
+     }
+     info.argnum = 1;
+     if(PyGSL_copy_pyarray_to_gslvector(f, object, p, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
+	  goto fail;
+     }
+     Py_DECREF(arglist);
+     Py_DECREF(object);
+     FUNC_MESS_END();
+     return GSL_SUCCESS;
+ fail:
+     PyGSL_add_traceback(NULL, __FILE__, c_func_name, trb_lineno);
+     FUNC_MESS("Failure");
+     Py_XDECREF(arglist);
+     Py_XDECREF(a_array);
+     Py_XDECREF(object);
+     return GSL_FAILURE;
+}
+
+
+/* 2. A_n O -> A_n_p */
+static int
+PyGSL_function_wrap_Op_Opn(const gsl_vector * x, gsl_matrix *f, PyObject *callback,
+			   PyObject *arguments, int n, int p, const char * c_func_name)
+{
+
+     PyArrayObject *a_array = NULL;
+     PyObject *result = NULL, *arglist=NULL;
+     PyGSL_error_info  info;
+     /* the line number to appear in the traceback */
+     int trb_lineno = -1;
+
+     FUNC_MESS_BEGIN();
+
+
+     arglist = PyTuple_New(2);
+     if(arglist == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
+
+
+     /* Do I need to copy the array ??? */
+     a_array = PyGSL_copy_gslvector_to_pyarray(x);
+     if (a_array == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
+     PyTuple_SET_ITEM(arglist, 0, (PyObject *) a_array);
+     a_array = NULL;
+     Py_INCREF(arguments);
+     PyTuple_SET_ITEM(arglist, 1, arguments);
+     DEBUG_MESS(2, "callback = %p, arglist = %p", callback, arglist);
+
+     assert(arglist != NULL);
+     assert(callback != NULL);
+     FUNC_MESS("    Call Python Object BEGIN");
+     result  = PyObject_CallObject(callback, arglist);
+     FUNC_MESS("    Call Python Object END");
+
+     info.callback = callback;
+     info.message  = c_func_name;
+     if(PyGSL_CHECK_PYTHON_RETURN(result, 1, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
+	  goto fail;
+     }
+     info.argnum = 1;
+     if(PyGSL_copy_pyarray_to_gslmatrix(f, result, n, p, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
+	  goto fail;
+     }
+     Py_DECREF(arglist);
+     Py_DECREF(result);
+     FUNC_MESS_END();
+     return GSL_SUCCESS;
+
+ fail:
+     PyGSL_add_traceback(NULL, __FILE__, c_func_name, trb_lineno);
+     FUNC_MESS("Failure");
+     Py_XDECREF(arglist);
+     Py_XDECREF(a_array);
+     return GSL_FAILURE;
+}
+
+
+/* 6. A_p A_p -> A_n  */
+static int
+PyGSL_function_wrap_OpOp_On(const gsl_vector * x, const gsl_vector *v, gsl_vector *fvv, PyObject *callback,
+			      PyObject *arguments, int n, int p, const char * c_func_name)
+{
+
+     PyArrayObject *x_array = NULL, *v_array = NULL;
+     PyObject *object = NULL, *arglist=NULL;
+     PyGSL_error_info  info;
+     /* the line number to appear in the traceback */
+     int trb_lineno = -1;
+
+     FUNC_MESS_BEGIN();
+
+     arglist = PyTuple_New(3);
+     if(arglist == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
+
+     /* Do I need to copy the array ??? */
+     x_array = PyGSL_copy_gslvector_to_pyarray(x);
+     if (x_array == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
+
+     /* Do I need to copy the array ??? */
+     v_array = PyGSL_copy_gslvector_to_pyarray(v);
+     if (v_array == NULL){
+	  trb_lineno = __LINE__ - 2;
+	  goto fail;
+     }
+
+     PyTuple_SET_ITEM(arglist, 0, (PyObject *) x_array);
+     x_array = NULL;
+     PyTuple_SET_ITEM(arglist, 1, (PyObject *) v_array);
+     v_array = NULL;
+     Py_INCREF(arguments);
+     PyTuple_SET_ITEM(arglist, 2, arguments);
+     DEBUG_MESS(2, "callback = %p, arglist = %p", callback, arglist);
+     assert(arglist != NULL);
+     assert(callback != NULL);
+
+     FUNC_MESS("    Call Python Object BEGIN");
+     object  = PyObject_CallObject(callback, arglist);
+     FUNC_MESS("    Call Python Object END");
+
+     info.callback = callback;
+     info.message  = c_func_name;
+     info.argnum = 1;
+     if(PyGSL_CHECK_PYTHON_RETURN(object, 1, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
+	  goto fail;
+     }
+     if(PyGSL_copy_pyarray_to_gslvector(fvv, object, fvv->size, &info) != GSL_SUCCESS){
+	  trb_lineno = __LINE__ - 1;
+	  FUNC_MESS("   Could not convert f to gsl vector!");
+	  goto fail;
+     }
+     Py_DECREF(arglist);
+     Py_DECREF(object);
+     FUNC_MESS_END();
+     return GSL_SUCCESS;
+
+ fail:
+     FUNC_MESS("Failure");
+     PyGSL_add_traceback(NULL, __FILE__, c_func_name, trb_lineno);
+     Py_XDECREF(arglist);
+     Py_XDECREF(object);
+     Py_XDECREF(x_array);
+     Py_XDECREF(v_array);
+     return GSL_FAILURE;
+}
+
+
+typedef struct {
+    PyObject * callback;
+    PyObject * callback_arguments;
+    PyObject * workspace;
+    jmp_buf jbuf;
+} pygsl_multifitorlarge_nlinear_driver_callback;
+
+
+static void
+PyGSL_multifitorlarge_nlinear_driver_callback(const size_t iter, pygsl_multifitorlarge_nlinear_driver_callback *p)
+{
+
+     PyGSL_error_info  info;
+     PyObject * arglist = NULL, *object = NULL, *niter_o = NULL;
+     int status = GSL_EFAILED, trb_lineno = __LINE__;
+
+     FUNC_MESS_BEGIN();
+     assert(p);
+
+     arglist = PyTuple_New(3);
+     if(arglist == NULL){
+	 trb_lineno = __LINE__ - 2;
+	 goto fail;
+     }
+
+     niter_o = PyInt_FromLong((long) iter);
+     if(!niter_o){
+	 goto fail;
+     }
+     PyTuple_SetItem(arglist, 0, niter_o);
+     Py_XINCREF(p->callback_arguments);
+     PyTuple_SetItem(arglist, 1, p->callback_arguments);
+     Py_XINCREF(p->workspace);
+     PyTuple_SetItem(arglist, 2, p->workspace);
+
+     DEBUG_MESS(2, "callback = %p, arglist = %p", p->callback, arglist);
+     assert(arglist != NULL);
+     assert(p->callback != NULL);
+
+     FUNC_MESS("    Call Python Object BEGIN");
+     object  = PyObject_CallObject(p->callback, arglist);
+     arglist = NULL;
+     FUNC_MESS("    Call Python Object END");
+
+     info.callback = p->callback;
+     info.message  = __FUNCTION__;
+     info.argnum = 1;
+     if(PyGSL_CHECK_PYTHON_RETURN(object, 0, &info) != GSL_SUCCESS){
+	 DEBUG_MESS(2, "object %p not 0 args Py_None %p", (void *) object, (void *) Py_None);
+	  trb_lineno = __LINE__ - 1;
+	  goto fail;
+     }
+     FUNC_MESS_END();
+     return;
+
+ fail:
+     FUNC_MESS_FAILED();
+     PyGSL_add_traceback(NULL, __FILE__, __FUNCTION__, trb_lineno);
+     Py_XDECREF(arglist);
+     if(p){
+	 DEBUG_MESS(2, "calling jmp buf with status %d", status);
+	 longjmp(p->jbuf, status);
+     }
+     return;
+}
+
+
+/* not optimised for efficiency */
+static int
+_pygsl_matrix_copy_lower_triangle(const gsl_matrix * in, gsl_matrix *out)
+{
+    size_t i = 0, j = 0;
+    int status = GSL_EBADLEN, line_no = __LINE__;
+
+    int gsl_matrix_tricpy(CBLAS_UPLO_t Uplo, CBLAS_DIAG_t Diag, gsl_matrix * dest, const gsl_matrix * src);
+    status = gsl_matrix_tricpy(CblasLower, CblasNonUnit, out, in);
+    if(status == GSL_SUCCESS){
+	FUNC_MESS_END();
+    } else {
+	line_no = __LINE__- 4;
+	goto fail;
+    }
+
+    if(in->size1 != out->size1){
+	line_no = -1;
+	DEBUG_MESS(2, "First dimension in %lu, out %lu",
+		   (unsigned long) in->size1, (unsigned long) out->size1 );
+	pygsl_error("copy triangle: size 1 of in and out matrix differ", __FILE__, line_no, status);
+	goto fail;
+    }
+    if(in->size2 != out->size2){
+	line_no = -1;
+	DEBUG_MESS(2, "Second dimension in %lu, out %lu",
+		   (unsigned long) in->size2, (unsigned long) out->size2 );
+	pygsl_error("copy triangle: size 2 of in and out matrix differ",  __FILE__, line_no, status);
+	goto fail;
+    }
+
+    for(i = 0; i<in->size1; ++i){
+	for(j = 0; (j<=i) && (j<in->size2); ++j){
+	    double v = gsl_matrix_get(in, i, j);
+	    DEBUG_MESS(4, "Setting triangle matrix[%lu, %lu] = %e",
+		       (unsigned long) i, (unsigned long) j, v);
+	    gsl_matrix_set(out, i, j, v);
+	}
+    }
+    return GSL_SUCCESS;
+
+fail:
+    PyGSL_add_traceback(module, __FILE__, __FUNCTION__, line_no);
+    return status;
+}

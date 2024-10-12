@@ -14,6 +14,7 @@ build/
 
 # dist directory
 dist/
+wheel/
 
 # build files
 *.o
@@ -26,3 +27,13 @@ dist/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# IDE's
+.idea
+
+# Test
+.coverage
+
+
+# virtual environments
+venv*/
