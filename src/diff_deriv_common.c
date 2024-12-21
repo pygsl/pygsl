@@ -2,9 +2,9 @@
 #include <pygsl/function_helpers.h>
 #include <pygsl/string_helpers.h>
 #include <pygsl/pygsl_features.h>
-
+#include "pygsl_deriv_config.h"
 #ifdef PyGSL_DERIV_MODULE
-#if ( _PYGSL_GSL_HAS_DERIV == 0 )
+#ifndef _PYGSL_GSL_HAS_DERIV
 #error "The deriv module was only introduced by GSL 1.5. You seem to compile against an older verion!"
 #endif
 #include <gsl/gsl_deriv.h>

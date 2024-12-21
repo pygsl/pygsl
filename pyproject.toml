@@ -1,17 +1,12 @@
 [build-system]
-requires = [
-    "setuptools",
-    "wheel",
-    "numpy"
-]
-build-backend = "setuptools.build_meta"
+build-backend = 'mesonpy'
+requires = ['meson-python', 'numpy']
+
 
 [project]
 name = "pygsl"
-version = "2.5.0"
-dependencies = [
-    "numpy",
-]
+version = "2.6.0"
+dependencies = ["numpy", ]
 
 description = "GNU Scientific Library Interface"
 # long_description = "This project provides a python interface for the GNU scientific library (gsl)"
