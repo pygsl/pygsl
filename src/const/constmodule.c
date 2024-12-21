@@ -12,8 +12,8 @@
 #include <Python.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_const_num.h>
-#include <pygsl/pygsl_features.h>
 #include <pygsl/error_helpers.h>
+#include "pygsl_const_config.h"
 
 #ifdef _PYGSL_GSL_HAS_CONST_CGS
 #include <gsl/gsl_const_cgs.h>
@@ -21,6 +21,8 @@
 
 #ifdef _PYGSL_GSL_HAS_CONST_CGSM
 #include <gsl/gsl_const_cgsm.h>
+#else
+#error "Should be defined"
 #endif
 
 #ifdef _PYGSL_GSL_HAS_CONST_MKS
