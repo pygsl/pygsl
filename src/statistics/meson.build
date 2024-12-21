@@ -31,6 +31,8 @@ py.extension_module(
   dependencies : [gsl_dep],
   include_directories : inc_dirs,
   install: true,
+  install: true,
+  include_directories : inc_dirs,
   subdir: 'pygsl' / 'statistics',
  )
 

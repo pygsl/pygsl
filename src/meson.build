@@ -9,6 +9,22 @@ subdir('statistics')
 subdir('sum')
 subdir('transform')
 
+py.extension_module(
+  'errortest',
+  'errortestmodule.c',
+  install: true,
+  include_directories : inc_dirs,
+  subdir: 'pygsl',
+ )
+
+ py.extension_module(
+  'ieee',
+  'ieeemodule.c',
+  install: true,
+  include_directories : inc_dirs,
+  subdir: 'pygsl',
+ )
+
 compiler = meson.get_compiler('c')
 pygsl_config = configuration_data({
     '_PYGSL_GSL_HAS_DERIV' : false
