@@ -9,5 +9,5 @@
 #ifndef _PYGSL_FEATURES_H_
 #define _PYGSL_FEATURES_H_ 1
 
-#include <pygsl/pygsl_features_config.h>
+// #include <pygsl/pygsl_features_config.h>
 #endif /* _PYGSL_FEATURES_H_ */
