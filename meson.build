@@ -43,7 +43,12 @@ message('gsl: include path(s)', gsl_include)
 message('gsl: ld path(s)', gsl_ldpath)
 message('gsl: libs', gsl_libs)
 # - END GSL Library ------------------------------------
-# swig_inc_dir = include_directories('typemaps')
+swig_typemaps_dir = include_directories('typemaps')
+swig = 'swig4.0'
+swig_flags = ['-python', '-builtin', '-O', '-Wall']
+# fix this hack ...
+swig_flags += ['-I' + gsl_include[0] ]
+# - END swig-------- ------------------------------------
 
 # - more elegant manner for dealing with numpy path ?----
 numpy_include = run_command(py,
@@ -55,7 +60,10 @@ numpy_include = run_command(py,
 inc_dirs = include_directories(
     gsl_include,
     numpy_include,
-    'Include'
+    'Include',
+    # some need headers from typemaps and include it over
+    # <typemape/>
+    '.',
  )
 
 
