@@ -13,7 +13,8 @@
 #include <gsl/gsl_fit.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
-#include <pygsl/pygsl_features.h>
+#include "pygsl_multifit_config.h"
+// #include <pygsl/pygsl_features.h>
 
 #define  _PyGSL_TO_ARRAY_INDEX_CAST(arg) ((PyGSL_array_index_t) (arg))
 #if PYGSL_GSL_MAJOR_VERSION == 2
@@ -21,7 +22,7 @@
 #error GSL 2.0 implementation of multifit has a bug in multifit_wliner
 #endif /* PYGSL_GSL_MINOR_VERSION == 0 */
 #endif /* PYGSL_GSL_MAJOR_VERSION == 2 */
-  
+#define _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX
 #ifdef _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX
 #define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->nmax))
 #define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->pmax))
