@@ -6,8 +6,7 @@
  */
 %{
 #include <gsl/gsl_permutation.h>
-#include <pygsl/pygsl_features.h>
-
+#include "pygsl_permutation_config.h"
 %}
 
 %rename(Permutation) gsl_permutation_struct;

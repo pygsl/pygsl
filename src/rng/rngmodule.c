@@ -8,7 +8,6 @@
 #include <pygsl/block_helpers.h>
 #include <pygsl/string_helpers.h>
 #include <pygsl/utils.h>
-#include <pygsl/pygsl_features.h>
 #ifdef PyGSL_NO_IMPORT_API
 #undef PyGSL_NO_IMPORT_API
 #endif
@@ -16,6 +15,7 @@
 #include <pygsl/rng.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
+#include "pygsl_rng_config.h"
 
 /*
  * All doc strings
