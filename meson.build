@@ -65,7 +65,8 @@ inc_dirs = include_directories(
     # <typemape/>
     '.',
  )
-
+# for config
+gsl_inc_dir = include_directories(gsl_include)
 
 # need to build the proto generated files before
 # I can build the cython extension
