@@ -3461,7 +3461,9 @@ static swig_module_info swig_module = {swig_types, 7, 0, 0, 0, 0};
 #include <stddef.h>
 
 
-#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#include <pygsl/numpy_api_version.h>
+//#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+
 #include <numpy/arrayobject.h>
 
 #include <gsl/gsl_interp2d.h>
@@ -3510,14 +3512,14 @@ struct _pygsl_spline2d{
 };
 typedef struct _pygsl_spline2d pygsl_spline2d;
 
-/* 
+/*
  * The evaluations can be made using array objects as inputs. This function is
  * a bit longer, thus it is defined once and function pointers are provided,
  * which are then evaluated.
  *
  * First a structure is defined which combines the pointers to the data
  * structures, the call back, and a enum storing the information which kind of
- * callback is to be used. 
+ * callback is to be used.
  *
  * The function can handle  _eval and _eval_e "methods"
  */
@@ -3543,7 +3545,7 @@ struct _pygsl_interp_spline_2d{
 			      const double x, const double y, gsl_interp_accel* xa,
 			      gsl_interp_accel* ya);
 
-		int (*fsp_e)(const gsl_spline2d * sp, 
+		int (*fsp_e)(const gsl_spline2d * sp,
 			    const double x, const double y, gsl_interp_accel* xa,
 			    gsl_interp_accel* ya, double * z);
 
@@ -3566,7 +3568,7 @@ pygsl_interp2d_eval_array_func(const pygsl_interp_spline_2d_t obj, PyObject *x_o
 	PyArrayObject *x_a = NULL, *y_a = NULL, *z_a = NULL, *e_a = NULL;
 	PyArray_Descr* op_dtypes[4] = {NULL, NULL, NULL, NULL};
 	PyObject *result = NULL;
-	
+
 	NpyIter *iter = NULL;
 	NpyIter_IterNextFunc *iternext = NULL;
 	npy_intp *inner_size, *strides;
@@ -3574,12 +3576,12 @@ pygsl_interp2d_eval_array_func(const pygsl_interp_spline_2d_t obj, PyObject *x_o
 	npy_uint32 flags;
 	npy_uint32 op_flags[4] = {0,0,0,0};
 	NPY_ORDER order = NPY_KEEPORDER;
-	
+
 	int line = __LINE__, with_flags = 0, nd = 0,  requires = 0;
-	
+
 
 	FUNC_MESS_BEGIN();
-	
+
 	op_flags[0] = NPY_ITER_READONLY;
 	op_flags[1] = NPY_ITER_READONLY;
 	op_flags[2] = NPY_ITER_WRITEONLY | NPY_ITER_ALLOCATE;
@@ -3599,19 +3601,19 @@ pygsl_interp2d_eval_array_func(const pygsl_interp_spline_2d_t obj, PyObject *x_o
 	case PyGSL_SPLINE2D_EVAL:
 		with_flags = 0;
 		break;
-		
+
 	case PyGSL_INTERP2D_EVAL_E:
 	case PyGSL_SPLINE2D_EVAL_E:
 		with_flags = 1;
 		break;
-		
+
 	default:
 		DEBUG_MESS(2, "eval type %d unknown", obj.type);
 		line = __LINE__;
 		pygsl_error("Unknown eval type", __FILE__, line, GSL_ESANITY);
 		goto fail;
 	}
-	
+
 	nd = 0;
 	requires = 0;
 	x_a = (PyArrayObject * ) PyArray_FromAny(x_o, PyArray_DescrFromType(NPY_DOUBLE), nd, nd, requires, NULL);
@@ -3619,8 +3621,8 @@ pygsl_interp2d_eval_array_func(const pygsl_interp_spline_2d_t obj, PyObject *x_o
 		line = __LINE__ - 2;
 		goto fail;
 	}
-	
-	nd = PyArray_NDIM(x_a);	
+
+	nd = PyArray_NDIM(x_a);
 	y_a = (PyArrayObject * ) PyArray_FromAny(y_o, PyArray_DescrFromType(NPY_DOUBLE), nd, nd, requires, NULL);
 	if(y_a == NULL){
 		line = __LINE__ - 2;
@@ -3651,7 +3653,7 @@ pygsl_interp2d_eval_array_func(const pygsl_interp_spline_2d_t obj, PyObject *x_o
 		line = __LINE__ - 2;
 		goto fail;
 	}
-	
+
 	inner_size = NpyIter_GetInnerLoopSizePtr(iter);
 	data_array = NpyIter_GetDataPtrArray(iter);
 
@@ -3659,17 +3661,17 @@ pygsl_interp2d_eval_array_func(const pygsl_interp_spline_2d_t obj, PyObject *x_o
 		npy_intp i, size = *inner_size;
 		npy_intp x_stride, y_stride, z_stride, e_stride = 0;
 		char * x_p, *y_p, *z_p, *e_p = NULL;
-		
+
 		x_p = data_array[0];
 		y_p = data_array[1];
 		z_p = data_array[2];
 		e_p = (with_flags == 0) ? NULL: data_array[3];
-		
+
 		x_stride = strides[0];
 		y_stride = strides[1];
 		z_stride = strides[2];
 		e_stride = (with_flags == 0) ? 0 : strides[3];
-		
+
 		/* inner loop */
 		for(i = 0; i < size; ++i, x_p += x_stride, y_p += y_stride, z_p += z_stride, e_p += e_stride){
 			double * x_d = (double *) x_p;
@@ -3684,12 +3686,12 @@ pygsl_interp2d_eval_array_func(const pygsl_interp_spline_2d_t obj, PyObject *x_o
 				intp = obj.str.py_interp;
 				*z_d = obj.func.fint(intp->interp, intp->x_a, intp->y_a, intp->z_a, *x_d, *y_d, intp->x_acc, intp->y_acc);
 				break;
-				
+
 			case PyGSL_SPLINE2D_EVAL:
 				sp = obj.str.py_spline;
 				*z_d = obj.func.fsp(sp->spline, *x_d, *y_d, sp->x_acc, sp->y_acc);
 				break;
-				
+
 			case PyGSL_INTERP2D_EVAL_E:
 				intp = obj.str.py_interp;
 				*e_i =  obj.func.fint_e(intp->interp, intp->x_a, intp->y_a, intp->z_a, *x_d, *y_d, intp->x_acc, intp->y_acc, z_d);
@@ -3724,7 +3726,7 @@ pygsl_interp2d_eval_array_func(const pygsl_interp_spline_2d_t obj, PyObject *x_o
 		PyTuple_SET_ITEM(result, 1,  (PyObject *)e_a);
 		e_a = NULL;
 	}
-	
+
 	return (PyObject *) result;
 
   fail:
@@ -3748,20 +3750,20 @@ void pygsl_interp2d_free_array_objects(pygsl_interp2d *self)
 	self->x_a = NULL;
 	self->y_a = NULL;
 	self->z_a = NULL;
-	
+
 	/* give back the references */
 	Py_XDECREF(self->xa_obj);
 	Py_XDECREF(self->ya_obj);
 	Py_XDECREF(self->za_obj);
 
-	
+
 	self->xa_obj = NULL;
 	self->ya_obj = NULL;
 	self->za_obj = NULL;
-	
+
 }
 
-void	
+void
 pygsl_interp2d_free_all(pygsl_interp2d *self)
 {
 	if(self == NULL){
@@ -3772,17 +3774,17 @@ pygsl_interp2d_free_all(pygsl_interp2d *self)
 	}
 	self->interp = NULL;
 	pygsl_interp2d_free_array_objects(self);
-	
+
 	if(self->x_acc){
 		gsl_interp_accel_free(self->x_acc);
 	}
 	if(self->y_acc){
 		gsl_interp_accel_free(self->y_acc);
 	}
-	free(self);	
+	free(self);
 }
 
-void	
+void
 pygsl_spline2d_free_all(pygsl_spline2d *self)
 {
 	if(self == NULL){
@@ -3791,14 +3793,14 @@ pygsl_spline2d_free_all(pygsl_spline2d *self)
 	if(self->spline != NULL){
 		gsl_spline2d_free(self->spline);
 	}
-	self->spline = NULL;	
+	self->spline = NULL;
 	if(self->x_acc){
 		gsl_interp_accel_free(self->x_acc);
 	}
 	if(self->y_acc){
 		gsl_interp_accel_free(self->y_acc);
 	}
-	free(self);	
+	free(self);
 }
 
 
@@ -4014,8 +4016,8 @@ SWIGINTERN pygsl_interp2d *new_pygsl_interp2d(gsl_interp2d_type const *T,size_t 
 		p = (pygsl_interp2d *) calloc(1, sizeof(pygsl_interp2d));
 		if(p == NULL){
 			pygsl_error("Failed to allocate acceleration memory for pygsl_interp struct",
-			   "src/gslwrap/interpolation2d.i", 593, GSL_EFAILED);
-			return NULL;			
+			   "src/gslwrap/interpolation2d.i", 595, GSL_EFAILED);
+			return NULL;
 		}
 
 		p->x_a = NULL;
@@ -4039,16 +4041,16 @@ SWIGINTERN pygsl_interp2d *new_pygsl_interp2d(gsl_interp2d_type const *T,size_t 
 		if(p->y_acc == NULL){
 			goto fail;
 		}
-		
+
 		p->interp = gsl_interp2d_alloc(T, x_size, y_size);
 		if(p->interp == NULL){
 			pygsl_error("Failed to allocate acceleration memory for gsl_interp2D",
-			   "src/gslwrap/interpolation2d.i", 622, GSL_EFAILED);
+			   "src/gslwrap/interpolation2d.i", 624, GSL_EFAILED);
 			goto fail;
 		}
 		return p;
 
-	  fail:		
+	  fail:
 		pygsl_interp2d_free_all(p);
 		return NULL;
 	}
@@ -4056,21 +4058,21 @@ SWIGINTERN void delete_pygsl_interp2d(pygsl_interp2d *self){
 		pygsl_interp2d_free_all(self);
 	}
 SWIGINTERN gsl_error_flag_drop pygsl_interp2d_reset(pygsl_interp2d *self){
-		int flag = GSL_EFAILED, line = 637;
+		int flag = GSL_EFAILED, line = 639;
 
 		flag = gsl_interp_accel_reset(self->x_acc);
 		if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
-			line = 641 - 2;
+			line = 643 - 2;
 			goto fail;
 		}
 
 		flag = gsl_interp_accel_reset(self->y_acc);
 		if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
-			line = 647 - 2;
+			line = 649 - 2;
 			goto fail;
 		}
 		return GSL_SUCCESS;
-		
+
 	  fail:
 		PyGSL_add_traceback(module, "src/gslwrap/interpolation2d.i", __FUNCTION__, line);
 		return flag;
@@ -4167,7 +4169,7 @@ SWIG_From_size_t  (size_t value)
 SWIGINTERN gsl_error_flag_drop pygsl_interp2d_init(pygsl_interp2d *self,PyObject *x_o,PyObject *y_o,PyObject *z_o){
 		PyGSL_array_index_t x_size, y_size;
 		size_t xt_size, yt_size;
-		int flag = GSL_EFAILED, line = 669;
+		int flag = GSL_EFAILED, line = 671;
 
 		/* dispose references to old arrays */
 		pygsl_interp2d_free_array_objects(self);
@@ -4179,29 +4181,29 @@ SWIGINTERN gsl_error_flag_drop pygsl_interp2d_init(pygsl_interp2d *self,PyObject
 
 		/* signed x_size */
 		if(x_size < 0){
-			line = 681 - 1;
+			line = 683 - 1;
 			pygsl_error("x_size <0", "src/gslwrap/interpolation2d.i", line, GSL_ESANITY);
 			goto fail;
 		}
 		if(y_size < 0){
-			line = 686 - 1;
+			line = 688 - 1;
 			pygsl_error("y_size <0", "src/gslwrap/interpolation2d.i", line, GSL_ESANITY);
 			goto fail;
 		}
-		
+
 		self->xa_obj = PyGSL_vector_check(x_o, x_size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
 		if(self->xa_obj == NULL){
-			line = 693 - 1;
+			line = 695 - 1;
 			goto fail;
 		}
 		self->ya_obj = PyGSL_vector_check(y_o, y_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
 		if(self->ya_obj == NULL){
-			line = 698 - 1;
+			line = 700 - 1;
 			goto fail;
 		}
 		self->za_obj = PyGSL_matrix_check(z_o, x_size, y_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL, NULL);
 		if(self->za_obj == NULL){
-			line = 703 - 1;
+			line = 705 - 1;
 			goto fail;
 		}
 
@@ -4213,7 +4215,7 @@ SWIGINTERN gsl_error_flag_drop pygsl_interp2d_init(pygsl_interp2d *self,PyObject
 		if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
 			goto fail;
 		}
-		return GSL_SUCCESS;	
+		return GSL_SUCCESS;
 
 	  fail:
 		PyGSL_add_traceback(module, "src/gslwrap/interpolation2d.i", __FUNCTION__, line);
@@ -4268,11 +4270,11 @@ SWIGINTERN pygsl_spline2d *new_pygsl_spline2d(gsl_interp2d_type const *T,size_t 
 		p->x_acc = NULL;
 		p->y_acc = NULL;
 		p->spline = NULL;
-				
+
 		p->spline = gsl_spline2d_alloc(T, x_size, y_size);
 		if(p->spline == NULL){
 			pygsl_error("Failed to allocate acceleration memory for gsl_spline2d",
-			   "src/gslwrap/interpolation2d.i", 444, GSL_EFAILED);
+			   "src/gslwrap/interpolation2d.i", 446, GSL_EFAILED);
 			goto fail;
 		}
 
@@ -4287,8 +4289,8 @@ SWIGINTERN pygsl_spline2d *new_pygsl_spline2d(gsl_interp2d_type const *T,size_t 
 
 		FUNC_MESS_END();
 		return p;
-		
-	  fail:		
+
+	  fail:
 		pygsl_spline2d_free_all(p);
 		return NULL;
 	}
@@ -4296,21 +4298,21 @@ SWIGINTERN void delete_pygsl_spline2d(pygsl_spline2d *self){
 		pygsl_spline2d_free_all(self);
 	}
 SWIGINTERN gsl_error_flag_drop pygsl_spline2d_reset(pygsl_spline2d *self){
-		int flag = GSL_EFAILED, line = 470;
+		int flag = GSL_EFAILED, line = 472;
 
 		flag = gsl_interp_accel_reset(self->x_acc);
 		if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
-			line = 474 - 2;
+			line = 476 - 2;
 			goto fail;
 		}
 
 		flag = gsl_interp_accel_reset(self->y_acc);
 		if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
-			line = 480 - 2;
+			line = 482 - 2;
 			goto fail;
 		}
 		return GSL_SUCCESS;
-		
+
 	  fail:
 		PyGSL_add_traceback(module, "src/gslwrap/interpolation2d.i", __FUNCTION__, line);
 		return flag;
@@ -4327,7 +4329,7 @@ SWIGINTERN gsl_error_flag_drop pygsl_spline2d_init(pygsl_spline2d *self,PyObject
 		PyArrayObject *x_a = NULL, *y_a = NULL, *z_a = NULL;
 		double *x_d = NULL, *y_d = NULL, *z_d = NULL;
 		size_t xt_size, yt_size;
-		int flag = GSL_EFAILED, line = 504;
+		int flag = GSL_EFAILED, line = 506;
 
 
 		xt_size = self->spline->interp_object.xsize;
@@ -4336,36 +4338,36 @@ SWIGINTERN gsl_error_flag_drop pygsl_spline2d_init(pygsl_spline2d *self,PyObject
 		y_size = yt_size;
 		/* signed x_size */
 		if(x_size < 0){
-			line = 513 - 1;
+			line = 515 - 1;
 			pygsl_error("x_size <0", "src/gslwrap/interpolation2d.i", line, GSL_ESANITY);
 			goto fail;
 		}
 		if(y_size < 0){
-			line = 518 - 1;
+			line = 520 - 1;
 			pygsl_error("y_size <0", "src/gslwrap/interpolation2d.i", line, GSL_ESANITY);
 			goto fail;
 		}
 
 		x_a = PyGSL_vector_check(x_o, x_size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
 		if(x_a == NULL){
-			line = 525 - 1;
+			line = 527 - 1;
 			goto fail;
 		}
 		y_a = PyGSL_vector_check(y_o, y_size, PyGSL_DARRAY_CINPUT(2), NULL, NULL);
 		if(y_a == NULL){
-			line = 530 - 1;
+			line = 532 - 1;
 			goto fail;
 		}
 		z_a = PyGSL_matrix_check(z_o, x_size, y_size, PyGSL_DARRAY_CINPUT(3), NULL, NULL, NULL);
 		if(z_a == NULL){
-			line = 535 - 1;
+			line = 537 - 1;
 			goto fail;
 		}
 
 		x_d = (double *) PyArray_DATA(x_a);
 		y_d = (double *) PyArray_DATA(y_a);
 		z_d = (double *) PyArray_DATA(z_a);
-		
+
 		flag = gsl_spline2d_init(self->spline, x_d, y_d, z_d, xt_size, yt_size);
 		if(PyGSL_ERROR_FLAG(flag) != GSL_SUCCESS){
 			goto fail;
@@ -4373,7 +4375,7 @@ SWIGINTERN gsl_error_flag_drop pygsl_spline2d_init(pygsl_spline2d *self,PyObject
 		Py_DECREF(x_a);
 		Py_DECREF(y_a);
 		Py_DECREF(z_a);
-		return GSL_SUCCESS;	
+		return GSL_SUCCESS;
 
 	  fail:
 		Py_XDECREF(x_a);
