@@ -7,6 +7,7 @@
 #define PyGSL_API_INTERN_H 1
 
 #include <Python.h>
+#include <pygsl/numpy_api_version.h>
 #include <pygsl/transition.h>
 #include <pygsl/capsuletrunk.h>
 
@@ -22,8 +23,6 @@
 
 __BEGIN_DECLS
 
-/* #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION */
-#define NPY_NO_DEPRECATED_API NPY_2_0_API_VERSION
 /*
 #define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 */
