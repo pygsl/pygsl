@@ -1,7 +1,7 @@
 /* -*- C -*- */
 #define PY_SSIZE_T_CLEAN
+#include <pygsl/numpy_api_version.h>
 /* numpy needs to be imported directly for NPY_UNIT */
-#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 #include <numpy/arrayobject.h>
 
 static PyObject*

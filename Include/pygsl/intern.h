@@ -7,6 +7,14 @@
 #define PyGSL_API_INTERN_H 1
 
 #include <Python.h>
+#include <pygsl/numpy_api_version.h>
+/* todo: how to handle global config */
+#include <pygsl/pygsl_config.h>
+// #define PyGSL_SET_GSL_ERROR_HANDLER
+// #define GSL_DISABLE_DEPRECATED
+// #define DEBUG 1
+/* end pygsl config */
+
 #include <pygsl/transition.h>
 #include <pygsl/capsuletrunk.h>
 
@@ -20,10 +28,21 @@
 # define __END_DECLS /* empty */
 #endif
 
+#ifndef PyGSL_PY3K
+#error "Currently only python 3.0"
+#endif
+
+#ifndef PyGSL_SET_GSL_ERROR_HANDLER
+#define PyGSL_SET_GSL_ERROR_HANDLER 1
+#endif
+
+#ifndef GSL_DISABLE_DEPRECATED
+#define GSL_DISABLE_DEPRECATED
+#endif
+
+
 __BEGIN_DECLS
 
-/* #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION */
-#define NPY_NO_DEPRECATED_API NPY_2_0_API_VERSION
 /*
 #define PyGSL_API_UNIQUE_SYMBOL PyGSL_API
 */

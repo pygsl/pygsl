@@ -10,7 +10,9 @@
 	
  /* numpy needs to be imported directly for the iterator */
 %{
-#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#include <pygsl/numpy_api_version.h>
+//#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+
 #include <numpy/arrayobject.h>
 
 #include <gsl/gsl_interp2d.h>

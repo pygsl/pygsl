@@ -2,6 +2,8 @@
 import unittest
 import types
 import pygsl.permutation as permutation
+import pygsl.init
+
 
 class P(unittest.TestCase):
     def setUp(self):
@@ -19,6 +21,8 @@ class P(unittest.TestCase):
         self.p.linear_cycles()
 
     def testcanonical_cycles(self):
+        pygsl.init.error_handler_state_reset()
+        print(pygsl.init.error_handler_state_get())
         self.p.canonical_cycles()
 
     def test_previous(self):

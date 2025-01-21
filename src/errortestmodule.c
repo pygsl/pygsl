@@ -214,7 +214,8 @@ extern "C"
 #endif
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit_errortest(void)
+PyMODINIT_FUNC
+PyInit_errortest(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) initerrortest(void)

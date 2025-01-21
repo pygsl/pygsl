@@ -1,5 +1,5 @@
 /* -*- C -*- */
-/** 
+/**
  * Author : Fabian Jakobs, Pierre Schnizer <schnizer@users.sourceforge.net>
  * Date: 2003, 2017
  * $Id:$
@@ -18,8 +18,9 @@
 %ignore gsl_permutation_inversions;
 %ignore gsl_permutation_canonical_cycles;
 %ignore gsl_permutation_linear_cycles;
-#define INLINE_DECL
 %include gsl_block_typemaps.i
+%include gsl_error_typemap.i
+#define INLINE_DECL
 %include gsl/gsl_permutation.h
 
 
@@ -42,7 +43,7 @@
        return gsl_permutation_inversions(self);
   }
 
-  
+
   size_t get_item(const size_t i) {
     return gsl_permutation_get(self, i);
   }
@@ -61,7 +62,7 @@
     return gsl_permutation_size(self);
   }
 
-  gsl_error_flag_drop valid () { 
+  gsl_error_flag_drop valid () {
     return gsl_permutation_valid(self);
   }
 
@@ -79,7 +80,7 @@
 
   char *printf() {
     /* FIXME this must return a string */
-    gsl_permutation_fprintf (stdout, self, " %u"); 
+    gsl_permutation_fprintf (stdout, self, " %u");
     return NULL;
   }
 
@@ -119,27 +120,27 @@
   }
 
 
-  gsl_error_flag_drop _linear_to_canonical(struct gsl_permutation_struct *q){        
-%#ifdef _PYGSL_GSL_HAS_GSL_PERMUTATION_LINEAR_TO_CANONICAL  
+  gsl_error_flag_drop _linear_to_canonical(struct gsl_permutation_struct *q){
+%#ifdef _PYGSL_GSL_HAS_GSL_PERMUTATION_LINEAR_TO_CANONICAL
       return gsl_permutation_linear_to_canonical(q, self);
 %#else
-      GSL_ERROR_UNIMPL();
-%#endif       
+      PyGSL_ERROR_UNIMPL;
+%#endif
   }
   gsl_error_flag_drop _canonical_to_linear(struct gsl_permutation_struct *q){
-    %#ifdef _PYGSL_GSL_HAS_GSL_PERMUTATION_CANONICAL_TO_LINEAR 
+    %#ifdef _PYGSL_GSL_HAS_GSL_PERMUTATION_CANONICAL_TO_LINEAR
       return gsl_permutation_canonical_to_linear(q, self);
     %#else
-     GSL_ERROR_UNIMPL();
-    %#endif       
-  }  
+     PyGSL_ERROR_UNIMPL;
+    %#endif
+  }
 
 gsl_error_flag_drop _mul(struct gsl_permutation_struct *res, struct gsl_permutation_struct *m2){
   %#ifdef _PYGSL_GSL_HAS_GSL_PERMUTATION_MUL
       return gsl_permutation_mul(res, self, m2);
   %#else
-      GSL_ERROR_UNIMPL();
-  %#endif       
+      PyGSL_ERROR_UNIMPL;
+  %#endif
      }
 
     gsl_error_flag_drop _inverse(struct gsl_permutation_struct *inv){
@@ -150,29 +151,24 @@ gsl_error_flag_drop _mul(struct gsl_permutation_struct *res, struct gsl_permutat
       FUNC_MESS_END();
       return status;
 %#else
-      GSL_ERROR_UNIMPL();
-%#endif       
+      PyGSL_ERROR_UNIMPL;
+%#endif
     }
 
-    size_t linear_cycles(){
+    pygsl_size_t_or_error linear_cycles(){
 %#ifdef _PYGSL_GSL_HAS_GSL_PERMUTATION_LINEAR_CYCLES
            return gsl_permutation_linear_cycles(self);
 %#else
-      GSL_ERROR_UNIMPL();
-%#endif       
+      PyGSL_ERROR_UNIMPL;
+%#endif
     }
-    
-  size_t canonical_cycles(){
+
+  pygsl_size_t_or_error canonical_cycles(){
 %#ifdef _PYGSL_GSL_HAS_GSL_PERMUTATION_CANONICAL_CYCLES
-       return gsl_permutation_canonical_cycles(self);
+         return  gsl_permutation_canonical_cycles(self);
 %#else
-      GSL_ERROR_UNIMPL();
-%#endif       
+      PyGSL_ERROR_UNIMPL;
+%#endif
   }
-  
+
  }
-
-
-
-  
-

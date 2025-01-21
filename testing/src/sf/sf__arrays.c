@@ -1,13 +1,12 @@
 #include <Python.h>
-#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#include <pygsl/numpy_api_version.h>
 #include <numpy/arrayobject.h>
-
-#include <pygsl/pygsl_features_config.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_nan.h>
+#include "pygsl_sf_config.h"
 
 #ifndef IMPORTALL
 static PyObject *module=NULL;
@@ -16,7 +15,7 @@ static PyObject *module=NULL;
 typedef  int (array_p_evaluator_iid_ad)(int nmin, int nmax, double x, double * result_array);
 #if 0
 static PyObject*
-PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args, 
+PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args,
 					 array_p_evaluator_iid_ad * eval)
 {
      PyArrayObject *result = NULL;
@@ -29,12 +28,12 @@ PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args,
 	  return NULL;
      }
      if(m < 0){
-	  PyErr_SetString(PyExc_ValueError, 
+	  PyErr_SetString(PyExc_ValueError,
 			  "Nmin must be bigger than 0!");
 	  return NULL;
      }
      if(lmax < m){
-	  PyErr_SetString(PyExc_ValueError, 
+	  PyErr_SetString(PyExc_ValueError,
 			  "Nmax must be bigger or equal to nmin!");
      }
      dimension = gsl_sf_legendre_array_size(lmax, m);
@@ -57,7 +56,7 @@ PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args,
 #endif
 
 static PyObject*
-PyGSL_sf_array_evaluator_iid_ad(PyObject *self, PyObject *args, 
+PyGSL_sf_array_evaluator_iid_ad(PyObject *self, PyObject *args,
 				array_p_evaluator_iid_ad * eval)
 {
      PyArrayObject *result = NULL;
@@ -70,12 +69,12 @@ PyGSL_sf_array_evaluator_iid_ad(PyObject *self, PyObject *args,
 	  return NULL;
      }
      if(nmin < 0){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "Nmin must be bigger than 0!");
 	  return NULL;
      }
      if(nmax < nmin){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "Nmax must be bigger or equal to nmin!");
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
@@ -111,7 +110,7 @@ PyGSL_sf_array_evaluator_id_ad(PyObject *self, PyObject *args, array_p_evaluator
 	  return NULL;
      }
      if(nmin < 0){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "Nmin must be bigger than 0!");
 	  return NULL;
      }
@@ -147,7 +146,7 @@ PyGSL_sf_array_evaluator_idd_ad(PyObject *self, PyObject *args, array_p_evaluato
 	  return NULL;
      }
      if(nmin < 0){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "Nmin must be bigger than 0!");
 	  return NULL;
      }
@@ -213,7 +212,7 @@ PyGSL_sf_array_evaluator_didd_add(PyObject *self, PyObject *args, array_p_evalua
 	  return NULL;
      }
      if(nmin < 0){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "Nmin must be bigger than 0!");
 	  return NULL;
      }
@@ -227,8 +226,8 @@ PyGSL_sf_array_evaluator_didd_add(PyObject *self, PyObject *args, array_p_evalua
      FUNC_MESS_END();
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
-     
-     return Py_BuildValue("Od",result,exponent);     
+
+     return Py_BuildValue("Od",result,exponent);
  fail:
      Py_XDECREF(result);
      return NULL;
@@ -248,7 +247,7 @@ PyGSL_sf_array_evaluator_didd_addadd(PyObject *self, PyObject *args, array_p_eva
 	  return NULL;
      }
      if(nmin < 0){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "Nmin must be bigger than 0!");
 	  return NULL;
      }
@@ -267,8 +266,8 @@ PyGSL_sf_array_evaluator_didd_addadd(PyObject *self, PyObject *args, array_p_eva
      FUNC_MESS_END();
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
-     
-     return Py_BuildValue("OdOd",result1,exponent1,result2,exponent2);     
+
+     return Py_BuildValue("OdOd",result1,exponent1,result2,exponent2);
  fail:
      Py_XDECREF(result1);
      Py_XDECREF(result2);
@@ -276,7 +275,7 @@ PyGSL_sf_array_evaluator_didd_addadd(PyObject *self, PyObject *args, array_p_eva
 }
 
 
-typedef int (array_p_evaluator_didd_adadadaddd)(double , int , double , double , double * a1, double * a2, double * a3, double * a4, 
+typedef int (array_p_evaluator_didd_adadadaddd)(double , int , double , double , double * a1, double * a2, double * a3, double * a4,
 						double*, double*);
 static PyObject*
 PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p_evaluator_didd_adadadaddd * eval)
@@ -291,7 +290,7 @@ PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p
 	  return NULL;
      }
      if(nmin < 0){
-	  PyErr_SetString(PyExc_ImportError, 
+	  PyErr_SetString(PyExc_ImportError,
 			  "Nmin must be bigger than 0!");
 	  return NULL;
      }
@@ -319,7 +318,7 @@ PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p
      FUNC_MESS_END();
      if(PyGSL_ERROR_FLAG(ret) != GSL_SUCCESS)
 	  goto fail;
-     
+
      return Py_BuildValue("OOOOdd",result1,result2,result3,result4,exponent1, exponent2);
  fail:
      Py_XDECREF(result1);
@@ -389,10 +388,10 @@ static PyMethodDef sf_array_functions[] = {
      {"coulomb_CL_array",        (PyCFunction) sf_coulomb_CL_array,        METH_VARARGS, NULL},
      {"legendre_Pl_array",       (PyCFunction) sf_legendre_Pl_array,       METH_VARARGS, NULL},
 #ifdef _PYGSL_GSL_HAS_GSL_SF_LEGENDRE_PLM_ARRAY
-      {"legendre_Plm_array",      (PyCFunction) sf_legendre_Plm_array,      METH_VARARGS, NULL}, 
+      {"legendre_Plm_array",      (PyCFunction) sf_legendre_Plm_array,      METH_VARARGS, NULL},
 #endif
 #ifdef _PYGSL_GSL_HAS_GSL_SF_LEGENDRE_SPHPLM_ARRAY
-     {"legendre_sphPlm_array",   (PyCFunction) sf_legendre_sphPlm_array,   METH_VARARGS, NULL}, 
+     {"legendre_sphPlm_array",   (PyCFunction) sf_legendre_sphPlm_array,   METH_VARARGS, NULL},
 #endif
      {NULL, NULL, 0}
 };
@@ -404,6 +403,6 @@ DL_EXPORT(void) initsfarray(void)
      module = Py_InitModule("sfarray", sf_array_functions);
      import_array();
      init_pygsl();
-       
+
 }
 #endif
