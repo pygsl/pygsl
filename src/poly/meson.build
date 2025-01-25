@@ -14,9 +14,10 @@ poly_swig = custom_target('_poly',
 )
 
  py.extension_module(
-  '_poly',
+  '__poly',
   poly_swig[0],
-  install: true,
+  dependencies : [gsl_dep],
   include_directories : inc_dirs,
+  install: true,
   subdir: 'pygsl',
  )

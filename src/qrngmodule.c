@@ -329,7 +329,7 @@ extern "C"
 
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit__qrng(void)
+PyMODINIT_FUNC PyInit__qrng(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) init_qrng(void)

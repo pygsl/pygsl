@@ -183,7 +183,7 @@ extern "C"
 
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit_const(void)
+PyMODINIT_FUNC PyInit_const(void)
 #define RETVAL const_module
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) initconst(void)

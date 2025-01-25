@@ -19,32 +19,36 @@ configure_file(output : 'pygsl_eigen_config.h',
 
 
 permutation_config = configuration_data({
-  '_PYGSL_GSL_HAS_PERMUTATION_LINEAR_TO_CANONICAL'  : false,
-  '_PYGSL_GSL_HAS_PERMUTATION_CANONICAL_TO_LINEAR' : false,
-  '_PYGSL_GSL_HAS_PERMUTATION_INVERSIONS'  : false,
-  '_PYGSL_GSL_HAS_PERMUTATION_LINEAR_CYCLES' : false,
-  '_PYGSL_GSL_HAS_PERMUTATION_MUL' : false,
+  '_PYGSL_GSL_HAS_GSL_PERMUTATION_LINEAR_TO_CANONICAL'  : false,
+  '_PYGSL_GSL_HAS_GSL_PERMUTATION_CANONICAL_TO_LINEAR' : false,
+  '_PYGSL_GSL_HAS_GSL_PERMUTATION_INVERSIONS'  : false,
+  '_PYGSL_GSL_HAS_GSL_PERMUTATION_LINEAR_CYCLES' : false,
+  '_PYGSL_GSL_HAS_GSL_PERMUTATION_CANONICAL_CYCLES' : false,
+  '_PYGSL_GSL_HAS_GSL_PERMUTATION_MUL' : false,
 })
 
 if compiler.has_header_symbol('gsl/gsl_permutation.h', 'gsl_permutation_linear_to_canonical')
-    permutation_config.set('_PYGSL_GSL_HAS_PERMUTATION_LINEAR_TO_CANONICAL', true)
+    permutation_config.set('_PYGSL_GSL_HAS_GSL_PERMUTATION_LINEAR_TO_CANONICAL', true)
 endif
 if compiler.has_header_symbol('gsl/gsl_permutation.h', 'gsl_permutation_canonical_to_linear')
-    permutation_config.set('_PYGSL_GSL_HAS_PERMUTATION_CANONICAL_TO_LINEAR', true)
+    permutation_config.set('_PYGSL_GSL_HAS_GSL_PERMUTATION_CANONICAL_TO_LINEAR', true)
 endif
 if compiler.has_header_symbol('gsl/gsl_permutation.h', 'gsl_permutation_inversions')
-    permutation_config.set('_PYGSL_GSL_HAS_PERMUTATION_INVERSIONS', true)
+    permutation_config.set('_PYGSL_GSL_HAS_GSL_PERMUTATION_INVERSIONS', true)
 endif
 if compiler.has_header_symbol('gsl/gsl_permutation.h', 'gsl_permutation_linear_cycles')
-    permutation_config.set('_PYGSL_GSL_HAS_PERMUTATION_LINEAR_CYCLES', true)
+    permutation_config.set('_PYGSL_GSL_HAS_GSL_PERMUTATION_LINEAR_CYCLES', true)
 endif
-if compiler.has_header_symbol('gsl/gsl_permutation.h', 'gsl_permutation_mul')
-    permutation_config.set('_PYGSL_GSL_HAS_PERMUTATION_MUL', true)
+if compiler.has_header_symbol('gsl/gsl_permutation.h', 'gsl_permutation_canonical_cycles')
+    permutation_config.set('_PYGSL_GSL_HAS_GSL_PERMUTATION_CANONICAL_CYCLES', true)
 endif
 
-configure_file(output : 'pygsl_permutation_config.h',
-    configuration : permutation_config
+permutation_config = configure_file(output : 'pygsl_permutation_config.h',
+    configuration : permutation_config,
+    install : true,
+    install_dir:py.get_install_dir() / 'Include' / 'pygsl'
 )
+
 
 linalg_config = configuration_data({
     '_PYGSL_GSL_LINALG_COMPLEX_HOUSEHOLDER_MH' : false,
@@ -142,7 +146,30 @@ gslwrap_swig = custom_target('_gslwrap',
  py.extension_module(
   '_gslwrap',
   gslwrap_swig[0],
-  install: true,
+  dependencies : [gsl_dep],
   include_directories : inc_dirs,
+  install: true,
+  subdir: 'pygsl',
+ )
+
+ interp2d_swig = custom_target('interpolation2d',
+    output: [
+        'interpolation2d_wrap.c',
+        'interpolation2d_wrap.py',
+    ],
+    input: 'interpolation2d.i',
+    command: [swig, '-I../typemaps']  + swig_flags + [
+              '-o', '@OUTPUT0@', '-outdir', '@OUTDIR@', '@INPUT@'],
+    install: true,
+    install_dir: py.get_install_dir() / 'pygsl',
+    install_tag: 'python-runtime',
+)
+
+ py.extension_module(
+  'interpolation2d_wrap',
+  interp2d_swig[0],
+  dependencies : [gsl_dep],
+  include_directories : inc_dirs,
+  install: true,
   subdir: 'pygsl',
  )

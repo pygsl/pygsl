@@ -685,7 +685,7 @@ extern "C"
 
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit_rng(void)
+PyMODINIT_FUNC PyInit_rng(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) initrng(void)

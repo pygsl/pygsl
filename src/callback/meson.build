@@ -40,7 +40,7 @@ multifit_nlin_config = configuration_data({
 if compiler.has_header_symbol('gsl/gsl_multifit_nlin.h', 'gsl_multifit_fdfsolver_jac')
     multifit_nlin_config.set('_PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC', true)
 else
-    compiler.has_member('gsl_multifit_fdfsolver', 'J', include_directories: [gsl_inc_dir], prefix: '#include <gsl/gsl_multifit_nlin.h>', required: true)
+    compiler.has_member('gsl_multifit_fdfsolver', 'J', prefix: '#include <gsl/gsl_multifit_nlin.h>', required: true)
     multifit_nlin_config.set('_PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_STRUCT_MEMBER_J', true)
 endif
 
@@ -53,13 +53,13 @@ multifit_config = configuration_data({
    '_PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P' : false
 })
 
-if compiler.has_member('gsl_multifit_linear_workspace', 'nmax', include_directories: [gsl_inc_dir], prefix: '#include <gsl/gsl_multifit.h>')
-    compiler.has_member('gsl_multifit_linear_workspace', 'pmax', include_directories: [gsl_inc_dir], prefix: '#include <gsl/gsl_multifit.h>', required: true)
+if compiler.has_member('gsl_multifit_linear_workspace', 'nmax', dependencies: [gsl_dep], prefix: '#include <gsl/gsl_multifit.h>')
+    compiler.has_member('gsl_multifit_linear_workspace', 'pmax', dependencies: [gsl_dep], prefix: '#include <gsl/gsl_multifit.h>', required: true)
     multifit_config.set('_PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX', true)
 else
 # warning ... if nmax exists n,p correspond to SVD matrix size
-    compiler.has_member('gsl_multifit_linear_workspace', 'n', include_directories: [gsl_inc_dir], prefix: '#include <gsl/gsl_multifit.h>', required: true)
-    compiler.has_member('gsl_multifit_linear_workspace', 'p', include_directories: [gsl_inc_dir], prefix: '#include <gsl/gsl_multifit.h>', required: true)
+    compiler.has_member('gsl_multifit_linear_workspace', 'n', dependencies: [gsl_dep], prefix: '#include <gsl/gsl_multifit.h>', required: true)
+    compiler.has_member('gsl_multifit_linear_workspace', 'p', dependencies: [gsl_dep], prefix: '#include <gsl/gsl_multifit.h>', required: true)
     multifit_config.set('_PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P', true)
 endif
 
@@ -82,9 +82,34 @@ callback_swig = custom_target('_callback',
 )
 
  py.extension_module(
-  '_callback',
+  '__callback',
   callback_swig[0],
-  install: true,
+  dependencies : [gsl_dep],
   include_directories : inc_dirs,
-  subdir: 'pygsl',
+  install: true,
+   subdir: 'pygsl',
  )
+
+cb_mods = ['multifit_robust', 'multilarge_nlinear', 'odeiv2']
+foreach mod : cb_mods
+    cb_swig = custom_target('cb_' + mod,
+        output: [
+            mod + '_wrap.c',
+            mod + '.py',
+        ],
+        input: 'gsl_' + mod + '.i',
+        command: [swig, '-I../typemaps']  + swig_flags + [
+                '-o', '@OUTPUT0@', '-outdir', '@OUTDIR@', '@INPUT@'],
+        install: true,
+        install_dir: py.get_install_dir() / 'pygsl',
+        install_tag: 'python-runtime'
+   )
+   py.extension_module(
+        '_' + mod,
+        cb_swig[0],
+        dependencies : [gsl_dep],
+        include_directories : inc_dirs,
+        install: true,
+        subdir: 'pygsl',
+ )
+endforeach
