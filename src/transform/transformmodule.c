@@ -172,7 +172,8 @@ extern "C"
 #endif
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit__transform(void)
+PyMODINIT_FUNC
+PyInit__transform(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) init_transform(void)

@@ -1,7 +1,8 @@
 py.extension_module(
   '_transform',
   'transformmodule.c',
-  install: true,
+  dependencies : [gsl_dep],
   include_directories : inc_dirs,
+  install: true,
   subdir: 'pygsl',
  )

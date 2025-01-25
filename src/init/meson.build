@@ -9,9 +9,10 @@ py.extension_module(
  py.extension_module(
   'init',
   'initmodule.c',
-  install: true,
-  include_directories : inc_dirs,
-  subdir: 'pygsl',
+   install: true,
+   include_directories : inc_dirs,
+   dependencies : [gsl_dep],
+   subdir: 'pygsl',
  )
 
  py.extension_module(
@@ -19,5 +20,6 @@ py.extension_module(
   'inittestmodule.c',
   install: true,
   include_directories : inc_dirs,
+  dependencies : [gsl_dep],
   subdir: 'pygsl',
  )

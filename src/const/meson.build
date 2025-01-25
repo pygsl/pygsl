@@ -24,7 +24,7 @@ configure_file(output : 'pygsl_const_config.h',
 )
 
 py.extension_module(
-  'constmodule',
+  'const',
   'constmodule.c',
   install: true,
   include_directories : inc_dirs,

@@ -12,7 +12,8 @@ configure_file(output: 'pygsl_rng_config.h',
 py.extension_module(
   'rng',
   'rngmodule.c',
-  install: true,
+  dependencies : [gsl_dep],
   include_directories : inc_dirs,
+  install: true,
   subdir: 'pygsl',
  )
