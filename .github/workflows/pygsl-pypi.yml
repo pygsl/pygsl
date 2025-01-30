@@ -23,13 +23,13 @@ jobs:
     steps:
       # Checkout the repository contents
       - name: Checkout PyGSL code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Setup Python version
-      - name: Setup Python 3.8
-        uses: actions/setup-python@v4
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: 3.12
 
       # Install dependencies
       - name: Install apt dependencies
