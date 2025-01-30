@@ -1,3 +1,6 @@
+v2.6.0 (2025-1) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
+        * switch to meson build system
+
 v2.4.1 (2024-1) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
         * added multifit_nlinear
 
