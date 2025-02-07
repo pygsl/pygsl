@@ -139,11 +139,11 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 
 }
 %typemap(argout) gsl_vector * OUT{
-     $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyVector$argnum);
+     $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyVector$argnum, $isvoid);
      _PyVector$argnum =NULL;
 };
 %typemap(argout) gsl_matrix * OUT{
-     $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyMatrix$argnum);
+     $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyMatrix$argnum, $isvoid);
      _PyMatrix$argnum =NULL;
 };
 
