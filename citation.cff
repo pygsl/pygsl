@@ -27,14 +27,16 @@ authors:
     family-names: Maret
   - given-names: Michael
     family-names: Forbes
-  - {}
+identifiers:
+  - type: other
+    value: 'https://www.gnu.org/software/gsl/'
+    description: GNU Scientific library
 repository-code: 'https://github.com/pygsl/pygsl.git'
 url: 'https://github.com/pygsl/pygsl'
 abstract: >-
   PyGSL is a Python wrapper for the GNU Scientific Library
-  (GSLm  https://www.gnu.org/software/gsl/) Nearly all
-  modules are wrapped. A lot of tests are covering various
-  functionality.
+  (GSL,  https://www.gnu.org/software/gsl/) Nearly all
+  modules are wrapped.
 license: GPL-2.0
 version: 2.5.1
 date-released: '2025-01-10'
