@@ -1,0 +1,40 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: oygsl
+message: Python wrapper for the GNU Scientific Library
+type: software
+authors:
+  - given-names: Pierre
+    family-names: Schnizer
+    email: pierre.schnizer@helmholtz-berlin.de
+    orcid: 'https://orcid.org/0000-0002-2897-7855'
+  - given-names: Achim
+    family-names: Gädke
+    email: achim.gaedke@gmail.com
+  - given-names: Charl
+    family-names: Linssen
+    email: c.linssen@fz-juelich.de
+  - given-names: Jochen
+    family-names: Küpper
+  - name: Fabian
+  - given-names: Fabian
+    family-names: Jacobs
+  - given-names: Eric
+    family-names: Gurrola
+  - given-names: Sebastian
+    family-names: Maret
+  - given-names: Michael
+    family-names: Forbes
+  - {}
+repository-code: 'https://github.com/pygsl/pygsl.git'
+url: 'https://github.com/pygsl/pygsl'
+abstract: >-
+  PyGSL is a Python wrapper for the GNU Scientific Library
+  (GSLm  https://www.gnu.org/software/gsl/) Nearly all
+  modules are wrapped. A lot of tests are covering various
+  functionality.
+license: GPL-2.0
+version: 2.5.1
+date-released: '2025-01-10'
