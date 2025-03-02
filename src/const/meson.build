@@ -1,23 +1,23 @@
-const_config = configuration_data({
-  '_PYGSL_GSL_HAS_CONST_CGS'  : false,
-  '_PYGSL_GSL_HAS_CONST_CGSM' : false,
-  '_PYGSL_GSL_HAS_CONST_MKS'  : false,
-  '_PYGSL_GSL_HAS_CONST_MKSA' : false,
-})
+headers = [
+  'const_cgs',
+  'const_cgsm',
+  'const_mks',
+  'const_mksa'
+]
+d = {}
+foreach header: headers
+    d += { '_PYGSL_GSL_HAS_ '+ header.underscorify().to_upper() : false}
+endforeach
+const_config = configuration_data(d)
 
 compiler = meson.get_compiler('c')
-if compiler.has_header('gsl/gsl_const_mksa.h')
-  const_config.set('_PYGSL_GSL_HAS_CONST_MKSA', true)
-endif
-if compiler.has_header('gsl/gsl_const_cgsm.h')
-  const_config.set('_PYGSL_GSL_HAS_CONST_CGSM', true)
-endif
-if compiler.has_header('gsl/gsl_const_mks.h')
-  const_config.set('_PYGSL_GSL_HAS_CONST_MKS', true)
-endif
-if compiler.has_header('gsl/gsl_const_cgs.h')
-  const_config.set('_PYGSL_GSL_HAS_CONST_CGS', true)
-endif
+
+foreach header: headers
+    const_config.set(
+        '_PYGSL_GSL_HAS_' + header.underscorify().to_upper(),
+        compiler.has_header('gsl/gsl_' + header + '.h')
+    )
+endforeach
 
 configure_file(output : 'pygsl_const_config.h',
   configuration : const_config,
