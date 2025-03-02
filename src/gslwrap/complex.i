@@ -44,7 +44,7 @@
   Py_complex temp;
   temp.real = $1->dat[0];
   temp.imag = $1->dat[1];
-  $result = SWIG_Python_AppendOutput($result, PyComplex_FromCComplex(temp));
+  $result = SWIG_Python_AppendOutput($result, PyComplex_FromCComplex(temp), $isvoid);
 }
 
 //%include gsl/gsl_complex_math.h

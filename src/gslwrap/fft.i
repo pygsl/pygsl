@@ -28,7 +28,7 @@
 };
 
 %typemap(argout) (double data[], const size_t stride, const size_t n) {
-  $result = SWIG_Python_AppendOutput($result, (PyObject*)_PyVector$argnum);	
+  $result = SWIG_Python_AppendOutput($result, (PyObject*)_PyVector$argnum, $isvoid);
 };
 
 %typemap(arginit) (gsl_complex_packed_array data, const size_t stride, const size_t n) %{
@@ -47,7 +47,7 @@
 };
 
 %typemap(argout) (gsl_complex_packed_array data, const size_t stride, const size_t n) {
-  $result = SWIG_Python_AppendOutput($result, (PyObject*)_PyVector$argnum);	
+  $result = SWIG_Python_AppendOutput($result, (PyObject*)_PyVector$argnum, $isvoid);
 };
 
 
