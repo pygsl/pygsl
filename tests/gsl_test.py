@@ -2,7 +2,7 @@
 from __future__ import print_function
 import types
 import unittest
-import pygsl.math 
+import pygsl.math
 from pygsl._numobj import *
 import pygsl._numobj as numx
 from pygsl import Float, Complex, ArrayType
@@ -12,11 +12,12 @@ _complexType = type(0+0j)
 _intType = type(0)
 _floatType=type(1.0)
 
+
 def array_max(an_array):
     tmp = an_array.ravel()
     result = tmp.max()
     result = numx.absolute(result)
-        
+
     return result
 
 def iscomplex_default(a):
@@ -40,17 +41,14 @@ def isfloat_numpy(a):
     else:
         if isfloat_default(a):
             return True
-        
-        return isinstance(a, type(1.0))
-        
 
-if nummodule == "numpy":
-    iscomplex = iscomplex_numpy
-    isfloat   = isfloat_numpy    
-else:
-    isfloat   = isfloat_default
-    iscomplex = iscomplex_default
-    
+        return isinstance(a, type(1.0))
+
+
+iscomplex = iscomplex_numpy
+isfloat   = isfloat_numpy
+
+
 def fpcompare(a, b, digits):
     result = 1
     ac = iscomplex(a)
@@ -71,12 +69,12 @@ def fpcompare(a, b, digits):
             res2 = (fcmp(0, b.imag, eps) == 0)
             result = res1 and res2
         else:
-                result = (fcmp(a, b, eps) == 0)
+            result = (fcmp(a, b, eps) == 0)
         test = 1
     finally:
         if test == 0:
-            print ("a complex ?", ac, a, a.dtypechar in typecodes["Complex"])
-            print ("b complex ?", bc, b, b.dtypechar in typecodes["Complex"])
+            print ("a complex ?", ac, a, numx.asarray(a).dtype.str in typecodes["Complex"])
+            print ("b complex ?", bc, b, numx.asarray(b).dtype.str in typecodes["Complex"])
     return result
 
 def arrayCompare(a, l, digits):
