@@ -61,7 +61,7 @@ configure_file(output : 'pygsl_multifit_config.h',
 
 
 swig_mods += [{ 'inc_dir' : include_directories('.'), 'src' : files('gsl_callback.i'), 'tgt' : '_callback'}]
-cb_mods = ['multifit_robust', 'multilarge_nlinear', 'multifit_nlinear', 'odeiv2']
+cb_mods = ['multifit_robust', 'multilarge_nlinear',  'odeiv2']
 foreach mod : cb_mods
     swig_mods += [{ 'inc_dir' : include_directories('.'), 'src' :  files('gsl_' + mod + '.i')[0], 'tgt' : mod}]
 endforeach

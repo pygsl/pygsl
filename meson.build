@@ -73,9 +73,8 @@ foreach swig_mod: swig_mods
         command: [swig, '-I../typemaps', '-Itypemaps']  + swig_flags + [
                  '-o', '@OUTPUT0@', '-outdir', '@OUTDIR@', '@INPUT@'],
         install: true,
-#        install_dir: [false, py.get_install_dir() / 'pygsl'],
         install_dir: [
-            py.get_install_dir() / 'generated' / 'swig_src',
+            false, # py.get_install_dir() / 'pygsl' / 'generated' / 'swig_src',
             py.get_install_dir() / 'pygsl'
             ],
         install_tag: 'python-runtime',

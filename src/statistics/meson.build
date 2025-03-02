@@ -7,65 +7,23 @@ py.extension_module(
   subdir: 'pygsl' / 'statistics',
  )
 
-py.extension_module(
-  'char',
-  'charmodule.c',
-  dependencies : [gsl_dep],
-  include_directories : inc_dirs,
-  install: true,
-  subdir: 'pygsl' / 'statistics',
- )
+type_modules = [
+ 'char',
+ 'uchar',
+ 'short',
+ 'int',
+ 'long',
+ 'float',
+ 'double',
+]
 
-py.extension_module(
-  'uchar',
-  'ucharmodule.c',
-  dependencies : [gsl_dep],
-  include_directories : inc_dirs,
-  install: true,
-  subdir: 'pygsl' / 'statistics',
- )
-
+foreach tm: type_modules
  py.extension_module(
-  'short',
-  'shortmodule.c',
-  dependencies : [gsl_dep],
-  include_directories : inc_dirs,
-  install: true,
-  subdir: 'pygsl' / 'statistics',
+    tm,
+    tm + 'module.c',
+    dependencies : [gsl_dep],
+    include_directories : inc_dirs,
+    install: true,
+    subdir: 'pygsl' / 'statistics',
  )
-
-py.extension_module(
-  'int',
-  'intmodule.c',
-  dependencies : [gsl_dep],
-  include_directories : inc_dirs,
-  install: true,
-  subdir: 'pygsl' / 'statistics',
- )
-
-py.extension_module(
-  'long',
-  'longmodule.c',
-  dependencies : [gsl_dep],
-  include_directories : inc_dirs,
-  install: true,
-  subdir: 'pygsl' / 'statistics',
- )
-
- py.extension_module(
-  'float',
-  'floatmodule.c',
-  dependencies : [gsl_dep],
-  include_directories : inc_dirs,
-  install: true,
-  subdir: 'pygsl' / 'statistics',
- )
-
- py.extension_module(
-  'double',
-  'doublemodule.c',
-  dependencies : [gsl_dep],
-  include_directories : inc_dirs,
-  install: true,
-  subdir: 'pygsl' / 'statistics',
- )
+endforeach
