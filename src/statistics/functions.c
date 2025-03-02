@@ -310,7 +310,7 @@ static struct PyModuleDef moduledef = {              \
         NULL,					      \
         NULL					      \
 };                                                   \
-PyObject * PyInit_ ## type (void)                    \
+PyMODINIT_FUNC PyInit_ ## type (void)                \
 {                                                    \
     PyObject *m = NULL;                              \
     FUNC_MESS_BEGIN();                               \

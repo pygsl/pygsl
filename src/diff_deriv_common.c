@@ -1,10 +1,9 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/function_helpers.h>
 #include <pygsl/string_helpers.h>
-#include <pygsl/pygsl_features.h>
-
+#include "pygsl_deriv_config.h"
 #ifdef PyGSL_DERIV_MODULE
-#if ( _PYGSL_GSL_HAS_DERIV == 0 )
+#ifndef _PYGSL_GSL_HAS_DERIV
 #error "The deriv module was only introduced by GSL 1.5. You seem to compile against an older verion!"
 #endif
 #include <gsl/gsl_deriv.h>
@@ -14,7 +13,7 @@
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_math.h>
 #include <setjmp.h>
-/* 
+/*
  * callback functions
  * - python function passed by user
  * - actual C callback
@@ -31,7 +30,7 @@ typedef struct{
 }pygsl_diff_args;
 
 
-static double 
+static double
 diff_callback(double x, void *p)
 {
 	double value;
@@ -57,10 +56,10 @@ typedef int pygsl_deriv_func(const gsl_function *, double, double, double *, dou
 typedef int pygsl_diff_func(const gsl_function *, double, double *, double *);
 
 static PyObject *
-PyGSL_diff_generic(PyObject *self, PyObject *args, 
+PyGSL_diff_generic(PyObject *self, PyObject *args,
 #ifndef PyGSL_DIFF_MODULE
 		   pygsl_deriv_func func
-#else 
+#else
 		   pygsl_diff_func func
 #endif
 )
@@ -93,7 +92,7 @@ PyGSL_diff_generic(PyObject *self, PyObject *args,
 	diff_gsl_callback.params = (void *) &pargs;
 
 	if(! PyCallable_Check(cb)) {
-		PyErr_SetString(PyExc_TypeError, 
+		PyErr_SetString(PyExc_TypeError,
 				"The first parameter must be callable");
 		return NULL;
 	}
@@ -116,19 +115,19 @@ PyGSL_diff_generic(PyObject *self, PyObject *args,
 #ifndef PyGSL_DIFF_MODULE
 	     flag = func(&diff_gsl_callback, x, h, &value, &abserr);
 #else
-	     flag = func(&diff_gsl_callback, x, &value, &abserr);	
+	     flag = func(&diff_gsl_callback, x, &value, &abserr);
 #endif
 	}else{
 		DEBUG_MESS(2, "CALLBACK called longjmp! flag =%d", flag);
 	}
-	
+
 	/* Arguments no longer used */
 	Py_DECREF(pargs.args);
 
 	/* Dispose of callback */
 	Py_DECREF(pargs.callback);
 
- 
+
 	if(flag != GSL_SUCCESS){
 		PyGSL_ERROR_FLAG(flag);
 		return NULL;

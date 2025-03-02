@@ -2,6 +2,7 @@
  * author: Pierre Schnizer
  * created: June 2003
  */
+#include <pygsl/numpy_api_version.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/string_helpers.h>
 #include <gsl/gsl_math.h>
@@ -13,6 +14,7 @@
 #include <numpy/arrayobject.h>
 #include <numpy/ufuncobject.h>
 #include <pygsl/block_helpers.h>
+#include "pygsl_sf_config.h"
 /*
    #include <pygsl/utils.h>
    #include <pygsl/error_helpers.h>
@@ -92,8 +94,8 @@ _pygsl_sf_long_to_unsigned_int(long val, unsigned int * result)
 #endif
 
 #ifdef IMPORTALL
-#include "sf__evals.c"
-#include "sf__data.c"
+#include "sf__evals.h"
+#include "sf__data.h"
 #endif
 
 static void * polar_to_rect_data [] = { (void *) gsl_sf_polar_to_rect, (void *) gsl_sf_polar_to_rect};
@@ -205,7 +207,7 @@ static struct PyModuleDef moduledef = {
         "pygsl.testing.sf",
         NULL,
         -1,
-        sf_array_functions,
+        NULL, //sf_array_functions,
         NULL,
         NULL,
         NULL,
@@ -214,7 +216,7 @@ static struct PyModuleDef moduledef = {
 #endif
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit__ufuncs(void)
+PyMODINIT_FUNC PyInit__ufuncs(void)
 #define RETVAL sf_module
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) init_ufuncs(void)
@@ -295,7 +297,7 @@ DL_EXPORT(void) init_ufuncs(void)
   /* Py_DECREF(f); */
 
 #ifdef IMPORTALL
-#include "sf__objects.c"
+#include "sf__objects.h"
 #endif
 
   FUNC_MESS_END();

@@ -10,7 +10,7 @@ Or eecute it by hand
   swig -xml -I<Include path of gsl> sf.i
 
 * Then call
-  extract_ufunc_swig.py 
+  extract_ufunc_swig.py
 
 """
 from __future__ import print_function
@@ -50,7 +50,7 @@ def extract_name_value(element):
 
 def extract_value(element, name):
     """Check that the attr["name"] matches the name and return the content of the
-    "value" attribute    
+    "value" attribute
     """
     n, v = extract_name_value(element)
     if name != n:
@@ -60,18 +60,18 @@ def extract_value(element, name):
 
 def check_name_value(element, name, value):
     """Check that the name and value attributes match the content of name and value
-    """    
+    """
     v = extract_value(element, name)
     if value != v:
-        raise ExtractError("Expected attr name '%s' != '%s'!" %(value,  v))        
+        raise ExtractError("Expected attr name '%s' != '%s'!" %(value,  v))
 
-    
+
 def extract_func_parameter(par_n, level = None):
     """Extract one function parameter
     """
     al_l = list(par_n)
     assert(len(al_l) == 1)
-    
+
     al = al_l[0]
     assert(al.tag == "attributelist")
 
@@ -83,7 +83,7 @@ def extract_func_parameter(par_n, level = None):
     return var_type, var_name
 
 
-    
+
 def create_arg(var_type, var_name):
     """convert a var_type as named by swig to a name gsl_arg.Argument understands
 
@@ -96,7 +96,7 @@ def create_arg(var_type, var_name):
 
     is_input = False
     is_output = False
-    
+
     quality = None
 
     arg = gsl_arg.Argument()
@@ -119,7 +119,7 @@ def create_arg(var_type, var_name):
         else:
             raise FunctionParameterTypeError("var_type '%s': t_type '%s' not known" %(var_type, t_type))
 
-    else:             
+    else:
         raise FunctionParameterTypeError("var_type '%s: len('%s') != 1|2" %(var_type, l))
 
     # Reimplement Argument as a dispatcher
@@ -130,8 +130,8 @@ def create_arg(var_type, var_name):
     if is_input:
         arg.SetInputArgument()
     elif is_output:
-        arg.SetOutputArgument()                        
-    else:            
+        arg.SetOutputArgument()
+    else:
         raise FunctionParameterTypeError("var_type '%s': quality '%s' not known" %(var_type, quality))
 
     return arg
@@ -150,14 +150,14 @@ def create_sf_prototype(f_name, f_params, ret_type):
                 print(f_name)
         args.append(arg)
     args = tuple(args)
-        
+
     # The return type
     ret_arg = gsl_arg.Argument()
     ret_arg.SetName("ret")
     ret_arg.SetType(ret_type)
     #ret_arg.UnsetOutputArgument()
     ret_arg.SetReturnArgument()
-    
+
     sf = sf_prototype.sf_prototype_build(name = f_name, ret = ret_arg, params = args)
     return sf
 
@@ -241,13 +241,13 @@ def extract_func(attr_l, level=None, verbose = None):
     """
     indent = get_indent(level)
 
-    # Thats how swig stores a function ... as I guessed it 
+    # Thats how swig stores a function ... as I guessed it
     f_name = extract_value(attr_l[0], "sym_name")
     f_name_check = extract_value(attr_l[1], "name")
 
     if f_name in exclude_list:
         return
-    
+
     f_decl = extract_value(attr_l[2], "decl")
 
     # Now see if it is really a function
@@ -258,7 +258,7 @@ def extract_func(attr_l, level=None, verbose = None):
 
     if kind != "function":
         raise FunctionFormatError("Not a function: %s: '%s' " % (kind_n.tag, kind_n.attrib))
-    
+
     # The paramters are a a parmlist
     parl_n = attr_l[3]
     tag = parl_n.tag
@@ -269,9 +269,9 @@ def extract_func(attr_l, level=None, verbose = None):
     args = []
     cnt = 0
     for par_n in list(parl_n):
-        # The parameter of each variable        
-        assert(par_n.tag == "parm")        
-        var_type, var_name = extract_func_parameter(par_n, level = level+1)    
+        # The parameter of each variable
+        assert(par_n.tag == "parm")
+        var_type, var_name = extract_func_parameter(par_n, level = level+1)
         f_params.append((var_type, var_name))
 
     ret_type = extract_value(attr_l[5], "type")
@@ -282,12 +282,12 @@ def extract_func(attr_l, level=None, verbose = None):
     if verbose:
         print( "Function: %s%s %s(%s) = %s" %(indent, ret_type, f_name,  args_str, f_decl))
 
-    
-    sf = create_sf_prototype(f_name, f_params, ret_type) 
-    
+
+    sf = create_sf_prototype(f_name, f_params, ret_type)
+
     return sf
-        
-    
+
+
 
 def handle_cdecl(cdecl, level=0, verbose = None):
     """swig declares function calls as a c declaration
@@ -300,7 +300,7 @@ def handle_cdecl(cdecl, level=0, verbose = None):
     l = len(children)
     assert(l == 1)
 
-    al = children[0]    
+    al = children[0]
     assert(al.tag == "attributelist")
 
     cl = list(al)
@@ -323,8 +323,8 @@ def handle_cdecl(cdecl, level=0, verbose = None):
     if verbose:
         print("%s %s %s:%s" % ("CD", indent, cdecl.tag, cdecl.attrib) )
         print("%s %s %s:%s" % ("Func", indent, func.tag, func.attrib) )
-        
-        
+
+
     if sub_nodes  == 0:
         for child in cl:
             tmp = handle_nodes(child, level= level +1, only_node_name = (), mark = "NF", verbose = verbose)
@@ -332,13 +332,13 @@ def handle_cdecl(cdecl, level=0, verbose = None):
     return sf_s
 
 def handle_nodes(top, level = 0, mark = None, only_node_name = None, verbose = None):
-    """handle the nodes of the tree top    
+    """handle the nodes of the tree top
     """
     #if level > 6:
     #    return
 
     sf_s = []
-    
+
     if only_node_name == None:
         only_node_name = ("include", "attributelist", "attribute")
     indent = get_indent(level)
@@ -361,7 +361,7 @@ def handle_nodes(top, level = 0, mark = None, only_node_name = None, verbose = N
             print("TAG %s %s %s:" % (t_mark, indent, top.tag) )
         else:
             print("NTAG %s %s %s: %s" % (t_mark, indent, top.tag, attr))
-    
+
     for child in list(top):
         names = only_node_name
         if child.tag == "cdecl":
@@ -372,11 +372,11 @@ def handle_nodes(top, level = 0, mark = None, only_node_name = None, verbose = N
             tmp = handle_nodes(child, level= level +1, only_node_name = names, mark = mark, verbose = verbose)
         sf_s.extend(tmp)
 
-        
+
     return sf_s
-            
-        
-        
+
+
+
 def traverse_tree(tree, verbose = None):
     """Build up sf_prototype instances for the different functions found
     """
@@ -391,7 +391,7 @@ def traverse_tree(tree, verbose = None):
         sf_s.extend(sf)
     return sf_s
 
-    
+
 
 def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_dir = None):
 
@@ -401,7 +401,7 @@ def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_di
     assert(doc_dir is not None)
 
     output_prefix = prefix
-    
+
     tree = ElementTree.parse(file_name)
     sf_s = traverse_tree(tree, verbose= False)
 
@@ -424,8 +424,8 @@ def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_di
         except KeyError as des:
             dic[UFuncName] = sf
 
-    eval_name = os.path.join(output_dir, output_prefix + "_evals.c")
-    data_name = os.path.join(output_dir, output_prefix + "_data.c")
+    eval_name = os.path.join(output_dir, output_prefix + "_evals.h")
+    data_name = os.path.join(output_dir, output_prefix + "_data.h")
     #array_name = output_prefix + "_arrays.c"
 
     ef = open(eval_name, "wt")
@@ -453,8 +453,8 @@ def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_di
         df.close()
         del df
 
-    cb_name = os.path.join(output_dir, output_prefix + "_data.c")
-    obj_name = os.path.join(output_dir, output_prefix + "_objects.c")
+    cb_name = os.path.join(output_dir, output_prefix + "_data.h")
+    obj_name = os.path.join(output_dir, output_prefix + "_objects.h")
     cbf = open(cb_name, "at")
     of = open(obj_name, "wt")
     try:
@@ -470,7 +470,7 @@ def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_di
 
     emit_sf_doc(sf_valid, doc_dir = doc_dir, output_prefix = prefix)
 
-    
+
 def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
     sf_valid_doc = copy.copy(sf_valid)
     sf_dic = {}
@@ -506,7 +506,7 @@ def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
         'gsl_complex',
     #        'sf_complex',
     #   'complex',
-     )        
+     )
 
     names = list(names)
     names.sort()
@@ -515,7 +515,7 @@ def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
     # names are unique
     assert(len(names) == len(names_test))
 
-    
+
     #doc_name = os.path.join(output_dir, output_prefix + "_doc.rst")
     #with open(doc_name, "wt") as doc_f:
     #    for name in names_test:
@@ -533,12 +533,12 @@ def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
                 to_remove.append(name)
         to_remove = set(to_remove)
         names.difference_update(to_remove)
-        
+
     for sec in sf_sections:
         doc_name = os.path.join(doc_dir, output_prefix + "_" + sec + "_doc.rst")
         with open(doc_name, "wt") as doc_f:
             sort_sf_to_file(sf_dic, names, sec, doc_f)
-                            
+
     sf_sec_dic = {
         'legendre' : ('legendre', 'conical',),
         'trig' : ('gsl_sf_sin', 'gsl_sf_sin', 'gsl_sf_cos', 'gsl_sf_cos',
@@ -582,7 +582,7 @@ def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
             print(name)
             emit_code.emit_doc(sf, doc_f)
 
-                
+
 def run():
     import os.path
     #file_name = "sf.xml"
@@ -591,7 +591,7 @@ def run():
     dirname = os.path.dirname(__file__)
     full_name = os.path.join(dirname, file_name)
     build_ufunc_files(full_name, out_dir, "sf_")
-    
+
 if __name__ == '__main__':
     import argparse
 

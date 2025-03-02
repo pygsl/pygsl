@@ -666,7 +666,8 @@ extern "C"
 
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit__siman(void)
+PyMODINIT_FUNC
+PyInit__siman(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) init_siman(void)

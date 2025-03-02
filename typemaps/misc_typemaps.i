@@ -14,7 +14,7 @@
 %typemap(argout) size_t * OUTPUT{
     PyObject *o;
     o = PyInt_FromLong((long) (*$1));
-    $result = SWIG_Python_AppendOutput($result, o);
+    $result = SWIG_AppendOutput($result, o);
 }
 %typemap(in, numinputs=0) size_t * OUT = size_t * OUTPUT;
 %typemap(argout) size_t * OUT = size_t * OUTPUT;

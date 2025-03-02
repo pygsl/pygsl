@@ -4,6 +4,7 @@
  */
 %{
 #include <gsl/gsl_multifit_nlin.h>
+#include "pygsl_multifit_nlin_config.h"
 #include "pygsl_multifit.ic"  
 %}
 
@@ -15,8 +16,9 @@
 %}
 
 %{
-#include <pygsl/pygsl_features.h>
-  
+//#include <pygsl/pygsl_features.h>
+
+//#define _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_STRUCT_MEMBER_J
 #ifdef _PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC
   PyObject * _gsl_multifit_fdfsolver_getJ(gsl_multifit_fdfsolver * s)
   {
@@ -170,11 +172,12 @@ extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmder;
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmsder;
 
 %inline %{
-#include <pygsl/pygsl_features.h>
+//#include <pygsl/pygsl_features.h>
 	/* 
 	 * config process checked the available minimizers.
 	 * If not available define them as NULL
 	 */
+#define _PYGSL_GSL_HAS_MULTFIT_FDFSOLVER_LMNIEL
 #ifdef _PYGSL_GSL_HAS_MULTFIT_FDFSOLVER_LMNIEL
 extern const gsl_multifit_fdfsolver_type * gsl_multifit_fdfsolver_lmniel;
 #else

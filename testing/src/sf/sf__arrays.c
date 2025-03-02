@@ -1,14 +1,12 @@
 #include <Python.h>
 #include <pygsl/numpy_api_version.h>
-/* #define NPY_NO_DEPRECATED_API NPY_2_0_API_VERSION */
 #include <numpy/arrayobject.h>
-
-// #include <pygsl/pygsl_features_config.h>
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_sf.h>
 #include <gsl/gsl_nan.h>
+#include "pygsl_sf_config.h"
 
 #ifndef IMPORTALL
 static PyObject *module=NULL;

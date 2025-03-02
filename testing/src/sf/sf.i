@@ -1,6 +1,6 @@
 %module sf
 
-#include <pygsl/pygsl_features_config.h>
+#include "pygsl_sf_config.h"
 %ignore gsl_sf_angle_restrict_pos_e; // use a double * for input and output. not properly recognized.
 // use gsl_sf_angle_restricted_pos_err_e complies to the usual interface
 %ignore gsl_sf_result_smash_e; // the only one to use a const pointer as input. Not recognized by the tool.

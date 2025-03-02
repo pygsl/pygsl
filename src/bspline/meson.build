@@ -1,0 +1,1 @@
+swig_mods += [{'inc_dir': include_directories('.'), 'src': files('bspline.i')[0], 'tgt': 'bspline'}]

@@ -63,17 +63,17 @@ static void define_const_ints(PyObject* module)
  * method definitions
  */
 
-static PyObject* 
+static PyObject*
 set_mode(PyObject *self, PyObject *args)
 {
   int precision=2;
   int rounding=1;
   int exception_mask=GSL_IEEE_MASK_ALL;
-  int flag; 
+  int flag;
   if (!PyArg_ParseTuple(args, "|iii", &precision, &rounding,  &exception_mask))
     return NULL;
-  
- 
+
+
   flag = gsl_ieee_set_mode(precision, rounding, exception_mask);
   if (GSL_SUCCESS != PyGSL_error_flag(flag))
     return NULL;
@@ -82,7 +82,7 @@ set_mode(PyObject *self, PyObject *args)
   return Py_None;
 }
 
-static PyObject* 
+static PyObject*
 env_setup(PyObject *self, PyObject *args)
 {
   gsl_ieee_env_setup();
@@ -90,7 +90,7 @@ env_setup(PyObject *self, PyObject *args)
   return Py_None;
 }
 
-static PyObject* 
+static PyObject*
 bin_repr(PyObject *self, PyObject *args)
 {
   double x;
@@ -110,7 +110,7 @@ ieee_isnan(PyObject *self, PyObject *arg)
      return PyLong_FromLong(gsl_isnan(tmp));
 }
 
-static PyObject* 
+static PyObject*
 ieee_isinf(PyObject *self, PyObject *arg)
 {
      double tmp;
@@ -120,7 +120,7 @@ ieee_isinf(PyObject *self, PyObject *arg)
 
 }
 
-static PyObject* 
+static PyObject*
 ieee_finite(PyObject *self, PyObject *arg)
 {
      double tmp;
@@ -147,7 +147,7 @@ static PyObject* ieee_posinf(PyObject *self)
 
 /* setup gsl mode and ieee modes from environment variable GSL_IEEE_MODE */
 
-static const char env_setup_doc[] = 
+static const char env_setup_doc[] =
 "Set the IEEE mode, the GSL library should use, using the GSL_IEEE_MODE\n\
   environement variable\n\n\
 You can also use os.environ['GSL_IEEE_MODE']='<desired_behaviour>' to\n\
@@ -159,14 +159,14 @@ Calls :c:func:`gsl_ieee_env_setup()`\n\
 static const char bin_repr_doc[] =
 "takes a double and returns its  sign, mantissa, exponent and type\n";
 
-static const char set_mode_doc[] = 
+static const char set_mode_doc[] =
 ".. py:function:: set_mode(precision, rounding, exception_mask)\n\
     \n\
     Sets the ieee float handling mode\n\n\
     \n\
     Args:\n\
        precision      : one of :py:data:`single_precision` , :py:data:`double_precision` , :py:data:`extended_precision` \n\
-       rounding       : one of :py:data:`round_to_nearest` , :py:data:`round_down` , :py:data:`round_up` , :py:data:`round_to_zero` \n\ 
+       rounding       : one of :py:data:`round_to_nearest` , :py:data:`round_down` , :py:data:`round_up` , :py:data:`round_to_zero` \n\
        exception_mask : \n\
     \n\
     Each flag can be a combination of the constants defined in this module\n \
@@ -251,7 +251,7 @@ extern "C"
 #endif
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit_ieee(void)
+PyMODINIT_FUNC PyInit_ieee(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) initieee(void)
@@ -268,7 +268,7 @@ DL_EXPORT(void) initieee(void)
 
   if (m == NULL)
     return RETVAL;
-  
+
   init_pygsl();
   define_const_ints(m);
 

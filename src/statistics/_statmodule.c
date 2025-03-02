@@ -305,7 +305,8 @@ extern "C"
 #endif
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit__stat(void)
+PyMODINIT_FUNC
+PyInit__stat(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) init_stat(void)

@@ -239,7 +239,8 @@ extern "C"
 #endif
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit_inittest(void)
+PyMODINIT_FUNC
+PyInit_inittest(void)
 #define RETVAL m
 #else
 #define RETVAL

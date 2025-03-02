@@ -38,5 +38,5 @@ abstract: >-
   (GSL,  https://www.gnu.org/software/gsl/) Nearly all
   modules are wrapped.
 license: GPL-2.0
-version: 2.5.1
-date-released: '2025-01-10'
+version: 2.6.0-pre-a
+date-released: 'tbd'

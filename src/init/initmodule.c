@@ -4,13 +4,13 @@
  * file: pygsl/src/initmodule.c
  * $Id$
  *
- * Changes: 
+ * Changes:
  *     7. October 2003:
- *     Removed the error handler from this file. It is now in 
+ *     Removed the error handler from this file. It is now in
  *     Lib/error_helpers.c Each module must call init_pygsl()
  *     in its init routine. This is necessary to support platforms
- *     where the gsl library is statically linked to the various 
- *     modules.    
+ *     where the gsl library is statically linked to the various
+ *     modules.
  */
 #define  _PyGSL_API_MODULE 1
 static const char pygsl_debug_name[] = "pygsl_debug";
@@ -49,7 +49,7 @@ static const char pygsl_debug_name[] = "pygsl_debug";
  */
 static char pygsl_error_str[512];
 #define PyGSL_string_as_string _PyGSL_string_as_string
-static char * 
+static char *
 _PyGSL_string_as_string(PyObject * unicode_obj)
 {
 	PyObject * bytes_obj = NULL;
@@ -57,13 +57,13 @@ _PyGSL_string_as_string(PyObject * unicode_obj)
 
 	FUNC_MESS_BEGIN();
 	bytes_obj = PyUnicode_AsASCIIString(unicode_obj);
-	if(bytes_obj == NULL) 
+	if(bytes_obj == NULL)
 		goto fail;
-	
+
 	r = PyBytes_AsString(bytes_obj);
 	FUNC_MESS_END();
 	return r;
-	
+
   fail:
 	FUNC_MESS("FAIL");
 	Py_XDECREF(bytes_obj);
@@ -82,7 +82,7 @@ static PyObject * debuglist = NULL;
 
 
 
-static int 
+static int
 PyGSL_register_debug_flag(int * ptr, const char * module_name)
 {
 #if DEBUG == 1
@@ -109,6 +109,7 @@ static PyObject *
 PyGSL_set_debug_level(PyObject *self, PyObject *args)
 {
 
+     int status=GSL_EFAILED;
      FUNC_MESS_BEGIN();
 #if DEBUG == 1
      PyObject *o;
@@ -125,7 +126,7 @@ PyGSL_set_debug_level(PyObject *self, PyObject *args)
      DEBUG_MESS(3, "Setting debug level to %d for %d modules", pygsl_debug_level, max);
      for(i = 0; i < max; ++i){
 	  if((o = PySequence_GetItem(debuglist, i)) == NULL){
-	       fprintf(stderr, "In file %s at line %d; Could not get element %d\n", 
+	       fprintf(stderr, "In file %s at line %d; Could not get element %d\n",
 		       __FILE__, __LINE__, i);
 	       continue;
 	  }
@@ -136,9 +137,20 @@ PyGSL_set_debug_level(PyObject *self, PyObject *args)
      Py_INCREF(Py_None);
      FUNC_MESS_END();
      return Py_None;
-#else 
-     PyGSL_ERROR_NULL("PyGSL was not compiled with DEBUG = 1; Can not set DEBUG level!", GSL_EUNIMPL);
-#endif 
+#else
+     fprintf(stderr, "set_debug_level, debug level not enabled at combpile time\n");
+     status = GSL_EUNIMPL;
+     pygsl_error("PyGSL was not compiled with DEBUG = 1; Can not set DEBUG level!",
+		 __FILE__, __LINE__, status);
+     if (PyGSL_ERROR_FLAG(status)!= GSL_SUCCESS){
+	 FUNC_MESS_FAILED();
+	 return NULL;
+     }
+
+     Py_INCREF(Py_None);
+     FUNC_MESS_END();
+     return Py_None;
+#endif
 }
 
 static PyObject *
@@ -147,9 +159,9 @@ PyGSL_get_debug_level(PyObject *self, PyObject *args)
      int tmp;
 #if DEBUG == 1
      tmp = (int) pygsl_debug_level;
-#else 
+#else
      tmp = DEBUG;
-#endif 
+#endif
      return PyLong_FromLong(tmp);
 }
 
@@ -260,7 +272,7 @@ static void
 PyGSL_init_api(void)
 {
      int i;
-     
+
      for(i=0;i<PyGSL_NENTRIES_NUM; ++i){
 	  _PyGSL_API[i] = NULL;
      }
@@ -268,7 +280,7 @@ PyGSL_init_api(void)
      _PyGSL_API[PyGSL_RNG_ObjectType_NUM                       ] = NULL;
      _PyGSL_API[PyGSL_error_flag_NUM                           ] = (void *) &PyGSL_error_flag;
      _PyGSL_API[PyGSL_error_flag_to_pyint_NUM                  ] = (void *) &PyGSL_error_flag_to_pyint;
-     _PyGSL_API[PyGSL_add_traceback_NUM                        ] = (void *) &PyGSL_add_traceback;    
+     _PyGSL_API[PyGSL_add_traceback_NUM                        ] = (void *) &PyGSL_add_traceback;
      _PyGSL_API[PyGSL_module_error_handler_NUM                 ] = (void *) &PyGSL_module_error_handler;
 
      _PyGSL_API[PyGSL_error_string_for_callback_NUM            ] = (void *) & PyGSL_set_error_string_for_callback        ;
@@ -320,7 +332,7 @@ static const char pygsl_init_m_doc[] =
 "    Please note the functions given here change the total behaviour of pygsl.\n"
 "    If wrongly used it could even crash the program.\n"
 "\n";
-  
+
 #ifdef PyGSL_PY3K
 static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
@@ -333,7 +345,7 @@ static struct PyModuleDef moduledef = {
         NULL,
         NULL
 };
-#endif 
+#endif
 
 
 #ifdef __cplusplus
@@ -341,7 +353,8 @@ extern "C"
 #endif
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit_init(void)
+PyMODINIT_FUNC
+PyInit_init(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) initinit(void)
@@ -355,10 +368,10 @@ DL_EXPORT(void) initinit(void)
 #else /* PyGSL_PY3K */
   m = Py_InitModule("pygsl.init", initMethods);
 #endif /* PyGSL_PY3K */
-  
+
   import_array();
-  
-  
+
+
   if(m == NULL){
        fprintf(stderr, "I could not init pygsl.init!");
        return RETVAL;
@@ -371,8 +384,8 @@ DL_EXPORT(void) initinit(void)
   }
 
   PyGSL_init_api();
-  
-  if(PyGSL_init_errno() != 0){ 
+
+  if(PyGSL_init_errno() != 0){
        PyErr_SetString(PyExc_ImportError, "Failed to init errno handling!");
   }
   PyGSL_API = _PyGSL_API;
@@ -381,7 +394,7 @@ DL_EXPORT(void) initinit(void)
   api = PyCapsule_New((void *) PyGSL_API, _PyGSL_API_CAP_NAME,NULL);
   assert(api);
   if (PyDict_SetItemString(d, "_PYGSL_API", api) != 0){
-       PyErr_SetString(PyExc_ImportError, 
+       PyErr_SetString(PyExc_ImportError,
 		       "I could not add  _PYGSL_API!");
        return RETVAL;
   }
@@ -423,6 +436,6 @@ DL_EXPORT(void) initinit(void)
    * These functions will be moved to the approbriate modules and the user will
    * have to call them explicitly when needed.
    */
-  
+
   return RETVAL;
 }

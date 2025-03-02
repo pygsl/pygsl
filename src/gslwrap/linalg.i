@@ -8,6 +8,8 @@
 #include <gsl/gsl_linalg.h>
 #include <gsl/gsl_matrix_complex_double.h>
 #include <gsl/gsl_matrix.h>
+
+#include "pygsl_eigen_config.h"
 %}
 %import permutation.i
 /* 
