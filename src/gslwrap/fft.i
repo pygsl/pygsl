@@ -2,7 +2,7 @@
 /*
  * Author: Fabian Jakobs
  * Modified by : Pierre Schnizer Feburary 2003
- */     
+ */
 %{
 #include <gsl/gsl_fft.h>
 #include <gsl/gsl_fft_complex.h>
@@ -23,12 +23,12 @@
      if (_PyVector$argnum == NULL)
 	  goto fail;
      $1 = (double *)(_PyVector$argnum->data);
-     $2 = _PyVector$argnum->strides[0] / sizeof(double); 
+     $2 = _PyVector$argnum->strides[0] / sizeof(double);
      $3 = _PyVector$argnum->dimensions[0];
 };
 
 %typemap(argout) (double data[], const size_t stride, const size_t n) {
-  $result = SWIG_Python_AppendOutput($result, (PyObject*)_PyVector$argnum);	
+  $result = SWIG_AppendOutput($result, (PyObject*)_PyVector$argnum);
 };
 
 %typemap(arginit) (gsl_complex_packed_array data, const size_t stride, const size_t n) %{
@@ -47,7 +47,7 @@
 };
 
 %typemap(argout) (gsl_complex_packed_array data, const size_t stride, const size_t n) {
-  $result = SWIG_Python_AppendOutput($result, (PyObject*)_PyVector$argnum);	
+  $result = SWIG_AppendOutput($result, (PyObject*)_PyVector$argnum);
 };
 
 

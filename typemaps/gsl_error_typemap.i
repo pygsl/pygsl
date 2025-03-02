@@ -87,7 +87,7 @@ PyObject *pygsl_module_for_error_treatment = NULL;
 }
 
 %typemap(out) pygsl_size_t_or_error {
-     DEBUG_MESS(5, "returning size_t %ud", (unsigned long) $1);
+     DEBUG_MESS(5, "returning size_t %lu", (unsigned long) $1);
      if(PyErr_Occurred()){
 	 goto fail;
      }

@@ -4,7 +4,7 @@
  */
 
 /*
- * The gsl_multifit_linear_workspace structre was changed from GSL 1.X to 
+ * The gsl_multifit_linear_workspace structre was changed from GSL 1.X to
  * GSL 2.X.
  * setup checks for that and then appropriate measures are taken
  */
@@ -30,10 +30,10 @@
 #define _PyGSL_MULTIFIT_WORKSPACE_SET(s) s->n = s->nmax; (s->p = s->pmax);
 #else /*  _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX */
 #ifndef _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P
-#error "I expected that if nmax and pmax is not found that n and p are always"  
+#error "I expected that if nmax and pmax is not found that n and p are always"
 #error "found"
 #endif /* _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_N_P */
-#define _PyGSL_MULTIFIT_WORKSPACE_SET(s) 
+#define _PyGSL_MULTIFIT_WORKSPACE_SET(s)
 #define _PyGSL_MULTIFIT_GET_NMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->n))
 #define _PyGSL_MULTIFIT_GET_PMAX(s) _PyGSL_TO_ARRAY_INDEX_CAST((s->p))
 #endif /* _PYGSL_GSL_HAS_MULTFIT_LINEAR_WORKSPACE_STRUCT_MEMBER_NMAX_PMAX */
@@ -46,7 +46,7 @@
 	  TYPE_VIEW_$1_basetype _matrix$argnum;
 	  PyGSL_array_index_t _mat_dim0_arg$argnum = -1;
 	  PyGSL_array_index_t _mat_dim1_arg$argnum = -1;
-	  
+
 %}
 %typemap(check) const gsl_matrix *  IN_AND_SIZE  %{
           assert(_PyMatrix$argnum != NULL);
@@ -99,7 +99,7 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
           if(NULL == _PyVector$argnum){
                goto fail;
           }
-	  
+
 	  if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(_PyVector$argnum, 0), sizeof(BASIS_TYPE($1_basetype)), &stride) != GSL_SUCCESS)
 	       goto fail;
 
@@ -115,7 +115,7 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 	  BASIS_C_TYPE($1_basetype)  *data = NULL;
 	  PyGSL_array_index_t stride_recalc=0, dimensions[2];
 
-	       
+
 	  dimensions[0] = _mat_dim1_arg1;
 	  dimensions[1] = _mat_dim1_arg1;
 	  a_array = (PyArrayObject *) PyGSL_New_Array(2, dimensions, NPY_DOUBLE);
@@ -140,20 +140,20 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 
 }
 %typemap(argout) gsl_vector * OUT{
-     $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyVector$argnum);
+     $result = SWIG_AppendOutput($result,  (PyObject *) _PyVector$argnum);
      _PyVector$argnum =NULL;
 };
 %typemap(argout) gsl_matrix * OUT{
-     $result = SWIG_Python_AppendOutput($result,  (PyObject *) _PyMatrix$argnum);
+     $result = SWIG_AppendOutput($result,  (PyObject *) _PyMatrix$argnum);
      _PyMatrix$argnum =NULL;
 };
 
 /* ---------------------------------------------------------------------- */
-/* 
- *  A typemap for translating numpy arrays to the least squares 
+/*
+ *  A typemap for translating numpy arrays to the least squares
  *  representation.
  *
- * The length of vector x establishes the reference. All others check 
+ * The length of vector x establishes the reference. All others check
  * their length to this vector. So if you apply this typemap it will
  * fail if no variable was named x!!!
  *
@@ -162,7 +162,7 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 
 %typemap(arginit) (double *, size_t ) %{
      PyArrayObject *_PyVector$argnum = NULL;
-     size_t         _PyVectorLength$1_name   = 0; 
+     size_t         _PyVectorLength$1_name   = 0;
 %}
 
 %typemap(in)  (double * ,  size_t ){
@@ -192,11 +192,11 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
      $1 = _PyVectorLengthx;
 };
 
-%apply double * OUTPUT {double * c0, 
-                       double * c1, 
-		       double * cov00, 
-                       double * cov01, 
-                       double * cov11, 
+%apply double * OUTPUT {double * c0,
+                       double * c1,
+		       double * cov00,
+                       double * cov01,
+                       double * cov11,
 		       double * sumsq,
 		       double * chisq,
 		       double * Y,
@@ -261,24 +261,24 @@ gsl_multifit_wlinear_svd (const gsl_matrix * IN_AND_SIZE,
                           gsl_multifit_linear_workspace * work_provide);
 
 gsl_error_flag_drop
-gsl_multifit_linear_est (const gsl_vector * x, 
-			 const gsl_vector * c, 
-			 const gsl_matrix * IN, 
+gsl_multifit_linear_est (const gsl_vector * x,
+			 const gsl_vector * c,
+			 const gsl_matrix * IN,
 			 double * Y, double *Y_ERR);
 
 /*
 gsl_error_flag_drop
-gsl_multifit_linear_residuals(const gsl_matrix * IN, 
-			      const gsl_vector * y, 
-			      const gsl_vector * c, 
+gsl_multifit_linear_residuals(const gsl_matrix * IN,
+			      const gsl_vector * y,
+			      const gsl_vector * c,
 			      gsl_vector * r);
 
 */
 
 
 PyObject *
-gsl_multifit_linear_est_matrix (const gsl_matrix * x, 
-				const gsl_vector * c, 
+gsl_multifit_linear_est_matrix (const gsl_matrix * x,
+				const gsl_vector * c,
 				const gsl_matrix * cov);
 
 PyObject *
@@ -303,7 +303,7 @@ pygsl_multifit_linear_residuals (const gsl_matrix *X, const gsl_vector *y,
 	if(r_a == NULL){
 		goto fail;
 	}
-	r = gsl_vector_view_array(PyArray_DATA(r_a), PyArray_DIM(r_a, 0)); 
+	r = gsl_vector_view_array(PyArray_DATA(r_a), PyArray_DIM(r_a, 0));
 	flag = gsl_multifit_linear_residuals(X, y, c, &r.vector);
 	if(GSL_SUCCESS != PyGSL_ERROR_FLAG(flag)){
 		goto fail;
@@ -313,7 +313,7 @@ pygsl_multifit_linear_residuals (const gsl_matrix *X, const gsl_vector *y,
 	return (PyObject *) r_a;
   fail:
 	FUNC_MESS("Fail");
-	Py_XDECREF(r_a);	
+	Py_XDECREF(r_a);
 	return NULL;
 }
 %}
@@ -322,12 +322,12 @@ pygsl_multifit_linear_residuals (const gsl_matrix *X, const gsl_vector *y,
 			  (const double * y, const size_t ystride),
 			  (const double * w, const size_t wstride)
 			 };
-/* ---------------------------------------------------------------------- */		       
+/* ---------------------------------------------------------------------- */
 gsl_error_flag_drop gsl_fit_linear (const double * x, const size_t xstride,
                     const double * y, const size_t ystride,
                     const size_t n,
-                    double * c0, double * c1, 
-                    double * cov00, double * cov01, double * cov11, 
+                    double * c0, double * c1,
+                    double * cov00, double * cov01, double * cov11,
                     double * sumsq);
 
 
@@ -335,16 +335,16 @@ gsl_error_flag_drop gsl_fit_wlinear (const double * x, const size_t xstride,
                      const double * w, const size_t wstride,
                      const double * y, const size_t ystride,
                      const size_t n,
-                     double * c0, double * c1, 
-                     double * cov00, double * cov01, double * cov11, 
+                     double * c0, double * c1,
+                     double * cov00, double * cov01, double * cov11,
                      double * chisq);
 
-%apply double * OUTPUT {double * y, 
-			double * y_err} 
+%apply double * OUTPUT {double * y,
+			double * y_err}
 
 gsl_error_flag_drop
-gsl_fit_linear_est (const double x, 
-                    const double c0, const double c1, 
+gsl_fit_linear_est (const double x,
+                    const double c0, const double c1,
                     const double c00, const double c01, const double c11,
                     double *y, double *y_err);
 
@@ -352,37 +352,37 @@ gsl_fit_linear_est (const double x,
 gsl_error_flag_drop gsl_fit_mul (const double * x, const size_t xstride,
                  const double * y, const size_t ystride,
                  const size_t n,
-                 double * c1, 
-                 double * cov11, 
+                 double * c1,
+                 double * cov11,
                  double * sumsq);
 
 gsl_error_flag_drop gsl_fit_wmul (const double * x, const size_t xstride,
                   const double * w, const size_t wstride,
                   const double * y, const size_t ystride,
                   const size_t n,
-                  double * c1, 
-                  double * cov11, 
+                  double * c1,
+                  double * cov11,
                   double * sumsq);
 
 
 gsl_error_flag_drop
-gsl_fit_mul_est (const double x, 
-                 const double c1, 
+gsl_fit_mul_est (const double x,
+                 const double c1,
                  const double c11,
                  double *y, double *y_err);
 
 
 /*
-int gsl_fit_poly (const double * x, 
+int gsl_fit_poly (const double * x,
                   const double * w,
-                  const double * y, 
+                  const double * y,
                   size_t n,
                   double * c, size_t m,
                   double * chisq);
 
-int gsl_fit_fns (const double * A, 
+int gsl_fit_fns (const double * A,
                  const double * w,
-                 const double * y, 
+                 const double * y,
                  size_t n,
                  double * c, size_t m,
                  double * chisq);
