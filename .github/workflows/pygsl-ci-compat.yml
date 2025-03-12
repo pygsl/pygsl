@@ -31,11 +31,12 @@ jobs:
         if: steps.cache-swig-src.outputs.cache-hit != 'true'
         run: |
           sh -x compat/download-swig4.3.sh
+          mv build/swig4.3_ubuntu_src.tar ${{ github.workspace }}/swig4.3_ubuntu_src.tar
 
       - name: use swig src artifact
         uses: actions/download-artifact@v4
         with:
-          name: swig4.3
+          name: swig4.3_ubuntu_src.tar
       - name: Extract swig src
         run: |
           mkdir build/src && tar -xvf swig4.3_ubuntu_src.tar -C build/src --strip-components=1
