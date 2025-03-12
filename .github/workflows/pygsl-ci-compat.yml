@@ -46,8 +46,9 @@ jobs:
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
         run: |
           find . -name 'swig4.3*'
-          ls -l build/src/swig-*.dsc
-          dpkg-source -x build/src/swig-*.dsc
+          ls -l build/src/swig*.dsc
+          find . -type f
+          dpkg-source -x build/src/swig*.dsc
           sudo apt-get build-dep build/src/swig-4.3.0/
 
       - name: Build package
