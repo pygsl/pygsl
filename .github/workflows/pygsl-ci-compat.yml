@@ -32,7 +32,11 @@ jobs:
         run: |
           sh -x compat/download-swig4.3.sh
 
-      - name: Extract source
+      - name: use swig src artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: swig4.3
+      - name: Extract swig src
         run: |
           mkdir build/src && tar -xvf swig4.3_ubuntu_src.tar -C build/src --strip-components=1
       - name: Cache built package
