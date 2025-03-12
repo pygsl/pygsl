@@ -54,7 +54,7 @@ jobs:
       - name: Build package
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
         run: |
-          dpkg-buildpackage -us -uc build/swig-4.3.0/
+          (cd build/swig-4.3.0/ && dpkg-buildpackage -us -uc )
           # for debugging purposes
           find . -name '*.deb'
           mv build/swig-4.3.0/swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
