@@ -46,7 +46,7 @@ inc_dirs = include_directories(
 # subdir('pygsl')
 install_subdir('pygsl', install_dir : py.get_install_dir())
 foreach subdir : ['testing', 'statistics']
-    install_subdir('pygsl' / subdir, install_dir : py.get_install_dir() / subdir)
+    install_subdir('pygsl' / subdir, install_dir : py.get_install_dir() / 'pygsl' / subdir)
 endforeach
 #--------------------------------------------------------
 # to add swig specific stuff

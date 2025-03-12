@@ -6,7 +6,7 @@ headers = [
 ]
 d = {}
 foreach header: headers
-    d += { '_PYGSL_GSL_HAS_ '+ header.underscorify().to_upper() : false}
+    d += { '_PYGSL_GSL_HAS_'+ header.underscorify().to_upper() : false}
 endforeach
 const_config = configuration_data(d)
 

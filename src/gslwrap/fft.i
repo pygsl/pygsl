@@ -1,8 +1,9 @@
 /* -*- C -*- */
 /*
  * Author: Fabian Jakobs
- * Modified by : Pierre Schnizer Feburary 2003
+ * Modified by : Pierre Schnizer Feburary 2003, 2025
  */
+%include pygsl_compat.i
 %{
 #include <gsl/gsl_fft.h>
 #include <gsl/gsl_fft_complex.h>
@@ -28,7 +29,7 @@
 };
 
 %typemap(argout) (double data[], const size_t stride, const size_t n) {
-  $result = SWIG_AppendOutput($result, (PyObject*)_PyVector$argnum);
+  $result = PyGSL_SWIG_Python_AppendOutput($result, (PyObject*)_PyVector$argnum);
 };
 
 %typemap(arginit) (gsl_complex_packed_array data, const size_t stride, const size_t n) %{
@@ -47,7 +48,7 @@
 };
 
 %typemap(argout) (gsl_complex_packed_array data, const size_t stride, const size_t n) {
-  $result = SWIG_AppendOutput($result, (PyObject*)_PyVector$argnum);
+  $result = PyGSL_SWIG_Python_AppendOutput($result, (PyObject*)_PyVector$argnum);
 };
 
 

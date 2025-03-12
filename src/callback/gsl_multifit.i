@@ -1,6 +1,7 @@
 /* -*- C -*- */
 /**
  * author: Pierre Schnizer
+ * Date: 2025
  */
 
 /*
@@ -8,6 +9,8 @@
  * GSL 2.X.
  * setup checks for that and then appropriate measures are taken
  */
+
+%include pygsl_compat.i
 %{
 #include <gsl/gsl_multifit.h>
 #include <gsl/gsl_fit.h>
@@ -140,11 +143,11 @@ gsl_multifit_linear_free (gsl_multifit_linear_workspace * work);
 
 }
 %typemap(argout) gsl_vector * OUT{
-     $result = SWIG_AppendOutput($result,  (PyObject *) _PyVector$argnum);
+     $result = PyGSL_SWIG_Python_AppendOutput($result,  (PyObject *) _PyVector$argnum);
      _PyVector$argnum =NULL;
 };
 %typemap(argout) gsl_matrix * OUT{
-     $result = SWIG_AppendOutput($result,  (PyObject *) _PyMatrix$argnum);
+     $result = PyGSL_SWIG_Python_AppendOutput($result,  (PyObject *) _PyMatrix$argnum);
      _PyMatrix$argnum =NULL;
 };
 

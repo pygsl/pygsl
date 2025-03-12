@@ -1,4 +1,5 @@
 subdir('init')
+subdir('swig_test')
 subdir('callback')
 subdir('gslwrap')
 subdir('block')
