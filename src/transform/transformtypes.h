@@ -38,7 +38,7 @@ enum pygsl_transform_space_type{
 	WAVELET_WORKSPACE
 };
 
-#include <pygsl/pygsl_features.h>
+// #include <pygsl/pygsl_features.h>
 #include <gsl/gsl_fft.h>
 #include <gsl/gsl_fft_complex.h>
 #include <gsl/gsl_fft_real.h>
@@ -47,6 +47,7 @@ enum pygsl_transform_space_type{
 #include <gsl/gsl_fft_real_float.h>
 #include <gsl/gsl_fft_halfcomplex_float.h>
 #include <gsl/gsl_blas.h>
+#define  _PYGSL_GSL_HAS_WAVELET
 #ifdef  _PYGSL_GSL_HAS_WAVELET
 #define forward forward_wavelet
 #define backward backward_wavelet

@@ -5,6 +5,7 @@
  */
 %{
 #include <gsl/gsl_multimin.h>
+#include "pygsl_multimin_config.h"
 %}
 
 %apply gsl_fsolver * { gsl_multimin_fminimizer *, gsl_multimin_fdfminimizer *}
@@ -150,11 +151,13 @@ gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs;
 
 
 %{
-#include <pygsl/pygsl_features.h>
+// #include <pygsl/pygsl_features.h>
 	/* 
 	 * config process checked the available minimizers.
 	 * If not available define them as NULL
 	 */
+#define _PYGSL_GSL_HAS_MULTIMIN_FDFMINIMIZER_VECTOR_BFGS2
+#define _PYGSL_GSL_HAS_MULTIMIN_FMINIMIZER_NMSIMPLEX
 #ifdef _PYGSL_GSL_HAS_MULTIMIN_FDFMINIMIZER_VECTOR_BFGS2
 extern const
 	       gsl_multimin_fdfminimizer_type *gsl_multimin_fdfminimizer_vector_bfgs2;

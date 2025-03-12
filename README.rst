@@ -13,52 +13,31 @@ Requirements
 To build the interface, you will need
 
 - `GSL 2.x <https://www.gnu.org/software/gsl/>`_
-- `Python 3.x <https://python.org/>`_
+- `Python 3.9 <https://python.org/>`_ or newer
 - `NumPy <https://www.numpy.org/>`_
+- Swig4.0 <https://www.swig.org>_
 - an ANSI C compiler (e.g. gcc).
+- A Posix 1 compliant operating system
+
+Since version 2.6 PyGSL is built using meson-python. It will be automatically
+installed by PyPI during the build process.
 
 Installing PyGSL
 ----------------
 
-Installing from a release archive
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Installing via PyPI
+~~~~~~~~~~~~~~~~~~~
 
-First, uninstall old versions of PyGSL. ``gsl-config`` must be on your path.
 
-Make sure that the Python package ``wheel`` is installed:
+PyGSL can also installed using the pip package installer.
+SWIG is required to be installed and can usually be found via your distribution's package manager
+(for example, ``apt install swig``).
 
-.. code-block:: sh
-
-   pip install wheel
-
-It is needed by the PyGSL installer.
-
-You can download a ``.tar.gz`` file of the latest PyGSL release at https://github.com/pygsl/pygsl/releases. Then run:
+To install PyGSL from PyPI, first install
 
 .. code-block:: sh
 
-   tar -xvzf pygsl-x.y.z.tar.gz
-   cd pygsl-x.y.z
-   python setup.py gsl_wrappers
-   python setup.py config
-   sudo python setup.py install
-
-This will install PyGSL system-wide; for a local install that does not require superuser privileges, specify an installation prefix, for example ``--prefix=/home/work/.local``.
-
-To set the GSL location explicitly, use the argument ``--gsl-prefix=/path/to/gsl``.
-
-PyGSL is installed to the Python packages path, and can be uninstalled by typing:
-
-.. code-block:: sh
-
-   rm -r <python install path>/lib/python<version>/site-packages/pygsl
-
-Installation via PyPI
-~~~~~~~~~~~~~~~~~~~~~
-
-PyGSL can also be installed using the pip package installer. SWIG is required to be installed and can usually be found via your distribution's package manager (for example, ``apt install swig``).
-
-To install PyGSL from PyPI, simply type:
+   pip install --upgrade pip wheel
 
 .. code-block:: sh
 
@@ -69,15 +48,29 @@ To remove PyGSL, use:
 .. code-block:: sh
 
    pip uninstall pygsl
-   
+
+
+Building it locally
+~~~~~~~~~~~~~~~~~~~
+
+It can be useful to install PyGSL locally e.g. if the automatic build process fails.
+In a first step, update the packages `pip` and `wheel` as
+
+.. code-block:: sh
+
+   pip install --upgrade build
+
+-- co
+
+
+
 Using PyGSL
 -----------
 
 Do NOT test the interface in the distribution root directory! -- please
 install it first and then change to the tests directory and execute ``python
-run_test.py``. If you want to execute it in the distribution root directory,
-please run ``python setup.py build_ext -i`` first! It will put the required
-binary files into the ``pygsl`` directory.
+-m pytest .``.
+
 
 Just write in Python
 
@@ -102,13 +95,12 @@ Supported Platforms
 
 - Linux with Python 3.x and GSL 2.x
 - Mac OS X with Python 3.x and GSL 2.x
-- Win32 with Python 3.x and GSL 2.x
 
 but is supposed to compile and run on any posix platform.
 
 Currently it is being tested using GitHub Actions continuous integration on:
 
-- Python 3.8, numpy-latest and GSL 2.7.1 under Ubuntu Linux 22.04.2.
+- Python 3.9 -- 3.12, numpy 1.x and 2.x  and GSL 2.7.1 under Ubuntu Linux 22.04.2.
 
 
 Testing

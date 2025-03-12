@@ -1,0 +1,1 @@
+swig_mods += [{'inc_dir': include_directories('.'), 'src': files('gsl_poly.i')[0], 'tgt': '_poly'}]

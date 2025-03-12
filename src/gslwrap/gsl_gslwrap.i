@@ -1,15 +1,18 @@
 /* -*- C -*- */
 /*
  * Author: Fabian Jakobs
- * Modified by : Pierre Schnizer January 2003
- * 
- * Changes: 
+ * Modified by : Pierre Schnizer January 2003, 2025
+ *
+ * Changes:
  *   22. May 2003: Changed to use the pygsl library. Warning! Do not import
  * Numeric/arrayobject.h before pygsl_block_helpers.h.  pygsl_block_helpers.h
  * defines the PY_ARRAY_UNIQUE_SYMBOL.
- */		 
+ *
+ * 2025: swig 4.3 compatible
+ */
 %module gslwrap
 %feature ("autodoc", "3");
+%include pygsl_compat.i
 
 %{
 #include <gsl/gsl_types.h>
@@ -39,7 +42,7 @@ typedef int size_t;
 
 %immutable;
 %include permutation.i
-%include linalg.i 
+%include linalg.i
 %include combination.i
 %include math.i
 %typemap (out) int = gsl_error_flag_drop;

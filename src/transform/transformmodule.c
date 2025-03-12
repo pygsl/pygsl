@@ -7,7 +7,7 @@
  */
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
-#include <pygsl/pygsl_features.h>
+//#include <pygsl/pygsl_features.h>
 #include <pygsl/string_helpers.h>
 #include <string.h>
 
@@ -19,6 +19,7 @@
 #include <gsl/gsl_fft_real_float.h>
 #include <gsl/gsl_fft_halfcomplex_float.h>
 #include <gsl/gsl_blas.h>
+#define   _PYGSL_GSL_HAS_WAVELET
 #ifdef _PYGSL_GSL_HAS_WAVELET
 #define forward forward_wavelet
 #define backward backward_wavelet
@@ -171,7 +172,8 @@ extern "C"
 #endif
 
 #ifdef PyGSL_PY3K
-PyObject *PyInit__transform(void)
+PyMODINIT_FUNC
+PyInit__transform(void)
 #define RETVAL m
 #else /* PyGSL_PY3K */
 DL_EXPORT(void) init_transform(void)

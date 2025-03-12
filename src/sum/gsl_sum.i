@@ -9,6 +9,9 @@ error. The u-transform works for both convergent and divergent
 series, including asymptotic series."""
 %enddef
 %module(docstring=DOCSTRING) sum;
+
+%include pygsl_compat.i
+
 %{
 #include <gsl/gsl_sum.h>
 #include <pygsl/block_helpers.h>
@@ -49,7 +52,7 @@ def levin_sum(a, truncate=False, info_dict=None):
     Notes: The error estimate is made assuming that the terms a are
     computed to machined precision.
 
-    Example: Computing the zeta function 
+    Example: Computing the zeta function
     zeta(2) = 1/1**2 + 1/2**2 + 1/3**2 + ... = pi**2/6
 
     >>> from math import pi
@@ -71,19 +74,19 @@ def levin_sum(a, truncate=False, info_dict=None):
     else:
         l = _levin(len(a))
 
-    ans = l.accel(a)
+    ans, err_est = l.accel(a)
     if info_dict is not None:
         info_dict['sum_plain'] = l.sum_plain()
         info_dict['terms_used'] = l.get_terms_used()
     del l
-    return ans
+    return ans, err_est
 %}
 
 typedef struct {
-  /*	
+  /*
   size_t size;
-  size_t i;                    
-  size_t terms_used;           
+  size_t i;
+  size_t terms_used;
   double sum_plain;
   double *q_num;
   double *q_den;
@@ -117,7 +120,7 @@ typedef struct {
   double sum_plain(){
        return self->sum_plain;
   }
-  
+
   int minmax(const double *array, const size_t n, const size_t min_terms,
 	      const size_t max_terms, double *sum_accel, double *abserr){
        return gsl_sum_levin_u_minmax(array, n, min_terms, max_terms, self, sum_accel, abserr);
@@ -133,8 +136,8 @@ typedef struct {
 typedef struct {
 	/*
   size_t size;
-  size_t i;                    
-  size_t terms_used;           
+  size_t i;
+  size_t terms_used;
   double sum_plain;
   double *q_num;
   double *q_den;
