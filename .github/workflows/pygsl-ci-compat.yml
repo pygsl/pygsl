@@ -47,9 +47,10 @@ jobs:
         run: |
           find . -name 'swig4.3*'
           ls -l build/src/swig*.dsc
-          dpkg-source -x build/src/swig*.dsc
+          (cd build && dpkg-source -x src/swig*.dsc)
+          echo "swig 4.3.0 is now at:"
           find build -type d
-          (cd build/src/swig-4.3.0/ && sudo apt-get build-dep . )
+          (cd build/swig-4.3.0/ && sudo apt-get build-dep . )
 
       - name: Build package
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
