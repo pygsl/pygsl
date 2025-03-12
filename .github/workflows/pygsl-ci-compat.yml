@@ -1,0 +1,89 @@
+# as soon as these packages are
+name: test if pygsl is compatible with swig-4.3 or gsl-2.8
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install apt dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libgsl-dev swig \
+               python3-dev python3-pip python3-venv \
+               dpkg-buildpackage
+
+      - name: Cache swig-4.3 tar ball
+        id: cache-swig-src
+        uses: actions/cache@v4
+        with:
+          path: swig4.3_ubuntu_src.tar
+          key: src-${{ runner.os }}-${{ hashFiles('compat/download-swig4.3.sh') }}
+
+      - name: Download source (if not cached)
+        if: steps.cache-swig-src.outputs.cache-hit != 'true'
+        run: |
+          sh -x compat/download-swig4.3.sh
+
+      - name: Extract source
+        run: |
+          mkdir src && tar -xvf swig4.3_ubuntu_src.tar -C src --strip-components=1
+      - name: Cache built package
+        id: cache-swig-deb
+        uses: actions/cache@v4
+        with:
+          path: mypackage.deb
+          key: deb-${{ runner.os }}-${{ hashFiles('**/swig4.3_ubuntu_src.tar') }}
+
+      - name: Install build dependencies
+        if: steps.cache-swig-deb.outputs.cache-hit != 'true'
+        run: |
+          sudo apt build-dep src/swig-4.3.0/
+
+      - name: Build package
+        if: steps.cache-swig-deb.outputs.cache-hit != 'true'
+        run: |
+          dpkg-buildpackage -us -uc
+          # for debugging purposes
+          find . -type f
+          mv swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swig4.3
+          path: swig4.3_arch.deb
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download swig4.3 perbuild
+        uses: actions/download-artifact@v4
+        with:
+          name: swig4.3
+
+      - name: Install swig4.3
+        run: |
+          sudo dpkg -i swig4.3_arch.deb || sudo apt-get install -f -y
+
+      - name: build pygsl
+        run: |
+           python3 -m venv venv-test
+           source venv-test/bin/activate
+           python3 -m pip install -upgrade pip wheel pytest
+           python3 -m pip install .
+      - name: Test that pygsl is compatible to swig 4.3
+        run: |
+          (cd tests && python3 -m pytest .)
