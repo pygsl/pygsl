@@ -1,13 +1,14 @@
 /* -*- C -*- */
 /*
  * Author: Fabian Jakobs
- * Modified by : Pierre Schnizer January 2003
+ * Modified by : Pierre Schnizer January 2003, 2025
  *
- * Changelog: 
+ * Changelog:
  *   22. May 2003. Changed to use the pygsl library. Warning! Do not import
  * Numeric/arrayobject.h before pygsl_block_helpers.h.  pygsl_block_helpers.h
  * defines the PY_ARRAY_UNIQUE_SYMBOL.
- */		 
+ */
+%include pygsl_compat.i
 %{
 #include <pygsl/intern.h>
 #include <pygsl/block_helpers.h>
@@ -20,7 +21,7 @@ static const char pygsl_accel_des[] = "gsl_accel";
 
 struct pygsl_spline{
      gsl_spline * spline;
-     gsl_interp_accel *acc;     
+     gsl_interp_accel *acc;
 };
 
 
@@ -30,7 +31,7 @@ struct pygsl_interp{
    double * ya;
    gsl_interp_accel *acc;
    PyArrayObject * x_array;
-   PyArrayObject * y_array;  
+   PyArrayObject * y_array;
    size_t n;
  };
 %}
@@ -119,28 +120,28 @@ struct pygsl_interp{
 
 %apply (const double *, const double *, size_t ) {(const double xa[], const double ya[], size_t size)};
 %apply (const double *, size_t ) {(const double x_array[], size_t size)};
-%apply (const double * array){(const double xa[]), 
+%apply (const double * array){(const double xa[]),
 			      (const double ya[])};
 
 
 
 typedef struct
 {
-     
-     %immutable;     
+
+     %immutable;
 }gsl_interp_accel;
 
 
 %extend gsl_interp_accel{
 
      gsl_interp_accel(){
-	  return gsl_interp_accel_alloc();	  
+	  return gsl_interp_accel_alloc();
      }
 
      ~gsl_interp_accel(){
 	  return gsl_interp_accel_free(self);
      }
-     
+
      gsl_error_flag_drop reset(void);
 
      size_t find(const double x_array[], size_t size, double x);
@@ -167,7 +168,7 @@ _pygsl_spline_eval_vector_generic(const gsl_spline * spline, const gsl_vector *x
      ret = PyGSL_New_Array(1, &n_a, NPY_DOUBLE);
      if(ret == NULL)
 	  return NULL;
-     
+
      data = (double *) PyArray_DATA(ret);
      for(i=0; i<n; ++i){
 	  data[i] = spline_method(spline, gsl_vector_get(x, i), acc);
@@ -195,8 +196,8 @@ _pygsl_spline_eval_e_vector_generic(const gsl_spline * spline, const gsl_vector 
 	  lineno = __LINE__ - 2;
 	  goto fail;
      }
-	  
-     
+
+
      data = (double *) PyArray_DATA(ret);
      for(i=0; i<n; ++i){
 	  ptr = &(data[i]);
@@ -211,7 +212,7 @@ _pygsl_spline_eval_e_vector_generic(const gsl_spline * spline, const gsl_vector 
      return (PyObject *) ret;
 
  fail:
-     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, lineno);     
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, lineno);
      Py_XDECREF(ret);
      return NULL;
 }
@@ -232,13 +233,13 @@ _pygsl_spline_eval_integ_vector(const gsl_spline * spline, const gsl_vector *a,
 	  PyGSL_module_error_handler("Length of boundary b did not match boundary",
 				     __FILE__, __LINE__ - 1, GSL_EBADLEN);
 	  return NULL;
- 
+
      }
      n_a = n;
      ret = PyGSL_New_Array(1, &n_a, NPY_DOUBLE);
      if(ret == NULL)
 	  return NULL;
-     
+
      data = (double *) PyArray_DATA(ret);
      for(i=0; i<n; ++i){
 	  data[i] = gsl_spline_eval_integ(spline, gsl_vector_get(a, i), gsl_vector_get(b, i), acc);
@@ -264,7 +265,7 @@ _pygsl_spline_eval_integ_e_vector(const gsl_spline * spline, const gsl_vector *a
 	  PyGSL_module_error_handler("Length of boundary b did not match boundary",
 				     __FILE__, __LINE__ - 1, GSL_EBADLEN);
 	  goto fail;
- 
+
      }
 
      ret = PyGSL_New_Array(1, &n_a, NPY_DOUBLE);
@@ -272,7 +273,7 @@ _pygsl_spline_eval_integ_e_vector(const gsl_spline * spline, const gsl_vector *a
 	  lineno = lineno - 2;
 	  goto fail;
      }
-     
+
      data = (double *) PyArray_DATA(ret);
      for(i=0; i<n; ++i){
 	  ptr = &(data[i]);
@@ -287,7 +288,7 @@ _pygsl_spline_eval_integ_e_vector(const gsl_spline * spline, const gsl_vector *a
      return (PyObject *) ret;
 
  fail:
-     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, lineno);     
+     PyGSL_add_traceback(module, __FILE__, __FUNCTION__, lineno);
      Py_XDECREF(ret);
      return NULL;
 }
@@ -301,10 +302,10 @@ struct pygsl_spline{
 
 %extend pygsl_spline{
 
-     
+
      pygsl_spline(const gsl_interp_type * T, size_t n){
 	  struct pygsl_spline *self = NULL;
-	  
+
 	  self = (struct pygsl_spline *) calloc(1, sizeof(struct pygsl_spline));
 	  self->spline = NULL;
 	  self->acc = NULL;
@@ -339,7 +340,7 @@ struct pygsl_spline{
 	  free(self);
      }
 
-     /* 
+     /*
       * is that not a source to a memory leak or memory
       * corruption?
      gsl_interp_accel *get_accel_object(){
@@ -354,7 +355,7 @@ struct pygsl_spline{
      size_t accel_find(double x){
        return gsl_interp_accel_find(self->acc, self->spline->x, self->spline->size, x);
      }
-     
+
      PyObject *tocobject(){
 	  return PyCapsule_New((void* ) self->spline, pygsl_spline_des, NULL);
      }
@@ -372,7 +373,7 @@ struct pygsl_spline{
      gsl_error_flag_drop eval_deriv_e(double IN, double * OUTPUT){
 	  return gsl_spline_eval_deriv_e(self->spline, IN, self->acc, OUTPUT);
      }
-     
+
      double eval_deriv(double IN){
 	  return gsl_spline_eval_deriv(self->spline, IN, self->acc);
      }
@@ -382,7 +383,7 @@ struct pygsl_spline{
      }
 
      double eval_deriv2(double IN) {
-	  return gsl_spline_eval_deriv2(self->spline, IN, self->acc);                       
+	  return gsl_spline_eval_deriv2(self->spline, IN, self->acc);
      }
 
      double eval_integ(double a, double b){
@@ -405,7 +406,7 @@ struct pygsl_spline{
      PyObject *eval_e_vector(const gsl_vector *IN){
 	  return  _pygsl_spline_eval_e_vector_generic(self->spline, IN, self->acc, gsl_spline_eval_e);
      }
-     
+
      PyObject * eval_deriv_vector(const gsl_vector *IN){
 	  return  _pygsl_spline_eval_vector_generic(self->spline, IN, self->acc, gsl_spline_eval_deriv);
      }
@@ -429,7 +430,7 @@ struct pygsl_spline{
      PyObject * eval_integ_vector(const gsl_vector *IN, const gsl_vector *IN2){
 	  return _pygsl_spline_eval_integ_vector(self->spline, IN,  IN2, self->acc);
      }
-     
+
      PyObject * eval_integ_e_vector(const gsl_vector *IN, const gsl_vector *IN2){
 	  return _pygsl_spline_eval_integ_e_vector(self->spline, IN,  IN2,  self->acc);
      }
@@ -449,7 +450,7 @@ GSL_VAR const gsl_interp_type * gsl_interp_polynomial;
 GSL_VAR const gsl_interp_type * gsl_interp_cspline;
 GSL_VAR const gsl_interp_type * gsl_interp_cspline_periodic;
 GSL_VAR const gsl_interp_type * gsl_interp_akima;
-GSL_VAR const gsl_interp_type * gsl_interp_akima_periodic;    
+GSL_VAR const gsl_interp_type * gsl_interp_akima_periodic;
 
 
 
@@ -459,7 +460,7 @@ struct pygsl_interp{
 %extend pygsl_interp{
     pygsl_interp(const gsl_interp_type * T, size_t n){
 	  struct pygsl_interp *self = NULL;
-	  
+
 	  self = (struct pygsl_interp *) calloc(1, sizeof(struct pygsl_interp));
 	  self->interp = NULL;
 	  self->acc = NULL;
@@ -496,7 +497,7 @@ struct pygsl_interp{
 	  Py_XDECREF(self->y_array);
 	  self->xa = NULL;
 	  self->ya = NULL;
-	  
+
 	  free(self);
      }
 
@@ -521,7 +522,7 @@ struct pygsl_interp{
 	 flag = GSL_EBADLEN;
 	 goto fail;
        }
-       
+
        Py_XDECREF(self->x_array);
        self->xa = NULL;
        self->x_array = xa;
@@ -546,7 +547,7 @@ struct pygsl_interp{
 	 flag = GSL_EFAILED;
        }
        DEBUG_MESS(6, "Returning flag %d", flag);
-       return flag;       
+       return flag;
      }
 
 
@@ -603,7 +604,7 @@ struct pygsl_interp{
 
 
 
-     
+
 
 
 %typemap(arginit) (const double x_array[]) %{
@@ -639,4 +640,3 @@ struct pygsl_interp{
 %apply(size_t index){size_t index_lo, size_t index_hi};
 size_t gsl_interp_bsearch(const double x_array[], double x,
                           size_t index_lo, size_t index_hi);
-

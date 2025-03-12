@@ -1,10 +1,12 @@
 /*
  * Author: Pierre Schnizer <schnizer@users.sourceforge.net> 2016
- * Date:   March 2016
+ * Date:   March 2016, 2025
  * $Id$
  */
 %module interpolation2d_wrap
 %feature ("autodoc", "3");
+%include pygsl_compat.i
+
 %rename(interp2d) pygsl_interp2d;
 %rename(spline2d) pygsl_spline2d;
 

@@ -3,6 +3,7 @@
  * Author: Pierre Schnizer
  * Date  : December 2002, Jan 2025
  */
+%include pygsl_compat.i
 %{
 #include <stddef.h>
 #include <pygsl/utils.h>

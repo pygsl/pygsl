@@ -16,6 +16,7 @@
 
 
 %module _block
+%include pygsl_compat.i
 %{
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
@@ -57,9 +58,9 @@
 		       int gsl_vector_reverse,
                        int gsl_vector_swap,
          	       int gsl_vector_swap_elements,
-                       int gsl_vector_fread,   
-		       int gsl_vector_fwrite, 
-		       int gsl_vector_fscanf, 
+                       int gsl_vector_fread,
+		       int gsl_vector_fwrite,
+		       int gsl_vector_fscanf,
 		       int gsl_vector_fprintf
 		      };
 
@@ -81,8 +82,3 @@ typedef unsigned int size_t;
 %include gsl_complex_typemap.i
 %include gsl_block_complex.i
 %include gsl_block_complex_float.i
-
-
-
-
-
