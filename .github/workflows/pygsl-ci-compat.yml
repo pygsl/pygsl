@@ -34,7 +34,7 @@ jobs:
 
       - name: Extract source
         run: |
-          mkdir src && tar -xvf swig4.3_ubuntu_src.tar -C src --strip-components=1
+          mkdir build/src && tar -xvf swig4.3_ubuntu_src.tar -C build/src --strip-components=1
       - name: Cache built package
         id: cache-swig-deb
         uses: actions/cache@v4
@@ -45,15 +45,15 @@ jobs:
       - name: Install build dependencies
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
         run: |
-          sudo apt build-dep src/swig-4.3.0/
+          sudo apt build-dep build/src/swig-4.3.0/
 
       - name: Build package
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
         run: |
-          dpkg-buildpackage -us -uc
+          dpkg-buildpackage -us -uc build/src/swig-4.3.0/
           # for debugging purposes
           find . -type f
-          mv swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
+          mv build/src/swig-4.3.0/swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
