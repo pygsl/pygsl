@@ -31,7 +31,6 @@ jobs:
         if: steps.cache-swig-src.outputs.cache-hit != 'true'
         run: |
           sh -x compat/download-swig4.3.sh
-          mv swig4.3_ubuntu_src.tar ${{ github.workspace }}/swig4.3_ubuntu_src.tar
 
       - name: Upload src artifact
         uses: actions/upload-artifact@v4
