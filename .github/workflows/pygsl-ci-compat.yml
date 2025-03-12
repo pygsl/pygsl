@@ -18,7 +18,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libgsl-dev swig \
                python3-dev python3-pip python3-venv \
-               dpkg-buildpackage
+               dpkg-dev
 
       - name: Cache swig-4.3 tar ball
         id: cache-swig-src
