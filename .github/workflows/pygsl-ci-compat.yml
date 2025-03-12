@@ -49,16 +49,15 @@ jobs:
           ls -l build/src/swig*.dsc
           (cd build && dpkg-source -x src/swig*.dsc)
           echo "swig 4.3.0 is now at:"
-          find build -type d
           (cd build/swig-4.3.0/ && sudo apt-get build-dep . )
 
       - name: Build package
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
         run: |
-          dpkg-buildpackage -us -uc build/src/swig-4.3.0/
+          dpkg-buildpackage -us -uc build/swig-4.3.0/
           # for debugging purposes
-          find . -type f
-          mv build/src/swig-4.3.0/swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
+          find . -name '*.deb'
+          mv build/swig-4.3.0/swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
