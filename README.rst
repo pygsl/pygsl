@@ -15,11 +15,12 @@ To build the interface, you will need
 - `GSL 2.x <https://www.gnu.org/software/gsl/>`_
 - `Python 3.9 <https://python.org/>`_ or newer
 - `NumPy <https://www.numpy.org/>`_
-- Swig4.0 <https://www.swig.org>_
+- Swig4 <https://www.swig.org>_
 - an ANSI C compiler (e.g. gcc).
 - A Posix 1 compliant operating system
 
-Since version 2.6 PyGSL is built using meson-python. It will be automatically
+Since version 2.6 PyGSL is built using meson-python. Swig must be always
+installed to build PyGSL.Meson-python will be automatically
 installed by PyPI during the build process.
 
 Installing PyGSL
@@ -60,7 +61,9 @@ In a first step, update the packages `pip` and `wheel` as
 
    pip install --upgrade build
 
--- co
+-- code-block:: sh
+
+   python3 -m build -w .
 
 
 
@@ -89,6 +92,7 @@ or
 
 You may set the environment variable ``LD_LIBRARY_PATH`` to find the gsl
 shared object.
+
 
 Supported Platforms
 -------------------
@@ -141,7 +145,8 @@ What is implemented (versus GSL 2.1):
 - Spline
 - Statistics
 
-What is not implemented yet (versus GSL 1.10)
+
+What is not implemented yet (versus GSL 2.7)
 ---------------------------------------------
 
 - GSL Capabilites not yet wrapped by PyGSL
@@ -159,11 +164,12 @@ For the exact function volume for a module, please type:
 
 .. code-block:: python
 
-   import pygsl.sf
-   dir(pygsl.sf)
+   from pygsl.testing import sf
+   dir(sf)
 
 You can do this with the other modules, too. The naming scheme is the same
 as in GSL.
+
 
 Documentation
 -------------
@@ -173,6 +179,7 @@ The function reference can be found in the docstrings and at the gsl-reference.
 Written documentation can be found in the ``doc/ref`` directory.
 
 See also the ``examples`` directory.
+
 
 Support
 -------
@@ -211,6 +218,7 @@ Thanks
 * Michael Forbes for Series Acceleration
 * and all for support by providing feed back on testing or showing by
   email that the code is useful for them
+
 
 Maintainers
 -----------

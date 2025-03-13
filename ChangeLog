@@ -1,5 +1,6 @@
 v2.6.0 (2025-1) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
         * switch to meson build system
+        * support swig < 4.3 and 4.3
 
 v2.4.1 (2024-1) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
         * added multifit_nlinear
