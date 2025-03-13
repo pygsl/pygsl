@@ -1,5 +1,5 @@
 # as soon as these packages are
-name: test if pygsl is compatible with swig-4.3 or gsl-2.8
+name: test if pygsl is compatible with swig-4.3
 
 on:
   push:
