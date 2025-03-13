@@ -104,4 +104,5 @@ jobs:
            python3 -m pip install .
       - name: Test that pygsl is compatible to swig 4.3
         run: |
+          source venv-test/bin/activate
           (cd tests && python3 -m pytest .)
