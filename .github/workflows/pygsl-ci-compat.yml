@@ -42,12 +42,12 @@ jobs:
           name: swig4.3_src
       - name: Extract swig src
         run: |
-          mkdir build/src && tar -xvf swig4.3_ubuntu_src.tar -C build/src --strip-components=1
+          mkdir -p build/src && tar -xvf swig4.3_ubuntu_src.tar -C build/src --strip-components=1
       - name: Cache built package
         id: cache-swig-deb
         uses: actions/cache@v4
         with:
-          path: mypackage.deb
+          path: swig4.3_arch.deb
           key: deb-${{ runner.os }}-${{ hashFiles('**/swig4.3_ubuntu_src.tar') }}
 
       - name: Install build dependencies
