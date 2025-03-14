@@ -6,9 +6,12 @@
 
 name: test if pygsl is compatible with swig-4.3 and gsl-2.8
 
+
 on:
   push:
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
