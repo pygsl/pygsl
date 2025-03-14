@@ -82,7 +82,8 @@ jobs:
             libgslcblas0-2.8_arch.deb
             libgsl_2.8_arch.deb
 
-  test-swig4.3:
+  # test against swig4.3: at current state not part of ubuntu (swig4.0 standard)
+  test-swig-additional:
     runs-on: ubuntu-latest
     needs: build
 
@@ -112,8 +113,8 @@ jobs:
           python3 -m pip install .
           (cd tests && python3 -m pytest .)
 
-
-  test-gsl-2.8:
+  # test against gsl-2.8, at current stage not part of ubuntu (2.7 standard)
+  test-gsl-add:
     runs-on: ubuntu-latest
     needs: build
 
