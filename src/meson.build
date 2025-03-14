@@ -9,6 +9,7 @@ subdir('rng')
 subdir('statistics')
 subdir('sum')
 subdir('transform')
+subdir('bspline')
 
 compiler = meson.get_compiler('c')
 pygsl_config = configuration_data({
