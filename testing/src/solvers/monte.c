@@ -76,7 +76,7 @@ PyGSL_monte_function_wrap(double *x,  size_t dim, void *params)
      }
      if(a_array == NULL){
 	  dimension = dim;
-	  a_array = (PyArrayObject *) PyArray_FromDimsAndData(1, &dimension, PyArray_DOUBLE, (char *)x);
+	  a_array = (PyArrayObject *) PyArray_SimpleNewFromData(1, &dimension, PyArray_DOUBLE, (char *)x);
 	  cache_ptr->ref = a_array;
 	  cache_ptr->data = x;
 	  /*
