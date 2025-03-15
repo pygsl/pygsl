@@ -13,6 +13,7 @@ on:
   pull_request:
     branches: [ "main" ]
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,8 +36,10 @@ jobs:
         id: cache-swig-deb
         uses: actions/cache@v4
         with:
-          path: swig4.3_arch.deb
-          key: deb-swig-${{ runner.os }}-${{ hashFiles('**/swig4.3_ubuntu_src.tar', 'compat/download-swig4.3.sh') }}
+          path: ${{ github.workspace }}/swig4.3_arch.deb
+          key: deb-swig-${{ runner.os }}-v4.3-${{ hashFiles('**/swig4.3_ubuntu_src.tar', 'compat/download-swig4.3.sh') }}
+          restore-keys: |
+            deb-swig-${{ runner.os }}-v4.3
 
       - name: Install build dependencies and build swig 4.3
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
@@ -49,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: swig4.3
-          path: swig4.3_arch.deb
+          path: ${{ github.workspace }}/swig4.3_arch.deb
 
       - name: Download and extract gsl-2.8 source
         run: |
@@ -61,12 +64,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            libgsl-dev-2.8_arch.deb
-            libgslcblas0-2.8_arch.deb
-            libgsl_2.8_arch.deb
-          key: deb-gsl-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
+            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            ${{ github.workspace }}/libgsl_2.8_arch.deb
+          key: deb-gsl-${{ runner.os }}-v2.8-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
+          restore-keys: |
+            deb-gsl-${{ runner.os }}-v2.8
+            deb-gsl-${{ runner.os }}-v2
+            deb-gsl-${{ runner.os }}-
 
-# addjust to required packages ...
       - name: Install build dependencies and build package gsl 2.8
         if: steps.cache-gsl-deb.outputs.cache-hit != 'true'
         run: |
@@ -81,9 +87,9 @@ jobs:
         with:
           name: gsl-2.8
           path: |
-            libgsl-dev-2.8_arch.deb
-            libgslcblas0-2.8_arch.deb
-            libgsl_2.8_arch.deb
+            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            ${{ github.workspace }}/libgsl_2.8_arch.deb
 
   # test against swig4.3: at current state not part of ubuntu (swig4.0 standard)
   test-swig-additional:
