@@ -7,8 +7,7 @@ project(
 )
 
 compiler = meson.get_compiler('c')
-swig = 'swig4.0'
-swig = 'swig'
+swig = find_program('swig', required: true)
 
 py = import('python').find_installation(pure: false)
 
@@ -60,6 +59,7 @@ subdir('testing')
 #--------------------------------------------------------
 # build swig extension modules
 # message('swig module', swig_mods)
+
 
 foreach swig_mod: swig_mods
     message('building swig module', swig_mod.get('tgt'))
