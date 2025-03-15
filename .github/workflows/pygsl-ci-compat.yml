@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: swig4.3_arch.deb
-          key: deb-${{ runner.os }}-${{ hashFiles('**/swig4.3_ubuntu_src.tar', 'compat/download-swig4.3.sh') }}
+          key: deb-swig-${{ runner.os }}-${{ hashFiles('**/swig4.3_ubuntu_src.tar', 'compat/download-swig4.3.sh') }}
 
       - name: Install build dependencies and build swig 4.3
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
@@ -64,7 +64,7 @@ jobs:
             libgsl-dev-2.8_arch.deb
             libgslcblas0-2.8_arch.deb
             libgsl_2.8_arch.deb
-          key: deb-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
+          key: deb-gsl-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
 
 # addjust to required packages ...
       - name: Install build dependencies and build package gsl 2.8
