@@ -16,7 +16,7 @@ multimin_config = configuration_data(d)
 foreach symbol: symbols
     multimin_config.set(
         '_PYGSL_GSL_HAS_' + symbol.underscorify().to_upper(),
-        compiler.has_header_symbol('gsl/gsl_multimin.h', symbol)
+        compiler.has_header_symbol('gsl/gsl_multimin.h', symbol, dependencies: [gsl_dep], include_directories : gsl_includedir)
     )
 endforeach
 
@@ -29,10 +29,10 @@ multifit_nlin_config = configuration_data({
     '_PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_STRUCT_MEMBER_J' : false
 })
 
-if compiler.has_header_symbol('gsl/gsl_multifit_nlin.h', 'gsl_multifit_fdfsolver_jac')
+if compiler.has_header_symbol('gsl/gsl_multifit_nlin.h', 'gsl_multifit_fdfsolver_jac',  dependencies: [gsl_dep])
     multifit_nlin_config.set('_PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_JAC', true)
 else
-    compiler.has_member('gsl_multifit_fdfsolver', 'J', prefix: '#include <gsl/gsl_multifit_nlin.h>', required: true)
+    compiler.has_member('gsl_multifit_fdfsolver', 'J', prefix: '#include <gsl/gsl_multifit_nlin.h>', required: true,  dependencies: [gsl_dep])
     multifit_nlin_config.set('_PYGSL_GSL_HAS_MULTFIT_NLIN_FDFSOLVER_STRUCT_MEMBER_J', true)
 endif
 
