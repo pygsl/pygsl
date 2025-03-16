@@ -13,7 +13,7 @@ eigen_config = configuration_data(d)
 foreach symbol: symbols
     eigen_config.set(
         '_PYGSL_GSL_HAS_' + symbol.underscorify().to_upper(),
-        compiler.has_header_symbol('gsl/gsl_eigen.h', symbol)
+        compiler.has_header_symbol('gsl/gsl_eigen.h', symbol,  dependencies: [gsl_dep])
     )
 endforeach
 configure_file(output : 'pygsl_eigen_config.h',
@@ -35,7 +35,7 @@ permutation_config = configuration_data(d)
 foreach symbol: symbols
     permutation_config.set(
         '_PYGSL_GSL_HAS_' + symbol.underscorify().to_upper(),
-        compiler.has_header_symbol('gsl/gsl_permutation.h', symbol)
+        compiler.has_header_symbol('gsl/gsl_permutation.h', symbol, dependencies: [gsl_dep])
     )
 endforeach
 
@@ -73,7 +73,7 @@ linalg_config = configuration_data(d)
 foreach symbol: symbols
     linalg_config.set(
         '_PYGSL_GSL_HAS_' + symbol.underscorify().to_upper(),
-        compiler.has_header_symbol('gsl/gsl_linalg.h', symbol)
+        compiler.has_header_symbol('gsl/gsl_linalg.h', symbol,  dependencies: [gsl_dep])
     )
 endforeach
 
