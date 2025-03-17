@@ -119,8 +119,9 @@ jobs:
       - name: Build gsl 2.8
         if: ${{ steps.cache-gsl-deb.outputs.cache-hit != 'true' && steps.gsl-check.outputs.artifact_exists != 'true' }}
         run: |
+          find build -type d
           (cd build && dpkg-source -x src/gsl*.dsc)
-          (cd build/gsl-2.8 && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
+          (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
           (mv build/gsl_2.8-0ubuntu2_amd64.deb ${{ github.workspace }}/gsl2.8_arch.deb)
 
       - name: Upload gsl artifact
