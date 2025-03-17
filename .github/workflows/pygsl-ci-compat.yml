@@ -17,6 +17,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: true
 
     steps:
       - name: Checkout repository
@@ -29,6 +31,7 @@ jobs:
 
       - name: Download and extract swig-4.3 source
         run: |
+          find build/src -type f
           sh -x compat/download-swig4.3.sh
           mkdir -p build/src && tar -xvf swig4.3_ubuntu_src.tar -C build/src --strip-components=1
 
@@ -37,18 +40,20 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/swig4.3_arch.deb
-          key: deb-swig-${{ runner.os }}-v4.3-${{ hashFiles('**/swig4.3_ubuntu_src.tar', 'compat/download-swig4.3.sh') }}
+#        trying to debug caching ... minimise it
+#          key: deb-swig-${{ runner.os }}-v4.3-${{ hashFiles('**/swig4.3_ubuntu_src.tar', 'compat/download-swig4.3.sh') }}
+          key: deb-swig-${{ runner.os }}-v4.3-${{ hashFiles('**/swig4.3_ubuntu_src.tar') }}
           restore-keys: |
-            deb-swig-${{ runner.os }}-v4.3
+            deb-swig-${{ runner.os }}-v4.3-
 
-      - name: Install build dependencies and build swig 4.3
+      - name: Build swig 4.3
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
         run: |
           (cd build && dpkg-source -x src/swig*.dsc)
           (cd build/swig-4.3.0/ && sudo apt-get build-dep . && dpkg-buildpackage -us -uc )
           mv build/swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
 
-      - name: Upload package artifact
+      - name: Upload swig4.3 artifact
         uses: actions/upload-artifact@v4
         with:
           name: swig4.3
@@ -67,13 +72,14 @@ jobs:
             ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
             ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
             ${{ github.workspace }}/libgsl_2.8_arch.deb
-          key: deb-gsl-${{ runner.os }}-v2.8-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
+#          key: deb-gsl-${{ runner.os }}-v2.8-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
+          key: deb-gsl-${{ runner.os }}-v2.8-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar') }}
           restore-keys: |
-            deb-gsl-${{ runner.os }}-v2.8
-            deb-gsl-${{ runner.os }}-v2
+            deb-gsl-${{ runner.os }}-v2.8-
+            deb-gsl-${{ runner.os }}-v2-
             deb-gsl-${{ runner.os }}-
 
-      - name: Install build dependencies and build package gsl 2.8
+      - name: Build gsl 2.8
         if: steps.cache-gsl-deb.outputs.cache-hit != 'true'
         run: |
           (cd build && dpkg-source -x src/gsl*.dsc)
@@ -90,6 +96,7 @@ jobs:
             ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
             ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
             ${{ github.workspace }}/libgsl_2.8_arch.deb
+
 
   # test against swig4.3: at current state not part of ubuntu (swig4.0 standard)
   test-swig-additional:
