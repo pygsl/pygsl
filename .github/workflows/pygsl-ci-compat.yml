@@ -69,10 +69,10 @@ jobs:
       - name: Build swig 4.3
         if: ${{ steps.cache-swig-deb.outputs.cache-hit != 'true' && steps.swig-check.outputs.artifact_exists != 'true' }}
         run: |
-          cd build && dpkg-source -x src/swig*.dsc
+          (cd build && dpkg-source -x src/swig*.dsc)
           find . -type d
-          cd build/src/swig-4.3.0 && sudo apt-get build-dep . && dpkg-buildpackage -us -uc
-          mv build/src/swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
+          (cd build/swig-4.3.0 && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
+          (mv build//swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb)
 
       - name: Upload swig artifact
         uses: actions/upload-artifact@v4
