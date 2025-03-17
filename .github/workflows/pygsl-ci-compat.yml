@@ -31,7 +31,7 @@ jobs:
 
       - name: Download and extract swig-4.3 source
         run: |
-          find build/src -type f
+          find build/src -type f || echo "no dir build/src"
           sh -x compat/download-swig4.3.sh
           mkdir -p build/src && tar -xvf swig4.3_ubuntu_src.tar -C build/src --strip-components=1
 
