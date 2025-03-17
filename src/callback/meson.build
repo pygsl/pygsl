@@ -16,7 +16,7 @@ multimin_config = configuration_data(d)
 foreach symbol: symbols
     multimin_config.set(
         '_PYGSL_GSL_HAS_' + symbol.underscorify().to_upper(),
-        compiler.has_header_symbol('gsl/gsl_multimin.h', symbol, dependencies: [gsl_dep], include_directories : gsl_includedir)
+        compiler.has_header_symbol('gsl/gsl_multimin.h', symbol, dependencies: [gsl_dep])
     )
 endforeach
 
