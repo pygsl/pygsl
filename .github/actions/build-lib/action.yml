@@ -48,6 +48,7 @@ runs:
 
     - name: Check for library artifact
       id: artifact-check
+      shell: bash
       run: |
         if [ -f "${{ inputs.cachePath }}" ]; then
           echo "${{ inputs.name }} artifact exists"
@@ -58,17 +59,20 @@ runs:
         fi
 
     - name: Display artifact status
+      shell: bash
       run: |
         echo "${{ inputs.name }} cache hit: ${{ steps.cache-artifact.outputs.cache-hit }}"
         echo "${{ inputs.name }} artifact exists: ${{ steps.artifact-check.outputs.artifact_exists }}"
 
     - name: Download and extract source
       if: ${{ steps.cache-artifact.outputs.cache-hit != 'true' && steps.artifact-check.outputs.artifact_exists != 'true' }}
+      shell: bash
       run: |
         sh -x ${{ inputs.sourceDownloadScript }}
         mkdir -p build/src && tar -xvf ${{ inputs.sourceTar }} -C build/src --strip-components=1
 
     - name: Build library
+      shell: bash
       if: ${{ steps.cache-artifact.outputs.cache-hit != 'true' && steps.artifact-check.outputs.artifact_exists != 'true' }}
       run: |
         ${{ inputs.buildCommands }}
