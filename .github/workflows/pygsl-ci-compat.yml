@@ -100,20 +100,6 @@ jobs:
           name: gsl-2.8
         continue-on-error: true
 
-      - name: Restore gsl cache
-        id: cache-gsl-deb
-        uses: actions/cache@v4
-        with:
-          path: |
-            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            ${{ github.workspace }}/libgsl_2.8_arch.deb
-            ${{ github.workspace }}/gsl-bin_2.8_arch.deb
-#          key: gsl-2.8-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
-          key: gsl-2.8-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar') }}
-          restore-keys: |
-            gsl-2.8-${{ runner.os }}-
-
       - name: Check for gsl artifact
         id: gsl-check
         run: |
