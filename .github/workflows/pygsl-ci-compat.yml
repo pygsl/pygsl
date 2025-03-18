@@ -145,7 +145,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: gsl-2.8
-          path: ${{ github.workspace }}/gsl2.8_arch.deb
+          path: |
+             ${{ github.workspace }}/libgsl_2.8_arch.deb
+             ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+             ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+             ${{ github.workspace }}/gsl-bin_2.8_arch.deb
 
 
   # test against swig4.3: at current state not part of ubuntu (swig4.0 standard)
