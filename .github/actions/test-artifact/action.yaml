@@ -25,15 +25,18 @@ runs:
         name: ${{ inputs.artifactName }}
 
     - name: Install artifact
+      shell: bash
       run: |
         ${{ inputs.installCommand }}
 
     - name: Install dependencies
+      shell: bash
       run: |
         sudo apt-get update
         sudo apt-get install -y ${{ inputs.dependencies }}
 
     - name: Setup Python environment and run tests
+      shell: bash
       run: |
         python3 -m venv venv-test
         source venv-test/bin/activate
