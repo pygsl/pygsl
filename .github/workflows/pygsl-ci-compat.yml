@@ -6,20 +6,11 @@
 
 name: test if pygsl is compatible with swig-4.3 and gsl-2.8
 
-
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-
-name: Build Libraries
-on:
-  push:
-    branches: [ main ]
-  pull_request:
 
 jobs:
   build:
@@ -73,8 +64,6 @@ jobs:
             ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
             ${{ github.workspace }}/gsl-bin_2.8_arch.deb
   
-
-jobs:
   test-swig-additional:
     runs-on: ubuntu-latest
     needs: build
