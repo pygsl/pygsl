@@ -79,12 +79,18 @@ jobs:
           name: swig-4.3
           path: ${{ github.workspace }}/swig4.3_arch.deb
 
-      - name: Restore gsl cache
+
+      - name: Cache built gsl-2.8
         id: cache-gsl-deb
         uses: actions/cache@v4
         with:
-          path: ${{ github.workspace }}/gsl2.8_arch.deb
-          key: gsl-2.8-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
+          path: |
+            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            ${{ github.workspace }}/libgsl_2.8_arch.deb
+            ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+#         key: gsl-2.8-${{ runner.os }}${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
+          key: gsl-2.8-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar') }}
           restore-keys: |
             gsl-2.8-${{ runner.os }}-
 
@@ -94,12 +100,33 @@ jobs:
           name: gsl-2.8
         continue-on-error: true
 
+      - name: Restore gsl cache
+        id: cache-gsl-deb
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            ${{ github.workspace }}/libgsl_2.8_arch.deb
+            ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+#          key: gsl-2.8-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
+          key: gsl-2.8-${{ runner.os }}-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar') }}
+          restore-keys: |
+            gsl-2.8-${{ runner.os }}-
+
       - name: Check for gsl artifact
         id: gsl-check
         run: |
-          if [ -f "${{ github.workspace }}/gsl2.8_arch.deb" ]; then
+          if [ -f ${{ github.workspace }}/libgsl-2.8_arch.deb ]; then
             echo "GSL 2.8 artifact exists"
-            echo "artifact_exists=true" >> $GITHUB_OUTPUT
+            for i in ${{ github.workspace }}/libgslcblas0-2.8_arch.deb ${{ github.workspace }}/libgsl-dev-2.8_arch.deb ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            do
+              if [ -f  "$i" ]; then
+                echo "Passed  expected and found:      $i"
+              else
+                echo "ERROR   expected, but not found: $i"
+              fi
+            done
           else
             echo "GSL 2.8 artifact needs to be built"
             echo "artifact_exists=false" >> $GITHUB_OUTPUT
@@ -122,7 +149,11 @@ jobs:
           find build -type d
           (cd build && dpkg-source -x src/gsl*.dsc)
           (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
-          (mv build/gsl_2.8-0ubuntu2_amd64.deb ${{ github.workspace }}/gsl2.8_arch.deb)
+          find . -name '*.deb'
+          mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb     ${{ github.workspace }}/libgsl_2.8_arch.deb
+          mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb   ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+          mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+          mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/gsl-bin_2.8_arch.deb
 
       - name: Upload gsl artifact
         uses: actions/upload-artifact@v4
@@ -162,6 +193,7 @@ jobs:
           python3 -m pip install .
           (cd tests && python3 -m pytest .)
 
+
   # test against gsl-2.8, at current stage not part of ubuntu (2.7 standard)
   test-gsl-add:
     runs-on: ubuntu-latest
@@ -176,7 +208,7 @@ jobs:
         with:
           name: gsl-2.8
 
-# Let install step fail if it is not there
+# Let installation step fail if it is not there
       - name: Install gsl-2.8
         run: |
           sudo dpkg -i libgsl-dev-2.8_arch.deb libgslcblas0-2.8_arch.deb libgsl_2.8_arch.deb  || sudo apt-get install -f -y
