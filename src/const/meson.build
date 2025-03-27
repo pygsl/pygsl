@@ -15,7 +15,7 @@ compiler = meson.get_compiler('c')
 foreach header: headers
     const_config.set(
         '_PYGSL_GSL_HAS_' + header.underscorify().to_upper(),
-        compiler.has_header('gsl/gsl_' + header + '.h')
+        compiler.has_header('gsl/gsl_' + header + '.h', dependencies: [gsl_dep])
     )
 endforeach
 
@@ -26,6 +26,7 @@ configure_file(output : 'pygsl_const_config.h',
 py.extension_module(
   'const',
   'constmodule.c',
+  dependencies : [gsl_dep],
   install: true,
   include_directories : inc_dirs,
   subdir: 'pygsl',

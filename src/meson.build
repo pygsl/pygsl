@@ -15,7 +15,7 @@ compiler = meson.get_compiler('c')
 pygsl_config = configuration_data({
     '_PYGSL_GSL_HAS_DERIV' : false
 })
-if compiler.has_header('gsl/gsl_deriv.h')
+if compiler.has_header('gsl/gsl_deriv.h', dependencies: [gsl_dep])
   pygsl_config.set('_PYGSL_GSL_HAS_DERIV', true)
 endif
 configure_file(output : 'pygsl_deriv_config.h',

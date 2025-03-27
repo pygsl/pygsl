@@ -4,7 +4,7 @@ sf_config = configuration_data({
  ' _PYGSL_GSL_HAS_SF_MATHIEU' : false,
  })
 
-if compiler.has_header_symbol('gsl/gsl_sf_mathieu.h', 'gsl_sf_mathieu_ce')
+if compiler.has_header_symbol('gsl/gsl_sf_mathieu.h', 'gsl_sf_mathieu_ce', dependencies: [gsl_dep])
     sf_config.set(' _PYGSL_GSL_HAS_SF_MATHIEU', true)
 endif
 
