@@ -1,6 +1,29 @@
 PyGSL: Python interface for GNU Scientific Library
 ==================================================
 
+
+.. image:: https://img.shields.io/pypi/v/pygsl.svg
+        :target: https://pypi.python.org/pypi/pygsl
+
+.. image:: https://img.shields.io/conda/vn/conda-forge/pygsl
+        :target: https://anaconda.org/conda-forge/pygsl
+
+..
+  .. image:: https://img.shields.io/codecov/c/github/bluesky/pygsl
+          :target: https://codecov.io/gh/pygsl/pygsl
+
+.. image:: https://img.shields.io/github/commits-since/pygsl/pygsl/latest
+        :target: https://github.com/pygsl/pygsl
+
+.. image:: https://img.shields.io/pypi/dm/pygsl?label=PyPI%20downloads
+        :target: https://pypi.python.org/pypi/pygsl
+
+.. image:: https://img.shields.io/conda/dn/conda-forge/pygsl?label=Conda-Forge%20downloads
+        :target: https://anaconda.org/conda-forge/pygsl
+
+
+
+
 PyGSL is a Python wrapper for the `GNU Scientific Library (GSL) <http://www.gnu.org/software/gsl/>`_. Nearly all modules are wrapped. A lot of tests are covering various functionality.
 
 Please report it as a `Github Issue <https://github.com/pygsl/pygsl/issues>`_ if you find a bug. We are looking forward to contributions of new submodules, while maintaining the available code, and welcome `pull requests <https://github.com/pygsl/pygsl/pulls>`_.
