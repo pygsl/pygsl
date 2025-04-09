@@ -5,8 +5,10 @@ requires = ['meson-python', 'numpy']
 
 [project]
 name = "pygsl"
-version = "2.6.0"
-dependencies = ["numpy", ]
+version = "2.5.2"
+dependencies = [
+    "numpy",
+]
 
 description = "GNU Scientific Library Interface"
 # long_description = "This project provides a python interface for the GNU scientific library (gsl)"

@@ -1,6 +1,9 @@
 #include <Python.h>
 #include <pygsl/numpy_api_version.h>
 #include <numpy/arrayobject.h>
+
+#include <pygsl/pygsl_features_config.h>
+
 #include <pygsl/utils.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
@@ -37,7 +40,11 @@ PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args,
 			  "Nmax must be bigger or equal to nmin!");
      }
      dimension = gsl_sf_legendre_array_size(lmax, m);
+<<<<<<< HEAD
      result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+=======
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+>>>>>>> c13721a ([FIX] use SimpleNew instead of deprecated FromDims)
      if(result == NULL)
 	  return NULL;
 
@@ -78,7 +85,11 @@ PyGSL_sf_array_evaluator_iid_ad(PyObject *self, PyObject *args,
 			  "Nmax must be bigger or equal to nmin!");
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
+<<<<<<< HEAD
      result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+=======
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+>>>>>>> c13721a ([FIX] use SimpleNew instead of deprecated FromDims)
      if(result == NULL)
 	  return NULL;
 
@@ -115,7 +126,11 @@ PyGSL_sf_array_evaluator_id_ad(PyObject *self, PyObject *args, array_p_evaluator
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
+<<<<<<< HEAD
      result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+=======
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+>>>>>>> c13721a ([FIX] use SimpleNew instead of deprecated FromDims)
      if(result == NULL)
 	  return NULL;
 
@@ -151,7 +166,11 @@ PyGSL_sf_array_evaluator_idd_ad(PyObject *self, PyObject *args, array_p_evaluato
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
+<<<<<<< HEAD
      result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+=======
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+>>>>>>> c13721a ([FIX] use SimpleNew instead of deprecated FromDims)
      if(result == NULL)
 	  return NULL;
 
@@ -181,7 +200,11 @@ PyGSL_sf_array_evaluator_did_ad(PyObject *self, PyObject *args, array_p_evaluato
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
+<<<<<<< HEAD
      result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+=======
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+>>>>>>> c13721a ([FIX] use SimpleNew instead of deprecated FromDims)
      if(result == NULL)
 	  return NULL;
 
@@ -217,7 +240,11 @@ PyGSL_sf_array_evaluator_didd_add(PyObject *self, PyObject *args, array_p_evalua
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
+<<<<<<< HEAD
      result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+=======
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+>>>>>>> c13721a ([FIX] use SimpleNew instead of deprecated FromDims)
      if(result == NULL)
 	  return NULL;
 
@@ -252,10 +279,17 @@ PyGSL_sf_array_evaluator_didd_addadd(PyObject *self, PyObject *args, array_p_eva
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
+<<<<<<< HEAD
      result1 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
      if(result1 == NULL)
 	  goto fail;
      result2 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+=======
+     result1 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+     if(result1 == NULL)
+	  goto fail;
+     result2 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+>>>>>>> c13721a ([FIX] use SimpleNew instead of deprecated FromDims)
      if(result2 == NULL)
 	  goto fail;
 
@@ -295,6 +329,7 @@ PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
+<<<<<<< HEAD
      result1 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
      if(result1 == NULL)
 	  goto fail;
@@ -305,6 +340,18 @@ PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p
      if(result3 == NULL)
 	  goto fail;
      result4 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+=======
+     result1 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+     if(result1 == NULL)
+	  goto fail;
+     result2 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+     if(result2 == NULL)
+	  goto fail;
+     result3 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+     if(result3 == NULL)
+	  goto fail;
+     result4 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
+>>>>>>> c13721a ([FIX] use SimpleNew instead of deprecated FromDims)
      if(result4 == NULL)
 	  goto fail;
 
