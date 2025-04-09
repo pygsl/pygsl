@@ -74,26 +74,6 @@ To remove PyGSL, use:
 
    pip uninstall pygsl
 
-<<<<<<< HEAD
-
-Building it locally
-~~~~~~~~~~~~~~~~~~~
-
-It can be useful to install PyGSL locally e.g. if the automatic build process fails.
-In a first step, update the packages `pip` and `wheel` as
-
-.. code-block:: sh
-
-   pip install --upgrade build
-
--- code-block:: sh
-
-   python3 -m build -w .
-
-
-
-=======
->>>>>>> 0d14c27 ([FIX] run tests in testing too (testing sf functions))
 Using PyGSL
 -----------
 
@@ -131,12 +111,7 @@ but is supposed to compile and run on any posix platform.
 
 Currently it is being tested using GitHub Actions continuous integration on:
 
-<<<<<<< HEAD
-- Python 3.9 -- 3.12, numpy 1.x and 2.x  and GSL 2.7.1 under Ubuntu Linux 22.04.2.
-=======
 - Python 3.8, numpy-latest and GSL 2.7.1, swig 4.0 under Ubuntu Linux 22.04.2.
->>>>>>> 0d14c27 ([FIX] run tests in testing too (testing sf functions))
-
 
 Testing
 -------
