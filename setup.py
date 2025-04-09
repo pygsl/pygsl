@@ -81,8 +81,7 @@ pygsldir = os.path.dirname("__name__")
 gsldist_path = os.path.join(pygsldir, "gsl_dist")
 sys.path.insert(0, gsldist_path)
 
-from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
-
+from setuptools.command.bdist_wheel import bdist_wheel as _bdist_wheel
 import setuptools
 import setuptools.command
 import setuptools.command.install

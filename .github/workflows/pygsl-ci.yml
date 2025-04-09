@@ -79,5 +79,6 @@ jobs:
         run: |
           # make sure to move out of the source directory
           cd /tmp
+          python -c "from pygsl.testing import sf; print(dir(sf))"
           python -m pytest -s /home/runner/work/pygsl/pygsl/tests
           python -m pytest -s /home/runner/work/pygsl/pygsl/testing/tests/
