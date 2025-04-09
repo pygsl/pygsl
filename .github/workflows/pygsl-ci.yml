@@ -71,3 +71,4 @@ jobs:
           # make sure to move out of the source directory
           cd /tmp
           python -m pytest -s /home/runner/work/pygsl/pygsl/tests
+          python -m pytest -s /home/runner/work/pygsl/pygsl/testing/tests/

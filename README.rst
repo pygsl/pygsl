@@ -35,8 +35,9 @@ Requirements
 
 To build the interface, you will need
 
-- `GSL 2.x <https://www.gnu.org/software/gsl/>`_
-- `Python 3.9 <https://python.org/>`_ or newer
+- `GSL < 2.8 <https://www.gnu.org/software/gsl/>`_
+- `swig >= 4.0 and < 4.3 <https://www.swig.org/>`_
+- `Python 3.x <https://python.org/>`_
 - `NumPy <https://www.numpy.org/>`_
 - Swig4 <https://www.swig.org>_
 - an ANSI C compiler (e.g. gcc).
@@ -73,6 +74,7 @@ To remove PyGSL, use:
 
    pip uninstall pygsl
 
+<<<<<<< HEAD
 
 Building it locally
 ~~~~~~~~~~~~~~~~~~~
@@ -90,6 +92,8 @@ In a first step, update the packages `pip` and `wheel` as
 
 
 
+=======
+>>>>>>> 0d14c27 ([FIX] run tests in testing too (testing sf functions))
 Using PyGSL
 -----------
 
@@ -127,7 +131,11 @@ but is supposed to compile and run on any posix platform.
 
 Currently it is being tested using GitHub Actions continuous integration on:
 
+<<<<<<< HEAD
 - Python 3.9 -- 3.12, numpy 1.x and 2.x  and GSL 2.7.1 under Ubuntu Linux 22.04.2.
+=======
+- Python 3.8, numpy-latest and GSL 2.7.1, swig 4.0 under Ubuntu Linux 22.04.2.
+>>>>>>> 0d14c27 ([FIX] run tests in testing too (testing sf functions))
 
 
 Testing
