@@ -12,7 +12,8 @@ Requirements
 
 To build the interface, you will need
 
-- `GSL 2.x <https://www.gnu.org/software/gsl/>`_
+- `GSL < 2.8 <https://www.gnu.org/software/gsl/>`_
+- `swig >= 4.0 and < 4.3 <https://www.swig.org/>`_
 - `Python 3.x <https://python.org/>`_
 - `NumPy <https://www.numpy.org/>`_
 - an ANSI C compiler (e.g. gcc).
@@ -69,7 +70,7 @@ To remove PyGSL, use:
 .. code-block:: sh
 
    pip uninstall pygsl
-   
+
 Using PyGSL
 -----------
 
@@ -108,7 +109,7 @@ but is supposed to compile and run on any posix platform.
 
 Currently it is being tested using GitHub Actions continuous integration on:
 
-- Python 3.8, numpy-latest and GSL 2.7.1 under Ubuntu Linux 22.04.2.
+- Python 3.8, numpy-latest and GSL 2.7.1, swig 4.0 under Ubuntu Linux 22.04.2.
 
 
 Testing
