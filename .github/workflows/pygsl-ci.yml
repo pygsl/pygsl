@@ -9,7 +9,7 @@ on:
 jobs:
   wrap_and_build:
     # Re-generate SWIG wrappers, then build and test
-    runs-on: ubuntu:22.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
