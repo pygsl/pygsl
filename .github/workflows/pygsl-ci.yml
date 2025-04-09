@@ -2,7 +2,7 @@ name: PyGSL build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev/feature/fix-numpy-pyarray-new" ]
   pull_request:
     branches: [ "main" ]
 
