@@ -9,12 +9,14 @@ on:
 jobs:
   wrap_and_build:
     # Re-generate SWIG wrappers, then build and test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu:22.04
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.9", "3.10", "3.11" , "3.12" ]
-        numpy-version : [ "numpy<2.0", "numpy>=2.0"]
+        python-version: [ "3.12" ]
+        numpy-version : [ "numpy>=2.0"]
+#        python-version: [ "3.9", "3.10", "3.11" , "3.12" ]
+#        numpy-version : [ "numpy<2.0", "numpy>=2.0"]
     steps:
       # Checkout the repository contents
       - name: Checkout PyGSL code
@@ -51,6 +53,10 @@ jobs:
 
       - name: gsl_wrappers
         run: |
+          echo "GSL flags"
+          gsl-config  --cflags
+          swig -version
+          echo "run wrapper"
           python setup.py gsl_wrappers
 
       - name: config
