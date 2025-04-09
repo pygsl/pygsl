@@ -103,7 +103,6 @@ Supported Platforms
 
 - Linux with Python 3.x and GSL 2.x
 - Mac OS X with Python 3.x and GSL 2.x
-- Win32 with Python 3.x and GSL 2.x
 
 but is supposed to compile and run on any posix platform.
 
