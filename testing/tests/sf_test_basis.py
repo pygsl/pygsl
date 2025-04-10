@@ -18,7 +18,7 @@ import pygsl._numobj as np
 import pygsl.gslwrap
 from pygsl import errno, errors
 
-class TestNoFuncError(errors.gsl_Error):
+class FunctionNotSpecifiedError(errors.gsl_Error):
     "Called function was not specified!"
     pass
 
@@ -309,7 +309,7 @@ class _test_sf_automatic(unittest.TestCase):
             status : return status
         """
         if(self._func == None):
-            raise TestNoFuncError("self._func was not defined!")
+            raise FunctionNotSpecifiedError("self._func was not defined!")
             return
 
         func_name = self._func.__name__
