@@ -88,8 +88,6 @@ _pygsl_sf_long_to_unsigned_int(long val, unsigned int * result)
 /* I add the evaluate functions types by hand to have an extra check */
 #ifdef IMPORTALL
 #include "sf__arrays.c"
-
-
 #undef SF_ARRAY
 #endif
 
@@ -207,7 +205,11 @@ static struct PyModuleDef moduledef = {
         "pygsl.testing.sf",
         NULL,
         -1,
-        NULL, //sf_array_functions,
+#ifdef IMPORTALL
+        sf_array_functions,
+#else
+	NULL,
+#endif
         NULL,
         NULL,
         NULL,
