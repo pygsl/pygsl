@@ -44,6 +44,7 @@ jobs:
       - name: Install build dependencies and build swig 4.3
         if: steps.cache-swig-deb.outputs.cache-hit != 'true'
         run: |
+          cat src/swig*.dsc
           (cd build && dpkg-source -x src/swig*.dsc)
           (cd build/swig-4.3.0/ && sudo apt-get build-dep . && dpkg-buildpackage -us -uc )
           mv build/swig_4.3.0-0ubuntu2_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
