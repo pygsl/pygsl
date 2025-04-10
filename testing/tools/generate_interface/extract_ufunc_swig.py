@@ -13,14 +13,18 @@ Or eecute it by hand
   extract_ufunc_swig.py
 
 """
-from __future__ import print_function
 import copy
-import sys
 import os
 import xml.etree.ElementTree as ElementTree
+from typing import Sequence, Dict
+import logging
+
 import gsl_arg
 import sf_prototype
 import emit_code
+
+
+logger = logging.getLogger("pygsl-build")
 
 class ExtractError(Exception):
     pass
@@ -37,26 +41,22 @@ def get_indent(level):
     return "".join(("    ",) * level)
 
 
-def extract_name_value(element):
-    """Extract name and value pairs of the element
-    """
-    attr = element.attrib
-
-    name = attr["name"]
-    value = attr["value"]
-
-    return name, value
-
 
 def extract_value(element, name):
     """Check that the attr["name"] matches the name and return the content of the
     "value" attribute
     """
-    n, v = extract_name_value(element)
-    if name != n:
-        raise ExtractError("Expected attr name '%s' != '%s'!" %(name, n))
+    attr = element.attrib
 
-    return v
+    check_name = attr["name"]
+    value = attr["value"]
+    if name != check_name:
+        txt = "Expected attr name '%s' != '%s'!" %(name, check_name)
+        logger.error(txt)
+        raise ExtractError(txt)
+
+    return value
+
 
 def check_name_value(element, name, value):
     """Check that the name and value attributes match the content of name and value
@@ -69,17 +69,18 @@ def check_name_value(element, name, value):
 def extract_func_parameter(par_n, level = None):
     """Extract one function parameter
     """
-    al_l = list(par_n)
-    assert(len(al_l) == 1)
-
-    al = al_l[0]
+    al, = list(par_n)
     assert(al.tag == "attributelist")
 
     ch = list(al)
     assert(len(ch) >= 2)
-    var_name = extract_value(ch[0], "name")
-    var_type = extract_value(ch[1], "type")
-
+    attrs = attribute_list_to_dict(ch)
+    try:
+        name_item = attrs["name"]
+    except KeyError as ke:
+        raise ExtractError(ke.args)
+    var_name = extract_value(name_item, "name")
+    var_type = extract_value(attrs["type"], "type")
     return var_type, var_name
 
 
@@ -147,7 +148,7 @@ def create_sf_prototype(f_name, f_params, ret_type):
             test = 1
         finally:
             if test == 0:
-                print(f_name)
+                logger.info(f_name)
         args.append(arg)
     args = tuple(args)
 
@@ -234,36 +235,60 @@ exclude_list = ['gsl_sf_angle_restrict_pos_e', # use a double * for input and ou
                 "gsl_sf_mathieu_b_coeff",
                 ]
 
-def extract_func(attr_l, level=None, verbose = None):
+def attribute_list_to_dict(attr_l: Sequence) -> Dict:
+    d = {}
+    for item in attr_l:
+        try:
+            name = item.attrib["name"]
+        except KeyError:
+            name = item.tag
+            assert name == "parmlist"
+        d[name] = item
+    return d
+
+
+def extract_func(attr_l: Sequence, level=None, verbose = None):
     """Get a node and try to build the pattern
 
     Needs documentation
+
+    Todo:
+        simplify check: using dictonary in the first place
     """
     indent = get_indent(level)
 
+    attrs = attribute_list_to_dict(attr_l)
+    del attr_l
     # Thats how swig stores a function ... as I guessed it
-    f_name = extract_value(attr_l[0], "sym_name")
-    f_name_check = extract_value(attr_l[1], "name")
+    f_name = extract_value(attrs["sym_name"], "sym_name")
+    f_name_check = extract_value(attrs["name"], "name")
 
     if f_name in exclude_list:
         return
 
-    f_decl = extract_value(attr_l[2], "decl")
+    f_decl = extract_value(attrs["decl"], "decl")
 
     # Now see if it is really a function
-    kind_n = attr_l[4]
+    kind_n = attrs["kind"]
     kind = extract_value(kind_n, "kind")
     if kind == "typedef":
         return None
 
     if kind != "function":
-        raise FunctionFormatError("Not a function: %s: '%s' " % (kind_n.tag, kind_n.attrib))
+        txt = "Not a function: %s: '%s' " % (kind_n.tag, kind_n.attrib)
+        logger.info(txt)
+        raise FunctionFormatError(txt)
 
     # The paramters are a a parmlist
-    parl_n = attr_l[3]
+    try:
+        parl_n = attrs["parmlist"]
+    except KeyError:
+        raise
     tag = parl_n.tag
     if  tag != "parmlist":
-        raise FunctionFormatError("Expected parmlist but found tag: '%s'" %(tag))
+        txt = "Expected parmlist but found tag: '%s'" %(tag)
+        logger.info(txt)
+        raise FunctionFormatError(txt)
 
     f_params = []
     args = []
@@ -274,18 +299,19 @@ def extract_func(attr_l, level=None, verbose = None):
         var_type, var_name = extract_func_parameter(par_n, level = level+1)
         f_params.append((var_type, var_name))
 
-    ret_type = extract_value(attr_l[5], "type")
-
+    ret_type = extract_value(attrs["type"], "type")
     args_str = map(lambda x: " ".join(x), f_params)
     args_str = ", ".join(args_str)
 
     if verbose:
-        print( "Function: %s%s %s(%s) = %s" %(indent, ret_type, f_name,  args_str, f_decl))
+        logger.info( "Function: %s%s %s(%s) = %s" %(indent, ret_type, f_name,  args_str, f_decl))
 
+    #
+    if "gsl_sf" in f_name:
+        return create_sf_prototype(f_name, f_params, ret_type)
+    else:
+        logger.info(f"skipping {f_name}")
 
-    sf = create_sf_prototype(f_name, f_params, ret_type)
-
-    return sf
 
 
 
@@ -307,22 +333,34 @@ def handle_cdecl(cdecl, level=0, verbose = None):
     l = len(cl)
     assert(l >= 1)
 
-    func = cl[0]
     sub_nodes = 0
-    if func.attrib["name"] == "sym_name":
+    logger.info(f"Processing cdecl {cdecl=} attributelist {al} {list(al)}")
+    def check_for_func(item) -> bool:
+        try:
+            name = item.attrib["name"]
+        except KeyError as ke:
+            logger.debug(f"failed processing item: {ke}")
+            return False
+        if name == "sym_name":
+            return True
+        return False
+    func_names = [item for item in cl if check_for_func(item)]
+
+    if len(func_names):
+        # should be only one
+        func, = func_names
         try:
             sf = extract_func(cl, level = level+1)
             sf_s.append(sf)
             sub_nodes = 1
         except ExtractError as ve:
-            print("extract func failed with extract error : '%s'" %(ve,))
-        #except FunctionFormatError as ffe:
-        #    print("extract func failed with function format error: '%s'" %(ffe,))
-        #    verbose = True
+            logger.info("extract func failed with extract error : '%s'" % (ve,))
+        except FunctionFormatError as ffe:
+            logger.info("extract func failed with function format error: '%s'" %(ffe,))
+            verbose = True
 
-    if verbose:
-        print("%s %s %s:%s" % ("CD", indent, cdecl.tag, cdecl.attrib) )
-        print("%s %s %s:%s" % ("Func", indent, func.tag, func.attrib) )
+        logger.debug("%s %s %s:%s", "CD", indent, cdecl.tag, cdecl.attrib)
+        logger.debug("%s %s %s:%s", "Func", indent, func.tag, func.attrib)
 
 
     if sub_nodes  == 0:
@@ -356,18 +394,23 @@ def handle_nodes(top, level = 0, mark = None, only_node_name = None, verbose = N
     else:
         t_mark = mark
 
-    if 1 == 0 and verbose:
+    if False and verbose:
         if tag in only_node_name:
-            print("TAG %s %s %s:" % (t_mark, indent, top.tag) )
+            logger.info("TAG %s %s %s:" % (t_mark, indent, top.tag) )
         else:
-            print("NTAG %s %s %s: %s" % (t_mark, indent, top.tag, attr))
+            logger.info("NTAG %s %s %s: %s" % (t_mark, indent, top.tag, attr))
 
     for child in list(top):
         names = only_node_name
         if child.tag == "cdecl":
+            if verbose:
+                logger.info(f"found cdecl {child=}")
             names = ()
             tmp = handle_cdecl(child, level = level +1)
-            #print_nodes(child, level= level +1, only_node_name = names)
+            tmp
+            if len([t for t in tmp if t is not None]):
+                tmp
+            #logger.info_nodes(child, level= level +1, only_node_name = names)
         else:
             tmp = handle_nodes(child, level= level +1, only_node_name = names, mark = mark, verbose = verbose)
         sf_s.extend(tmp)
@@ -382,9 +425,9 @@ def traverse_tree(tree, verbose = None):
     """
     top = tree.getroot()
     if verbose:
-        print(top, top.attrib)
+        logger.info(top, top.attrib)
 
-    print("starting processing")
+    logger.info("starting processing")
     sf_s = []
     for child in list(top):
         sf = handle_nodes(child, level=1, verbose = verbose)
@@ -393,7 +436,7 @@ def traverse_tree(tree, verbose = None):
 
 
 
-def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_dir = None):
+def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_dir = None, verbose=False):
 
     assert(file_name is not None)
     assert(output_dir is not None)
@@ -403,17 +446,19 @@ def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_di
     output_prefix = prefix
 
     tree = ElementTree.parse(file_name)
-    sf_s = traverse_tree(tree, verbose= False)
+    sf_s = traverse_tree(tree, verbose=verbose)
 
-    print("Found sf's ------")
+    print("Found {} sf's ------".format(len(sf_s)))
 
     sf_valid = []
     for sf in sf_s:
         if sf is None:
             continue
-        print(sf)
+        logger.info(sf)
         sf_valid.append(sf)
         #break
+
+    print("Found {} sf as valid".format(len(sf_valid)))
 
     # UFunc ... different call signatures
     dic = {}
@@ -438,10 +483,10 @@ def build_ufunc_files(file_name = None, output_dir = None, prefix = None, doc_di
         for key in dic.keys():
             sf = dic[key]
             minor = False
-            #print("Minor", minor)
+            #logger.info("Minor", minor)
             emit_code.emit_evaluator(sf, minor, ef)
             minor = True
-            #print("Minor", minor)
+            #logger.info("Minor", minor)
             emit_code.emit_evaluator(sf, minor, ef)
             emit_code.emit_data_types(sf, dtf)
             emit_code.emit_data(sf, df)
@@ -527,7 +572,7 @@ def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
         to_remove = []
         for name in names:
             if sec in name:
-                print("Sorting %s in sec %s" %(name, sec))
+                logger.info("Sorting %s in sec %s" %(name, sec))
                 sf = sf_dic[name]
                 emit_code.emit_doc(sf, doc_f)
                 to_remove.append(name)
@@ -579,7 +624,7 @@ def emit_sf_doc(sf_valid, doc_dir = None, output_prefix = None):
     with open(doc_name, "wt") as doc_f:
         for name in names:
             sf = sf_dic[name]
-            print(name)
+            logger.info(name)
             emit_code.emit_doc(sf, doc_f)
 
 
@@ -592,6 +637,7 @@ def run():
     full_name = os.path.join(dirname, file_name)
     build_ufunc_files(full_name, out_dir, "sf_")
 
+
 if __name__ == '__main__':
     import argparse
 
@@ -600,10 +646,10 @@ if __name__ == '__main__':
     parser.add_argument("--output-dir", help = "directory where to put the wrapper c-files")
     parser.add_argument("--prefix",  help = "perfix of the c wrapper file")
     parser.add_argument("--doc-dir", help = "directory where to put the documentation files to")
+    parser.add_argument("--verbose", help="verbose output", default=True, type=bool)
     args = parser.parse_args()
-    print(args)
-    print (dir(args))
-    print (args.input)
-    #print (parser.())
+    logger.debug(f"{args=}")
+    logger.debug (f"{dir(args)=}")
+    logger.debug (f"{args.input}")
     build_ufunc_files(file_name = args.input, output_dir = args.output_dir,
-                      prefix = args.prefix, doc_dir = args.doc_dir)
+                      prefix = args.prefix, doc_dir = args.doc_dir, verbose=args.verbose)
