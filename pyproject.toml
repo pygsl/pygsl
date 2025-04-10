@@ -5,7 +5,7 @@ requires = ['meson-python', 'numpy']
 
 [project]
 name = "pygsl"
-version = "2.6.1rc1"
+version = "2.6.1"
 dependencies = ["numpy", ]
 
 description = "GNU Scientific Library Interface"
