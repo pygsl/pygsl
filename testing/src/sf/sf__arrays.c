@@ -19,9 +19,9 @@ PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args,
 					 array_p_evaluator_iid_ad * eval)
 {
      PyArrayObject *result = NULL;
-     int lmax=0, m=0, dimension = 0, ret;
+     int lmax=0, m=0, ret;
      double x=0, *data=NULL;
-
+     npy_intp dimension;
 
      FUNC_MESS_BEGIN();
      if (!PyArg_ParseTuple(args, "iid", &lmax, &m, &x)){
@@ -37,7 +37,7 @@ PyGSL_sf_array_evaluator_legendre_iid_ad(PyObject *self, PyObject *args,
 			  "Nmax must be bigger or equal to nmin!");
      }
      dimension = gsl_sf_legendre_array_size(lmax, m);
-     result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
@@ -60,8 +60,9 @@ PyGSL_sf_array_evaluator_iid_ad(PyObject *self, PyObject *args,
 				array_p_evaluator_iid_ad * eval)
 {
      PyArrayObject *result = NULL;
-     int nmin=0, nmax=0, dimension = 0, ret;
+     int nmin=0, nmax=0, ret;
      double x=0, *data=NULL;
+     npy_intp dimension = 0;
 
 
      FUNC_MESS_BEGIN();
@@ -78,7 +79,7 @@ PyGSL_sf_array_evaluator_iid_ad(PyObject *self, PyObject *args,
 			  "Nmax must be bigger or equal to nmin!");
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
@@ -101,9 +102,9 @@ static PyObject*
 PyGSL_sf_array_evaluator_id_ad(PyObject *self, PyObject *args, array_p_evaluator_id_ad * eval)
 {
      PyArrayObject *result = NULL;
-     int nmin=0, nmax=0, dimension = 0, ret;
+     int nmin=0, nmax=0,  ret;
      double x=0, *data=NULL;
-
+     npy_intp dimension = 0;
 
      FUNC_MESS_BEGIN();
      if (!PyArg_ParseTuple(args, "id", &nmax, &x)){
@@ -115,7 +116,7 @@ PyGSL_sf_array_evaluator_id_ad(PyObject *self, PyObject *args, array_p_evaluator
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
@@ -137,9 +138,9 @@ static PyObject*
 PyGSL_sf_array_evaluator_idd_ad(PyObject *self, PyObject *args, array_p_evaluator_idd_ad * eval)
 {
      PyArrayObject *result = NULL;
-     int nmin=0, nmax=0, dimension = 0, ret;
+     int nmin=0, nmax=0,  ret;
      double x=0, x1=0, *data=NULL;
-
+     npy_intp dimension = 0;
 
      FUNC_MESS_BEGIN();
      if (!PyArg_ParseTuple(args, "idd", &nmax, &x, &x1)){
@@ -151,7 +152,7 @@ PyGSL_sf_array_evaluator_idd_ad(PyObject *self, PyObject *args, array_p_evaluato
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
@@ -172,16 +173,16 @@ static PyObject*
 PyGSL_sf_array_evaluator_did_ad(PyObject *self, PyObject *args, array_p_evaluator_did_ad * eval)
 {
      PyArrayObject *result = NULL;
-     int nmin=0, nmax=0, dimension = 0, ret;
+     int nmin=0, nmax=0,  ret;
      double x=0, x1=0, *data=NULL;
-
+     npy_intp dimension = 0;
 
      FUNC_MESS_BEGIN();
      if (!PyArg_ParseTuple(args, "did",&x, &nmax, &x1)){
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
@@ -203,9 +204,9 @@ static PyObject*
 PyGSL_sf_array_evaluator_didd_add(PyObject *self, PyObject *args, array_p_evaluator_didd_add * eval)
 {
      PyArrayObject *result = NULL;
-     int nmin=0, nmax=0, dimension = 0, ret;
+     int nmin=0, nmax=0, ret;
      double x=0, x1=0, *data=NULL, l_min, exponent;
-
+     npy_intp dimension = 0;
 
      FUNC_MESS_BEGIN();
      if (!PyArg_ParseTuple(args, "didd", &l_min, &nmax, &x, &x1)){
@@ -217,7 +218,7 @@ PyGSL_sf_array_evaluator_didd_add(PyObject *self, PyObject *args, array_p_evalua
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result == NULL)
 	  return NULL;
 
@@ -238,9 +239,9 @@ static PyObject*
 PyGSL_sf_array_evaluator_didd_addadd(PyObject *self, PyObject *args, array_p_evaluator_didd_addadd * eval)
 {
      PyArrayObject *result1 = NULL,*result2 = NULL;
-     int nmin=0, nmax=0, dimension = 0, ret;
+     int nmin=0, nmax=0,  ret;
      double x=0, x1=0, *data1=NULL, *data2=NULL, l_min, exponent1,exponent2;
-
+     npy_intp dimension = 0;
 
      FUNC_MESS_BEGIN();
      if (!PyArg_ParseTuple(args, "didd", &l_min, &nmax, &x, &x1)){
@@ -252,10 +253,10 @@ PyGSL_sf_array_evaluator_didd_addadd(PyObject *self, PyObject *args, array_p_eva
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result1 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result1 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result1 == NULL)
 	  goto fail;
-     result2 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result2 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result2 == NULL)
 	  goto fail;
 
@@ -281,9 +282,9 @@ static PyObject*
 PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p_evaluator_didd_adadadaddd * eval)
 {
      PyArrayObject *result1 = NULL,*result2 = NULL, *result3=NULL,*result4=NULL;
-     int nmin=0, nmax=0, dimension = 0, ret;
+     int nmin=0, nmax=0,  ret;
      double x=0, x1=0, l_min, exponent1, exponent2, *data1=NULL,*data2=NULL, *data3=NULL, *data4=NULL;
-
+     npy_intp dimension = 0;
 
      FUNC_MESS_BEGIN();
      if (!PyArg_ParseTuple(args, "didd", &l_min, &nmax, &x, &x1)){
@@ -295,16 +296,16 @@ PyGSL_sf_array_evaluator_didd_adadadaddd(PyObject *self, PyObject *args, array_p
 	  return NULL;
      }
      dimension = nmax - nmin + 1; /* Goes form nmin to nmax, both included */
-     result1 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result1 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result1 == NULL)
 	  goto fail;
-     result2 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result2 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result2 == NULL)
 	  goto fail;
-     result3 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result3 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result3 == NULL)
 	  goto fail;
-     result4 = (PyArrayObject *) PyArray_SimplyNew(1, &dimension, NPY_DOUBLE);
+     result4 = (PyArrayObject *) PyArray_SimpleNew(1, &dimension, NPY_DOUBLE);
      if(result4 == NULL)
 	  goto fail;
 
@@ -405,4 +406,6 @@ DL_EXPORT(void) initsfarray(void)
      init_pygsl();
 
 }
+#else
+#define SF_ARRAY_LOAD
 #endif

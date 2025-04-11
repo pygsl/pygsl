@@ -1,3 +1,7 @@
+v2.6.2 (2025-4) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
+        * fixed special function code generator
+	  (now working with swig4.2)
+
 v2.6.0 (2025-1) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
         * switch to meson build system
         * support swig < 4.3 and 4.3
