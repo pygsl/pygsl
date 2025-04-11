@@ -67,7 +67,14 @@ jobs:
   test-swig-additional:
     runs-on: ubuntu-latest
     needs: build
+
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Test swig 4.3
         uses: ./.github/actions/test-artifact
         with:
@@ -78,7 +85,14 @@ jobs:
   test-gsl-add:
     runs-on: ubuntu-latest
     needs: build
+
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Test gsl 2.8
         uses: ./.github/actions/test-artifact
         with:
