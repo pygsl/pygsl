@@ -35,7 +35,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ inputs.cachePath }}
-        key: ${{ inputs.cacheKey }}-${{ runner.os }}-${{ hashFiles('**/', inputs.sourceTar) }}
+        key: ${{ inputs.cacheKey }}-${{ runner.os }}-${{ hashFiles(inputs.sourceTar, sourceDownloadScript) }}
         restore-keys: |
           ${{ inputs.cacheKey }}-${{ runner.os }}-
 

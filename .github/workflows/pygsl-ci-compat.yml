@@ -50,7 +50,7 @@ jobs:
           cachePath: ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
           downloadArtifactName: "gsl-2.8"
           sourceDownloadScript: "compat/download-gsl-2.8.sh"
-          sourceTar: "gsl_2.8_ubuntu_src.tar"
+          sourceTar: "gsl2.8_ubuntu_src.tar"
           buildCommands: |
             (cd build && dpkg-source -x src/gsl*.dsc)
             (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
