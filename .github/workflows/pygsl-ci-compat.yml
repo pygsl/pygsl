@@ -6,17 +6,17 @@
 
 name: test if pygsl is compatible with swig-4.3 and gsl-2.8
 
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: true
 
     steps:
       - name: Checkout repository
@@ -27,131 +27,61 @@ jobs:
           sudo apt-get update
           sudo apt-get install dpkg-dev
 
-      - name: Download and extract swig-4.3 source
-        run: |
-          sh -x compat/download-swig4.3.sh
-          mkdir -p build/src && tar -xvf swig4.3_ubuntu_src.tar -C build/src --strip-components=1
-
-      - name: Cache built swig-4.3
-        id: cache-swig-deb
-        uses: actions/cache@v4
+      - name: Build swig 4.3
+        uses: ./.github/actions/build-deb
         with:
-          path: ${{ github.workspace }}/swig4.3_arch.deb
-          key: deb-swig-${{ runner.os }}-v4.3-${{ hashFiles('**/swig4.3_ubuntu_src.tar', 'compat/download-swig4.3.sh') }}
-          restore-keys: |
-            deb-swig-${{ runner.os }}-v4.3
+          name: "Swig 4.3"
+          cacheKey: "swig-4.3"
+          cachePath: ${{ github.workspace }}/swig4.3_arch.deb
+          downloadArtifactName: "swig-4.3"
+          sourceDownloadScript: "compat/download-swig4.3.sh"
+          sourceTar: "swig4.3_ubuntu_src.tar"
+          buildCommands: |
+            (cd build && dpkg-source -x src/swig*.dsc)
+            (cd build/swig-4.3.0 && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
+            mv build/swig_4.3.0-1_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
+          uploadPaths: ${{ github.workspace }}/swig4.3_arch.deb
 
-      - name: Install build dependencies and build swig 4.3
-        if: steps.cache-swig-deb.outputs.cache-hit != 'true'
-        run: |
-          find . -name '*.dsc'
-          cat build/src/swig*.dsc || echo "swig src dsc fails"
-          (cd build && dpkg-source -x src/swig*.dsc)
-          (cd build/swig-4.3.0/ && sudo apt-get build-dep . && dpkg-buildpackage -us -uc )
-          mv build/swig_4.3.0-1_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
-
-      - name: Upload package artifact
-        uses: actions/upload-artifact@v4
+      - name: Build gsl 2.8
+        uses: ./.github/actions/build-deb
         with:
-          name: swig4.3
-          path: ${{ github.workspace }}/swig4.3_arch.deb
-
-      - name: Download and extract gsl-2.8 source
-        run: |
-          sh -x compat/download-gsl-2.8.sh
-          mkdir -p build/src && tar -xvf gsl_2.8_ubuntu_src.tar -C build/src --strip-components=1
-
-      - name: Cache built gsl-2.8
-        id: cache-gsl-deb
-        uses: actions/cache@v4
-        with:
-          path: |
+          name: "GSL 2.8"
+          cacheKey: "gsl-2.8"
+          cachePath: ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+          downloadArtifactName: "gsl-2.8"
+          sourceDownloadScript: "compat/download-gsl-2.8.sh"
+          sourceTar: "gsl_2.8_ubuntu_src.tar"
+          buildCommands: |
+            (cd build && dpkg-source -x src/gsl*.dsc)
+            (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
+            mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb     ${{ github.workspace }}/libgsl_2.8_arch.deb
+            mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb   ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+          uploadPaths: |
+            ${{ github.workspace }}/libgsl_2.8_arch.deb
             ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
             ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            ${{ github.workspace }}/libgsl_2.8_arch.deb
-          key: deb-gsl-${{ runner.os }}-v2.8-${{ hashFiles('**/gsl_2.8_ubuntu_src.tar', 'compat/download-gsl-2.8.sh') }}
-          restore-keys: |
-            deb-gsl-${{ runner.os }}-v2.8
-            deb-gsl-${{ runner.os }}-v2
-            deb-gsl-${{ runner.os }}-
+            ${{ github.workspace }}/gsl-bin_2.8_arch.deb
 
-      - name: Install build dependencies and build package gsl 2.8
-        if: steps.cache-gsl-deb.outputs.cache-hit != 'true'
-        run: |
-          (cd build && dpkg-source -x src/gsl*.dsc)
-          (cd build/gsl-2.8+dfsg/ && sudo apt-get build-dep . && dpkg-buildpackage -us -uc )
-          mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-          mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-          mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb  ${{ github.workspace }}/libgsl_2.8_arch.deb
-
-      - name: Upload gsl 2.8 artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: gsl-2.8
-          path: |
-            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            ${{ github.workspace }}/libgsl_2.8_arch.deb
-
-  # test against swig4.3: at current state not part of ubuntu (swig4.0 standard)
   test-swig-additional:
     runs-on: ubuntu-latest
     needs: build
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download swig4.3 build artifact
-        uses: actions/download-artifact@v4
+      - name: Test swig 4.3
+        uses: ./.github/actions/test-artifact
         with:
-          name: swig4.3
+          artifactName: swig-4.3
+          installCommand: "sudo dpkg -i swig4.3_arch.deb || sudo apt-get install -f -y"
+          dependencies: "libgsl-dev python3-dev python3-pip python3-venv"
 
-      - name: Install swig4.3
-        run: |
-          sudo dpkg -i swig4.3_arch.deb || sudo apt-get install -f -y
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install libgsl-dev python3-dev python3-pip python3-venv
-
-      - name: Build and test pygsl
-        run: |
-          python3 -m venv venv-test
-          source venv-test/bin/activate
-          python3 -m pip install --upgrade pip wheel pytest
-          python3 -m pip install .
-          (cd tests && python3 -m pytest .)
-
-  # test against gsl-2.8, at current stage not part of ubuntu (2.7 standard)
   test-gsl-add:
     runs-on: ubuntu-latest
     needs: build
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download gsl 2.8 artifact
-        uses: actions/download-artifact@v4
+      - name: Test gsl 2.8
+        uses: ./.github/actions/test-artifact
         with:
-          name: gsl-2.8
-
-# Let install step fail if it is not there
-      - name: Install gsl-2.8
-        run: |
-          sudo dpkg -i libgsl-dev-2.8_arch.deb libgslcblas0-2.8_arch.deb libgsl_2.8_arch.deb  || sudo apt-get install -f -y
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install swig python3-dev python3-pip python3-venv
-
-      - name: Build and test pygsl
-        run: |
-          python3 -m venv venv-test
-          source venv-test/bin/activate
-          python3 -m pip install --upgrade pip wheel pytest
-          python3 -m pip install .
-          (cd tests && python3 -m pytest .)
+          artifactName: gsl-2.8
+          installCommand: "sudo dpkg -i libgsl-dev-2.8_arch.deb libgslcblas0-2.8_arch.deb libgsl_2.8_arch.deb || sudo apt-get install -f -y"
+          dependencies: "swig python3-dev python3-pip python3-venv"
