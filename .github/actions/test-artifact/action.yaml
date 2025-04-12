@@ -27,6 +27,7 @@ runs:
     - name: Install artifact
       shell: bash
       run: |
+        find . -type f
         ${{ inputs.installCommand }}
 
     - name: Install dependencies
