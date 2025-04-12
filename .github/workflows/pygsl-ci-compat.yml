@@ -40,7 +40,8 @@ jobs:
             (cd build && dpkg-source -x src/swig*.dsc)
             (cd build/swig-4.3.0 && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
             mv build/swig_4.3.0-1_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
-          uploadPaths: ${{ github.workspace }}/swig4.3_arch.deb
+          uploadPaths: |
+            - ${{ github.workspace }}/swig4.3_arch.deb
 
       - name: Build gsl 2.8
         uses: ./.github/actions/build-deb
@@ -59,10 +60,10 @@ jobs:
             mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
             mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/gsl-bin_2.8_arch.deb
           uploadPaths: |
-            ${{ github.workspace }}/libgsl_2.8_arch.deb
-            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            - ${{ github.workspace }}/libgsl_2.8_arch.deb
+            - ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            - ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            - ${{ github.workspace }}/gsl-bin_2.8_arch.deb
 
   test-swig-additional:
     runs-on: ubuntu-latest
