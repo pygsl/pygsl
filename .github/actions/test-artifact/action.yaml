@@ -21,8 +21,8 @@ runs:
 
     - name: Download build artifact
       uses: actions/download-artifact@v4
-      with:
-        name: ${{ inputs.artifactName }}
+#      with:
+#        name: ${{ inputs.artifactName }}
 
     - name: Install artifact
       shell: bash
