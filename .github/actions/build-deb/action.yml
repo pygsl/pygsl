@@ -44,7 +44,7 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ inputs.downloadArtifactName }}
-      continue-on-error: true
+      continue-on-error: false
 
     - name: Check for library artifact
       id: artifact-check
@@ -81,4 +81,4 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.downloadArtifactName }}
-        path: ${{ join(inputs.uploadPaths, '\n') }}
+        path: ${{ inputs.uploadPaths }}

@@ -1,8 +1,8 @@
 name: "Test Artifact"
 description: "Reusable steps for installing an artifact and running tests"
 inputs:
-  artifactName:
-    description: "Name of the artifact to download"
+  cacheKey:
+    description: "Cache Key to use for downloading artifact"
     required: true
   installCommand:
     description: "Shell command to install the artifact"
@@ -21,8 +21,8 @@ runs:
 
     - name: Download build artifact
       uses: actions/download-artifact@v4
-#      with:
-#        name: ${{ inputs.artifactName }}
+      with:
+        name: ${{ cacheKey }}-${{ runner.os }}-
 
     - name: Install artifact
       shell: bash
