@@ -31,9 +31,8 @@ jobs:
         uses: ./.github/actions/build-deb
         with:
           name: "Swig 4.3"
-          cacheKey: "swig-4.3"
+          artifactName: "swig-4.3"
           cachePath: ${{ github.workspace }}/swig4.3_arch.deb
-          downloadArtifactName: "swig-4.3"
           sourceDownloadScript: "compat/download-swig4.3.sh"
           sourceTar: "swig4.3_ubuntu_src.tar"
           buildCommands: |
@@ -48,9 +47,8 @@ jobs:
         uses: ./.github/actions/build-deb
         with:
           name: "GSL 2.8"
-          cacheKey: "gsl-2.8"
+          artifactName: "gsl-2.8"
           cachePath: ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-          downloadArtifactName: "gsl-2.8"
           sourceDownloadScript: "compat/download-gsl-2.8.sh"
           sourceTar: "gsl2.8_ubuntu_src.tar"
           buildCommands: |
@@ -78,8 +76,8 @@ jobs:
       - name: Test swig 4.3
         uses: ./.github/actions/test-artifact
         with:
-          cacheKey: swig-4.3
-          installCommand: "sudo dpkg -i swig4.3_arch.deb || sudo apt-get install -f -y"
+          artifactName: swig-4.3
+          installCommand: "sudo dpkg -i swig4.3_arch.deb"
           dependencies: "libgsl-dev python3-dev python3-pip python3-venv"
 
   test-gsl-add:
@@ -96,6 +94,6 @@ jobs:
       - name: Test gsl 2.8
         uses: ./.github/actions/test-artifact
         with:
-          cacheKey: gsl-2.8
-          installCommand: "sudo dpkg -i libgsl-dev-2.8_arch.deb libgslcblas0-2.8_arch.deb libgsl_2.8_arch.deb || sudo apt-get install -f -y"
+          artifactName: gsl-2.8
+          installCommand: "sudo dpkg -i libgsl-dev-2.8_arch.deb libgslcblas0-2.8_arch.deb libgsl_2.8_arch.deb"
           dependencies: "swig python3-dev python3-pip python3-venv"

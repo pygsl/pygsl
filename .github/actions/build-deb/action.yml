@@ -5,14 +5,11 @@ inputs:
   name:
     description: "Name of the library (for logging)"
     required: true
-  cacheKey:
-    description: "Cache key prefix for the library"
+  artifactName:
+    description: "Artifact name to download and upload"
     required: true
   cachePath:
     description: "File or directory to cache (e.g. built artifact)"
-    required: true
-  downloadArtifactName:
-    description: "Artifact name to download and upload"
     required: true
   sourceDownloadScript:
     description: "Script to download and extract the source"
@@ -35,15 +32,16 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ inputs.cachePath }}
-        key: ${{ inputs.cacheKey }}-${{ runner.os }}-${{ hashFiles(inputs.sourceTar, inputs.sourceDownloadScript) }}
+        key: ${{ inputs.artifactName }}-${{ runner.os }}-${{ hashFiles(inputs.sourceTar, inputs.sourceDownloadScript) }}
         restore-keys: |
-          ${{ inputs.cacheKey }}-${{ runner.os }}-
+          ${{ inputs.artifactName }}-${{ runner.os }}-
+          ${{ inputs.artifactName }}-
 
     - name: Download library artifact
       id: download-artifact
       uses: actions/download-artifact@v4
       with:
-        name: ${{ inputs.downloadArtifactName }}
+        name: ${{ inputs.artifactName }}
       continue-on-error: True
 
     - name: Check for library artifact
@@ -81,5 +79,5 @@ runs:
       uses: actions/upload-artifact@v4
       if: ${{ steps.cache-artifact.outputs.cache-hit != 'true' && steps.artifact-check.outputs.artifact_exists != 'true' }}
       with:
-        name: ${{ inputs.downloadArtifactName }}
+        name: ${{ inputs.artifactName }}
         path: ${{ inputs.uploadPaths }}
