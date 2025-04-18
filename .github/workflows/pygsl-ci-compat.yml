@@ -72,8 +72,15 @@ jobs:
             touch ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
             touch ${{ github.workspace }}/gsl-bin_2.8_arch.deb
             find . -name '*.deb'
+            ls ${{ github.workspace }}/libgsl_2.8_arch.deb
+            ls ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            ls ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            ls ${{ github.workspace }}/gsl-bin_2.8_arch.deb
           uploadPaths: |
-            "${{ github.workspace }}/*.deb"
+            ${{ github.workspace }}/libgsl_2.8_arch.deb
+            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            ${{ github.workspace }}/gsl-bin_2.8_arch.deb
 
   test-swig-additional:
     runs-on: ubuntu-latest
