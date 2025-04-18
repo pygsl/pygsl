@@ -61,21 +61,21 @@ jobs:
           sourceDownloadScript: "compat/download-gsl-2.8.sh"
           sourceTar: "gsl2.8_ubuntu_src.tar"
           buildCommands: |
-            # (cd build && dpkg-source -x src/gsl*.dsc)
-            # (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
-            # mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb     ${{ github.workspace }}/libgsl_2.8_arch.deb
-            # mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb   ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            # mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            # mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/gsl-bin_2.8_arch.deb
-            touch ${{ github.workspace }}/libgsl_2.8_arch.deb
-            touch ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            touch ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            touch ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            (cd build && dpkg-source -x src/gsl*.dsc)
+            (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
+            mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb     ${{ github.workspace }}/libgsl_2.8_arch.deb
+            mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb   ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            # touch ${{ github.workspace }}/libgsl_2.8_arch.deb
+            # touch ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            # touch ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            # touch ${{ github.workspace }}/gsl-bin_2.8_arch.deb
             find . -name '*.deb'
-            ls ${{ github.workspace }}/libgsl_2.8_arch.deb
-            ls ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            ls ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            ls ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            ls -l ${{ github.workspace }}/libgsl_2.8_arch.deb
+            ls -l ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            ls -l ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            ls -l ${{ github.workspace }}/gsl-bin_2.8_arch.deb
           uploadPaths: |
             ${{ github.workspace }}/libgsl_2.8_arch.deb
             ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
