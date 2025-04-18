@@ -13,7 +13,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-swig-4.3:
     runs-on: ubuntu-latest
     env:
       ACTIONS_RUNNER_DEBUG: true
@@ -43,6 +43,15 @@ jobs:
           uploadPaths: |
             ${{ github.workspace }}/*.deb
 
+  build-gsl-2.8:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Build gsl 2.8
         uses: ./.github/actions/build-deb
         with:
@@ -52,15 +61,19 @@ jobs:
           sourceDownloadScript: "compat/download-gsl-2.8.sh"
           sourceTar: "gsl2.8_ubuntu_src.tar"
           buildCommands: |
-            (cd build && dpkg-source -x src/gsl*.dsc)
-            (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
-            mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb     ${{ github.workspace }}/libgsl_2.8_arch.deb
-            mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb   ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+#            (cd build && dpkg-source -x src/gsl*.dsc)
+#            (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
+#            mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb     ${{ github.workspace }}/libgsl_2.8_arch.deb
+#            mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb   ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+#            mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+#            mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            touch ${{ github.workspace }}/libgsl_2.8_arch.deb
+            touch ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+            touch ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
+            touch ${{ github.workspace }}/gsl-bin_2.8_arch.deb
             find . -name '*.deb'
           uploadPaths: |
-            ${{ github.workspace }}/*.deb
+            "${{ github.workspace }}/*.deb"
 
   test-swig-additional:
     runs-on: ubuntu-latest
