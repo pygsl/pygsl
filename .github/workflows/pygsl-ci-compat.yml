@@ -57,7 +57,7 @@ jobs:
         with:
           name: "GSL 2.8"
           artifactName: "gsl-2.8"
-          cachePath: ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
+          cachePath: ${{ github.workspace }}/gsl-bin_2.8_arch.deb
           sourceDownloadScript: "compat/download-gsl-2.8.sh"
           sourceTar: "gsl2.8_ubuntu_src.tar"
           buildCommands: |

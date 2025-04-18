@@ -48,6 +48,7 @@ runs:
       id: artifact-check
       shell: bash
       run: |
+        find . -name '*.deb'
         if [ -f "${{ inputs.cachePath }}" ]; then
           echo "${{ inputs.name }} artifact exists"
           echo "artifact_exists=true" >> $GITHUB_OUTPUT
