@@ -78,7 +78,7 @@ jobs:
       - name: Test swig 4.3
         uses: ./.github/actions/test-artifact
         with:
-          cacheKey: "swig-4.3"
+          cacheKey: swig-4.3
           installCommand: "sudo dpkg -i swig4.3_arch.deb || sudo apt-get install -f -y"
           dependencies: "libgsl-dev python3-dev python3-pip python3-venv"
 
