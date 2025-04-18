@@ -1,8 +1,9 @@
 name: "Test Artifact"
 description: "Reusable steps for installing an artifact and running tests"
+
 inputs:
   cacheKey:
-    description: "Cache Key to use for downloading artifact"
+    description: "Cache key to use for downloading the artifact"
     required: true
   installCommand:
     description: "Shell command to install the artifact"
@@ -13,8 +14,9 @@ inputs:
   testCommand:
     description: "Command to run the tests (defaults to running pytest)"
     default: "(cd tests && python3 -m pytest .)"
+
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -22,7 +24,7 @@ runs:
     - name: Download build artifact
       uses: actions/download-artifact@v4
       with:
-        name: ${{ cacheKey }}-${{ runner.os }}-
+        name: ${{ inputs.cacheKey }}-${{ runner.os }}-
 
     - name: Install artifact
       shell: bash
