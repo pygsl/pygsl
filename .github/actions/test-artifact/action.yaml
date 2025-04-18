@@ -24,7 +24,7 @@ runs:
     - name: Download build artifact
       uses: actions/download-artifact@v4
       with:
-        name: ${{ inputs.cacheKey }}-${{ runner.os }}-
+        pattern: ${{ inputs.cacheKey }}-${{ runner.os }}-*
 
     - name: Install artifact
       shell: bash
