@@ -77,7 +77,6 @@ runs:
 
     - name: Upload library artifact
       uses: actions/upload-artifact@v4
-      if: ${{ steps.cache-artifact.outputs.cache-hit != 'true' && steps.artifact-check.outputs.artifact_exists != 'true' }}
       with:
         name: ${{ inputs.artifactName }}
         path: ${{ inputs.uploadPaths }}

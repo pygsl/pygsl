@@ -24,7 +24,7 @@ runs:
     - name: Download build artifact
       uses: actions/download-artifact@v4
       with:
-        pattern: ${{ inputs.artifactName }}-${{ runner.os }}-*
+        name: ${{ inputs.artifactName }}
 
     - name: Install artifact
       shell: bash
