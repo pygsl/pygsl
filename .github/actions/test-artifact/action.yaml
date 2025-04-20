@@ -25,6 +25,7 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ inputs.artifactName }}
+        path: deb/
 
     - name: Install artifact
       shell: bash
