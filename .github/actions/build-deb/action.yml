@@ -1,0 +1,85 @@
+name: "Build Library"
+description: "Common steps for caching, downloading, building, and uploading a library artifact"
+
+inputs:
+  name:
+    description: "Name of the library (for logging)"
+    required: true
+  artifactName:
+    description: "Artifact name to download and upload"
+    required: true
+  cachePath:
+    description: "File or directory to cache (e.g. built artifact)"
+    required: true
+  sourceDownloadScript:
+    description: "Script to download and extract the source"
+    required: true
+  sourceTar:
+    description: "Source tar file to extract"
+    required: true
+  buildCommands:
+    description: "Build commands to run (multiple lines supported)"
+    required: true
+  uploadPaths:
+    description: "Path(s) of the built artifact(s) to upload"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Cache library artifact
+      id: cache-artifact
+      uses: actions/cache@v4
+      with:
+        path: ${{ inputs.cachePath }}
+        key: ${{ inputs.artifactName }}-${{ runner.os }}-${{ hashFiles(inputs.sourceTar, inputs.sourceDownloadScript) }}
+        restore-keys: |
+          ${{ inputs.artifactName }}-${{ runner.os }}-*
+          ${{ inputs.artifactName }}-*
+
+    - name: Download library artifact
+      id: download-artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifactName }}
+        path: deb/
+      continue-on-error: True
+
+    - name: Check for library artifact
+      id: artifact-check
+      shell: bash
+      run: |
+        mkdir -p deb/ #  todo: remove this command, should only be required for building the library
+        find . -name '*.deb'
+        if [ -f "${{ inputs.cachePath }}" ]; then
+          echo "${{ inputs.name }} artifact exists"
+          echo "artifact_exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "${{ inputs.name }} artifact needs to be built"
+          echo "artifact_exists=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Display artifact status
+      shell: bash
+      run: |
+        echo "${{ inputs.name }} cache hit: ${{ steps.cache-artifact.outputs.cache-hit }}"
+        echo "${{ inputs.name }} artifact exists: ${{ steps.artifact-check.outputs.artifact_exists }}"
+
+    - name: Download and extract source
+      if: ${{ steps.cache-artifact.outputs.cache-hit != 'true' && steps.artifact-check.outputs.artifact_exists != 'true' }}
+      shell: bash
+      run: |
+        sh -x ${{ inputs.sourceDownloadScript }}
+        mkdir -p build/src && tar -xvf ${{ inputs.sourceTar }} -C build/src --strip-components=1
+
+    - name: Build library
+      shell: bash
+      if: ${{ steps.cache-artifact.outputs.cache-hit != 'true' && steps.artifact-check.outputs.artifact_exists != 'true' }}
+      run: |
+        ${{ inputs.buildCommands }}
+
+    - name: Upload library artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifactName }}
+        path: ${{ inputs.uploadPaths }}
