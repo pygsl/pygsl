@@ -32,16 +32,16 @@ jobs:
         with:
           name: "Swig 4.3"
           artifactName: "swig-4.3"
-          cachePath: ${{ github.workspace }}/swig4.3_arch.deb
+          cachePath: ${{ github.workspace }}/deb/swig4.3_arch.deb
           sourceDownloadScript: "compat/download-swig4.3.sh"
           sourceTar: "swig4.3_ubuntu_src.tar"
           buildCommands: |
             (cd build && dpkg-source -x src/swig*.dsc)
             (cd build/swig-4.3.0 && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
-            mv build/swig_4.3.0-1_amd64.deb ${{ github.workspace }}/swig4.3_arch.deb
+            mv build/swig_4.3.0-1_amd64.deb ${{ github.workspace }}/deb/swig4.3_arch.deb
             find . -name '*.deb'
           uploadPaths: |
-            ${{ github.workspace }}/*.deb
+            ${{ github.workspace }}/deb/swig4.3_arch.deb
 
   build-gsl-add:
     runs-on: ubuntu-latest
@@ -57,30 +57,30 @@ jobs:
         with:
           name: "GSL 2.8"
           artifactName: "gsl-2.8"
-          cachePath: ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+          cachePath: ${{ github.workspace }}/deb/gsl-bin_2.8_arch.deb
           sourceDownloadScript: "compat/download-gsl-2.8.sh"
           sourceTar: "gsl2.8_ubuntu_src.tar"
           buildCommands: |
             (cd build && dpkg-source -x src/gsl*.dsc)
             (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
-            mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb     ${{ github.workspace }}/libgsl_2.8_arch.deb
-            mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb   ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            mv build/libgsl28_2.8+dfsg-3ubuntu3_amd64.deb     ${{ github.workspace }}/deb/libgsl_2.8_arch.deb
+            mv build/libgsl-dev_2.8+dfsg-3ubuntu3_amd64.deb   ${{ github.workspace }}/deb/libgsl-dev-2.8_arch.deb
+            mv build/libgslcblas0_2.8+dfsg-3ubuntu3_amd64.deb ${{ github.workspace }}/deb/libgslcblas0-2.8_arch.deb
+            mv build/gsl-bin_2.8+dfsg-3ubuntu3_amd64.deb      ${{ github.workspace }}/deb/gsl-bin_2.8_arch.deb
             # touch ${{ github.workspace }}/libgsl_2.8_arch.deb
             # touch ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
             # touch ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
             # touch ${{ github.workspace }}/gsl-bin_2.8_arch.deb
             find . -name '*.deb'
-            ls -l ${{ github.workspace }}/libgsl_2.8_arch.deb
-            ls -l ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            ls -l ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            ls -l ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            ls -l ${{ github.workspace }}/deb/libgsl_2.8_arch.deb
+            ls -l ${{ github.workspace }}/deb/libgsl-dev-2.8_arch.deb
+            ls -l ${{ github.workspace }}/deb/libgslcblas0-2.8_arch.deb
+            ls -l ${{ github.workspace }}/deb/gsl-bin_2.8_arch.deb
           uploadPaths: |
-            ${{ github.workspace }}/libgsl_2.8_arch.deb
-            ${{ github.workspace }}/libgsl-dev-2.8_arch.deb
-            ${{ github.workspace }}/libgslcblas0-2.8_arch.deb
-            ${{ github.workspace }}/gsl-bin_2.8_arch.deb
+            ${{ github.workspace }}//deb/libgsl_2.8_arch.deb
+            ${{ github.workspace }}//deb/libgsl-dev-2.8_arch.deb
+            ${{ github.workspace }}//deb/libgslcblas0-2.8_arch.deb
+            ${{ github.workspace }}//deb/gsl-bin_2.8_arch.deb
 
   test-swig-additional:
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
         uses: ./.github/actions/test-artifact
         with:
           artifactName: swig-4.3
-          installCommand: "sudo dpkg -i swig4.3_arch.deb"
+          installCommand: "sudo dpkg -i deb/swig4.3_arch.deb"
           dependencies: "libgsl-dev python3-dev python3-pip python3-venv"
 
   test-gsl-additional:
@@ -115,5 +115,5 @@ jobs:
         uses: ./.github/actions/test-artifact
         with:
           artifactName: gsl-2.8
-          installCommand: "sudo dpkg -i libgsl-dev-2.8_arch.deb libgslcblas0-2.8_arch.deb libgsl_2.8_arch.deb"
+          installCommand: "sudo dpkg -i deb/libgsl-dev-2.8_arch.deb deb/libgslcblas0-2.8_arch.deb deb/libgsl_2.8_arch.deb"
           dependencies: "swig python3-dev python3-pip python3-venv"

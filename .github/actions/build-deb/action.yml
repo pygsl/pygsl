@@ -42,6 +42,7 @@ runs:
       uses: actions/download-artifact@v4
       with:
         name: ${{ inputs.artifactName }}
+        path: deb/
       continue-on-error: True
 
     - name: Check for library artifact
