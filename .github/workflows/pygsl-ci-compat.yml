@@ -118,5 +118,5 @@ jobs:
         uses: ./.github/actions/test-artifact
         with:
           artifactName: gsl-2.8
-          installCommand: "sudo dpkg -i libgsl-dev-2.8_arch.deb libgslcblas0-2.8_arch.deb libgsl_2.8_arch.deb"
+          installCommand: "sudo dpkg -i deb/libgsl-dev-2.8_arch.deb deb/libgslcblas0-2.8_arch.deb deb/libgsl_2.8_arch.deb"
           dependencies: "swig python3-dev python3-pip python3-venv"
