@@ -49,6 +49,7 @@ runs:
       id: artifact-check
       shell: bash
       run: |
+        mkdir -p deb/ #  todo: remove this command, should only be required for building the library
         find . -name '*.deb'
         if [ -f "${{ inputs.cachePath }}" ]; then
           echo "${{ inputs.name }} artifact exists"
