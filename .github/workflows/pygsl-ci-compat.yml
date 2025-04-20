@@ -32,7 +32,7 @@ jobs:
         with:
           name: "Swig 4.3"
           artifactName: "swig-4.3"
-          cachePath: ${{ github.workspace }}/deb/swig4.3_arch.deb
+          cachePath: ${{ github.workspace }}/deb/
           sourceDownloadScript: "compat/download-swig4.3.sh"
           sourceTar: "swig4.3_ubuntu_src.tar"
           buildCommands: |
@@ -59,7 +59,7 @@ jobs:
         with:
           name: "GSL 2.8"
           artifactName: "gsl-2.8"
-          cachePath: ${{ github.workspace }}/deb/gsl-bin_2.8_arch.deb
+          cachePath: ${{ github.workspace }}/deb/
           sourceDownloadScript: "compat/download-gsl-2.8.sh"
           sourceTar: "gsl2.8_ubuntu_src.tar"
           buildCommands: |
