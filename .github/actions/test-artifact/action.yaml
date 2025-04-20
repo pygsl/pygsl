@@ -1,0 +1,50 @@
+name: "Test Artifact"
+description: "Reusable steps for installing an artifact and running tests"
+
+inputs:
+  artifactName:
+    description: "Cache key to use for downloading the artifact"
+    required: true
+  installCommand:
+    description: "Shell command to install the artifact"
+    required: true
+  dependencies:
+    description: "Space-separated apt packages to install"
+    required: true
+  testCommand:
+    description: "Command to run the tests (defaults to running pytest)"
+    default: "(cd tests && python3 -m pytest .)"
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifactName }}
+        path: deb/
+
+    - name: Install artifact
+      shell: bash
+      run: |
+        find . -type f
+        find . -name '*.deb'
+        ${{ inputs.installCommand }}
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ${{ inputs.dependencies }}
+
+    - name: Setup Python environment and run tests
+      shell: bash
+      run: |
+        python3 -m venv venv-test
+        source venv-test/bin/activate
+        python3 -m pip install --upgrade pip wheel pytest
+        python3 -m pip install .
+        ${{ inputs.testCommand }}

@@ -18,4 +18,4 @@ curl -O -s $ORIG
 curl -O -s $DEB_PATCH
 
 cd "$save_path"
-tar -cvf gsl_2.8_ubuntu_src.tar -C build gsl_2.8
+tar -cvf gsl2.8_ubuntu_src.tar -C build gsl_2.8
