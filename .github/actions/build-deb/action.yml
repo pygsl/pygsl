@@ -34,8 +34,8 @@ runs:
         path: ${{ inputs.cachePath }}
         key: ${{ inputs.artifactName }}-${{ runner.os }}-${{ hashFiles(inputs.sourceTar, inputs.sourceDownloadScript) }}
         restore-keys: |
-          ${{ inputs.artifactName }}-${{ runner.os }}-
-          ${{ inputs.artifactName }}-
+          ${{ inputs.artifactName }}-${{ runner.os }}-*
+          ${{ inputs.artifactName }}-*
 
     - name: Download library artifact
       id: download-artifact
