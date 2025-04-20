@@ -239,6 +239,8 @@ Thanks
 * Sebastien Maret for supporting the Fink http://fink.sourceforge.net
   port of pygsl.
 * Michael Forbes for Series Acceleration
+* Sergei Ossokine
+* Jerry James
 * and all for support by providing feed back on testing or showing by
   email that the code is useful for them
 

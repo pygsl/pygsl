@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: oygsl
+title: pygsl
 message: Python wrapper for the GNU Scientific Library
 type: software
 authors:
@@ -27,6 +27,10 @@ authors:
     family-names: Maret
   - given-names: Michael
     family-names: Forbes
+  - given-names: Sergei
+    family-names: Ossokine
+  - given-names: Jerry
+    family-names: James
 identifiers:
   - type: other
     value: 'https://www.gnu.org/software/gsl/'
@@ -38,5 +42,5 @@ abstract: >-
   (GSL,  https://www.gnu.org/software/gsl/) Nearly all
   modules are wrapped.
 license: GPL-2.0
-version: 2.6.0-pre-a
-date-released: 'tbd'
+version: 2.6.2
+date-released: '11. April 2025'
