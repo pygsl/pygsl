@@ -475,7 +475,7 @@ typedef struct {
     double get_factor_down(void) {
 	return self->factor_down;
     }
-    double set_avmax(void) {
+    double get_avmax(void) {
 	return self->avmax;
     }
     double get_h_df(void){
