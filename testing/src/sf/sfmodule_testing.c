@@ -58,8 +58,8 @@ _pygsl_sf_long_to_unsigned_int(long val, unsigned int * result)
 	FUNC_MESS_BEGIN();
 
 	DEBUG_MESS(2, "l-> ui: input %ld", val);
-	DEBUG_MESS(8, "sizeof(unsigned int) = %d sizeof(long) =%d", sizeof(unsigned int), sizeof(long));
-	DEBUG_MESS(8, "UINT_MAX = %u ", UINT_MAX, sizeof(unsigned int), sizeof(long));
+	DEBUG_MESS(8, "sizeof(unsigned int) = %zu sizeof(long) =%zu", sizeof(unsigned int), sizeof(long));
+	DEBUG_MESS(8, "UINT_MAX = %u ", UINT_MAX);
 
 	if (val < 0){
 		status = GSL_EINVAL;
@@ -70,7 +70,7 @@ _pygsl_sf_long_to_unsigned_int(long val, unsigned int * result)
 	else if ((UINT_MAX <  LONG_MAX) && (val > (long) UINT_MAX)){
 		status = GSL_EINVAL;
 		*result = UINT_MAX;
-		DEBUG_MESS(2, "Conversion long-> unsigned int: val %ld > UNIT_MAX = %ld ", val, UINT_MAX);
+		DEBUG_MESS(2, "Conversion long-> unsigned int: val %ld > UNIT_MAX = %u ", val, UINT_MAX);
 	}
 	else {
 		status = GSL_SUCCESS;
