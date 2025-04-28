@@ -614,7 +614,7 @@ typedef struct {
 }
 
 
-%apply const gsl_vector *IN {const gsl_vector * weights};
+%apply gsl_vector *IN {const gsl_vector * weights};
 
 %extend pygsl_multilarge_nlinear_workspace{
     pygsl_multilarge_nlinear_workspace(
