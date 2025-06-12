@@ -411,10 +411,6 @@ struct pygsl_spline{
 	  return  _pygsl_spline_eval_vector_generic(self->spline, IN, self->acc, gsl_spline_eval_deriv);
      }
 
-     PyObject * eval_deriv2_vector(const gsl_vector *IN){
-	  return  _pygsl_spline_eval_vector_generic(self->spline, IN, self->acc, gsl_spline_eval_deriv2);
-     }
-
      PyObject * eval_deriv_e_vector(const gsl_vector *IN){
 	  return  _pygsl_spline_eval_e_vector_generic(self->spline, IN, self->acc, gsl_spline_eval_deriv_e);
      }
