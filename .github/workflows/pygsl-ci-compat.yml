@@ -70,10 +70,10 @@ jobs:
             (cd build/gsl-2.8+dfsg && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
             # useful to see if package names have changed down the line
             find . -name '*.deb'
-            mv build/libgsl28_2.8+dfsg-5ubuntu1_amd64.deb     ${{ github.workspace }}/deb/libgsl_2.8_arch.deb
-            mv build/libgsl-dev_2.8+dfsg-5ubuntu1_amd64.deb   ${{ github.workspace }}/deb/libgsl-dev-2.8_arch.deb
-            mv build/libgslcblas0_2.8+dfsg-5ubuntu1_amd64.deb ${{ github.workspace }}/deb/libgslcblas0-2.8_arch.deb
-            mv build/gsl-bin_2.8+dfsg-5ubuntu1_amd64.deb      ${{ github.workspace }}/deb/gsl-bin_2.8_arch.deb
+            mv build/libgsl28_2.8+dfsg-5.1ubuntu1_amd64.deb      ${{ github.workspace }}/deb/libgsl_2.8_arch.deb
+            mv build/libgsl-dev_2.8+dfsg-5.1ubuntu1_amd64.deb    ${{ github.workspace }}/deb/libgsl-dev-2.8_arch.deb
+            mv build/libgslcblas0_2.8+dfsg-5.1ubuntu1_amd64.deb  ${{ github.workspace }}/deb/libgslcblas0-2.8_arch.deb
+            mv build/gsl-bin_2.8+dfsg-5.1ubuntu1_amd64.deb       ${{ github.workspace }}/deb/gsl-bin_2.8_arch.deb
             # touch ${{ github.workspace }}/deb/libgsl_2.8_arch.deb
             # touch ${{ github.workspace }}/deb/libgsl-dev-2.8_arch.deb
             # touch ${{ github.workspace }}/deb/libgslcblas0-2.8_arch.deb
