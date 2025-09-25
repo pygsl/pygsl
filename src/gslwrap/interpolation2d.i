@@ -26,8 +26,10 @@ static PyObject *module = NULL;
 %}
 
 %init {
+  // TODO: pygsl should return -1 on failure here
   init_pygsl();
-  import_array();
+  // swig uses a function here ...
+  import_array1(-1);
   module = m;
 }
 

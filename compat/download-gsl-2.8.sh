@@ -1,9 +1,7 @@
 #!/bin/sh
-
-# I will stay here with ocular
-DSC=http://archive.ubuntu.com/ubuntu/pool/universe/g/gsl/gsl_2.8+dfsg-3ubuntu3.dsc
+DSC=http://archive.ubuntu.com/ubuntu/pool/universe/g/gsl/gsl_2.8+dfsg-5.1ubuntu1.dsc
 ORIG=http://archive.ubuntu.com/ubuntu/pool/universe/g/gsl/gsl_2.8+dfsg.orig.tar.gz
-DEB_PATCH=http://archive.ubuntu.com/ubuntu/pool/universe/g/gsl/gsl_2.8+dfsg-3ubuntu3.debian.tar.xz
+DEB_PATCH=http://archive.ubuntu.com/ubuntu/pool/universe/g/gsl/gsl_2.8+dfsg-5.1ubuntu1.debian.tar.xz
 
 # DSC=http://archive.ubuntu.com/ubuntu/pool/universe/g/gsl/gsl_2.8+dfsg-5.dsc
 # ORIG=http://archive.ubuntu.com/ubuntu/pool/universe/g/gsl/gsl_2.8+dfsg.orig.tar.gz
