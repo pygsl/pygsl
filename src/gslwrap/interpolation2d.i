@@ -29,7 +29,11 @@ static PyObject *module = NULL;
   // TODO: pygsl should return -1 on failure here
   init_pygsl();
   // swig uses a function here ...
+#if SWIG_VERSION >= 0x040400 // SWIG >= 4.4.0
   import_array1(-1);
+#else
+     import_array();
+#endif
   module = m;
 }
 
