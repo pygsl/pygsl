@@ -1,4 +1,4 @@
-"""Check that swig_pygsl_init returns the flag which triggers an import error on failure
+"""Check that swig_init_pygsl returns the flag which triggers an import error on failure
 """
 import pytest
 

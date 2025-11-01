@@ -6,7 +6,7 @@
 %module interpolation2d_wrap
 %feature ("autodoc", "3");
 %include pygsl_compat.i
-%include swig_pygsl_init.h
+%include swig_init_pygsl.h
 
 %rename(interp2d) pygsl_interp2d;
 %rename(spline2d) pygsl_spline2d;
@@ -23,7 +23,7 @@
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
 #include <pygsl/utils.h>
-#include <swig_pygsl_init.h>
+#include <swig_init_pygsl.h>
 
 static PyObject *module = NULL;
 %}

@@ -16,7 +16,7 @@
 %}
 %include typemaps.i
 %include gsl_error_typemap.i
-%include swig_pygsl_init.h
+%include swig_init_pygsl.h
 
 %rename(gsl_function) gsl_function_struct;
 

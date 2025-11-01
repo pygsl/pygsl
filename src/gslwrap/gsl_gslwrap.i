@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/utils.h>
-#include <swig_pygsl_init.h>
+#include <swig_init_pygsl.h>
 
 static PyObject *module = NULL;
 
