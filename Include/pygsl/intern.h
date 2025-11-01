@@ -10,6 +10,7 @@
 #include <pygsl/numpy_api_version.h>
 /* todo: how to handle global config */
 #include <pygsl/pygsl_config.h>
+#include <gsl/gsl_errno.h>
 // #define PyGSL_SET_GSL_ERROR_HANDLER
 // #define GSL_DISABLE_DEPRECATED
 // #define DEBUG 1
@@ -232,30 +233,68 @@ static int pygsl_debug_level = 0;
 #define PyGSL_ERROR_NULL(reason, gsl_errno) PyGSL_ERROR_VAL((reason), (gsl_errno), NULL)
 
 static const char pygsl_api_name[] = "pygsl_api";
-#define init_pygsl()\
-{ \
-   PyObject *pygsl = NULL, *c_api = NULL, *md = NULL; \
-   unsigned long version;\
-   if ( \
-      (pygsl = PyImport_ImportModule("pygsl.init"))    != NULL && \
-      (md = PyModule_GetDict(pygsl))                   != NULL && \
-      (c_api = PyDict_GetItemString(md, "_PYGSL_API")) != NULL && \
-      (PyCapsule_CheckExact(c_api))                                    \
-     ) { \
-     PyGSL_API = (void **)PyCapsule_GetPointer(c_api, pygsl_api_name);		    \
-     version = (unsigned long) PyGSL_API[PyGSL_api_version_NUM];		\
-         if (PyGSL_API_VERSION != version ){ \
-            fprintf(stderr, "Compiled for PyGSL_API_VERSION 0x%lx but found 0x%lx! In File %s\n", PyGSL_API_VERSION, version, __FILE__); \
-         } \
-         PyGSL_SET_ERROR_HANDLER(); \
-         PyGSL_CHECK_ERROR_HANDLER(); \
-       if((PyGSL_init_debug()) != GSL_SUCCESS){ \
-         fprintf(stderr, "Failed to register debug switch for file %s\n", __FILE__);} \
-   } else { \
-        PyGSL_API = NULL; \
-        fprintf(stderr, "Import of pygsl.init Failed!!! File %s\n", __FILE__);\
-   } \
+
+#ifndef _PyGSL_API_MODULE
+
+/**
+ * @todo: pass filename in which the marco is evaluated?
+ */
+static int _init_pygsl(const char* filename, const char * func_name, const int lineno)
+{
+   PyObject *pygsl = NULL, *c_api = NULL, *md = NULL;
+   unsigned long version;
+
+   if(! (pygsl = PyImport_ImportModule("pygsl.init")) ){
+       fprintf(stderr, "FAILED %s:@%d %s import of pygsl.init: failed to import module\n",  filename,  lineno, func_name);
+       return -1;
+   }
+   if (!  (md = PyModule_GetDict(pygsl)) ){
+       fprintf(stderr, "FAILED %s:@%d %s import of pygsl.init: failed to get module dictionary\n",  filename,  lineno, func_name);
+       return -1;
+   }
+   if (! (c_api = PyDict_GetItemString(md, "_PYGSL_API")) ){
+       fprintf(stderr, "FAILED %s:@%d %s import of pygsl.init: failed to get c_api object\n",  filename,  lineno, func_name);
+       return -1;
+   }
+   if( ! PyCapsule_CheckExact(c_api) ) {
+       fprintf(stderr, "FAILED %s:@%d %s import of pygsl.init: c_api object is not a python capsule \n",  filename,  lineno, func_name);
+       return -1;
+   }
+
+   PyGSL_API = (void **)PyCapsule_GetPointer(c_api, pygsl_api_name);
+   if(!PyGSL_API) {
+       fprintf(stderr, "FAILED %s:@%d %s import of pygsl.init: c_api capsule contained NULL pointer \n",  filename,  lineno, func_name);
+       return -1;
+   }
+   version = (unsigned long) PyGSL_API[PyGSL_api_version_NUM];
+   if (PyGSL_API_VERSION != version ){
+       fprintf(stderr, "%s@%d pygsl: init compiled for PyGSL_API_VERSION 0x%lx but found 0x%lx!\n", filename, lineno, PyGSL_API_VERSION, version);
+   }
+   PyGSL_SET_ERROR_HANDLER();
+   PyGSL_CHECK_ERROR_HANDLER();
+   if((PyGSL_init_debug()) != GSL_SUCCESS) {
+       PyGSL_API = NULL;
+       fprintf(stderr, "FAILED %s:@%d %s import of pygsl.init: failed to register debug switch\n",  filename,  lineno, func_name);
+   }
+   return 0;
 }
+
+
+#define init_pygsl1(ret) { \
+if (_init_pygsl(__FILE__, __FUNCTION__, __LINE__) < 0) { \
+    PyErr_Print(); \
+    PyErr_SetString( \
+        PyExc_ImportError, \
+        "pygsl.init failed to import" \
+    ); \
+    return ret; \
+  } \
+}
+
+#define init_pygsl() init_pygsl1(NULL)
+#endif  /* _PyGSL_API_MODULE */
+
+
 
 __END_DECLS
 
