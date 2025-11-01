@@ -11,7 +11,7 @@
 #include <pygsl/utils.h>
 %}
 
-%include swig_pygsl_init.h
+%include swig_init_pygsl.h
 %init{
   swig_init_pygsl();
 }
