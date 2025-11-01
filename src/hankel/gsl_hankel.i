@@ -9,16 +9,16 @@
      {
 	  /*test feature*/
 	  $action
-     } 
+     }
     {
 	 /*handling ?*/
 	 fprintf(stderr, "Handling feature!");
     }
 }
 
-
+%include swig_init_pygsl.h
 %init {
-  init_pygsl();
+  swig_init_pygsl();
 }
 typedef unsigned int size_t;
 
@@ -32,7 +32,7 @@ typedef unsigned int size_t;
 
 struct gsl_dht_struct
 {
-     %immutable;     
+     %immutable;
 /*  size_t n;
   size_t k;
   size_t *data; */
@@ -53,17 +53,17 @@ struct gsl_dht_struct
   }
 
   double x_sample(int n){
-       return gsl_dht_x_sample(self, n); 
+       return gsl_dht_x_sample(self, n);
   }
 
   double k_sample(int n){
-       return gsl_dht_k_sample(self, n); 
+       return gsl_dht_k_sample(self, n);
   }
 
   size_t get_size(){
        return self->size;
   }
-  
+
   PyObject * apply(PyObject *in_obj){
        PyArrayObject *a_in = NULL, *a_out = NULL;
        PyObject *resultobj = NULL, *returnobj = NULL;
@@ -74,25 +74,25 @@ struct gsl_dht_struct
        size = (int) self->size;
 
        a_in = PyGSL_vector_check(in_obj, size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
-       if (a_in == NULL){        
+       if (a_in == NULL){
 	    goto fail;
        }
 
        a_out = (PyArrayObject *) PyGSL_New_Array(1, &size, NPY_DOUBLE);
        if (a_out == NULL)
 	    goto fail;
-       
+
        inptr = (double *) PyArray_DATA(a_in);
        outptr = (double *) PyArray_DATA(a_out);
        result = gsl_dht_apply(self, inptr, outptr);
        Py_DECREF(a_in);
        a_in = NULL;
        inptr = NULL;
-       
+
        resultobj = PyGSL_ERROR_FLAG_TO_PYINT(result);
-       if (resultobj == NULL) 
+       if (resultobj == NULL)
 	    goto fail;
-       
+
        returnobj = PyTuple_New(2);
        if (returnobj == NULL)
 	    goto fail;
@@ -110,4 +110,3 @@ struct gsl_dht_struct
        return NULL;
   }
 };
-

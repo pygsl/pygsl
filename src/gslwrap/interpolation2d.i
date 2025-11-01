@@ -6,6 +6,7 @@
 %module interpolation2d_wrap
 %feature ("autodoc", "3");
 %include pygsl_compat.i
+%include swig_pygsl_init.h
 
 %rename(interp2d) pygsl_interp2d;
 %rename(spline2d) pygsl_spline2d;
@@ -21,13 +22,15 @@
 #include <gsl/gsl_spline2d.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
+#include <pygsl/utils.h>
+#include <swig_pygsl_init.h>
 
 static PyObject *module = NULL;
 %}
 
 %init {
   // TODO: pygsl should return -1 on failure here
-  init_pygsl();
+  swig_init_pygsl();
   // swig uses a function here ...
 #if SWIG_VERSION >= 0x040400 // SWIG >= 4.4.0
   import_array1(-1);

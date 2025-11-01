@@ -2,13 +2,14 @@
 /*
  * Author: Pierre Schnizer
  * Date: 2008
- */		 
+ */
 
 %module bspline
 %feature("autodoc", "3");
 
 %include gsl_error_typemap.i
 %include gsl_block_typemaps.i
+%include swig_init_pygsl.h
 %{
 #include <pygsl/block_helpers.h>
 #include <gsl/gsl_vector.h>
@@ -34,7 +35,7 @@ struct pygsl_bspline
 
 struct pygsl_bspline
 {
-     %immutable;     
+     %immutable;
      gsl_matrix_view cov;
      gsl_vector_view coeffs;
      gsl_vector_view tmp;
@@ -57,7 +58,7 @@ struct pygsl_bspline
        tmp = (struct pygsl_bspline *) calloc(1, sizeof(struct pygsl_bspline));
        if(tmp == NULL){
 	    return NULL;
-       }	    
+       }
        tmp->w = gsl_bspline_alloc(K, NBREAK);
        tmp->coeffs_a = NULL;
        tmp->cov_a = NULL;
@@ -83,12 +84,12 @@ struct pygsl_bspline
        return (PyObject *) PyGSL_copy_gslvector_to_pyarray(self->w->knots);
 
   }
-  gsl_error_flag_drop knots(PyObject * knots_o){       
+  gsl_error_flag_drop knots(PyObject * knots_o){
        PyGSL_array_index_t sample_len, stride;
-       PyArrayObject * knots_a = NULL; 
+       PyArrayObject * knots_a = NULL;
        gsl_vector_view vec;
        int flag = GSL_EINVAL;
-       
+
        FUNC_MESS_BEGIN();
        knots_a = PyGSL_vector_check(knots_o, self->w->knots->size, PyGSL_DARRAY_INPUT(1), &stride, NULL);
        if(knots_a == NULL){
@@ -101,24 +102,24 @@ struct pygsl_bspline
        /* pass the reference to knots_a */
        self->knots_a = knots_a;
        knots_a = NULL;
-       
+
        DEBUG_MESS(2, "sample_len = %ld", (long) sample_len);
        if(sample_len != self->w->nbreak){
 	    pygsl_error("Knots vector did not mach the number of break points!",
 			__FILE__, __LINE__ - 2, GSL_EBADLEN);
 	    return GSL_EBADLEN;
-       }       
+       }
        flag =  gsl_bspline_knots(&(vec.vector), self->w);
        return flag;
-       FUNC_MESS_END();       
-       
+       FUNC_MESS_END();
+
   fail:
-       FUNC_MESS("FAIL");       
+       FUNC_MESS("FAIL");
        Py_XDECREF(knots_a);
        return flag;
   }
 
-  gsl_error_flag_drop knots_uniform(const double a, const double b){       
+  gsl_error_flag_drop knots_uniform(const double a, const double b){
        return gsl_bspline_knots_uniform(a, b, self->w);
   }
 
@@ -144,13 +145,13 @@ struct pygsl_bspline
        if(B_M_a == NULL)
 	    return NULL;
 
-       DEBUG_MESS(2, "B_M_a = %p, strides = (%ld, %ld) size = (%ld, %ld)", 
+       DEBUG_MESS(2, "B_M_a = %p, strides = (%ld, %ld) size = (%ld, %ld)",
 		  (void *) B_M_a,
 		  (long) PyArray_STRIDE(B_M_a, 0), (long) PyArray_STRIDE(B_M_a, 1),
 		  (long) PyArray_DIM(B_M_a, 0), (long)  PyArray_DIM(B_M_a, 1)
 		  );
 
-       
+
        for(i = 0; i < sample_len; ++i){
 	       row_ptr = (char *) PyArray_GETPTR1(B_M_a, i);
 	       B_v = gsl_vector_view_array((double *) (row_ptr), (PyArray_DIM(B_M_a, 1)));
@@ -192,7 +193,7 @@ struct pygsl_bspline
        return NULL;
   }
 
-  gsl_error_flag_drop set_coefficients_and_covariance_matrix(PyObject * coeffs_o, 
+  gsl_error_flag_drop set_coefficients_and_covariance_matrix(PyObject * coeffs_o,
 							     PyObject * cov_o)
     {
 
@@ -219,12 +220,12 @@ struct pygsl_bspline
 
     /* work array, does the size fit? */
     if(self->tmp_a != NULL && PyArray_DIM(self->tmp_a, 0) != size){
-	Py_DECREF(self->tmp_a);      
+	Py_DECREF(self->tmp_a);
 	self->tmp_a = NULL;
     }
     if(self->tmp_a == NULL){
       PyGSL_array_index_t size_tmp = self->w->n;
-      self->tmp_a = PyGSL_New_Array(1, &size_tmp, NPY_DOUBLE);      
+      self->tmp_a = PyGSL_New_Array(1, &size_tmp, NPY_DOUBLE);
     }
     if(self->tmp_a == NULL){
       return GSL_ENOMEM;
@@ -249,16 +250,16 @@ struct pygsl_bspline
       return GSL_FAILURE;
 
     self->cov_a = cov_a;
-    self->cov = gsl_matrix_view_array((double *) PyArray_DATA(cov_a), 
-				      PyArray_DIM(cov_a, 0), 
+    self->cov = gsl_matrix_view_array((double *) PyArray_DATA(cov_a),
+				      PyArray_DIM(cov_a, 0),
 				      PyArray_DIM(cov_a, 1));
     FUNC_MESS_END();
-    return GSL_SUCCESS;   
+    return GSL_SUCCESS;
 
   }
 
   gsl_error_flag_drop eval_dep(const double x, double *OUT){
-    int flag;     
+    int flag;
     if(self->coeffs_a == NULL || self->tmp_a == NULL){
       PyGSL_ERROR("No coefficients set", GSL_EFAULT);
     }
@@ -272,12 +273,12 @@ struct pygsl_bspline
     double * data, xt;
     PyGSL_array_index_t size, i;
     int flag;
-    
+
     if(self->coeffs_a == NULL || self->tmp_a == NULL){
       PyGSL_ERROR_NULL("No coefficients set", GSL_EFAULT);
-    }    
-    size = X->size;    
-    a = PyGSL_New_Array(1, &size, NPY_DOUBLE);      
+    }
+    size = X->size;
+    a = PyGSL_New_Array(1, &size, NPY_DOUBLE);
 
     if(a == NULL)
       return NULL;
@@ -295,7 +296,7 @@ struct pygsl_bspline
   }
 
   gsl_error_flag_drop eval_dep_yerr(const double x, double *OUT, double *OUT2){
-    int flag;     
+    int flag;
     if(self->coeffs_a == NULL || self->tmp_a == NULL || self->cov_a == NULL){
       PyGSL_ERROR("No coefficients or No covarince matrix set",
 		     GSL_EFAULT);
@@ -316,16 +317,16 @@ struct pygsl_bspline
 		GSL_EFAULT);
     }
     size = X->size;
-    y_a = PyGSL_New_Array(1, &size, NPY_DOUBLE);      
+    y_a = PyGSL_New_Array(1, &size, NPY_DOUBLE);
     if(y_a == NULL)
       goto fail;
-    yerr_a = PyGSL_New_Array(1, &size, NPY_DOUBLE);      
+    yerr_a = PyGSL_New_Array(1, &size, NPY_DOUBLE);
     if(yerr_a == NULL)
       goto fail;
 
     y_d = (double *) PyArray_DATA(y_a);
     yerr_d = (double *) PyArray_DATA(yerr_a);
-    
+
     for(i = 0; i < size; ++i){
       xt = gsl_vector_get(X, i);
       flag = _pygsl_bspline_eval_dep_yerr(self, xt, &(y_d[i]), &(yerr_d[i]));
@@ -345,7 +346,5 @@ struct pygsl_bspline
 
 
 %init{
-     init_pygsl();
-} 
-
-
+     swig_init_pygsl();
+}

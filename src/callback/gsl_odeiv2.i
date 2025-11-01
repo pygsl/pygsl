@@ -12,10 +12,11 @@
 "Wrapper for the ODEIV2 module"
 %enddef
 
+%include swig_init_pygsl.h
 %module(docstring=ODEIV2DOCSTRING)odeiv2
 %feature ("autodoc", "3");
 %init{
-  init_pygsl();
+  swig_init_pygsl();
 }
 
 %{

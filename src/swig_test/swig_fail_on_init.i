@@ -1,9 +1,10 @@
 // Check if fail on init works as expected
 %module swig_fail_on_init
 
-%include <swig_pygsl_init.h>
+%include <swig_init_pygsl.h>
 %{
     #include <pygsl/utils.h>
+    #include <swig_init_pygsl.h>
 %}
 
 %init %{

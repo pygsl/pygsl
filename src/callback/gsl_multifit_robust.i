@@ -8,10 +8,12 @@
 #include <gsl/gsl_multifit.h>
 #include <pygsl/error_helpers.h>
 #include <pygsl/block_helpers.h>
+#include <pygsl/utils.h>
 %}
 
+%include swig_pygsl_init.h
 %init{
-  init_pygsl();
+  swig_init_pygsl();
 }
 
 %include typemaps.i
@@ -51,8 +53,8 @@ typedef struct{
         /* robust estimate of sigma */
 	double sigma_rob(void){
 		return self->sigma_rob;
-	} 
-	
+	}
+
 	/* final estimate of sigma */
 	double sigma(void){
 		return self->sigma;
@@ -64,11 +66,11 @@ typedef struct{
         /* degree of freedom adjusted R^2 */
 	double adj_Rsq(void){
 		return self->adj_Rsq;
-	}	
+	}
         /* root mean squared error */
 	double rmse(void){
 		return self->rmse;
-	}         
+	}
         /* residual sum of squares */
 	double sse(void){
 		return self->sse;
@@ -84,12 +86,12 @@ typedef struct{
 	/* final weights */
 	PyObject * weights(void){
 		return (PyObject *) PyGSL_copy_gslvector_to_pyarray(self->weights);
-	} 
+	}
 
 	/* final residuals y - X c */
 	PyObject * residuals(void){
 		return  (PyObject *) PyGSL_copy_gslvector_to_pyarray(self->r);
-	}     
+	}
  };
 
 %extend gsl_multifit_robust_workspace{
@@ -109,27 +111,27 @@ typedef struct{
 	const char * name(void){
 		return gsl_multifit_robust_name(self);
 	}
-	
+
 	PyObject *fit(const gsl_matrix * X, const gsl_vector * y){
-		gsl_vector_view  c; 
+		gsl_vector_view  c;
 		gsl_matrix_view  cov;
 		PyObject * returnobj = NULL;
 		PyArrayObject *c_a = NULL, *cov_a = NULL;
 		int status;
 		PyGSL_array_index_t dims[2];
-	  
+
 		dims[0] = X->size2;
 		c_a = PyGSL_New_Array(1, dims, NPY_DOUBLE);
 		if(c_a == NULL){
 			goto fail;
 		}
-	  
+
 		dims[0] = dims[1] = X->size2;
 		cov_a = PyGSL_New_Array(2, dims, NPY_DOUBLE);
 		if(cov_a == NULL){
 			goto fail;
 		}
-		
+
 		c = gsl_vector_view_array((double *)PyArray_DATA(c_a), PyArray_DIM(c_a, 0));
 		cov = gsl_matrix_view_array((double *)PyArray_DATA(cov_a), PyArray_DIM(cov_a, 0), PyArray_DIM(cov_a, 1));
 
@@ -146,17 +148,17 @@ typedef struct{
 		PyTuple_SetItem(returnobj, 1, (PyObject *) cov_a);
 
 		return returnobj;
-		  
+
 	  fail:
 		Py_XDECREF(c_a);
 		Py_XDECREF(cov_a);
 		return NULL;
 	}
-	
+
 	gsl_multifit_robust_stats statistics(void){
 		return gsl_multifit_robust_statistics(self);
         }
-	
+
  };
 
 %apply(double * OUTPUT){double * y, double * y_err}
@@ -181,7 +183,7 @@ pygsl_multifit_robust_est_vector(const gsl_matrix * X, const gsl_vector * c, con
 	FUNC_MESS_BEGIN();
 
 	cnt_max = X->size1;
-	dim =  (PyGSL_array_index_t) cnt_max;      
+	dim =  (PyGSL_array_index_t) cnt_max;
 	y_a =  PyGSL_New_Array(1, &dim, NPY_DOUBLE);
 	if(y_a == NULL){
 		goto fail;
@@ -207,7 +209,7 @@ pygsl_multifit_robust_est_vector(const gsl_matrix * X, const gsl_vector * c, con
 	if (returnobj == NULL){
 		goto fail;
 	}
-	
+
 	PyTuple_SetItem(returnobj, 0, (PyObject *) y_a);
 	PyTuple_SetItem(returnobj, 1, (PyObject *) y_err_a);
 	DEBUG_MESS(2, "return object %p", (void *) returnobj);

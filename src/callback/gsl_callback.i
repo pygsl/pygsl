@@ -10,11 +10,12 @@
 %include constraints.i
 %include gsl_function_typemaps.i
 %include gsl_error_typemap.i
-
+%include swig_init_pygsl.h
 
 %include gsl_block_typemaps.i
 %{
 #include <pygsl/error_helpers.h>
+#include <pygsl/utils.h>
 #include "function_helpers.c"
 #include "chars.c"
 %}
@@ -23,7 +24,7 @@
 typedef unsigned int size_t;
 %init %{
   /* To use the numeric extension */
-  init_pygsl();
+  swig_init_pygsl();
 %}
 
 /* add functions to allocate and free the memory stored by gsl_function */

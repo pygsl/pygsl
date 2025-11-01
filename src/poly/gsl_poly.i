@@ -6,6 +6,7 @@
 
 
 %module _poly
+
 /*
 %feature("docstring") _poly
 "Wrapper over the functions as described in Chapter 6 of the\n\
@@ -22,9 +23,11 @@ All the doc strings were taken form the gsl reference document.";
 #include <gsl/gsl_poly.h>
 #include <gsl/gsl_errno.h>
 #include <poly.ic>
+#include <pygsl/utils.h>
+#include <swig_init_pygsl.h>
 %}
 %init %{
-  init_pygsl();
+  swig_init_pygsl();
 %}
 /*
 typedef double * gsl_complex_packed_ptr;
@@ -38,7 +41,7 @@ typedef double * gsl_complex_packed_ptr;
 typedef unsigned int size_t;
 
 /*
-%feature("autodoc", "1"); 
+%feature("autodoc", "1");
 */
 /* %rename(solve_quadratic) gsl_poly_solve_quadratic; */
 /*
@@ -70,7 +73,7 @@ output : n, r1, r2\n\
 "
 ;
 */
-int gsl_poly_solve_quadratic (double A, double B, double C, 
+int gsl_poly_solve_quadratic (double A, double B, double C,
 			      double * OUTPUT, double * OUTPUT);
 
 
@@ -78,21 +81,21 @@ int gsl_poly_solve_quadratic (double A, double B, double C,
 /* %feature("docstring") gsl_poly_complex_solve_quadratic\
 "solve a complex quadratic equation "
 */
-int gsl_poly_complex_solve_quadratic (double A, double B, double C, 
+int gsl_poly_complex_solve_quadratic (double A, double B, double C,
 					     gsl_complex * OUTPUT,
 				      gsl_complex * OUTPUT);
 
 
-int gsl_poly_solve_cubic (double A, double B, double C, 
-				 double *OUTPUT, double *OUTPUT, 
+int gsl_poly_solve_cubic (double A, double B, double C,
+				 double *OUTPUT, double *OUTPUT,
 				 double *OUTPUT);
 
-int gsl_poly_complex_solve_cubic (double A, double B, double C, 
-					 gsl_complex *OUTPUT, 
+int gsl_poly_complex_solve_cubic (double A, double B, double C,
+					 gsl_complex *OUTPUT,
 					 gsl_complex *OUTPUT,
 					 gsl_complex *OUTPUT);
 /*
-extern double gsl_poly_eval (const double *INSIMPLE, const int simplelen, 
+extern double gsl_poly_eval (const double *INSIMPLE, const int simplelen,
 			     const double X);
 */
 
@@ -109,7 +112,7 @@ using Horner's method for stability\n\
 input: c, x\n\
     c ... array of coefficients\n\
     x ... \n\
-\n\    
+\n\
 output: y\n\
 "
 */
@@ -122,7 +125,7 @@ pygsl_poly_dd_init(PyObject *self, PyObject *args);
 /* %feature ("docstring") gsl_poly_dd_init " XXX Missing" */
 
 /*
-extern double gsl_poly_dd_eval (const double dd[], const double xa[], 
+extern double gsl_poly_dd_eval (const double dd[], const double xa[],
 				const size_t SIZE, const double X);
 */
 /* %feature("docstring") _poly " XXX Poly module doc "; */
@@ -130,20 +133,20 @@ extern double gsl_poly_dd_eval (const double dd[], const double xa[],
 %native (gsl_poly_dd_eval) PyObject *
 pygsl_poly_dd_eval(PyObject *self, PyObject *args);
 /*
-extern int gsl_poly_dd_taylor (double c[], double XP, const double dd[], 
+extern int gsl_poly_dd_taylor (double c[], double XP, const double dd[],
 			       const double xa[], size_t SIZE, double w[]);
 */
 %native (gsl_poly_dd_taylor) PyObject *
 pygsl_poly_dd_taylor(PyObject *self, PyObject *args);
 
 
-extern gsl_poly_complex_workspace * 
+extern gsl_poly_complex_workspace *
 gsl_poly_complex_workspace_alloc (size_t N);
 
 extern void gsl_poly_complex_workspace_free (gsl_poly_complex_workspace * W);
 /*
-extern int gsl_poly_complex_solve (const double * A, size_t N, 
-				   gsl_poly_complex_workspace * W, 
+extern int gsl_poly_complex_solve (const double * A, size_t N,
+				   gsl_poly_complex_workspace * W,
 				   gsl_complex_packet_ptr *Z);
 */
 %native (gsl_poly_complex_solve) PyObject *

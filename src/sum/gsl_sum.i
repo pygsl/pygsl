@@ -11,6 +11,7 @@ series, including asymptotic series."""
 %module(docstring=DOCSTRING) sum;
 
 %include pygsl_compat.i
+%include swig_init_pygsl.h
 
 %{
 #include <gsl/gsl_sum.h>
@@ -19,7 +20,7 @@ series, including asymptotic series."""
 %}
 
 %init {
-  init_pygsl();
+  swig_init_pygsl();
 }
 typedef unsigned int size_t;
 

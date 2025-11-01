@@ -13,7 +13,7 @@
 %feature ("autodoc", "3");
 
 %init{
-  init_pygsl();
+  swig_init_pygsl();
   /* to use at traceback */
   module = m;
 }

@@ -13,11 +13,14 @@
 %module gslwrap
 %feature ("autodoc", "3");
 %include pygsl_compat.i
+%include swig_init_pygsl.h
 
 %{
 #include <gsl/gsl_types.h>
 #include <stdio.h>
 #include <pygsl/error_helpers.h>
+#include <pygsl/utils.h>
+#include <swig_pygsl_init.h>
 
 static PyObject *module = NULL;
 
@@ -28,7 +31,7 @@ static const char _pygsl_gsl_unimpl_feature[] =  "Feature not implemented in you
 %}
 
 %init {
-  init_pygsl();
+  swig_init_pygsl();
 }
 
 typedef int size_t;
