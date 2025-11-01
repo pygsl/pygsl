@@ -24,10 +24,11 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <pygsl/error_helpers.h>
+#include <swig_init_pygsl.h>
 %}
 
 %init %{
-  init_pygsl();
+  swig_init_pygsl();
 %}
 
 

@@ -1,8 +1,10 @@
 %module swig_test
+%include swig_init_pygsl.h
 %{
 
 #include <gsl/gsl_errno.h>
 #include <pygsl/utils.h>
+#include <swig_init_pygsl.h>
 
 struct _swig_test_st {
     int ival;
@@ -71,9 +73,8 @@ pygsl_swig_test_return_errno_with_double(const double val)
 %include gsl_error_typemap.i
 %include typemaps.i
 
-
 %init %{
-  init_pygsl();
+  swig_init_pygsl();
   pygsl_module_for_error_treatment = m;
 
   fprintf(stderr, "PyGSL_API = 0x %p, debug level %d\n", (void *) PyGSL_API,  PyGSL_DEBUG_LEVEL());

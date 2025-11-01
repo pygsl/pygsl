@@ -38,6 +38,7 @@ sf_ufunc_wrappers = custom_target('_sf_ufuncs_wrappers',
 		  '--prefix', 'sf_',
 		  # todo: proper doc dir
 		  '--doc-dir', '@OUTDIR@',
+		  '--verbose', 'false',
     ],
     install: true,
     install_dir: py.get_install_dir() / 'pygsl'/ 'sf' / 'src',

@@ -5,6 +5,7 @@
  */
 %include gsl_error_typemap.i
 %include gsl_block_typemaps.i
+%include swig_init_pygsl.h
 
 %define MULTFIT_NLINAR_DOC
 "Wrapper for the multilarge_nlinear module"
@@ -15,7 +16,7 @@
 
 %init{
   module = m;
-  init_pygsl();
+  swig_init_pygsl();
 }
 
 %pythoncode {

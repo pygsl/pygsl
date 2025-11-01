@@ -16,7 +16,7 @@
 %}
 %include typemaps.i
 %include gsl_error_typemap.i
-
+%include swig_init_pygsl.h
 
 %rename(gsl_function) gsl_function_struct;
 
@@ -40,7 +40,7 @@ typedef struct gsl_function_struct gsl_function;
 /* add functions to allocate and free the memory stored by gsl_function */
 
 %init %{
-  init_pygsl();
+  swig_init_pygsl();
 %}
 
 
