@@ -4,7 +4,7 @@
 #  * swig 4.3, ubuntu contains 4.2, Swig_Python_AppendOutput changed functionality
 #  * gsl  2.8: bspline changed functionality
 
-name: test if pygsl is compatible with swig-4.3 and gsl-2.8
+name: test if pygsl is compatible with swig-4.4 and gsl-2.8
 
 on:
   push:
@@ -25,26 +25,26 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install dpkg-dev
+          sudo apt-get install dpkg-dev bison libpcre2-dev
 
-      - name: Build swig 4.3
+      - name: Build swig 4.4
         uses: ./.github/actions/build-deb
         with:
-          name: "Swig 4.3"
-          artifactName: "swig-4.3"
+          name: "Swig 4.4"
+          artifactName: "swig-4.4"
           # need not be a dir here, but for consistency to other build/test steps
           cachePath: ${{ github.workspace }}/deb/
-          sourceDownloadScript: "compat/download-swig4.3.sh"
-          sourceTar: "swig4.3_ubuntu_src.tar"
+          sourceDownloadScript: "compat/download-swig-4.4.sh"
+          sourceTar: "swig-4.4_ubuntu_src.tar"
           buildCommands: |
             mkdir -p deb/
             (cd build && dpkg-source -x src/swig*.dsc)
-            (cd build/swig-4.3.0 && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
-            mv build/swig_4.3.0-1_amd64.deb ${{ github.workspace }}/deb/swig4.3_arch.deb
-            touch ${{ github.workspace }}/deb/swig4.3_arch.deb
+            (cd build/swig-4.4.0 && sudo apt-get build-dep . && dpkg-buildpackage -us -uc)
+            mv build/swig_4.4.0-1_amd64.deb ${{ github.workspace }}/deb/swig-4.4_arch.deb
+            touch ${{ github.workspace }}/deb/swig-4.4_arch.deb
             find . -name '*.deb'
           uploadPaths: |
-            ${{ github.workspace }}/deb/swig4.3_arch.deb
+            ${{ github.workspace }}/deb/swig-4.4_arch.deb
 
   build-gsl-add:
     runs-on: ubuntu-latest
@@ -99,11 +99,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Test swig 4.3
+      - name: Test swig 4.4
         uses: ./.github/actions/test-artifact
         with:
-          artifactName: swig-4.3
-          installCommand: "sudo dpkg -i deb/swig4.3_arch.deb"
+          artifactName: swig-4.4
+          installCommand: "sudo dpkg -i deb/swig-4.4_arch.deb"
           dependencies: "libgsl-dev python3-dev python3-pip python3-venv"
 
   test-gsl-additional:
