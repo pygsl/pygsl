@@ -7,6 +7,7 @@
 #define swig_import_pygsl_rng() import_pygsl_rng1(-1)
 #define swig_init_test_fail() do{ return -1; }while(0)
 #else
+#define swig_init_pygsl() init_pygsl()
 #define swig_import_pygsl_rng() import_pygsl_rng()
 #define swig_init_test_fail() do{ return NULL; }while(0)
 #endif
