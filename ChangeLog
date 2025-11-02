@@ -1,3 +1,7 @@
+v2.6.4 (2025-4) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
+        * fixed init for swig 4.4 uing swig_init_pygsl
+	  different return values expected for swig < 4.4 and 4.4
+
 v2.6.2 (2025-4) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
         * fixed special function code generator
 	  (now working with swig4.2)

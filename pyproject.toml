@@ -7,7 +7,7 @@ requires = ['meson-python', 'numpy']
 name = "pygsl"
 version = "2.6.4"
 dependencies = ["numpy", ]
-
+readme =  "README.rst"
 description = "GNU Scientific Library Interface"
 # long_description = "This project provides a python interface for the GNU scientific library (gsl)"
 # license = "GPL"
