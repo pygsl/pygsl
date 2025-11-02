@@ -2,10 +2,10 @@
 #include "wavelet.h"
 #endif
 /*
- * Checks existing objects if they are of proper type, and if so check that 
+ * Checks existing objects if they are of proper type, and if so check that
  * they are big enough. If not allocate space of approbriate size.
  */
-static int 
+static int
 PyGSL_transform_helpers_alloc(PyObject *s_o, PyObject *t_o, struct _pygsl_transform_help_rf_s * h, int n)
 {
 	int check;
@@ -51,7 +51,7 @@ PyGSL_transform_helpers_alloc(PyObject *s_o, PyObject *t_o, struct _pygsl_transf
 	/* Check for the approbriate type and initialise it!*/
 	if((h->space) == NULL || (h->table) == NULL){
 		DEBUG_MESS(3, "func %p alloc table %p alloc space %p, space %p, table %p",
-			   h->func, (void *) h->func->table_alloc, 
+			   h->func, (void *) h->func->table_alloc,
 			   (void *) h->func->space_alloc, h->space, h->table);
 
 		/* Store if I need to free these arrays */
@@ -63,7 +63,7 @@ PyGSL_transform_helpers_alloc(PyObject *s_o, PyObject *t_o, struct _pygsl_transf
 			h->table = h->func->table_alloc(n);
 			h->free_table = 1;
 		}
-		if((h->space == NULL && h->func->space_type != NOSPACE) || 
+		if((h->space == NULL && h->func->space_type != NOSPACE) ||
 		   (h->table == NULL && h->func->table_type != NOSPACE)){
 			return GSL_ENOMEM;
 		}
@@ -84,19 +84,19 @@ PyGSL_transform_helpers_free(struct _pygsl_transform_help_rf_s * h)
 	FUNC_MESS_BEGIN();
 	assert(h->func);
 	DEBUG_MESS(3, "func @ %p", h->func);
-	if( (h->free_table == 1) && (h->table != NULL)){ 
+	if( (h->free_table == 1) && (h->table != NULL)){
 		assert(h->table);
-		DEBUG_MESS(3, "Free Table %p with func %p", h->table, 
+		DEBUG_MESS(3, "Free Table %p with func %p", h->table,
 			   (void *) h->func->table_free);
-		h->func->table_free(h->table); 
+		h->func->table_free(h->table);
 		h->table = NULL;
 		h->free_table = 0;
 	}
 	if((h->free_space == 1) && (h->space != NULL)){
 		assert(h->space);
-		DEBUG_MESS(3, "Free Space %p with func %p", h->space, 
+		DEBUG_MESS(3, "Free Space %p with func %p", h->space,
 			   (void *) h->func->space_free);
-		h->func->space_free(h->space);  
+		h->func->space_free(h->space);
 		h->space = NULL;
 		h->free_space = 0;
 	}
@@ -121,7 +121,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	PyGSL_wavelet *wavelet = NULL;
 	gsl_matrix_view mv;
 	const enum radix_mode  radix2 = helps->info->radix2;
-	const enum NPY_TYPES  input_array_type=helps->info->input_array_type;	     
+	const enum NPY_TYPES  input_array_type=helps->info->input_array_type;
 	/* const int sizeoftype = sizeof(double) */;
 	int call_n, line=-1;
 
@@ -134,7 +134,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	     }
 	     wavelet = (PyGSL_wavelet *) self;
 	     break;
-	default: 
+	default:
 		line = __LINE__;
 	     pygsl_error("Unknown switch!", filename, line, GSL_ESANITY);
 	     goto fail;
@@ -144,14 +144,14 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	     line = __LINE__ - 1;
 	     goto fail;
 	}
-	m = PyGSL_matrix_check(data, -1, -1, 
-			       PyGSL_BUILD_ARRAY_INFO(PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, input_array_type, 1, 2), 
+	m = PyGSL_matrix_check(data, -1, -1,
+			       PyGSL_BUILD_ARRAY_INFO(PyGSL_CONTIGUOUS | PyGSL_INPUT_ARRAY, input_array_type, 1, 2),
 			       NULL, NULL, NULL);
 	if(m == NULL)
 	     goto fail;
 
 	mv = gsl_matrix_view_array((double *)PyArray_DATA(m), PyArray_DIM(m, 0),  PyArray_DIM(m, 1));
-	
+
 	call_n = PyArray_DIM(m, 0) +  PyArray_DIM(m, 1);
 	if (PyGSL_transform_helpers_alloc(s_o, NULL, helps->helpers, call_n) != GSL_SUCCESS){
 	     line = __LINE__ -1;
@@ -163,7 +163,7 @@ PyGSL_transform_2d_(PyObject *self, PyObject *args, pygsl_transform_help_s *help
 	     goto fail;
 	}
 
-     
+
 	PyGSL_TRANSFORM_HELPERS_FREE(helps->helpers);
 	ret = (PyObject *) m;
 	return ret;
@@ -192,15 +192,15 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	double eps=1e-6;
 	int line = -1;
 	int length=-1;
-	/* 
+	/*
 	 *  how will it be called and what array length will I need.
 	 *  In the HalfComplexReal and the reversed case, an array of double
-	 *  data is provided. But the real array is of CDOUBLE. This takes the 
+	 *  data is provided. But the real array is of CDOUBLE. This takes the
 	 *  computation in place into account and minimizes the necessary
 	 *  copies.
 	 */
 	PyGSL_array_index_t n=0, call_n=0, return_n=0, strides=0;
-	const enum NPY_TYPES  input_array_type=helps->info->input_array_type, 
+	const enum NPY_TYPES  input_array_type=helps->info->input_array_type,
 	     output_array_type=helps->info->output_array_type;
 
 	const enum transform_mode mode = helps->info->mode;
@@ -218,7 +218,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	 */
 	const enum pygsl_transform_mode datatype = helps->info->datatype;
 	/* and its size */
-	const int sizeoftype = (datatype == MODE_DOUBLE) ? sizeof(double) : sizeof(float);	
+	const int sizeoftype = (datatype == MODE_DOUBLE) ? sizeof(double) : sizeof(float);
 	/*
 	 * Normaly the element 0 of the return array is passed. In exceptional
 	 * cases, e.g. RealHalfComplex for RADIX_FREE an offset is needed!
@@ -230,7 +230,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 
 	/*
 	 * I never know when I will call the _free function. So better to define
-	 * them here already as any jump can go to fail and will start to free 
+	 * them here already as any jump can go to fail and will start to free
 	 * the tables.
 	 */
 	if(helps->helpers){
@@ -250,9 +250,9 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 #ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET:
 		FUNC_MESS("Wavelet");
-		/* 
+		/*
 		 *  Yes thats a method here.... UiUi not sure if it is not too
-		 *  much in one function 
+		 *  much in one function
 		 */
 		if(!PyGSL_WAVELET_CHECK(self)){
 			pygsl_error("Should be a wavelet method!", filename, line, GSL_ESANITY);
@@ -270,7 +270,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		FUNC_MESS("Radix_Free");
 		assert(helps->helpers);
 		switch(mode){
-		case ComplexComplex : 
+		case ComplexComplex :
 			FUNC_MESS("ComplexComplex");
 			if(!PyArg_ParseTuple(args, "O|OOO", &data, &s_o, &t_o, &ret)){
 				line = __LINE__ - 1;
@@ -301,7 +301,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		FUNC_MESS("Radix_TWO");
 		assert(helps->helpers==NULL);
 		switch(mode){
-		case ComplexComplex : 
+		case ComplexComplex :
 			FUNC_MESS("ComplexComplex");
 			if(!PyArg_ParseTuple(args, "O|O", &data, &ret)){
 				line = __LINE__ - 1;
@@ -324,7 +324,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		break;
 	default:
 		line = __LINE__;
-		DEBUG_MESS(3, "Radix2 was %d, wavelet = %d", (int) radix2, (int) WAVELET); 
+		DEBUG_MESS(3, "Radix2 was %d, wavelet = %d", (int) radix2, (int) WAVELET);
 		pygsl_error("Unknown radix!", filename, line, GSL_ESANITY);
 		goto fail;
 	}/* radix2 */
@@ -345,7 +345,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	}
 	n = PyArray_DIM(a, 0);
 
-	/* 
+	/*
 	 * Calculate  the size of the return array and the call array
 	 * Generate the return array
 	 */
@@ -354,12 +354,12 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 #ifdef _PYGSL_GSL_HAS_WAVELET
 	case WAVELET:
 		return_n = n;
-		call_n = n; 
+		call_n = n;
 		if((r = PyGSL_Shadow_array((PyObject *) ret, (PyObject *) a, datatype)) == NULL){
 			line = __LINE__ -1;
 			goto fail;
 		}
-		break;		
+		break;
 #endif
 	case RADIX_FREE:
 		FUNC_MESS("Radix Free");
@@ -367,7 +367,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		case ComplexComplex:
 			FUNC_MESS("ComplexComplex");
 			return_n = n;
-			call_n = n; 
+			call_n = n;
 			if((r = PyGSL_Shadow_array((PyObject *) ret, (PyObject *) a, datatype)) == NULL){
 				line = __LINE__ -1;
 				goto fail;
@@ -376,7 +376,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		case RealHalfcomplex:
 			FUNC_MESS("RealHalfcomplex");
 			return_n = n / 2 + 1;
-			call_n = n; 
+			call_n = n;
 			if(((r = (PyArrayObject *) PyGSL_New_Array(1, &return_n, output_array_type)) == NULL) ||
 			   (PyGSL_copy_real_to_complex(r, a, datatype) != GSL_SUCCESS)){
 				line = __LINE__ -2;
@@ -392,11 +392,11 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 				line = __LINE__ - 2;
 				goto fail;
 			}
-			break;		
+			break;
 		default:
 			line = __LINE__ -1;
 			goto fail;
-		}/* mode */		
+		}/* mode */
 		break;
 	case RADIX_TWO:
 		FUNC_MESS("Radix TWO");
@@ -410,12 +410,12 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 	default:
 		line = __LINE__ -1;
 		goto fail;
-	} /* radix2 */		
+	} /* radix2 */
 	Py_DECREF(a);
 	a = NULL;
 	/* make sure that the ntype was set */
 	assert(n_type > 0);
-	DEBUG_MESS(2, "Type(r) = %d, r->nd = %d, r->dimensions[0] = %ld, Strides r->strides[0] %ld", 
+	DEBUG_MESS(2, "Type(r) = %d, r->nd = %d, r->dimensions[0] = %ld, Strides r->strides[0] %ld",
 		   PyArray_TYPE(r), PyArray_NDIM(r), PyArray_DIM(r, 0), PyArray_STRIDE(r, 0));
 	if(PyGSL_STRIDE_RECALC(PyArray_STRIDE(r, 0), n_type * sizeoftype, &strides) != GSL_SUCCESS){
 		line = __LINE__ -1;
@@ -438,12 +438,12 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		/* No helpers needed! */ ;
 	}/* radix2 */
 
-#if DEBUG > 0	
+#if DEBUG > 0
 	if(PyGSL_Check_Array_Length(r, call_n, datatype, n_type) != GSL_SUCCESS){
 		line = __LINE__ -1;
 		goto fail;
 	}
-#endif 
+#endif
 	vdata = (void *) PyArray_DATA(r);
 	if(call_offset!=0){
 		switch(datatype){
@@ -458,15 +458,15 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		FUNC_MESS("Transform free length");
 		assert(helps->helpers->table);
 		assert(helps->helpers->space);
-		DEBUG_MESS(3, "vdata = %f, strides = %ld, call_n = %ld", 
-			   *((double *)(vdata)), (long) strides, (long) call_n);	
+		DEBUG_MESS(3, "vdata = %f, strides = %ld, call_n = %ld",
+			   *((double *)(vdata)), (long) strides, (long) call_n);
 		if(PyGSL_ERROR_FLAG(helps->transform.free(vdata, strides, call_n,
-							  helps->helpers->table, 
+							  helps->helpers->table,
 							  helps->helpers->space)) != GSL_SUCCESS){
 			line = __LINE__ -1;
 			goto fail;
 		}
-		DEBUG_MESS(3, "Transformed: r->data[0] = %f, strides = %ld, call_n = %ld", 
+		DEBUG_MESS(3, "Transformed: r->data[0] = %f, strides = %ld, call_n = %ld",
 			   *((double *)PyArray_DATA(r)), (long)strides, (long)call_n);
 		break;
 	case RADIX_TWO:
@@ -477,7 +477,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		}
 		break;
 #ifdef _PYGSL_GSL_HAS_WAVELET
-	case WAVELET:	
+	case WAVELET:
 		FUNC_MESS("Tranform wavelet");
 		assert(wavelet);
 		assert(helps->helpers->space);
@@ -492,7 +492,7 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 		line = __LINE__ -1;
 		goto fail;
 	}
-	/*  restore the array */	
+	/*  restore the array */
 	switch(radix2){
 	case RADIX_FREE:
 		switch(mode){
@@ -503,13 +503,13 @@ PyGSL_transform_(PyObject *self, PyObject *args, pygsl_transform_help_s *helps)
 				goto fail;
 			}
 			break;
-		case RealReal:	
+		case RealReal:
 		case HalfComplexReal:
 		case ComplexComplex: break;
 		}
 		break;
 	default:
-		/* No helpers needed! */ ;		
+		/* No helpers needed! */ ;
 	}
 
 	PyGSL_TRANSFORM_HELPERS_FREE(helps->helpers);

@@ -6,7 +6,7 @@ import sys
 sys.stdout = sys.stderr
 pygsl.set_debug_level(0)
 pygsl.init.add_c_traceback_frames(True)
-import pygsl._numobj as numx
+import numpy as np
 #import pygsl._mlab as MLab
 import string
 from pygsl.math import fcmp
@@ -20,17 +20,17 @@ _eps = 1e-5
 _fcmp = fcmp
 
 try:
-    _float32 = numx.Float32
+    _float32 = np.Float32
 except AttributeError:
     # For numpy
-    _float32 = numx.float32
+    _float32 = np.float32
 
 
 try:
-    _complex32 = numx.Complex64
+    _complex32 = np.Complex64
 except AttributeError:
     # For numpy
-    _complex32 = numx.complex64
+    _complex32 = np.complex64
     
 def fcmp(a, b, eps):
     return _fcmp(float(a), float(b), eps)
@@ -54,14 +54,14 @@ class _ffttest(unittest.TestCase):
     def _CalculateAbsMax(self, an_array):
         tmp = an_array.ravel()
         result = tmp.max()
-        result = numx.absolute(result)
+        result = np.absolute(result)
         
         l_shape = len(result.shape)
         self.assertEqual(l_shape, 0, "max array shape too long")
         return result
     
     def _CheckSinResult(self, f, l):
-        a = numx.absolute(f)
+        a = np.absolute(f)
         test = 0
         tmp1 = None
         tmp2 = None
@@ -93,7 +93,7 @@ class _ffttest(unittest.TestCase):
 
     def _CheckCosResult(self, f, l):
         # Take all data
-        a = numx.absolute(f)
+        a = np.absolute(f)
         
         self.assertAlmostEqual(f[l].real, self.n/2, places=4)
         stmp = ["%s" % a[l]]
@@ -110,24 +110,24 @@ class _ffttest(unittest.TestCase):
         self.assertAlmostEqual(1+test_val, 1, places=4)
                 
     def SinOne(self, x, l, args=()):
-        y = numx.sin(x * l)
+        y = np.sin(x * l)
         tmp = self.convert(y)
         f = self.transform(*((tmp,) + args))
         self._CheckSinResult(f, l)
 
     def CosOne(self, x, l, args=()):
-        y = numx.cos(x * l)
+        y = np.cos(x * l)
         tmp = self.convert(y)
         f = self.transform(*((tmp,) + args))
         self._CheckCosResult(f, l)
         
     def testSin(self):        
-        x = numx.arange(self.n) * (2 * numx.pi / self.n)
+        x = np.arange(self.n) * (2 * np.pi / self.n)
         for i in range(1, self._GetN2()):
            self.SinOne(x,i)
 
     def testCos(self):        
-        x = numx.arange(self.n) * (2 * numx.pi / self.n)
+        x = np.arange(self.n) * (2 * np.pi / self.n)
         for i in range(1, self._GetN2()):
             if self.__class__.__name__ == "testrealforwardfloat":
                 pygsl.set_debug_level(0)
@@ -141,7 +141,7 @@ class _radix2(_ffttest):
 
 class _mixedradix(_ffttest):
     def testSinSpace(self):        
-        x = numx.arange(self.n) * (2 * numx.pi / self.n)
+        x = np.arange(self.n) * (2 * np.pi / self.n)
         space = self.workspace(self.n)
         self.assertEqual(space.get_n(), self.n)
         table = self.wavetable(self.n)
@@ -150,7 +150,7 @@ class _mixedradix(_ffttest):
            self.SinOne(x,i, (space,table))
 
     def testCosSpace(self):        
-        x = numx.arange(self.n) * (2 * numx.pi / self.n)
+        x = np.arange(self.n) * (2 * np.pi / self.n)
         space = self.workspace(self.n)
         self.assertEqual(space.get_n(), self.n)
         table = self.wavetable(self.n)
@@ -162,9 +162,9 @@ class _mixedradixcomplex(_mixedradix):
     def testSinReturnSaveSpaces(self):
         space = self.workspace(self.n)
         table = self.wavetable(self.n)
-        x = numx.arange(self.n) * ((2+0j) * numx.pi / self.n)
+        x = np.arange(self.n) * ((2 + 0j) * np.pi / self.n)
         for i in range(1, self._GetN2()):
-            y = numx.sin(x * i)
+            y = np.sin(x * i)
             tmp = self.convert(y)
             f = self.transform(tmp, space, table, tmp)
             self._CheckSinResult(f, i)
@@ -185,9 +185,9 @@ class FloatType:
         except AttributeError:
             pass
         
-        if  code in  numx.typecodes['Float']:
+        if  code in  np.typecodes['Float']:
             return y.astype(_float32)
-        elif code in  numx.typecodes['Complex']:
+        elif code in  np.typecodes['Complex']:
             return y.astype(_complex32)
         else:
             raise TypeError("Not implemented for an array of type %s" % (code,))
