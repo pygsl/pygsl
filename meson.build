@@ -8,6 +8,8 @@ project(
 
 compiler = meson.get_compiler('c')
 swig = find_program('swig', required: true)
+swig_version = run_command(swig, '-version', check: true).stdout().strip()
+message('SWIG version: ' + swig_version.split('\n')[0])
 
 py = import('python').find_installation(pure: false)
 
