@@ -1,10 +1,10 @@
 # test which interface it is
 bspline_config = configuration_data({
-    '_PYGSL_GSL_BSPLINE_WORSPACE_HAS_N' : false,
+    '_PYGSL_GSL_BSPLINE_WORKSPACE_HAS_N' : false,
 })
 
 if compiler.has_member('gsl_bspline_workspace', 'n', prefix: '#include <gsl/gsl_bspline.h>',  dependencies: [gsl_dep])
-   bspline_config.set('_PYGSL_GSL_BSPLINE_WORSPACE_HAS_N', true)
+   bspline_config.set('_PYGSL_GSL_BSPLINE_WORKSPACE_HAS_N', true)
    swig_mods += [{'inc_dir': include_directories('.'), 'src': files('bspline.i')[0], 'tgt': 'bspline'}]
 endif
 
