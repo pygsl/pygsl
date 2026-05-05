@@ -4,6 +4,7 @@
  */
 %include gsl_error_typemap.i
 %include gsl_block_typemaps.i
+%include swig_init_pygsl.h
 
 %define MULTFIT_NLINAR_DOC
 "Wrapper for the multifit_nlinear module"
