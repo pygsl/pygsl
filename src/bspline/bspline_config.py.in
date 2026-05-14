@@ -1,0 +1,8 @@
+"""Used bspline backend
+
+GSL chose to change the backend starting with
+GSL-2.8
+
+This
+"""
+bspline_workspace_has_attribute_n = @WORKSPACE_HAS_N@

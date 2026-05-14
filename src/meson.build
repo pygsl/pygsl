@@ -11,6 +11,7 @@ subdir('sum')
 subdir('transform')
 subdir('bspline')
 subdir('hankel')
+# subdir('histogram')
 
 compiler = meson.get_compiler('c')
 pygsl_config = configuration_data({
