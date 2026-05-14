@@ -2,11 +2,54 @@
 #include <assert.h>
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_multifit.h>
+#include "pgysl_bspline_config.h"
+
 #if HAVE_INLINE
 #define PyGSL_PREFIX inline
 #else
 #define PyGSL_PREFIX static
 #endif
+
+#ifdef _PYGSL_GSL_BSPLINE_WORKSPACE_HAS_N
+PyGSL_PREFIX size_t pygsl_bspline_n_control(const gsl_bspline_workspace * w) { size_t r = w->n; return r; }
+#else /* _PYGSL_GSL_BSPLINE_WORKSPACE_HAS_N */
+/* reconstructed from gsl_bspline structure comment  version 2.7 */
+PyGSL_PREFIX size_t pygsl_bspline_n_control(const gsl_bspline_workspace * w){  return gsl_bspline_ncontrol(w); }
+
+/* function below to document how it was checked that the two should be equivalent */
+PyGSL_PREFIX size_t pygsl_bspline_n_control(const gsl_bspline_workspace * w) {
+    size_t
+	n_break  = 0,
+	/* number of polynomial pieces on interval */
+	l = 0,
+	/* spline order */
+	k = 0,
+	r = 0
+	;
+
+    n_break = gsl_bspline_nbreak(w);
+    if(n_break <= 1){
+	DEBUG_MESS(2, "gsl bslpine returned %lu break points, need at least one!", (unsigned long) n_break);
+	goto fail;
+    }
+    l = nbreak - 1;
+    k = gsl_bspline_order(w)
+    if(k <= 1){
+	DEBUG_MESS(2, "gsl bslpine returned %lu as spline order!", (unsigned long) k);
+	goto fail;
+    }
+    r = l + k - 1;
+    return r;
+
+fail:
+    DEBUG_MESS(2, "Determining bspline order failed. n break = %lu, spline oder %lu!",
+	       (unsigned long) n_break, (unsigned long) k);
+    return 0;
+}
+
+#endif /* _PYGSL_GSL_BSPLINE_WORKSPACE_HAS_N */
+
+#define _PYGSL_BSPLINE_NCONTROL(w) pygsl_bspline_n_control(w)
 
 
 PyGSL_PREFIX int
@@ -20,17 +63,17 @@ _pygsl_bspline_eval_dep(struct pygsl_bspline *self, double x,
 	flag = gsl_bspline_eval(x, &(self->tmp.vector), self->w);
 	if(flag != GSL_SUCCESS){
 		fprintf(stderr, "vector length %ld workspace n coeffs %ld\n",
-			(long) self->tmp.vector.size, (long) self->w->n);
+			(long) self->tmp.vector.size, (long) _PYGSL_BSPLINE_NCONTROL(self->w));
 		lineno = __LINE__ -2;
 		goto fail;
 	}
-	flag = gsl_blas_ddot(&(self->coeffs.vector), 
+	flag = gsl_blas_ddot(&(self->coeffs.vector),
 			     &(self->tmp.vector), y);
 	if(flag != GSL_SUCCESS){
 		lineno = __LINE__ -3;
 		goto fail;
 	}
-	
+
 	FUNC_MESS_END();
 	return flag;
   fail:
@@ -51,7 +94,7 @@ _pygsl_bspline_eval_dep_yerr(struct pygsl_bspline *self, double x,
 		lineno = __LINE__ - 2;
 		goto fail;
 	}
-	
+
 	/* No covariance matrix */
 	flag = gsl_multifit_linear_est(&(self->tmp.vector),
 				       &(self->coeffs.vector),

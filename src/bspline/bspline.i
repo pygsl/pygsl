@@ -16,6 +16,7 @@
 #include <gsl/gsl_bspline.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 struct pygsl_bspline
 {
      gsl_matrix_view cov;
@@ -27,6 +28,8 @@ struct pygsl_bspline
      PyArrayObject *cov_a;
      PyArrayObject *tmp_a;
 };
+
+
 #include "bspline.ic"
 %}
 
@@ -136,7 +139,7 @@ struct pygsl_bspline
        int flag=GSL_EFAILED;
 
        FUNC_MESS_BEGIN();
-       n = self->w->n;
+       n =  _PYGSL_BSPLINE_NCONTROL(self->w);
        sample_len = IN->size;
        DEBUG_MESS(2, "sample_len = %ld", (long) sample_len);
        tmp[0] = sample_len;
@@ -177,7 +180,7 @@ struct pygsl_bspline
        PyGSL_array_index_t n;
        int flag=GSL_EFAILED;
 
-       n = self->w->n;
+       n =  _PYGSL_BSPLINE_NCONTROL(self->w);
        B_a = PyGSL_New_Array(1, &n, NPY_DOUBLE);
        if(B_a == NULL)
 	    return NULL;
@@ -208,7 +211,7 @@ struct pygsl_bspline
 
     }
 
-    size = self->w->n;
+    size =  _PYGSL_BSPLINE_NCONTROL(self->w);
     coeffs_a = PyGSL_vector_check(coeffs_o, size, PyGSL_DARRAY_CINPUT(1), NULL, NULL);
     if(coeffs_a == NULL)
       return GSL_FAILURE;
@@ -224,7 +227,7 @@ struct pygsl_bspline
 	self->tmp_a = NULL;
     }
     if(self->tmp_a == NULL){
-      PyGSL_array_index_t size_tmp = self->w->n;
+	PyGSL_array_index_t size_tmp =  _PYGSL_BSPLINE_NCONTROL(self->w);
       self->tmp_a = PyGSL_New_Array(1, &size_tmp, NPY_DOUBLE);
     }
     if(self->tmp_a == NULL){
