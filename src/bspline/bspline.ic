@@ -17,7 +17,7 @@ PyGSL_PREFIX size_t pygsl_bspline_n_control(const gsl_bspline_workspace * w) { s
 PyGSL_PREFIX size_t pygsl_bspline_n_control(const gsl_bspline_workspace * w){  return gsl_bspline_ncontrol(w); }
 
 /* function below to document how it was checked that the two should be equivalent */
-PyGSL_PREFIX size_t pygsl_bspline_n_control(const gsl_bspline_workspace * w) {
+PyGSL_PREFIX size_t pygsl_bspline_n_control2(const gsl_bspline_workspace * w) {
     size_t
 	n_break  = 0,
 	/* number of polynomial pieces on interval */
@@ -32,8 +32,8 @@ PyGSL_PREFIX size_t pygsl_bspline_n_control(const gsl_bspline_workspace * w) {
 	DEBUG_MESS(2, "gsl bslpine returned %lu break points, need at least one!", (unsigned long) n_break);
 	goto fail;
     }
-    l = nbreak - 1;
-    k = gsl_bspline_order(w)
+    l = n_break - 1;
+    k = gsl_bspline_order(w);
     if(k <= 1){
 	DEBUG_MESS(2, "gsl bslpine returned %lu as spline order!", (unsigned long) k);
 	goto fail;
