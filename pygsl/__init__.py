@@ -21,7 +21,7 @@ This module provides the following submodules:
     * minimize
     * multifit
     * multifit_nlin
-    * multimin
+    * multiminimize
     * multiroots
     * odeiv
     * permutation
@@ -51,7 +51,7 @@ import pygsl.errno
 # Should not depend on :mod:`pygsl.iniit`
 import pygsl.errors
 
-_init_import_errm ="""
+_init_import_errm = """
 Did you try to import pygsl in the build directory?
 
 Well, that does not work out of the box. If you want to do that, please
@@ -70,8 +70,9 @@ except Exception:
     sys.stderr.write(_init_import_errm)
     raise
 
-from . import  _version
-version= _version.version
+from . import _version
+
+version = _version.version
 
 # And register all the errors
 pygsl.init.register_exceptions(*(pygsl.errors.get_exceptions()))
@@ -94,13 +95,45 @@ from . import _numobj
 from . import errno
 
 
-__all__=['blas', 'chebyshev', 'combination', 'const', 'deriv', 'eigen', 'fit',
-         'fft', 'histogram','ieee', 'integrate', 'interpolation','linalg',
-         'math', 'minimize', 'monte', 'multifit', 'multifit_nlin', 'multimin',
-         'multiroots','odeiv', 'permutation', 'poly', 'qrng', 'rng', 'roots',
-         'siman', 'sf', 'spline', 'statistics']
-
-
+__all__ = [
+    "blas",
+    "chebyshev",
+    "combination",
+    "const",
+    "deriv",
+    "eigen",
+    "fit",
+    "fft",
+    # 'histogram',
+    "ieee",
+    "integrate",
+    "interpolation",
+    "interpolation2d",
+    "linalg",
+    "math",
+    "minimize",
+    "monte",
+    "multifit",
+    "multifit_robust",
+    "multilarge_nlinear",
+    "multifit_nlin",
+    # 'multimin',
+    "multiminimize",
+    "multiroots",
+    "odeiv2",
+    "permutation",
+    "poly",
+    "qrng",
+    "rng",
+    "roots",
+    "siman",
+    "sf",
+    "spline",
+    "statistics",
+    "statistics.float",
+    "statistics.int",
+    "statistics.long",
+]
 
 
 get_typecode_numpy = lambda x: x.dtype
@@ -117,7 +150,8 @@ Float = float
 Complex = complex
 ArrayType = _numobj.ndarray
 
-def array_typed_copy(array, code = None):
+
+def array_typed_copy(array, code=None):
     """
     Return a new copy for the array
     """
@@ -125,13 +159,15 @@ def array_typed_copy(array, code = None):
         code = get_typecode(array)
     return array.astype(code)
 
-#import pygsl._mlab
+
+# import pygsl._mlab
 def get_debug_level():
     """Get the debug level
 
     See :func:`pygsl.set_debug_level` for details.
     """
     return pygsl.init.get_debug_level()
+
 
 def set_debug_level(level):
     """Allows to set the debug level if implemented in the init function.
@@ -150,11 +186,13 @@ def set_debug_level(level):
     try:
         pygsl.init.set_debug_level(level)
     except pygsl.errors.gsl_NotImplementedError:
-        #print "Switchable debug information was not compiled in!"
+        # print "Switchable debug information was not compiled in!"
         pass
 
+
 #
-add_c_traceback_frames = init.add_c_traceback_frames # noqa: F821
+add_c_traceback_frames = init.add_c_traceback_frames  # noqa: F821
+
 
 def import_all():
     """Import all functions of all
@@ -169,15 +207,16 @@ def import_all():
         except ImportError:
             sys.stderr.write("Import of %s failed!" % (name,))
 
+
 def _zeros_default(dimensions, array):
-    """Generate zeros of the same type as the array
-    """
+    """Generate zeros of the same type as the array"""
     return _zeros(dimensions, array.typecode())
 
+
 def _zeros_numpy(dimensions, array):
-    """ Generate zeros of the same type as the array
-    """
+    """Generate zeros of the same type as the array"""
     return _zeros(dimensions, array.dtype)
+
 
 if pygsl._numobj.nummodule == "numpy":
     zeros = _zeros_numpy
