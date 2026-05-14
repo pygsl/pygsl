@@ -9,6 +9,13 @@ import numpy as np
 from pygsl import bspline
 
 
+def test_bspline_config():
+    """Check that the attribute is available
+    """
+    from pygsl.cfg import bspline_config
+    bool(bspline_config.bspline_workspace_has_attribute_n)
+
+
 def test_bspline_instaniate():
     nbreak = 6
     bspline.bspline(4, nbreak)
