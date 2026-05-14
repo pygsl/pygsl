@@ -6,9 +6,12 @@ bspline_config = configuration_data({
 if compiler.has_member('gsl_bspline_workspace', 'n', prefix: '#include <gsl/gsl_bspline.h>',  dependencies: [gsl_dep])
    bspline_config.set('_PYGSL_GSL_BSPLINE_WORKSPACE_HAS_N', true)
    swig_mods += [{'inc_dir': include_directories('.'), 'src': files('bspline.i')[0], 'tgt': 'bspline'}]
+else
+   swig_mods += [{'inc_dir': include_directories('.'), 'src': files('bspline2.i')[0], 'tgt': 'bspline'}]
 endif
 
 bspline_config_output = configure_file(
+   input : 'bspline_config.py.in',
    output : 'bspline_config.py',
    configuration : bspline_config
 )
