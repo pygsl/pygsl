@@ -308,7 +308,7 @@ initmultiroot(void)
      if(!dict)
 	  goto fail;
 
-     if (!(item = PyString_FromString((char*)PyGSL_multiroot_module_doc))){
+     if (!(item = PyUnicode_FromString((char*)PyGSL_multiroot_module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 
 			  "I could not generate module doc string!");
 	  goto fail;

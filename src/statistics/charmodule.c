@@ -23,7 +23,7 @@
 #define STATMOD_APPEND_PYC_TYPE(X) X ## BYTE
 
 #define STATMOD_FUNC_EXT(X, Y) X ## _char ## Y
-#define STATMOD_PY_AS_C PyInt_AsLong
+#define STATMOD_PY_AS_C PyLong_AsLong
 #define STATMOD_C_TYPE char
 #include "functions.c"
 

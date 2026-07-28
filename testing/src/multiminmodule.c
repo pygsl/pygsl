@@ -566,7 +566,7 @@ PyGSL_multimin_istype(PyGSL_multimin *self, PyObject *args)
 	  p = fdf;
      }
      FUNC_MESS_END();
-     return PyString_FromString(p);
+     return PyUnicode_FromString(p);
 }
 
 static PyObject* 

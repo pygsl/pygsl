@@ -335,7 +335,7 @@ initmultifit_nlin(void)
      assert(PyGSL_API);
 
 
-     if (!(item = PyString_FromString((char*)PyGSL_multifit_nlin_module_doc))){
+     if (!(item = PyUnicode_FromString((char*)PyGSL_multifit_nlin_module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 
 			  "I could not generate module doc string!");
 	  goto fail;

@@ -171,7 +171,7 @@ FUNCNAME(equal_bins_p)(PyObject *self, PyObject *arg)
   }
 
   result=GSLNAME(equal_bins_p)(histogram,histogram2);
-  return PyInt_FromLong(result);
+  return PyLong_FromLong(result);
 }
 
 static void

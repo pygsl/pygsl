@@ -392,7 +392,7 @@ histogram_histogram_mp_subscript(PyObject *self, PyObject *key)
   /* get key */
   my_key=PyNumber_Long(key);
   if (my_key==NULL) return NULL;
-  k=PyInt_AsLong(my_key);
+  k=PyLong_AsLong(my_key);
   if (k<0 || k>=histogram->n) {
     pygsl_error ("index lies outside valid range of 0 .. n - 1",
 	       filename, __LINE__, GSL_EDOM );
@@ -419,7 +419,7 @@ histogram_histogram_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *va
   /* get key */
   my_key=PyNumber_Long(key);
   if (my_key==NULL) return -1;
-  k=PyInt_AsLong(my_key);
+  k=PyLong_AsLong(my_key);
   if (k<0 || k>=histogram->n) {
     pygsl_error ("index lies outside valid range of 0 .. n - 1",
 	       filename, __LINE__, GSL_EDOM);

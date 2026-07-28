@@ -177,7 +177,7 @@ static PyObject* multimin_multimin_iterate(PyObject *self,
     PyErr_SetString(PyExc_RuntimeError,"no function specified!");
     return NULL;
   }
-  return PyInt_FromLong(gsl_multimin_fminimizer_iterate(((multimin_multiminObject*)self)->min));
+  return PyLong_FromLong(gsl_multimin_fminimizer_iterate(((multimin_multiminObject*)self)->min));
 }
 
 static PyObject* multimin_multimin_x(PyObject *self,

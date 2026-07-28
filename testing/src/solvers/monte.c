@@ -505,7 +505,7 @@ initmonte(void)
      assert(PyGSL_API);
 
 
-     if (!(item = PyString_FromString((char*)module_doc))){
+     if (!(item = PyUnicode_FromString((char*)module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 
 			  "I could not generate module doc string!");
 	  goto fail;

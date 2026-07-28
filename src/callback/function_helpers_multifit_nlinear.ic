@@ -230,7 +230,7 @@ PyGSL_multifitorlarge_nlinear_driver_callback(const size_t iter, pygsl_multifito
 	 goto fail;
      }
 
-     niter_o = PyInt_FromLong((long) iter);
+     niter_o = PyLong_FromLong((long) iter);
      if(!niter_o){
 	 goto fail;
      }

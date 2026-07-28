@@ -93,7 +93,7 @@
        if (a_list == NULL)
 	    return NULL;
        for(i=0; i<size; i++){
-	    a_int = PyInt_FromLong((long) gsl_permutation_get(self, i));
+	    a_int = PyLong_FromLong((long) gsl_permutation_get(self, i));
 	    if (a_int == NULL){
 		 Py_DECREF(a_list);
 		 return NULL;

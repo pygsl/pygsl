@@ -113,9 +113,9 @@ PyGSL_clear_name(char *name, int size);
   :  PyGSL_pyint_to_int((object),  (result), (info))  
 #else /* PyGSL_PY3K */
 #define PyGSL_PYINT_TO_INT(object, result, info)        \
-  ( PyInt_Check((object)) )                               \
+  ( PyLong_Check((object)) )                               \
   ?                                                        \
-   ((*(result))   = (int) PyInt_AsLong((object)), GSL_SUCCESS) \
+   ((*(result))   = (int) PyLong_AsLong((object)), GSL_SUCCESS) \
   :  PyGSL_pyint_to_int((object),  (result), (info))  
 #endif /* PyGSL_PY3K */
 

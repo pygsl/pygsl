@@ -284,7 +284,7 @@ PyGSL_PyArray_Check(PyArrayObject *a_array, int array_type, int flag,  int nd,
 #ifdef PyGSL_PY3K
 #define _PyGSL_WRAP_LONG_FROM_PyObject(src) PyLong_AS_LONG(((src)))
 #else
-#define _PyGSL_WRAP_LONG_FROM_PyObject(src) ( PyInt_AsLong(((src))) )
+#define _PyGSL_WRAP_LONG_FROM_PyObject(src) ( PyLong_AsLong(((src))) )
 #endif
 
 static PyArrayObject *
