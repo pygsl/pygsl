@@ -1,3 +1,8 @@
+v2.6.6 (2026-8) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
+        * upgrade of last remaining Python2 macros to Python3
+	* thus compliant for swig-4.5.0
+	* thank to Jeremy and Jitka
+
 v2.6.5 (2026-5) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
         * removed  files created by SWIG build process
 	* added hankel module back to build tree

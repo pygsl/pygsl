@@ -241,6 +241,7 @@ Thanks
 * Michael Forbes for Series Acceleration
 * Sergei Ossokine
 * Jerry James
+* Jitka Plesníková
 * and all for support by providing feed back on testing or showing by
   email that the code is useful for them
 
