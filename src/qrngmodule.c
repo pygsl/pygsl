@@ -14,8 +14,8 @@ static PyObject *module = NULL;
 #define PyGSL_STRING_AS_STRING(obj) PyBytes_FromString(obj)
 #define PyGSL_STRING_LENGTH(obj)      PyBytes_Length(obj)
 #else
-#define PyGSL_STRING_AS_STRING(obj) PyString_AsString(obj)
-#define PyGSL_STRING_LENGTH(obj)      PyString_Size(obj)
+#define PyGSL_STRING_AS_STRING(obj) PyBytes_AsString(obj)
+#define PyGSL_STRING_LENGTH(obj)      PyBytes_Size(obj)
 #endif
 
 

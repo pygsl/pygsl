@@ -136,7 +136,7 @@ _pygsl_multilarge_nlinear_df (CBLAS_TRANSPOSE_t TransJ, const gsl_vector * x, co
 	  trb_lineno = __LINE__ - 2;
 	  goto fail;
     }
-    transj_o = PyInt_FromLong((long) TransJ);
+    transj_o = PyLong_FromLong((long) TransJ);
     if(transj_o == NULL){
 	  trb_lineno = __LINE__ - 2;
 	  goto fail;

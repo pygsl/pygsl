@@ -20,7 +20,7 @@
 #define STATMOD_APPEND_PY_TYPE(X) X ## Int
 #define STATMOD_APPEND_PYC_TYPE(X) X ## INT
 #define STATMOD_FUNC_EXT(X, Y) X ## _int ## Y
-#define STATMOD_PY_AS_C PyInt_AsLong
+#define STATMOD_PY_AS_C PyLong_AsLong
 #define STATMOD_C_TYPE int
 #define PyGSL_STATISTICS_IMPORT_API
 #include "functions.c"

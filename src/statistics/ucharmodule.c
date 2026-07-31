@@ -19,7 +19,7 @@
 #define STATMOD_APPEND_PY_TYPE(X) X ## Int
 #define STATMOD_APPEND_PYC_TYPE(X) X ## UBYTE
 #define STATMOD_FUNC_EXT(X, Y) X ## _uchar ## Y
-#define STATMOD_PY_AS_C PyInt_AsLong
+#define STATMOD_PY_AS_C PyLong_AsLong
 #define STATMOD_C_TYPE unsigned char
 #include "functions.c"
 

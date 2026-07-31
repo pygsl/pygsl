@@ -13,7 +13,7 @@
 %}
 %typemap(argout) size_t * OUTPUT{
     PyObject *o;
-    o = PyInt_FromLong((long) (*$1));
+    o = PyLong_FromLong((long) (*$1));
     $result = PyGSL_SWIG_Python_AppendOutput($result, o);
 }
 %typemap(in, numinputs=0) size_t * OUT = size_t * OUTPUT;

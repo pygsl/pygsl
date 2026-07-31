@@ -40,7 +40,7 @@ int eval_gsl_mode_char(gsl_mode_t* mode, char mode_char) {
   gsl_error_dict=PyModule_GetDict(gsl_error_module);
   gsl_error_object=PyDict_GetItemString(gsl_error_dict,"gsl_Error");
   PyErr_SetObject(gsl_error_object,
-		  PyString_FromString(error_text));
+		  PyUnicode_FromString(error_text));
 
   return -1;
 }

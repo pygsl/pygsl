@@ -93,7 +93,7 @@ DL_EXPORT(void) initdiff(void)
 	if (dict == NULL)
 		return;
 	
-	if (!(item = PyString_FromString(diff_module_doc))){
+	if (!(item = PyUnicode_FromString(diff_module_doc))){
 		PyErr_SetString(PyExc_ImportError, 
 				"I could not generate module doc string!");
 		return;

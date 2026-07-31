@@ -60,7 +60,7 @@ PyGSL_min_solver_test_interval(PyGSL_solver * self, PyObject *args)
      gsl_min_fminimizer *s = (gsl_min_fminimizer *) self->solver;
      if(!PyArg_ParseTuple(args, "dd", &epsabs, &epsrel))
 	  return NULL;
-     return PyInt_FromLong(gsl_min_test_interval(s->x_lower, s->x_upper, epsabs, epsrel));
+     return PyLong_FromLong(gsl_min_test_interval(s->x_lower, s->x_upper, epsabs, epsrel));
 }
 
 
@@ -126,7 +126,7 @@ PyGSL_min_test_interval(PyObject * self, PyObject *args)
      double x_lower, x_upper, epsabs, epsrel;
      if(!PyArg_ParseTuple(args, "dddd", &x_lower, &x_upper, &epsabs, &epsrel))
 	  return NULL;
-     return PyInt_FromLong(gsl_min_test_interval(x_lower, x_upper, epsabs, epsrel));
+     return PyLong_FromLong(gsl_min_test_interval(x_lower, x_upper, epsabs, epsrel));
 }
 
 static const char PyGSL_minimize_module_doc [] = "XXX Missing ";
@@ -155,7 +155,7 @@ initminimize(void)
      if(!dict)
 	  goto fail;
 
-     if (!(item = PyString_FromString((char*)PyGSL_minimize_module_doc))){
+     if (!(item = PyUnicode_FromString((char*)PyGSL_minimize_module_doc))){
 	  PyErr_SetString(PyExc_ImportError, 
 			  "I could not generate module doc string!");
 	  goto fail;
