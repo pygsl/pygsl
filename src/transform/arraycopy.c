@@ -410,7 +410,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 		goto fail;
 	}
 
-	m = master;
+	m = (PyArrayObject *) master;
 	assert(m);
 	assert(
 	    PyArray_TYPE(m) == PyGSL_TRANSFORM_MODE_SWITCH(mode, NPY_CDOUBLE, NPY_CFLOAT)
@@ -432,7 +432,7 @@ PyGSL_Shadow_array(PyObject *shadow, PyObject *master,  enum pygsl_transform_mod
 		}else{
 			FUNC_MESS("Copying input to output array");
 			/* Check if it is an array of the approbriate size */
-			s = shadow;
+			s = (PyArrayObject *) shadow;
 			if((PyGSL_array_check((PyObject *) s)) && (PyArray_NDIM(s) == 1)
 			   && (PyArray_TYPE(s) == PyArray_TYPE(m))
 			   && (PyArray_DIM(s, 0) == PyArray_DIM(m, 0))){
