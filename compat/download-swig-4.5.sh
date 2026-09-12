@@ -2,7 +2,7 @@
 
 DSC=https://archive.ubuntu.com/ubuntu/pool/universe/s/swig/swig_4.5.0-3.dsc
 ORIG=https://archive.ubuntu.com/ubuntu/pool/universe/s/swig/swig_4.5.0.orig.tar.gz
-DEB_PATH=https://archive.ubuntu.com/ubuntu/pool/universe/s/swig/swig_4.5.0-3.debian.tar.xz
+DEB_PATCH=https://archive.ubuntu.com/ubuntu/pool/universe/s/swig/swig_4.5.0-3.debian.tar.xz
 
 save_path=$(pwd)
 mkdir -p build/swig-4.5
