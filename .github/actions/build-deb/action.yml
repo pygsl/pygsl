@@ -29,7 +29,7 @@ runs:
   steps:
     - name: Cache library artifact
       id: cache-artifact
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ${{ inputs.cachePath }}
         key: ${{ inputs.artifactName }}-${{ runner.os }}-${{ hashFiles(inputs.sourceTar, inputs.sourceDownloadScript) }}
@@ -39,7 +39,7 @@ runs:
 
     - name: Download library artifact
       id: download-artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: ${{ inputs.artifactName }}
         path: deb/
@@ -79,7 +79,7 @@ runs:
         ${{ inputs.buildCommands }}
 
     - name: Upload library artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ inputs.artifactName }}
         path: ${{ inputs.uploadPaths }}
