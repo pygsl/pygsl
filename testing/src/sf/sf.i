@@ -125,7 +125,6 @@
 //%ignore gsl_sf_complex_logsin_e;
 
 
-
 %include <gsl/gsl_complex_math.h>
  //%ignore gsl_complex_sqrt_real;
  //%ignore gsl_complex_polar;
