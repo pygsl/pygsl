@@ -479,7 +479,7 @@ typedef struct {
 }
 
 
-%apply const gsl_vector *IN {const gsl_vector * weights};
+%apply gsl_vector *IN {const gsl_vector * weights};
 
 %extend pygsl_multifit_nlinear_workspace{
     pygsl_multifit_nlinear_workspace(
