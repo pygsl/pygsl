@@ -17,11 +17,7 @@ __BEGIN_DECLS
 #define CONTIGUOUS NPY_ARRAY_C_CONTIGUOUS
 #endif
 
-#ifdef PyGSL_PY3K
-#define PyGSL_PY_ARRAY_GET_REFCNT(a_tmp_array) ((a_tmp_array)->ob_base.ob_refcnt)
-#else /* PyGSL_PY3K */
-#define PyGSL_PY_ARRAY_GET_REFCNT(a_tmp_array) ((a_tmp_array)->ob_refcnt)
-#endif /* PyGSL_PY3K */
+#define PyGSL_PY_ARRAY_GET_REFCNT(a_tmp_array) Py_REFCNT(a_tmp_array)
 
 
 #ifndef _PyGSL_API_MODULE
