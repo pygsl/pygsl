@@ -667,7 +667,7 @@ PyGSL_vector_check(PyObject *src, PyGSL_array_index_t size,
 
      }/* number of tries */
      DEBUG_MESS(7, "Checking refcount src obj @ %p had %ld cts and array @ %p has now %ld cts",
-		(void *) src,  src->ob_refcnt, (void *)a_array,
+		(void *) src, Py_REFCNT(src), (void *)a_array,
 		PyGSL_PY_ARRAY_GET_REFCNT(a_array));
 
     /* handling failed stride recalc */

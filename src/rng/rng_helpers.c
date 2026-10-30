@@ -1169,7 +1169,7 @@ PyGSL_pdf_dA_to_uint_or_dA(PyObject *self, PyObject *args, void * evaluator, enu
 	  goto fail;
      }
      k = PyArray_DIM(array_p, 0);
-     DEBUG_MESS(4, "Building Matrix. Input Object @ %p with refcount %ld!", (void *) tmp1, tmp1->ob_refcnt);
+     DEBUG_MESS(4, "Building Matrix. Input Object @ %p with refcount %ld!", (void *) tmp1, Py_REFCNT(tmp1));
      ainfo = PyGSL_BUILD_ARRAY_INFO(PyGSL_NON_CONTIGUOUS | PyGSL_INPUT_ARRAY, type_3darg, 1, 2);
      array_n = PyGSL_matrix_check(tmp1, -1, k, ainfo,  NULL, NULL, NULL);
      if(array_n == NULL){
