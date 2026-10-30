@@ -1,4 +1,4 @@
-v2.6.6 (2026-10) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
+v2.6.7 (2026-10) Pierre Schnizer <pierre.schnizer@helmholtz-berlin.de>
         * upgrade of last remaining Python2 macros to Python3
 	* thus compliant for swig-4.5.0
 	* using PyRefCount macros now
