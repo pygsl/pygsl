@@ -39,6 +39,7 @@ jobs:
 
       - name: Test package installation
         run: |
+          cd /tmp
           python -m venv /tmp/pygsl-test-venv
           /tmp/pygsl-test-venv/bin/python -m pip install --upgrade pip
           /tmp/pygsl-test-venv/bin/python -m pip install dist/*.tar.gz
